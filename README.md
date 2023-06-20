@@ -1,4 +1,4 @@
-# HoneyComplex
+# 꿀단지
 
 ## 목차
 - [개요](https://github.com/nscv/lotte-kurly#-개요)
