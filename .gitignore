@@ -1,6 +1,15 @@
 # Created by https://www.toptal.com/developers/gitignore/api/eclipse,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=eclipse,java
 
+mybatis-config.xml
+log4j.xml
+
+lecture
+target
+pom.properties
+.classpath
+MANIFEST.MF
+
 ### Eclipse ###
 .metadata
 bin/
@@ -67,6 +76,12 @@ local.properties
 # Spring Boot Tooling
 .sts4-cache/
 
+# Eclipse Core
+.project
+
+# IDT-specific (Eclipse Java Development Tools)
+.classpath
+
 ### Java ###
 # Compiled class file
 *.class
@@ -91,10 +106,6 @@ local.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-replay_pid*
 
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,java
-*.classpath
 Servers/
-HoneyPot/target/m2e-wtp/
-*.project
