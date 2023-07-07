@@ -55,12 +55,14 @@
 ## 🚀👩‍🚀👨‍🚀 팀원
 
 ## commit Message
+ 사용방법 ❓ 타입과 함께 구성 (예를 들어 로그인 구현 -> feat : Add login function)
 | git status  | 의미  |
 |---|---|
 | feat  | 새로운 기능 추가  |
-|  refactor | 코드 리팩토링  |
+| refactor | 기능의 변화가 아닌 코드 리팩터링 ex) 변수 이름 변경  |
 | style  | 세미콜론(;) 누락, 코드 변경이 없는 경우  |
 | design | CSS 등 사용자 UI 디자인 변경 |
 |  fix  | 버그 수정  |
+|  chore  | 패키지 매니저 수정, 그 외 기타 수정 ex) .gitignore  |
 | docs | 문서 수정 | 
 
