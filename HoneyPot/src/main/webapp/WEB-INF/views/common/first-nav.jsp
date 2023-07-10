@@ -55,7 +55,7 @@
 			height: 2000px;
 			background-color: #f5f5f5;
 			position: absolute;
-			top: 175px;
+			top: 130px;
 			left: 360px;
 			
 		}
@@ -231,15 +231,8 @@
 		}
 
 		/* 서브초이스 */
-		#sub-choice {
-			border-bottom: 1px solid black;
-			padding: 10px 10px 10px 50px; 
-		}
-		#grid-sub-choice {
-			display: grid;
-			width: 400px;
-			grid-template-columns: 1fr 1fr ;
-		}
+		
+		
 
 	</style>
 </head>
@@ -329,16 +322,9 @@
 						<div class="title-elem">헬스장</div>
 					</div>
 				</div>
-				<div id="sub-choice">
-					<div id="grid-sub-choice">
-						<div  style="font-weight: 800;">도서관시설구조보기</div>
-						<div>예약하기</div>
-					</div>
-				</div>
+				
 			</div>
 			<div id="main-area">
-				여기서부터 내용물 입력하시면
-				됩니다
 				
 			</div>
 		</div>
