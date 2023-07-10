@@ -28,8 +28,13 @@
 }
 
 .choice-elem {
+	width: 220px;
 	padding-left: 40px;
 	padding-top: 15px;
+}
+
+#main-area {
+	height: 812px;
 }
 
 /* 서브초이스 */
@@ -37,15 +42,6 @@
 </head>
 <body>
 	<div id="main-choice">
-		<div class="choice-elem">
-			<div class="title-elem">도서관</div>
-		</div>
-		<div class="choice-elem">
-			<div class="title-elem">수영장</div>
-		</div>
-		<div class="choice-elem">
-			<div class="title-elem">헬스장</div>
-		</div>
 	</div>
 </body>
 </html>
