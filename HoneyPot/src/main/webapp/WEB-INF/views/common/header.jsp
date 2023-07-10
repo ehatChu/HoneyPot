@@ -17,10 +17,10 @@
 * {
 	padding: 0px;
 	margin: 0px;
+	box-sizing: border-box;
 }
 
 body {
-
 	font-family: 'Noto Sans KR';
 	color: #2e2e2e;
 	overflow: hidden;
@@ -30,10 +30,6 @@ body {
 body::-webkit-scrollbar {
   display: none;
 }
-
-/* #main-area::-webkit-scrollbar {
-  display: none;
-} */
 
 #wrapper {
 	width: 1920px;
@@ -69,7 +65,21 @@ body::-webkit-scrollbar {
 #main-area {
 	width: 1560px;
 	height: 892px;
+	max-height: 892px;
 	overflow-y: auto; 
+}
+/* 스크롤바의 폭 너비 */
+#main-area::-webkit-scrollbar {
+    width: 12px;  
+}
+
+#main-area::-webkit-scrollbar-thumb {
+    background: #4A321F; /* 스크롤바 색상 */
+    /* border-radius: 10px; 스크롤바 둥근 테두리 */
+}
+
+#main-area::-webkit-scrollbar-track {
+    background: #4a321f23;  /*스크롤바 뒷 배경 색상*/
 }
 
 #loog-area {

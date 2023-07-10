@@ -9,24 +9,32 @@
 <style>
 /* 서브초이스 */
 #sub-choice {
-	padding: 10px 10px 10px 50px;
+	padding: 10px 10px 10px 10px;
 	border-bottom: 1px solid black;
 	background-color: #f5f5f5;
 	z-index: 1;
 }
 
 #grid-sub-choice {
-	display: grid;
-	width: 400px;
-	grid-template-columns: 1fr 1fr;
+	display: flex;
+	width: 100%;
 }
+
+.menu-box {
+	width: 150px;
+	text-align: center;
+}
+
+#main-area {
+	height: 768px;
+}
+
 </style>
 </head>
 <body>
 	<div id="sub-choice">
 		<div id="grid-sub-choice">
-			<div style="font-weight: 800;">도서관시설구조보기</div>
-			<div>예약하기</div>
+			
 		</div>
 	</div>
 </body>
