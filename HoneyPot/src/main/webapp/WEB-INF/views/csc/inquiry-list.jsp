@@ -18,10 +18,52 @@
             font-weight: 700;
         }
 
+        .inquiry-list{
+            margin-top: 30px;
+            width: 1300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .inquiry-list-detail{
+            margin-top: 20px;
+            height: 50px;
             display: flex;
             flex-direction: row;
+            justify-content: space-between;
             cursor: pointer;
+            width: 1000px;
+            font-size: 22px;
+            font-weight: 500;
+        }
+
+
+        .inquiry-respond-true{
+            width: 100px;
+            height: 50px;
+            background-color: #FFCE31;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            
+        }
+
+        .inquiry-respond-false{
+            width: 100px;
+            height: 50px;
+            background-color: #4A321F;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            color: white;
+            
+        }
+
+        .text-yellow{
+            color: #FFCE31;
         }
 
     </style>
@@ -40,15 +82,24 @@
     
                 
                 <div class="inquiry-list">
-                    <div class="inquiry-list-detail" onclick="location.href=''">
-                        <div>미처리</div>
-                        <div>[카테고리1] 신고 제목입니다.</div>
+                    <div class="inquiry-list-detail">
+                        <div class="inquiry-respond-true">답변</div>
+                        <div><span class="text-yellow">[카테고리1]</span> 문의 제목입니다.</div>
+                        <div>2023-07-04</div>
+                    </div>
+                </div>
+
+                <div class="inquiry-list">
+                    <div class="inquiry-list-detail">
+                        <div class="inquiry-respond-false">미답변</div>
+                        <div><span class="text-yellow">[카테고리1]</span> 문의 제목입니다.</div>
                         <div>2023-07-04</div>
                     </div>
 
                 </div>
     
             </div>
+
 
 
         </main>
@@ -95,4 +146,5 @@
     basicSetting();
     firstNav();
     headerName();
+
 </script>
