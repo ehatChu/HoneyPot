@@ -108,6 +108,165 @@
             font-family: 'Noto Sans KR';
         }
 
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            
+            /* 숨기기 */
+            z-index: -1;
+            opacity: 0;
+        }
+
+        .show {
+            opacity: 1;
+            z-index: 1000;
+            transition: all .5s;
+        }
+
+        .window {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            
+            /* 임시 지정 */
+            width: 700px;
+            height: 600px;
+            
+            /* 초기에 약간 아래에 배치 */
+            transform: translate(-50%, -40%);
+         }
+
+        .show .popup {
+            transform: translate(-50%, -50%);
+            transition: all .5s;
+        }
+
+        .model-header-area{
+            width: 700px;
+            height: 50px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            background-color: #FFCE31;
+        }
+
+        .model-header{
+            margin-left: 20px;
+            width: 660px;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #close{
+            font-size: 30px;
+            font-weight: 900;
+            color: red;
+            cursor: pointer;
+        }
+
+        .model-header-text{
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .model-main-area{
+            margin-top: 10px;
+            width: 700px;
+            height: 530px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #5F5F5F;
+        }
+
+        .check-btn{
+            width: 200px;
+            height: 50px;
+            background-color: #FFCE31;
+            border: none;
+            border-radius: 8px;
+            font-size: 20px;
+            font-family: 'Noto Sans KR';
+            font-weight: 900;
+        }
+
+        .check-btn:hover{
+            cursor: pointer;
+        }
+
+        .model-search-area{
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .model-search-btn{
+            margin-left: 10px;
+            width: 100px;
+            height: 40px;
+            border: none;
+            background-color: #FFCE31;
+            border-radius: 6px;
+            font-weight: 900;
+            font-family: 'Noto Sans KR';
+            font-size: 16px;
+        }
+
+        .model-search-btn:hover{
+            cursor: pointer;
+        }
+
+        .model-serach-input{
+            padding-left: 10px;
+            width: 300px;
+            height: 40px;
+            border: none;
+        }
+
+        .model-serach-input:focus{
+            outline: none;
+        }
+
+
+        .model-search-category{
+            width: 100px;
+            height: 40px;
+            border: none;
+        }
+
+        
+        .model-serach-category:focus{
+            outline: none;
+        }
+
+        .model-search-box-area{
+            width: 400px;
+            height: 40px;
+            background-color: white;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .model-content-area{
+            width: 400px;
+            height: 400px;
+        }
 
     </style>
 
@@ -140,7 +299,7 @@
                         <div>
                             <div class="report-text">신고대상</div>
                             <div class="report-people-area">
-                                <button class="report-people" type="button">신고대상자 찾기</button>
+                                <button id="report-people" class="report-people" type="button">신고대상자 찾기</button>
                             </div>
                         </div>
                         
@@ -163,6 +322,40 @@
             
 
         </div>
+
+        <div class="background">
+        <div class="window">
+            <div class="popup">
+                <div class="model-header-area">
+                    <div class="model-header">
+                        <div class="model-header-text">회원찾기</div>
+                        <span class="material-symbols-outlined" id="close">
+                            close
+                        </span>
+                    </div>
+                </div>
+
+                <div class="model-main-area">
+                    <div class="model-search-area">
+                        <div class="model-search-box-area">
+                            <select name="" id="" class="model-search-category">
+                                <option value="">이름</option>
+                                <option value="">호수</option>
+                            </select>
+                            <input type="text" class="model-serach-input">
+                        </div>
+                        
+                        <button type="button" class="model-search-btn">검색</button>
+                    </div>
+                    <div class="model-content-area">
+
+                    </div>
+
+                    <button type="button" class="check-btn" id="check-btn">확인</button>
+                </div>
+            </div>
+        <div>
+        <div>
 
 	</main>
 
@@ -219,6 +412,19 @@
           ['view', ['fullscreen', 'codeview', 'help']]
         ]
       });
+
+    // 모달 사용
+    function show () {
+        document.querySelector(".background").className = "background show";
+    }
+
+    function close () { 
+        document.querySelector(".background").className = "background";
+    }
+
+    document.querySelector("#report-people").addEventListener('click', show);
+    document.querySelector("#close").addEventListener('click', close);
+    document.querySelector("#check-btn").addEventListener('click', close);
 
 </script>
 
