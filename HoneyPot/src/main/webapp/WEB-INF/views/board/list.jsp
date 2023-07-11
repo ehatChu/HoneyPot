@@ -14,6 +14,13 @@
 		align-items: center;
 	}
 
+	.board-list-area{
+		width: 1560px;
+		display: grid;
+		justify-content: center;
+		align-items: center;
+	}
+
 	#board-list td:first {width: 50px;}
 
 	#board-list {
@@ -21,14 +28,24 @@
 		border-spacing: 100px 0px;
 	}
 
+	/* #board-list td {
+		border-bottom: 3px solid #FAD355;
+	} */
+
+	table {
+		margin: 15px;
+	}
+	
 	.fa-solid fa-heart {color: red;}
 
-	.board-list-area{
+	.page-area{
 		width: 1560px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
+
+
 
 </style>
 </head>
@@ -48,12 +65,45 @@
 			<table id="board-list">
 				<tr>
 					<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-					<td>작성자</td>
-					<td>날짜</td>
+					<td>관리자</td>
+					<td>2023.01.01</td>
 					<td><i class="fa-solid fa-heart"></i>좋아요</td>
 					<td><i class="fa-solid fa-eye"></i>조회수</td>
 				</tr>
 			</table>
+			<!-- <hr> -->
+			<table id="board-list">
+				<tr>
+					<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
+					<td>관리자</td>
+					<td>2023.01.01</td>
+					<td><i class="fa-solid fa-heart"></i>좋아요</td>
+					<td><i class="fa-solid fa-eye"></i>조회수</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="page-area">
+			<c:if test="${pv.currentPage > 1}">
+				<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
+			</c:if>
+				<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+					<c:if test="${pv.currentPage != i}">
+						<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
+					</c:if>
+					<c:if test="${pv.currentPage == i}">
+						<a class="btn btn-primary btn-sm">${i}</a>
+					</c:if>
+				</c:forEach>
+			<c:if test="${pv.currentPage < pv.maxPage}">
+				<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
+			</c:if>
+		</div>
+
+		<div class="btn-area">
+			<div id="btn-box">
+				<button id="write-btn" onclick="minusMileage();">글쓰기</button>
+			</div>
 		</div>
 			
 
