@@ -10,7 +10,7 @@
 /* 서브초이스 */
 #sub-choice {
 	padding: 10px 10px 10px 10px;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid rgb(156, 156, 156);
 	background-color: #f5f5f5;
 	z-index: 1;
 }

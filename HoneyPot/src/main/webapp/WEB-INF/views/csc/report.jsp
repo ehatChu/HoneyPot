@@ -7,45 +7,45 @@
 <title>Insert title here</title>
 
     <style>
-        .inquiry-area{
+        .report-area{
             width: 1440px;
             margin-top: 20px;
             margin-left: 100px;
         }
 
-        .inquiry-text-title{
+        .report-text-title{
             font-size: 40px;
             font-weight: 700;
         }
 
-        .inquiry-text{
+        .report-text{
             font-size: 20px;
             font-weight: 700;
             color: #5F5F5F;
             margin-top: 10px;
         }
 
-        .inquiry-form-area{
+        .report-form-area{
             margin-top: 15px;
             margin-left: 10px;
         }
 
-        .inquiry-category{
+        .report-category{
             width: 400px;
             height: 50px;
             border-radius: 8px;
             border: 1px solid rgb(156, 156, 156);
         }
 
-        .inquiry-category-area{
+        .report-category-area{
             margin-top: 10px;
         }
 
-        .inquiry-title-area{
+        .report-title-area{
             margin-top: 10px;
         }
 
-        .inquiry-title{
+        .report-title{
             margin-top: 10px;
             width: 1200px;
             height: 50px;
@@ -53,14 +53,14 @@
             border: 1px solid rgb(156, 156, 156);
         }
 
-        .inquiry-content{
+        .report-content{
             margin-top: 10px;
             background-color: white;
             border-radius: 6px;
             width: 1200px;
         }
 
-        .inquiry-submit-area{
+        .report-submit-area{
             margin-top: 30px;
             width: 1200px;
             display: flex;
@@ -68,10 +68,10 @@
             align-items: center;
         }
 
-        .inquiry-submit{
+        .report-submit{
             width: 300px;
             height: 50px;
-            background-color: #FAD355;
+            background-color: rgb(255, 61, 61);
             border: none;
             border-radius: 8px;
             font-weight: 900;
@@ -79,8 +79,33 @@
             font-family: 'Noto Sans KR';
         }
 
-        .inquiry-submit:hover{
+        .report-submit:hover{
             cursor: pointer;
+        }
+
+        .report-first-area{
+            width: 1200px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .report-people-area{
+            margin-top: 10px;
+        }
+
+        .report-people{
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid rgb(156, 156, 156);
+            width: 420px;
+            height: 50px;
+            cursor: pointer;
+            color: #868686;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Noto Sans KR';
         }
 
 
@@ -95,33 +120,43 @@
 
 	<main>
 		
-        <div class="inquiry-area">
-            <div class="inquiry-text-title">문의 등록</div>
+        <div class="report-area">
+            <div class="report-text-title">신고 등록</div>
 
-            <div class="inquiry-form-area">
+            <div class="report-form-area">
                 <form action="" method="post">
-                    <div>
-                        <div class="inquiry-text">문의유형</div>
-                        <div class="inquiry-category-area">
-                            <select name="" class="inquiry-category">
-                                <option value=""></option>
+                    <div class="report-first-area">
+                        <div>
+                            <div class="report-text">신고유형</div>
+                            <div class="report-category-area">
+                                <select name="" class="report-category">
+                                    <option value=""></option>
 
-                            </select>
+                                </select>
                             
+                            </div>
                         </div>
+                        
+                        <div>
+                            <div class="report-text">신고대상</div>
+                            <div class="report-people-area">
+                                <button class="report-people" type="button">신고대상자 찾기</button>
+                            </div>
+                        </div>
+                        
                     </div>
         
-                    <div class="inquiry-title-area">
-                        <div class="inquiry-text">제목</div>
-                        <div><input type="text" class="inquiry-title"></div>
+                    <div class="report-title-area">
+                        <div class="report-text">제목</div>
+                        <div><input type="text" class="report-title"></div>
                     </div>
         
                     <div>
-                        <div class="inquiry-text">내용</div>
-                        <div class="inquiry-content"><textarea id="summernote" name="content"></textarea></div>
+                        <div class="report-text">내용</div>
+                        <div class="report-content"><textarea id="summernote" name="content"></textarea></div>
                     </div>
 
-                    <div class="inquiry-submit-area"><input class="inquiry-submit" type="submit" value="문의하기"></div>
+                    <div class="report-submit-area"><input class="report-submit" type="submit" value="신고하기"></div>
     
                 </form>
             </div>
