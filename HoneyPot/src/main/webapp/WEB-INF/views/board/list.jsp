@@ -7,9 +7,46 @@
 <title>Insert title here</title>
 <style>
 
+	.faq-search-area {
+		width: 1560px;
+		height: 140px;
+		background-color: #EAEAEA;
+		display: flex;
+		justify-content: end;
+		align-items: center;
+	}
+
+	.faq-search {
+		width: 400px;
+		height: 50px;
+		background-color: white;
+		border: 1px solid black;
+		border-radius: 10px;
+		display: flex;
+		justify-self: center;
+		align-items: center;
+		margin-right: 100px;
+	}
+
+	input[name=faqSearch] {
+		margin-left: 12px;
+		border: none;
+		width: 330px;
+		height: 30px;
+	}
+
+	input[name=faqSearch]:focus {outline:none;}
+
+	#faq-search-icon {
+		margin-left: 10px;
+		font-size: 35px;
+	}
+
 	table {
 		margin: 30px;
 		border-collapse: collapse;
+		font-size: 18px;
+		width: 1350px;
 	}
 
 	.board-list-area, .page-area {
@@ -20,14 +57,14 @@
 	}
 
 	#board-list td {
-		padding: 10px 50px;
+		padding: 12px 50px;
 		margin-bottom: 20px;
 		border-bottom: 3px solid #FAD355;
 	}
 
 	#board-list tr:hover {
 		background-color: #fdeaab;
-		transition: 0.5s;
+		transition: 0.3s;
 		cursor: pointer;
 	}
 
@@ -91,9 +128,12 @@
 	</nav>
 
 	<main>
-		
-		<div id="search-box">
-			<!-- <input type="search"> -->
+
+		<div class="faq-search-area">
+			<div class="faq-search">
+				<input type="text" name="faqSearch">
+				<span id="faq-search-icon" class="material-symbols-outlined">search</span>
+			</div>
 		</div>
 
 		<div class="board-list-area">
