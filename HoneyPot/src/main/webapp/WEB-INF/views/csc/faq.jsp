@@ -82,4 +82,29 @@
 	navArea.innerHTML = nav.innerHTML;
 	main.innerHTML = "";
 	nav.innerHTML = "";
+
+    function firstNav() {
+			const mainChoice = document.querySelector("#main-choice");
+			let navMenu1 = ['자주묻는질문', '문의하기', '문의목록', '신고하기', '신고목록'];
+
+			let menus = "";
+			for (let menu of navMenu1) {
+				menus += "<div class='choice-elem'><div class='title-elem'>" + menu + "</div></div>"
+			}
+			mainChoice.innerHTML = menus;
+    }
+    function secondNav() {
+        const subChoice = document.querySelector("#grid-sub-choice");
+        let navMenu2 = ['전체', '카테고리1', '카테고리2', '카테고리3', '카테고리4'];
+
+        let menus = "";
+        for (let menu of navMenu2) {
+            menus += "<div class='menu-box'>" + menu + "</div>"
+        }
+        subChoice.innerHTML = menus;
+    }
+
+    firstNav();
+    secondNav();
+
 </script>

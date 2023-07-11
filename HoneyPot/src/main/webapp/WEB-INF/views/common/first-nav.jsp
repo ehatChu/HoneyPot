@@ -10,10 +10,10 @@
 /* 헤더 아래에 초이스 구역 */
 #main-choice {
 	width: 1560px;
-	display: grid;
+	display: flex;
 	height: 80px;
-	grid-template-columns: 0.5fr 0.5fr 0.5fr 2fr;
-	border-bottom: 1px solid black;
+	flex-direction: row;
+	border-bottom: 1px solid rgb(156, 156, 156);
 	background-color: #f5f5f5;
 	z-index: 1;
 }
@@ -35,6 +35,7 @@
 
 #main-area {
 	height: 812px;
+	background-color: #e7e7e7;
 }
 
 /* 서브초이스 */

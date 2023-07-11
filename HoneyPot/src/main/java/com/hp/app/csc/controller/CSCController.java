@@ -20,4 +20,10 @@ public class CSCController {
 		return "csc/inquiry";
 	}
 	
+	// 신고하기(화면)
+	@GetMapping("report")
+	public String report() {
+		return "csc/report";
+	}
+	
 }
