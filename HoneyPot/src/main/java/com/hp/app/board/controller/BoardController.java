@@ -8,9 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("board")
 public class BoardController {
 	
+	//게시글 작성(화면)
+	@GetMapping("write")
+	public String write() {
+		return "board/write";
+	}
+	
+	//게시글 목록 조회
 	@GetMapping("list")
 	public String list() {
 		return "board/list";
 	}
+	
+	
 
 }
