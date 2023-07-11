@@ -191,6 +191,15 @@
 			mainChoice.innerHTML = menus;
     }
 
+    function headerName() {
+			const mainChoice = document.querySelector("#header-main-text");
+            mainChoice.innerHTML = '';
+			let menus = '고객센터';
+
+			mainChoice.innerHTML = menus;
+    }
+
+    headerName();
     firstNav();
 
 

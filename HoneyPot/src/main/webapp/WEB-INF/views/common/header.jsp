@@ -338,7 +338,7 @@ body::-webkit-scrollbar {
 
 		<div id="main">
 			<div id="header">
-				<div id="header-main-text">메인페이지</div>
+				<div id="header-main-text"></div>
 				<div id="header-icon-area">
 					<div id="header-weather">
 						<div>
