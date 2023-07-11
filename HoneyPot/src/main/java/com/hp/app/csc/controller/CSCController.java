@@ -26,4 +26,16 @@ public class CSCController {
 		return "csc/report";
 	}
 	
+	// 문의목록 (화면)
+	@GetMapping("inquiry-list")
+	public String inquiryList() {
+		return "csc/inquiry-list";
+	}
+	
+	// 신고목록 (화면)
+	@GetMapping("report-list")
+	public String reportList() {
+		return "csc/report-list";
+	}
+	
 }

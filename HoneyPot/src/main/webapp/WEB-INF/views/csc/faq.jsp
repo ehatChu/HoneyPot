@@ -9,11 +9,12 @@
     <style>
         .faq-search-area{
             width: 1560px;
-            height: 140px;
+            height: 120px;
             background-color: #EAEAEA;
             display: flex;
             justify-content: end;
             align-items: center;
+            border-bottom: 1px solid rgb(156, 156, 156);
         }
 
         .faq-search{
@@ -45,6 +46,91 @@
             font-size: 35px;
         }
 
+        #faq-search-icon:hover{
+            cursor: pointer;
+        }
+
+        table {
+		margin: 30px;
+		border-collapse: collapse;
+        font-size: 20px;
+        width: 1350px;
+	}
+
+	.board-list-area, .page-area {
+		width: 1500px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	#board-list td {
+		padding: 14px 50px;
+		margin-bottom: 20px;
+		border-bottom: 3px solid  rgba(179, 179, 179, 0.925);
+	}
+
+	#board-list tr:hover {
+		background-color: #fdeaab;
+		transition: 0.3s;
+		cursor: pointer;
+	}
+
+	.fa-heart { color: red; }
+
+	.btn-area {
+		margin-bottom: 15px;
+		width: 1560px;
+		display: flex;
+		justify-content: right;
+		align-items: center;
+	}
+
+	#btn-box {
+		margin-right: 200px;
+	}
+
+	#btn-box > button {
+		width: 80px;
+		height: 40px;
+		background-color: #FAD355;
+		color: black;
+		font-weight: bold;
+		border-radius: 10px;
+		border: none;
+		text-align: center;
+		margin-right: 7px;
+	}
+
+	#btn-box > button:hover {
+		color: white;
+		cursor: pointer;
+	}
+
+	.page-area {
+		margin: 15px;
+	}
+
+	.page-area button {
+		display: inline-block;
+		font-weight: bold;
+		font-size: 18px;
+		border: none;
+		border-radius: 5px;
+		padding: 10px 20px;
+		cursor: pointer;
+		background-color: transparent;
+	}
+
+	.page-area button:hover{
+		background-color: #FAD355;
+		color: white;
+	}
+
+    .category-color{
+        color: #e7bf3a;
+    }
+
     </style>
 </head>
 <body>
@@ -64,6 +150,85 @@
                         </span>
                 </div>
 
+            </div>
+            <div class="board-list-area">
+                <table id="board-list">
+                    <tr>
+                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
+                        <td>관리자</td>
+                        <td>2023.01.01 15:39</td>
+                        <td><i class="fa-solid fa-eye"></i>조회수</td>
+                    </tr>
+    
+                    <tr>
+                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
+                        <td>관리자</td>
+                        <td>2023.01.01 15:39</td>
+                        <td><i class="fa-solid fa-eye"></i>조회수</td>
+                    </tr>
+                    <tr>
+                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
+                        <td>관리자</td>
+                        <td>2023.01.01 15:39</td>
+                        <td><i class="fa-solid fa-eye"></i>조회수</td>
+                    </tr>
+                    <tr>
+                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
+                        <td>관리자</td>
+                        <td>2023.01.01 15:39</td>
+                        <td><i class="fa-solid fa-eye"></i>조회수</td>
+                    </tr>
+                    <tr>
+                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
+                        <td>관리자</td>
+                        <td>2023.01.01 15:39</td>
+                        <td><i class="fa-solid fa-eye"></i>조회수</td>
+                    </tr>
+                    <tr>
+                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
+                        <td>관리자</td>
+                        <td>2023.01.01 15:39</td>
+                        <td><i class="fa-solid fa-eye"></i>조회수</td>
+                    </tr>
+                    <tr>
+                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
+                        <td>관리자</td>
+                        <td>2023.01.01 15:39</td>
+                        <td><i class="fa-solid fa-eye"></i>조회수</td>
+                    </tr>
+                    <tr>
+                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
+                        <td>관리자</td>
+                        <td>2023.01.01 15:39</td>
+                        <td><i class="fa-solid fa-eye"></i>조회수</td>
+                    </tr>
+
+                </table>
+    
+            </div>
+    
+            <div class="page-area">
+                <button><</button>
+                <button>1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button>5</button>
+                <button>></button>
+                <!-- <c:if test="${pv.currentPage > 1}">
+                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
+                </c:if>
+                    <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+                        <c:if test="${pv.currentPage != i}">
+                            <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
+                        </c:if>
+                        <c:if test="${pv.currentPage == i}">
+                            <a class="btn btn-primary btn-sm">${i}</a>
+                        </c:if>
+                    </c:forEach>
+                <c:if test="${pv.currentPage < pv.maxPage}">
+                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
+                </c:if> -->
             </div>
 
         </div>
@@ -104,6 +269,15 @@
         subChoice.innerHTML = menus;
     }
 
+    function headerName() {
+			const mainChoice = document.querySelector("#header-main-text");
+            mainChoice.innerHTML = '';
+			let menus = '고객센터';
+
+			mainChoice.innerHTML = menus;
+    }
+
+    headerName();
     firstNav();
     secondNav();
 

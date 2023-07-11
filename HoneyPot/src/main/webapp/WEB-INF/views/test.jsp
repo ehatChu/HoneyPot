@@ -57,9 +57,19 @@
 			}
 			subChoice.innerHTML = menus;
 		}
+		// 헤더 네임 바꾸기
+		function headerName() {
+			const mainChoice = document.querySelector("#header-main-text");
+			mainChoice.innerHTML = '';
+			let menus = '고객센터';
 
+			mainChoice.innerHTML = menus;
+    	}
+
+		
 		// 함수 실행
 		basicSetting();
 		firstNav();
 		secondNav();
+    	headerName();
 	</script>
