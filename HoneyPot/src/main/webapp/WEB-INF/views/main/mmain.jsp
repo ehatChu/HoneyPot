@@ -85,15 +85,67 @@
 			height: 250px;
 		}
 
+		.imgBox {
+			width: 100%;
+			height: 50%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			margin-top: 15px;
+			margin-bottom: 15px;
+		}
+
 		.rank {
+			width: 200px;
+			height: 180px;
 			display: flex;
 			justify-content: space-between;
+			align-items: end;
 		}
 
 		.rankBar {
-			width: 55px;
-			height: 200px;
+			width: 65px;
+			display: flex;
+			flex-direction: column;
+			justify-content: end;
 		}
+
+		.rankFont {
+			margin-top: 5px;
+			margin-bottom: 5px;
+			font-size: 10px;
+			text-align: center;
+		}
+
+		.bar1 {
+			height: 170px;
+		}
+
+		.bar3 {
+			height : 140px;
+		}
+
+		.bar {
+			color: white;
+			display: flex;
+			justify-content: center;
+			font-size: 32px;
+		}
+
+		.bar11 {
+			background-color: #BDBDBD;
+			height : 70px;
+		}
+		.bar22 {
+			background-color: #FFC300;
+			height : 90px;
+		}
+		.bar33 {
+			background-color: #884F22;
+			height : 50px;
+		}
+
 
 		#tit1 {
 			font-size: 24px;
@@ -140,6 +192,15 @@
 			width: 150px;
 			height: 150px;
 			border-radius: 20px;
+		}
+
+		#rankImg1 {
+			width: 65px;
+			height: 70px;
+		}
+
+		#rankImg2 {
+			width: 140px;
 		}
 
 		#scheTxt {
@@ -244,6 +305,61 @@
 			justify-content: center;
 			align-items: center;
 		}
+
+		.like {
+			width: 100%;
+			height: 20%;
+			display: flex;
+			justify-content: space-evenly;
+			align-items: center;
+		}
+
+		.blue {
+			width: 30px;
+			height: 30px;
+			border-radius: 90%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: blue;
+		}
+
+		.red {
+			width: 30px;
+			height: 30px;
+			border-radius: 90%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: red;
+		}
+
+		.like1 {
+			width: 100px;
+			display: flex;
+			justify-content: space-evenly;
+			align-items: center;
+			font-weight: bold;
+		}
+
+		.like2 {
+			width: 100px;
+			display: flex;
+			justify-content: space-evenly;
+			align-items: center;
+		}
+
+		.dong {
+			display: flex;
+			justify-content: space-evenly;
+			align-items: center;
+			width: 100%;
+			height: 100px;
+		}
+
+		.dong1 {
+			font-size: 32px;
+		}
 	</style>
 
 	<body>
@@ -339,26 +455,52 @@
 								<div id="tit1">우수이웃</div>
 								
 								<div class="rank">
-									<div class="rankBar">
-										<div>101동 심원용</div>
-										<div>2</div>
+									<div class="rankBar bar1">
+										<img id="rankImg1" src="/app/resources/main/_______3.png">
+										<div class="rankFont">101동 심원용</div>
+										<div class="bar11 bar">2</div>
 									</div>
-									<div class="rankBar">
-										<div>102동 심원용</div>
-										<div>1</div>
+									<div class="rankBar bar2">
+										<img id="rankImg1" src="/app/resources/main/_______3.png">
+										<div class="rankFont">102동 심원용</div>
+										<div class="bar22 bar">1</div>
 									</div>
-									<div class="rankBar">
-										<div>103동 심원용</div>
-										<div>3</div>
+									<div class="rankBar bar3">
+										<img id="rankImg1" src="/app/resources/main/_______3.png">
+										<div class="rankFont">103동 심원용</div>
+										<div class="bar33 bar">3</div>
 									</div>
 								</div>
 							</div>
 							<div id="box4" class="box">
 								<div id="tit1">동대표</div>
+								<div class="imgBox">
+									<img id="rankImg2" src="/app/resources/main/_______3.png">
+									<div id="rankFont2">101동 심원용</div>
+								</div>
+								<div class="like">
+									<div class="like1">
+										<div class="blue">
+											<i class="fa-solid fa-thumbs-up" style="color: #ffffff;"></i>
+										</div>
+										68%
+									</div>
+									<div class="like2">
+										<div class="red">
+											<i class="fa-solid fa-thumbs-down" style="color: #ffffff;"></i>
+										</div>
+										32%
+									</div>
+								</div>
 							</div>
 						</div>
 						<div id="zzz02" class="box">
 							<div id="tit1">우수 동</div>
+							<div class="dong">
+								<div class="dong1">1. 103동</div>
+								<div class="dong1">2. 102동</div>
+								<div class="dong1">3. 101동</div>
+							</div>
 						</div>
 					</div>
 				</div>
