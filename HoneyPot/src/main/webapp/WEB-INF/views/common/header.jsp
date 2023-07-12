@@ -1,374 +1,428 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+		<!DOCTYPE html>
+		<html>
 
-<script src="https://kit.fontawesome.com/794ac64f16.js"
-	crossorigin="anonymous"></script>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+		<head>
 
-<!-- 구글 아이콘 -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+			<script src="https://kit.fontawesome.com/794ac64f16.js" crossorigin="anonymous"></script>
+			<meta charset="UTF-8">
+			<title>Insert title here</title>
 
-<style>
-@import
-	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500&display=swap')
-	;
+			<!-- 구글 아이콘 -->
+			<link rel="stylesheet"
+				href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 
-* {
-	padding: 0px;
-	margin: 0px;
-	box-sizing: border-box;
-}
+			<style>
+				@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500&display=swap');
 
-body {
-	font-family: 'Noto Sans KR';
-	color: #2e2e2e;
-	overflow: hidden;
-	font-weight: 400;
-	background-color: #f5f5f5;
-}
-body::-webkit-scrollbar {
-  display: none;
-}
+				* {
+					padding: 0px;
+					margin: 0px;
+					box-sizing: border-box;
+				}
 
-#wrapper {
-	width: 1920px;
-	height: 937px;
-	display: flex;
-}
+				body {
+					font-family: 'Noto Sans KR';
+					color: #2e2e2e;
+					overflow: hidden;
+					font-weight: 400;
+					background-color: #f5f5f5;
+				}
 
-#side-bar {
-	width: 360px;
-	height: 937px;
-	background-color: white;
-}
+				body::-webkit-scrollbar {
+					display: none;
+				}
 
-#main {
-	width: 1560px;
-	height:45px;
-}
+				#wrapper {
+					width: 1920px;
+					height: 937px;
+					display: flex;
+				}
 
-#header {
-	height: 45px;
-	width: 1560px;
-	left: 360px;
-	box-sizing: border-box;
-	z-index: 1;
-	background-color: #4A321F;
-	color: white;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding-left: 15px;
-}
+				#side-bar {
+					width: 360px;
+					height: 937px;
+					background-color: white;
+				}
 
-#main-area {
-	width: 1560px;
-	height: 892px;
-	max-height: 892px;
-	overflow-y: auto; 
-}
-/* 스크롤바의 폭 너비 */
-#main-area::-webkit-scrollbar {
-    width: 12px;  
-}
+				#main {
+					width: 1560px;
+					height: 45px;
+				}
 
-#main-area::-webkit-scrollbar-thumb {
-    background: #4A321F; /* 스크롤바 색상 */
-    /* border-radius: 10px; 스크롤바 둥근 테두리 */
-}
+				#header {
+					height: 45px;
+					width: 1560px;
+					left: 360px;
+					box-sizing: border-box;
+					z-index: 1;
+					background-color: #4A321F;
+					color: white;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					padding-left: 15px;
+				}
 
-#main-area::-webkit-scrollbar-track {
-    background: #4a321f23;  /*스크롤바 뒷 배경 색상*/
-}
+				#main-area {
+					width: 1560px;
+					height: 892px;
+					max-height: 892px;
+					overflow-y: auto;
+				}
 
-#loog-area {
-	height: 45px;
-}
+				/* 스크롤바의 폭 너비 */
+				#main-area::-webkit-scrollbar {
+					width: 12px;
+				}
 
-#logo-area>span {
-	font-size: 30px;
-	display: flex;
-	align-items: center;
-}
+				#main-area::-webkit-scrollbar-thumb {
+					background: #4A321F;
+					/* 스크롤바 색상 */
+					/* border-radius: 10px; 스크롤바 둥근 테두리 */
+				}
 
-#logo-area>span>span {
-	padding-left: 10px;
-}
+				#main-area::-webkit-scrollbar-track {
+					background: #4a321f23;
+					/*스크롤바 뒷 배경 색상*/
+				}
 
-#profile-area {
-	height: 380px;
-}
+				#loog-area {
+					height: 45px;
+				}
 
-#blank01 {
-	height: 20px;
-}
+				#logo-area>span {
+					font-size: 30px;
+					display: flex;
+					align-items: center;
+				}
 
-#profile-img>img {
-	width: 230px;
-	object-fit: cover;
-	border-radius: 70%;
-}
+				#logo-area>span>span {
+					padding-left: 10px;
+				}
 
-#all-center {
-	text-align: center;
-}
+				#profile-area {
+					height: 380px;
+				}
 
-#profile-name {
-	font-weight: 500;
-	font-size: 40px;
-}
+				#blank01 {
+					height: 20px;
+				}
 
-#name-info {
-	font-size: 20px;
-}
+				#profile-img>img {
+					width: 230px;
+					object-fit: cover;
+					border-radius: 70%;
+				}
 
-#logout-info {
-	line-height: 50px;
-}
+				#all-center {
+					text-align: center;
+				}
 
-#menu-area {
-	display: grid;
-	grid-template-columns: 2fr 1.5fr 5.5fr;
-}
+				#profile-name {
+					font-weight: 500;
+					font-size: 40px;
+				}
 
-#icon-area>div {
-	height: 75px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
+				#name-info {
+					font-size: 20px;
+				}
 
-#text-area>div {
-	height: 75px;
-	display: flex;
-	align-items: center;
-	font-size: 25px;
-	padding-left: 10px;
-}
+				#logout-info {
+					line-height: 50px;
+				}
 
-#info-qna-area {
-	text-align: center;
-	height: 100px;
-	padding-top: 30px;
-}
+				#menu-area {
+					display: grid;
+					grid-template-columns: 2fr 1.5fr 5.5fr;
+				}
 
-#small-text {
-	font-size: 13px;
-	color: gray;
-}
+				#icon-area>div {
+					height: 75px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
 
-#profile-img>div {
-	height: 45px;
-	width: 45px;
-	background-color: white;
-	position: absolute;
-	border-radius: 70%;
-	top: 17px;
-	left: 240px;
-}
+				#text-area>div {
+					height: 75px;
+					display: flex;
+					align-items: center;
+					font-size: 25px;
+					padding-left: 10px;
+				}
 
-#profile-img {
-	position: relative;
-}
+				#info-qna-area {
+					text-align: center;
+					height: 100px;
+					padding-top: 30px;
+				}
 
-#setting-icon-area {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
+				#small-text {
+					font-size: 13px;
+					color: gray;
+				}
 
-#header-icon-area {
-	width: 250px;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-}
+				#profile-img>div {
+					height: 45px;
+					width: 45px;
+					background-color: white;
+					position: absolute;
+					border-radius: 70%;
+					top: 17px;
+					left: 240px;
+				}
 
-#weather-info-msg {
-	font-size: 13px;
-	font-weight: 100;
-}
+				#profile-img {
+					position: relative;
+				}
 
-#header-weather {
-	display: flex;
-	align-items: center;
-}
+				#setting-icon-area {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
 
-.header-calling>i {
-	position: relative;
-}
+				#header-icon-area {
+					width: 250px;
+					display: flex;
+					justify-content: space-around;
+					align-items: center;
+				}
 
-.header-calling>i>div {
-	position: absolute;
-	top: -15px;
-	left: 10px;
-	height: 15px;
-	width: 15px;
-	background-color: rgb(255, 58, 58);
-	border-radius: 70%;
-	color: white;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
+				#weather-info-msg {
+					font-size: 13px;
+					font-weight: 100;
+				}
 
-.header-chatting-icon>i {
-	position: relative;
-}
-.text-bold {
-	font-weight: 500;
-}
+				#header-weather {
+					display: flex;
+					align-items: center;
+				}
 
-.header-chatting-icon>i>div {
-	position: absolute;
-	top: -15px;
-	left: 17px;
-	height: 15px;
-	width: 15px;
-	background-color: rgb(255, 58, 58);
-	border-radius: 70%;
-	color: white;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-/* 헤더 아래에 초이스 구역 */
- .title-elem {
-	border: 4px solid #FAD355;
-	padding-top:5px;
-	padding-bottom:5px;
-	height: 40px;
-	border-radius: 30px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-} 
+				.header-calling>i {
+					position: relative;
+				}
 
-.choice-elem {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+				.header-calling>i>div {
+					position: absolute;
+					top: -15px;
+					left: 10px;
+					height: 15px;
+					width: 15px;
+					background-color: rgb(255, 58, 58);
+					border-radius: 70%;
+					color: white;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
 
-}
+				.header-chatting-icon>i {
+					position: relative;
+				}
 
+				.text-bold {
+					font-weight: bold;
+				}
 
-/* 서브초이스 */
-#sub-choice {
-	border-bottom: 1px solid black;
-	padding: 10px 10px 10px 50px;
-}
+				.header-chatting-icon>i>div {
+					position: absolute;
+					top: -15px;
+					left: 17px;
+					height: 15px;
+					width: 15px;
+					background-color: rgb(255, 58, 58);
+					border-radius: 70%;
+					color: white;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
 
-#grid-sub-choice {
-	display: grid;
-	width: 400px;
-	grid-template-columns: 1fr 1fr;
-}
+				/* 헤더 아래에 초이스 구역 */
+				.title-elem {
+					border: 4px solid #FAD355;
+					padding-top: 5px;
+					padding-bottom: 5px;
+					height: 40px;
+					border-radius: 30px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+
+				.choice-elem {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+				}
 
 
-</style>
+				/* 서브초이스 */
+				#sub-choice {
+					border-bottom: 1px solid black;
+					padding: 10px 10px 10px 50px;
+				}
 
-	<!-- 제이쿼리 -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+				#grid-sub-choice {
+					display: grid;
+					width: 400px;
+					grid-template-columns: 1fr 1fr;
+				}
+			</style>
 
-	<!-- 썸머노트 -->
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+			<!-- 제이쿼리 -->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+			<!-- 썸머노트 -->
+			<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+				integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+				crossorigin="anonymous"></script>
+			<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+			<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
-</head>
-<body>
-	<div id="wrapper">
-		<div id="side-bar">
-			<div id="logo-area">
-				<span> <img src="/app/resources/logo.png" height="45px">
-					<span>HONEYPOT</span>
-				</span>
-			</div>
-			<div id="all-center">
-				<div id="blank01"></div>
-				<div id="profile-area">
-					<div id="profile-img">
-						<img src="/app/resources/profile/exam_profile.png" height="230px">
-						<div id="setting-icon-area">
-							<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
+			<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+			<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+		</head>
+
+		<body>
+			<div id="wrapper">
+				<div id="side-bar">
+					<div id="logo-area">
+						<span> <img src="/app/resources/logo.png" height="45px">
+							<span>HONEYPOT</span>
+						</span>
+					</div>
+					<div id="all-center">
+						<div id="blank01"></div>
+						<div id="profile-area">
+							<div id="profile-img">
+								<img src="/app/resources/profile/exam_profile.png" height="230px">
+								<div id="setting-icon-area">
+									<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
+								</div>
+							</div>
+							<div id="profile-name">김아름다움</div>
+							<div id="name-info">(101동 1306호)</div>
+							<div id="logout-info">로그아웃</div>
 						</div>
 					</div>
-					<div id="profile-name">김아름다움</div>
-					<div id="name-info">(101동 1306호)</div>
-					<div id="logout-info">로그아웃</div>
-				</div>
-			</div>
 
-			<div id="menu-area">
-				<div id="blank02"></div>
-				<div id="icon-area">
-					<div>
-						<i class="fa-regular fa-user fa-2x" style="color: #2e2e2e;"></i>
-					</div>
-					<div>
-						<i class="fa-solid fa-user-group fa-2x" style="color: #2e2e2e;"></i>
-					</div>
-					<div>
-						<i class="fa-regular fa-pen-to-square fa-2x"
-							style="color: #2e2e2e;"></i>
-					</div>
-					<div>
-						<i class="fa-solid fa-building-user fa-2x" style="color: #2e2e2e;"></i>
-					</div>
-					<div>
-						<i class="fa-solid fa-map-location-dot fa-2x"
-							style="color: #2e2e2e;"></i>
-					</div>
-				</div>
-				<div id="text-area">
-					<div>마이페이지</div>
-					<div>이웃목록</div>
-					<div>게시판</div>
-					<div>편의시설</div>
-					<div>주변시설</div>
-				</div>
-			</div>
-			<div id="info-qna-area">
-				<div>고객센터</div>
-				<div id="small-text">
-					<span>문의하기</span> <span>|</span> <span>FAQ</span> <span>|</span> <span>경비원호출</span>
-				</div>
-			</div>
-		</div>
-
-		<div id="main">
-			<div id="header">
-				<div id="header-main-text"></div>
-				<div id="header-icon-area">
-					<div id="header-weather">
-						<div>
-							<img src="/app/resources/temp/weather.png" height="35px">
+					<div id="menu-area">
+						<div id="blank02"></div>
+						<div id="icon-area">
+							<div>
+								<i class="fa-regular fa-user fa-2x" style="color: #2e2e2e;"></i>
+							</div>
+							<div>
+								<i class="fa-solid fa-user-group fa-2x" style="color: #2e2e2e;"></i>
+							</div>
+							<div>
+								<i class="fa-regular fa-pen-to-square fa-2x" style="color: #2e2e2e;"></i>
+							</div>
+							<div>
+								<i class="fa-solid fa-building-user fa-2x" style="color: #2e2e2e;"></i>
+							</div>
+							<div>
+								<i class="fa-solid fa-map-location-dot fa-2x" style="color: #2e2e2e;"></i>
+							</div>
 						</div>
-						<div id="weather-info-msg">60ºC 부분적으로 맑음</div>
+						<div id="text-area">
+							<div>마이페이지</div>
+							<div>이웃목록</div>
+							<div>게시판</div>
+							<div>편의시설</div>
+							<div>주변시설</div>
+						</div>
 					</div>
-					<div class="header-calling">
-						<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;">
-							<div style="font-size: 7px; font-weight: 800;">15</div>
-						</i>
-					</div>
-					<div class="header-chatting-icon">
-						<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
-							<div style="font-size: 7px; font-weight: 800;">15</div>
-						</i>
+					<div id="info-qna-area">
+						<div>고객센터</div>
+						<div id="small-text">
+							<span>문의하기</span> <span>|</span> <span>FAQ</span> <span>|</span> <span>경비원호출</span>
+						</div>
 					</div>
 				</div>
+
+				<div id="main">
+					<div id="header">
+						<div id="header-main-text"></div>
+						<div id="header-icon-area">
+							<div id="header-weather">
+								<div>
+									<img src="/app/resources/temp/weather.png" height="35px">
+								</div>
+								<div id="weather-info-msg">60ºC 부분적으로 맑음</div>
+							</div>
+							<div class="header-calling">
+								<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;">
+									<div style="font-size: 7px; font-weight: 800;">15</div>
+								</i>
+							</div>
+							<div class="header-chatting-icon">
+								<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
+									<div style="font-size: 7px; font-weight: 800;">15</div>
+								</i>
+							</div>
+						</div>
+					</div>
+					<div id="nav-area"></div>
+					<div id="main-area"></div>
+				</div>
 			</div>
-			<div id="nav-area"></div>
-			<div id="main-area"></div>
-		</div>
-	</div>
-</body>
-</html>
+		</body>
+
+		</html>
+
+		<script>
+			// 기본 셋팅 (수정x)
+			function basicSetting() {
+				const nav = document.querySelector("nav");
+				const main = document.querySelector("main");
+				const mainArea = document.querySelector("#main-area");
+				const navArea = document.querySelector("#nav-area");
+				mainArea.innerHTML = main.innerHTML;
+				navArea.innerHTML = nav.innerHTML;
+				main.innerHTML = "";
+				nav.innerHTML = "";
+			}
+
+			// 수정1,2 : navMenu1,2에 메뉴를 적어주세요
+			function firstNav(navMenu1, boldMenu) {
+				const mainChoice = document.querySelector("#main-choice");
+
+				let menus = "";
+				for (let menu of navMenu1) {
+					if (menu === boldMenu) {
+						menus += "<div class='choice-elem title-elem text-bold'>" + menu + "</div>"
+					} else {
+						menus += "<div class='choice-elem'>" + menu + "</div>"
+					}
+				}
+				mainChoice.innerHTML = menus;
+			}
+
+			function secondNav(navMenu2, boldMenu) {
+				const subChoice = document.querySelector("#grid-sub-choice");
+
+				let menus = "";
+				for (let menu of navMenu2) {
+					if (menu === boldMenu) {
+						menus += "<div class='menu-box text-bold'>" + menu + "</div>"
+					} else {
+						menus += "<div class='menu-box'>" + menu + "</div>"
+
+					}
+				}
+				subChoice.innerHTML = menus;
+			}
+			// 헤더 네임 바꾸기
+			function headerName(name) {
+				const mainChoice = document.querySelector("#header-main-text");
+				mainChoice.innerHTML = name;
+			}
+
+		</script>
