@@ -585,7 +585,11 @@
 
 			let menus = "";
 			for (let menu of navMenu1) {
-				menus += "<div class='choice-elem'><div class='title-elem'>" + menu + "</div></div>"
+				if(menu==="내정보"){
+					menus += "<div class='choice-elem title-elem'>" + menu + "</div>"					
+				}else{
+					menus += "<div class='choice-elem'>" + menu + "</div>"					
+				}
 			}
 			mainChoice.innerHTML = menus;
 		}
@@ -595,15 +599,30 @@
 
 			let menus = "";
 			for (let menu of navMenu2) {
-				menus += "<div class='menu-box'>" + menu + "</div>"
+				if(menu==="가계부"){
+					menus += "<div class='menu-box text-bold'>" + menu + "</div>"	
+				}else {
+					menus += "<div class='menu-box'>" + menu + "</div>"	
+					
+				}
 			}
 			subChoice.innerHTML = menus;
 		}
+
+		// 헤더 네임 바꾸기
+		function headerName() {
+			const mainChoice = document.querySelector("#header-main-text");
+			mainChoice.innerHTML = '';
+			let menus = '마이페이지';
+
+			mainChoice.innerHTML = menus;
+    	}
 
 		// 메뉴 함수 실행
 		basicSetting();
 		firstNav();
 		secondNav();
+		headerName();
 
 		// 그래프 함수
 		var _chart = document.querySelector('.graph');
