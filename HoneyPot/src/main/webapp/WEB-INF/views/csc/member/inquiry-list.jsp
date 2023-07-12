@@ -127,7 +127,11 @@
 
         let menus = "";
         for (let menu of navMenu1) {
-            menus += "<div class='choice-elem'><div class='title-elem'>" + menu + "</div></div>"
+            if(menu==="문의목록"){
+                menus += "<div class='choice-elem title-elem'>" + menu + "</div>"					
+            }else{
+                menus += "<div class='choice-elem'>" + menu + "</div>"					
+            }
         }
         mainChoice.innerHTML = menus;
     }

@@ -139,13 +139,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #ffffff;
+            background-color: #f5f5f5;
             box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             
             /* 임시 지정 */
             width: 700px;
-            height: 600px;
+            height: 700px;
             
             /* 초기에 약간 아래에 배치 */
             transform: translate(-50%, -40%);
@@ -188,11 +188,10 @@
         .model-main-area{
             margin-top: 10px;
             width: 700px;
-            height: 530px;
+            height: 630px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #5F5F5F;
         }
 
         .check-btn{
@@ -204,6 +203,7 @@
             font-size: 20px;
             font-family: 'Noto Sans KR';
             font-weight: 900;
+            margin-top: 20px;
         }
 
         .check-btn:hover{
@@ -245,6 +245,7 @@
 
 
         .model-search-category{
+            padding-left: 10px;
             width: 100px;
             height: 40px;
             border: none;
@@ -264,8 +265,41 @@
         }
 
         .model-content-area{
-            width: 400px;
-            height: 400px;
+            margin-top: 20px;
+            border-radius: 10px;
+            background-color: white;
+            border: 1px solid #d4d4d4d7;
+            width: 420px;
+            height: 450px;
+            overflow: scroll;
+        }
+
+        .model-content-area::-webkit-scrollbar {
+            display: none;
+        }
+
+        .model-content-plist{
+            border-bottom: 1px solid #d4d4d4d7;
+            width: 420px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .model-content-plist:hover{
+            background-color: #d4d4d4d7;
+        }
+
+        .plist-profile{
+            margin-left: 20px;
+        }
+
+        .plist-name{
+            margin-left: 10px;
+        }
+
+        .plist-address{
+            margin-left: 10px;
         }
 
     </style>
@@ -348,7 +382,23 @@
                         <button type="button" class="model-search-btn">검색</button>
                     </div>
                     <div class="model-content-area">
-
+                        <div class="model-content-plist">
+                            <div class="plist-profile">사진</div>
+                            <div class="plist-name">이름</div>
+                            <div class="plist-address">(111동 1211호)</div>
+                        </div>
+                        <div class="model-content-plist"></div>
+                        <div class="model-content-plist"></div>
+                        <div class="model-content-plist"></div>
+                        <div class="model-content-plist"></div>
+                        <div class="model-content-plist"></div>
+                        <div class="model-content-plist"></div>
+                        <div class="model-content-plist"></div>
+                        <div class="model-content-plist"></div>
+                        <div class="model-content-plist"></div>
+                        <div class="model-content-plist"></div>
+                        <div class="model-content-plist"></div>
+                        <div class="model-content-plist"></div>
                     </div>
 
                     <button type="button" class="check-btn" id="check-btn">확인</button>
@@ -422,9 +472,12 @@
         document.querySelector(".background").className = "background";
     }
 
+
     document.querySelector("#report-people").addEventListener('click', show);
     document.querySelector("#close").addEventListener('click', close);
     document.querySelector("#check-btn").addEventListener('click', close);
+
+    // document,querySelector(".model-content-plist").addEventListener('click',);
 
 </script>
 
