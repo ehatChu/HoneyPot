@@ -9,8 +9,7 @@
 <style>
 	#temp-main-wrapper{
 		display: grid;
-		grid-template-columns: 10fr 3fr;
-		height: 2000px; /*임시*/
+		grid-template-columns: 10fr 3fr; /*임시*/
 	}
 	#reservation-area{
 		background-clip: content-box;
@@ -21,10 +20,8 @@
 		grid-template-rows: 0.2fr 0.4fr 0.5fr;
 		height: 750px;
 	}
-	#reservation-area > div {
-	}
+
 	#today-area {
-		background-color: plum;
 		background-clip: content-box;
 		padding: 20px 20px 20px 20px;
 	}
@@ -62,8 +59,7 @@
 	#count-people {
 		padding-left: 20px;
 	}
-	input[type="checkbox"] {
-	}
+	
 	.btn-box {
 		width: 150px;
 		height: 60px;
@@ -82,6 +78,15 @@
 	.orange-font-color {
 		color: #FAD355;
 	}
+	.text-center {
+		text-align: center;
+	}
+	.margin-blank {
+		margin-top: 10px;
+	}
+	/* input[name="startTime"] {
+		visibility: hidden;	
+	} */
 </style>
 </head>
 <body>
@@ -92,93 +97,75 @@
 	</nav>
 
 	<main>
-		<div id="temp-main-wrapper">
-			<div id="reservation-area">
-				<div>
-					<h1>1.날짜선택</h1>
-					<input type="date">
-				</div>
-				<div></div>
-				<div id="span-area">
-					<h1>2.시간선택</h1>
-					<c:forEach var="i" begin="1" end="18">
-						<!-- small-box이용하면 label을 박스형태로 바꿀 수 있음. -->
-						<label for="i" class="small-box orange-color">07:00<input type="checkbox" name="startTime" id="i" value="i"></label>
-							
-					</c:forEach>
-				</div>
-				<div id="count-people">
-					<div class="middle-size">선택한 시간대의 예약자는 현재</div>
-					<div class="big-size orange-font-color">23</div><span class="middle-size">/50명입니다.</span>
-				</div>
-				<div>
-					<h1>3.신청하시겠습니까?</h1>
-					<button class="orange-color btn-box">예약하기</button> <button class="brown-color btn-box">예약취소</button>
-				</div>
-			</div>
-			<div id="today-area">
+		<form action="${root}/library/reserve" method="post">
+			<div id="temp-main-wrapper">
+			
+				<div id="reservation-area">
+					<div>
+						<h1>1.날짜선택</h1>
+						<input type="date" id="date-choice" >
+						<script>
+				
 
+							
+							//오늘 날짜를 -형식으로 바꿀 것 
+							let today = new Date();
+							
+							let dateElem = document.querySelector("#date-choice");
+							
+							dateElem.setAttribute("value",dateFormat(new Date()));
+							dateElem.setAttribute("min",dateFormat(new Date()));
+							
+							//7일 후 날짜구하기
+							let afterWeek = new Date(Date.parse(today)+7*1000*60*60*24);
+							dateElem.setAttribute("max",dateFormat(afterWeek));
+						
+				
+
+							//포메팅 자주쓰일것 같아 함수로 분리함.
+							function dateFormat(date) {
+								let dateFormat2 = date.getFullYear() +
+									'-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+									'-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
+								return dateFormat2;
+							}	
+						</script>
+					</div>
+					<div></div>
+					<div id="span-area">
+						<h1>2.시간선택</h1>
+						<c:forEach var="i" begin="1" end="18">
+							<!-- small-box이용하면 label을 박스형태로 바꿀 수 있음. -->
+							<label for="${i}" class="small-box orange-color">${i}</label><input type="checkbox" name="startTime" id="${i}" value="${i}">
+								
+						</c:forEach>
+					</div>
+					<div id="count-people">
+						<div class="middle-size">선택한 시간대의 예약자는 현재</div>
+						<div class="big-size orange-font-color">23</div><span class="middle-size">/50명입니다.</span>
+					</div>
+					<div>
+						<h1>3.신청하시겠습니까?</h1>
+						<input type="submit" value="예약하기" class="orange-color btn-box"> <button class="brown-color btn-box">예약취소</button>
+					</div>
+				</div>
+				<div id="today-area">
+					<h1 class="text-center">오늘의 예약</h1>
+		
+						<c:forEach begin="1" end="4">
+							<div class="text-center margin-blank">헬스장 11:00 </div>
+						</c:forEach>
+				
+				</div>
 			</div>
-		</div>
+		</form>
+		
 	</main>
 </body>
 </html>
 <script>
-		// 기본 셋팅 (수정x)
-		function basicSetting() {
-			const nav = document.querySelector("nav");
-			const main = document.querySelector("main");
-			const mainArea = document.querySelector("#main-area");
-			const navArea = document.querySelector("#nav-area");
-			mainArea.innerHTML = main.innerHTML;
-			navArea.innerHTML = nav.innerHTML;
-			main.innerHTML = "";
-			nav.innerHTML = "";
-		}
-
-		// 수정1,2 : navMenu1,2에 메뉴를 적어주세요
-		function firstNav() {
-			const mainChoice = document.querySelector("#main-choice");
-			let navMenu1 = ['도서관', '수영장', '헬스장'];
-
-			let menus = "";
-			for (let menu of navMenu1) {
-				if(menu==="도서관"){
-					menus += "<div class='choice-elem title-elem'>" + menu + "</div>"					
-				}else{
-					menus += "<div class='choice-elem'>" + menu + "</div>"					
-				}
-			}
-			mainChoice.innerHTML = menus;
-		}
-		function secondNav() {
-			const subChoice = document.querySelector("#grid-sub-choice");
-			let navMenu2 = ['시설소개', '예약하기'];
-
-			let menus = "";
-			for (let menu of navMenu2) {
-				if(menu==="예약하기"){
-					menus += "<div class='menu-box text-bold'>" + menu + "</div>"	
-				}else {
-					menus += "<div class='menu-box'>" + menu + "</div>"	
-					
-				}
-			}
-			subChoice.innerHTML = menus;
-		}
-		// 헤더 네임 바꾸기
-		function headerName() {
-			const mainChoice = document.querySelector("#header-main-text");
-			mainChoice.innerHTML = '';
-			let menus = '고객센터';
-
-			mainChoice.innerHTML = menus;
-    	}
-
-		
-		// 함수 실행
-		basicSetting();
-		firstNav();
-		secondNav();
-    	headerName();
-	</script>
+	basicSetting(); // 기본 셋팅
+	headerName('예약하기'); // 현재 페이지 이름
+	firstNav(['도서관', '수영장', '헬스장'], '도서관'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	secondNav(['시설소개', '예약하기'], '예약하기'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+</script>
