@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("main")
 public class MainController {
 	@GetMapping("mmain")
-	public String main() {
+	public String mmain() {
 		return "main/mmain";
+	}
+	
+	@GetMapping("amain")
+	public String amain() {
+		return "main/amain";
 	}
 }
