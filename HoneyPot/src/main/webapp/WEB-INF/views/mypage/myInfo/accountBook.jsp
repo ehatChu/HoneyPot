@@ -20,9 +20,9 @@
 	
 	<style>
 		#wrap{
-			height: 1500px;
+			height: 1200px;
 			display: grid;
-			grid-template-rows: 1fr 2fr;
+			grid-template-rows: 750px 450px;
 			margin-left: 20px;
 		}
 
@@ -566,63 +566,12 @@
 	</html>
 
 	<script>
-		// 기본 셋팅 (수정x)
-		function basicSetting() {
-			const nav = document.querySelector("nav");
-			const main = document.querySelector("main");
-			const mainArea = document.querySelector("#main-area");
-			const navArea = document.querySelector("#nav-area");
-			mainArea.innerHTML = main.innerHTML;
-			navArea.innerHTML = nav.innerHTML;
-			main.innerHTML = "";
-			nav.innerHTML = "";
-		}
-
-		// 수정1,2 : navMenu1,2에 메뉴를 적어주세요
-		function firstNav() {
-			const mainChoice = document.querySelector("#main-choice");
-			let navMenu1 = ['내정보', '나의활동', '신청내역', '관리비'];
-
-			let menus = "";
-			for (let menu of navMenu1) {
-				if(menu==="내정보"){
-					menus += "<div class='choice-elem title-elem'>" + menu + "</div>"					
-				}else{
-					menus += "<div class='choice-elem'>" + menu + "</div>"					
-				}
-			}
-			mainChoice.innerHTML = menus;
-		}
-		function secondNav() {
-			const subChoice = document.querySelector("#grid-sub-choice");
-			let navMenu2 = ['캘린더', '가계부', '사유물'];
-
-			let menus = "";
-			for (let menu of navMenu2) {
-				if(menu==="가계부"){
-					menus += "<div class='menu-box text-bold'>" + menu + "</div>"	
-				}else {
-					menus += "<div class='menu-box'>" + menu + "</div>"	
-					
-				}
-			}
-			subChoice.innerHTML = menus;
-		}
-
-		// 헤더 네임 바꾸기
-		function headerName() {
-			const mainChoice = document.querySelector("#header-main-text");
-			mainChoice.innerHTML = '';
-			let menus = '마이페이지';
-
-			mainChoice.innerHTML = menus;
-    	}
-
-		// 메뉴 함수 실행
+	
+		// 헤더 함수 실행
 		basicSetting();
-		firstNav();
-		secondNav();
-		headerName();
+		firstNav(['내정보', '나의활동', '신청내역', '관리비'],'내정보');
+		secondNav(['캘린더', '가계부', '사유물'],'가계부');
+		headerName('마이페이지');
 
 		// 그래프 함수
 		var _chart = document.querySelector('.graph');

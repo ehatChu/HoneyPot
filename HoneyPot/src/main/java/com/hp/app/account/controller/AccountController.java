@@ -11,7 +11,7 @@ public class AccountController {
 	// 가계부 화면
 	@GetMapping("view")
 	public String account() {
-		return "/mypage/accountBook";
+		return "/mypage/myInfo/accountBook";
 	}
 	
 }
