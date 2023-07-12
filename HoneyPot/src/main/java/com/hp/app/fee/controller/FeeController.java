@@ -6,13 +6,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("fee")
-public class MemberFeeController {
+public class FeeController {
 
-	// 조회
+	// 회원 조회
 	@GetMapping("member")
 	public String show() {
-		return "/mypage/fee";
+		return "/mypage/myInfo/fee/list";
 	}
+	
+	//회원 납부 화면
+	@GetMapping("member/pay")
+	public String payFee() {
+		return "mypage/myInfo/fee/pay";
+	}
+	
 	
 	
 }
