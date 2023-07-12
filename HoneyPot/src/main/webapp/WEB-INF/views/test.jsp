@@ -43,7 +43,11 @@
 
 			let menus = "";
 			for (let menu of navMenu1) {
-				menus += "<div class='choice-elem'><div class='title-elem'>" + menu + "</div></div>"
+				if(menu==="도서관"){
+					menus += "<div class='choice-elem title-elem'>" + menu + "</div>"					
+				}else{
+					menus += "<div class='choice-elem'>" + menu + "</div>"					
+				}
 			}
 			mainChoice.innerHTML = menus;
 		}
@@ -53,7 +57,12 @@
 
 			let menus = "";
 			for (let menu of navMenu2) {
-				menus += "<div class='menu-box'>" + menu + "</div>"
+				if(menu==="예약하기"){
+					menus += "<div class='menu-box text-bold'>" + menu + "</div>"	
+				}else {
+					menus += "<div class='menu-box'>" + menu + "</div>"	
+					
+				}
 			}
 			subChoice.innerHTML = menus;
 		}
