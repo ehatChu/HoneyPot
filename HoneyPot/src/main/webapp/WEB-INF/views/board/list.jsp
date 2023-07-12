@@ -7,16 +7,41 @@
 <title>Insert title here</title>
 <style>
 
-	.faq-search-area {
+	div {
+		border: 1px solid red;
+	}
+
+	.board-search-area {
 		width: 1560px;
 		height: 140px;
 		background-color: #EAEAEA;
-		display: flex;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
 		justify-content: end;
 		align-items: center;
 	}
 
-	.faq-search {
+	select {
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		appearance: none;
+		border: none;
+	}
+
+	select[name=searchType]{
+		width: 50px;
+		height: 50px;
+		background-color: white;
+		border: 1px solid black;
+		border-radius: 10px;
+		display: flex;
+		justify-self: right;
+		align-items: center;
+		margin-right: 100px;
+		font-size: 18px;
+	}
+
+	#board-search {
 		width: 400px;
 		height: 50px;
 		background-color: white;
@@ -28,16 +53,16 @@
 		margin-right: 100px;
 	}
 
-	input[name=faqSearch] {
+	input[name=boardSearch] {
 		margin-left: 12px;
 		border: none;
 		width: 330px;
 		height: 30px;
 	}
 
-	input[name=faqSearch]:focus {outline:none;}
+	input[name=boardSearch]:focus {outline:none;}
 
-	#faq-search-icon {
+	#board-search-icon {
 		margin-left: 10px;
 		font-size: 35px;
 	}
@@ -129,11 +154,25 @@
 
 	<main>
 
-		<div class="faq-search-area">
-			<div class="faq-search">
-				<input type="text" name="faqSearch">
-				<span id="faq-search-icon" class="material-symbols-outlined">search</span>
+		<div class="board-search-area">
+
+			<!-- <div id="search-type">
+				<select name="searchType">
+					<option value="title">제목</option>
+					<option value="writer">글쓴이</option>
+				</select>
+			</div> -->
+
+			<div id="board-search">
+				<select name="searchType">
+					<option value="title">제목</option>
+					<option value="writer">글쓴이</option>
+				</select>
+
+				<input type="search" name="boardSearch">
+				<span id="board-search-icon" class="material-symbols-outlined">search</span>
 			</div>
+
 		</div>
 
 		<div class="board-list-area">
@@ -249,31 +288,35 @@
 </html>
 
 <script>
-	// 기본 셋팅 (수정x)
-	function basicSetting() {
-			const nav = document.querySelector("nav");
-			const main = document.querySelector("main");
-			const mainArea = document.querySelector("#main-area");
-			const navArea = document.querySelector("#nav-area");
-			mainArea.innerHTML = main.innerHTML;
-			navArea.innerHTML = nav.innerHTML;
-			main.innerHTML = "";
-			nav.innerHTML = "";
-		}
+	// // 기본 셋팅 (수정x)
+	// function basicSetting() {
+	// 		const nav = document.querySelector("nav");
+	// 		const main = document.querySelector("main");
+	// 		const mainArea = document.querySelector("#main-area");
+	// 		const navArea = document.querySelector("#nav-area");
+	// 		mainArea.innerHTML = main.innerHTML;
+	// 		navArea.innerHTML = nav.innerHTML;
+	// 		main.innerHTML = "";
+	// 		nav.innerHTML = "";
+	// 	}
 
-		// 수정1,2 : navMenu1,2에 메뉴를 적어주세요
-		function firstNav() {
-			const mainChoice = document.querySelector("#main-choice");
-			let navMenu1 = ['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'];
+	// 	// 수정1,2 : navMenu1,2에 메뉴를 적어주세요
+	// 	function firstNav() {
+	// 		const mainChoice = document.querySelector("#main-choice");
+	// 		let navMenu1 = ['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'];
 
-			let menus = "";
-			for (let menu of navMenu1) {
-				menus += "<div class='choice-elem'><div class='title-elem'>" + menu + "</div></div>"
-			}
-			mainChoice.innerHTML = menus;
-		}
+	// 		let menus = "";
+	// 		for (let menu of navMenu1) {
+	// 			menus += "<div class='choice-elem'><div class='title-elem'>" + menu + "</div></div>"
+	// 		}
+	// 		mainChoice.innerHTML = menus;
+	// 	}
 
-		// 함수 실행
-		basicSetting();
-		firstNav();
+	// 	// 함수 실행
+	// 	basicSetting();
+	// 	firstNav();
+
+	basicSetting(); // 기본 셋팅
+	headerName('게시판'); // 현재 페이지 이름
+	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'], '공지 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 </script>
