@@ -220,6 +220,9 @@ body::-webkit-scrollbar {
 .header-chatting-icon>i {
 	position: relative;
 }
+.text-bold {
+	font-weight: 500;
+}
 
 .header-chatting-icon>i>div {
 	position: absolute;
@@ -235,19 +238,24 @@ body::-webkit-scrollbar {
 	justify-content: center;
 }
 /* 헤더 아래에 초이스 구역 */
-.title-elem {
+ .title-elem {
 	border: 4px solid #FAD355;
+	padding-top:5px;
+	padding-bottom:5px;
 	height: 40px;
 	border-radius: 30px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-}
+} 
 
 .choice-elem {
-	padding-left: 40px;
-	padding-top: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 }
+
 
 /* 서브초이스 */
 #sub-choice {

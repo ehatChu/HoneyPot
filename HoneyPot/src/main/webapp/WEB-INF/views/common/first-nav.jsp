@@ -13,6 +13,9 @@
 	display: flex;
 	height: 80px;
 	flex-direction: row;
+	justify-content: flex-start;
+	align-items:center;
+	padding-left:30px;
 	border-bottom: 1px solid rgb(156, 156, 156);
 	background-color: #f5f5f5;
 	z-index: 1;
@@ -28,9 +31,8 @@
 }
 
 .choice-elem {
-	width: 220px;
-	padding-left: 40px;
-	padding-top: 15px;
+	width: 200px;
+	
 }
 
 #main-area {

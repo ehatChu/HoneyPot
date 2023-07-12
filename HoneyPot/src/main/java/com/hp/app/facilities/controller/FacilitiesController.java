@@ -11,4 +11,9 @@ public class FacilitiesController {
 	public String editInfo() {
 		return "admin/facilities/library-editInfo";
 	}
+	
+	@GetMapping("library/reserve")
+	public String reserve() {
+		return "facilities/makeLibraryReservation";
+	}
 }
