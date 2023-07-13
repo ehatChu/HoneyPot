@@ -14,6 +14,11 @@ public class FacilitiesController {
 	
 	@GetMapping("library/reserve")
 	public String reserve() {
-		return "facilities/makeLibraryReservation";
+		return "innerFacilities/makeLibraryReservation";
+	}
+	
+	@GetMapping("outerFacilities/map")
+	public String showMap() {
+		return "outerFacilities/showMap";
 	}
 }
