@@ -129,7 +129,7 @@
             width: 100px;
             height: 45px;
             border: none;
-            background-color: #FFCE31;
+            background-color: #FF3131;
             border-radius: 4px;
             font-weight: 900;
             font-family: 'Noto Sans KR';
@@ -188,6 +188,10 @@
             color: #FFCE31;
         }
 
+        .red{
+            color: #FF3131;
+        }
+
         .inquiry-list-area > table{
             width: 1560px;
             text-align: center;
@@ -210,7 +214,7 @@
         }
 
         .inquiry-list-area > table tr:not(:first-of-type):hover{
-            background-color: #FEFFD0;
+            background-color: #FFD0D0;
         }
 
         .inquiry-list-area > table tr > th:nth-of-type(2){
@@ -236,12 +240,12 @@
         }
 
         .page-area button:hover{
-            background-color: #FAD355;
+            background-color: #fa5555;
             color: white;
         }
 
         .category-color{
-            color: #e7bf3a;
+            color: #e73a3a;
         }
 
     </style>
@@ -274,11 +278,11 @@
                 <input type="date" name="startDate">
                 <div>~</div>
                 <input type="date" name="endDate">
-                <div class="inquiry-category-text">답변여부</div>
+                <div class="inquiry-category-text">처리여부</div>
                 <select name="" id="" class="answer-category-box">
                     <option value="">전체</option>
-                    <option value="">미답변</option>
-                    <option value="">답변</option>
+                    <option value="">미처리</option>
+                    <option value="">처리</option>
                 </select>
                 <div class="inquiry-category-text">분류</div>
                 <select name="" id="" class="content-category-box">
@@ -299,14 +303,14 @@
             <div class="inquiry-list-category-area">
                 <div class="inquiry-list-category focus-category">
                     <div class="list-category-text">전체</div>
-                    <div class="list-category-num yellow">3</div>
+                    <div class="list-category-num red">3</div>
                 </div>
                 <div class="inquiry-list-category">
-                    <div class="list-category-text">답변완료</div>
+                    <div class="list-category-text">처리완료</div>
                     <div class="list-category-num">3</div>
                 </div>
                 <div class="inquiry-list-category right-border">
-                    <div class="list-category-text">미답변</div>
+                    <div class="list-category-text">미처리</div>
                     <div class="list-category-num">3</div>
                 </div>
             </div>
@@ -319,7 +323,7 @@
                         <th>작성자</th>
                         <th>작성일자</th>
                         <th>답변일자</th>
-                        <th>답변자</th>
+                        <th>처리자</th>
                     </tr>
 
                     <tr>
@@ -385,13 +389,13 @@
             </div>
 
             <div class="page-area">
-                <button class="yellow"><</button>
+                <button class="red"><</button>
                 <button>1</button>
                 <button>2</button>
                 <button>3</button>
                 <button>4</button>
                 <button>5</button>
-                <button class="yellow">></button>
+                <button class="red">></button>
                 <!-- <c:if test="${pv.currentPage > 1}">
                     <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
                 </c:if>
@@ -407,7 +411,6 @@
                     <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
                 </c:if> -->
             </div>
-
         </main>
 
 </body>
@@ -417,7 +420,6 @@
 <script>
     basicSetting(); // 기본 셋팅
     headerName('고객센터'); // 현재 페이지 이름
-    firstNav(['문의 내역', '신고 내역', 'FAQ 관리'], '문의 내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+    firstNav(['문의 내역', '신고 내역', 'FAQ 관리'], '신고 내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
     // secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
-
 </script>
