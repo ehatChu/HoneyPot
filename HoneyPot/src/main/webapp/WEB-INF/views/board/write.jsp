@@ -6,84 +6,171 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-    <style>
-        .write-area{
-            width: 1440px;
-            margin-top: 20px;
-            margin-left: 100px;
-        }
+<style>
+    .write-area{
+        width: 1440px;
+        margin-top: 20px;
+        margin-left: 100px;
+    }
 
-        .write-text-title{
-            font-size: 40px;
-            font-weight: 700;
-        }
+    #page-title{
+        font-size: 40px;
+        font-weight: 700;
+    }
 
-        .write-text{
-            font-size: 20px;
-            font-weight: 700;
-            color: #5F5F5F;
-            margin-top: 10px;
-        }
+    #article{
+        font-size: 20px;
+        font-weight: 700;
+        color: #5F5F5F;
+        margin-top: 10px;
+    }
 
-        .write-form-area{
-            margin-top: 15px;
-            margin-left: 10px;
-        }
+    .write-form-area{
+        margin-top: 15px;
+        margin-left: 10px;
+    }
 
-        .write-category{
-            width: 400px;
-            height: 50px;
-            border-radius: 8px;
-            border: 1px solid rgb(156, 156, 156);
-        }
+    .write-category{
+        width: 400px;
+        height: 50px;
+        border-radius: 8px;
+        border: 1px solid rgb(156, 156, 156);
+    }
 
-        .write-category-area{
-            margin-top: 10px;
-        }
+    .write-category-area{
+        margin-top: 10px;
+    }
 
-        .write-title-area{
-            margin-top: 10px;
-        }
+    #title-area{
+        margin-top: 10px;
+    }
 
-        .write-title{
-            margin-top: 10px;
-            width: 1200px;
-            height: 50px;
-            border-radius: 8px;
-            border: 1px solid rgb(156, 156, 156);
-        }
+    #title{
+        margin-top: 10px;
+        width: 500px;
+        height: 50px;
+        border-radius: 8px;
+        border: 1px solid rgb(156, 156, 156);
+    }
 
-        .write-content{
-            margin-top: 10px;
-            background-color: white;
-            border-radius: 6px;
-            width: 1200px;
-        }
+    .vote-btn-area {
+        margin-top: 10px;
+    }
 
-        .write-submit-area{
-            margin-top: 30px;
-            width: 1200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    #vote-btn {
+        background-color: white;
+        border-radius: 8px;
+        border: 1px solid rgb(156, 156, 156);
+        width: 125px;
+        height: 30px;
+        cursor: pointer;
+        color: #868686;
+        font-size: 15px;
+        font-weight: 600;
+        font-family: 'Noto Sans KR';
+    }
 
-        .write-submit{
-            width: 300px;
-            height: 50px;
-            background-color: #FAD355;
-            border: none;
-            border-radius: 8px;
-            font-weight: 900;
-            font-size: 20px;
-            font-family: 'Noto Sans KR';
-        }
+    .write-content{
+        margin-top: 10px;
+        background-color: white;
+        border-radius: 6px;
+        width: 1200px;
+    }
 
-        .write-submit:hover{
-            cursor: pointer;
-        }
+    .write-submit-area{
+        margin-top: 30px;
+        width: 1200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-    </style>
+    .write-submit{
+        width: 300px;
+        height: 50px;
+        background-color: #FAD355;
+        border: none;
+        border-radius: 8px;
+        font-weight: 900;
+        font-size: 20px;
+        font-family: 'Noto Sans KR';
+    }
+
+    .write-submit:hover{
+        cursor: pointer;
+    }
+
+
+    /* 투표 모달 */
+    .modal {
+        height: 700px;
+        width: 500px;
+        border-radius: 20px;
+        overflow: hidden;
+        background-color: white;
+    }
+
+
+
+    #modal-head{
+        display: flex;
+        justify-content: space-between;
+        background-color: #FAD355;
+        height: 45px;
+        font-size: 20px;
+    }
+
+    #modal-head > div{
+        margin-top: 8px;
+        margin-left: 20px;
+        margin-right: 20px;
+        font-weight: bold;
+        text-align: center;
+        justify-content: center;
+    }
+
+    #modal-head > div:last-child:hover {
+        cursor: pointer;        
+    }
+
+    #modal-body {
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    #modal-body > * {
+        margin-left: 15px;
+    }
+
+    #modal-article, #dup-radio{
+        font-size: 18px;
+        font-weight: 700;
+        color: #5F5F5F;
+        margin-top: 15px;
+    }
+
+    #modal-body > input {
+        margin-top: 10px;
+        width: 250px;
+        height: 30px;
+        border-radius: 8px;
+        border: 1px solid rgb(156, 156, 156);
+    }
+
+    .plus-article { width: 105px; }
+    .plus-article:hover { cursor: pointer; }
+
+    input[type=date]{
+        width: 150px;
+    }
+
+    #modal-body > div {
+        border: 1px solid red;
+    }
+
+
+
+</style>
 
 </head>
 <body>
@@ -95,20 +182,63 @@
 	<main>
 		
         <div class="write-area">
-            <div class="write-text-title">게시글 작성</div>
+            <div id="page-title">게시글 작성</div>
 
             <br>
 
-            <div class="-form-area">
+            <div class="form-area">
                 <form action="" method="post">
         
-                    <div class="write-title-area">
-                        <div class="write-text">제목</div>
-                        <div><input type="text" class="write-title" placeholder="제목을 입력해주세요."></div>
+                    <div class="title-area">
+                        <div id="article">제목</div>
+
+                        <div>
+                            <input type="text" id="title" placeholder="제목을 입력해주세요.">
+                        </div>
                     </div>
         
                     <div>
-                        <div class="write-text">내용</div>
+                        <div id="article">내용</div>
+
+                        <div class="vote-btn-area">
+                            <button id="vote-btn">
+                                <i class="fa-sharp fa-solid fa-check-to-slot"></i> &nbsp; 투표 생성
+                                <!-- <a href="javascript:toggleModal();"><i class="fa-sharp fa-solid fa-check-to-slot"></i> &nbsp; 투표 생성</a> -->
+                            </button>
+                        </div>
+
+                        <div class="modal">
+                            <div id="modal-head">
+                                <div>투표 생성</div>
+                                <div>&times;</div>
+                            </div>
+
+                            <div id="modal-body">
+                                <div id="modal-article">제목</div>
+                                <input type="text" id="modal-input" placeholder="투표 제목을 입력해주세요.">
+
+                                <div id="modal-article">기간</div>
+                                <input type="date" id="start-date"> ~ <input type="date" id="end-date">
+
+                                <div id="modal-article">투표항목</div>
+                                <input type="text" id="modal-input" placeholder="항목 입력">
+
+                                <div id="modal-article" class="plus-article">
+                                    <i class="fa-solid fa-plus"></i> &nbsp; 항목 추가
+                                </div>
+
+                                <div id="dup-radio">
+                                    <input type="radio" id="dup" value="y">
+                                    <label for="dup">중복 투표 허용</label>
+                                </div>
+                                
+
+                            </div>
+                            
+
+                        </div>
+
+
                         <div class="write-content"><textarea id="summernote" name="content"></textarea></div>
                     </div>
 
@@ -126,33 +256,10 @@
 </html>
 
 	<script>
-	// 기본 셋팅 (수정x)
-	function basicSetting() {
-			const nav = document.querySelector("nav");
-			const main = document.querySelector("main");
-			const mainArea = document.querySelector("#main-area");
-			const navArea = document.querySelector("#nav-area");
-			mainArea.innerHTML = main.innerHTML;
-			navArea.innerHTML = nav.innerHTML;
-			main.innerHTML = "";
-			nav.innerHTML = "";
-		}
+        basicSetting(); // 기본 셋팅
+        headerName('게시판'); // 현재 페이지 이름
+        firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'], '공지 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 
-		// 수정1,2 : navMenu1,2에 메뉴를 적어주세요
-		function firstNav() {
-			const mainChoice = document.querySelector("#main-choice");
-			let navMenu1 = ['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'];
-
-			let menus = "";
-			for (let menu of navMenu1) {
-				menus += "<div class='choice-elem'><div class='title-elem'>" + menu + "</div></div>"
-			}
-			mainChoice.innerHTML = menus;
-		}
-
-		// 함수 실행
-		basicSetting();
-		firstNav();
 
         //서머노트
         $('#summernote').summernote({
@@ -172,4 +279,30 @@
             ['view', ['fullscreen', 'codeview', 'help']]
             ]
         });
+
+
+        // click on 라벨 추가 모달 열기
+
+        const voteBtn = document.querySelector("#vote-btn");
+        const modal = document.querySelector(".modal");
+
+        voteBtn.addEventListener('click', function(e) {
+            modal.classList.remove('hidden');
+        });
+
+        $(document).on('click', '#add-btn', function (e) {
+            console.log("click event");
+            $('#modal').addClass('show');
+        
+        });
+        
+        // 모달 닫기
+        $(document).on('click', '#close_btn', function (e) {
+            console.log("click event");
+            $('#modal').removeClass('show');
+        
+        });
+
+
+        
 	</script>
