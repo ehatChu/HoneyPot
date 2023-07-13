@@ -17,7 +17,7 @@ public class FeeController {
 	//회원 납부 화면
 	@GetMapping("member/pay")
 	public String payFee() {
-		return "mypage/myInfo/fee/pay";
+		return "/mypage/myInfo/fee/pay";
 	}
 	
 	
