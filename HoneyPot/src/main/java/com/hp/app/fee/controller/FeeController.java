@@ -20,6 +20,14 @@ public class FeeController {
 		return "/mypage/myInfo/fee/pay";
 	}
 	
+	// 관리자 조회
+	@GetMapping("admin")
+	public String list() {
+		return "/admin/fee/list";
+	}
+	
+	// 관리자 등록
+	
 	
 	
 }
