@@ -49,7 +49,15 @@ public class CSCController {
 	}
 	
 	// 신고내역(화면)
+	@GetMapping("admin/report-list")
+	public String adminReportList() {
+		return "csc/admin/report-list";
+	}
 	
 	// 제재내역(화면)
+	@GetMapping("admin/faq")
+	public String adminFAQ() {
+		return "csc/admin/faq";
+	}
 	
 }
