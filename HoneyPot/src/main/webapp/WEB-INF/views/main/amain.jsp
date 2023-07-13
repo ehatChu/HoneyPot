@@ -374,10 +374,10 @@
             color: blue;
         }
         .green1 {
-            color: green;
+            color: #03A800;
         }
         .yellow1 {
-            color: yellow;
+            color: #FFB800;
         }
 
         .like1 {
@@ -413,7 +413,7 @@
             height: 280px;
             border-radius: 50%;
             transition: 0.3s;
-            display: inline-block;
+            display: flex;
         }
 
         .graph:after {
@@ -577,11 +577,11 @@
                             <div id="dbox">
                                 <div id="bbox" class="box">
                                     <div id="tit3">신고</div>
-                                    <div id="tit4">11</div>
+                                    <div id="tit4" class="red1">11</div>
                                 </div>
                                 <div id="bbox" class="box">
                                     <div id="tit3">문의</div>
-                                    <div id="tit4">5</div>
+                                    <div id="tit4" class="yellow1">5</div>
                                 </div>
                             </div>
                         </div>
@@ -590,11 +590,11 @@
                             <div id="dbox">
                                 <div id="bbox" class="box">
                                     <div id="tit3">가입 대기</div>
-                                    <div id="tit4">3</div>
+                                    <div id="tit4" class="green1">3</div>
                                 </div>
                                 <div id="bbox" class="box">
                                     <div id="tit3">입주민 수</div>
-                                    <div id="tit4">476</div>
+                                    <div id="tit4" class="blue1">476</div>
                                 </div>
                             </div>
                         </div>
