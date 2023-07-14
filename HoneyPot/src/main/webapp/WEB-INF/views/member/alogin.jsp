@@ -61,6 +61,10 @@
 				height: 140px;
 			}
 
+			.bee {
+				margin-left: -100px;
+			}
+
 			#bee1 {
 				margin-top: 0px;
 			}
@@ -117,9 +121,9 @@
 					<div id="f02">푸리미엄 꿀단지 그룹웨어 관리자 페이지입니다</div>
 				</div>
 				<div id="d02">
-					<img id="bee1" src="/app/resources/main/image_14.png">
-					<img id="bee2" src="/app/resources/main/image_14.png"> 
-					<img id="bee3" src="/app/resources/main/image_14.png">
+					<img class="bee" id="bee1" src="/app/resources/main/image_14.png">
+					<img class="bee" id="bee2" src="/app/resources/main/image_14.png"> 
+					<img class="bee" id="bee3" src="/app/resources/main/image_14.png">
 				</div>
 			</div>
 			<div id="floor2">
