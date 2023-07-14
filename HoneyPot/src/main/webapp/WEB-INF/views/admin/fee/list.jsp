@@ -11,11 +11,12 @@
 
 	<style>
 		#wrap {
-			height: 1300px;
+			height: 1400px;
 			display: grid;
-			grid-template-rows: 600px 600px;
+			grid-template-rows: 600px 800px;
 		}
 
+        /* 관리비 내역, 등록, 수정 영역 */
         #list-area {
 			display: grid;
 			grid-template-rows: 50px 500px 50px;
@@ -31,7 +32,7 @@
 		}
 
 		#search-area > div:first-child {
-            width: 230px;
+            width: 250px;
             height: 50px;
 			font-weight: 500;
 			font-size: 23px;
@@ -94,10 +95,6 @@
 			grid-template-columns: 950px 564px;
 			justify-items: end;
 			align-items: center;
-            background-color: #FFFFFF;
-
-            border: 1px solid #FFFFFF;
-			box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 			border-radius: 0 0 10px 0;
 		}
 		
@@ -106,11 +103,20 @@
 			align-items: baseline;
 		}
 
-		.paging > div {
-			width: 20px;
-			height: 20px;
-			margin-right: 40px;
-		}
+        #page-area > .paging >.pageBtn {
+            font-weight: bold;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: transparent;
+        }
+
+        #page-area > .paging > .pageBtn:hover{
+            background-color: #FAD355;
+            color: white;
+        }
 
 		#editBtn, #delBtn {
 			border: none;
@@ -202,6 +208,15 @@
 			height: 30px;
 		}
 
+        .first-area > div:nth-child(2) > .categorySearch > input {
+            width: 180px;
+            height: 30px;
+        }
+
+        .first-area > div:nth-child(2) > .categorySearch > i {
+            margin-left: 10px;
+        }
+
 		#acnt_category{
 			width: 170px;
 			height: 30px;
@@ -248,6 +263,71 @@
 		}
 
 	
+        /* 관리비 월 총괄표 */
+        #month-total-area {
+            margin-top: 150px;
+            display: grid;
+			grid-template-rows: 50px 500px 50px;
+        }
+        
+        .excel {
+            background-color: none;
+            margin-right: 20px;
+        }
+
+        .A_detail > tbody > #subTotal {
+            background-color: rgba(253, 255, 160, 0.326);
+            font-weight: 550;
+        }
+
+        .A_detail > tbody > #test {
+            background-color: #ffffff;
+        }
+        
+        #title-area {
+            display: flex;
+			justify-content: space-between;
+			align-items: center;
+            background-color: #ffffff;
+            border-radius: 20px 20px 0 0;
+        }
+
+        #title-area > div:first-child {
+            width: 250px;
+            height: 50px;
+			font-weight: 500;
+			font-size: 23px;
+			color: #4A321F;
+            display: flex;
+            align-items: center;
+            background: #ffce31;
+            border-radius: 20px 20px 0px 0px;
+		}
+
+        #title-area > div > #date-box {
+            border-radius: 20px 0px 0 0;
+            background: #ffce31;
+            border: none;
+            font-size: 20px;
+            font-weight: 600;
+            margin-left: 10px;
+            margin-right: 20px;
+        }
+
+		#title-area > div:nth-child(2) > input{
+			width: 300px;
+			height: 40px;
+			border-radius: 20px;
+			margin-right: 20px;
+			font-size: 15px;
+			padding: 20px;
+		}
+
+        #search-area > div:nth-child(2) > i {
+            margin-right: 10px;
+        }
+
+       
 
 	</style>
 
@@ -260,6 +340,7 @@
 
 			<main>
 				<div id="wrap">
+                    <!-- 관리비 등록,수정 -->
                     <div id="list-area">
                         <div id="search-area">
                             <div>
@@ -302,13 +383,30 @@
                         </div>
                         <div id="page-area">
                             <div class="paging">
-                                <div><i class="fa-solid fa-angle-left fa-lg" style="color: #ffce31;"></i></div>
-                                <c:forEach begin="1" end="5">
-                                    <div class="num-area">1</div>
-                                </c:forEach>
-                                <div><i class="fa-solid fa-angle-right fa-lg" style="color: #ffce31;"></i></div>
+                                <button class="pageBtn"><</button>
+                                <button class="pageBtn">1</button>
+                                <button class="pageBtn">2</button>
+                                <button class="pageBtn">3</button>
+                                <button class="pageBtn">4</button>
+                                <button class="pageBtn">5</button>
+                                <button class="pageBtn">></button>
+                                <!-- <c:if test="${pv.currentPage > 1}">
+                                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
+                                </c:if>
+                                    <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+                                        <c:if test="${pv.currentPage != i}">
+                                            <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
+                                        </c:if>
+                                        <c:if test="${pv.currentPage == i}">
+                                            <a class="btn btn-primary btn-sm">${i}</a>
+                                        </c:if>
+                                    </c:forEach>
+                                <c:if test="${pv.currentPage < pv.maxPage}">
+                                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
+                                </c:if> -->
                             </div>
                             <button id="openBtn" class="openBtn">등록</button>
+                            <!-- 모달 영역 -->
                             <div class="modal hidden">
                                 <div class="bg"></div>
                                     <div class="modalBox">
@@ -328,16 +426,7 @@
                                                         <span>카테고리</span>
                                                         <br>
                                                         <!-- 검색 영역으로 만들기 -->
-                                                        <select id="fee_category">
-                                                            <option value="생활/마트">일반관리비</option>
-                                                            <option value="의료/건강">수선유지비</option>
-                                                            <option value="문화/예술">소독비</option>
-                                                            <option value="경조사/회비">열요금</option>
-                                                            <option value="금융/보험">경비용역비</option>
-                                                            <option value="교통/차량">감가상각비</option>
-                                                            <option value="뷰티/미용">전기료</option>
-                                                            <option value="기타지출">승강기유</option>
-                                                          </select>
+                                                        <div class="categorySearch"><input type="text" placeholder="검색 할 내용을 입력하세요."><i class="fa-solid fa-magnifying-glass fa-lg" ><a href=""></a></i></div>
                                                     </div>
                                                 </div>
                                                 <div class="second-area">
@@ -357,8 +446,84 @@
                             </div>
                         </div>
                     </div>
-                    <div>
 
+                    <!-- 관리비 월별 총괄표-->
+                    <div id="month-total-area">
+                        <div id="title-area">
+                            <div>
+                                <select name="" id="date-box">
+									<option value="2023-02">02월</option>
+									<option value="2023-03">03월</option>
+									<option value="2023-04">04월</option>
+									<option value="2023-05">05월</option>
+									<option value="2023-06" selected>06월</option>
+								</select>
+                               <div>관리비 총괄표</div>                            
+                            </div>
+                            <div>
+                                <div><img src="/app/resources/temp/excel.png" alt="" width="40px" height="40px" class="excel"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <table class="A_detail">
+                                <thead>
+                                    <tr class="line">
+                                        <th>항목</th>
+                                        <th>당월 발생금액</th>
+                                        <th>전월 발생금액</th>
+                                        <th>비고</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- <c:forEach begin="1" end="5"> -->
+                                        <tr class="line" id="test">
+                                            <td>일반관리비</td>
+                                            <td>21,750,840</td>
+                                            <td>21,640,330</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr class="line" id="test">
+                                            <td>감가상각비</td>
+                                            <td>490,000</td>
+                                            <td>490,000</td>
+                                            <td>일반관리비에서 분리</td>
+                                        </tr>
+                                        <tr class="line" id="subTotal">
+                                            <td>소계</td>
+                                            <td>55,740,840</td>
+                                            <td>55,740,840</td>
+                                            <td></td>
+                                        </tr>
+                                    <!--</c:forEach>-->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="page-area">
+                            <div class="paging">
+                                <button class="pageBtn"><</button>
+                                <button class="pageBtn">1</button>
+                                <button class="pageBtn">2</button>
+                                <button class="pageBtn">3</button>
+                                <button class="pageBtn">4</button>
+                                <button class="pageBtn">5</button>
+                                <button class="pageBtn">></button>
+                                <!-- <c:if test="${pv.currentPage > 1}">
+                                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
+                                </c:if>
+                                    <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+                                        <c:if test="${pv.currentPage != i}">
+                                            <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
+                                        </c:if>
+                                        <c:if test="${pv.currentPage == i}">
+                                            <a class="btn btn-primary btn-sm">${i}</a>
+                                        </c:if>
+                                    </c:forEach>
+                                <c:if test="${pv.currentPage < pv.maxPage}">
+                                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
+                                </c:if> -->
+                            </div>
+                            </div>
+                        </div>
                     </div>
 				</div>
 			</main>
@@ -417,7 +582,9 @@
         // 삭제 알림창
         // 백엔드 작업 시 삭제 버튼에 del 함수 걸어주기
         $().ready(function () {
-        $("#delBtn").click(function () {
+            const delBtns = document.querySelectorAll("#delBtn")
+            delBtns.forEach((btn) => {
+            btn.addEventListener("click", function () {
             Swal.fire({
                 title: '삭제하시겠습니까?',
                 text: "다시 되돌릴 수 없습니다.",
@@ -435,8 +602,9 @@
                         '삭제가 완료되었습니다.',
                     )
                 }
-            })
-        });
-    });
+            });
+        }
+            )}
+            )});
 		
 	</script>
