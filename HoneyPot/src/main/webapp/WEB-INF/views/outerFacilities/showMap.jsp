@@ -12,7 +12,9 @@
 	<nav>
 		
 	</nav>
-
+	
+	
+	
 	<main>
 		<div id="wrap">
 			<div id="map" style="width:1000px;height:500px;"></div>
@@ -22,7 +24,10 @@
 
 </body>
 </html>
-
+<script type="text/javascript">
+	basicSetting(); // 기본 셋팅
+	headerName('주변시설평가'); // 현재 페이지 이름
+</script>
 <script>
 
 	var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
@@ -33,7 +38,6 @@
 
 	var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 
-	basicSetting(); // 기본 셋팅
-	headerName('주변시설평가'); // 현재 페이지 이름
+	
 	
 </script>
