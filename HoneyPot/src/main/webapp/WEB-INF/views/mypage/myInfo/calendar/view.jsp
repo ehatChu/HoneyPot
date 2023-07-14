@@ -15,7 +15,7 @@
 
     #main-wrapper > div {
         padding :10px;
-        border: 3px solid red;
+      
        
     }
     #calendar {
@@ -30,23 +30,54 @@
     .star-font-size{
         font-size: 1.5em;
         /* color: transparent; */
+        
     }
 
-   .color-gray {
-        color: transparent; 
-        text-shadow: 0 0 0 lightgray;
-        
-   }
-   .color-gold {
+    .color-gold {
         color: transparent; 
         text-shadow: 0 0 0 #FFD601;
         
-   }
-
+    }
+    
+    .color-gray {
+         color: transparent; 
+         text-shadow: 0 0 0 lightgray;
+         
+    }
     .middle-text-size {
         font-size: 17px;
     }
-    
+    .cursor {
+        cursor: pointer;
+    }
+    #schedule-area1 {
+        margin: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        padding: 10px;
+        background-color: white;
+        border-radius: 10px;
+        
+    }
+    #schedule-area2 {
+        margin: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        padding: 10px;
+        background-color: white;
+        border-radius: 10px;
+        
+    }
+    .calendar-text-bold {
+        margin-top: 10px;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    h1 {
+        text-align: center; 
+    }
 </style>
 </head>
 <body>
@@ -66,20 +97,23 @@
             </div>
             <div id="schedule-area">
                 <h1><span id="clickDate"></span>의 일정</h1>
-                <div class="text-bold">아파트일정</div>
-                <div>
+                <div class="calendar-text-bold">아파트일정</div>
+                <div id="schedule-area1">
                     <c:forEach var="i" begin="1" end="4">
                         <div>
-                            <label for="star" class="star-font-size color-gold">⭐</label><input type="checkbox" id="star" name="love" value="${i}">    
+                            <span id="star" class="star-font-size color-gold cursor">⭐</span>   
+                            <span class="middle-text-size">아파트 리모델링 예정</span>
+                        </div>
+                    </c:forEach> 
+                </div>
+                <div class="calendar-text-bold">개인일정</div>
+                <div id="schedule-area2">
+                    <c:forEach var="i" begin="1" end="10">
+                        <div>
+                            <span id="star" class="star-font-size color-gold cursor">⭐</span>   
                             <span class="middle-text-size">아파트 리모델링 예정</span>
                         </div>
                     </c:forEach>
-                    
-                   
-                </div>
-                <div class="text-bold">개인일정</div>
-                <div>
-
                 </div>
             </div>
         </div>
@@ -92,14 +126,32 @@
     firstNav(['내정보', '나의활동', '신청내역','관리비'], '내정보'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
     secondNav(['캘린더', '가계부','사유물'], '캘린더'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 </script>
-<script>
-    //star-shape누르면 class추가하고 또누르면 class뺏기
-    const starShape = document.querySelectorAll(".star-shape");
-    
-    //누른 별만 별을 눌렀을 때에 해당별만...에이젝스사용해서 input으로 만들어서..
-   
+<script> 
+    //input의 벨류를 가져와서...checked상태이면 바뀌게
+    //한개가아닌여러개인데 어떻게 처리하려고?
+    //let checkBox = document.querySelectorAll("input[type='checkbox']")
+    //checkBox[0].checked = true;
 
+    // for(let i=0; i<checkBox.length();i++){
+    //     alert(checkBox[i]);
+    // }
+   
+    //누르면 onclick되게
+    let starList = document.querySelectorAll("#star");
+    for(let star of starList){
+        star.addEventListener("click",function(){
+            star.classList.toggle('color-gray');
+        });
+    }
     
+    
+    // let star1 = document.querySelector("#star1");
+    // star1.addEventListener("click",function(){
+    //     star1.classList.toggle('color-gray');
+    //     console.log(star1);
+    // });
+
+ 
     //기본값으로 오늘 날짜가 들어가게
     let today = new Date();
     var clickDate = document.querySelector("#clickDate");
