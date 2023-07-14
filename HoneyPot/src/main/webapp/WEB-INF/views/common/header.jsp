@@ -344,10 +344,22 @@
 				const main = document.querySelector("main");
 				const mainArea = document.querySelector("#main-area");
 				const navArea = document.querySelector("#nav-area");
-				mainArea.innerHTML = main.innerHTML;
-				navArea.innerHTML = nav.innerHTML;
-				main.innerHTML = "";
-				nav.innerHTML = "";
+				
+				while (mainArea.firstChild) {
+				    mainArea.firstChild.remove();
+				}
+
+				while (navArea.firstChild) {
+				    navArea.firstChild.remove();
+				}
+				  
+				while (main.firstChild) {
+				    mainArea.appendChild(main.firstChild);
+				}
+				
+				while (nav.firstChild) {
+				    navArea.appendChild(nav.firstChild);
+				}
 			}
 
 			// 수정1,2 : navMenu1,2에 메뉴를 적어주세요
