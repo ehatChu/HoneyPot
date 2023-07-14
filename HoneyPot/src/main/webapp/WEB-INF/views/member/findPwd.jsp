@@ -20,7 +20,7 @@
 				justify-content: center;
 				align-items: center;
 				width: 1000px;
-				height: 600px;
+				height: 700px;
 				margin: 50px;
 				background-color: #FAD355;
 				border-radius: 60px;
@@ -30,7 +30,7 @@
 				width: 100%;
 				height: 90%;
 				display: grid;
-				grid-template-columns: 1.5fr 3fr 1.5fr;;
+				grid-template-columns: 1.5fr 3fr 1.5fr;
 				align-items: center;
 			}
 
@@ -74,11 +74,14 @@
 						<div></div>
 						<div class="logo">HONEY POT</div>
 						<div></div>
+						<div id="tit">아이디</div>
+						<input type="text" class="box">
+						<div></div>
 						<div id="tit">이메일</div>
 						<input type="text" class="box">
 						<div></div>
 						<div></div>
-						<input type="submit" class="box box2" value="아이디 찾기">
+						<input type="submit" class="box box2" value="비밀번호 찾기">
 						<div></div>
 					</div>
 				</div>
