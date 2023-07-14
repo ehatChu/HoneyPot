@@ -5,191 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-    <style>
-        .inquiry-search-area{
-            width: 1560px;
-            height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            
-        }
-
-        .model-search-area{
-            height: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        .model-search-box-area{
-            width: 900px;
-            height: 60px;
-            background-color: white;
-            display: flex;
-            flex-direction: row;
-            box-shadow: 3px 3px 5px rgb(145, 145, 145);
-        }
-
-        .model-search-category{
-            padding-left: 10px;
-            width: 150px;
-            height: 60px;
-            border: none;
-            font-size: 18px;
-            font-family: 'Noto Sans KR';
-        }
-
-        
-        .model-serach-category:focus{
-            outline: none;
-        }
-
-        .model-serach-input{
-            padding-left: 15px;
-            font-size: 18px;
-            width: 750px;
-            height: 60px;
-            border: none;
-            font-family: 'Noto Sans KR';
-        }
-
-        .model-serach-input:focus{
-            outline: none;
-        }
-
-        .search-btn-area{
-            margin-left: 40px;
-        }
-
-        .search-btn-area > button{
-            width: 130px;
-            height: 50px;
-            border: none;
-            background-color: #FFCE31;
-            font-weight: bold;
-            font-family: 'Noto Sans KR';
-            font-size: 20px;
-        }
-
-        .sanction-list-area{
-            width: 1560px;
-            height: 700px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .sanction-list-table-area{
-            border-radius: 20px;
-            width: 1500px;
-            height: 670px;
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .sanction-list-table{
-            width: 1400px;
-            height: 560px;
-            display: flex;
-            flex-direction: column;
-        }
-
-
-        .sanction-list{
-            width: 1350px;
-            border-bottom: 2px solid rgb(187, 187, 187);
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            height: 90px;
-        }
-
-        .sanction-list-profile{
-            margin-left: 20px;
-            height: 80px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        .sanction-member-profile{
-            width: 55px;
-            height: 55px;
-            border-radius: 70%;
-            background-color: black;
-        }
-
-        .sanction-member-text{
-            width: 100px;
-            margin-left: 10px;
-            font-size: 12px;
-            height: 45px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .sanction-list-content{
-            width: 850px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sanction-list-admin{
-            width: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sanction-list-date{
-            width: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .page-area {
-            width: 1560px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .page-area button {
-            display: inline-block;
-            font-weight: bold;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: transparent;
-        }
-
-        .page-area button:hover{
-            background-color: #FAD355;
-            color: white;
-        }
-
-        .category-color{
-            color: #e7bf3a;
-        }
-
-        .yellow{
-            color: #FFCE31;
-        }
-
-        .red{
-            color: #ff3131;
-        }
-
-
-    </style>
+<link rel="stylesheet" href="/app/resources/css/admin/member/point-list.css">
 </head>
 
 <body>
@@ -371,6 +187,52 @@
                 </div>
 
             </div>
+
+            <button id="temp-btn">모달바 생성</button>
+
+            <div class="background">
+                <div class="window">
+                    <div class="popup">
+                        <div class="model-header-area">
+                            <div class="model-header">
+                                <div class="model-header-text">상벌점 상세내역</div>
+                                <span class="material-symbols-outlined" id="close">
+                                    close
+                                </span>
+                            </div>
+                        </div>
+                        <div class="model-body-area">
+                            <div class="model-body-first">
+                                <div class="model-sanction-date">
+                                    <div class="model-title-text">상벌점 점수</div>
+                                    <div><input class="model-sanction-input" type="text"></div>
+                                </div>
+                                <div class="model-sanction-member">
+                                    <div class="model-title-text1">대상자</div>
+                                    <div class="model-member-info">
+                                        <div>이정민</div>
+                                        <div class="model-member-profile">
+                                            <img src="" alt="프로필사진">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="model-title-text">내용</div>
+                                <textarea name="" id="" class="model-body-content" cols="30" rows="10"></textarea>
+                            </div>
+
+                            <div class="model-btn-area">
+                                <button id="check-btn" class="model-btn margin-r50" type="button">확인</button>
+                                <button id="check-btn" class="model-btn" type="button">수정</button>
+
+                            </div>
+
+                        </div>
+        
+                    </div>
+                <div>
+            <div>
             
         </main>
 
@@ -383,4 +245,20 @@
     headerName('회원관리'); // 현재 페이지 이름
     firstNav(['회원조회', '제재내역', '상벌점내역', '사유물내역'], '상벌점내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
     // secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+
+    // 모달 사용
+    function show () {
+        document.querySelector(".background").className = "background show";
+    }
+
+    function close () { 
+        document.querySelector(".background").className = "background";
+    }
+
+
+    document.querySelector("#temp-btn").addEventListener('click', show);
+    document.querySelector("#close").addEventListener('click', close);
+    document.querySelector("#check-btn").addEventListener('click', close);
+
+    // document,querySelector(".model-content-plist").addEventListener('click',);
 </script>
