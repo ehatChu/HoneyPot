@@ -28,7 +28,7 @@
         display: none;
     }
     .star-font-size{
-        font-size: 2em;
+        font-size: 1.5em;
         /* color: transparent; */
     }
 
@@ -37,11 +37,16 @@
         text-shadow: 0 0 0 lightgray;
         
    }
-
+   .color-gold {
+        color: transparent; 
+        text-shadow: 0 0 0 #FFD601;
+        
+   }
 
     .middle-text-size {
         font-size: 17px;
     }
+    
 </style>
 </head>
 <body>
@@ -53,7 +58,7 @@
     
     
     <main>
-        <div class="star-font-size star-shape zz" style="background-color: red; width: 100px; height: 100px;">⭐안녕22</div>
+        
         <div id="main-wrapper">
             <div id="calendar-area"> 
                 <h1>캘린더</h1>
@@ -63,12 +68,11 @@
                 <h1><span id="clickDate"></span>의 일정</h1>
                 <div class="text-bold">아파트일정</div>
                 <div>
-                    <div class="star-font-size star-shape zz" style="background-color: red; width: 100px; height: 100px;">⭐안녕</div>
                     <c:forEach var="i" begin="1" end="4">
                         <div>
+                            <label for="star" class="star-font-size color-gold">⭐</label><input type="checkbox" id="star" name="love" value="${i}">    
                             <span class="middle-text-size">아파트 리모델링 예정</span>
                         </div>
-
                     </c:forEach>
                     
                    
@@ -82,17 +86,18 @@
     </main>
 </body>
 </html>
-
+<script>
+    basicSetting(); // 기본 셋팅
+    headerName('마이페이지'); // 현재 페이지 이름
+    firstNav(['내정보', '나의활동', '신청내역','관리비'], '내정보'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+    secondNav(['캘린더', '가계부','사유물'], '캘린더'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+</script>
 <script>
     //star-shape누르면 class추가하고 또누르면 class뺏기
-    const starShape = document.querySelectorAll(".zz");
+    const starShape = document.querySelectorAll(".star-shape");
     
-
-    x = document.querySelector('.zz');
-console.log(x);
-x.addEventListener('click' , function(){
-    alert(123);
-});
+    //누른 별만 별을 눌렀을 때에 해당별만...에이젝스사용해서 input으로 만들어서..
+   
 
     
     //기본값으로 오늘 날짜가 들어가게
@@ -135,9 +140,3 @@ x.addEventListener('click' , function(){
 
 </script>
 
-<script>
-    basicSetting(); // 기본 셋팅
-    headerName('마이페이지'); // 현재 페이지 이름
-    firstNav(['내정보', '나의활동', '신청내역','관리비'], '내정보'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    secondNav(['캘린더', '가계부','사유물'], '캘린더'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
-</script>
