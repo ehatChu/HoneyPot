@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지 게시판</title>
+<title>장터 게시판</title>
 <style>
 
 	/* 검색바 */
@@ -69,7 +69,6 @@
 		background-color: rgb(155, 155, 155);
 	}
 
-
 	/* 목록 구역 */
 	.list-content-area {
 		padding: 25px;
@@ -99,33 +98,42 @@
 	}
 
 	/* 목록 */
-	table {
-		margin: 30px;
-		border-collapse: collapse;
+	.gallery-area {
+		display: grid;
+		place-items: center;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+	}
+
+	#product {
+		height: 300px;
+		width: 270px;
+		margin: 20px;
 		font-size: 18px;
-		width: 1350px;
+		font-weight: bold;
+
+		display: grid;
+		place-items: center;
 	}
 
-	.board-list-area, .page-area {
-		width: 1560px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	#product-img {
+		display: grid;
+		place-items: center;
+		height: 240px;
+		width: 270px;
 	}
 
-	#board-list td {
-		padding: 12px 50px;
-		margin-bottom: 20px;
-		border-bottom: 3px solid #FAD355;
+	#product-img > img {
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+		border-radius: 30px;
 	}
 
-	#board-list tr:hover {
-		background-color: #fdeaab;
-		transition: 0.3s;
-		cursor: pointer;
-	}
+	#like {margin-top: 7px;}
 
 	.fa-heart { color: red; }
+
+	img:hover, #title:hover, #like:hover { cursor: pointer; }
 
 	/* 글쓰기 버튼 */
 	.btn-area {
@@ -135,7 +143,10 @@
 		align-items: center;
 	}
 
-	#btn-box { margin-right: 125px; }
+	#btn-box {
+		margin-top: 40px;
+		margin-right: 125px;
+	}
 
 	#btn-box > button {
 		width: 100px;
@@ -176,6 +187,8 @@
 		color: white;
 	}
 
+	/* div { border: 1px solid red; } */
+
 </style>
 </head>
 <body>
@@ -215,18 +228,60 @@
 					</div>
 				</div>
 
-				<div class="board-list-area">
-					<table id="board-list">
-						<c:forEach begin="1" end="10">
-							<tr>
-								<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-								<td>관리자</td>
-								<td>2023.01.01</td>
-								<td><i class="fa-solid fa-heart"></i>좋아요</td>
-								<td><i class="fa-solid fa-eye"></i>조회수</td>
-							</tr>
-						</c:forEach>
-					</table>
+				<div class="gallery-area">
+					<c:forEach begin="1" end="2">
+						<div id="product">
+							<div id="product-img">
+								<img src="/app/resources/brick.jpg" alt="상품사진">
+							</div>
+							<div id="title">
+								[판매] 닌텐도 스위치
+							</div>
+							<div id="like">
+								<i class="fa-solid fa-heart"></i>
+								좋아요
+							</div>
+						</div>
+
+						<div id="product">
+							<div id="product-img">
+								<img src="/app/resources/main/honeyPot.png" alt="상품사진">
+							</div>
+							<div id="title">
+								[판매] 푸리미엄 꿀단지
+							</div>
+							<div id="like">
+								<i class="fa-solid fa-heart"></i>
+								좋아요
+							</div>
+						</div>
+	
+						<div id="product">
+							<div id="product-img">
+								<img src="/app/resources/main/logo.png" alt="상품사진">
+							</div>
+							<div id="title">
+								[판매] 벌집 로고
+							</div>
+							<div id="like">
+								<i class="fa-solid fa-heart"></i>
+								좋아요
+							</div>
+						</div>
+	
+						<div id="product">
+							<div id="product-img">
+								<img src="/app/resources/profile/exam_profile.png" alt="상품사진">
+							</div>
+							<div id="title">
+								[판매] 아름다움씨 사진 팝니다
+							</div>
+							<div id="like">
+								<i class="fa-solid fa-heart"></i>
+								좋아요
+							</div>
+						</div>
+					</c:forEach>
 				</div>
 		
 				<div class="btn-area">
@@ -274,5 +329,5 @@
 <script>
 	basicSetting(); // 기본 셋팅
 	headerName('게시판'); // 현재 페이지 이름
-	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'], '공지 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'], '장터 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 </script>

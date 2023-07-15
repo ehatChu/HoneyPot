@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("board")
 public class BoardController {
 	
-	//게시글 작성(화면)
+	//게시글 작성
 	@GetMapping("write")
 	public String write() {
 		return "board/write";
@@ -18,6 +18,12 @@ public class BoardController {
 	@GetMapping("list")
 	public String list() {
 		return "board/list";
+	}
+	
+	//장터 게시판
+	@GetMapping("market")
+	public String market() {
+		return "board/market";
 	}
 	
 	
