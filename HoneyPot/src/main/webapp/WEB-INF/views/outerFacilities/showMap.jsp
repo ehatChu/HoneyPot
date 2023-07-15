@@ -451,7 +451,8 @@
 		/*
 		data : 검색결과나오는 데이터들
 		status : 검색결과 상태
-		paination : 
+		paination : #id가 page인 구역도 있고
+					검색결과 나온 정보중 하나로 추정됨
 		*/
 		if (status === kakao.maps.services.Status.OK) {
 
@@ -476,8 +477,9 @@
 	}
 
 	// 검색 결과 목록과 마커를 표출하는 함수입니다
+	/*검색결과로 나온 데이터들로 목록과 마커를 생성함.*/
 	function displayPlaces(places) {
-
+		/*id가 리스트인 요소를 가져와서 그 요소에 ...*/
 		var listEl = document.getElementById('placesList'), 
 		menuEl = document.getElementById('menu_wrap'),
 		fragment = document.createDocumentFragment(), 
