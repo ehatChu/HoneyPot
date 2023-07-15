@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONArray;
@@ -40,7 +42,7 @@ public class DataController {
 		return "data/breakFast";
 	}
 
-	@GetMapping("weather")
+	@GetMapping(value = "weather", produces = "text/plain")
 	@ResponseBody
 	public String weather() throws Exception {
 		String apiUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
@@ -82,50 +84,6 @@ public class DataController {
 		conn.disconnect();
 
 		String result = sb.toString();
-
-		// 파싱
-		JSONObject jsonObj_1 = new JSONObject(result);
-		JSONObject response = jsonObj_1.getJSONObject("response");
-		JSONObject body = response.getJSONObject("body");
-		JSONObject items = body.getJSONObject("items");
-		JSONArray jsonArray = items.getJSONArray("item");
-
-		String sky = "하늘상태 : ";
-		String pty = "강수형태 : ";
-		String pop = "강수확률 : ";
-		String reh = "습도 : ";
-		String tmp = "기온 : ";
-		
-		for (int i = 0; i < jsonArray.length(); i++) {
-			items = jsonArray.getJSONObject(i);
-			String fcstValue = items.getString("fcstValue");
-			String category = items.getString("category");
-
-			switch (category) {
-				case "SKY":
-					switch (fcstValue) {
-						case "1": sky += "맑음";	break;
-						case "3": sky += "구름 많음";	break;
-						case "4": sky += "흐림";	break;
-					}
-					break;
-				case "PTY":
-					switch (fcstValue) {
-						case "0": pty += "없음";	break;
-						case "1": pty += "비";	break;
-						case "2": pty += "비/눈";		break;
-						case "3": pty += "눈";	break;
-						case "4": pty += "소나기";	break;
-					}
-					break;
-				case "POP": pop += fcstValue; break;
-				case "REH": reh += fcstValue; break;
-				case "TMP": tmp += fcstValue; break;
-			}
-		}
-		
-		String weather = sky + "\n" + pty + "\n" + pop + "\n" + reh + "\n" + tmp + "\n EncodingError (o.o)";
-		System.out.println(weather);
-		return weather;
+		return result;
 	}
 }

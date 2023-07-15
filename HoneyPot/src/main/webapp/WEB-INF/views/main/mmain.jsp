@@ -394,8 +394,9 @@
 							<% } %>
 					</div>
 					<div id="box1">
-						<div id="box2" class="box">
-							<img id="weatherImg" src="/app/resources/main/weather.PNG">
+						<div id="box2" class="box weatherBox">
+
+							<!-- <img id="weatherImg" src="/app/resources/main/weather.PNG">
 							<div id="weatherTxt">
 								<div id="grayCircle"></div>
 								<div>미세먼지</div>
@@ -413,7 +414,7 @@
 								<div id="bar"></div>
 								<div id="bar"></div>
 								<div id="bar"></div>
-							</div>
+							</div> -->
 						</div>
 
 						<div id="box3" class="box">
@@ -518,6 +519,18 @@
 	<script>
 		basicSetting(); // 기본 셋팅
 		headerName('홈'); // 현재 페이지 이름
+
+		// 날씨 정보 로드 (페이지가 실행된 뒤)
+		window.addEventListener('load', function() {
+			const weatherBox = document.querySelector(".weatherBox");
+			let state = getWeatherState();
+			let info = "";
+
+			for (let s of state) {
+				info += s + "<br>";
+			}
+			weatherBox.innerHTML = info;
+		});
 
 		// 캘린더
 		(function () {
