@@ -6,6 +6,17 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		
+		<!-- full calendar lib-->
+		<!-- jquery CDN -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<!-- fullcalendar CDN -->
+		<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+		<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+		<!-- fullcalendar 언어 CDN -->
+		<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+		<!-- sweetAlert CDN -->
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 		<!-- 구글 아이콘 -->
 		<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />

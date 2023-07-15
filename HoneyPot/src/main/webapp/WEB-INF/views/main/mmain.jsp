@@ -50,6 +50,7 @@
 			display: flex;
 			justify-content: space-between;
 		}
+
 		#zzz02 {
 			height: 200px;
 			background-color: #EAEAEA;
@@ -123,7 +124,7 @@
 		}
 
 		.bar3 {
-			height : 140px;
+			height: 140px;
 		}
 
 		.bar {
@@ -135,15 +136,17 @@
 
 		.bar11 {
 			background-color: #BDBDBD;
-			height : 70px;
+			height: 70px;
 		}
+
 		.bar22 {
 			background-color: #FFC300;
-			height : 90px;
+			height: 90px;
 		}
+
 		.bar33 {
 			background-color: #884F22;
-			height : 50px;
+			height: 50px;
 		}
 
 
@@ -159,22 +162,22 @@
 			margin-bottom: 20px;
 		}
 
-		#calendar {
-			height: 400px;
+		#calendar-container {
+			width: 400px;
+			height: 380px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
+		}
+
+		#calendar {
+			width: 350px;
 		}
 
 		#schedule {
 			width: 300px;
 			display: flex;
 			align-items: center;
-		}
-
-		#calendarImg {
-			width: 370px;
-			height: 340px;
 		}
 
 		#starImg {
@@ -372,8 +375,8 @@
 				<div id="floor1">
 					<div id="box1" class="box">
 						<div id="tit1">캘린더</div>
-						<div id="calendar">
-							<img id="calendarImg" src="/app/resources/main/image_11.png">
+						<div id='calendar-container'>
+							<div id='calendar'></div>
 						</div>
 					</div>
 					<div id="box1" class="box">
@@ -453,7 +456,7 @@
 						<div id="zzz01">
 							<div id="box4" class="box">
 								<div id="tit1">우수이웃</div>
-								
+
 								<div class="rank">
 									<div class="rankBar bar1">
 										<img id="rankImg1" src="/app/resources/main/_______3.png">
@@ -514,5 +517,57 @@
 
 	<script>
 		basicSetting(); // 기본 셋팅
-    	headerName('홈'); // 현재 페이지 이름
+		headerName('홈'); // 현재 페이지 이름
+
+		// 캘린더
+		(function () {
+			$(function () {
+				var calendarEl = $('#calendar')[0];
+				// full-calendar 생성
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+					height: '350px', // calendar 높이 설정
+					expandRows: true, // 화면에 맞게 높이 재설정
+					// 해더에 표시할 툴바
+					headerToolbar: {
+						left: 'prev',
+						center: 'title',
+						right: 'next'
+					},
+					initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+					navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+					selectable: true, // 달력 일자 드래그 설정가능
+					nowIndicator: true, // 현재 시간 마크
+					dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+					locale: 'ko',
+					eventAdd: function (obj) { // 이벤트가 추가되면 발생하는 이벤트
+						console.log(obj);
+					},
+					eventRemove: function (obj) { // 이벤트가 삭제되면 발생하는 이벤트
+						console.log(obj);
+					},
+					select: function (arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+						var title = prompt('Event Title:');
+						if (title) {
+							calendar.addEvent({
+								title: title,
+								start: arg.start,
+								end: arg.end,
+								allDay: arg.allDay
+							})
+						}
+						calendar.unselect()
+					},
+
+					// DB 받아와서 넣어주기
+					events: [
+						// {
+						// 	title: 'All Day Event',
+						// 	start: '2023-07-01',
+						// },
+					]
+				});
+				// 캘린더 랜더링
+				calendar.render();
+			});
+		})();
 	</script>
