@@ -32,4 +32,14 @@ public class AdminTempController {
 		return "admin/member/property-list";
 	}
 	
+	//관리자 편의시설 정보변경
+	@GetMapping("library/editInfo")
+	public String editInfo() {
+		return "facilities/library-editInfo";
+	}
+	
+	@GetMapping("reserve-list")
+	public String manageReservation() {
+		return "admin/facilities/list";
+	}
 }
