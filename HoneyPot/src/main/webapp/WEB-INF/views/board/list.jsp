@@ -4,53 +4,46 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시판</title>
 <style>
 
-	div {
-		border: 1px solid red;
-	}
-
+	/* 검색바 */
 	.board-search-area {
 		width: 1560px;
-		height: 140px;
-		background-color: #EAEAEA;
-		display: grid;
-		grid-template-columns: 1fr 1fr;
+		margin-top: 25px;
+		display: flex;
 		justify-content: end;
 		align-items: center;
 	}
 
-	select {
-		-moz-appearance: none;
+	select[name=searchType] {
+		/* -moz-appearance: none;
 		-webkit-appearance: none;
 		appearance: none;
-		border: none;
-	}
-
-	select[name=searchType]{
-		width: 50px;
+		border: none; */
+		width: 95px;
 		height: 50px;
 		background-color: white;
-		border: 1px solid black;
+		border: 1px solid rgb(155, 155, 155);
 		border-radius: 10px;
+		outline: none;
 		display: flex;
 		justify-self: right;
-		align-items: center;
-		margin-right: 100px;
+		margin-right: 10px;
 		font-size: 18px;
+		text-align: center;
 	}
 
 	#board-search {
 		width: 400px;
 		height: 50px;
 		background-color: white;
-		border: 1px solid black;
+		border: 1px solid rgb(155, 155, 155);
 		border-radius: 10px;
 		display: flex;
 		justify-self: center;
 		align-items: center;
-		margin-right: 100px;
+		margin-right: 45px;
 	}
 
 	input[name=boardSearch] {
@@ -58,20 +51,54 @@
 		border: none;
 		width: 330px;
 		height: 30px;
+		font-size: 18px;
 	}
 
 	input[name=boardSearch]:focus {outline:none;}
 
-	#board-search-icon {
+	#search-btn {
 		margin-left: 10px;
-		font-size: 35px;
+		font-size: 20px;
+		border: none;
+		background: none;
+		border-radius: 10px;
 	}
 
-	/* .white-area {
-		background-color: #EAEAEA;
-	} */
+	#search-btn:hover {
+		cursor: pointer;
+		background-color: rgb(155, 155, 155);
+	}
 
 
+	/* 목록 구역 */
+	.list-content-area {
+		padding: 25px;
+		text-align: center;
+	}
+
+	.list-bg {
+		background: white;
+		border-radius: 20px;
+	}
+
+	/* 정렬타입 */
+	.sort-type-area {
+		align-items: center;
+		justify-content: center;
+		text-align: right;
+		font-weight: bold;
+	}
+
+	select[name=sortType]{
+		border: none;
+		outline: none;
+		margin-top: 25px;
+		margin-right: 30px;
+		font-size: 18px;
+		font-weight: bold;
+	}
+
+	/* 목록 */
 	table {
 		margin: 30px;
 		border-collapse: collapse;
@@ -84,7 +111,6 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background: #ffffff;
 	}
 
 	#board-list td {
@@ -101,29 +127,26 @@
 
 	.fa-heart { color: red; }
 
+	/* 글쓰기 버튼 */
 	.btn-area {
-		margin-bottom: 15px;
 		width: 1560px;
 		display: flex;
 		justify-content: right;
 		align-items: center;
-		background: #ffffff;
 	}
 
-	#btn-box {
-		margin-right: 200px;
-	}
+	#btn-box { margin-right: 125px; }
 
 	#btn-box > button {
-		width: 80px;
+		width: 100px;
 		height: 40px;
 		background-color: #FAD355;
 		color: black;
-		font-weight: bold;
 		border-radius: 10px;
 		border: none;
 		text-align: center;
-		margin-right: 7px;
+		font-size: 18px;
+		font-weight: bold;
 	}
 
 	#btn-box > button:hover {
@@ -131,14 +154,16 @@
 		cursor: pointer;
 	}
 
+	/* 페이지 버튼 */
 	.page-area {
-		margin: 15px;
+		margin-top: 10px;
+		padding-bottom: 15px;
 	}
 
-	.page-area button {
+	.page-area > button {
 		display: inline-block;
 		font-weight: bold;
-		font-size: 18px;
+		font-size: 20px;
 		border: none;
 		border-radius: 5px;
 		padding: 10px 20px;
@@ -162,133 +187,82 @@
 	<main>
 
 		<div class="board-search-area">
-
-			<!-- <div id="search-type">
+			<div id="search-type">
 				<select name="searchType">
 					<option value="title">제목</option>
 					<option value="writer">글쓴이</option>
 				</select>
-			</div> -->
-
-			<div id="board-search">
-				<select name="searchType">
-					<option value="title">제목</option>
-					<option value="writer">글쓴이</option>
-				</select>
-
-				<input type="search" name="boardSearch">
-				<span id="board-search-icon" class="material-symbols-outlined">search</span>
 			</div>
 
+			<div id="board-search">
+				<input type="search" name="boardSearch">
+				<span><button type="button" id="search-btn"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button></span>
+			</div>
+		</div>
+
+		<div class="list-content-area">
+			<div class="list-bg">
+
+				<div class="sort-type-area">
+					<div id="sort-type">
+						<select name="sortType">
+							<option value="date">최신순</option>
+							<option value="like">인기순</option>
+							<option value="hit">조회순</option>
+
+						</select>
+					</div>
+				</div>
+
+				<div class="board-list-area">
+					<table id="board-list">
+						<c:forEach begin="1" end="10">
+							<tr>
+								<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
+								<td>관리자</td>
+								<td>2023.01.01</td>
+								<td><i class="fa-solid fa-heart"></i>좋아요</td>
+								<td><i class="fa-solid fa-eye"></i>조회수</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+		
+				<div class="btn-area">
+					<div id="btn-box">
+						<button type="button" id="write-btn" onclick="">글쓰기</button>
+					</div>
+				</div>
+		
+				<div class="page-area">
+					<button><</button>
+					<button>1</button>
+					<button>2</button>
+					<button>3</button>
+					<button>4</button>
+					<button>5</button>
+					<button>></button>
+					<!-- <c:if test="${pv.currentPage > 1}">
+						<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
+					</c:if>
+						<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+							<c:if test="${pv.currentPage != i}">
+								<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
+							</c:if>
+							<c:if test="${pv.currentPage == i}">
+								<a class="btn btn-primary btn-sm">${i}</a>
+							</c:if>
+						</c:forEach>
+					<c:if test="${pv.currentPage < pv.maxPage}">
+						<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
+					</c:if> -->
+				</div>
+	
+			</div>
 		</div>
 
 
-			<div class="board-list-area">
-				<table id="board-list">
-					<tr>
-						<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-						<td>관리자</td>
-						<td>2023.01.01</td>
-						<td><i class="fa-solid fa-heart"></i>좋아요</td>
-						<td><i class="fa-solid fa-eye"></i>조회수</td>
-					</tr>
-	
-					<tr>
-						<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-						<td>관리자</td>
-						<td>2023.01.01</td>
-						<td><i class="fa-solid fa-heart"></i>좋아요</td>
-						<td><i class="fa-solid fa-eye"></i>조회수</td>
-					</tr>
-					<tr>
-						<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-						<td>관리자</td>
-						<td>2023.01.01</td>
-						<td><i class="fa-solid fa-heart"></i>좋아요</td>
-						<td><i class="fa-solid fa-eye"></i>조회수</td>
-					</tr>
-					<tr>
-						<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-						<td>관리자</td>
-						<td>2023.01.01</td>
-						<td><i class="fa-solid fa-heart"></i>좋아요</td>
-						<td><i class="fa-solid fa-eye"></i>조회수</td>
-					</tr>
-					<tr>
-						<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-						<td>관리자</td>
-						<td>2023.01.01</td>
-						<td><i class="fa-solid fa-heart"></i>좋아요</td>
-						<td><i class="fa-solid fa-eye"></i>조회수</td>
-					</tr>
-					<tr>
-						<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-						<td>관리자</td>
-						<td>2023.01.01</td>
-						<td><i class="fa-solid fa-heart"></i>좋아요</td>
-						<td><i class="fa-solid fa-eye"></i>조회수</td>
-					</tr>
-					<tr>
-						<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-						<td>관리자</td>
-						<td>2023.01.01</td>
-						<td><i class="fa-solid fa-heart"></i>좋아요</td>
-						<td><i class="fa-solid fa-eye"></i>조회수</td>
-					</tr>
-					<tr>
-						<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-						<td>관리자</td>
-						<td>2023.01.01</td>
-						<td><i class="fa-solid fa-heart"></i>좋아요</td>
-						<td><i class="fa-solid fa-eye"></i>조회수</td>
-					</tr>
-					<tr>
-						<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-						<td>관리자</td>
-						<td>2023.01.01</td>
-						<td><i class="fa-solid fa-heart"></i>좋아요</td>
-						<td><i class="fa-solid fa-eye"></i>조회수</td>
-					</tr>
-					<tr>
-						<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-						<td>관리자</td>
-						<td>2023.01.01</td>
-						<td><i class="fa-solid fa-heart"></i>좋아요</td>
-						<td><i class="fa-solid fa-eye"></i>조회수</td>
-					</tr>
-				</table>
-	
-			</div>
-	
-			<div class="btn-area">
-				<div id="btn-box">
-					<button id="write-btn" onclick="">글쓰기</button>
-				</div>
-			</div>
-	
-			<div class="page-area">
-				<button><</button>
-				<button>1</button>
-				<button>2</button>
-				<button>3</button>
-				<button>4</button>
-				<button>5</button>
-				<button>></button>
-				<!-- <c:if test="${pv.currentPage > 1}">
-					<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
-				</c:if>
-					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
-						<c:if test="${pv.currentPage != i}">
-							<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
-						</c:if>
-						<c:if test="${pv.currentPage == i}">
-							<a class="btn btn-primary btn-sm">${i}</a>
-						</c:if>
-					</c:forEach>
-				<c:if test="${pv.currentPage < pv.maxPage}">
-					<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
-				</c:if> -->
-			</div>
+
 
 
 	</main>

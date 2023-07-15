@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글 작성</title>
 <style>
     .write-area {
         width: 1440px;
@@ -227,98 +227,100 @@
 </head>
 <body>
     <%@ include file="/WEB-INF/views/common/header.jsp" %>
-        <nav>
-            <%@ include file="/WEB-INF/views/common/first-nav.jsp" %>
-        </nav>
+    <nav>
+        <%@ include file="/WEB-INF/views/common/first-nav.jsp" %>
+    </nav>
 
-        <main>
+    <main>
 
-            <div class="write-area">
-                <div id="page-title">게시글 작성</div>
+        <!-- 게시글 작성란 -->
+        <div class="write-area">
+            <div id="page-title">게시글 작성</div>
 
-                <br>
+            <br>
 
-                <div class="form-area">
-                    <form action="" method="post">
+            <div class="form-area">
+                <form action="" method="post">
 
-                        <div class="title-area">
-                            <div id="article">제목</div>
-
-                            <div>
-                                <input type="text" id="title" placeholder="제목을 입력해주세요.">
-                            </div>
-                        </div>
-
+                    <div class="title-area">
+                        <div id="article">제목</div>
                         <div>
-                            <div id="article">내용</div>
+                            <input type="text" id="title" placeholder="제목을 입력해주세요.">
+                        </div>
+                    </div>
 
-                            <div class="vote-btn-area">
-                                <button type="button" id="vote-btn">
-                                    <i class="fa-sharp fa-solid fa-check-to-slot"></i> &nbsp; 투표 생성
-                                </button>
-                            </div>
+                    <div>
+                        <div id="article">내용</div>
 
-
-                            <!-- 모달 -->
-                            <div class="modal hidden">
-
-                                <div class="bg"></div>
-
-                                <div class="modal-content">
-                                    <div id="modal-head">
-                                        <div>투표 생성</div>
-                                        <div id="close-btn">&times;</div>
-                                    </div>
-    
-                                    <div id="modal-body">
-                                        <div id="modal-article">제목</div>
-                                        <input type="text" id="modal-input" placeholder="투표 제목">
-    
-                                        <div id="modal-article">기간</div>
-                                        <input type="date" id="start-date"> ~ <input type="date" id="end-date">
-    
-                                        <div id="vote-article-area">
-                                            <div id="modal-article">투표항목</div>
-                                            <div class="vote-article">
-                                                <input type="text" id="vote-article" placeholder="항목 입력"><span
-                                                    onclick="del();">&times;</span>
-                                            </div>
-                                        </div>
-    
-                                        <div id="modal-article" class="plus-article">
-                                            <i class="fa-solid fa-plus"></i> &nbsp; 항목 추가
-                                        </div>
-    
-                                        <div id="dup-checkbox">
-                                            <label for="dup">
-                                                <input type="checkbox" id="dup" value="y">
-                                                중복 투표 허용
-                                            </label>
-                                        </div>
-    
-                                        <div id="insert-btn-area">
-                                            <button type="button" id="insert-btn">확인</button>
-                                        </div>
-                                    </div>
-                                    
-                                    <br>
-                                </div>
-
-                            </div>
-
-
-                            <div class="write-content"><textarea id="summernote" name="content"></textarea></div>
+                        <div class="vote-btn-area">
+                            <button type="button" id="vote-btn">
+                                <i class="fa-sharp fa-solid fa-check-to-slot"></i> &nbsp; 투표 생성
+                            </button>
                         </div>
 
-                        <div class="write-submit-area"><input class="write-submit" type="submit" value="글쓰기"></div>
+                        <div class="write-content"><textarea id="summernote" name="content"></textarea></div>
+                    </div>
 
-                    </form>
-                </div>
+                    <div class="write-submit-area"><input class="write-submit" type="submit" value="글쓰기"></div>
 
-
+                </form>
             </div>
 
-        </main>
+        </div>
+
+
+        <!-- 모달 -->
+        <div class="modal hidden">
+
+            <div class="bg"></div>
+
+            <div class="modal-content">
+                <div id="modal-head">
+                    <div>투표 생성</div>
+                    <div id="close-btn">&times;</div>
+                </div>
+
+                <div id="modal-body">
+                    <div id="modal-article">제목</div>
+                    <input type="text" id="modal-input" placeholder="투표 제목">
+
+                    <div id="modal-article">기간</div>
+                    <input type="date" id="start-date"> ~ <input type="date" id="end-date">
+
+                    <div id="vote-article-area">
+                        <div id="modal-article">투표항목</div>
+                        <div class="vote-article">
+                            <input type="text" id="vote-article" placeholder="항목 입력"><span
+                                onclick="del();">&times;</span>
+                        </div>
+                    </div>
+
+                    <div id="modal-article" class="plus-article">
+                        <i class="fa-solid fa-plus"></i> &nbsp; 항목 추가
+                    </div>
+
+                    <div id="dup-checkbox">
+                        <label for="dup">
+                            <input type="checkbox" id="dup" value="y">
+                            중복 투표 허용
+                        </label>
+                    </div>
+
+                    <div id="insert-btn-area">
+                        <button type="button" id="insert-btn">확인</button>
+                    </div>
+                </div>
+                
+                <br>
+            </div>
+
+        </div>
+
+
+        <!-- 투표 -->
+        
+
+    </main>
 
 </body>
 </html>
@@ -349,7 +351,6 @@
             ['view', ['fullscreen', 'codeview', 'help']]
         ]
     });
-
 
 
     //모달
@@ -391,6 +392,11 @@
     closeBtn.addEventListener('click', function() {
         modal.classList.add('hidden');
     });
+
+
+    //투표 삽입
+    const textarea = document.querySelector('#summernote');
+    textarea.innerHTML = '안녕하세요';
 
 
 </script>
