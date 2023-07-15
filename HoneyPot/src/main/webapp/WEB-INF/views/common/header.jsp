@@ -61,8 +61,10 @@
 					/*스크롤바 뒷 배경 색상*/
 				}
 
-				#loog-area {
+				#logo {
 					height: 45px;
+					margin-left: 15px;
+					margin-top: 5px;
 				}
 
 				#logo-area>span {
@@ -165,7 +167,8 @@
 				}
 
 				#weather-info-msg {
-					font-size: 13px;
+					font-size: 15px;
+					margin-left: 10px;
 					font-weight: 100;
 				}
 
@@ -233,7 +236,6 @@
 
 				}
 
-
 				/* 서브초이스 */
 				#sub-choice {
 					border-bottom: 1px solid black;
@@ -250,115 +252,118 @@
 
 		<body>
 			<%@ include file="/WEB-INF/views/common/setup.jsp" %>
-			<div id="wrapper">
-				<div id="side-bar">
-					<div id="logo-area">
-						<span> <img src="/app/resources/logo.png" height="45px">
-							<span>HONEYPOT</span>
-						</span>
-					</div>
-					<div id="all-center">
-						<div id="blank01"></div>
-						<div id="profile-area">
-							<div id="profile-img">
-								<img src="/app/resources/profile/exam_profile.png" height="230px">
-								<div id="setting-icon-area">
-									<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
+				<div id="wrapper">
+					<div id="side-bar">
+						<div id="logo-area">
+							<span> <img id="logo" src="/app/resources/main/logo.png">
+								<img id="logo" src="/app/resources/main/honeyPot.png">
+							</span>
+						</div>
+						<div id="all-center">
+							<div id="blank01"></div>
+							<div id="profile-area">
+								<div id="profile-img">
+									<img src="/app/resources/profile/exam_profile.png" height="230px">
+									<div id="setting-icon-area">
+										<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
+									</div>
 								</div>
+								<div id="profile-name">김아름다움</div>
+								<div id="name-info">(101동 1306호)</div>
+								<div id="logout-info">로그아웃</div>
 							</div>
-							<div id="profile-name">김아름다움</div>
-							<div id="name-info">(101동 1306호)</div>
-							<div id="logout-info">로그아웃</div>
 						</div>
-					</div>
 
-					<div id="menu-area">
-						<div id="blank02"></div>
-						<div id="icon-area">
-							<div>
-								<i class="fa-regular fa-user fa-2x" style="color: #2e2e2e;"></i>
-							</div>
-							<div>
-								<i class="fa-solid fa-user-group fa-2x" style="color: #2e2e2e;"></i>
-							</div>
-							<div>
-								<i class="fa-regular fa-pen-to-square fa-2x" style="color: #2e2e2e;"></i>
-							</div>
-							<div>
-								<i class="fa-solid fa-building-user fa-2x" style="color: #2e2e2e;"></i>
-							</div>
-							<div>
-								<i class="fa-solid fa-map-location-dot fa-2x" style="color: #2e2e2e;"></i>
-							</div>
-						</div>
-						<div id="text-area">
-							<div>마이페이지</div>
-							<div>이웃목록</div>
-							<div>게시판</div>
-							<div>편의시설</div>
-							<div>주변시설</div>
-						</div>
-					</div>
-					<div id="info-qna-area">
-						<div>고객센터</div>
-						<div id="small-text">
-							<span>문의하기</span> <span>|</span> <span>FAQ</span> <span>|</span> <span>경비원호출</span>
-						</div>
-					</div>
-				</div>
-
-				<div id="main">
-					<div id="header">
-						<div id="header-main-text"></div>
-						<div id="header-icon-area">
-							<div id="header-weather">
+						<div id="menu-area">
+							<div id="blank02"></div>
+							<div id="icon-area">
 								<div>
-									<img src="/app/resources/temp/weather.png" height="35px">
+									<i class="fa-regular fa-user fa-2x" style="color: #2e2e2e;"></i>
 								</div>
-								<div id="weather-info-msg">60ºC 부분적으로 맑음</div>
+								<div>
+									<i class="fa-solid fa-user-group fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+								<div>
+									<i class="fa-regular fa-pen-to-square fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+								<div>
+									<i class="fa-solid fa-building-user fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+								<div>
+									<i class="fa-solid fa-map-location-dot fa-2x" style="color: #2e2e2e;"></i>
+								</div>
 							</div>
-							<div class="header-calling">
-								<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;">
-									<div style="font-size: 7px; font-weight: 800;">15</div>
-								</i>
+							<div id="text-area">
+								<div>마이페이지</div>
+								<div>이웃목록</div>
+								<div>게시판</div>
+								<div>편의시설</div>
+								<div>주변시설</div>
 							</div>
-							<div class="header-chatting-icon">
-								<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
-									<div style="font-size: 7px; font-weight: 800;">15</div>
-								</i>
+						</div>
+						<div id="info-qna-area">
+							<div>고객센터</div>
+							<div id="small-text">
+								<span>문의하기</span> <span>|</span> <span>FAQ</span> <span>|</span> <span>경비원호출</span>
 							</div>
 						</div>
 					</div>
-					<div id="nav-area"></div>
-					<div id="main-area"></div>
+
+					<div id="main">
+						<div id="header">
+							<div id="header-main-text"></div>
+							<div id="header-icon-area">
+								<div id="header-weather">
+									<div>
+										<img src="/app/resources/temp/weather.png" height="35px">
+									</div>
+									<div id="weather-info-msg"></div>
+								</div>
+								<div class="header-calling">
+									<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;">
+										<div style="font-size: 7px; font-weight: 800;">15</div>
+									</i>
+								</div>
+								<div class="header-chatting-icon">
+									<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
+										<div style="font-size: 7px; font-weight: 800;">15</div>
+									</i>
+								</div>
+							</div>
+						</div>
+						<div id="nav-area"></div>
+						<div id="main-area"></div>
+					</div>
 				</div>
-			</div>
 		</body>
 
 		</html>
 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 		<script>
+			getWeatherInfo();
+
 			// 기본 셋팅 (수정x)
 			function basicSetting() {
 				const nav = document.querySelector("nav");
 				const main = document.querySelector("main");
 				const mainArea = document.querySelector("#main-area");
 				const navArea = document.querySelector("#nav-area");
-				
+
 				while (mainArea.firstChild) {
-				    mainArea.firstChild.remove();
+					mainArea.firstChild.remove();
 				}
 
 				while (navArea.firstChild) {
-				    navArea.firstChild.remove();
+					navArea.firstChild.remove();
 				}
-				  
+
 				while (main.firstChild) {
-				    mainArea.appendChild(main.firstChild);
+					mainArea.appendChild(main.firstChild);
 				}
-				
+
 				while (nav.firstChild) {
-				    navArea.appendChild(nav.firstChild);
+					navArea.appendChild(nav.firstChild);
 				}
 			}
 
@@ -391,10 +396,78 @@
 				}
 				subChoice.innerHTML = menus;
 			}
+
 			// 헤더 네임 바꾸기
 			function headerName(name) {
 				const mainChoice = document.querySelector("#header-main-text");
 				mainChoice.innerHTML = name;
 			}
 
+			// 날씨 정보 가져오기 (ajax)
+			function getWeatherInfo() {
+				$.ajax({
+					url: '/app/data/weather',
+					type: 'get',
+					dataType: 'text',
+					success: function (data) {
+						var jsonObject = JSON.parse(data);
+						weather = jsonObject.response.body.items.item;
+						applyWeatherInfo(weather)
+					},
+					error: function () {
+						alert("에러");
+					}
+				});
+			}
+
+			// 날씨 정보 헤더에 반영하기
+			let state = []; // 날씨 정보
+			function applyWeatherInfo(weather) {
+				const headerMsg = document.querySelector('#weather-info-msg');
+				sky = ""; // 하늘 상태
+				pty = ""; // 강수 형태
+				pop = ""; // 강수 확률
+				reh = ""; // 습도
+				tmp = ""; // 기온
+
+				for (let elem of weather) {
+					category = elem.category;
+					fcstValue = elem.fcstValue;
+
+					switch (category) {
+						case "SKY":
+							switch (fcstValue) {
+								case "1": sky = "맑음"; break;
+								case "3": sky = "구름 많음"; break;
+								case "4": sky = "흐림"; break;
+							}
+							break;
+						case "PTY":
+							switch (fcstValue) {
+								case "0": pty = "없음"; break;
+								case "1": pty = "비"; break;
+								case "2": pty = "비/눈"; break;
+								case "3": pty = "눈"; break;
+								case "4": pty = "소나기"; break;
+							}
+							break;
+						case "POP": pop = fcstValue; break;
+						case "REH": reh = fcstValue; break;
+						case "TMP": tmp = fcstValue; break;
+					}
+				}
+
+				state[0] = "하늘 상태 : " + sky;
+				state[1] = "강수 형태 : " + pty;
+				state[2] = "강수 확률 :" + pop;
+				state[3] = "습도 : " + reh;
+				state[4] = "기온 : " + tmp;
+				let headerWeatherInfo = tmp + "ºC " + sky + ", " + pty;
+				headerMsg.innerHTML = headerWeatherInfo;
+			}
+
+			// 날씨 정보 가져오기 (다른 jsp에서)
+			function getWeatherState() {
+				return state;
+			}
 		</script>
