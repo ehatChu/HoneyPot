@@ -520,17 +520,70 @@
 		basicSetting(); // 기본 셋팅
 		headerName('홈'); // 현재 페이지 이름
 
-		// 날씨 정보 로드 (페이지가 실행된 뒤)
-		window.addEventListener('load', function() {
-			const weatherBox = document.querySelector(".weatherBox");
-			let state = getWeatherState();
-			let info = "";
+		let weather;
+		// 날씨 정보 가져오기 (ajax)
+		function getWeatherInfo() {
+			$.ajax({
+				url: '/app/data/weather',
+				type: 'get',
+				dataType: 'text',
+				success: function (data) {
+					var jsonObject = JSON.parse(data);
+					weather = jsonObject.response.body.items.item;
+					applyWeatherInfo(weather);
+				},
+				error: function () {
+					alert("에러");
+				}
+			});
+		}
 
-			for (let s of state) {
-				info += s + "<br>";
+		// 날씨 정보 헤더에 반영하기
+		function applyWeatherInfo(weather) {
+			let sky = ""; // 하늘 상태
+			let pty = ""; // 강수 형태
+			let pop = ""; // 강수 확률
+			let reh = ""; // 습도
+			let tmp = ""; // 기온
+
+			for (let elem of weather) {
+				category = elem.category;
+				fcstValue = elem.fcstValue;
+
+				switch (category) {
+					case "SKY":
+						switch (fcstValue) {
+							case "1": sky = "맑음"; break;
+							case "3": sky = "구름 많음"; break;
+							case "4": sky = "흐림"; break;
+						}
+						break;
+					case "PTY":
+						switch (fcstValue) {
+							case "0": pty = "없음"; break;
+							case "1": pty = "비"; break;
+							case "2": pty = "비/눈"; break;
+							case "3": pty = "눈"; break;
+							case "4": pty = "소나기"; break;
+						}
+						break;
+					case "POP": pop = fcstValue; break;
+					case "REH": reh = fcstValue; break;
+					case "TMP": tmp = fcstValue; break;
+				}
 			}
-			weatherBox.innerHTML = info;
-		});
+
+			let state = [];
+			state.push("하늘 상태 : " + sky);
+			state.push("강수 형태 : " + pty);
+			state.push("강수 확률 : " + pop);
+			state.push("습도 : " + reh);
+			state.push("기온 : " + tmp);
+			let headerWeatherInfo = tmp + "ºC " + sky + ", " + pty;
+
+			console.log(state);
+			return state;
+		}
 
 		// 캘린더
 		(function () {
