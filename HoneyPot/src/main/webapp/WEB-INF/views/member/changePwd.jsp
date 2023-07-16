@@ -9,7 +9,6 @@
 			#floor {
 				height: 937px;
 				width: 1920px;
-				background-color: white;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -18,6 +17,7 @@
 			#login-area {
 				display: flex;
 				justify-content: center;
+				align-items: center;
 				width: 1000px;
 				height: 800px;
 				margin: 50px;
@@ -52,24 +52,6 @@
 				height: 70px;
 			}
 
-			.bbox {
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-				align-items: start;
-				border-radius: 20px;
-				border: none;
-				height: 150px;
-			}
-
-			.bbbox {
-				background-color: rgb(255, 255, 255);
-				border-radius: 20px;
-				border: none;
-				height: 50px;
-				width: 100%;
-			}
-
 			.box2 {
 				background-color: #4A321F;
 				color: white;
@@ -78,39 +60,6 @@
 
 			#tit {
 				font-size: 28px;
-			}
-
-			#tit2 {
-				font-size: 22px;
-				margin-bottom: 10px;
-			}
-
-			.f1 {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				height: 60px;
-				width: 100%;
-				margin-bottom: 10px;
-			}
-
-			.ff1 {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				width: 65%;
-				height: 100%;
-			}
-
-			.ff2 {
-				background-color: #4A321F;
-				border-radius: 20px;
-				color: white;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				width: 15%;
-				height: 100%;
 			}
 		</style>
 
@@ -135,12 +84,7 @@
 						<div></div>
 						<div></div>
 						<div class="bbox">
-							<div id="tit2">자동입력방지코드</div>
-							<div class="f1">
-								<img class="ff1" src="/app/resources/member/1111_1.png">
-								<div class="ff2"><i class="fa-solid fa-rotate-right fa-user fa-2x" style="color: #ffffff;"></i></div>
-							</div>
-							<input type="text" class="bbbox">
+							<%@ include file="/WEB-INF/views/data/captcha.jsp" %>
 						</div>
 						<div></div>
 						<div></div>
