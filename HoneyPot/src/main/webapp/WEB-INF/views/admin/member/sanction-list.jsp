@@ -190,7 +190,7 @@
 
             <button id="temp-btn">모달바 생성</button>
 
-            <main class="background">
+            <div class="background">
                 <div class="window">
                     <div class="popup">
                         <div class="model-header-area">
@@ -232,7 +232,7 @@
         
                     </div>
                 </div>
-            </main>
+            </div>
             
         </main>
 
