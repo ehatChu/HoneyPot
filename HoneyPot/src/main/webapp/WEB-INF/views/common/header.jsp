@@ -317,7 +317,7 @@
 									<div>
 										<img src="/app/resources/temp/weather.png" height="35px">
 									</div>
-									<div id="weather-info-msg"></div>
+									<div id="weather-info-msg">작업중...</div>
 								</div>
 								<div class="header-calling">
 									<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;">
@@ -339,10 +339,7 @@
 
 		</html>
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 		<script>
-			getWeatherInfo();
-
 			// 기본 셋팅 (수정x)
 			function basicSetting() {
 				const nav = document.querySelector("nav");
@@ -401,73 +398,5 @@
 			function headerName(name) {
 				const mainChoice = document.querySelector("#header-main-text");
 				mainChoice.innerHTML = name;
-			}
-
-			// 날씨 정보 가져오기 (ajax)
-			function getWeatherInfo() {
-				$.ajax({
-					url: '/app/data/weather',
-					type: 'get',
-					dataType: 'text',
-					success: function (data) {
-						var jsonObject = JSON.parse(data);
-						weather = jsonObject.response.body.items.item;
-						applyWeatherInfo(weather)
-					},
-					error: function () {
-						alert("에러");
-					}
-				});
-			}
-
-			// 날씨 정보 헤더에 반영하기
-			let state = []; // 날씨 정보
-			function applyWeatherInfo(weather) {
-				const headerMsg = document.querySelector('#weather-info-msg');
-				sky = ""; // 하늘 상태
-				pty = ""; // 강수 형태
-				pop = ""; // 강수 확률
-				reh = ""; // 습도
-				tmp = ""; // 기온
-
-				for (let elem of weather) {
-					category = elem.category;
-					fcstValue = elem.fcstValue;
-
-					switch (category) {
-						case "SKY":
-							switch (fcstValue) {
-								case "1": sky = "맑음"; break;
-								case "3": sky = "구름 많음"; break;
-								case "4": sky = "흐림"; break;
-							}
-							break;
-						case "PTY":
-							switch (fcstValue) {
-								case "0": pty = "없음"; break;
-								case "1": pty = "비"; break;
-								case "2": pty = "비/눈"; break;
-								case "3": pty = "눈"; break;
-								case "4": pty = "소나기"; break;
-							}
-							break;
-						case "POP": pop = fcstValue; break;
-						case "REH": reh = fcstValue; break;
-						case "TMP": tmp = fcstValue; break;
-					}
-				}
-
-				state[0] = "하늘 상태 : " + sky;
-				state[1] = "강수 형태 : " + pty;
-				state[2] = "강수 확률 :" + pop;
-				state[3] = "습도 : " + reh;
-				state[4] = "기온 : " + tmp;
-				let headerWeatherInfo = tmp + "ºC " + sky + ", " + pty;
-				headerMsg.innerHTML = headerWeatherInfo;
-			}
-
-			// 날씨 정보 가져오기 (다른 jsp에서)
-			function getWeatherState() {
-				return state;
 			}
 		</script>
