@@ -35,7 +35,7 @@
                     
                 </div>
             </div>
-            <button id="alarm-btn">알림창 모달바 생성</button>
+            <button id="s-alarm-btn">알림창 모달바 생성</button>
             <button id="temp-btn">배달 모달바 생성</button>
 
 
@@ -164,10 +164,10 @@
         </main>
 
         
-            <div class="alarm-window">
-                <div class="alarm-popup">
+            <div class="s-alarm-window">
+                <div class="s-alarm-popup">
                     <div class="alarm-header">
-                        <span class="material-symbols-outlined" id="alarm-close">
+                        <span class="material-symbols-outlined" id="s-alarm-close">
                             close
                         </span>
                     </div>
@@ -293,16 +293,16 @@
 
     // 알람 모달 사용
     function alarmShow () {
-        document.querySelector(".alarm-window").className = "alarm-window show";
+        document.querySelector(".s-alarm-window").className = "s-alarm-window show";
     }
 
     function alarmClose () { 
-        document.querySelector(".alarm-window").className = "alarm-window";
+        document.querySelector(".s-alarm-window").className = "s-alarm-window";
     }
 
 
-    document.querySelector("#alarm-btn").addEventListener('click', alarmShow);
-    document.querySelector("#alarm-close").addEventListener('click', alarmClose);
+    document.querySelector("#s-alarm-btn").addEventListener('click', alarmShow);
+    document.querySelector("#s-alarm-close").addEventListener('click', alarmClose);
     document.querySelector("#check-btn").addEventListener('click', alarmClose);
 
     // document,querySelector(".model-content-plist").addEventListener('click',);

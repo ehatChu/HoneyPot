@@ -225,9 +225,9 @@
     color: #ff3131;
 }
 /* 알람 */
-.alarm-window {
+.s-alarm-window {
     position: fixed;
-    top: 83%;
+    top: 80%;
     left: 87.5%;
     /* position: relative; */
     width: 100%;
@@ -249,7 +249,7 @@
     /* display: block; */
 }
 
-.alarm-popup {
+.s-alarm-popup {
     position: absolute;
     top: 0;
     left: 0;
@@ -271,7 +271,7 @@
     transition: all .5s;
 }
 
-#alarm-close{
+#s-alarm-close{
     font-size: 25px;
     font-weight: 900;
     cursor: pointer;
