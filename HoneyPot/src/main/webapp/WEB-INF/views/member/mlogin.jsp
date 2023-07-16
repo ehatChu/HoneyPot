@@ -47,7 +47,7 @@
 			}
 
 			#d01 {
-				margin-left: 100px;
+				margin-left: 50px;
 			}
 
 			#d02 {
@@ -62,7 +62,7 @@
 			}
 
 			.bee {
-				margin-left: -100px;
+				margin-left: -50px;
 			}
 
 			#bee1 {
@@ -92,6 +92,7 @@
 
 			#f02 {
 				font-size: 32px;
+				margin-left: 15px;
 			}
 
 			#login-area {
@@ -107,7 +108,7 @@
 
 			#sub {
 				display: flex;
-				justify-content: space-around;
+				justify-content: space-between;
 				align-items: center;
 				font-size: 18px;
 			}
@@ -115,6 +116,23 @@
 			#loginForm {
 				width: 70%;
 				height: 70%;
+			}
+
+			#logo {
+				height: 65px;
+				margin-left: 15px;
+				margin-top: 5px;
+			}
+
+			#logo-area>span {
+				font-size: 30px;
+				display: flex;
+				align-items: center;
+				margin-bottom: 30px;
+			}
+
+			#logo-area>span>span {
+				padding-left: 10px;
 			}
 		</style>
 
@@ -124,7 +142,11 @@
 		<%@ include file="/WEB-INF/views/common/setup.jsp" %>
 			<div id="floor1">
 				<div id="d01">
-					<div id="f01">HONEY POT</div>
+					<div id="logo-area">
+						<span> <img id="logo" src="/app/resources/main/logo.png">
+							<img id="logo" src="/app/resources/main/honeyPot.png">
+						</span>
+					</div>
 					<div id="f02">푸리미엄 꿀단지 그룹웨어 방문을 환영합니다</div>
 				</div>
 				<div id="d02">
@@ -142,7 +164,7 @@
 						<br>
 						<input type="text" class="box" placeholder="비밀번호">
 						<div id="sub">
-							<div>아이디 비밀번호 찾기</div>
+							<div><span onclick="findId();">아이디</span> • <span onclick="findPwd();">비밀번호 찾기</span></div>
 							<div>회원가입</div>
 						</div>
 						<br>
@@ -156,4 +178,18 @@
 
 	<script>
 
+		function findId() {
+			var leftPosition = (window.screen.width - 1200) / 2;
+			var topPosition = (window.screen.height - 800) / 2;
+			var windowFeatures = 'width=1200,height=800,left=' + leftPosition + ',top=' + topPosition;
+			window.open("/app/member/findId", "_blank", windowFeatures);
+		}
+
+		function findPwd() {
+			let width = '600px';
+			let height = '600px';
+			let left = (window.screen.width - width) / 2;
+			let top = (window.screen.height - height) / 2;
+			window.open("/app/member/findPwd", "_blank", `width=${width}, height=${height}, top=${top}, left=${left}`);
+		}
 	</script>
