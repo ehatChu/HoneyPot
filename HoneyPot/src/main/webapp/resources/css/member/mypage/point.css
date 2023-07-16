@@ -1,0 +1,106 @@
+.point-area{
+    margin-left: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.point-title1{
+    font-size: 25px;
+    font-weight: 800;
+    margin-top: 40px;
+}
+
+.point-showboard-area{
+    margin-top: 20px;
+    background-color: #F4F4F4;
+    width: 1300px;
+    height: 260px;
+    border-radius: 19px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 100px;
+    padding: 30px;
+}
+
+.point-showboard{
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 19px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.point-showboard-text{
+    font-size: 30px;
+    margin-bottom: 35px;
+    font-weight: 800;
+}
+
+.point-showboard-num{
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.point-textbox{
+    margin-right: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.point-form-area{
+    margin-top: 40px;
+    width: 1270px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.point-selectbox{
+    width: 120px;
+    height: 37px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 4px;
+    margin-right: 10px;
+    border: 1px solid rgb(173, 173, 173);
+}
+
+input[type=date]{
+    width: 120px;
+    height: 37px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid rgb(173, 173, 173);
+    font-family: 'Noto Sans KR';
+}
+
+.point-deco{
+    margin-left: 10px;
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.point-searchbtn{
+    height: 37px;
+    width: 80px;
+    font-weight: 800;
+    border-radius: 4px;
+    border: none;
+    background-color: #F8C925;
+    font-family: 'Noto Sans KR';
+    margin-left: 20px;
+}
+
+.point-list-area{
+    margin-top: 20px;
+    width: 1300px;
+    height: 500px;
+    /* border: 1px solid #B6B6B6; */
+    border-radius: 10px;
+    background-color: white;
+}
+

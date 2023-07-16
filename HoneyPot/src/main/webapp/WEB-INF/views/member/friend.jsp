@@ -5,14 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/app/resources/css/admin/member/member-list.css">
+<link rel="stylesheet" href="/app/resources/css/member/mypage/friend.css">
 </head>
 
 <body>
     <%@ include file="/WEB-INF/views/common/header.jsp" %>
         <nav>
-            <%@ include file="/WEB-INF/views/common/first-nav.jsp" %>
-            <!-- <%@ include file="/WEB-INF/views/common/second-nav.jsp" %> -->
+            <!-- <%@ include file="/WEB-INF/views/common/first-nav.jsp" %> -->
+            <%@ include file="/WEB-INF/views/common/second-nav.jsp" %>
         </nav>
 
         <main>
@@ -35,30 +35,57 @@
                     
                 </div>
             </div>
+            <button id="temp-btn1">상벌점 모달바 생성</button>
 
-            <div class="member-category-area">
-                <div class="member-category c-focus">
-                    <div>전체</div>
-                    <div>3</div>
-                </div>
-                <div class="member-category">
-                    <div>회원</div>
-                    <div>3</div>
-                </div>
-                <div class="member-category">
-                    <div>관리자</div>
-                    <div>3</div>
-                </div>
-                <div class="member-category border-r-solid">
-                    <div>신규회원</div>
-                    <div>3</div>
-                </div>
-
-            </div>
 
             <div class="member-area">
 
                 <div class="member-list-area">
+                    <div class="member-list">
+                        <div class="member-list-img">
+                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
+                        </div>
+                        <div class="member-list-text">
+                            <span>김지연</span>
+                            <span>(102동 1111호)</span>
+                        </div>
+                    </div>
+                    <div class="member-list">
+                        <div class="member-list-img">
+                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
+                        </div>
+                        <div class="member-list-text">
+                            <span>김지연</span>
+                            <span>(102동 1111호)</span>
+                        </div>
+                    </div>
+                    <div class="member-list">
+                        <div class="member-list-img">
+                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
+                        </div>
+                        <div class="member-list-text">
+                            <span>김지연</span>
+                            <span>(102동 1111호)</span>
+                        </div>
+                    </div>
+                    <div class="member-list">
+                        <div class="member-list-img">
+                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
+                        </div>
+                        <div class="member-list-text">
+                            <span>김지연</span>
+                            <span>(102동 1111호)</span>
+                        </div>
+                    </div>
+                    <div class="member-list">
+                        <div class="member-list-img">
+                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
+                        </div>
+                        <div class="member-list-text">
+                            <span>김지연</span>
+                            <span>(102동 1111호)</span>
+                        </div>
+                    </div>
                     <div class="member-list">
                         <div class="member-list-img">
                             <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
@@ -120,9 +147,7 @@
                                     <div class="member-deatil-email">kh@koreakh.cok.kr</div>
                                 </div>
                                 <div class="member-deatil-btn-area">
-                                    <button id="temp-btn1">상벌점</button>
-                                    <button id="temp-btn">정지</button>
-                                    <button>회원등록</button>
+                                    <button>팔로우 취소</button>
                                 </div>
                             </div>
                         </div>
@@ -133,17 +158,15 @@
             
 
 
-            <!-- <button id="temp-btn">정지 모달바 생성</button>
-            <button id="temp-btn1">상벌점 모달바 생성</button> -->
+            <!-- <button id="temp-btn">정지 모달바 생성</button> -->
             
         </main>
         
-        <div class="background1">
+        <!-- <div class="background1"> -->
             <div class="window1">
                 <div class="popup1">
-                    <div class="model-header-area b-yellow">
+                    <div class="model-header-area">
                         <div class="model-header">
-                            <div class="model-header-text">상벌점주기</div>
                             <span class="material-symbols-outlined" id="close1">
                                 close
                             </span>
@@ -179,51 +202,7 @@
     
                 </div>
             </div>
-        </div>
-
-        <!-- 정지 모달 -->
-        <div class="background">
-            <div class="window">
-                <div class="popup">
-                    <div class="model-header-area b-red">
-                        <div class="model-header">
-                            <div class="model-header-text">정지하기</div>
-                            <span class="material-symbols-outlined" id="close">
-                                close
-                            </span>
-                        </div>
-                    </div>
-                    <div class="model-body-area">
-                        <div class="model-body-first">
-                            <div class="model-sanction-date">
-                                <div class="model-title-text">정지 일수</div>
-                                <div><input class="model-sanction-input" type="number"></div>
-                            </div>
-                            <div class="model-sanction-member">
-                                <div class="model-title-text1">정지자</div>
-                                <div class="model-member-info">
-                                    <div>이정민</div>
-                                    <div class="model-member-profile">
-                                        <img src="" alt="프로필사진">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="model-title-text">내용</div>
-                            <textarea name="" id="" class="model-body-content" cols="30" rows="10"></textarea>
-                        </div>
-
-                        <div class="model-btn-area">
-                            <button id="check-btn" class="model-btn b-red">정지하기</button>
-
-                        </div>
-
-                    </div>
-    
-                </div>
-            </div>
-        </div>
+        <!-- </div> -->
 
 </body>
 
@@ -232,30 +211,22 @@
 <script>
     basicSetting(); // 기본 셋팅
     headerName('회원관리'); // 현재 페이지 이름
-    firstNav(['회원조회', '제재내역', '상벌점내역', '사유물내역'], '회원조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    // secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+    // firstNav(['회원조회', '제재내역', '상벌점내역', '사유물내역'], '회원조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+    secondNav(['이웃 목록 19'], '이웃 목록 19'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 
-    // 모달 사용
-    function show () {
-        document.querySelector(".background").className = "background show";
+    function mainHeigth(){
+        document.querySelector("#main-area").style.height = 1250 + "px";
     }
 
-    function close () { 
-        document.querySelector(".background").className = "background";
-    }
-
-
-    document.querySelector("#temp-btn").addEventListener('click', show);
-    document.querySelector("#close").addEventListener('click', close);
-    document.querySelector("#check-btn").addEventListener('click', close);
+    mainHeigth();
 
     // 모달 사용
     function show1 () {
-        document.querySelector(".background1").className = "background1 show";
+        document.querySelector(".window1").className = "window1 show";
     }
 
     function close1 () { 
-        document.querySelector(".background1").className = "background1";
+        document.querySelector(".window1").className = "window1";
     }
 
 
