@@ -206,6 +206,10 @@
 			width: 140px;
 		}
 
+		.bee {
+			height: 80px;
+		}
+
 		#scheTxt {
 			font-size: 20px;
 			font-weight: bold;
@@ -342,26 +346,34 @@
 			display: flex;
 			justify-content: space-evenly;
 			align-items: center;
-			font-weight: bold;
+			border-radius: 20px;
 		}
 
-		.like2 {
-			width: 100px;
-			display: flex;
-			justify-content: space-evenly;
-			align-items: center;
+		.yellow {
+			background-color: #FFCE31;
+			font-weight: bold;
 		}
 
 		.dong {
 			display: flex;
 			justify-content: space-evenly;
 			align-items: center;
+			margin-left: -50px;
 			width: 100%;
 			height: 100px;
 		}
 
 		.dong1 {
-			font-size: 32px;
+			display: flex;
+			justify-content: space-evenly;
+			align-items: center;
+		}
+
+		#dongTxt {
+			font-size: 24px;
+			margin-left: -30px;
+			margin-right: -30px;
+			font-weight: bold;
 		}
 	</style>
 
@@ -423,7 +435,7 @@
 								<div id="e01">오늘의 조식</div>
 								<div id="e02">떡볶이, 치킨, 감자탕, 핫도그, 어묵</div>
 								<div id="e03">
-									<button id="f01">조식 신청</button>
+									<button id="f01" onclick="location.href='/app/meal/mmeal'">조식 신청</button>
 								</div>
 							</div>
 						</div>
@@ -483,13 +495,13 @@
 									<div id="rankFont2">101동 심원용</div>
 								</div>
 								<div class="like">
-									<div class="like1">
+									<div class="like1 yellow">
 										<div class="blue">
 											<i class="fa-solid fa-thumbs-up" style="color: #ffffff;"></i>
 										</div>
 										68%
 									</div>
-									<div class="like2">
+									<div class="like1">
 										<div class="red">
 											<i class="fa-solid fa-thumbs-down" style="color: #ffffff;"></i>
 										</div>
@@ -501,9 +513,18 @@
 						<div id="zzz02" class="box">
 							<div id="tit1">우수 동</div>
 							<div class="dong">
-								<div class="dong1">1. 103동</div>
-								<div class="dong1">2. 102동</div>
-								<div class="dong1">3. 101동</div>
+								<div class="dong1">
+									<img id="bee1" class="bee" src="/app/resources/main/image_12.png">
+									<div id="dongTxt">103동</div>
+								</div>
+								<div class="dong1">
+									<img id="bee2" class="bee" src="/app/resources/main/image_13.png">
+									<div id="dongTxt">102동</div>
+								</div>
+								<div class="dong1">
+									<img id="bee3" class="bee" src="/app/resources/main/image_14.png">
+									<div id="dongTxt">101동</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -516,11 +537,23 @@
 
 	</html>
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 	<script>
+		// 함수 실행
 		basicSetting(); // 기본 셋팅
 		headerName('홈'); // 현재 페이지 이름
+		getWeatherInfo();
 
-		let weather;
+		// 동대표 선호도 조사
+		const like1Elements = document.querySelectorAll('.like1');
+		like1Elements.forEach(element => {
+			element.addEventListener('click', () => {
+				like1Elements.forEach(item => item.classList.remove('yellow'));
+				element.classList.toggle('yellow');
+			});
+		});
+
+
 		// 날씨 정보 가져오기 (ajax)
 		function getWeatherInfo() {
 			$.ajax({
@@ -540,6 +573,7 @@
 
 		// 날씨 정보 헤더에 반영하기
 		function applyWeatherInfo(weather) {
+			const weatherBox = document.querySelector('.weatherBox');
 			let sky = ""; // 하늘 상태
 			let pty = ""; // 강수 형태
 			let pop = ""; // 강수 확률
@@ -553,37 +587,29 @@
 				switch (category) {
 					case "SKY":
 						switch (fcstValue) {
-							case "1": sky = "맑음"; break;
-							case "3": sky = "구름 많음"; break;
-							case "4": sky = "흐림"; break;
+							case "1": sky += "맑음"; break;
+							case "3": sky += "구름 많음"; break;
+							case "4": sky += "흐림"; break;
 						}
 						break;
 					case "PTY":
 						switch (fcstValue) {
-							case "0": pty = "없음"; break;
-							case "1": pty = "비"; break;
-							case "2": pty = "비/눈"; break;
-							case "3": pty = "눈"; break;
-							case "4": pty = "소나기"; break;
+							case "0": pty += "없음"; break;
+							case "1": pty += "비"; break;
+							case "2": pty += "비/눈"; break;
+							case "3": pty += "눈"; break;
+							case "4": pty += "소나기"; break;
 						}
 						break;
-					case "POP": pop = fcstValue; break;
-					case "REH": reh = fcstValue; break;
-					case "TMP": tmp = fcstValue; break;
+					case "POP": pop += fcstValue; break;
+					case "REH": reh += fcstValue; break;
+					case "TMP": tmp += fcstValue; break;
 				}
 			}
-
-			let state = [];
-			state.push("하늘 상태 : " + sky);
-			state.push("강수 형태 : " + pty);
-			state.push("강수 확률 : " + pop);
-			state.push("습도 : " + reh);
-			state.push("기온 : " + tmp);
-			let headerWeatherInfo = tmp + "ºC " + sky + ", " + pty;
-
-			console.log(state);
-			return state;
+			let boxHtml = "<div>하늘상태 : " + sky + "</div><div>강수형태 : " + pty + "</div><div>강수확률 : " + pop + "</div><div>습도 : " + reh + "</div><div>기온 : " + tmp + "</div>";
+			weatherBox.innerHTML = boxHtml;
 		}
+
 
 		// 캘린더
 		(function () {

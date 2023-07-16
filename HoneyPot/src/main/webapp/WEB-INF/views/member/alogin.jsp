@@ -47,7 +47,7 @@
 			}
 
 			#d01 {
-				margin-left: 100px;
+				margin-left: 50px;
 			}
 
 			#d02 {
@@ -62,7 +62,7 @@
 			}
 
 			.bee {
-				margin-left: -100px;
+				margin-left: -50px;
 			}
 
 			#bee1 {
@@ -84,6 +84,7 @@
 
 			#f02 {
 				font-size: 32px;
+				margin-left: 15px;
 			}
 
 			#login-area {
@@ -109,6 +110,23 @@
 				width: 70%;
 				height: 70%;
 			}
+
+			#logo {
+				height: 65px;
+				margin-left: 15px;
+				margin-top: 5px;
+			}
+
+			#logo-area>span {
+				font-size: 30px;
+				display: flex;
+				align-items: center;
+				margin-bottom: 30px;
+			}
+
+			#logo-area>span>span {
+				padding-left: 10px;
+			}
 		</style>
 
 	</head>
@@ -117,7 +135,11 @@
 		<%@ include file="/WEB-INF/views/common/setup.jsp" %>
 			<div id="floor1">
 				<div id="d01">
-					<div id="f01">HONEY POT</div>
+					<div id="logo-area">
+						<span> <img id="logo" src="/app/resources/main/logo.png">
+							<img id="logo" src="/app/resources/main/honeyPot.png">
+						</span>
+					</div>
 					<div id="f02">푸리미엄 꿀단지 그룹웨어 관리자 페이지입니다</div>
 				</div>
 				<div id="d02">
