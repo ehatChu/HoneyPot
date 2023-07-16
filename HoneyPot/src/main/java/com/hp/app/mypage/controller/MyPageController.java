@@ -11,4 +11,11 @@ public class MyPageController {
 	public String viewCalendar() {
 		return "mypage/myInfo/calendar/view";
 	}
+	
+	
+	@GetMapping("act/board")
+	public String myPost() {
+		return "mypage/act/board";
+	}
+	
 }
