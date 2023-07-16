@@ -216,6 +216,94 @@
 					align-items: center;
 					justify-content: center;
 				}
+				
+				/* 채팅 알림 모달 레이아웃 */
+				.chat_modal_wrap{
+					position: fixed;
+					width: 300px;
+					height: 230px;
+					right: 5px;
+					border-radius: 10px 10px 0 0;
+					display: grid;
+					grid-template-rows: 200px 30px;
+					align-items: center;
+					z-index: 9999;
+				}
+
+				.chat_modalBox {
+					position: relative;
+					right: 5px;
+					background-color: #fff;
+					height: 200px;
+					max-height: 250px;
+					border-radius: 10px 10px 0 0;
+					border: 1px solid #8A8A8A;
+					box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
+					overflow-y: auto;
+					 /* 스크롤바 숨기기 */
+  					scrollbar-width: thin;
+  					scrollbar-color: transparent transparent; /* 스크롤바 색상을 투명하게 설정 */
+				}
+				
+				
+				.chat_modalBox::-webkit-scrollbar {
+					width: 0; /* 스크롤바의 너비 설정 */
+				}
+				
+				.chat_modalBox::-webkit-scrollbar-track {
+					background-color: transparent; /* 스크롤바 트랙의 배경색을 투명하게 설정 */
+				}
+				
+				.chat_modalBox::-webkit-scrollbar-thumb {
+					background-color: transparent; /* 스크롤바 썸의 배경색을 투명하게 설정 */
+				}
+				
+				.hidden {
+					display: none;
+				}
+
+				/* 채팅 알림 내용 영역 */
+				.latest-chat {
+					width: 300px;
+					height: 50px;
+					border: 1px solid rgba(138, 138, 138, 0.7);
+					border-radius: 10px;
+					background: rgba(255, 255, 255, 0.7);
+					display: grid;
+					grid-template-columns: 50px 200px 50px;
+					cursor: pointer;
+				}
+
+				.latest-chat:hover {
+					background-color: #fdeaab;
+				}
+
+				.contentCon {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+
+				.contentSpan > span:first-child {
+					font-weight: 570;
+					font-size: 17px;
+				}
+
+				.contentSpan > span:nth-child(2){
+					font-size: 15px;
+				}
+
+				.chat-detail-Btn {
+					position: relative;
+					right: 5px;
+					background-color: #FFCE31;
+					height: 30px;
+					width: 300px;
+					border-radius: 0 0 10px 10px;
+					border: none;
+					font-size: 18px;
+					cursor: pointer;
+				}
 
 				/* 헤더 아래에 초이스 구역 */
 				.title-elem {
@@ -326,9 +414,30 @@
 								</div>
 								<div class="header-chatting-icon">
 									<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
-										<div style="font-size: 7px; font-weight: 800;">15</div>
+										<div style="font-size: 7px; font-weight: 800;">4</div>
 									</i>
 								</div>
+							</div>
+						</div>
+						<!-- 채팅 알림 모달 -->
+						<div class="chat_modal_wrap">
+							<div class="chat_modalBox">
+								<c:forEach begin="1" end="5">
+									<div class="latest-chat">
+										<div class="contentCon"><i class="fa-regular fa-envelope fa-2x" style="color: #ffce31;"></i></div>
+										<div class="contentSpan">
+											<span>101동 골프모임</span>
+											<br>
+											<span>이거봐봐 완전 웃김</span>
+										</div>
+										<div>pm 6:30</div>
+									</div>
+								</c:forEach>
+							</div>
+							<div>
+								<button class="chat-detail-Btn">
+									상세보기
+								</button>
 							</div>
 						</div>
 						<div id="nav-area"></div>
@@ -399,4 +508,34 @@
 				const mainChoice = document.querySelector("#header-main-text");
 				mainChoice.innerHTML = name;
 			}
+			
+			// 채팅 알림 모달 열기
+			const openChatAlertModal = () => {
+				document.querySelector(".chat_modal_wrap").classList.remove("hidden");
+			};
+
+			// 채팅 알림 닫기
+			const closeChatAlertModal = () => {
+				document.querySelector(".chat_modal_wrap").classList.add("hidden");
+			};
+
+
+			// 채팅 아이콘 클릭 이벤트 추가
+			const chatCon = document.querySelector('.header-chatting-icon');
+			chatCon.addEventListener("click", function() {
+
+				// 모달이 이미 열려있는 경우 닫기
+				if (!document.querySelector(".chat_modal_wrap").classList.contains("hidden")) {
+					closeChatAlertModal();
+				} else {
+					openChatAlertModal();
+				}
+			});
+
+			// 채팅 알림 상세보기 버튼 이벤트 추가
+			const chatDetail = document.querySelector(".chat-detail-Btn");
+			chatDetail.addEventListener('click', function(){
+				location.href="/app/chat/list";
+			})
+			
 		</script>
