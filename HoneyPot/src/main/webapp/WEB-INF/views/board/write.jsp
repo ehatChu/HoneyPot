@@ -50,6 +50,9 @@
         border-radius: 8px;
         border: 1px solid rgb(156, 156, 156);
         padding-left: 10px;
+        outline: none;
+        font-size: 18px;
+		font-family: 'Noto Sans KR';
     }
 
     .vote-btn-area {
