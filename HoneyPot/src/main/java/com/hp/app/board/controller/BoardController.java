@@ -20,6 +20,12 @@ public class BoardController {
 		return "board/list";
 	}
 	
+	//게시글 상세 조회
+	@GetMapping("detail")
+	public String detail() {
+		return "board/detail";
+	}
+	
 	//장터 게시판
 	@GetMapping("market")
 	public String market() {
