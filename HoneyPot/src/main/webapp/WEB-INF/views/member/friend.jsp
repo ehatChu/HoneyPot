@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <%@ include file="/WEB-INF/views/common/header.jsp" %>
+    <%@ include file="/WEB-INF/views/common/header-k-test.jsp" %>
         <nav>
             <!-- <%@ include file="/WEB-INF/views/common/first-nav.jsp" %> -->
             <%@ include file="/WEB-INF/views/common/second-nav.jsp" %>
@@ -35,7 +35,8 @@
                     
                 </div>
             </div>
-            <button id="temp-btn1">상벌점 모달바 생성</button>
+            <button id="alarm-btn">알림창 모달바 생성</button>
+            <button id="temp-btn">배달 모달바 생성</button>
 
 
             <div class="member-area">
@@ -158,51 +159,121 @@
             
 
 
-            <!-- <button id="temp-btn">정지 모달바 생성</button> -->
+            
             
         </main>
+
         
-        <!-- <div class="background1"> -->
-            <div class="window1">
-                <div class="popup1">
-                    <div class="model-header-area">
-                        <div class="model-header">
-                            <span class="material-symbols-outlined" id="close1">
-                                close
-                            </span>
-                        </div>
+            <div class="alarm-window">
+                <div class="alarm-popup">
+                    <div class="alarm-header">
+                        <span class="material-symbols-outlined" id="alarm-close">
+                            close
+                        </span>
                     </div>
-                    <div class="model-body-area">
-                        <div class="model-body-first">
-                            <div class="model-sanction-date">
-                                <div class="model-title-text">상벌점 점수</div>
-                                <div><input class="model-sanction-input" type="number"></div>
-                            </div>
-                            <div class="model-sanction-member">
-                                <div class="model-title-text1">대상자</div>
-                                <div class="model-member-info">
-                                    <div>이정민</div>
-                                    <div class="model-member-profile">
-                                        <img src="" alt="프로필사진">
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="alarm-body-area">
+                        <div class="model-alarm-img">
+                            <img src="/app/resources/bee/delivery.png" alt="배달">
                         </div>
-                        <div>
-                            <div class="model-title-text">내용</div>
-                            <textarea name="" id="" class="model-body-content" cols="30" rows="10"></textarea>
+                        <div class="model-alarm-content">
+                            <div class="model-alarm-text">홍길동님 배달이 왔습니다.</div>
+                            <div class="model-alarm-text">경비실에서 찾아가세요</div>
+                            <div class="model-alarm-date">2023-07-04 13시 50분</div>
                         </div>
-
-                        <div class="model-btn-area">
-                            <button id="check-btn" class="model-btn b-yellow">점수주기</button>
-
+                        <div class="model-alarm-btn">
+                            <button id="check-btn">확인</button>
                         </div>
-
                     </div>
     
                 </div>
             </div>
-        <!-- </div> -->
+
+            
+
+            <div class="delivery-background">
+                <div class="delivery-window">
+                    <div class="delivery-popup">
+                        <div class="delivery-model-header-area">
+                            <div class="delivery-model-header">
+                                <div class="delivery-model-header-text">제재 상세내역</div>
+                                <span class="material-symbols-outlined" id="delivery-close">
+                                    close
+                                </span>
+                            </div>
+                        </div>
+                        <div class="delivery-model-body-area">
+                            <div class="delivery-model-body-first">
+                                <div class="delivery-model-sanction-date">
+                                    <div class="delivery-model-title-text">알림 유형</div>
+                                    <div>
+                                        <select name="" id="" class="delivery-model-input-date">
+                                            <option value=""></option>
+                                            <option value=""></option>
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="delivery-content-header">
+                                    <div class="delivery-model-title-text">회원목록</div>
+                                    <div class="delivery-model-search-box">
+                                        <input type="text">
+                                        <button>검색</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="delivery-content-body">
+                                <div class="delivery-member-list-area">
+                                    <div class="delivery-member-list" draggable="true">
+                                        <div class="delivery-member-list-img">
+                                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
+                                        </div>
+                                        <div class="delivery-member-list-text">
+                                            <span>김일연</span>
+                                            <span>(102동 1111호)</span>
+                                        </div>
+                                    </div>
+                                    <div class="delivery-member-list" draggable="true">
+                                        <div class="delivery-member-list-img">
+                                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
+                                        </div>
+                                        <div class="delivery-member-list-text">
+                                            <span>김이연</span>
+                                            <span>(102동 1111호)</span>
+                                        </div>
+                                    </div>
+                                    <div class="delivery-member-list" draggable="true">
+                                        <div class="delivery-member-list-img">
+                                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
+                                        </div>
+                                        <div class="delivery-member-list-text">
+                                            <span>김삼연</span>
+                                            <span>(102동 1111호)</span>
+                                        </div>
+                                    </div>
+                                    
+
+                                </div>
+                                <div class="delivery-member-btn-area">
+                                    <button class="member-move-btn">></button>
+                                    <button class="member-move-btn"><</button>
+                                </div>
+                                <div class="delivery-member-list-area">
+
+                                </div>
+                            </div>
+
+                            <div class="delivery-model-btn-area">
+                                <button id="delivery-check-btn" class="delivery-model-btn" type="button">보내기</button>
+                            </div>
+
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+
 
 </body>
 
@@ -220,19 +291,83 @@
 
     mainHeigth();
 
-    // 모달 사용
-    function show1 () {
-        document.querySelector(".window1").className = "window1 show";
+    // 알람 모달 사용
+    function alarmShow () {
+        document.querySelector(".alarm-window").className = "alarm-window show";
     }
 
-    function close1 () { 
-        document.querySelector(".window1").className = "window1";
+    function alarmClose () { 
+        document.querySelector(".alarm-window").className = "alarm-window";
     }
 
 
-    document.querySelector("#temp-btn1").addEventListener('click', show1);
-    document.querySelector("#close1").addEventListener('click', close1);
-    document.querySelector("#check-btn").addEventListener('click', close1);
+    document.querySelector("#alarm-btn").addEventListener('click', alarmShow);
+    document.querySelector("#alarm-close").addEventListener('click', alarmClose);
+    document.querySelector("#check-btn").addEventListener('click', alarmClose);
 
     // document,querySelector(".model-content-plist").addEventListener('click',);
+
+    // 배달 모달 사용
+    function deliveryShow () {
+        document.querySelector(".delivery-background").className = "delivery-background show";
+    }
+
+    function deliveryClose () { 
+        document.querySelector(".delivery-background").className = "delivery-background";
+    }
+
+
+    document.querySelector("#temp-btn").addEventListener('click', deliveryShow);
+    document.querySelector("#delivery-close").addEventListener('click', deliveryClose);
+    document.querySelector("#delivery-check-btn").addEventListener('click', deliveryClose);
+
+
+
+
+    // 드래그앤 드랍
+    const draggables = document.querySelectorAll(".delivery-member-list");
+    const containers = document.querySelectorAll(".delivery-member-list-area");
+
+    draggables.forEach(draggable => {
+    draggable.addEventListener("dragstart", () => {
+        draggable.classList.add("dragging");
+    });
+
+    draggable.addEventListener("dragend", () => {
+        draggable.classList.remove("dragging");
+    });
+    });
+
+    containers.forEach(container => {
+    container.addEventListener("dragover", e => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(container, e.clientX);
+        const draggable = document.querySelector(".dragging");
+        if (afterElement === undefined) {
+        container.appendChild(draggable);
+        } else {
+        container.insertBefore(draggable, afterElement);
+        }
+    });
+    });
+
+    function getDragAfterElement(container, x) {
+    const draggableElements = [
+        ...container.querySelectorAll(".draggable:not(.dragging)"),
+    ];
+
+    return draggableElements.reduce(
+        (closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = x - box.left - box.width / 2;
+        // console.log(offset);
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+        },
+        { offset: Number.NEGATIVE_INFINITY },
+    ).element;
+    }
 </script>
