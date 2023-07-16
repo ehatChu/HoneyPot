@@ -9,8 +9,8 @@
 
 	/* 목록 구역 */
 	.list-content-area {
-		text-align: center;
 		padding: 25px;
+		text-align: center;
 	}
 
 	.list-bg {
@@ -40,7 +40,7 @@
 		margin: 30px;
 		border-collapse: collapse;
 		font-size: 18px;
-		width: 1350px;
+		width: 1200px;
 	}
 
 	.board-list-area, .page-area {
@@ -55,7 +55,8 @@
 		border-bottom: 3px solid #FAD355;
 	}
 
-	#board-list td[id=title] { text-align: left; }
+	#board-list td[id=content] { text-align: left; }
+	#board-list td[id=date] { text-align: right; }
 
 	#board-list tr:hover {
 		background-color: #fdeaab;
@@ -105,10 +106,8 @@
 					<table id="board-list">
 						<c:forEach begin="1" end="10">
 							<tr>
-								<td id="title">제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-								<td>2023.01.01 15:49</td>
-								<td><i class="fa-solid fa-heart"></i>좋아요</td>
-								<td><i class="fa-solid fa-eye"></i>조회수</td>
+								<td id="content">댓글내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</td>
+								<td id="date">2023.01.01 15:49</td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -154,5 +153,5 @@
     basicSetting(); // 기본 셋팅
     headerName('마이페이지'); // 현재 페이지 이름
     firstNav(['내정보', '나의활동', '신청내역','관리비'], '나의활동'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    secondNav(['내게시글', '내댓글', '좋아요', '상벌점내역'], '내게시글'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+    secondNav(['내게시글', '내댓글', '좋아요', '상벌점내역'], '내댓글'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 </script>

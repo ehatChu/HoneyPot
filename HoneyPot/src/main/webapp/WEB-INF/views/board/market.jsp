@@ -9,7 +9,6 @@
 
 	/* 검색바 */
 	.board-search-area {
-		width: 1560px;
 		margin-top: 25px;
 		display: flex;
 		justify-content: end;
@@ -43,7 +42,7 @@
 		display: flex;
 		justify-self: center;
 		align-items: center;
-		margin-right: 45px;
+		margin-right: 30px;
 	}
 
 	input[name=boardSearch] {
@@ -71,8 +70,8 @@
 
 	/* 목록 구역 */
 	.list-content-area {
-		padding: 25px;
 		text-align: center;
+		padding: 25px;
 	}
 
 	.list-bg {
@@ -137,15 +136,9 @@
 
 	/* 글쓰기 버튼 */
 	.btn-area {
-		width: 1560px;
 		display: flex;
 		justify-content: right;
 		align-items: center;
-	}
-
-	#btn-box {
-		margin-top: 40px;
-		margin-right: 125px;
 	}
 
 	#btn-box > button {
@@ -158,6 +151,8 @@
 		text-align: center;
 		font-size: 18px;
 		font-weight: bold;
+		margin-right: 70px;
+		margin-top: 40px;
 	}
 
 	#btn-box > button:hover {

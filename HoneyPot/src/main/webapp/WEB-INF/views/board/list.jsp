@@ -9,7 +9,6 @@
 
 	/* 검색바 */
 	.board-search-area {
-		width: 1560px;
 		margin-top: 25px;
 		display: flex;
 		justify-content: end;
@@ -43,7 +42,7 @@
 		display: flex;
 		justify-self: center;
 		align-items: center;
-		margin-right: 45px;
+		margin-right: 30px;
 	}
 
 	input[name=boardSearch] {
@@ -69,11 +68,10 @@
 		background-color: rgb(155, 155, 155);
 	}
 
-
 	/* 목록 구역 */
 	.list-content-area {
-		padding: 25px;
 		text-align: center;
+		padding: 25px;
 	}
 
 	.list-bg {
@@ -107,7 +105,6 @@
 	}
 
 	.board-list-area, .page-area {
-		width: 1560px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -119,6 +116,8 @@
 		border-bottom: 3px solid #FAD355;
 	}
 
+	#board-list td[id=title] { text-align: left; }
+
 	#board-list tr:hover {
 		background-color: #fdeaab;
 		transition: 0.3s;
@@ -129,13 +128,10 @@
 
 	/* 글쓰기 버튼 */
 	.btn-area {
-		width: 1560px;
 		display: flex;
 		justify-content: right;
 		align-items: center;
 	}
-
-	#btn-box { margin-right: 125px; }
 
 	#btn-box > button {
 		width: 100px;
@@ -147,6 +143,7 @@
 		text-align: center;
 		font-size: 18px;
 		font-weight: bold;
+		margin-right: 70px;
 	}
 
 	#btn-box > button:hover {
@@ -219,9 +216,9 @@
 					<table id="board-list">
 						<c:forEach begin="1" end="10">
 							<tr>
-								<td>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-								<td>관리자</td>
-								<td>2023.01.01</td>
+								<td id="title">제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
+								<td id="writer">관리자</td>
+								<td>2023.01.01 15:49</td>
 								<td><i class="fa-solid fa-heart"></i>좋아요</td>
 								<td><i class="fa-solid fa-eye"></i>조회수</td>
 							</tr>
