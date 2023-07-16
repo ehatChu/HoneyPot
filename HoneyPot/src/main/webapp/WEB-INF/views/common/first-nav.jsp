@@ -37,7 +37,6 @@
 
 #main-area {
 	height: 812px;
-	background-color: #e7e7e7;
 }
 
 /* 서브초이스 */
