@@ -420,7 +420,7 @@
 							</div>
 						</div>
 						<!-- 채팅 알림 모달 -->
-						<div class="chat_modal_wrap">
+						<div class="chat_modal_wrap hidden">
 							<div class="chat_modalBox">
 								<c:forEach begin="1" end="5">
 									<div class="latest-chat">

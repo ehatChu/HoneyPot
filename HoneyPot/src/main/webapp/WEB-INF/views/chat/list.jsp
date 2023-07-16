@@ -369,6 +369,159 @@
 		#modal button {
 			margin-right: 10px;
 		}
+
+		/* 친구 초대 모달 */
+		.invite-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .invite-modal .bg {
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modalBox {
+          position: absolute;
+          background-color: #fff;
+          width: 500px;
+          height: 600px;
+		  border-radius: 30px;
+		  display: grid;
+		  grid-template-rows: 50px 550px;
+        }
+
+        .modalBox button {
+          display: block;
+          margin: 0 auto;
+		  border: none;
+		  background-color: #ffce31;
+          cursor: pointer;
+        }
+
+        .hidden {
+          display: none;
+        }
+
+		/* 모달 디자인 영역 */
+		.upper-bar {
+			display: grid;
+			grid-template-columns: 450px 50px;
+			align-items: center;
+			background: #ffce31;
+			color: black;
+			border-radius: 30px 30px 0px 0px;
+		}
+
+		.upper-bar > span {
+			margin-left: 20px;
+			font-size: 20px;
+			font-weight: 530;
+		}
+
+		.invite-first-area {
+            display: grid;
+            grid-template-rows: 50px 400px 100px;
+            align-items: center;
+			font-size: 20px;
+		}
+
+        .search-list{
+            display: grid;
+			grid-template-columns: 400px 100px;
+			align-items: end;
+        }
+
+		.search-list > input{
+			width: 390px;
+			height: 50px;
+			margin-top: 20px;
+			margin-left: 10px;
+			font-family: 'Noto Sans KR';
+			font-size: 18px;
+			border: 1px solid #8A8A8A;
+			border-right: 0;
+		}
+
+		.search-list > .searchBtn {
+			width: 90px;
+			height: 50px;
+			background-color: #ffce31;
+			font-family: 'Noto Sans KR';
+			font-size: 18px;
+			font-weight: 600;
+            cursor: pointer;
+			margin-right: 20px;
+			border: 1px solid #8A8A8A;
+		}
+
+		.friend-list {
+			margin-top: 20px;
+			margin-left: 10px;
+			width: 480px;
+			height: 100%;
+			max-height: 400px;
+			display: flex;
+			flex-direction: column;
+			border: 1px solid #8A8A8A;
+			border-top: none;
+			overflow-y: auto;
+		}
+
+		.friend-list::-webkit-scrollbar {
+			width: 10px; /* 스크롤바의 너비 설정 */
+		}
+		
+		.friend-list::-webkit-scrollbar-track {
+			background-color: #e0e0e0; /* 스크롤바 트랙의 배경색을 투명하게 설정 */
+		}
+		
+		.friend-list::-webkit-scrollbar-thumb {
+			background-color: #4A321F; /* 스크롤바 썸의 배경색을 투명하게 설정 */
+		}
+
+		.friend-list > div {
+			display: flex;
+			align-items: center;
+			height: 70px;
+			margin-bottom: 30px;
+			font-size: 20px;
+			font-family: 'Noto Sans KR';
+		}
+
+        .friend-list > div > img {
+			margin-top: 10px;
+            margin-left: 30px;
+			margin-right: 20px;
+			width: 70px;
+			height: 70px;
+			border-radius: 70%;
+        }
+
+		#inviteBtn {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		#inviteBtn > button {
+			background-color: #ffce31;
+			width: 150px;
+			height: 50px;
+			font-size: 18px;
+			font-weight: 600;
+			color: black;
+			border: none;
+			border-radius: 10px;
+            cursor: pointer;
+		}
 					
 
 	</style>
@@ -380,6 +533,71 @@
 			</nav>
 
 			<main>
+				<!-- 채팅방 친구 초대 모달 영역 -->
+				<div class="invite-modal hidden">
+					<div class="bg"></div>
+					<div class="modalBox">
+						<div class="upper-bar">
+							<span>친구 초대</span>
+							<button class="invite-closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+						</div>
+						<div class="invite-first-area">
+							<div class="search-list">
+								<input type="text" id="name">
+								<button class="searchBtn">검색</button>
+							</div>
+							<form action="/app/chat/invite" method="post">
+								<div class="friend-list">
+									<div>
+										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+										<span>이정민</span>
+									</div>
+									<div>
+										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+										<span>이정민</span>
+									</div>
+									<div>
+										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+										<span>이정민</span>
+									</div>
+									<div>
+										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+										<span>이정민</span>
+									</div>
+									<div>
+										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+										<span>이정민</span>
+									</div>
+									<div>
+										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+										<span>이정민</span>
+									</div>
+									<div>
+										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+										<span>이정민</span>
+									</div>
+									<div>
+										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+										<span>이정민</span>
+									</div>
+									<div>
+										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+										<span>이정민</span>
+									</div>
+									<div>
+										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+										<span>이정민</span>
+									</div>
+									<div>
+										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+										<span>이정민</span>
+									</div>
+								</div>
+							</form>
+								<div id="inviteBtn"><button>초대</button></div>
+							</div>
+					</div>
+				</div>
 				<div id="wrap">
                     <!-- 채팅방 목록 영역 -->
 					<div id="left-area">
@@ -454,29 +672,7 @@
 					<div id="chat-area">
                         <div class="room-name-area">
                             <div><span>101동 골프 모임</span><button class="openBtn"><i class="fa-solid fa-pen fa-sm" style="color: #000000;"></i></button></div>
-                            <!-- 모달 영역 -->
-                            <div class="modal hidden">
-                                <div class="bg"></div>
-                                <div class="modalBox">
-                                    <div class="upper-bar">
-                                        <span>채팅방 정보 수정</span>
-                                        <button class="closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
-                                    </div>
-                                    <form action="/app/chat/edit" method="post" enctype="multipart/form-data">
-                                        <div class="first-area">
-                                            <div class="nameBox">
-                                                채팅방 이름
-                                                <input type="text" id="name" value="${vo.name}">
-                                            </div>
-                                            <div class="picBox">
-                                                채팅방 사진
-                                                <input type="file" name="img" multiple accept=".jpg, .png, .jpeg">
-                                            </div>
-                                            <div id="submitBtn"><input type="submit" value="수정"></div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            
                             <div><button class="quitBtn"><span>나가기</span><i class="fa-solid fa-arrow-right-from-bracket fa-lg" style="color: #000000;"></i></button></div>
                         </div>
                         <div class="chat-content-area">
@@ -509,6 +705,31 @@
                             <button id="sendBtn">보내기</button>
                         </div>
                     </div>
+					<!-- 채팅 수정 모달 영역 -->
+					<div class="modal hidden">
+						<div class="bg"></div>
+						<div class="modalBox">
+							<div class="upper-bar">
+								<span>채팅방 정보 수정</span>
+								<button class="closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+							</div>
+							<form action="/app/chat/edit" method="post" enctype="multipart/form-data">
+								<div class="first-area">
+									<div class="nameBox">
+										채팅방 이름
+										<input type="text" id="name" value="${vo.name}">
+									</div>
+									<div class="picBox">
+										채팅방 사진
+										<input type="file" name="img" multiple accept=".jpg, .png, .jpeg">
+									</div>
+									<div id="submitBtn"><input type="submit" value="수정"></div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<!--ff-->
+
 				</div>
 			</main>
 
@@ -522,12 +743,12 @@
 		basicSetting();
     	headerName('채팅');
 
-		// 모달 열기
+		// 채팅방 수정 모달 열기
         const openModal = () => {
         document.querySelector(".modal").classList.remove("hidden");
         };
 
-        // 모달 닫기
+        // 채팅방 수정 모달 닫기
         const closeModal = () => {
         document.querySelector(".modal").classList.add("hidden");
         };
@@ -549,19 +770,19 @@
 			event.preventDefault(); 
 
 			// 해당 kick-out div의 위치 가져오기
-			var div = this;
-			var rect = div.getBoundingClientRect();
-			var divTop = rect.top + window.pageYOffset;
-			var divLeft = rect.left + window.pageXOffset;
+			const div = this;
+			const rect = div.getBoundingClientRect();
+			const divTop = rect.top + window.pageYOffset;
+			const divLeft = rect.left + window.pageXOffset;
 
 			// 해당 kick-out div에 속한 kick-area 요소 가져오기
-			var kickArea = div.querySelector(".kick-area");
+			const kickArea = div.querySelector(".kick-area");
 
 			// span 요소의 위치 가져오기
-			var span = div.querySelector("span");
-			var spanRect = span.getBoundingClientRect();
-			var spanTop = spanRect.top + window.pageYOffset;
-			var spanRight = spanRect.right + window.pageXOffset;
+			const span = div.querySelector("span");
+			const spanRect = span.getBoundingClientRect();
+			const spanTop = spanRect.top + window.pageYOffset;
+			const spanRight = spanRect.right + window.pageXOffset;
 
 			// kick-area 요소의 위치 설정
 			kickArea.style.top = spanTop + span.offsetHeight + "px";
@@ -574,10 +795,10 @@
 			document.addEventListener("click", handleBackgroundClick);
 		}
 
-		// 배경 클릭 이벤트 핸들러
+		// 배경 클릭 이벤트 
 		function handleBackgroundClick(event) {
 			// kick-area 숨기기
-			var kickAreas = document.querySelectorAll(".kick-area");
+			const kickAreas = document.querySelectorAll(".kick-area");
 			kickAreas.forEach(function (kickArea) {
 				kickArea.style.display = "none";
 			});
@@ -586,47 +807,69 @@
 			document.removeEventListener("click", handleBackgroundClick);
 		}
 
-		// 강퇴 버튼 클릭 이벤트 핸들러
+		// 강퇴 버튼 클릭 이벤트 
 		function handleKickOutClick() {
 			// 모달 표시
-			var modal = document.getElementById("modal");
+			const modal = document.getElementById("modal");
 			modal.style.display = "block";
 		}
 
-		// 확인 버튼 클릭 이벤트 핸들러
+		// 확인 버튼 클릭 이벤트
 		function handleConfirmClick() {
 			// 강퇴 함수 추가 예정
 			alert("강퇴되었습니다.");
 
-			// 모달 닫기
-			var modal = document.getElementById("modal");
+			const modal = document.getElementById("modal");
 			modal.style.display = "none";
 		}
 
-		// 취소 버튼 클릭 이벤트 핸들러
+		// 취소 버튼 클릭 이벤트
 		function handleCancelClick() {
 			// 모달 닫기
-			var modal = document.getElementById("modal");
+			const modal = document.getElementById("modal");
 			modal.style.display = "none";
 		}
 
 		// 우클릭 이벤트를 모든 kick-out에 추가
-		var kickOutDivs = document.querySelectorAll(".kick-out");
+		const kickOutDivs = document.querySelectorAll(".kick-out");
 		kickOutDivs.forEach(function (div) {
 			div.addEventListener("contextmenu", handleRightClick);
 
 			// kick-area 요소의 클릭 이벤트 추가
-			var kickArea = div.querySelector(".kick-area");
-			var kickButton = kickArea.querySelector("a");
+			const kickArea = div.querySelector(".kick-area");
+			const kickButton = kickArea.querySelector("a");
 			kickButton.addEventListener("click", handleKickOutClick);
 		});
 
-		// 확인 버튼 클릭 이벤트를 추가
-		var confirmBtn = document.getElementById("confirm-btn");
+		// 확인 버튼 클릭 이벤트 추가
+		const confirmBtn = document.getElementById("confirm-btn");
 		confirmBtn.addEventListener("click", handleConfirmClick);
 
-		// 취소 버튼 클릭 이벤트를 추가
-		var cancelBtn = document.getElementById("cancel-btn");
+		// 취소 버튼 클릭 이벤트 추가
+		const cancelBtn = document.getElementById("cancel-btn");
 		cancelBtn.addEventListener("click", handleCancelClick);
+
+
+
+		// 채팅방 초대 모달 열기
+        const openListModal = () => {
+        document.querySelector(".invite-modal").classList.remove("hidden");
+        };
+
+        // 채팅방 초대 모달 닫기
+        const closeListModal = () => {
+        document.querySelector(".invite-modal").classList.add("hidden");
+        };
+
+		// 모달 닫기 버튼에 이벤트 추가
+		document.querySelector(".invite-closeBtn").addEventListener("click", closeListModal);
+
+		// 모달 배경 클릭 시 모달 닫기
+		document.querySelector(".bg").addEventListener("click", closeListModal);
+
+
+		// 친구 초대 클릭 이벤트 추가
+		const inviteBtn = document.querySelector(".inviteMember");
+		inviteBtn.addEventListener("click", openListModal);
 
 	</script>

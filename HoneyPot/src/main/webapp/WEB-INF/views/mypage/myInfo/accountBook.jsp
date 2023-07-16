@@ -238,23 +238,28 @@
 			background: #FFFFFF;
 		}
 
-		.line{border-bottom:1px solid black;}
+		#line{border-bottom:1px solid black;}
 		
 		.A_detail > thead > tr {
 			font-size: 18px;
 			height: 40px;
 		}
 
+		.A_detail > tbody > tr:hover {
+			cursor: pointer;
+			background-color: #fdeaab;
+		}
+
 		.A_detail > thead > tr >th:first-child > i {
 			margin-left: 10px;
 		}
-
+		
 		#page-area {
 			display: grid;
 			grid-template-columns: 950px 564px;
 			justify-items: end;
 			align-items: center;
-			margin-top: 10px;
+			border-radius: 0 0 10px 0;
 		}
 		
 		.paging {
@@ -262,15 +267,23 @@
 			align-items: baseline;
 		}
 
-		.paging > div {
-			width: 20px;
-			height: 20px;
-			margin-right: 40px;
-		}
+        #page-area > .paging >.pageBtn {
+            font-weight: bold;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: transparent;
+        }
 
+        #page-area > .paging > .pageBtn:hover{
+            background-color: #FAD355;
+            color: white;
+        }
 		#editBtn, #delBtn {
 			border: none;
-			background-color: #ffffff;
+			background-color: transparent;
 		}
 
 		#openBtn {
@@ -477,7 +490,7 @@
 						<div>
 							<table class="A_detail">
 								<thead>
-									<tr class="line">
+									<tr id="line">
 										<th>카테고리<i class="fa-solid fa-caret-down fa-lg"></i></th>
 										<th>일자</th>
 										<th>내용</th>
@@ -488,7 +501,7 @@
 								</thead>
 								<tbody>
 									<c:forEach begin="1" end="10">
-										<tr class="line">
+										<tr id="line" class="openBtn">
 											<td>금융/보험</td>
 											<td>11일</td>
 											<td>우체국 운전자 보험</td>
@@ -503,11 +516,27 @@
 					</div>
 					<div id="page-area">
 						<div class="paging">
-							<div><i class="fa-solid fa-angle-left fa-lg" style="color: #ffce31;"></i></div>
-							<c:forEach begin="1" end="5">
-								<div class="num-area">1</div>
-							</c:forEach>
-							<div><i class="fa-solid fa-angle-right fa-lg" style="color: #ffce31;"></i></div>
+							<button class="pageBtn"><</button>
+							<button class="pageBtn">1</button>
+							<button class="pageBtn">2</button>
+							<button class="pageBtn">3</button>
+							<button class="pageBtn">4</button>
+							<button class="pageBtn">5</button>
+							<button class="pageBtn">></button>
+							<!-- <c:if test="${pv.currentPage > 1}">
+								<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
+							</c:if>
+								<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+									<c:if test="${pv.currentPage != i}">
+										<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
+									</c:if>
+									<c:if test="${pv.currentPage == i}">
+										<a class="btn btn-primary btn-sm">${i}</a>
+									</c:if>
+								</c:forEach>
+							<c:if test="${pv.currentPage < pv.maxPage}">
+								<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
+							</c:if> -->
 						</div>
 						<button id="openBtn" class="openBtn">등록</button>
 						<div class="modal hidden">
@@ -709,7 +738,6 @@
 
 	// 모달 배경 클릭 시 모달 닫기
 	document.querySelector(".bg").addEventListener("click", closeModal);
-
 
 	// 금액칸 콤마 정규식
 	function comma(str) {
