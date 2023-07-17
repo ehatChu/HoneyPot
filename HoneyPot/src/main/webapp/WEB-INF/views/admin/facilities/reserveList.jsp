@@ -39,7 +39,7 @@
         width: 150px;
         padding: 5px;
     }
-    input[type="checkbox"] {
+    .check {
         transform: scale(1.5);
         margin-right: 10px;
         /* font-family: 'Noto Sans KR';
@@ -57,12 +57,53 @@
         justify-content: center;
         align-items: center;
         border-bottom: 1px solid black;
+        box-sizing: border-box;
     }
     .margin-right {
         margin-right: 20px;
     }
     .margin-left {
         margin-left: 10px;
+    }
+    body * {
+        font-family: 'Noto Sans KR';
+    }
+    .color-main {
+        background-color: #FFCE31;
+        border: none;
+    }
+    .color-gray {
+        background-color: #D9D9D9;
+        border: none;
+    }
+    table {
+        border-collapse: collapse;
+        width: 1560px;
+        height: 550px;
+        box-sizing: border-box;
+    } 
+    input[type="checkbox"] {
+        transform: scale(1.5);
+    }
+    .main-header {
+        height: 50px;
+    }
+    .table-line {
+        text-align: center;
+    }
+    .color-red {
+        background-color: red;
+        border: none;
+    }
+    #result-line {
+        text-align: center;
+        margin-top: 10px;
+    }
+    #page-area{
+        margin-top: 10px;
+    }
+    .table-line:hover td {
+        background-color: #ffeeb7;
     }
 </style>
 <!-- 해당페이지는 facilities/admin/reserve-list -->
@@ -77,10 +118,10 @@
         <form action="">
             <div id="first-line">
                 <div id="dutation">
-                    <span class="font-bold size-middle">기간</span><span><input type="checkbox">전체기간<input type="date" class="margin-left">&#x2001;~&#x2001;<input type="date"></span>
+                    <span class="font-bold size-middle">기간</span><span><input type="checkbox" class="check">전체기간<input type="date" class="margin-left">&#x2001;~&#x2001;<input type="date"></span>
                 </div>
                 <div id="time">
-                    <span class="font-bold size-middle">시간</span><span><input type="checkbox">하루<input type="time" class="margin-left">&#x2001;~&#x2001;<input type="time"></span>
+                    <span class="font-bold size-middle">시간</span><span><input type="checkbox" class="check">하루<input type="time" class="margin-left">&#x2001;~&#x2001;<input type="time"></span>
                 </div>
                 <div id="facilities" class="font-bold size-middle">
                     시설 
@@ -112,12 +153,40 @@
                 </div>
             </div>
             <div id="second-line">
-                <input type="button" value="검색" class="big-btn margin-right"><input type="reset" value="초기화" class="big-btn">
+                <input type="button" value="검색" class="big-btn margin-right color-main"><input type="reset" value="초기화" class="big-btn color-gray">
             </div>
         </form>
         
-        <div id="third-line"></div>
-        <div id="result-line"></div>
+        <div id="third-line">
+            <table border="1">
+                <thead>
+                    <tr class="main-header">
+                        <th><input type="checkbox"></th>
+                        <th>예약번호</th>
+                        <th>예약시설</th>
+                        <th>예약자</th>
+                        <th>예약일시</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <c:forEach var="i" begin="1" end="9">
+                        <tr class="table-line">
+                            <td><input type="checkbox"></td>
+                            <td>101006</td>
+                            <td>도서관</td>
+                            <td>홍길동</td>
+                            <td>2022-07-02 17:00~18:00</td>
+                            <td>예약</td>
+                        </tr>
+                   </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <div id="result-line">
+            <button class="big-btn color-red">강제취소</button>
+            <div id="page-area">< 1 2 3 4 5 ></div>
+        </div>
     </main>
 
 </body>
