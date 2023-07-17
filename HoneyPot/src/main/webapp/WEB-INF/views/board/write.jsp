@@ -226,6 +226,44 @@
         cursor: pointer;
     }
 
+
+    /* 투표 UI */
+    #vote-wrap {
+        border: 3px solid #4A321F;
+        border-radius: 20px;
+        margin: 10px 0px;
+        padding: 10px;
+        background: white;
+    }
+
+    #vote-header {
+        display: flex;
+    }
+
+    #vote-header > div {
+        justify-content: center;
+        align-items: center;
+    }
+
+    #vote-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    #vote-end-date {
+        margin-left: 5px;
+        font-size: 15px;
+        color: #5F5F5F;
+        color: rgb(156, 156, 156);;
+    }
+
+    #vote-body {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    div { border: 1px solid red;}
+
 </style>
 </head>
 <body>
@@ -261,6 +299,25 @@
                             </button>
                         </div>
 
+                        
+                        <!-- 투표 ui -->
+                        <div class="vote-area">
+                            <div id="vote-wrap">
+                                <div id="vote-header">
+                                    <div id="vote-title">투표제목</div>
+                                    <div id="vote-end-date">종료일 : 0000-00-00</div>
+                                </div>
+        
+                                <div id="vote-body">
+                                    <label><input type="radio" name="vote" value="1">1번</label>
+                                    <label><input type="radio" name="vote" value="1">1번</label>
+                                    <label><input type="radio" name="vote" value="1">1번</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- 본문 서머노트 -->
                         <div class="write-content"><textarea id="summernote" name="content"></textarea></div>
                     </div>
 
@@ -318,10 +375,6 @@
             </div>
 
         </div>
-
-
-        <!-- 투표 -->
-        
 
     </main>
 
