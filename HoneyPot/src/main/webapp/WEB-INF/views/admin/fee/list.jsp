@@ -86,6 +86,11 @@
             color: #FFFFFF;
 		}
 
+        .A_detail > tbody > tr:hover {
+            cursor: pointer;
+			background-color: #fdeaab;
+        }
+
 		.A_detail > thead > tr >th:first-child > i {
 			margin-left: 10px;
 		}
@@ -120,7 +125,8 @@
 
 		#editBtn, #delBtn {
 			border: none;
-			background-color: #ffffff;
+			background-color: transparent;
+            cursor: pointer;
 		}
 
 		#openBtn {
@@ -133,6 +139,7 @@
 			text-align: center;
 			border-radius: 12px;
 			border: none;
+            cursor: pointer;
 		}
 
 		/* 등록 모달 영역 */
@@ -273,6 +280,7 @@
         .excel {
             background-color: none;
             margin-right: 20px;
+            cursor: pointer;
         }
 
         .A_detail > tbody > #subTotal {

@@ -37,11 +37,13 @@
         .monthBox > select {
             width: 220px;
             height: 50px;
-            background-color: #e7e7e7;
+            background-color: transparent;
             border: none;
             font-size: 22px;
             color: #666060;
+            font-family: 'Noto Sans KR';
             font-weight: 550;
+            cursor: pointer;
         }
 
         .payBox {
@@ -63,6 +65,7 @@
             font-size: 23px;
             font-weight: 550;
             margin-right: 60px;
+            cursor: pointer;
         }
 
         .payBox > div:first-child{
@@ -177,6 +180,7 @@
 			margin-left: 20px;
 			font-size: 20px;
 			font-weight: 530;
+            font-family: 'Noto Sans KR';
 		}
 	
 		.content-modal {
@@ -191,6 +195,7 @@
             font-weight: 450;
             align-items: center;
             margin-left: 30px;
+            font-family: 'Noto Sans KR';
 		}
 
         .first-area > span:first-child {

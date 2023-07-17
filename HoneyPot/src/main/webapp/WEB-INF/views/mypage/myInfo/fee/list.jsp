@@ -41,6 +41,7 @@
 			font-size: 25px;
 			font-weight: 530;
 			margin-top: 10px;
+			cursor: pointer;
 		}
 
 		.price-area{
@@ -72,12 +73,43 @@
 		}
 
 		.detail-content-area > table{
-			height: 500px;
-			width: 100%;
+			height: 800px;
+			width: 720px;
 			border: 1px solid black;
 			text-align: center;
 			border-collapse: collapse;
 		}
+
+		.detail-content-area > table > thead {
+			float:left; width:750px;
+		}
+
+		.detail-content-area > table > tbody {
+			overflow-y:auto; overflow-x:hidden; float:left; width:750px; height:800px
+		}
+
+		.detail-content-area > table > tbody::-webkit-scrollbar {
+			width: 10px; 
+		}
+		
+		.detail-content-area > table > tbody::-webkit-scrollbar-track {
+			background-color: #e0e0e0; 
+		}
+		
+		.detail-content-area > table > tbody::-webkit-scrollbar-thumb {
+			background-color: #4A321F; 
+		}
+
+
+		.detail-content-area > table > tbody > tr:hover {
+			cursor: pointer;
+			background-color: #fdeaab;
+		}
+
+		.detail-content-area > table > thead> tr {
+			width: 100%;
+		}
+
 
 		.detail-content-area > table > thead> tr > th {
 			background-color: #d9d9d9;
@@ -85,17 +117,15 @@
 			font-size: 23px;
 			border-right: 1px solid black;
 			height: 40px;
+			width: 380px;
+			border-bottom: 1px solid black;
 		}
 
 		.detail-content-area > table > tbody > tr > td {
-			background-color: #ffffff;
 			font-weight: 500;
 			font-size: 23px;
 			padding: 10px;
-		}
-
-		.detail-content-area > table > tbody > tr:first-child > td {
-			border-top: 1px solid black;
+			width: 380px;
 		}
 
 		.detail-content-area > table > tbody > tr > td:last-child {
@@ -244,7 +274,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach begin="1" end="15">
+									<c:forEach begin="1" end="25">
 										<tr>
 											<td>일반관리비</td>
 											<td>19,390</td>
