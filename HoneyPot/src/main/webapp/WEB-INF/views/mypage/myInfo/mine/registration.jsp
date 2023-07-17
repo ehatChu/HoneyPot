@@ -37,6 +37,74 @@
 	.middle-text {
 		font-size: 18px;
 	}
+
+	#mine-header {
+		font-size: 24px;
+		font-weight: 700;
+		padding-left: 10px;
+	}
+	/* 등록창 모달 */
+	#modal-top {
+		width: 900px;
+		height: 50px;
+		background-color: #FFCE31;
+		border-radius: 20px 20px 0px 0px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	#registration{
+		width: 900px;
+		height: 400px;
+		background-color: white;
+		position: fixed;
+		top: 200px;
+		left: 600px;
+		border-radius: 30px 30px 0px 0px;
+	}
+	.margin-right {
+		margin-right: 10px;
+	}
+	#img {
+		width: 400px;
+		height: 300px;
+		background-color: gray;
+	}
+	#img-area {
+		display: flex;
+		justify-content: ;
+		align-items: center;
+		height: 350px;
+	}
+	#regi-content {
+		width: 450px;
+		display: grid;
+		grid-template-columns: 1fr 2fr;
+	}
+	#regi-content > div {
+		border: 1px solid black;
+	}
+	#regi-content >div:first-child{
+		grid-column: span 2;
+	}
+	.margin15 {
+		margin-left: 15px;
+	}
+	#regi-content >div:last-child{
+		grid-column: span 2;
+	}
+	.big-mine-text {
+		font-size: 30px;
+		font-weight: 800;
+	}
+	.margin-top{
+		margin-top: 20px;
+	}
+	.bold-text {
+		font-weight: 800;
+		font-size: 20px;
+	}
 </style>
 </head>
 <body>
@@ -60,7 +128,27 @@
 			
 		</div>
 		
-
+		<div id="registration">
+			<div id="modal-top">
+				<span id="mine-header">사유물등록</span><span><i class="fa-solid fa-xmark fa-2xl margin-right" style="color: #000000;"></i></span>
+			</div>
+			<form action="">
+				<div id="img-area">
+					<div id="img" class="margin15"></div>
+					<div id="regi-content" class="margin15">
+	
+						<div class="big-mine-text">사유물등록</div>
+						<div class="margin-top bold-text">사유물 종류</div> <div>111</div>
+						<div>사유물 이름</div> <div>111</div>
+						<div>사유물 번호판</div> <div>111</div>
+						<div><input type="button" value="등록"></div>					
+					</div>
+		
+				</div>
+			</form>
+			
+			
+		</div>
 	</main>
 
 </body>
