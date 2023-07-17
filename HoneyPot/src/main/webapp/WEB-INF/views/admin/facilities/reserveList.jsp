@@ -65,6 +65,7 @@
         margin-left: 10px;
     }
 </style>
+<!-- 해당페이지는 facilities/admin/reserve-list -->
 <body>
     <%@ include file="/WEB-INF/views/common/header.jsp" %>
     <nav>
