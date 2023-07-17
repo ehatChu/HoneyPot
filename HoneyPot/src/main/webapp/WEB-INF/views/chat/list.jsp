@@ -273,7 +273,7 @@
 
 		.first-area {
             display: grid;
-            grid-template-rows: 120px 230px 50px;
+            grid-template-rows: 100px 300px 50px;
             align-items: center;
 			font-size: 20px;
 		}
@@ -286,6 +286,10 @@
             display: flex;
             flex-direction: column;
         }
+
+		.picBox {
+			margin-bottom: 120px;
+		}
 
         .picBox > input[type=file] {
             margin-left: 10px;
@@ -338,6 +342,10 @@
 			padding-left: 20px;
 		}
 
+		.kick-area:hover {
+			background-color: #fdeaab;
+		}
+
 		.kick-area li a {
 			color: #000;
 			font-family: 'Noto Sans KR';
@@ -345,29 +353,37 @@
 			text-decoration-line: none;
 		}
 
-		#modal {
+		#kick-modal {
 			position: fixed;
-			display: none;
 			top: 50%;
 			left: 50%;
+			font-size: 18px;
+			font-weight: 550;
 			transform: translate(-50%, -50%);
-			background-color: #fff;
+			background-color: #ffffff;
+			box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.15);
 			width: 300px;
+			height: 200px;
 			padding: 20px;
 			text-align: center;
 			z-index: 9999;
+			border-radius: 10px;
 		}
 
-		#modal h2 {
-			margin: 0;
-		}
-
-		#modal p {
+		#kick-modal p {
 			margin: 20px 0;
 		}
 
-		#modal button {
+		#kick-modal button {
+			width: 100px;
+			height: 30px;
+			background-color: #ffce31;
 			margin-right: 10px;
+			margin-top: 20%;
+			border: none;
+			font-size: 18px;
+			font-family: 'Noto Sans KR';
+			cursor: pointer;
 		}
 
 		/* 친구 초대 모달 */
@@ -388,7 +404,7 @@
           background-color: rgba(0, 0, 0, 0.6);
         }
 
-        .modalBox {
+        .invite-modalBox {
           position: absolute;
           background-color: #fff;
           width: 500px;
@@ -398,7 +414,7 @@
 		  grid-template-rows: 50px 550px;
         }
 
-        .modalBox button {
+        .invite-modalBox button {
           display: block;
           margin: 0 auto;
 		  border: none;
@@ -448,6 +464,7 @@
 			font-size: 18px;
 			border: 1px solid #8A8A8A;
 			border-right: 0;
+			border-radius: 10px 0 0 0 ;
 		}
 
 		.search-list > .searchBtn {
@@ -460,6 +477,7 @@
             cursor: pointer;
 			margin-right: 20px;
 			border: 1px solid #8A8A8A;
+			border-radius: 0 10px 0 0;
 		}
 
 		.friend-list {
@@ -473,18 +491,19 @@
 			border: 1px solid #8A8A8A;
 			border-top: none;
 			overflow-y: auto;
+			border-radius: 0 0 10px 10px;
 		}
 
 		.friend-list::-webkit-scrollbar {
-			width: 10px; /* 스크롤바의 너비 설정 */
+			width: 10px; 
 		}
 		
 		.friend-list::-webkit-scrollbar-track {
-			background-color: #e0e0e0; /* 스크롤바 트랙의 배경색을 투명하게 설정 */
+			background-color: #e0e0e0; 
 		}
 		
 		.friend-list::-webkit-scrollbar-thumb {
-			background-color: #4A321F; /* 스크롤바 썸의 배경색을 투명하게 설정 */
+			background-color: #4A321F;
 		}
 
 		.friend-list > div {
@@ -522,6 +541,7 @@
 			border-radius: 10px;
             cursor: pointer;
 		}
+
 					
 
 	</style>
@@ -536,7 +556,7 @@
 				<!-- 채팅방 친구 초대 모달 영역 -->
 				<div class="invite-modal hidden">
 					<div class="bg"></div>
-					<div class="modalBox">
+					<div class="invite-modalBox">
 						<div class="upper-bar">
 							<span>친구 초대</span>
 							<button class="invite-closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
@@ -548,50 +568,13 @@
 							</div>
 							<form action="/app/chat/invite" method="post">
 								<div class="friend-list">
-									<div>
-										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-										<span>이정민</span>
-									</div>
-									<div>
-										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-										<span>이정민</span>
-									</div>
-									<div>
-										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-										<span>이정민</span>
-									</div>
-									<div>
-										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-										<span>이정민</span>
-									</div>
-									<div>
-										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-										<span>이정민</span>
-									</div>
-									<div>
-										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-										<span>이정민</span>
-									</div>
-									<div>
-										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-										<span>이정민</span>
-									</div>
-									<div>
-										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-										<span>이정민</span>
-									</div>
-									<div>
-										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-										<span>이정민</span>
-									</div>
-									<div>
-										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-										<span>이정민</span>
-									</div>
-									<div>
-										<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-										<span>이정민</span>
-									</div>
+									<c:forEach begin="1" end="10">
+										<div>
+											<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
+											<span>이정민</span>
+											<label for="addMember"><input type="checkbox" name="checkMember"></label>
+										</div>
+									</c:forEach>
 								</div>
 							</form>
 								<div id="inviteBtn"><button>초대</button></div>
@@ -658,11 +641,12 @@
 										</ul>
 									</div>
 									<!-- 강퇴 모달 -->
-									<div id="modal" style="display: none;">
-										<h2>강퇴</h2>
+									<div id="kick-modal" style="display: none;">
 										<p>이 유저를 강퇴하시겠습니까?</p>
-										<button id="confirm-btn">확인</button>
-										<button id="cancel-btn">취소</button>
+										<div>
+											<button id="confirm-btn">확인</button>
+											<button id="cancel-btn">취소</button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -810,8 +794,8 @@
 		// 강퇴 버튼 클릭 이벤트 
 		function handleKickOutClick() {
 			// 모달 표시
-			const modal = document.getElementById("modal");
-			modal.style.display = "block";
+			const kickModal = document.getElementById("kick-modal");
+			kickModal.style.display = "block";
 		}
 
 		// 확인 버튼 클릭 이벤트
@@ -819,15 +803,15 @@
 			// 강퇴 함수 추가 예정
 			alert("강퇴되었습니다.");
 
-			const modal = document.getElementById("modal");
-			modal.style.display = "none";
+			const kickModal = document.getElementById("kick-modal");
+			kickModal.style.display = "none";
 		}
 
 		// 취소 버튼 클릭 이벤트
 		function handleCancelClick() {
 			// 모달 닫기
-			const modal = document.getElementById("modal");
-			modal.style.display = "none";
+			const kickModal = document.getElementById("kick-modal");
+			kickModal.style.display = "none";
 		}
 
 		// 우클릭 이벤트를 모든 kick-out에 추가
