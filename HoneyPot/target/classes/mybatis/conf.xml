@@ -5,5 +5,28 @@
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
   
 <configuration>
+
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	 	<setting name="JDBCtypeForNULL" value="NULL"/>
+  	</settings>
+  
+   <environments default="HP">
+  	<environment id="HP">
+  		 <!-- JDBC 는 수동 커밋, MANAGED 는 자동 -->
+  		 <transactionManager type="JDBC"/>
+  		 <!-- POOLED는 데이터 풀 사용할 건지 , UNPOOLED -->
+  		 <dataSource type="POOLED">
+  		 	<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+			<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+			<property name="username" value="C##HONEYPOT"/>
+			<property name="password" value="1234"/>
+  		 </dataSource>
+  	</environment>
+  </environments>
+  
+  <mappers>
+  	<mapper resource="mapper/member-mapper.xml" />
+  </mappers>
   
 </configuration>
