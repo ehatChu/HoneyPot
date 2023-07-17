@@ -7,10 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller 
 @RequestMapping("facilities")
 public class FacilitiesController {
-	@GetMapping("library/editInfo")
-	public String editInfo() {
-		return "admin/facilities/library-editInfo";
-	}
 	
 	@GetMapping("library/reserve")
 	public String reserve() {
