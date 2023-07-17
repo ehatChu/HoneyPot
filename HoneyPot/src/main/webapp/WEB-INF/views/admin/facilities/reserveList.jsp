@@ -79,7 +79,7 @@
     table {
         border-collapse: collapse;
         width: 1560px;
-        height: 550px;
+        height: 500px;
         box-sizing: border-box;
     } 
     input[type="checkbox"] {
@@ -104,6 +104,18 @@
     }
     .table-line:hover td {
         background-color: #ffeeb7;
+    }
+    #page-area {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 30px;
+    }
+    .num:hover {
+        background-color: #FFCE31;
+        border-radius: 5px;
+    }
+    .page-box {
+        padding: 3px 10px;
     }
 </style>
 <!-- 해당페이지는 facilities/admin/reserve-list -->
@@ -170,7 +182,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                   <c:forEach var="i" begin="1" end="9">
+                   <c:forEach var="i" begin="1" end="8">
                         <tr class="table-line">
                             <td><input type="checkbox"></td>
                             <td>101006</td>
@@ -185,7 +197,15 @@
         </div>
         <div id="result-line">
             <button class="big-btn color-red">강제취소</button>
-            <div id="page-area">< 1 2 3 4 5 ></div>
+            <div id="page-area">
+                <span class="page-box"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></span>
+                <span class="page-box num">1</span>
+                <span class="page-box num">2</span>
+                <span class="page-box num">3</span>
+                <span class="page-box num">4</span>
+                <span class="page-box num">5</span>
+                <span class="page-box"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></span>
+            </div>
         </div>
     </main>
 
