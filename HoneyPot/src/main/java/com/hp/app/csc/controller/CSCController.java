@@ -60,4 +60,17 @@ public class CSCController {
 		return "csc/admin/faq";
 	}
 	
+	// 제제내역 (화면)
+	@GetMapping("sanction-list")
+	public String sanctionList() {
+		return "admin/member/sanction-list";
+	}
+	
+	// 회원조회 (화면)
+	@GetMapping("member-list")
+	public String memberList() {
+		return "admin/member/member-list";
+	}
+	
+
 }

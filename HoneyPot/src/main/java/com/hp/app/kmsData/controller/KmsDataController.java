@@ -1,4 +1,4 @@
-package com.hp.app.data.controller;
+package com.hp.app.kmsData.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hp.app.data.captcha.CaptchaUtil;
+import com.hp.app.kmsData.captcha.CaptchaUtil;
 import nl.captcha.Captcha;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("data")
-public class DataController {
+@RequestMapping("kmsData")
+public class KmsDataController {
 	@GetMapping("breakFast")
 	public String breakFast(HttpServletRequest req, Model model) {
 		ObjectMapper objectMapper = new ObjectMapper();
