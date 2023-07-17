@@ -37,9 +37,10 @@ public class AdminTempController {
 	public String editInfo() {
 		return "facilities/library-editInfo";
 	}
+	//관리자 편의시설 관리
 	
 	@GetMapping("reserve-list")
 	public String manageReservation() {
-		return "admin/facilities/list";
+		return "admin/facilities/reserveList";
 	}
 }
