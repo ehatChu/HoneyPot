@@ -557,7 +557,7 @@
 		// 날씨 정보 가져오기 (ajax)
 		function getWeatherInfo() {
 			$.ajax({
-				url: '/app/data/weather',
+				url: '/app/kmsData/weather',
 				type: 'get',
 				dataType: 'text',
 				success: function (data) {

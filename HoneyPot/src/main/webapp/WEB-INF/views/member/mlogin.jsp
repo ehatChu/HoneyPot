@@ -179,17 +179,17 @@
 	<script>
 
 		function findId() {
-			var leftPosition = (window.screen.width - 1200) / 2;
-			var topPosition = (window.screen.height - 800) / 2;
-			var windowFeatures = 'width=1200,height=800,left=' + leftPosition + ',top=' + topPosition;
-			window.open("/app/member/findId", "_blank", windowFeatures);
+			// var leftPosition = (window.screen.width - 1200) / 2;
+			// var topPosition = (window.screen.height - 800) / 2;
+			// var windowFeatures = 'width=1200,height=800,left=' + leftPosition + ',top=' + topPosition;
+			// window.open("/app/member/findId", "_blank", windowFeatures);
 		}
 
 		function findPwd() {
-			let width = '600px';
-			let height = '600px';
-			let left = (window.screen.width - width) / 2;
-			let top = (window.screen.height - height) / 2;
-			window.open("/app/member/findPwd", "_blank", `width=${width}, height=${height}, top=${top}, left=${left}`);
+			// let width = '600px';
+			// let height = '600px';
+			// let left = (window.screen.width - width) / 2;
+			// let top = (window.screen.height - height) / 2;
+			// window.open("/app/member/findPwd", "_blank", `width=${width}, height=${height}, top=${top}, left=${left}`);
 		}
 	</script>

@@ -140,6 +140,9 @@
 				height: 45px;
 				width: 45px;
 				background-color: white;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				position: absolute;
 				border-radius: 70%;
 				top: 10px;
