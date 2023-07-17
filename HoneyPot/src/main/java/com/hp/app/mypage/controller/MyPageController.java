@@ -29,5 +29,9 @@ public class MyPageController {
 	public String myLike() {
 		return "mypage/act/like";
 	}
-	
+	//사유물 등록
+	@GetMapping("regi/mine")
+	public String regiMine() {
+		return "mypage/myInfo/mine/registration";
+	}
 }
