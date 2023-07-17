@@ -141,6 +141,9 @@
 				width: 45px;
 				background-color: white;
 				position: absolute;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				border-radius: 70%;
 				top: 10px;
 				left: 150px;

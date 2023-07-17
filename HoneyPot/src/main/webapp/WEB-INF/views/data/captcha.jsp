@@ -104,7 +104,7 @@
 
 			document.querySelector('#check').addEventListener('click', function () {
 				var params = { answer: document.querySelector('#answer').getAttribute('value') };
-				AF.ajax('/app/data/chkAnswer.do', params, function (returnData) {
+				AF.ajax('/app/kmsData/chkAnswer.do', params, function (returnData) {
 					if (returnData == 200) {
 						alert('입력값이 일치합니다.');
 						// 성공 코드
@@ -120,7 +120,7 @@
 		function audio() {
 			var rand = Math.random();
 			var uAgent = navigator.userAgent;
-			var soundUrl = '/app/data/captchaAudio.do?rand=' + rand;
+			var soundUrl = '/app/kmsData/captchaAudio.do?rand=' + rand;
 			if (uAgent.indexOf('Trident') > -1 || uAgent.indexOf('MISE') > -1) {	/*IE 경우 */
 				audioPlayer(soundUrl);
 			} else if (!!document.createElement('audio').canPlayType) { /*Chrome 경우 */
@@ -135,7 +135,7 @@
 		}
 		function getImage() {
 			var rand = Math.random();
-			var url = '/app/data/captchaImg.do?rand=' + rand;
+			var url = '/app/kmsData/captchaImg.do?rand=' + rand;
 			document.querySelector('#captchaImg').setAttribute('src', url);
 		}
 		function audioPlayer(objUrl) {
