@@ -1,4 +1,4 @@
-package com.hp.app.data.captcha;
+package com.hp.app.kmsData.captcha;
 
 import nl.captcha.text.producer.TextProducer;
 

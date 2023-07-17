@@ -17,4 +17,17 @@ public class FacilitiesController {
 	public String showMap() {
 		return "outerFacilities/showMap";
 	}
+	
+	//관리자 편의시설 정보변경
+	@GetMapping("admin/library/editInfo")
+	public String editInfo() {
+		return "facilities/library-editInfo";
+	}
+	
+	//관리자 편의시설 관리
+	@GetMapping("admin/reserve-list")
+	public String manageReservation() {
+		return "admin/facilities/reserveList";
+	}
 }
+
