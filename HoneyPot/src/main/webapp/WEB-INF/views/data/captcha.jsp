@@ -82,7 +82,7 @@
 		<div class="f1">
 			<div style="overflow: hidden">
 				<div style="float: left">
-					<img title="캡차이미지" src="/captchaImg.do" alt="image" width="300px" />
+					<img id="captchaImg" title="캡차이미지" src="/captchaImg.do" alt="image" width="300px" />
 					<div id="ccaudio" style="display: none"></div>
 				</div>
 			</div>
@@ -136,7 +136,7 @@
 		function getImage() {
 			var rand = Math.random();
 			var url = '/app/data/captchaImg.do?rand=' + rand;
-			document.querySelector('img').setAttribute('src', url);
+			document.querySelector('#captchaImg').setAttribute('src', url);
 		}
 		function audioPlayer(objUrl) {
 			document.querySelector('#ccaudio').innerHTML = '<bgsoun src="' + objUrl + '">';

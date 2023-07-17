@@ -29,7 +29,8 @@
 				width: 100%;
 				height: 90%;
 				display: grid;
-				grid-template-columns: 1.5fr 3fr 1.5fr;;
+				grid-template-columns: 1.5fr 3fr 1.5fr;
+				;
 				align-items: center;
 			}
 
@@ -39,10 +40,11 @@
 				align-items: center;
 			}
 
-			.logo {
-				font-size: 52px;
-				font-weight: bold;
-				text-align: center;
+			
+			#logo {
+				height: 80px;
+				margin-left: 15px;
+				margin-top: 5px;
 			}
 
 			.box {
@@ -71,7 +73,9 @@
 				<div id="login-area">
 					<div id="loginForm">
 						<div></div>
-						<div class="logo">HONEY POT</div>
+						<div class="logo">
+							<img id="logo" src="/app/resources/main/honeyPot.png">
+						</div>
 						<div></div>
 						<div id="tit">이메일</div>
 						<input type="text" class="box">

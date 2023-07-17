@@ -9,7 +9,6 @@
 			#floor {
 				height: 937px;
 				width: 1920px;
-				background-color: white;
 				display: flex;
 				justify-content: center;
 				align-items: center;

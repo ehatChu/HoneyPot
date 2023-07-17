@@ -39,10 +39,10 @@
 				align-items: center;
 			}
 
-			.logo {
-				font-size: 52px;
-				font-weight: bold;
-				text-align: center;
+			#logo {
+				height: 80px;
+				margin-left: 15px;
+				margin-top: 5px;
 			}
 
 			.box {
@@ -71,7 +71,9 @@
 				<div id="login-area">
 					<div id="loginForm">
 						<div></div>
-						<div class="logo">HONEY POT</div>
+						<div class="logo">
+							<img id="logo" src="/app/resources/main/honeyPot.png">
+						</div>
 						<div></div>
 						<div id="tit">아이디</div>
 						<input type="text" class="box">

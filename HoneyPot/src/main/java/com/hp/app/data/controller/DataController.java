@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -48,10 +50,18 @@ public class DataController {
 		String numOfRows = "12";
 		String nx = "60";
 		String ny = "125";
-		String baseDate = "20230715";
-		String baseTime = "0500";
 		String type = "json";
-
+		String baseTime = "0500";
+		
+		LocalDate today = LocalDate.now();
+		int year = today.getYear();
+		int month = today.getMonthValue();
+		int day = today.getDayOfMonth();
+		String formattedYear = String.format("%04d", year);
+		String formattedMonth = String.format("%02d", month);
+		String formattedDay = String.format("%02d", day);
+		String baseDate = formattedYear + formattedMonth + formattedDay;
+		
 		StringBuilder urlBuilder = new StringBuilder(apiUrl);
 		urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + serviceKey);
 		urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode(numOfRows, "UTF-8"));
