@@ -5,11 +5,40 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		<script src="https://kit.fontawesome.com/794ac64f16.js" crossorigin="anonymous"></script>
 		<style>
+			* {
+				padding: 0px;
+				margin: 0px;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: 'Noto Sans KR';
+				color: #2e2e2e;
+				overflow-x: hidden;
+				font-weight: 400;
+				background-color: #f5f5f5;
+			}
+
+			body::-webkit-scrollbar {
+				width: 12px;
+			}
+
+			body::-webkit-scrollbar-thumb {
+				background: #4A321F;
+				/* 스크롤바 색상 */
+				/* border-radius: 10px; 스크롤바 둥근 테두리 */
+			}
+
+			body::-webkit-scrollbar-track {
+				background: #4a321f23;
+				/*스크롤바 뒷 배경 색상*/
+			}
+
 			#floor {
-				height: 937px;
+				height: 1500px;
 				width: 1920px;
-				background-color: white;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -19,7 +48,7 @@
 				display: flex;
 				justify-content: center;
 				width: 1200px;
-				height: 800px;
+				height: 1300px;
 				margin: 50px;
 				padding: 100px;
 				background-color: #FAD355;
@@ -33,7 +62,6 @@
 
 			#loginForm {
 				width: 100%;
-				height: 180%;
 				display: grid;
 				grid-template-columns: 1.5fr 3fr 1.5fr;
 				align-items: center;
@@ -122,40 +150,39 @@
 	</head>
 
 	<body>
-		<%@ include file="/WEB-INF/views/common/setup.jsp" %>
-			<div id="floor">
-				<div id="login-area">
-					<div id="loginForm">
-						<div></div>
-						<div class="logo">HONEY POT</div>
-						<div></div>
-						<div></div>
-						<div>
-							<div class="grayCircle">
-								<div id=cir><i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i></div>
-								<i class="fa-sharp fa-solid fa-user fa-7x" style="color: #ffffff;"></i>
-							</div>
+		<div id="floor">
+			<div id="login-area">
+				<div id="loginForm">
+					<div></div>
+					<div class="logo">HONEY POT</div>
+					<div></div>
+					<div></div>
+					<div>
+						<div class="grayCircle">
+							<div id=cir><i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i></div>
+							<i class="fa-sharp fa-solid fa-user fa-7x" style="color: #ffffff;"></i>
 						</div>
-						<div></div>
-						<div></div>
-						<div id="tit3">관리소장</div>
-						<div></div>
-						<div id="tit">아이디</div>
-						<input type="text" class="box">
-						<div></div>
-						<div id="tit">비밀번호</div>
-						<input type="text" class="box">
-						<div class="box3 box">수정</div>
-						<div id="tit">이름</div>
-						<input type="text" class="box">
-						<div></div>
-						
-						<div></div>
-						<input type="submit" class="box box2" value="수정">
-						<div></div>
 					</div>
+					<div></div>
+					<div></div>
+					<div id="tit3">관리소장</div>
+					<div></div>
+					<div id="tit">아이디</div>
+					<input type="text" class="box">
+					<div></div>
+					<div id="tit">비밀번호</div>
+					<input type="text" class="box">
+					<div class="box3 box">수정</div>
+					<div id="tit">이름</div>
+					<input type="text" class="box">
+					<div></div>
+
+					<div></div>
+					<input type="submit" class="box box2" value="수정">
+					<div></div>
 				</div>
 			</div>
+		</div>
 	</body>
 
 	</html>
