@@ -7,10 +7,10 @@
 <configuration>
 
 	<settings>
-		<setting name="mapUnderscoreToCamelCase" value="true"/>
-	 	
+  		<setting name="mapUnderscoreToCamelCase" value="true"/>
+  		<setting name="jdbcTypeForNull" value="NULL"/>
   	</settings>
-  
+  	
    <environments default="HP">
   	<environment id="HP">
   		 <!-- JDBC 는 수동 커밋, MANAGED 는 자동 -->
