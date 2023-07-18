@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="csc">
+
+	<select id="getFAQCatList" resultType="com.hp.app.csc.vo.FAQCategoryVo">
+		SELECT
+			NO
+			, NAME
+		FROM FAQ_CATEGORY
+	</select>
+	
+	<select id="getFAQList" resultType="com.hp.app.csc.vo.FAQVo">
+		SELECT
+		    F.NO AS NO
+		    , C.NAME AS FAQ_CNAME
+		    , F.QUESTION AS QUESTION
+		    , A.NAME AS WRITER_NAME
+		    , TO_CHAR(F.ENROLL_DATE, 'YY.MM.DD HH:MI') AS ENROLL_DATE
+		    , F.HIT AS HIT
+		FROM FAQ F
+		JOIN FAQ_CATEGORY C ON F.FAQ_CNO = C.NO
+		JOIN ADMIN A ON A.NO = F.WRITER_NO
+		WHERE STATUS = 'N'
+		ORDER BY F.ENROLL_DATE DESC
+	</select>
+  
+</mapper>
