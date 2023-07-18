@@ -24,10 +24,17 @@ public class AccountController {
 	
 	// 가계부 목록 조회 화면
 	@RequestMapping("account/list")
-	public String list(Model model, MemberVo vo) {
+	public String list(int p,Model model, MemberVo vo) {
+		
+		int listCount = service.listCnt(vo);
+		int CurrentPage = p;
+		int pageLimit = 5;
+		int boardLimit = 10;
+		PageVo pv = new PageVo(listCount, CurrentPage, pageLimit, boardLimit);
 		
 		// 로그인한 회원 번호로 가계부 목록 조회
-		List<AccountVo> avoList = service.list(vo);
+		List<AccountVo> avoList = service.list(vo,pv);
+		log.info(avoList.toString());
 		model.addAttribute("avoList", avoList);
 		
 		return "mypage/myInfo/accountBook";
