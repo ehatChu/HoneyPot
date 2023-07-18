@@ -159,17 +159,17 @@
 			</div>
 			<div id="floor2">
 				<div id="login-area">
-					<div id="loginForm">
-						<input type="text" class="box" placeholder="아이디">
+					<form id="loginForm" action="/app/member/mlogin" method="post">
+						<input type="text" class="box" placeholder="아이디" name="id">
 						<br>
-						<input type="text" class="box" placeholder="비밀번호">
+						<input type="password" class="box" placeholder="비밀번호" name="pwd">
 						<div id="sub">
 							<div><span onclick="findId();">아이디</span> • <span onclick="findPwd();">비밀번호 찾기</span></div>
 							<div>회원가입</div>
 						</div>
 						<br>
 						<input type="submit" class="box box2" value="로그인">
-					</div>
+					</form>
 				</div>
 			</div>
 	</body>
