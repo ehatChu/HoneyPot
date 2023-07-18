@@ -502,7 +502,7 @@
 								<tbody>
 									<c:forEach items="${avoList}" var="list">
 										<tr id="line" class="openBtn">
-											<td>${list.cname}</td>
+											<td>${list.writerNo}</td>
 											<td>${list.accountDate }</td>
 											<td>${list.content }</td>
 											<td>${list.price} 원</td>

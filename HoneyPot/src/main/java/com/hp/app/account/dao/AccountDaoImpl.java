@@ -7,20 +7,15 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.hp.app.account.vo.AccountVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 @Repository
 public class AccountDaoImpl implements AccountDao{
 
 	@Override
-	public List<AccountVo> list(SqlSessionTemplate sst, PageVo pv, String no) {
-		RowBounds rb = new RowBounds(pv.getOffset() , pv.getBoardLimit());
-		return sst.selectList("account.selectAcntList", null, rb);
-	}
-	
-	@Override
-	public int list(SqlSessionTemplate sst, String no) {
-		return sst.selectOne(no);
+	public List<AccountVo> list(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectList("account.list", vo);
 	}
 	
 	@Override
@@ -43,6 +38,7 @@ public class AccountDaoImpl implements AccountDao{
 		return sst.update("account.del", vo.getNo());
 	}
 
+	
 	
 
 }

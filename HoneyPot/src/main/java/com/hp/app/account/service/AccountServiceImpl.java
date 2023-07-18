@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hp.app.account.dao.AccountDao;
 import com.hp.app.account.vo.AccountVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,8 @@ public class AccountServiceImpl implements AccountService{
 	private final SqlSessionTemplate sst;
 
 	@Override
-	public List<AccountVo> list(PageVo pv, String no) {
-		return dao.list(sst, pv, no);
-	}
-	
-	@Override
-	public int list(String no) {
-		return dao.list(sst, no);
+	public List<AccountVo> list(MemberVo vo) {
+		return dao.list(sst,vo);
 	}
 
 	@Override
@@ -49,6 +45,8 @@ public class AccountServiceImpl implements AccountService{
 	public int delete(AccountVo vo) {
 		return dao.delete(sst, vo);
 	}
+
+	
 
 	
 }

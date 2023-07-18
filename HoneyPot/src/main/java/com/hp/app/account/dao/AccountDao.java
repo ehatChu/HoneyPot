@@ -5,15 +5,13 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.account.vo.AccountVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 public interface AccountDao {
 	
 	// 가계부 목록 조회
-	List<AccountVo> list(SqlSessionTemplate sst, PageVo pv, String no);
-	
-	// 회원별 가계부 개수
-	int list(SqlSessionTemplate sst, String no);
+	List<AccountVo> list(SqlSessionTemplate sst, MemberVo vo);
 	
 	// 가계부 추가
 	int add(SqlSessionTemplate sst,AccountVo vo);
