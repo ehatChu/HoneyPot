@@ -29,5 +29,28 @@
 		VALUES
 		(SEQ_ADMIN_NO.NEXTVAL, #{id}, #{pwd}, #{name}, #{grade}, #{profile})
 	</insert>
+	
+	<update id="medit">
+		UPDATE MEMBER
+		<set>
+			PWD = #{pwd},
+			PHONE = #{phone},
+			EMAIL = #{email}
+		</set>
+		<where>
+			NO = #{no}
+		</where>
+	</update>
+	
+	<update id="aedit">
+		UPDATE ADMIN
+		<set>
+			PWD = #{pwd},
+			NAME = #{name}
+		</set>
+		<where>
+			NO = #{no}
+		</where>
+	</update>
 
 </mapper>

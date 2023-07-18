@@ -67,7 +67,7 @@
 				align-items: center;
 			}
 
-			#loginForm>div:not(.box4) {
+			#loginForm>div:not(.box4):not(.dongHo) {
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -112,6 +112,9 @@
 			.box5 {
 				background-color: red;
 				color: white;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				font-size: 24px;
 				width: 25%;
 			}
@@ -148,6 +151,13 @@
 				top: 10px;
 				left: 150px;
 			}
+
+			.dongHo {
+				width: 100%;
+				display: flex;
+				justify-content: space-evenly;
+				align-items: center;
+			}
 		</style>
 
 	</head>
@@ -155,7 +165,7 @@
 	<body>
 		<div id="floor">
 			<div id="login-area">
-				<div id="loginForm">
+				<form id="loginForm" action="/app/member/medit" method="post">
 					<div></div>
 					<div class="logo">
 						<img id="logo" src="/app/resources/main/honeyPot.png">
@@ -173,33 +183,36 @@
 					<div id="tit3">회원</div>
 					<div></div>
 					<div id="tit">아이디</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="id">
 					<div></div>
 					<div id="tit">비밀번호</div>
-					<input type="text" class="box">
+					<input type="password" class="box" name="pwd">
 					<div class="box3 box">수정</div>
 					<div id="tit">이름</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="name">
 					<div></div>
 					<div id="tit">생년월일</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="birth">
 					<div></div>
 					<div id="tit">연락처</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="phone">
 					<div></div>
 					<div id="tit">동 / 호수</div>
-					<input type="text" class="box">
+					<div class="dongHo">
+						<input type="text" class="box" name="dongNum">
+						<input type="text" class="box" name="hoNum">
+					</div>
 					<div></div>
 					<div id="tit">이메일</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="email">
 					<div></div>
 					<div></div>
 					<div class="box4">
 						<input type="submit" class="box box2" value="수정">
-						<input type="submit" class="box box5" value="탈퇴">
+						<div class="box box5">탈퇴</div>
 					</div>
 					<div></div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</body>

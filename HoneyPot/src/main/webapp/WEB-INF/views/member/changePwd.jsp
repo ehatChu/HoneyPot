@@ -76,13 +76,13 @@
 						</div>
 						<div></div>
 						<div id="tit">이전 비밀번호</div>
-						<input type="text" class="box">
+						<input type="password" class="box">
 						<div></div>
 						<div id="tit">새 비밀번호</div>
-						<input type="text" class="box">
+						<input type="password" class="box">
 						<div></div>
 						<div id="tit">비밀번호 확인</div>
-						<input type="text" class="box">
+						<input type="password" class="box">
 						<div></div>
 						<div></div>
 						<div class="bbox">

@@ -29,5 +29,15 @@ public class MemberDaoImpl implements MemberDao {
 		return sst.insert("member.ajoin", vo);
 	}
 
+	@Override
+	public int medit(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("member.medit", vo);
+	}
+
+	@Override
+	public int aedit(SqlSessionTemplate sst, AdminVo vo) {
+		return sst.update("member.aedit");
+	}
+
 	
 }

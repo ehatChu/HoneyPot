@@ -73,12 +73,12 @@
 				align-items: center;
 			}
 
-			.logo {
-				font-size: 52px;
-				font-weight: bold;
-				text-align: center;
+			#logo {
+				height: 80px;
+				margin-left: 15px;
+				margin-top: 5px;
 			}
-
+			
 			.box {
 				background-color: rgb(255, 255, 255);
 				border-radius: 20px;
@@ -157,7 +157,9 @@
 			<div id="login-area">
 				<div id="loginForm">
 					<div></div>
-					<div class="logo">HONEY POT</div>
+					<div class="logo">
+						<img id="logo" src="/app/resources/main/honeyPot.png">
+					</div>
 					<div></div>
 					<div></div>
 					<div>
@@ -174,7 +176,7 @@
 					<input type="text" class="box">
 					<div></div>
 					<div id="tit">비밀번호</div>
-					<input type="text" class="box">
+					<input type="password" class="box">
 					<div class="box3 box">수정</div>
 					<div id="tit">이름</div>
 					<input type="text" class="box">

@@ -27,8 +27,6 @@ public class MemberServiceImpl implements MemberService{
 			System.out.println(loginMember);
 			boolean isMatch1 = pwdEncoder.matches(vo.getPwd(), loginMember.getPwd());
 			boolean isMatch2 = (loginMember.getPwd().equals(vo.getPwd()));
-			System.out.println(isMatch1);
-			System.out.println(isMatch2);
 			
 			if (!(isMatch1 || isMatch2)) {
 				throw new Exception();
@@ -70,5 +68,15 @@ public class MemberServiceImpl implements MemberService{
 		String pwd = vo.getPwd();
 		vo.setPwd(pwdEncoder.encode(pwd));
 		return dao.ajoin(sst, vo);
+	}
+
+	@Override
+	public int medit(MemberVo vo) {
+		return dao.medit(sst, vo);
+	}
+
+	@Override
+	public int aedit(AdminVo vo) {
+		return dao.aedit(sst, vo);
 	}
 }
