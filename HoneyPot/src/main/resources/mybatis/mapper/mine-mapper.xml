@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mine">
+	<insert id="registrationCar">
+		INSERT INTO CAR (NO,ADMIN_NO,MEMBER_NO,UNIQUE_NUM,IMG,NAME)
+		VALUES (SEQ_CAR_NO.NEXTVAL,1,1,#{unique_num},#{name})
+	</insert>
+
+</mapper>

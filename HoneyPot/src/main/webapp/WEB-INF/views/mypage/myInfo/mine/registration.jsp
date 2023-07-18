@@ -129,6 +129,10 @@
 		display: flex;
 		justify-content: center;
 	}
+	.margin {
+		margin-top: 20px;
+		margin-left: 20px;
+	}
 </style>
 </head>
 <body>
@@ -140,25 +144,28 @@
 	</nav>
 
 	<main>
-		<div>
-			<span class="big-text">사유물목록</span><button class="small-btn color-gray">삭제하기</button><button class="small-btn color-main" id="regi-btn">등록하기</button>
-		</div>
-		<div id="list-area">
-		<c:forEach var="i" begin="1" end="8">
-			<div class="mine-list">
-				<div><span><input type="checkbox" id="${i}"><label for="${i}"  class="middle-text">람보르기니 센데나리오</label></span></div>
-				<div class="car-img"></div>
+		<div class="margin">
+			<div>
+				<span class="big-text">사유물목록</span><button class="small-btn color-gray">삭제하기</button><button class="small-btn color-main" id="regi-btn">등록하기</button>
 			</div>
-		</c:forEach>
-			
+			<div id="list-area">
+			<c:forEach var="i" begin="1" end="8">
+				<div class="mine-list">
+					<div><span><input type="checkbox" id="${i}"><label for="${i}"  class="middle-text">람보르기니 센데나리오</label></span></div>
+					<div class="car-img"></div>
+				</div>
+			</c:forEach>
+				
+			</div>
 		</div>
+		
 		
 		<div id="modal-box">
 			<div id="registration" style="display: none;">
 				<div id="modal-top">
 					<span id="mine-header">사유물등록</span><span><i class="fa-solid fa-xmark fa-2xl margin-right quit-btn" style="color: #000000;"></i></span>
 				</div>
-				<form action="">
+				<form action="${root}/mypage/registrate" method="post">
 					<div id="img-area">
 						<div id="img" class="margin15"></div>
 						<div id="regi-content" class="margin15">
@@ -171,8 +178,8 @@
 									<option value="20">자전거</option>
 								</select>
 							</div>
-							<div class="bold-text">사유물 이름</div> <div><input type="text" placeholder="예시)2023메르세데스-벤츠 GLC클래스" class="input-area"></div>
-							<div class="bold-text">사유물 번호판</div> <div><input type="text" placeholder="예시)20호 2391" class="input-area"></div>
+							<div class="bold-text">사유물 이름</div> <div><input type="text" name="name" placeholder="예시)2023메르세데스-벤츠 GLC클래스" class="input-area"></div>
+							<div class="bold-text">사유물 번호판</div> <div><input type="text" name="unique-num" placeholder="예시)20호 2391" class="input-area"></div>
 							<div><input type="button" class="big-btn color-main" value="등록"></div>					
 						</div>
 			
@@ -185,7 +192,7 @@
 		
 	</main>
 
-</body>
+</body>    
 </html>
 <script>
 	basicSetting(); // 기본 셋팅
@@ -196,7 +203,7 @@
 <script>
 	let regiBtn = document.querySelector("#regi-btn");
 	let registrtation = document.querySelector("#registration");
-	let main = document.querySelector("main");
+	let main = document.querySelector("main"); 
 	regiBtn.addEventListener("click",function(){
 		main.classList.add("modal-background");
 		registrtation.style.display = "block";
