@@ -45,5 +45,10 @@
 		</interceptor>
 	</interceptors>
 	
+	<!-- 암호화 -->
+	<beans:bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+   
+   </beans:bean>
+	
 	
 </beans:beans>
