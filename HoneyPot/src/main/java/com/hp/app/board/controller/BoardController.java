@@ -4,9 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hp.app.board.service.BoardService;
+import com.hp.app.board.vo.BoardVo;
+
 @Controller
 //@RequestMapping("board")
 public class BoardController {
+	
+	private final BoardService BS;
 	
 	//게시글 작성
 	@GetMapping("board/write")
@@ -17,8 +22,14 @@ public class BoardController {
 	//게시글 목록 조회
 	@GetMapping("board/list")
 	public String list() {
+		
+		BoardVo vo = new BoardVo();
+		
+		
+		
 		return "board/list";
 	}
+	
 	
 	//게시글 상세 조회
 	@GetMapping("board/detail")
@@ -26,9 +37,28 @@ public class BoardController {
 		return "board/detail";
 	}
 	
+	
+	//자유게시판
+	@GetMapping("board/free")
+	public String free() {
+		return "board/market";
+	}
+	
 	//장터 게시판
 	@GetMapping("board/market")
 	public String market() {
+		return "board/market";
+	}
+	
+	//익명게시판
+	@GetMapping("board/noname")
+	public String noname() {
+		return "board/market";
+	}
+	
+	//칭찬게시판
+	@GetMapping("board/praise")
+	public String praise() {
 		return "board/market";
 	}
 	
