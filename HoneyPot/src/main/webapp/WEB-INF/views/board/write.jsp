@@ -155,7 +155,6 @@
         margin-right: 20px;
         font-weight: bold;
         text-align: center;
-        justify-content: center;
     }
 
     #modal-head > div:last-child:hover {
@@ -238,10 +237,6 @@
 
     #vote-header {
         display: flex;
-    }
-
-    #vote-header > div {
-        justify-content: center;
         align-items: center;
     }
 
@@ -262,7 +257,7 @@
         grid-template-columns: 1fr;
     }
 
-    div { border: 1px solid red;}
+    /* div { border: 1px solid red; } */
 
 </style>
 </head>
