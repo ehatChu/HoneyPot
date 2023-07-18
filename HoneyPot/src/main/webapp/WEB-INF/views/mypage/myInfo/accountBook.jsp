@@ -500,12 +500,12 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach begin="1" end="10">
+									<c:forEach items="${avoList}" var="list">
 										<tr id="line" class="openBtn">
-											<td>금융/보험</td>
-											<td>11일</td>
-											<td>우체국 운전자 보험</td>
-											<td>55,000 원</td>
+											<td>${list.cname}</td>
+											<td>${list.accountDate }</td>
+											<td>${list.content }</td>
+											<td>${list.price} 원</td>
 											<td><button id="editBtn" class="openBtn"><i class="fa-solid fa-pen"></i></button></td>
 											<td><button id="delBtn"><i class="fa-solid fa-xmark"></i></button></td>
 										</tr>
