@@ -15,4 +15,8 @@ public interface MemberDao {
 
 	int ajoin(SqlSessionTemplate sst, AdminVo vo);
 
+	int medit(SqlSessionTemplate sst, MemberVo vo);
+
+	int aedit(SqlSessionTemplate sst, AdminVo vo);
+
 }

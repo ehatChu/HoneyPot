@@ -152,7 +152,7 @@
 	<body>
 		<div id="floor">
 			<div id="login-area">
-				<div id="loginForm">
+				<form id="loginForm" action="/app/member/ajoin" method="post">
 					<div></div>
 					<div class="logo">
 						<img id="logo" src="/app/resources/main/honeyPot.png">
@@ -177,21 +177,21 @@
 					</div>
 					<div></div>
 					<div id="tit">아이디</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="id">
 					<div class="box3 box">중복검사</div>
 					<div id="tit">비밀번호</div>
-					<input type="text" class="box">
+					<input type="password" class="box" name="pwd">
 					<div></div>
 					<div id="tit">비밀번호 확인</div>
 					<input type="text" class="box">
 					<div></div>
 					<div id="tit">이름</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="name">
 					<div></div>
 					<div></div>
 					<input type="submit" class="box box2" value="회원가입">
 					<div></div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</body>

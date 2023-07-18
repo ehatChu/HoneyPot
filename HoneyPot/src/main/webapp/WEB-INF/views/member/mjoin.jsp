@@ -67,7 +67,7 @@
 				align-items: center;
 			}
 
-			#loginForm div {
+			#loginForm div:not(.dongHo) {
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -124,6 +124,13 @@
 				top: 10px;
 				left: 150px;
 			}
+
+			.dongHo {
+				display: flex;
+				justify-content: space-evenly;
+				align-items: center;
+				width: 100%;
+			}
 		</style>
 
 	</head>
@@ -131,7 +138,7 @@
 	<body>
 		<div id="floor">
 			<div id="login-area">
-				<div id="loginForm">
+				<form id="loginForm" action="/app/member/mjoin" method="post">
 					<div></div>
 					<div class="logo">
 						<img id="logo" src="/app/resources/main/honeyPot.png">
@@ -146,33 +153,36 @@
 					</div>
 					<div></div>
 					<div id="tit">아이디</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="id">
 					<div class="box3 box">중복검사</div>
 					<div id="tit">비밀번호</div>
-					<input type="text" class="box">
+					<input type="password" class="box" name="pwd">
 					<div></div>
 					<div id="tit">비밀번호 확인</div>
-					<input type="text" class="box">
+					<input type="password" class="box">
 					<div></div>
 					<div id="tit">이름</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="name">
 					<div></div>
 					<div id="tit">생년월일</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="birth">
 					<div></div>
 					<div id="tit">연락처</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="phone">
 					<div></div>
 					<div id="tit">동 / 호수</div>
-					<input type="text" class="box">
+					<div class="dongHo">
+						<input type="text" class="box" name="dongNum">
+						<input type="text" class="box" name="hoNum">
+					</div>
 					<div></div>
 					<div id="tit">이메일</div>
-					<input type="text" class="box">
+					<input type="text" class="box" name="email">
 					<div></div>
 					<div></div>
 					<input type="submit" class="box box2" value="회원가입">
 					<div></div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</body>

@@ -47,7 +47,7 @@ public class MemberController {
 		session.setAttribute("loginAdmin", loginAdmin);
 		log.info("loginAdmin : {}", loginAdmin);
 		if (loginAdmin == null) {
-			throw new IllegalStateException("로그인 실패");
+			throw new IllegalStateException("관리자 로그인 실패");
 		}
 		return "redirect:/main/amain";
 	}
@@ -77,7 +77,7 @@ public class MemberController {
 		int result = service.ajoin(vo);
 		log.info("result : {}", result);
 		if (result != 1) {
-			throw new IllegalStateException("회원가입 실패");
+			throw new IllegalStateException("관리자 회원가입 실패");
 		}
 		return "redirect:/main/amain";
 	}
@@ -86,10 +86,41 @@ public class MemberController {
 	public String medit() {
 		return "member/medit";
 	}
+	
+	@PostMapping("medit")
+	public String medit(MemberVo vo, HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		loginMember.setPwd(vo.getPwd());
+		loginMember.setPhone(vo.getPhone());
+		loginMember.setEmail(vo.getEmail());
+		int result = service.medit(loginMember);
+		log.info("result : {}", result);
+		if (result != 1) {
+			throw new IllegalStateException("회원 정보 수정 실패");
+		}
+		session.setAttribute("loginMember", loginMember);
+		
+		return "redirect:/main/mmain";
+	}
 
 	@GetMapping("aedit")
 	public String aedit() {
 		return "member/aedit";
+	}
+	
+	@PostMapping("aedit")
+	public String aedit(AdminVo vo, HttpSession session) {
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		loginAdmin.setPwd(vo.getPwd());
+		loginAdmin.setName(vo.getName());
+		int result = service.aedit(loginAdmin);
+		log.info("result : {}", result);
+		if (result != 1) {
+			throw new IllegalStateException("관리자 정보 수정 실패");
+		}
+		session.setAttribute("loginAdmin", loginAdmin);
+		
+		return "redirect:/main/amain";
 	}
 
 	@GetMapping("findId")
