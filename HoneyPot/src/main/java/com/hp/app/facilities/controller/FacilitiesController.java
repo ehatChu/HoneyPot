@@ -17,6 +17,10 @@ public class FacilitiesController {
 	public String showMap() {
 		return "outerFacilities/showMap";
 	}
+	@GetMapping("outer/review-list")
+	public String reviewList() {
+		return "mypage/act/reviewOuterFacilities";
+	}
 	
 	//관리자 편의시설 정보변경
 	@GetMapping("admin/library/editInfo")
