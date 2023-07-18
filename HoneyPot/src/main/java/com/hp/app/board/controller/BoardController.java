@@ -11,7 +11,7 @@ import com.hp.app.board.vo.BoardVo;
 //@RequestMapping("board")
 public class BoardController {
 	
-	private final BoardService BS;
+	//private final BoardService BS;
 	
 	//게시글 작성
 	@GetMapping("board/write")
