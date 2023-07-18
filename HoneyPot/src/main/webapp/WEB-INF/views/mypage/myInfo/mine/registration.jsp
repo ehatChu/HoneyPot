@@ -132,6 +132,7 @@
 </style>
 </head>
 <body>
+	<!-- regi/mine/mypage -->
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<nav>
 		<%@ include file="/WEB-INF/views/common/first-nav.jsp" %>

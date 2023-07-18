@@ -78,6 +78,107 @@
     h1 {
         text-align: center; 
     }
+    #scheduler-btn {
+        padding: 5px 10px;
+        background-color: #FFD601;
+        border: none;
+        border-radius: 5px;
+    }
+    .modal-background {
+		position: fixed;
+		top:0; left: 0; bottom: 0; right: 0;
+		background: rgba(0, 0, 0, 0.4);
+        z-index: 100;
+	}
+    #modal-top {
+		width: 500px;
+		height: 50px;
+		background-color: #FFCE31;
+		border-radius: 20px 20px 0px 0px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	#scheduler{
+		width: 500px;
+		height: 380px;
+		background-color: white;
+	
+		border-radius: 30px 30px 0px 0px;
+	}
+    #modal-box {
+        z-index: 10000;
+        position: fixed;
+		top: 200px;
+		left: 800px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #modal-header {
+        font-size: 20px;
+        padding-left: 10px;
+        font-weight: 600;
+    }
+    .quit-btn {
+        padding-right: 10px;
+    }
+   
+    #modal-content {
+        display: grid;
+        width: 410.4px;
+        grid-template-columns: 1fr 1fr;
+        grid-row: 1fr 1fr 0.8fr;
+        grid-row-gap: 20px;
+        
+    }
+    #modal-content >div {
+        /* border: 1px solid black; */
+    }
+    #modal-content > div:nth-child(3){
+        grid-column: span 2;
+    }
+    #modal-content > div:nth-child(4){
+        grid-column: span 2;
+    }
+
+    #schedule-btn {
+        width: 410.4px;
+        padding: 20px 120px;
+        font-size: 26px;
+        font-weight: 800;
+        background-color: #FFCE31;
+        border: none;
+        border-radius: 10px;
+    }
+    * {
+        font-family: 'Noto Sans KR';
+    }
+    .font-size-bold {
+        font-size: 18px;
+        font-weight: 600;
+        color: gray;
+    }
+    .input {
+        padding: 5px 10px;
+    }
+    .input-text {
+        width: 410.4px;
+        padding: 10px 0px;
+    }
+    .input-date {
+        width: 190px;
+    }
+    #modal-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+    }
+    #modal-content > div:nth-child(2){
+        margin-left: 13.53px;
+    }
 </style>
 </head>
 <body>
@@ -96,7 +197,7 @@
                 <div id='calendar'></div>
             </div>
             <div id="schedule-area">
-                <h1><span id="clickDate"></span>의 일정</h1>
+                <h1><span id="clickDate"></span>의 일정 <button id="scheduler-btn">일정짜기</button></h1>
                 <div class="calendar-text-bold">아파트일정</div>
                 <div id="schedule-area1">
                     <c:forEach var="i" begin="1" end="4">
@@ -114,6 +215,36 @@
                             <span class="middle-text-size">아파트 리모델링 예정</span>
                         </div>
                     </c:forEach>
+                </div>
+            </div>
+            <div id="modal-box" style="display: none;">
+                <div id="scheduler">
+                    <div id="modal-top">
+                        <span id="modal-header">일정만들기</span><span><i class="fa-solid fa-xmark fa-2xl margin-right quit-btn" style="color: #000000;"></i></span>
+                    </div>
+                    <form action="">
+                        <div id="modal-area">
+                            <div id="modal-content">
+                                <div>
+                                    <div class="font-size-bold">시작날짜</div>
+                                    <div><input class="input input-date" type="date"></div>
+                                </div>
+                                <div>
+                                    <div class="font-size-bold">끝날짜</div>
+                                    <div><input class="input input-date" type="date"></div>
+                                </div>
+                                <div>
+                                    <div class="font-size-bold">일정이름</div>
+                                    <div><input class="input input-text" type="text" placeholder="10글자 이내로 작성해주세요."></div>
+                                </div>
+                                <div><button id="schedule-btn">일정짜기</button></div>
+                    
+                            </div>
+                        </div>
+                        
+                    </form>
+                    
+                    
                 </div>
             </div>
         </div>
@@ -190,5 +321,24 @@
         calendar.render();
     });
 
+    //버튼 누르면 모달창 띄우기
+    //일정만들기 버튼
+    let schedulerBtn = document.querySelector("#scheduler-btn");
+    //모달창
+    let modal = document.querySelector("#modal-box");
+    //메인
+    let main = document.querySelector("main");
+    //X아이콘
+    let quitBtn = document.querySelector(".quit-btn");
+
+    schedulerBtn.addEventListener("click",function(){
+        modal.style.display = "block";
+        main.classList.add("modal-background");
+    });
+
+    quitBtn.addEventListener("click",function(){
+        modal.style.display="none";
+        main.classList.remove("modal-background");
+    });
 </script>
 
