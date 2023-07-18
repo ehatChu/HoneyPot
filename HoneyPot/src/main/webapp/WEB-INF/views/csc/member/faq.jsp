@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -153,56 +154,14 @@
             </div>
             <div class="board-list-area">
                 <table id="board-list">
+                <c:forEach items="${fList}" var="vo">
                     <tr>
-                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-                        <td>관리자</td>
-                        <td>2023.01.01 15:39</td>
-                        <td><i class="fa-solid fa-eye"></i>조회수</td>
+                        <td><span class="category-color">[${vo.faqCname}] </span>${vo.question}</td>
+                        <td>${vo.writerName}</td>
+                        <td>${vo.enrollDate}</td>
+                        <td><i class="fa-solid fa-eye"></i>${vo.hit}</td>
                     </tr>
-    
-                    <tr>
-                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-                        <td>관리자</td>
-                        <td>2023.01.01 15:39</td>
-                        <td><i class="fa-solid fa-eye"></i>조회수</td>
-                    </tr>
-                    <tr>
-                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-                        <td>관리자</td>
-                        <td>2023.01.01 15:39</td>
-                        <td><i class="fa-solid fa-eye"></i>조회수</td>
-                    </tr>
-                    <tr>
-                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-                        <td>관리자</td>
-                        <td>2023.01.01 15:39</td>
-                        <td><i class="fa-solid fa-eye"></i>조회수</td>
-                    </tr>
-                    <tr>
-                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-                        <td>관리자</td>
-                        <td>2023.01.01 15:39</td>
-                        <td><i class="fa-solid fa-eye"></i>조회수</td>
-                    </tr>
-                    <tr>
-                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-                        <td>관리자</td>
-                        <td>2023.01.01 15:39</td>
-                        <td><i class="fa-solid fa-eye"></i>조회수</td>
-                    </tr>
-                    <tr>
-                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-                        <td>관리자</td>
-                        <td>2023.01.01 15:39</td>
-                        <td><i class="fa-solid fa-eye"></i>조회수</td>
-                    </tr>
-                    <tr>
-                        <td><span class="category-color">[카테고리1] </span>제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-                        <td>관리자</td>
-                        <td>2023.01.01 15:39</td>
-                        <td><i class="fa-solid fa-eye"></i>조회수</td>
-                    </tr>
-
+                </c:forEach>
                 </table>
     
             </div>
@@ -232,6 +191,7 @@
             </div>
 
         </div>
+	
 	</main>
 
 </body>
@@ -248,37 +208,8 @@
 	main.innerHTML = "";
 	nav.innerHTML = "";
 
-    function firstNav() {
-			const mainChoice = document.querySelector("#main-choice");
-			let navMenu1 = ['자주묻는질문', '문의하기', '문의목록', '신고하기', '신고목록'];
-
-			let menus = "";
-			for (let menu of navMenu1) {
-				menus += "<div class='choice-elem'><div class='title-elem'>" + menu + "</div></div>"
-			}
-			mainChoice.innerHTML = menus;
-    }
-    function secondNav() {
-        const subChoice = document.querySelector("#grid-sub-choice");
-        let navMenu2 = ['전체', '카테고리1', '카테고리2', '카테고리3', '카테고리4'];
-
-        let menus = "";
-        for (let menu of navMenu2) {
-            menus += "<div class='menu-box'>" + menu + "</div>"
-        }
-        subChoice.innerHTML = menus;
-    }
-
-    function headerName() {
-			const mainChoice = document.querySelector("#header-main-text");
-            mainChoice.innerHTML = '';
-			let menus = '고객센터';
-
-			mainChoice.innerHTML = menus;
-    }
-
-    headerName();
-    firstNav();
-    secondNav();
+    headerName('고객센터'); // 현재 페이지 이름
+	firstNav(['자주묻는질문', '문의하기', '문의목록', '신고하기', '신고목록'], '자주묻는질문'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	secondNav(['전체', '카테고리1', '카테고리2', '카테고리3'], '전체'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 
 </script>
