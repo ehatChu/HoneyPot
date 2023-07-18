@@ -22,8 +22,13 @@ public class AccountServiceImpl implements AccountService{
 	private final SqlSessionTemplate sst;
 
 	@Override
-	public List<AccountVo> list(MemberVo vo) {
-		return dao.list(sst,vo);
+	public List<AccountVo> list(MemberVo vo, PageVo pv) {
+		return dao.list(sst,vo,pv);
+	}
+	
+	@Override
+	public int listCnt(MemberVo vo) {
+		return dao.listCnt(sst, vo);
 	}
 
 	@Override

@@ -500,12 +500,12 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${avoList}" var="list">
+									<c:forEach items="${avoList}" var="vo">
 										<tr id="line" class="openBtn">
-											<td>${list.writerNo}</td>
-											<td>${list.accountDate }</td>
-											<td>${list.content }</td>
-											<td>${list.price} 원</td>
+											<td>${vo.categoryName}</td>
+											<td>${vo.accountDate }</td>
+											<td>${vo.content }</td>
+											<td>${vo.price} 원</td>
 											<td><button id="editBtn" class="openBtn"><i class="fa-solid fa-pen"></i></button></td>
 											<td><button id="delBtn"><i class="fa-solid fa-xmark"></i></button></td>
 										</tr>
@@ -523,7 +523,7 @@
 							<button class="pageBtn">4</button>
 							<button class="pageBtn">5</button>
 							<button class="pageBtn">></button>
-							<!-- <c:if test="${pv.currentPage > 1}">
+							<c:if test="${pv.currentPage > 1}">
 								<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
 							</c:if>
 								<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
@@ -536,7 +536,7 @@
 								</c:forEach>
 							<c:if test="${pv.currentPage < pv.maxPage}">
 								<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
-							</c:if> -->
+							</c:if>
 						</div>
 						<button id="openBtn" class="openBtn">등록</button>
 						<div class="modal hidden">

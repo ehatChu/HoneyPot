@@ -14,8 +14,14 @@ import com.hp.app.page.vo.PageVo;
 public class AccountDaoImpl implements AccountDao{
 
 	@Override
-	public List<AccountVo> list(SqlSessionTemplate sst, MemberVo vo) {
-		return sst.selectList("account.list", vo);
+	public List<AccountVo> list(SqlSessionTemplate sst, MemberVo vo, PageVo pv) {
+		RowBounds rb = new RowBounds(pv.getOffset() , pv.getBoardLimit());
+		return sst.selectList("account.list", vo, rb);
+	}
+	
+	@Override
+	public int listCnt(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("account.listCnt", vo);
 	}
 	
 	@Override
@@ -37,6 +43,8 @@ public class AccountDaoImpl implements AccountDao{
 	public int delete(SqlSessionTemplate sst, AccountVo vo) {
 		return sst.update("account.del", vo.getNo());
 	}
+
+	
 
 	
 	

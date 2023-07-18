@@ -3,28 +3,26 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="account">
-
-	
 	
 	<select id="listCnt" resultType="int">
 		SELECT COUNT(NO)
 		FROM ACCOUNT A
-		WHERE A.WRITER_NO = 5
+		WHERE A.WRITER_NO = #{no}
 	</select>
 	
-	<select id="list" resultMap="com.hp.app.account.vo.AccountVo, com.hp.app.account.vo.AccountCategoryVo">
+	<select id="list" resultType="com.hp.app.account.vo.AccountVo">
 		SELECT 
-		    A.NO
-		    ,A.CONTENT
-		    ,A.PRICE
-		    ,A.ACCOUNT_DATE
-            ,AC.NAME
+		    A.NO AS NO
+		    ,A.CONTENT AS CONTENT
+		    ,A.PRICE AS PRICE
+		    ,TO_CHAR(A.ACCOUNT_DATE, 'YY.MM.DD') AS ACCOUNT_DATE
+            ,AC.NAME AS CATEGORY_NAME
 		FROM ACCOUNT A
 		JOIN ACCOUNT_CATEGORY AC 
 		ON A.ACCOUNT_CNO = AC.NO
 		JOIN MEMBER M
 		ON A.WRITER_NO = M.NO
-		WHERE A.WRITER_NO = 5
+		WHERE A.WRITER_NO = #{no}
 		ORDER BY A.ACCOUNT_DATE DESC
 	</select>
 	
