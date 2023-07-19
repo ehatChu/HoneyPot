@@ -5,11 +5,11 @@ import lombok.Data;
 @Data
 public class MineVo {
 	private String no;
-	private String admin_no;
-	private String member_no;
-	private String enroll_date;
-	private String modify_date;
-	private String unique_num;
+	private String adminNo;
+	private String membeNro;
+	private String enrollDate;
+	private String modifyDate;
+	private String uniqueNum;
 	private String img;
 	private String name;
 }
