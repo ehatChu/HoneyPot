@@ -14,14 +14,14 @@ import com.hp.app.page.vo.PageVo;
 public class AccountDaoImpl implements AccountDao{
 
 	@Override
-	public List<AccountVo> list(SqlSessionTemplate sst, MemberVo vo, PageVo pv) {
+	public List<AccountVo> list(SqlSessionTemplate sst,String mno, PageVo pv) {
 		RowBounds rb = new RowBounds(pv.getOffset() , pv.getBoardLimit());
-		return sst.selectList("account.list", vo, rb);
+		return sst.selectList("account.list", mno, rb);
 	}
 	
 	@Override
-	public int listCnt(SqlSessionTemplate sst, MemberVo vo) {
-		return sst.selectOne("account.listCnt", vo);
+	public int listCnt(SqlSessionTemplate sst, String mno) {
+		return sst.selectOne("account.listCnt", mno);
 	}
 	
 	@Override

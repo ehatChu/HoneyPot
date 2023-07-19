@@ -9,10 +9,10 @@ import com.hp.app.page.vo.PageVo;
 public interface AccountService {
 
 	// 회원별 가계부 목록 조회
-	List<AccountVo> list(MemberVo vo, PageVo pv);
+	List<AccountVo> list(String mno, PageVo pv);
 	
 	// 회원별 가계부 글 개수
-	int listCnt(MemberVo vo);
+	int listCnt(String mno);
 	
 	// 가계부 추가
 	int add(AccountVo vo);
