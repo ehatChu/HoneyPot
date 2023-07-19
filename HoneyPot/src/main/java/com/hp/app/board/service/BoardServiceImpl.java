@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hp.app.board.dao.BoardDao;
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	//게시글 목록
 	@Override
-	public List<BoardVo> list(PageVo pv) {
+	public List<NoticeVo> list(PageVo pv) {
 		return dao.list(sst, pv);
 	}
 

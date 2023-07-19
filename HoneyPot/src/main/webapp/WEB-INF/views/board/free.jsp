@@ -117,7 +117,6 @@
 	}
 
 	#board-list td[id=title] { text-align: left; }
-	#board-list td:not(:first-of-type) { text-align: right; }
 
 	#board-list tr:hover {
 		background-color: #fdeaab;
@@ -226,7 +225,7 @@
 								<td id="title">${vo.title}</td>
 								<td id="writer">${vo.writerName}</td>
 								<td>${vo.enrollDate}</td>
-								<!-- <td><i class="fa-solid fa-heart"></i>좋아요</td> -->
+								<td><i class="fa-solid fa-heart"></i>${vo.like}</td>
 								<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
 							</tr>
 						</c:forEach>

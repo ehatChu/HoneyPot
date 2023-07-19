@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
 
 @Repository
@@ -14,15 +15,15 @@ public class BoardDaoImpl implements BoardDao {
 
 	//게시글 목록
 	@Override
-	public List<BoardVo> list(SqlSessionTemplate sst, PageVo pv) {
+	public List<NoticeVo> list(SqlSessionTemplate sst, PageVo pv) {
 		RowBounds rb = new RowBounds(pv.getOffset(), pv.getBoardLimit());
-		return sst.selectList("board.list" ,null, rb);
+		return sst.selectList("board.list", null, rb);
 	}
 
 	//전체 게시글 개수
 	@Override
 	public int cntBoard(SqlSessionTemplate sst) {
-		return 0;
+		return sst.selectOne("board.cntBoard");
 	}
 
 	//게시글 작성
