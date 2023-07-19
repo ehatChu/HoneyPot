@@ -1,5 +1,9 @@
 package com.hp.app.mine.dao;
 
-public interface MineDao {
+import org.mybatis.spring.SqlSessionTemplate;
 
+import com.hp.app.mine.vo.MineVo;
+
+public interface MineDao {
+	int register(SqlSessionTemplate sst,MineVo mvo);
 }
