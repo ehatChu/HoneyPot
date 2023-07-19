@@ -166,12 +166,6 @@
 					align-items: center;
 				}
 
-				#weather-info-msg {
-					font-size: 15px;
-					margin-left: 10px;
-					font-weight: 100;
-				}
-
 				#header-weather {
 					display: flex;
 					align-items: center;
@@ -342,7 +336,7 @@
 			<%@ include file="/WEB-INF/views/common/setup.jsp" %>
 				<div id="wrapper">
 					<div id="side-bar">
-						<div id="logo-area">
+						<div id="logo-area" onclick="location.href='/app/main/mmain'">
 							<span> <img id="logo" src="/app/resources/main/logo.png">
 								<img id="logo" src="/app/resources/main/honeyPot.png">
 							</span>
@@ -350,7 +344,7 @@
 						<div id="all-center">
 							<div id="blank01"></div>
 							<div id="profile-area">
-								<div id="profile-img">
+								<div id="profile-img" onclick="location.href='/app/member/medit';">
 									<img src="/app/resources/profile/exam_profile.png" height="230px">
 									<div id="setting-icon-area">
 										<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
@@ -358,7 +352,7 @@
 								</div>
 								<div id="profile-name">김아름다움</div>
 								<div id="name-info">(101동 1306호)</div>
-								<div id="logout-info">로그아웃</div>
+								<div id="logout-info" onclick="location.href='/app/member/logout';">로그아웃</div>
 							</div>
 						</div>
 
@@ -382,11 +376,11 @@
 								</div>
 							</div>
 							<div id="text-area">
-								<div>마이페이지</div>
-								<div>이웃목록</div>
-								<div>게시판</div>
-								<div>편의시설</div>
-								<div>주변시설</div>
+								<div onclick="location.href=''">마이페이지</div>
+								<div onclick="location.href=''">이웃목록</div>
+								<div onclick="location.href=''">게시판</div>
+								<div onclick="location.href=''">편의시설</div>
+								<div onclick="location.href=''">주변시설</div>
 							</div>
 						</div>
 						<div id="info-qna-area">
@@ -402,10 +396,7 @@
 							<div id="header-main-text"></div>
 							<div id="header-icon-area">
 								<div id="header-weather">
-									<div>
-										<img src="/app/resources/temp/weather.png" height="35px">
-									</div>
-									<div id="weather-info-msg">작업중...</div>
+									<%@ include file="/WEB-INF/views/data/headerWeather.jsp" %>
 								</div>
 								<div class="header-calling">
 									<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;">
@@ -538,4 +529,7 @@
 				location.href="/app/chat/list";
 			})
 			
+			// 로그인 정보 출력
+			console.log("loginMember : ${loginMember}");
+			console.log("loginAdmin : ${loginAdmin}");
 		</script>

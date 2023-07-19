@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<!DOCTYPE html>
 	<html>
 
@@ -22,9 +23,6 @@
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 		
 		<script src="https://kit.fontawesome.com/794ac64f16.js" crossorigin="anonymous"></script>
-
-		<!-- 제이쿼리 -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 		<!-- 썸머노트 -->
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -60,7 +58,12 @@
 	</head>
 
 	<body>
-
+		<c:if test="${ not empty alertMsg }">
+			<script>
+				alert('${alertMsg}');
+			</script>
+		</c:if>
+		<c:remove var="alertMsg" scope="session" />
 	</body>
 
 	</html>
