@@ -1,8 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+	
+	<c:set value="${pageContext.request.contextPath}" var="root" />
+	
 	<!DOCTYPE html>
 	<html>
-
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
@@ -277,9 +279,16 @@
             background-color: transparent;
         }
 
-        #page-area > .paging > .pageBtn:hover{
+        #page-area > .paging > .pageBtn > a:hover{
             background-color: #FAD355;
             color: white;
+        }
+        
+        .pageBtn > a {
+        	border : none;
+        	background-color : transparent;
+        	text-decoration : none;
+        	color : black;
         }
 		#editBtn, #delBtn {
 			border: none;
@@ -516,27 +525,24 @@
 					</div>
 					<div id="page-area">
 						<div class="paging">
-							<button class="pageBtn"><</button>
-							<button class="pageBtn">1</button>
-							<button class="pageBtn">2</button>
-							<button class="pageBtn">3</button>
-							<button class="pageBtn">4</button>
-							<button class="pageBtn">5</button>
-							<button class="pageBtn">></button>
-							<c:if test="${pv.currentPage > 1}">
-								<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
+							<button class="pageBtn">
+								<c:if test="${pv.currentPage > 1}">
+								<a href="/app/account/list?p=${pv.currentPage-1 }">이전</a>
+								</c:if>
+							</button>
+
+							<c:forEach var="i" begin="${pv.startPage}" end="${pv.maxPage }" >
+							<button class="pageBtn">
+							<a href="/app/account/list?p=${i}">${i}</a>
+							</button>
+							</c:forEach>
+							
+							<c:if test="${pv.currentPage < pv.maxPage }">
+							<button class="pageBtn">
+							<a href="/app/account/list?p=${pv.currentPage+1 }">다음</a>
+							</button>
 							</c:if>
-								<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
-									<c:if test="${pv.currentPage != i}">
-										<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
-									</c:if>
-									<c:if test="${pv.currentPage == i}">
-										<a class="btn btn-primary btn-sm">${i}</a>
-									</c:if>
-								</c:forEach>
-							<c:if test="${pv.currentPage < pv.maxPage}">
-								<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
-							</c:if>
+							
 						</div>
 						<button id="openBtn" class="openBtn">등록</button>
 						<div class="modal hidden">

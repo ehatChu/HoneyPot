@@ -6,12 +6,12 @@ import lombok.Getter;
 public class PageVo {
 
 	public PageVo(int listCount, int currentPage, int pageLimit, int boardLimit) {
-		this.listCount = listCount;
-		this.CurrentPage = currentPage;
-		this.pageLimit = pageLimit;
-		this.boardLimit = boardLimit;
+		this.listCount = listCount; // 16
+		this.CurrentPage = currentPage; // 1
+		this.pageLimit = pageLimit; // 5
+		this.boardLimit = boardLimit; // 10
 		
-		int maxPage = (int)Math.ceil((double)(listCount/boardLimit));
+		int maxPage = (int)Math.ceil(((double)listCount/boardLimit));
 		int startPage = (currentPage - 1) / pageLimit * pageLimit +1;
 		int endPage = startPage + pageLimit - 1;
 		int offset = (currentPage-1) * boardLimit;
