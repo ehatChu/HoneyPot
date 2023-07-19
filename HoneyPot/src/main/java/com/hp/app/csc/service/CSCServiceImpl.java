@@ -11,6 +11,7 @@ import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
 import com.hp.app.csc.vo.QNAVo;
 import com.hp.app.csc.vo.ReportVo;
+import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,18 +30,32 @@ public class CSCServiceImpl implements CSCService {
 	public List<FAQCategoryVo> getFAQCatList() {
 		return dao.getFAQCatList(sst);
 	}
+	
+	// FAQ 모든 글 갯수
+	@Override
+	public int getFAQCnt() {
+		return dao.getFAQCnt(sst);
+	}
 
 	
 	// FAQ 모든 List 조회
 	@Override
-	public List<FAQVo> getFAQList() {
-		return dao.getFAQList(sst);
+	public List<FAQVo> getFAQList(PageVo pvo) {
+		return dao.getFAQList(sst, pvo);
 	}
 
 	// FAQ 상세 조회
 	@Override
-	public FAQVo getFAQByNo(String fNo) {
-		return null;
+	public FAQVo getFAQByNo(String fno) throws Exception {
+		FAQVo vo = dao.getFAQByNo(sst, fno);
+		
+		int result = dao.increaseHit(sst, fno);
+		
+		if(result != 1) {
+			throw new Exception();
+		}
+		
+		return vo;
 	}
 	
 	// FAQ 검색 List 조회
@@ -98,6 +113,7 @@ public class CSCServiceImpl implements CSCService {
 	public int delete(ReportVo vo) {
 		return 0;
 	}
+
 
 
 }

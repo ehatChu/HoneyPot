@@ -5,10 +5,14 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hp.app.csc.service.CSCService;
 import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
+import com.hp.app.csc.vo.QNAVo;
+import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,14 +26,35 @@ public class CSCController {
 	
 	// FAQ 조회(화면)
 	@GetMapping("csc/faq")
-	public String getListFAQ(Model model) {
-		List<FAQCategoryVo> cList = service.getFAQCatList();
-		List<FAQVo> fList = service.getFAQList();
+	public String getFAQList(Model model, int page) {
+		int listCount = service.getFAQCnt();
+		int currentPage = page;
+		int pageLimit = 5;
+		int boardLimit = 8;
 		
-		model.addAttribute("cList", cList);
+		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+		List<FAQVo> fList = service.getFAQList(pvo);
+		List<FAQCategoryVo> cList = service.getFAQCatList();
+		
 		model.addAttribute("fList", fList);
+		model.addAttribute("cList", cList);
+		model.addAttribute("pvo", pvo);
 		
 		return "csc/member/faq";
+	}
+	
+	// FAQ 상세조회
+	@GetMapping("csc/faq/detail")
+	@ResponseBody
+	public FAQVo getFAQDetail(String fno) throws Exception {
+		FAQVo vo = service.getFAQByNo(fno);
+		
+		if(vo == null) {
+			throw new Exception("상세조회 에러");
+		}
+		
+		return vo;
 	}
 	
 	// 문의하기(화면)
@@ -38,16 +63,24 @@ public class CSCController {
 		return "csc/member/inquiry";
 	}
 	
-	// 신고하기(화면)
-	@GetMapping("csc/report")
-	public String report() {
-		return "csc/member/report";
+	// 문의등룍
+	@PostMapping("csc/inquirt")
+	public String inquiry(QNAVo vo) {
+		return "re";
 	}
+
 	
 	// 문의목록 (화면)
 	@GetMapping("csc/inquiry-list")
 	public String inquiryList() {
 		return "csc/member/inquiry-list";
+	}
+	
+	
+	// 신고하기(화면)
+	@GetMapping("csc/report")
+	public String report() {
+		return "csc/member/report";
 	}
 	
 	// 신고목록 (화면)

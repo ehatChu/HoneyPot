@@ -6,6 +6,7 @@ import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
 import com.hp.app.csc.vo.QNAVo;
 import com.hp.app.csc.vo.ReportVo;
+import com.hp.app.page.vo.PageVo;
 
 public interface CSCService {
 
@@ -15,11 +16,14 @@ public interface CSCService {
 	// FAQ 카테고리 조회
 	List<FAQCategoryVo> getFAQCatList();
 	
+	// FAQ 모든 글 갯수
+	int getFAQCnt();
+	
 	// FAQ 모든 List 조회
-	List<FAQVo> getFAQList();
+	List<FAQVo> getFAQList(PageVo pvo);
 	
 	// FAQ 상세 조회
-	FAQVo getFAQByNo(String fNo);
+	FAQVo getFAQByNo(String fNo) throws Exception;
 	
 	// FAQ 검색 List 조회
 	List<FAQVo> getFAQListBySearch(FAQVo vo);

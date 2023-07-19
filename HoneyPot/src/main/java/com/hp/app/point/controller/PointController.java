@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 public class PointController {
 
-	@GetMapping("myactivity/point")
+	@GetMapping("mypage/act/point")
 	public String myPoint() {
 		return "mypage/point";
 	}
