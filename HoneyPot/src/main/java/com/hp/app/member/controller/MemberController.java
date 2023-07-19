@@ -21,6 +21,12 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	private final MemberService service;
 	
+	@GetMapping("logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/member/mlogin";
+	}
+	
 	@GetMapping("mlogin")
 	public String mlogin() {
 		return "member/mlogin";
