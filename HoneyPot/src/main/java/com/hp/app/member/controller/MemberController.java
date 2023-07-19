@@ -3,6 +3,7 @@ package com.hp.app.member.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,8 @@ public class MemberController {
 		session.setAttribute("loginMember", loginMember);
 		log.info("loginMember : {}", loginMember);
 		if (loginMember == null) {
-			throw new IllegalStateException("로그인 실패");
+			session.setAttribute("alertMsg", "입력하신 정보와 일치하는 회원 계정이 없습니다");
+			return "redirect:/member/mlogin";
 		}
 		return "redirect:/main/mmain";
 	}
@@ -47,7 +49,8 @@ public class MemberController {
 		session.setAttribute("loginAdmin", loginAdmin);
 		log.info("loginAdmin : {}", loginAdmin);
 		if (loginAdmin == null) {
-			throw new IllegalStateException("관리자 로그인 실패");
+			session.setAttribute("alertMsg", "입력하신 정보와 일치하는 관리자 계정이 없습니다");
+			return "redirect:/member/alogin";
 		}
 		return "redirect:/main/amain";
 	}
@@ -58,11 +61,12 @@ public class MemberController {
 	}
 	
 	@PostMapping("mjoin")
-	public String mjoin(MemberVo vo) {
+	public String mjoin(MemberVo vo, HttpSession session) {
 		int result = service.mjoin(vo);
 		log.info("result : {}", result);
 		if (result != 1) {
-			throw new IllegalStateException("회원가입 실패");
+			session.setAttribute("alertMsg", "회원 가입에 실패하였습니다");
+			return "redirect:/member/mjoin";
 		}
 		return "redirect:/main/mmain";
 	}
@@ -73,33 +77,37 @@ public class MemberController {
 	}
 	
 	@PostMapping("ajoin")
-	public String ajoin(AdminVo vo) {
+	public String ajoin(AdminVo vo, HttpSession session) {
 		int result = service.ajoin(vo);
 		log.info("result : {}", result);
 		if (result != 1) {
-			throw new IllegalStateException("관리자 회원가입 실패");
+			session.setAttribute("alertMsg", "관리자 가입에 실패하였습니다");
+			return "redirect:/member/ajoin";
 		}
 		return "redirect:/main/amain";
 	}
 
 	@GetMapping("medit")
-	public String medit() {
+	public String medit(HttpSession session) {
 		return "member/medit";
 	}
 	
 	@PostMapping("medit")
 	public String medit(MemberVo vo, HttpSession session) {
 		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-		loginMember.setPwd(vo.getPwd());
-		loginMember.setPhone(vo.getPhone());
-		loginMember.setEmail(vo.getEmail());
+		MemberVo loginTemp = loginMember;
+		loginTemp.setId(vo.getId());
+		loginTemp.setPwd(vo.getPwd());
+		loginTemp.setPhone(vo.getPhone());
+		loginTemp.setEmail(vo.getEmail());
 		int result = service.medit(loginMember);
 		log.info("result : {}", result);
 		if (result != 1) {
-			throw new IllegalStateException("회원 정보 수정 실패");
+			session.setAttribute("alertMsg", "회원정보 수정에 실패하였습니다");
+			return "redirect:/member/medit";
 		}
-		session.setAttribute("loginMember", loginMember);
-		
+		session.setAttribute("loginMember", loginTemp);
+		session.setAttribute("alertMsg", "회원정보 수정에 성공하였습니다!");
 		return "redirect:/main/mmain";
 	}
 
@@ -111,15 +119,18 @@ public class MemberController {
 	@PostMapping("aedit")
 	public String aedit(AdminVo vo, HttpSession session) {
 		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
-		loginAdmin.setPwd(vo.getPwd());
-		loginAdmin.setName(vo.getName());
-		int result = service.aedit(loginAdmin);
+		AdminVo loginTemp = loginAdmin;
+		loginTemp.setId(vo.getId());
+		loginTemp.setPwd(vo.getPwd());
+		loginTemp.setName(vo.getName());
+		int result = service.aedit(loginTemp);
 		log.info("result : {}", result);
 		if (result != 1) {
-			throw new IllegalStateException("관리자 정보 수정 실패");
+			session.setAttribute("alertMsg", "회원정보 수정에 실패하였습니다");
+			return "redirect:/member/aedit";
 		}
-		session.setAttribute("loginAdmin", loginAdmin);
-		
+		session.setAttribute("loginAdmin", loginTemp);
+		session.setAttribute("alertMsg", "관리자 정보 수정에 성공하였습니다!");
 		return "redirect:/main/amain";
 	}
 

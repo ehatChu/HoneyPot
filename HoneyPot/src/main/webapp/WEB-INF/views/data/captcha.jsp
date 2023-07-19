@@ -92,7 +92,7 @@
 			</div>
 		</div>
 		<div id="subsub" style="padding: 3px">
-			<input id="answer" class="bbbox" type="text" value=""> 
+			<input style="padding-left: 30px;" id="answer" class="bbbox" type="text" value=""> 
 		</div>
 	</body>
 
