@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 <style>
 	.car-img{
+		/* 자동차,바이시클이미지 크기 */
 		width: 300px;
 		height: 200px;
 		background-color: gray;
@@ -69,6 +70,7 @@
 		margin-right: 10px;
 	}
 	#img {
+		/* 모달창 이미지 */
 		width: 400px;
 		height: 300px;
 		background-color: gray;
@@ -134,6 +136,34 @@
 		margin-left: 20px;
 	}
 	/* 등록시 이미지 썸네일 CSS */
+	/* 클릭에어리어 */
+	#imgUpload {
+		background-color: lightgray;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 350px;
+		height: 300px;
+		position: relative;
+	}
+	#Thumnail{
+		top: 50%;
+		left: 50%;
+		position: absolute;
+		transform: translate(-50%,-50%);
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+
+	}
+	#imgFile{
+		visibility: hidden;
+	}
+	#Thum-parent {
+		width: 350px;
+		height: 300px;
+		position: relative;
+	}
 
 </style>
 </head>
@@ -174,9 +204,7 @@
 						<div id="Thum-parent">
 							<img id="imgUpload">
 							<div id="Thumnail">
-								<label id="upload" for="imgFile">
-									썸네일 사진 올리기 
-								</label>
+								<label id="upload" for="imgFile">썸네일 사진</label>
 								<input type="file" id="imgFile" name="boardListThumbnail">
 							</div>
 						
@@ -236,18 +264,29 @@
 	//파일이 로드되면 img태그에 src가 추가되게
 	//파일인풋태그 가져오기
 	const fileTag =document.querySelector("#imgFile");
+
 	//이미지 미리보기 구역
-	const preview = document.querySelector("#imgUpload");
+	let preview = document.querySelector("#imgUpload");
 	
-	fileTag.addEventListener('change',function(event){
-		//올린파일의 img를 가져와야하는데 
-		//event에 있지 않을까?
-		console.log(event);
+	
+	//썸네일사진 구역누르면 사진만 보이게하기
+	//썸네일 구역 가져오기
+	let Thumnail = document.querySelector("#Thumnail");
+
+	fileTag.addEventListener('change',function(params){
+		if(fileTag.files.length>0){
+			const fr = new FileReader();
+			fr.readAsDataURL(fileTag.files[0]);
+			
+			fr.addEventListener("load",function(event){
+				preview.src = event.target.result;
+				preview.width ="100%"
+				preview.height ="100%"
+				// Thumnail.style.visibility='hidden';
+			});
+		}else {
+			preview.src ="";
+		}
 	});
-
-
-
-
-
 
 </script>
