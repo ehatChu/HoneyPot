@@ -3,12 +3,13 @@ package com.hp.app.board.service;
 import java.util.List;
 
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
 
 public interface BoardService {
 	
 	//게시글 목록
-	public abstract List<BoardVo> list(PageVo pv);
+	public abstract List<NoticeVo> list(PageVo pv);
 	
 	//전체 게시글 개수
 	public abstract int cntBoard();

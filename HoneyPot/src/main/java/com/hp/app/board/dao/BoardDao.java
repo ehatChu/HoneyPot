@@ -5,12 +5,13 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
 
 public interface BoardDao {
 	
 	//게시글 목록
-	public abstract List<BoardVo> list(SqlSessionTemplate sst, PageVo pv);
+	public abstract List<NoticeVo> list(SqlSessionTemplate sst, PageVo pv);
 	
 	//전체 게시글 개수
 	public abstract int cntBoard(SqlSessionTemplate sst);
