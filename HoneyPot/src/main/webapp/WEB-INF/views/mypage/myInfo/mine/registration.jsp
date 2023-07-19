@@ -133,6 +133,8 @@
 		margin-top: 20px;
 		margin-left: 20px;
 	}
+	/* 등록시 이미지 썸네일 CSS */
+
 </style>
 </head>
 <body>
@@ -148,11 +150,12 @@
 			<div>
 				<span class="big-text">사유물목록</span><button class="small-btn color-gray">삭제하기</button><button class="small-btn color-main" id="regi-btn">등록하기</button>
 			</div>
+			
 			<div id="list-area">
-			<c:forEach var="i" begin="1" end="8">
+			<c:forEach var ="mvo" items ="${mvoList}">
 				<div class="mine-list">
-					<div><span><input type="checkbox" id="${i}"><label for="${i}"  class="middle-text">람보르기니 센데나리오</label></span></div>
-					<div class="car-img"></div>
+					<div><span><input type="checkbox" id="${mvo.no}"><label for="${mvo.no}"  class="middle-text">${mvo.name}</label></span></div>
+					<div><img src="/resources/member/mine/${mvo.img}" alt="${mvo.img}"></div>
 				</div>
 			</c:forEach>
 				
@@ -167,7 +170,20 @@
 				</div>
 				<form action="/app/mypage/register" method="post">
 					<div id="img-area">
-						<div id="img" class="margin15"></div>
+						<!-- <div id="img" class="margin15"></div> -->
+						<div id="Thum-parent">
+							<img id="imgUpload">
+							<div id="Thumnail">
+								<label id="upload" for="imgFile">
+									썸네일 사진 올리기 
+								</label>
+								<input type="file" id="imgFile" name="boardListThumbnail">
+							</div>
+						
+						</div>
+
+
+
 						<div id="regi-content" class="margin15">
 		
 							<div class="big-mine-text">사유물등록</div>
@@ -201,6 +217,7 @@
 	secondNav(['캘린더', '가계부','사유물 등록 및 변경'], '사유물 등록 및 변경'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 </script>
 <script>
+	//등록누르면 모달창 띄우기
 	let regiBtn = document.querySelector("#regi-btn");
 	let registrtation = document.querySelector("#registration");
 	let main = document.querySelector("main"); 
@@ -209,9 +226,28 @@
 		registrtation.style.display = "block";
 	});
 
+	//모달창 닫기
 	let quitBtn = document.querySelector(".quit-btn");
 	quitBtn.addEventListener("click",function(){
 		registrtation.style.display="none";
 		main.classList.remove("modal-background");
 	});
+
+	//파일이 로드되면 img태그에 src가 추가되게
+	//파일인풋태그 가져오기
+	const fileTag =document.querySelector("#imgFile");
+	//이미지 미리보기 구역
+	const preview = document.querySelector("#imgUpload");
+	
+	fileTag.addEventListener('change',function(event){
+		//올린파일의 img를 가져와야하는데 
+		//event에 있지 않을까?
+		console.log(event);
+	});
+
+
+
+
+
+
 </script>
