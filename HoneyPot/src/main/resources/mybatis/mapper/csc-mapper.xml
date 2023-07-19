@@ -25,5 +25,26 @@
 		WHERE STATUS = 'N'
 		ORDER BY F.ENROLL_DATE DESC
 	</select>
+	
+	<select id="getFAQByNo" resultType="com.hp.app.csc.vo.FAQVo">
+		SELECT
+			QUESTION
+			, ANSWER
+		FROM FAQ
+		WHERE NO = #{fno}
+		AND STATUS = 'N'
+	</select>
+	
+	<select id="getFAQCnt" resultType="int">
+		SELECT COUNT(NO)
+		FROM FAQ
+		WHERE STATUS = 'N'
+	</select>
+	
+	<update id="increaseHit">
+		UPDATE FAQ
+		SET HIT = HIT + 1
+		WHERE NO = #{fno}
+	</update>
   
 </mapper>
