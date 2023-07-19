@@ -10,7 +10,11 @@ public class MineDaoImpl implements MineDao {
 
 	@Override
 	public int register(SqlSessionTemplate sst,MineVo mvo) {
-		return sst.insert("mine.registerCar");
+		
+		
+			
+		
+		return sst.insert("mine.registerCar",mvo);
 	}
 	 
 	

@@ -165,7 +165,7 @@
 				<div id="modal-top">
 					<span id="mine-header">사유물등록</span><span><i class="fa-solid fa-xmark fa-2xl margin-right quit-btn" style="color: #000000;"></i></span>
 				</div>
-				<form action="app/mypage/register" method="post">
+				<form action="/app/mypage/register" method="post">
 					<div id="img-area">
 						<div id="img" class="margin15"></div>
 						<div id="regi-content" class="margin15">
@@ -179,7 +179,7 @@
 								</select>
 							</div>
 							<div class="bold-text">사유물 이름</div> <div><input type="text" name="name" placeholder="예시)2023메르세데스-벤츠 GLC클래스" class="input-area"></div>
-							<div class="bold-text">사유물 번호판</div> <div><input type="text" name="unique-num" placeholder="예시)20호 2391" class="input-area"></div>
+							<div class="bold-text">사유물 번호판</div> <div><input type="text" name="uniqueNum" placeholder="예시)20호 2391" class="input-area"></div>
 							<div><input type="submit" class="big-btn color-main" value="등록"></div>					
 						</div>
 			
