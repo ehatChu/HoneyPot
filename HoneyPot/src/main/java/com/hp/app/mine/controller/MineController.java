@@ -1,10 +1,18 @@
 package com.hp.app.mine.controller;
 
+import java.net.http.HttpRequest;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.mine.service.MineService;
 import com.hp.app.mine.vo.MineVo;
 
@@ -16,9 +24,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MineController {
 	private final MineService service;
-	//사유물 등록(화면)
+	//사유물 목록보기(화면)
 	@RequestMapping("regi/mine/mypage")
-	public String regiMine() {
+	public String regiMine(HttpSession session,Model model) {
+		MemberVo loginMember =(MemberVo)session.getAttribute("loginMember");
+		
+		//리스트 DB에서 조회하기
+		List<MineVo> mvoList=service.getMyCarList(loginMember);
+		
+		model.addAttribute("mvoList",mvoList);
+		
 		return "mypage/myInfo/mine/registration";
 	}
 	
@@ -27,8 +42,6 @@ public class MineController {
 	public String regiMine(MineVo mvo) {
 		
 		int result = service.register(mvo);
-		log.info("값이 잘 전달 되고 있는지 : {}",mvo.getName());
-		log.info("result : {}",result);
 		if(result!=1) {
 			throw new RuntimeException();
 		}

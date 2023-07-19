@@ -7,4 +7,16 @@
 		INSERT INTO CAR (NO,ADMIN_NO,MEMBER_NO,UNIQUE_NUM,NAME)
 		VALUES (SEQ_CAR_NO.NEXTVAL,1,1,#{uniqueNum},#{name})
 	</insert>
+	<select id="getMyCarList" resultType="com.hp.app.mine.vo.MineVo">
+		SELECT 
+			NO
+			,ADMIN_NO
+			,MEMBER_NO
+			,ENROLL_DATE
+			,MODIFY_DATE
+			,UNIQUE_NUM
+			,IMG
+			,NAME
+		FROM CAR WHERE MEMBER_NO = ${no}
+	</select>
 </mapper>

@@ -6,7 +6,7 @@ import lombok.Data;
 public class MineVo {
 	private String no;
 	private String adminNo;
-	private String membeNro;
+	private String memberNo;
 	private String enrollDate;
 	private String modifyDate;
 	private String uniqueNum;
