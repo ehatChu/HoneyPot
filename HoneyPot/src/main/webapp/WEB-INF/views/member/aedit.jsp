@@ -157,7 +157,7 @@
 			<div id="login-area">
 				<div id="loginForm">
 					<div></div>
-					<div class="logo">
+					<div class="logo" onclick="location.href = '/app/main/amain';">
 						<img id="logo" src="/app/resources/main/honeyPot.png">
 					</div>
 					<div></div>
@@ -173,13 +173,13 @@
 					<div id="tit3">관리소장</div>
 					<div></div>
 					<div id="tit">아이디</div>
-					<input type="text" class="box">
+					<input style="padding-left: 30px;" type="text" class="box" value="${loginAdmin.id}">
 					<div></div>
 					<div id="tit">비밀번호</div>
-					<input type="password" class="box">
-					<div class="box3 box">수정</div>
+					<input style="padding-left: 30px;" type="password" class="box" value="${loginAdmin.pwd}" readonly>
+					<div onclick="location.href ='/app/member/changePwd';" class="box3 box">수정</div>
 					<div id="tit">이름</div>
-					<input type="text" class="box">
+					<input style="padding-left: 30px;" type="text" class="box" value="${loginAdmin.name}">
 					<div></div>
 
 					<div></div>

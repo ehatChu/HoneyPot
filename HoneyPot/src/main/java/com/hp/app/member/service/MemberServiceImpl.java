@@ -24,10 +24,12 @@ public class MemberServiceImpl implements MemberService{
 		MemberVo loginMember = null;
 		try {
 			loginMember = dao.mlogin(sst, vo);
-			System.out.println(loginMember);
+			if(loginMember == null) {
+				return null;
+			}
+			
 			boolean isMatch1 = pwdEncoder.matches(vo.getPwd(), loginMember.getPwd());
 			boolean isMatch2 = (loginMember.getPwd().equals(vo.getPwd()));
-			
 			if (!(isMatch1 || isMatch2)) {
 				throw new Exception();
 			}
@@ -43,9 +45,12 @@ public class MemberServiceImpl implements MemberService{
 		AdminVo loginAdmin = null;
 		try {
 			loginAdmin = dao.alogin(sst, vo);
+			if(loginAdmin == null) {
+				return null;
+			}
+			
 			boolean isMatch1 = pwdEncoder.matches(vo.getPwd(), loginAdmin.getPwd());
 			boolean isMatch2 = (loginAdmin.getPwd().equals(vo.getPwd()));
-			
 			if (!(isMatch1 || isMatch2)) {
 				throw new Exception();
 			}

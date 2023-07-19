@@ -71,15 +71,15 @@
 				<div id="login-area">
 					<div id="loginForm">
 						<div></div>
-						<div class="logo">
+						<div class="logo" onclick="location.href = '/app/member/mlogin';">
 							<img id="logo" src="/app/resources/main/honeyPot.png">
 						</div>
 						<div></div>
 						<div id="tit">아이디</div>
-						<input type="text" class="box">
+						<input style="padding-left: 30px;" type="text" class="box">
 						<div></div>
 						<div id="tit">이메일</div>
-						<input type="text" class="box">
+						<input style="padding-left: 30px;" type="text" class="box">
 						<div></div>
 						<div></div>
 						<input type="submit" class="box box2" value="비밀번호 찾기">

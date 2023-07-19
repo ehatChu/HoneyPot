@@ -127,7 +127,7 @@
 
 			.dongHo {
 				display: flex;
-				justify-content: space-evenly;
+				justify-content: space-between;
 				align-items: center;
 				width: 100%;
 			}
@@ -138,9 +138,9 @@
 	<body>
 		<div id="floor">
 			<div id="login-area">
-				<form id="loginForm" action="/app/member/mjoin" method="post">
+				<form id="loginForm" action="/app/member/mjoin" method="post" onsubmit="return validateForm()">
 					<div></div>
-					<div class="logo">
+					<div class="logo" onclick="location.href = '/app/member/mlogin';">
 						<img id="logo" src="/app/resources/main/honeyPot.png">
 					</div>
 					<div></div>
@@ -153,31 +153,31 @@
 					</div>
 					<div></div>
 					<div id="tit">아이디</div>
-					<input type="text" class="box" name="id">
-					<div class="box3 box">중복검사</div>
+					<input style="padding-left: 30px;" type="text" class="box" name="id">
+					<div class="box3 box" onclick="dupCheck();">중복검사</div>
 					<div id="tit">비밀번호</div>
-					<input type="password" class="box" name="pwd">
+					<input style="padding-left: 30px;" type="password" class="box" name="pwd">
 					<div></div>
 					<div id="tit">비밀번호 확인</div>
-					<input type="password" class="box">
+					<input style="padding-left: 30px;" type="password" class="box">
 					<div></div>
 					<div id="tit">이름</div>
-					<input type="text" class="box" name="name">
+					<input style="padding-left: 30px;" type="text" class="box" name="name">
 					<div></div>
 					<div id="tit">생년월일</div>
-					<input type="text" class="box" name="birth">
+					<input style="padding-left: 30px;" type="text" class="box" name="birth">
 					<div></div>
 					<div id="tit">연락처</div>
-					<input type="text" class="box" name="phone">
+					<input style="padding-left: 30px;" type="text" class="box" name="phone">
 					<div></div>
 					<div id="tit">동 / 호수</div>
 					<div class="dongHo">
-						<input type="text" class="box" name="dongNum">
-						<input type="text" class="box" name="hoNum">
+						<input style="padding-left: 30px; padding-right: 30px;" type="text" class="box" name="dongNum">
+						<input style="padding-left: 30px; padding-right: 30px;" type="text" class="box" name="hoNum">
 					</div>
 					<div></div>
 					<div id="tit">이메일</div>
-					<input type="text" class="box" name="email">
+					<input style="padding-left: 30px;" type="text" class="box" name="email">
 					<div></div>
 					<div></div>
 					<input type="submit" class="box box2" value="회원가입">
@@ -190,5 +190,25 @@
 	</html>
 
 	<script>
+		function dupCheck() {
+			alert("사용 불가능한 아이디입니다");
+		}
 
+		function validateForm() {
+			const idValue = document.getElementsByName("id")[0].value;
+			const pwdValue = document.getElementsByName("pwd")[0].value;
+			const nameValue = document.getElementsByName("name")[0].value;
+			const birthValue = document.getElementsByName("birth")[0].value;
+			const phoneValue = document.getElementsByName("phone")[0].value;
+			const dongNumValue = document.getElementsByName("dongNum")[0].value;
+			const hoNumValue = document.getElementsByName("hoNum")[0].value;
+			const emailValue = document.getElementsByName("email")[0].value;
+
+			if (idValue.trim() === "" || pwdValue.trim() === "" || nameValue.trim() === "" || birthValue.trim() === "" || phoneValue.trim() === "" || dongNumValue.trim() === "" || hoNumValue.trim() === "" || emailValue.trim() === "") {
+				alert("입력값이 충분하지 않습니다");
+				return false;
+			}
+
+			return true;
+		}
 	</script>

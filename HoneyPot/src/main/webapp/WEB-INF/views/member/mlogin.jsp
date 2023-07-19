@@ -17,7 +17,6 @@
 			}
 
 			.box::placeholder {
-				padding-left: 30px;
 				color: black;
 				font-size: 18px;
 			}
@@ -143,7 +142,7 @@
 			<div id="floor1">
 				<div id="d01">
 					<div id="logo-area">
-						<span> <img id="logo" src="/app/resources/main/logo.png">
+						<span onclick="location.href = '/app/member/mlogin';"> <img id="logo" src="/app/resources/main/logo.png">
 							<img id="logo" src="/app/resources/main/honeyPot.png">
 						</span>
 					</div>
@@ -159,16 +158,17 @@
 			</div>
 			<div id="floor2">
 				<div id="login-area">
-					<form id="loginForm" action="/app/member/mlogin" method="post">
-						<input type="text" class="box" placeholder="아이디" name="id">
-						<br>
-						<input type="password" class="box" placeholder="비밀번호" name="pwd">
+					<form id="loginForm" action="/app/member/mlogin" method="post" onsubmit="return validateForm()">
+						<input style="padding-left: 30px;" type="text" class="box" placeholder="아이디" name="id"> <br>
+						<input style="padding-left: 30px;" type="password" class="box" placeholder="비밀번호" name="pwd">
 						<div id="sub">
-							<div><span onclick="findId();">아이디</span> • <span onclick="findPwd();">비밀번호 찾기</span></div>
-							<div>회원가입</div>
+							<div>
+								<span onclick="findId();">아이디</span> • <span onclick="findPwd();">비밀번호
+									찾기</span>
+							</div>
+							<div onclick="join()">회원가입</div>
 						</div>
-						<br>
-						<input type="submit" class="box box2" value="로그인">
+						<br> <input type="submit" class="box box2" value="로그인">
 					</form>
 				</div>
 			</div>
@@ -177,19 +177,27 @@
 	</html>
 
 	<script>
-
 		function findId() {
-			// var leftPosition = (window.screen.width - 1200) / 2;
-			// var topPosition = (window.screen.height - 800) / 2;
-			// var windowFeatures = 'width=1200,height=800,left=' + leftPosition + ',top=' + topPosition;
-			// window.open("/app/member/findId", "_blank", windowFeatures);
+			location.href = "/app/member/findId";
 		}
 
 		function findPwd() {
-			// let width = '600px';
-			// let height = '600px';
-			// let left = (window.screen.width - width) / 2;
-			// let top = (window.screen.height - height) / 2;
-			// window.open("/app/member/findPwd", "_blank", `width=${width}, height=${height}, top=${top}, left=${left}`);
+			location.href = "/app/member/findPwd";
+		}
+
+		function join() {
+			location.href = "/app/member/mjoin";
+		}
+
+		function validateForm() {
+			const idValue = document.getElementsByName("id")[0].value;
+			const pwdValue = document.getElementsByName("pwd")[0].value;
+
+			if (idValue.trim() === "" || pwdValue.trim() === "") {
+				alert("아이디와 비밀번호를 모두 입력해주세요");
+				return false;
+			}
+
+			return true;
 		}
 	</script>

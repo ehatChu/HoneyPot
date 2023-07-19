@@ -33,6 +33,7 @@
 	<update id="medit">
 		UPDATE MEMBER
 		<set>
+			Id = #{id},
 			PWD = #{pwd},
 			PHONE = #{phone},
 			EMAIL = #{email}
@@ -45,6 +46,7 @@
 	<update id="aedit">
 		UPDATE ADMIN
 		<set>
+			ID = #{id}
 			PWD = #{pwd},
 			NAME = #{name}
 		</set>

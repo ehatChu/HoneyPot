@@ -472,17 +472,17 @@
 
 								<div class="rank">
 									<div class="rankBar bar1">
-										<img id="rankImg1" src="/app/resources/main/_______3.png">
+										<img id="rankImg1" src="/app/resources/profile/exam_profile.png">
 										<div class="rankFont">101동 심원용</div>
 										<div class="bar11 bar">2</div>
 									</div>
 									<div class="rankBar bar2">
-										<img id="rankImg1" src="/app/resources/main/_______3.png">
+										<img id="rankImg1" src="/app/resources/profile/exam_profile.png">
 										<div class="rankFont">102동 심원용</div>
 										<div class="bar22 bar">1</div>
 									</div>
 									<div class="rankBar bar3">
-										<img id="rankImg1" src="/app/resources/main/_______3.png">
+										<img id="rankImg1" src="/app/resources/profile/exam_profile.png">
 										<div class="rankFont">103동 심원용</div>
 										<div class="bar33 bar">3</div>
 									</div>
@@ -491,7 +491,7 @@
 							<div id="box4" class="box">
 								<div id="tit1">동대표</div>
 								<div class="imgBox">
-									<img id="rankImg2" src="/app/resources/main/_______3.png">
+									<img id="rankImg2" src="/app/resources/profile/exam_profile.png">
 									<div id="rankFont2">101동 심원용</div>
 								</div>
 								<div class="like">
