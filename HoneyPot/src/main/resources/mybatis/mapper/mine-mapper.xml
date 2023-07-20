@@ -4,8 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mine">
 	<insert id="registerCar">
-		INSERT INTO CAR (NO,ADMIN_NO,MEMBER_NO,UNIQUE_NUM,NAME,IMG)
-		VALUES (SEQ_CAR_NO.NEXTVAL,1,1,#{uniqueNum},#{name},#{img})
+		INSERT INTO CAR (NO,MEMBER_NO,UNIQUE_NUM,NAME,IMG)
+		VALUES (SEQ_CAR_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
 	</insert>
 	<select id="getMyCarList" resultType="com.hp.app.mine.vo.MineVo">
 		SELECT 

@@ -44,7 +44,7 @@ public class MineController {
 	
 	//사유물 등록
 	@PostMapping("mypage/register")
-	public String regiMine(HttpServletRequest req,MineVo mvo, List<MultipartFile> fList) throws Exception{
+	public String regiMine(HttpServletRequest req,HttpSession session,MineVo mvo, List<MultipartFile> fList) throws Exception{
 		MultipartFile f =fList.get(0);
 		if(f.getOriginalFilename()==null) {
 			throw new RuntimeException();
@@ -65,6 +65,10 @@ public class MineController {
 		
 		//이미지명 DB에 저장하기 위해
 		mvo.setImg(changeName);
+		
+		//멤버 값에 넣을 로그인멤버
+		MemberVo loginMember =(MemberVo)session.getAttribute("loginMembeer");
+		mvo.setMemberNo(loginMember.getNo());
 		
 		int result = service.register(mvo);
 		if(result!=1) {    
