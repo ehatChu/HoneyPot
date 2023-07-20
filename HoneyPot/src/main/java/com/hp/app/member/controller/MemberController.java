@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class MemberController {
-	private final MemberService service;
+	private final MemberService ms;
 	
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
@@ -34,7 +34,7 @@ public class MemberController {
 	
 	@PostMapping("mlogin")
 	public String mlogin(MemberVo vo, HttpSession session) {
-		MemberVo loginMember = service.mlogin(vo);
+		MemberVo loginMember = ms.mlogin(vo);
 		session.setAttribute("loginMember", loginMember);
 		log.info("loginMember : {}", loginMember);
 		if (loginMember == null) {
@@ -51,7 +51,7 @@ public class MemberController {
 
 	@PostMapping("alogin")
 	public String alogin(AdminVo vo, HttpSession session) {
-		AdminVo loginAdmin = service.alogin(vo);
+		AdminVo loginAdmin = ms.alogin(vo);
 		session.setAttribute("loginAdmin", loginAdmin);
 		log.info("loginAdmin : {}", loginAdmin);
 		if (loginAdmin == null) {
@@ -68,7 +68,7 @@ public class MemberController {
 	
 	@PostMapping("mjoin")
 	public String mjoin(MemberVo vo, HttpSession session) {
-		int result = service.mjoin(vo);
+		int result = ms.mjoin(vo);
 		log.info("result : {}", result);
 		if (result != 1) {
 			session.setAttribute("alertMsg", "회원 가입에 실패하였습니다");
@@ -84,7 +84,7 @@ public class MemberController {
 	
 	@PostMapping("ajoin")
 	public String ajoin(AdminVo vo, HttpSession session) {
-		int result = service.ajoin(vo);
+		int result = ms.ajoin(vo);
 		log.info("result : {}", result);
 		if (result != 1) {
 			session.setAttribute("alertMsg", "관리자 가입에 실패하였습니다");
@@ -106,7 +106,7 @@ public class MemberController {
 		loginTemp.setPwd(vo.getPwd());
 		loginTemp.setPhone(vo.getPhone());
 		loginTemp.setEmail(vo.getEmail());
-		int result = service.medit(loginMember);
+		int result = ms.medit(loginMember);
 		log.info("result : {}", result);
 		if (result != 1) {
 			session.setAttribute("alertMsg", "회원정보 수정에 실패하였습니다");
@@ -129,7 +129,7 @@ public class MemberController {
 		loginTemp.setId(vo.getId());
 		loginTemp.setPwd(vo.getPwd());
 		loginTemp.setName(vo.getName());
-		int result = service.aedit(loginTemp);
+		int result = ms.aedit(loginTemp);
 		log.info("result : {}", result);
 		if (result != 1) {
 			session.setAttribute("alertMsg", "회원정보 수정에 실패하였습니다");

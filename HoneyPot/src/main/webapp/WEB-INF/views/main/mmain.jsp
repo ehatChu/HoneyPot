@@ -149,7 +149,6 @@
 			height: 50px;
 		}
 
-
 		#tit1 {
 			font-size: 24px;
 			font-weight: bold;
@@ -302,15 +301,18 @@
 			justify-content: space-between;
 		}
 
-		.el {
+		.pub>div {
 			font-size: 20px;
 			width: 150px;
 			height: 60px;
-			border: 4px solid #FAD355;
 			border-radius: 20px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
+		}
+
+		.el {
+			border: 4px solid #FAD355;
 		}
 
 		.like {
@@ -379,9 +381,7 @@
 
 	<body>
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
-			<nav>
-
-			</nav>
+			<nav></nav>
 
 			<main>
 				<div id="floor1">
@@ -394,7 +394,7 @@
 					<div id="box1" class="box">
 						<div id="tit2">8월 일정</div>
 
-						<% for(int i=0; i < 5; i++) { %>
+						<% for (int i=0; i < 5; i++) { %>
 							<div id="schedule">
 								<img id="starImg" src="/app/resources/main/star1.PNG">
 								<div id="scheTxt">8월 4일 ~ 8월 10일</div>
@@ -435,7 +435,8 @@
 								<div id="e01">오늘의 조식</div>
 								<div id="e02">떡볶이, 치킨, 감자탕, 핫도그, 어묵</div>
 								<div id="e03">
-									<button id="f01" onclick="location.href='/app/meal/mmeal'">조식 신청</button>
+									<button id="f01" onclick="location.href='/app/meal/mmeal'">조식
+										신청</button>
 								</div>
 							</div>
 						</div>
@@ -445,25 +446,16 @@
 					<div id="boxf2" class="box">
 						<div id="tit2" class="fl">
 							<div>통합게시판</div>
-							<div id="grayCircle2"> ▶ </div>
+							<div id="grayCircle2" onclick="location.href='/app/board/list'">▶</div>
 						</div>
 						<div class='pub'>
-							<div class='el'>
-								공지사항
-							</div>
-							<div class='el'>
-								인기글 모음
-							</div>
+							<div id="pub1" onclick="getNoticeList();">공지사항</div>
+							<div id="pub2" onclick="getPopularList();">인기글 모음</div>
 						</div>
 						<br>
+						<div class="boxff2">
 
-						<% for(int i=0; i < 7; i++) { %>
-							<div id="boardTxt">
-								<div>[공지] 편의시설 등록 관련 질문에 대한 FAQ등록을 위한 개정안</div>
-								<div>2023.06.01</div>
-							</div>
-							<hr>
-							<% } %>
+						</div>
 					</div>
 					<div id="boxf3">
 						<div id="zzz01">
@@ -492,20 +484,20 @@
 								<div id="tit1">동대표</div>
 								<div class="imgBox">
 									<img id="rankImg2" src="/app/resources/profile/exam_profile.png">
-									<div id="rankFont2">101동 심원용</div>
+									<div id="rankFont2">${captain.name}</div>
 								</div>
 								<div class="like">
 									<div class="like1 yellow">
 										<div class="blue">
 											<i class="fa-solid fa-thumbs-up" style="color: #ffffff;"></i>
 										</div>
-										68%
+										<span id="love"></span>
 									</div>
 									<div class="like1">
 										<div class="red">
 											<i class="fa-solid fa-thumbs-down" style="color: #ffffff;"></i>
 										</div>
-										32%
+										<span id="hate"></span>
 									</div>
 								</div>
 							</div>
@@ -529,7 +521,9 @@
 						</div>
 					</div>
 				</div>
-				<br><br><br>
+				<br>
+				<br>
+				<br>
 
 			</main>
 
@@ -539,10 +533,96 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 	<script>
+		// 변수 선언
+		const pub1 = document.querySelector("#pub1");
+		const pub2 = document.querySelector("#pub2");
+		const boxff2 = document.querySelector('.boxff2');
+
+
 		// 함수 실행
 		basicSetting(); // 기본 셋팅
 		headerName('홈'); // 현재 페이지 이름
 		getWeatherInfo();
+		getNoticeList();
+		getCaptainLove();
+		
+
+		// 게시판 선택 1
+		function getNoticeList() {
+			pub1.classList.add('el');
+			pub2.classList.remove('el');
+
+			$.ajax({
+				url: '/app/main/noticeList',
+				type: 'get',
+				dataType: 'json',
+				success: function (noticeList) {
+					let str = "";
+					for (let vo of noticeList) {
+						str += '<div id="boardTxt">'
+							+ '<div>' + vo.title + '</div>'
+							+ '<div>' + vo.writerName + '</div>'
+							+ '<div>' + vo.enrollDate + '</div>'
+							+ '</div> <hr>'
+					}
+					boxff2.innerHTML = str;
+				},
+				error: function () {
+					alert("에러");
+				}
+			});
+		}
+
+		// 게시판 선택 2
+		function getPopularList() {
+			pub2.classList.add('el');
+			pub1.classList.remove('el');
+
+			boxff2.innerHTML = "작업 중";
+			// $.ajax({
+			// 	url: '/app/main/popularList',
+			// 	type: 'get',
+			// 	dataType: 'json',
+			// 	success: function (popularList) {
+			// 		let str = "";
+			// 		for (let vo of popularList) {
+			// 			str += '<div id="boardTxt">'
+			// 				+ '<div>' + vo.title + '</div>'
+			// 				+ '<div>' + vo.writerName + '</div>'
+			// 				+ '<div>' + vo.enrollDate + '</div>'
+			// 				+ '</div> <hr>'
+			// 		}
+			// 		boxff2.innerHTML = str;
+			// 	},
+			// 	error: function () {
+			// 		alert("에러");
+			// 	}
+			// });
+		}
+
+		function getCaptainLove() {
+			$.ajax({
+				url: '/app/main/captainLove',
+				type: 'get',
+				dataType: 'json',
+				success: function (arr) {
+					const love = document.querySelector('#love');
+					const hate = document.querySelector('#hate');
+
+					let loveCnt = arr[0];
+					let hateCnt = arr[1];
+					let total = loveCnt + hateCnt;
+					
+					love.innerHTML = (loveCnt/total * 100).toFixed(0) + "%";
+					hate.innerHTML = (hateCnt/total * 100).toFixed(0) + "%";
+				},
+				error: function () {
+					alert("에러");
+				}
+			});
+		}
+
+
 
 		// 동대표 선호도 조사
 		const like1Elements = document.querySelectorAll('.like1');
