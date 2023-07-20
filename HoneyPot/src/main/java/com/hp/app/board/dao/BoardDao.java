@@ -11,10 +11,13 @@ import com.hp.app.page.vo.PageVo;
 public interface BoardDao {
 	
 	//게시글 목록
-	public abstract List<NoticeVo> list(SqlSessionTemplate sst, PageVo pv);
+	public abstract List<NoticeVo> getList(SqlSessionTemplate sst, PageVo pv);
+	
+	//게시글 목록(검색조회)
+	public abstract List<NoticeVo> getList(SqlSessionTemplate sst, PageVo pv, String searchType, String searchValue);
 	
 	//전체 게시글 개수
-	public abstract int cntBoard(SqlSessionTemplate sst);
+	public abstract int countBoard(SqlSessionTemplate sst);
 	
 	//게시글 작성
 	public abstract int write(SqlSessionTemplate sst, BoardVo vo);
@@ -23,7 +26,7 @@ public interface BoardDao {
 	public abstract int edit(SqlSessionTemplate sst, BoardVo vo);
 	
 	//게시글 삭제
-	public abstract int del(SqlSessionTemplate sst, BoardVo vo);
+	public abstract int delete(SqlSessionTemplate sst, BoardVo vo);
 	
 	//게시글 상세조회 (+ 조회수 증가)
 	public abstract BoardVo detail(SqlSessionTemplate sst, BoardVo vo);

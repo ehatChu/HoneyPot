@@ -9,10 +9,13 @@ import com.hp.app.page.vo.PageVo;
 public interface BoardService {
 	
 	//게시글 목록
-	public abstract List<NoticeVo> list(PageVo pv);
+	public abstract List<NoticeVo> getList(PageVo pv);
+	
+	//게시글 목록(검색조회)
+	public abstract List<NoticeVo> getList(PageVo pv, String searchType, String searchValue);
 	
 	//전체 게시글 개수
-	public abstract int cntBoard();
+	public abstract int countBoard();
 	
 	//게시글 작성
 	public abstract int write(BoardVo vo);

@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
 
-	<select id="list" resultType="com.hp.app.notice.vo.NoticeVo">
+<!-- 	<select id="getList" resultType="com.hp.app.notice.vo.NoticeVo">
 		SELECT 
 			N.NO AS NO
 			,N.NOTICE_CNO AS NOTICE_CNO
@@ -23,9 +23,37 @@
 			JOIN NOTICE_CATEGORY C ON N.NOTICE_CNO = C.NO
 			JOIN ADMIN A ON N.WRITER_NO = A.NO
 		WHERE N.STATUS = 'Y'
-	</select>
+		ORDER BY N.NO DESC
+	</select> -->
+	
+	<select id="getList" resultType="com.hp.app.notice.vo.NoticeVo">
+		SELECT 
+			N.NO AS NO
+			,N.NOTICE_CNO AS NOTICE_CNO
+			,C.NAME AS NOTICE_CNAME
+			,N.WRITER_NO AS WRITER_NO
+			,A.NAME AS WRITER_NAME
+			,TITLE
+			,CONTENT
+			,ENROLL_DATE
+			,MODIFY_DATE
+			,STATUS
+			,HIT
+			,IMPORTANT_YN
+		FROM
+			NOTICE N
+			JOIN NOTICE_CATEGORY C ON N.NOTICE_CNO = C.NO
+			JOIN ADMIN A ON N.WRITER_NO = A.NO
+		WHERE N.STATUS = 'Y'
+		
+		<if test="searchValue != null">
+		AND N.TITLE LIKE ('%' || #{searchValue} || '%') 
+		</if>
+		
+		ORDER BY N.NO DESC
+	</select>	
 
-	<select id="cntBoard" resultType="int">
+	<select id="countBoard" resultType="int">
 		SELECT COUNT(NO)
 		FROM NOTICE
 		WHERE STATUS ='Y'
