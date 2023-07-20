@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
+import com.hp.app.csc.vo.QNACategoryVo;
 import com.hp.app.csc.vo.QNAVo;
 import com.hp.app.csc.vo.ReportVo;
 import com.hp.app.page.vo.PageVo;
@@ -29,8 +30,11 @@ public interface CSCService {
 	List<FAQVo> getFAQListBySearch(FAQVo vo);
 	
 	// 문의
+	// 문의 카테고리 List 조회
+	List<QNACategoryVo> getQNACatList();
+	
 	// 문의 등록
-	int write(QNAVo vo);
+	int insertInquiry(QNAVo vo);
 	
 	// 문의 List 조회
 	List<QNAVo> getQNAList(String no);

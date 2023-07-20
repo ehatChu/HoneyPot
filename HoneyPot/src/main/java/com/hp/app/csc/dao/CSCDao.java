@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
+import com.hp.app.csc.vo.QNACategoryVo;
 import com.hp.app.csc.vo.QNAVo;
 import com.hp.app.csc.vo.ReportVo;
 import com.hp.app.page.vo.PageVo;
@@ -34,8 +35,11 @@ public interface CSCDao {
 	int increaseHit(SqlSessionTemplate sst, String fno);
 	
 	// 문의
+	// 문의 카테고리 List 조회
+	List<QNACategoryVo> getQNACatList(SqlSessionTemplate sst);
+	
 	// 문의 등록
-	int write(SqlSessionTemplate sst, QNAVo vo);
+	int insertInquiry(SqlSessionTemplate sst, QNAVo vo);
 	
 	// 문의 List 조회
 	List<QNAVo> getQNAList(SqlSessionTemplate sst, String no);

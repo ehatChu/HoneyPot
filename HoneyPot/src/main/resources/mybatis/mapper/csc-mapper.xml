@@ -4,6 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="csc">
 
+	<!-- FAQ -->
+
 	<select id="getFAQCatList" resultType="com.hp.app.csc.vo.FAQCategoryVo">
 		SELECT
 			NO
@@ -46,5 +48,31 @@
 		SET HIT = HIT + 1
 		WHERE NO = #{fno}
 	</update>
+	
+	<!-- 문의 -->
+	
+	<select id="getQNACatList" resultType="com.hp.app.csc.vo.QNACategoryVo">
+		SELECT 
+			NO
+			, NAME
+		FROM QNA_CATEGORY
+	</select>
+	
+	<insert id="insertInquiry">
+		INSERT INTO QNA
+		(
+			NO
+			, QNA_CNO
+			, MEMBER_NO
+			, TITLE
+			, CONTENT
+		) VALUES(
+			SEQ_QNA_NO.NEXTVAL
+			, #{qnaCno}
+			, #{memberNo}
+			, #{title}
+			, #{content}
+		)
+	</insert>
   
 </mapper>

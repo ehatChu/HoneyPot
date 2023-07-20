@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hp.app.csc.dao.CSCDao;
 import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
+import com.hp.app.csc.vo.QNACategoryVo;
 import com.hp.app.csc.vo.QNAVo;
 import com.hp.app.csc.vo.ReportVo;
 import com.hp.app.page.vo.PageVo;
@@ -65,10 +66,16 @@ public class CSCServiceImpl implements CSCService {
 	}
 
 	// 문의
+	// 문의 카테고리 List 조회
+	@Override
+	public List<QNACategoryVo> getQNACatList() {
+		return dao.getQNACatList(sst);
+	}
+	
 	// 문의 등록
 	@Override
-	public int write(QNAVo vo) {
-		return 0;
+	public int insertInquiry(QNAVo vo) {
+		return dao.insertInquiry(sst, vo);
 	}
 
 	// 문의 List 조회
@@ -113,7 +120,5 @@ public class CSCServiceImpl implements CSCService {
 	public int delete(ReportVo vo) {
 		return 0;
 	}
-
-
 
 }

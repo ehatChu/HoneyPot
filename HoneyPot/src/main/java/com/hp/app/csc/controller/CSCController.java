@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hp.app.csc.service.CSCService;
 import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
+import com.hp.app.csc.vo.QNACategoryVo;
 import com.hp.app.csc.vo.QNAVo;
 import com.hp.app.page.vo.PageVo;
 
@@ -26,15 +27,24 @@ public class CSCController {
 	
 	// FAQ 조회(화면)
 	@GetMapping("csc/faq")
-	public String getFAQList(Model model, int page) {
+	public String getFAQList(Model model, String page, String searchTitle) {
+		
+		if(page == null) {
+			return "redirect:/csc/faq?page=1";
+		}
+		
 		int listCount = service.getFAQCnt();
-		int currentPage = page;
+		int currentPage = Integer.parseInt(page);
 		int pageLimit = 5;
 		int boardLimit = 8;
 		
 		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
 		
+
+		
 		List<FAQVo> fList = service.getFAQList(pvo);
+		
+		
 		List<FAQCategoryVo> cList = service.getFAQCatList();
 		
 		model.addAttribute("fList", fList);
@@ -59,14 +69,31 @@ public class CSCController {
 	
 	// 문의하기(화면)
 	@GetMapping("csc/inquiry")
-	public String inquiry() {
+	public String inquiry(Model model) throws Exception {
+		
+		List<QNACategoryVo> cList = service.getQNACatList();
+		
+		if(cList == null) {
+			throw new Exception("문의등록 카테고리 조회 에러");
+		}
+		
+		model.addAttribute("cList", cList);
+		
 		return "csc/member/inquiry";
 	}
 	
 	// 문의등룍
-	@PostMapping("csc/inquirt")
+	@PostMapping("csc/inquiry")
 	public String inquiry(QNAVo vo) {
-		return "re";
+		
+		vo.setMemberNo("1");
+		int result = service.insertInquiry(vo);
+		
+		if(result != 1) {
+			return "redirect:/errorPage";
+		}
+		
+		return "redirect:/csc/inquiry-list";
 	}
 
 	
