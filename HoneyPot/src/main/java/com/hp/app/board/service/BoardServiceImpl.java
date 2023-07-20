@@ -23,14 +23,20 @@ public class BoardServiceImpl implements BoardService {
 	
 	//게시글 목록
 	@Override
-	public List<NoticeVo> list(PageVo pv) {
-		return dao.list(sst, pv);
+	public List<NoticeVo> getList(PageVo pv) {
+		return dao.getList(sst, pv);
+	}
+	
+	//게시글 목록(검색조회)
+	@Override
+	public List<NoticeVo> getList(PageVo pv, String searchType, String searchValue) {
+		return dao.getList(sst, pv, searchType, searchValue);
 	}
 
 	//전체 게시글 개수
 	@Override
-	public int cntBoard() {
-		return dao.cntBoard(sst);
+	public int countBoard() {
+		return dao.countBoard(sst);
 	}
 
 	//게시글 작성
@@ -48,7 +54,7 @@ public class BoardServiceImpl implements BoardService {
 	//게시글 삭제
 	@Override
 	public int delete(BoardVo vo) {
-		return dao.del(sst, vo);
+		return dao.delete(sst, vo);
 	}
 
 	//게시글 상세조회

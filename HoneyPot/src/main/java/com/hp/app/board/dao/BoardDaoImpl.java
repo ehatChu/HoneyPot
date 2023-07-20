@@ -15,15 +15,22 @@ public class BoardDaoImpl implements BoardDao {
 
 	//게시글 목록
 	@Override
-	public List<NoticeVo> list(SqlSessionTemplate sst, PageVo pv) {
+	public List<NoticeVo> getList(SqlSessionTemplate sst, PageVo pv) {
 		RowBounds rb = new RowBounds(pv.getOffset(), pv.getBoardLimit());
-		return sst.selectList("board.list", null, rb);
+		return sst.selectList("board.getList", null, rb);
+	}
+	
+	//게시글 목록(검색조회)
+	@Override
+	public List<NoticeVo> getList(SqlSessionTemplate sst, PageVo pv, String searchType, String searchValue) {
+		RowBounds rb = new RowBounds(pv.getOffset(), pv.getBoardLimit());
+		return sst.selectList("board.getList", null, rb);
 	}
 
 	//전체 게시글 개수
 	@Override
-	public int cntBoard(SqlSessionTemplate sst) {
-		return sst.selectOne("board.cntBoard");
+	public int countBoard(SqlSessionTemplate sst) {
+		return sst.selectOne("board.countBoard");
 	}
 
 	//게시글 작성
@@ -40,7 +47,7 @@ public class BoardDaoImpl implements BoardDao {
 
 	//게시글 삭제
 	@Override
-	public int del(SqlSessionTemplate sst, BoardVo vo) {
+	public int delete(SqlSessionTemplate sst, BoardVo vo) {
 		return 0;
 	}
 
