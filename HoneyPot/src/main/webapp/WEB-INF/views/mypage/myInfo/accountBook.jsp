@@ -18,415 +18,9 @@
 		<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
 		<!-- sweetAlert CDN -->
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		<link rel="stylesheet" href="${root}/resources/css/mypage/accountBook.css">
 	</head>
 	
-	<style>
-		#wrap{
-			height: 1200px;
-			display: grid;
-			grid-template-rows: 750px 450px;
-			margin-left: 20px;
-		}
-
-		#showStatistics-area{
-			display: grid;
-			grid-template-columns: 800px 710px;
-			margin-top: 40px;
-		}
-
-		/* 원형 그래프 영역 */
-		#A_graph-area{
-			border: 1px solid #FFFFFF;
-			box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-			border-radius: 20px;
-			background: #FFFFFF;
-			display: grid;
-			grid-template-rows: 100px 400px;
-			margin-top: 20px;
-			margin-right: 20px;
-			height: 600px;
-		}
-
-		.A_title{
-			font-size: 35px;
-			text-align: left;
-			margin-left: 50px;
-			margin-top: 25px;
-		}
-		
-		.graph-area{
-			position: relative;
-			width: 350px;
-			height: 350px;
-			margin:80px;
-		}
-		.graph {
-			position: relative;
-			width: 350px;
-			height: 350px;
-			border-radius: 50%;
-			transition: 0.3s;
-			display:inline-block;
-		}
-		.graph:after{
-			content:'';
-			background: #fff;
-			position: absolute;
-			top:50%; left:50%;
-			width:200px; height:200px;
-			border-radius: 50%;
-			transform: translate(-50%, -50%);
-		}
-		.chart-bar{
-			width: inherit;
-			height: inherit;
-			border-radius: 50%;
-			position: relative;
-		}
-
-		.chart-total{
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			background:gray;
-			width:100%;
-		}
-		.chart-total span{
-			position: absolute;
-			color:#777;
-		}
-		.chart-total-num{
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			color:#333;
-			text-align: center;
-		}
-		.total_category {
-			font-size: 18px;
-		}
-
-		.answer_category {
-			font-size: 26px;
-			font-weight: bold;
-		}
-
-		.chart-total-text1{
-			top:-170px;right:20px;
-		}
-		.chart-total-text2{
-			top:-50px;right:-70px;
-		}
-		.chart-total-text3{
-			top:140px;right:-10px;
-		}
-		.chart-total-text4{
-			top:0;left:-70px;
-		}
-		.chart-total-text5{
-			top:-130;left:-50px;
-		}
-		.chart-total-text6{
-			top:-50;left:-70px;
-		}
-
-		.A_content {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-		}
-
-		.text-area{
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			font-size: 20px;
-			font-weight: 300;
-			justify-items: center;
-			align-content: center;
-			line-height: 50px;
-		}
-
-		.text-area > span:first-child {
-			font-weight: 500;
-		}
-
-		/* 캘린더 영역 */
-		#calendar-container {
-			border: 1px solid #FFFFFF;
-			box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-			border-radius: 20px;
-			background: #FFFFFF;
-			margin-top: 20px;
-			height: 600px;
-		}
-
-		#calendar {
-			margin-top: 20px;
-		}
-
-		.fc-header-toolbar {
-			padding-top: 1em;
-			padding-left: 1em;
-			padding-right: 1em;
-		}
-
-		.fc-event-title-container {
-			background: #f6b341;
-			color: black;
-		}
-
-		/* 상세내역 */
-		#detail-area {
-			display: grid;
-			grid-template-rows: 100px 500px 80px;
-			margin-top: 40px;
-			margin-right: 10px;
-		}
-
-		#search-area {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-
-		}
-
-		#search-area > span {
-			font-weight: 500;
-			font-size: 35px;
-			color: #4A321F;
-		}
-
-		#search-area > div > input{
-			width: 300px;
-			height: 40px;
-			border-radius: 20px;
-			margin-right: 15px;
-			font-size: 15px;
-			padding: 20px;
-		}
-
-		#table-area {
-			display:  grid;
-			grid-template-rows: 50px 450px;
-		}
-
-		.cal-area {
-			background-color: #FAD355;
-			color: black;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			font-size: 20px;
-		}
-
-		.cal-area > .left {
-			margin-left: 20px;
-		}
-
-		.cal-area > .right {
-			margin-right: 20px;
-		}
-
-		.cal-area > span {
-			margin-right: 50px;
-		}
-
-		.A_detail {
-			width: 1518px;
-			height: 450px;
-			text-align: center;
-			vertical-align: middle;
-			border-collapse: collapse;
-			background: #FFFFFF;
-		}
-
-		#line{border-bottom:1px solid black;}
-		
-		.A_detail > thead > tr {
-			font-size: 18px;
-			height: 40px;
-		}
-
-		.A_detail > tbody > tr:hover {
-			cursor: pointer;
-			background-color: #fdeaab;
-		}
-
-		.A_detail > thead > tr >th:first-child > i {
-			margin-left: 10px;
-		}
-		
-		#page-area {
-			display: grid;
-			grid-template-columns: 950px 564px;
-			justify-items: end;
-			align-items: center;
-			border-radius: 0 0 10px 0;
-		}
-		
-		.paging {
-			display: flex;
-			align-items: baseline;
-		}
-
-        #page-area > .paging >.pageBtn {
-            font-weight: bold;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: transparent;
-        }
-
-        #page-area > .paging > .pageBtn > a:hover{
-            background-color: #FAD355;
-            color: white;
-        }
-        
-        .pageBtn > a {
-        	border : none;
-        	background-color : transparent;
-        	text-decoration : none;
-        	color : black;
-        }
-		#editBtn, #delBtn {
-			border: none;
-			background-color: transparent;
-		}
-
-		#openBtn {
-			background-color: #ffce31;
-			color: black;
-			width: 150px;
-			height: 40px;
-			font-size: 18px;
-			font-weight: 550;
-			text-align: center;
-			border-radius: 12px;
-			border: none;
-		}
-
-		/* 등록 모달 영역 */
-		.modal {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .modal .bg {
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.6);
-        }
-
-        .modalBox {
-          position: absolute;
-          background-color: #fff;
-          width: 700px;
-          height: 600px;
-		  border-radius: 30px;
-		  display: grid;
-		  grid-template-rows: 50px 550px;
-        }
-
-        .modalBox button {
-          display: block;
-          margin: 0 auto;
-		  border: none;
-		  background-color: #ffce31;
-        }
-
-        .hidden {
-          display: none;
-        }
-
-		/* 모달 디자인 영역 */
-		.upper-bar {
-			display: grid;
-			grid-template-columns: 650px 50px;
-			align-items: center;
-			background: #ffce31;
-			color: black;
-			border-radius: 30px 30px 0px 0px;
-		}
-
-		.upper-bar > span {
-			margin-left: 20px;
-			font-size: 20px;
-			font-weight: 530;
-		}
-	
-		.content-modal {
-			display: grid;
-			grid-template-rows: 100px 100px 260px 90px;
-			color: #464646;
-		}
-
-		.first-area {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			padding: 40px;
-			font-size: 18px;
-		}
-
-		.first-area > div > input {
-			width: 170px;
-			height: 30px;
-		}
-
-		#acnt_category{
-			width: 170px;
-			height: 30px;
-		}
-
-		.second-area{
-			padding: 40px;
-			font-size: 18px;
-		}
-
-		.second-area > input {
-			width: 170px;
-			height: 30px;
-		}
-
-		.third-area{
-			padding: 40px;
-			font-size: 18px;
-		}
-
-		#detailContent{
-			width: 610px;
-			height: 170px;
-			border-radius: 15px;
-			resize: none;
-			padding: 15px;
-		}
-
-		#submitBtn {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-
-		#submitBtn > input{
-			background-color: #ffce31;
-			width: 120px;
-			height: 40px;
-			font-size: 18px;
-			font-weight: 600;
-			color: black;
-			border: none;
-			border-radius: 10px;
-		}
-
-	</style>
-
 	<body>
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 			<nav>
@@ -510,12 +104,13 @@
 								</thead>
 								<tbody>
 									<c:forEach items="${avoList}" var="vo">
-										<tr id="line" class="openBtn">
+										<tr id="line">
+											<td hidden>${vo.no}</td>
 											<td>${vo.categoryName}</td>
 											<td>${vo.accountDate }</td>
-											<td>${vo.content }</td>
+											<td class="detailBtn btn-click">${vo.content}</td>
 											<td>${vo.price} 원</td>
-											<td><button id="editBtn" class="openBtn"><i class="fa-solid fa-pen"></i></button></td>
+											<td><button id="editBtn" class="editBtn"><i class="fa-solid fa-pen"></i></button></td>
 											<td><button id="delBtn"><i class="fa-solid fa-xmark"></i></button></td>
 										</tr>
 									</c:forEach>
@@ -531,10 +126,11 @@
 								</c:if>
 							</button>
 
-							<c:forEach var="i" begin="${pv.startPage}" end="${pv.maxPage }" >
+							<c:forEach var="i" begin="${pv.startPage}" end="${pv.endPage }" >
 							<button class="pageBtn">
 							<a href="/app/account/list?p=${i}">${i}</a>
 							</button>
+							
 							</c:forEach>
 							
 							<c:if test="${pv.currentPage < pv.maxPage }">
@@ -555,35 +151,36 @@
 									<form action="/app/account/add" method="post">
 									<div class="content-modal">
 											<div class="first-area">
+											<input type="hidden" name="ano">
 												<div>
 													<span>일자</span>
 													<br>
-													<input type="date">
+													<input type="date" name="accountDate">
 												</div>
 												<div>
 													<span>카테고리</span>
 													<br>
-													<select id="acnt_category">
-														<option value="생활/마트">생활/마트</option>
-														<option value="의료/건강">의료/건강</option>
-														<option value="문화/예술">문화/예술</option>
-														<option value="경조사/회비">경조사/회비</option>
-														<option value="금융/보험">금융/보험</option>
-														<option value="교통/차량">교통/차량</option>
-														<option value="뷰티/미용">뷰티/미용</option>
-														<option value="기타지출">기타지출</option>
+													<select id="acnt_category" name="accountCno">
+														<option value="2">생활/마트</option>
+														<option value="3">의료/건강</option>
+														<option value="4">문화/예술</option>
+														<option value="5">경조사/회비</option>
+														<option value="1">금융/보험</option>
+														<option value="6">교통/차량</option>
+														<option value="7">뷰티/미용</option>
+														<option value="8">기타지출</option>
 													  </select>
 												</div>
 											</div>
 											<div class="second-area">
 												<span>금액</span>
 												<br>
-												<input type="text" dir="rtl" maxlength="10" onkeyup="inputNumberFormat(this);"> 원
+												<input type="text" name="price" dir="rtl" maxlength="10""> 원
 											</div>
 											<div class="third-area">
 												<span>내용</span>
 												<br>
-												<textarea name="" id="detailContent" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기"></textarea>
+												<textarea name="content" id="detailContent" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기"></textarea>
 											</div>
 											<div id="submitBtn"><input type="submit" value="등록"></div>
 										</div>
@@ -593,13 +190,94 @@
 					</div>
 				</div>
 			</div>
-
+				<!-- 수정 -->
+				<div class="edit-modal hidden">
+							<div class="bg"></div>
+								<div class="modalBox">
+									<div class="upper-bar">
+										<span>가계부 수정</span>
+										<button class="closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+									</div>
+									<form action="/app/account/edit" method="post">
+									<div class="content-modal">
+											<div class="first-area">
+												<div>
+													<span>일자</span>
+													<br>
+													<input type="date" name="accountDate">
+												</div>
+												<div>
+													<span>카테고리</span>
+													<br>
+													<select id="acnt_category" name="accountCno">
+														<option value="2">생활/마트</option>
+														<option value="3">의료/건강</option>
+														<option value="4">문화/예술</option>
+														<option value="5">경조사/회비</option>
+														<option value="1">금융/보험</option>
+														<option value="6">교통/차량</option>
+														<option value="7">뷰티/미용</option>
+														<option value="8">기타지출</option>
+													  </select>
+												</div>
+											</div>
+											<div class="second-area">
+												<span>금액</span>
+												<br>
+												<input type="text" name="price" dir="rtl" maxlength="10"> 원
+											</div>
+											<div class="third-area">
+												<span>내용</span>
+												<br>
+												<textarea name="content" id="detailContent" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기"></textarea>
+											</div>
+											<div id="submitBtn"><input type="submit" value="수정"></div>
+									</div>
+									</form>
+							</div>
+					</div>
+					<!-- 상세조회 -->
+				<div class="detail-modal hidden">
+							<div class="bg"></div>
+								<div class="modalBox">
+									<div class="upper-bar">
+										<span>가계부 조회</span>
+										<button class="closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+									</div>
+									<form action="/app/account/detail" method="post">
+									<div class="content-modal">
+											<div class="first-area">
+												<div>
+													<span>일자</span>
+													<br>
+													<input type="date" name="accountDate" value="2023-07-16">
+												</div>
+												<div>
+													<span>카테고리</span>
+													<br>
+													<input id="acnt_category" name="accountCno" value="dd">
+												</div>
+											</div>
+											<div class="second-area">
+												<span>금액</span>
+												<br>
+												<input type="text" name="price" dir="rtl" maxlength="10" value="hhh"> 원
+											</div>
+											<div class="third-area">
+												<span>내용</span>
+												<br>
+												<textarea name="content" id="detailContent" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기" value="ee"></textarea>
+											</div>
+									</div>
+									</form>
+							</div>
+					</div>
 			</main>
-
 	</body>
 
 	</html>
 
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 	
 		// 헤더 함수 실행
@@ -722,13 +400,12 @@
 			});
 		})();
 
-	// 등록 모달
-
+	////// 등록 모달
 	// 모달 열기
 	const openModal = () => {
 	document.querySelector(".modal").classList.remove("hidden");
 	};
-
+	
 	// 모달 닫기
 	const closeModal = () => {
 	document.querySelector(".modal").classList.add("hidden");
@@ -742,9 +419,55 @@
 	// 모달 닫기 버튼에 이벤트 추가
 	document.querySelector(".closeBtn").addEventListener("click", closeModal);
 
-	// 모달 배경 클릭 시 모달 닫기
-	document.querySelector(".bg").addEventListener("click", closeModal);
+	///// 수정 모달
+	
+	
+	// 상세 조회 모달
+	
 
+	
+	// 글 번호 전달하면서 상세 조회
+	$(document).ready(function() {
+    $('.btn-click').on('click', function() {
+      const row = $(this).closest('tr');
+
+      const ano = row.find('td:nth-child(1)').text();
+
+	  $.ajax({
+		type: 'GET', 
+		url: '/app/account/detail', 
+		dataType : "json",
+		data: { no: ano },
+		success: function(vo) {
+			// 받아온 x로 상세내용 채워주기
+			accountDateInput = document.querySelector("input[name='accountDate']");
+			categoryNameInput = document.querySelector("input[name='categoryName']");
+			contentInput = document.querySelector("input[name='content']");
+			priceInput = document.querySelector("input[name='price']");
+
+			accountDateInput = "";
+			categoryNameInput= "";
+			contentInput = "";
+			priceInput = "";
+
+			vo.categoryName
+
+	},
+	error: function(error) {
+		console.error('Error:', error);
+	}
+	});
+
+		});
+
+	});
+
+	
+
+   
+	
+
+	
 	// 금액칸 콤마 정규식
 	function comma(str) {
 			str = String(str);
@@ -759,6 +482,9 @@
   	function inputNumberFormat(obj) {
         obj.value = comma(uncomma(obj.value));
     }
+  	
+
+  	// 
 
 	// 삭제 알림창
 	// 백엔드 작업 시 삭제 버튼에 del 함수 걸어주기

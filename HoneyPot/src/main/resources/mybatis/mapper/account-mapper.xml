@@ -25,6 +25,40 @@
 		WHERE A.WRITER_NO = #{no}
 		ORDER BY A.ACCOUNT_DATE DESC
 	</select>
+
+	<insert id="add">
+		INSERT INTO ACCOUNT
+			(
+			NO
+			,WRITER_NO
+			,ACCOUNT_CNO
+			,CONTENT
+			,PRICE
+			,ACCOUNT_DATE
+			)
+		VALUES 
+			(
+			SEQ_ACCOUNT_NO.NEXTVAL
+			,#{writerNo}
+			,#{accountCno}
+			,#{content}
+			,#{price}
+			,#{accountDate}
+			)
+	</insert>
+	
+	<select id="selectByNo" resultType="com.hp.app.account.vo.AccountVo">
+		SELECT 
+		    A.NO AS NO
+		    ,A.CONTENT AS CONTENT
+		    ,A.PRICE AS PRICE
+		    ,TO_CHAR(A.ACCOUNT_DATE, 'YY.MM.DD') AS ACCOUNT_DATE
+            ,AC.NAME AS CATEGORY_NAME
+		FROM ACCOUNT A
+		JOIN ACCOUNT_CATEGORY AC 
+		ON A.ACCOUNT_CNO = AC.NO
+		WHERE A.NO = #{no}
+	</select>
 	
 
 </mapper>

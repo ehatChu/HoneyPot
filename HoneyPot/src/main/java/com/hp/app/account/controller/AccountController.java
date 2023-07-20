@@ -3,8 +3,11 @@ package com.hp.app.account.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,17 +34,12 @@ public class AccountController {
 		String mno = loginMember.getNo();
 		int listCount = service.listCnt(mno);
 		int CurrentPage = p;
-		int pageLimit = 5;
+		int pageLimit = 6;
 		int boardLimit = 10;
 		PageVo pv = new PageVo(listCount, CurrentPage, pageLimit, boardLimit);
-		log.info(pv.toString());
-		System.out.println(pv.getMaxPage());
-		System.out.println(pv.getListCount());
-		System.out.println(pv.getStartPage());
 		
 		// 로그인한 회원 번호로 가계부 목록 조회
 		List<AccountVo> avoList = service.list(mno,pv);
-		log.info(avoList.toString());
 		
 		if(!avoList.isEmpty()) {
 			model.addAttribute("pv", pv);
@@ -53,14 +51,27 @@ public class AccountController {
 	}
 	
 	//가계부 등록
-	@PostMapping("add")
-	public String addAccount(AccountVo vo) {
+	@PostMapping("account/add")
+	public String addAccount(AccountVo vo, HttpSession session) {
+		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		String writerNo = loginMember.getNo();
+		vo.setWriterNo(writerNo);
 		int result = service.add(vo);
 		
 		if(result != 1) {
 			throw new RuntimeException();
 		}
-		return "redirect:/mypage/myInfo/accountBook";
+		return "redirect:/account/list?p=1";
 	}
+	
+	
+	
+	// 가계부 수정
+	@GetMapping("account/edit")
+	public String edit(String ano) {
+		
+		return "redirect:/account/list?p=1";
+	}
+	
 	
 }
