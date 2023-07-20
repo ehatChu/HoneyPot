@@ -198,14 +198,14 @@
 				<div id="modal-top">
 					<span id="mine-header">사유물등록</span><span><i class="fa-solid fa-xmark fa-2xl margin-right quit-btn" style="color: #000000;"></i></span>
 				</div>
-				<form action="/app/mypage/register" method="post">
+				<form action="/app/mypage/register" method="post" enctype="multipart/form-data">
 					<div id="img-area">
 						<!-- <div id="img" class="margin15"></div> -->
 						<div id="Thum-parent">
 							<img id="imgUpload">
 							<div id="Thumnail">
 								<label id="upload" for="imgFile">썸네일 사진</label>
-								<input type="file" id="imgFile" name="boardListThumbnail">
+								<input type="file" id="imgFile" name="fList">
 							</div>
 						
 						</div>

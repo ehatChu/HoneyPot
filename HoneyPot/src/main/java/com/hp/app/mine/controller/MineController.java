@@ -2,6 +2,7 @@ package com.hp.app.mine.controller;
 
 import java.net.http.HttpRequest;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.mine.service.MineService;
@@ -25,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MineController {
 	private final MineService service;
 	//사유물 목록보기(화면)
-	@RequestMapping("regi/mine/mypage")
+	@GetMapping("regi/mine/mypage")
 	public String regiMine(HttpSession session,Model model) {
 		MemberVo loginMember =(MemberVo)session.getAttribute("loginMember");
 		
@@ -38,11 +40,24 @@ public class MineController {
 	}
 	
 	//사유물 등록
-	@RequestMapping("mypage/register")
-	public String regiMine(MineVo mvo) {
+	@PostMapping("mypage/register")
+	public String regiMine(MineVo mvo, List<MultipartFile> fList) {
+		MultipartFile f =fList.get(0);
+		if(f.getOriginalFilename()==null) {
+			throw new RuntimeException();
+		}
+		
+		String savePath = "resources/member/mine/";
+		
+		String randomName = UUID.randomUUID().toString();//체인지네임 얻기
+		String originName = f.getOriginalFilename();
+		String ext= originName.substring(originName.lastIndexOf("."));//확장자구하기
+		String changeName = randomName+ext;
+		String path = savePath+changeName;
+		
 		
 		int result = service.register(mvo);
-		if(result!=1) {
+		if(result!=1) {    
 			throw new RuntimeException();
 		}
 		return "redirect:/regi/mine/mypage";
