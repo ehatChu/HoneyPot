@@ -357,6 +357,20 @@
 		height: 30px;
 	}
 
+	#accountDate, #categoryName, #price {
+		border: 1px solid #464646;
+		width: 170px;
+		height: 30px;
+		padding-left: 10px;
+	}
+
+	.detailContent {
+		width: 610px;
+		height: 170px;
+		padding: 10px;
+		border: 1px solid #464646;
+	}
+
 	#acnt_category{
 		width: 170px;
 		height: 30px;
@@ -383,6 +397,7 @@
 		border-radius: 15px;
 		resize: none;
 		padding: 15px;
+		font-family: 'Noto Sans KR';
 	}
 
 	#submitBtn {

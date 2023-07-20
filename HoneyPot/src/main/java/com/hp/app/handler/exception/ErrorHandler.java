@@ -24,7 +24,6 @@ public class ErrorHandler {
 	//@ExceptionHandler(LoginFailException.class)
 	public String handlerLoginFail () {
 		return "error/loginFail";
-		
 	}
 	
 }
