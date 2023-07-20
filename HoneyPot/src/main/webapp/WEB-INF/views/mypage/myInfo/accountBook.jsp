@@ -242,34 +242,32 @@
 								<div class="modalBox">
 									<div class="upper-bar">
 										<span>가계부 조회</span>
-										<button class="closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+										<button class="DcloseBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
 									</div>
-									<form action="/app/account/detail" method="post">
 									<div class="content-modal">
 											<div class="first-area">
 												<div>
 													<span>일자</span>
 													<br>
-													<input type="date" name="accountDate" value="2023-07-16">
+													<div id="accountDate"></div>
 												</div>
 												<div>
 													<span>카테고리</span>
 													<br>
-													<input id="acnt_category" name="accountCno" value="dd">
+													<div id="categoryName"></div>
 												</div>
 											</div>
 											<div class="second-area">
 												<span>금액</span>
 												<br>
-												<input type="text" name="price" dir="rtl" maxlength="10" value="hhh"> 원
+												<div id="price"></div>
 											</div>
 											<div class="third-area">
 												<span>내용</span>
 												<br>
-												<textarea name="content" id="detailContent" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기" value="ee"></textarea>
+												<div class="detailContent"></div>
 											</div>
 									</div>
-									</form>
 							</div>
 					</div>
 			</main>
@@ -417,7 +415,8 @@
 	});
 
 	// 모달 닫기 버튼에 이벤트 추가
-	document.querySelector(".closeBtn").addEventListener("click", closeModal);
+	const closeBtn = document.querySelector(".closeBtn");
+	closeBtn.addEventListener("click", closeModal);
 
 	///// 수정 모달
 	
@@ -433,24 +432,33 @@
 
       const ano = row.find('td:nth-child(1)').text();
 
+	  const detailModal = document.querySelector(".detail-modal");
+	  const dcloseBtn = document.querySelector(".DcloseBtn");
+	  const accountDateInput = document.querySelector("#accountDate");
+	  const	categoryNameInput = document.querySelector("#categoryName");
+	  const	contentInput = document.querySelector(".detailContent");
+	  const	priceInput = document.querySelector("#price");
+	  detailModal.classList.remove("hidden");
+
 	  $.ajax({
-		type: 'GET', 
+		type: 'get', 
 		url: '/app/account/detail', 
 		dataType : "json",
 		data: { no: ano },
-		success: function(vo) {
+		success: function(voJson) {
+			console.log(voJson);
 			// 받아온 x로 상세내용 채워주기
-			accountDateInput = document.querySelector("input[name='accountDate']");
-			categoryNameInput = document.querySelector("input[name='categoryName']");
-			contentInput = document.querySelector("input[name='content']");
-			priceInput = document.querySelector("input[name='price']");
+			
 
-			accountDateInput = "";
-			categoryNameInput= "";
-			contentInput = "";
-			priceInput = "";
-
-			vo.categoryName
+			const accountDate = voJson.accountDate;
+			const categoryName = voJson.categoryName;
+			const content = voJson.content;
+			console.log(content);
+			const price = voJson.price;
+			accountDateInput.innerHTML = accountDate;
+			categoryNameInput.innerHTML = categoryName;
+			contentInput.innerHTML = content;
+			priceInput.innerHTML = price;
 
 	},
 	error: function(error) {
@@ -458,6 +466,12 @@
 	}
 	});
 
+
+	  dcloseBtn.addEventListener("click", function(){
+		detailModal.classList.add("hidden");
+	  });
+
+	  
 		});
 
 	});

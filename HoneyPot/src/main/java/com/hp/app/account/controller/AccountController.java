@@ -10,7 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hp.app.account.service.AccountService;
 import com.hp.app.account.vo.AccountVo;
 import com.hp.app.member.vo.MemberVo;
@@ -34,7 +37,7 @@ public class AccountController {
 		String mno = loginMember.getNo();
 		int listCount = service.listCnt(mno);
 		int CurrentPage = p;
-		int pageLimit = 6;
+		int pageLimit = 5;
 		int boardLimit = 10;
 		PageVo pv = new PageVo(listCount, CurrentPage, pageLimit, boardLimit);
 		
@@ -73,5 +76,35 @@ public class AccountController {
 		return "redirect:/account/list?p=1";
 	}
 	
+	// 가계부 상세 조회
+	@RequestMapping("account/detail")
+	@ResponseBody
+	public String detail(String no) throws Exception {
+		
+		AccountVo vo = service.detail(no);
+		ObjectMapper mapper = new ObjectMapper();
+		String voJson = mapper.writeValueAsString(vo);
+		
+		log.info(voJson);
+		return voJson;
+		
+	}
+
+	
+	
+	
+	
+	
+	
 	
 }
+
+
+
+
+
+
+
+
+
+
