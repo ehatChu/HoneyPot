@@ -11,6 +11,24 @@
 		width: 300px;
 		height: 200px;
 		background-color: gray;
+		position: relative;
+	}
+	.car-img > img {
+		width: 300px;
+		height: 200px;
+	}
+	.background-color-area {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 300px;
+		height: 200px;
+		background-color: rgba(0, 0, 0, 0.553);
+		color: white;
+		font-size: 20px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 	.small-btn {
 		padding: 5px 10px;
@@ -164,7 +182,11 @@
 		height: 300px;
 		position: relative;
 	}
-
+	.confirming {
+		width: 100%;
+		height: 100%;
+		background-color: #00000065;
+	}
 </style>
 </head>
 <body>
@@ -185,7 +207,20 @@
 			<c:forEach var ="mvo" items ="${mvoList}">
 				<div class="mine-list">
 					<div><span><input type="checkbox" id="${mvo.no}"><label for="${mvo.no}"  class="middle-text">${mvo.name}</label></span></div>
-					<div><img src="/app/resources/member/mine/${mvo.img}" alt="${mvo.img}" class="car-img"></div>
+					
+					<!-- 막 등록한 승인받지 않았을 때 CSS -->
+					<c:if test="${empty mvo.adminNo}">
+						<div class="car-img">
+							<img src="/app/resources/member/mine/${mvo.img}" alt="${mvo.img}">
+							<div class="background-color-area">승인받는중...</div>
+						</div>
+					</c:if>
+					<c:if test="${not empty mvo.adminNo}">
+						<div class="car-img">
+							<img src="/app/resources/member/mine/${mvo.img}" alt="${mvo.img}">
+						</div>
+					</c:if>
+
 				</div>
 			</c:forEach>
 				
@@ -198,7 +233,7 @@
 				<div id="modal-top">
 					<span id="mine-header">사유물등록</span><span><i class="fa-solid fa-xmark fa-2xl margin-right quit-btn" style="color: #000000;"></i></span>
 				</div>
-				<form action="/app/mypage/register" method="post" enctype="multipart/form-data">
+				<form action="/app/mypage/register" method="post" enctype="multipart/form-data" onsubmit="return checkIMG();">
 					<div id="img-area">
 						<!-- <div id="img" class="margin15"></div> -->
 						<div id="Thum-parent">
@@ -288,5 +323,16 @@
 			preview.src ="";
 		}
 	});
+	//등록버튼을 눌렀을 때 preview의 src가 비어있거나 널이라면 
+	//form태그가 넘어가지 않게 +alert 안내메세지 띄우기
+	function checkIMG(){
+		if(fileTag.files.length<=0){
+			alert("사진을 반드시 넣어주세요.");
+			return false;
+		}else {
+			return true;
+		}
+	
+	};
 
 </script>

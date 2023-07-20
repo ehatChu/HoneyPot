@@ -44,10 +44,10 @@ public class MineController {
 	
 	//사유물 등록
 	@PostMapping("mypage/register")
-	public String regiMine(HttpServletRequest req,HttpSession session,MineVo mvo, List<MultipartFile> fList) throws Exception{
+	public String regiMine(HttpServletRequest req,MineVo mvo, List<MultipartFile> fList) throws Exception{
 		MultipartFile f =fList.get(0);
 		if(f.getOriginalFilename()==null) {
-			throw new RuntimeException();
+			throw new RuntimeException("이미지없음에러");
 		}
 		
 		//서버에 파일올리기
@@ -67,12 +67,13 @@ public class MineController {
 		mvo.setImg(changeName);
 		
 		//멤버 값에 넣을 로그인멤버
-		MemberVo loginMember =(MemberVo)session.getAttribute("loginMembeer");
+		 HttpSession session = req.getSession();
+		MemberVo loginMember =(MemberVo)session.getAttribute("loginMember");
 		mvo.setMemberNo(loginMember.getNo());
 		
 		int result = service.register(mvo);
 		if(result!=1) {    
-			throw new RuntimeException();
+			throw new RuntimeException("서비스인서트실행중에러");
 		}
 		return "redirect:/regi/mine/mypage";
 	
