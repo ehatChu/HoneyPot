@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
+import com.hp.app.csc.vo.QNACategoryVo;
 import com.hp.app.csc.vo.QNAVo;
 import com.hp.app.csc.vo.ReportVo;
 import com.hp.app.page.vo.PageVo;
@@ -61,10 +62,16 @@ public class CSCDaoImpl implements CSCDao{
 	}
 	
 	// 문의
+	// 문의 카테고리 List 조회
+	@Override
+	public List<QNACategoryVo> getQNACatList(SqlSessionTemplate sst) {
+		return sst.selectList("csc.getQNACatList");
+	}
+	
 	// 문의 등록
 	@Override
-	public int write(SqlSessionTemplate sst, QNAVo vo) {
-		return 0;
+	public int insertInquiry(SqlSessionTemplate sst, QNAVo vo) {
+		return sst.insert("csc.insertInquiry", vo);
 	}
 
 	// 문의 List 조회

@@ -5,87 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-    <style>
-        .inquiry-area{
-            width: 1440px;
-            margin-top: 20px;
-            margin-left: 100px;
-        }
-
-        .inquiry-text-title{
-            font-size: 40px;
-            font-weight: 700;
-        }
-
-        .inquiry-text{
-            font-size: 20px;
-            font-weight: 700;
-            color: #5F5F5F;
-            margin-top: 10px;
-        }
-
-        .inquiry-form-area{
-            margin-top: 15px;
-            margin-left: 10px;
-        }
-
-        .inquiry-category{
-            width: 400px;
-            height: 50px;
-            border-radius: 8px;
-            border: 1px solid rgb(156, 156, 156);
-        }
-
-        .inquiry-category-area{
-            margin-top: 10px;
-        }
-
-        .inquiry-title-area{
-            margin-top: 10px;
-        }
-
-        .inquiry-title{
-            margin-top: 10px;
-            width: 1200px;
-            height: 50px;
-            border-radius: 8px;
-            border: 1px solid rgb(156, 156, 156);
-        }
-
-        .inquiry-content{
-            margin-top: 10px;
-            background-color: white;
-            border-radius: 6px;
-            width: 1200px;
-        }
-
-        .inquiry-submit-area{
-            margin-top: 30px;
-            width: 1200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .inquiry-submit{
-            width: 300px;
-            height: 50px;
-            background-color: #FAD355;
-            border: none;
-            border-radius: 8px;
-            font-weight: 900;
-            font-size: 20px;
-            font-family: 'Noto Sans KR';
-        }
-
-        .inquiry-submit:hover{
-            cursor: pointer;
-        }
-
-
-    </style>
-
+<link rel="stylesheet" href="/app/resources/css/csc/member/inquiry.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.18/dist/sweetalert2.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.18/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -99,12 +21,14 @@
             <div class="inquiry-text-title">문의 등록</div>
 
             <div class="inquiry-form-area">
-                <form action="" method="post">
+                <form action="/app/csc/inquiry" method="post" onsubmit="return checkInput();">
                     <div>
                         <div class="inquiry-text">문의유형</div>
                         <div class="inquiry-category-area">
-                            <select name="" class="inquiry-category">
-                                <option value=""></option>
+                            <select name="qnaCno" class="inquiry-category">
+                                <c:forEach items="${cList}" var="cvo">
+                                	<option value="${cvo.no}">${cvo.name}</option>
+                                </c:forEach>
 
                             </select>
                             
@@ -113,7 +37,7 @@
         
                     <div class="inquiry-title-area">
                         <div class="inquiry-text">제목</div>
-                        <div><input type="text" class="inquiry-title"></div>
+                        <div><input type="text" name="title" class="inquiry-title"></div>
                     </div>
         
                     <div>
@@ -131,10 +55,14 @@
 
 	</main>
 
+    <button type="button" onclick="checkInput();">확인</button>
+
 </body>
 </html>
 
 <script>
+
+    // 헤더 카테고리 메뉴바
 	const nav = document.querySelector("nav");
 	const main = document.querySelector("main");
 	const mainArea = document.querySelector("#main-area");
@@ -145,28 +73,8 @@
 	main.innerHTML = "";
 	nav.innerHTML = "";
 
-    function firstNav() {
-			const mainChoice = document.querySelector("#main-choice");
-			let navMenu1 = ['자주묻는질문', '문의하기', '문의목록', '신고하기', '신고목록'];
-
-			let menus = "";
-			for (let menu of navMenu1) {
-				menus += "<div class='choice-elem'><div class='title-elem'>" + menu + "</div></div>"
-			}
-			mainChoice.innerHTML = menus;
-    }
-
-    function headerName() {
-			const mainChoice = document.querySelector("#header-main-text");
-            mainChoice.innerHTML = '';
-			let menus = '고객센터';
-
-			mainChoice.innerHTML = menus;
-    }
-
-    headerName();
-    firstNav();
-
+    headerName('고객센터'); // 현재 페이지 이름
+	firstNav(['자주묻는질문', '문의하기', '문의목록', '신고하기', '신고목록'], '문의하기'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 
     $('#summernote').summernote({
         tabsize: 2,
@@ -184,6 +92,24 @@
           ['view', ['fullscreen', 'codeview', 'help']]
         ]
       });
+
+    function checkInput(){
+        const title = document.querySelector("input[name='title']");
+        const content = document.querySelector("textarea[name='content']");
+        
+        if(title.value == "" || title.value == null || content.value == null || content.value == ""){
+            $().ready(function () {
+                    Swal.fire({
+                        icon: 'error',                         // Alert 타입
+                        title: '제출형식이 맞지않습니다.',         // Alert 제목
+                        text: '제목과 내용을 입력해주세요',  // Alert 내용
+                    });
+            });
+            return false;
+        }
+
+        return true;
+    }
 
 </script>
 

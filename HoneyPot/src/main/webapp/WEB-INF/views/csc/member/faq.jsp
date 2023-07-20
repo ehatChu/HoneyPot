@@ -8,13 +8,43 @@
 <title>Insert title here</title>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<link rel="stylesheet" href="/app/resources/css/csc/admin/faq.css">
+<link rel="stylesheet" href="/app/resources/css/csc/member/faq.css">
+
+<style>
+    /* 서브초이스 */
+    #category-choice {
+        padding: 10px 10px 10px 10px;
+        border-bottom: 1px solid rgb(156, 156, 156);
+        background-color: #f5f5f5;
+        z-index: 1;
+    }
+    
+    #category-sub-choice {
+        display: flex;
+        width: 100%;
+    }
+    
+    .menu-box {
+        width: 150px;
+        text-align: center;
+    }
+    
+    </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
 	<nav>
 		<%@ include file="/WEB-INF/views/common/first-nav.jsp"%>
-		<%@ include file="/WEB-INF/views/common/second-nav.jsp"%>
+        <div id="category-choice">
+            <div id="category-sub-choice">
+                <div class="menu-box text-bold">전체</div>
+                <div class="menu-box text-bold">전체</div>
+                <div class="menu-box text-bold">전체</div>
+                <div class="menu-box text-bold">전체</div>
+
+            </div>
+
+        </div>
 	</nav>
 
 	<main>
@@ -121,7 +151,7 @@
 
     headerName('고객센터'); // 현재 페이지 이름
 	firstNav(['자주묻는질문', '문의하기', '문의목록', '신고하기', '신고목록'], '자주묻는질문'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-	secondNav(['전체', '카테고리1', '카테고리2', '카테고리3'], '전체'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+	// secondNav(['전체', '카테고리1', '카테고리2', '카테고리3'], '전체'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 
     // FAQ 상세보기 버튼
     function detailFAQ(e) {
