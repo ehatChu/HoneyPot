@@ -11,6 +11,24 @@
 		width: 300px;
 		height: 200px;
 		background-color: gray;
+		position: relative;
+	}
+	.car-img > img {
+		width: 300px;
+		height: 200px;
+	}
+	.background-color-area {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 300px;
+		height: 200px;
+		background-color: rgba(0, 0, 0, 0.553);
+		color: white;
+		font-size: 20px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 	.small-btn {
 		padding: 5px 10px;
@@ -164,7 +182,11 @@
 		height: 300px;
 		position: relative;
 	}
-
+	.confirming {
+		width: 100%;
+		height: 100%;
+		background-color: #00000065;
+	}
 </style>
 </head>
 <body>
@@ -185,7 +207,19 @@
 			<c:forEach var ="mvo" items ="${mvoList}">
 				<div class="mine-list">
 					<div><span><input type="checkbox" id="${mvo.no}"><label for="${mvo.no}"  class="middle-text">${mvo.name}</label></span></div>
-					<div><img src="/app/resources/member/mine/${mvo.img}" alt="${mvo.img}" class="car-img"></div>
+					<!-- 막 등록한 승인받지 않았을 때 CSS -->
+					<c:if test="${empty mvo.adminNo}">
+						<div class="car-img">
+							<img src="/app/resources/member/mine/${mvo.img}" alt="${mvo.img}">
+							<div class="background-color-area">승인받는중...</div>
+						</div>
+					</c:if>
+					<c:if test="${not empty mvo.adminNo}">
+						<div class="car-img">
+							<img src="/app/resources/member/mine/${mvo.img}" alt="${mvo.img}">
+						</div>
+					</c:if>
+
 				</div>
 			</c:forEach>
 				
