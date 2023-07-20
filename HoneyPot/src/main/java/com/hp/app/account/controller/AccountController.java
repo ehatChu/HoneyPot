@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,9 +23,9 @@ import com.hp.app.page.vo.PageVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
 @RequiredArgsConstructor
 @Slf4j
+@Controller
 public class AccountController {
 
 	private final AccountService service;
@@ -70,10 +71,14 @@ public class AccountController {
 	
 	
 	// 가계부 수정
-	@GetMapping("account/edit")
-	public String edit(String ano) {
-		
-		return "redirect:/account/list?p=1";
+	@RequestMapping("account/edit")
+	public int edit(AccountVo vo) {
+		int result = service.edit(vo);
+		System.out.println(result);
+		if(result != 1) {
+			throw new RuntimeException();
+		}
+		return result;
 	}
 	
 	// 가계부 상세 조회
@@ -87,7 +92,6 @@ public class AccountController {
 		
 		log.info(voJson);
 		return voJson;
-		
 	}
 
 	

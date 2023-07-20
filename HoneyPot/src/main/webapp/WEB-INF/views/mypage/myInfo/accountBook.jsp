@@ -18,7 +18,7 @@
 		<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
 		<!-- sweetAlert CDN -->
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-		<link rel="stylesheet" href="${root}/resources/css/mypage/accountBook.css">
+		<link rel="stylesheet" href="${root}/resources/css/member/mypage/accountBook.css">
 	</head>
 	
 	<body>
@@ -94,7 +94,21 @@
 							<table class="A_detail">
 								<thead>
 									<tr id="line">
-										<th>카테고리<i class="fa-solid fa-caret-down fa-lg"></i></th>
+										<th>
+											<div id="select-wrap">
+												<select id="acnt_category" name="accountCno">
+												<option value="">카테고리</option>
+													<option value="2">생활/마트</option>
+													<option value="3">의료/건강</option>
+													<option value="4">문화/예술</option>
+													<option value="5">경조사/회비</option>
+													<option value="1">금융/보험</option>
+													<option value="6">교통/차량</option>
+													<option value="7">뷰티/미용</option>
+													<option value="8">기타지출</option>
+												</select>
+											</div>
+										</th>
 										<th>일자</th>
 										<th>내용</th>
 										<th>금액</th>
@@ -106,11 +120,12 @@
 									<c:forEach items="${avoList}" var="vo">
 										<tr id="line">
 											<td hidden>${vo.no}</td>
+											<td hidden>${vo.accountCno}</td>
 											<td>${vo.categoryName}</td>
 											<td>${vo.accountDate }</td>
-											<td class="detailBtn btn-click">${vo.content}</td>
+											<td class="detailBtn Dbtn-click">${vo.content}</td>
 											<td>${vo.price} 원</td>
-											<td><button id="editBtn" class="editBtn"><i class="fa-solid fa-pen"></i></button></td>
+											<td><button id="editBtn" class="editBtn Ebtn-click"><i class="fa-solid fa-pen"></i></button></td>
 											<td><button id="delBtn"><i class="fa-solid fa-xmark"></i></button></td>
 										</tr>
 									</c:forEach>
@@ -118,26 +133,23 @@
 							</table>
 						</div>
 					</div>
+					<!-- 페이지 영역 -->
 					<div id="page-area">
 						<div class="paging">
-							<button class="pageBtn">
-								<c:if test="${pv.currentPage > 1}">
-								<a href="/app/account/list?p=${pv.currentPage-1 }">이전</a>
-								</c:if>
-							</button>
-
-							<c:forEach var="i" begin="${pv.startPage}" end="${pv.endPage }" >
-							<button class="pageBtn">
-							<a href="/app/account/list?p=${i}">${i}</a>
-							</button>
-							
-							</c:forEach>
-							
-							<c:if test="${pv.currentPage < pv.maxPage }">
-							<button class="pageBtn">
-							<a href="/app/account/list?p=${pv.currentPage+1 }">다음</a>
-							</button>
-							</c:if>
+							<c:if test="${pv.currentPage > 1}">
+						<button id="pbtn" onclick="location.href='/app/account/list?p=${pv.currentPage - 1}'"> < </button>
+					</c:if>
+					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+						<c:if test="${pv.currentPage != i}">
+							<button id="pbtn" onclick="location.href='/app/account/list?p=${i}'">${i}</button>
+						</c:if>
+						<c:if test="${pv.currentPage == i}">
+							<button id="current-page-btn">${i}</button>
+						</c:if>
+					</c:forEach>
+					<c:if test="${pv.currentPage < pv.maxPage}">
+						<button id="pbtn" onclick="location.href='/app/account/list?p=${pv.currentPage + 1}'"> > </button>
+					</c:if>
 							
 						</div>
 						<button id="openBtn" class="openBtn">등록</button>
@@ -190,13 +202,13 @@
 					</div>
 				</div>
 			</div>
-				<!-- 수정 -->
+				<!-- 수정 모달 -->
 				<div class="edit-modal hidden">
 							<div class="bg"></div>
 								<div class="modalBox">
 									<div class="upper-bar">
 										<span>가계부 수정</span>
-										<button class="closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+										<button class="EcloseBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
 									</div>
 									<form action="/app/account/edit" method="post">
 									<div class="content-modal">
@@ -237,39 +249,39 @@
 							</div>
 					</div>
 					<!-- 상세조회 -->
-				<div class="detail-modal hidden">
-							<div class="bg"></div>
-								<div class="modalBox">
-									<div class="upper-bar">
-										<span>가계부 조회</span>
-										<button class="DcloseBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
-									</div>
-									<div class="content-modal">
-											<div class="first-area">
-												<div>
-													<span>일자</span>
-													<br>
-													<div id="accountDate"></div>
+					<div class="detail-modal hidden">
+								<div class="bg"></div>
+									<div class="modalBox">
+										<div class="upper-bar">
+											<span>가계부 조회</span>
+											<button class="DcloseBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+										</div>
+										<div class="content-modal">
+												<div class="first-area">
+													<div>
+														<span>일자</span>
+														<br>
+														<div id="accountDate"></div>
+													</div>
+													<div>
+														<span>카테고리</span>
+														<br>
+														<div id="categoryName"></div>
+													</div>
 												</div>
-												<div>
-													<span>카테고리</span>
+												<div class="second-area">
+													<span>금액</span>
 													<br>
-													<div id="categoryName"></div>
+													<div id="price"></div>
 												</div>
-											</div>
-											<div class="second-area">
-												<span>금액</span>
-												<br>
-												<div id="price"></div>
-											</div>
-											<div class="third-area">
-												<span>내용</span>
-												<br>
-												<div class="detailContent"></div>
-											</div>
+												<div class="third-area">
+													<span>내용</span>
+													<br>
+													<div class="detailContent"></div>
+												</div>
+										</div>
 									</div>
-							</div>
-					</div>
+					 </div>
 			</main>
 	</body>
 
@@ -419,67 +431,100 @@
 	closeBtn.addEventListener("click", closeModal);
 
 	///// 수정 모달
-	
-	
-	// 상세 조회 모달
-	
+	$(document).ready(function() {
+    $('.Ebtn-click').on('click', function() {
+		const row = $(this).closest('tr');
+
+		const ano = row.find('td:nth-child(1)').text();
+		const cno = row.find('td:nth-child(2)').text();
+		const accountDate = row.find('td:nth-child(4)').text();
+		const content = row.find('td:nth-child(5)').text();
+		const price = row.find('td:nth-child(6)').text();
+
+		price.substring();
+		const vo = {"no": ano, "accountCno":cno , "content":content, "price":price}
+
+		const editModal = document.querySelector(".edit-modal");
+		const ecloseBtn = document.querySelector(".EcloseBtn");
+		editModal.classList.remove("hidden");
+
+	  	$.ajax({
+			type: 'get', 
+			url: '/app/account/edit', 
+			dataType : "json",
+			contentType : "text",
+			data: JSON.stringify(vo),
+			success: function(result) {
+				if(result == 1){
+					alert("수정 완료!");
+					location.href="/app/account/list?p=1"
+				}
+				console.log("통신은 성공, but..");
+			},
+			error: function(error) {
+				console.error('Error:', error);
+			}
+		});
+
+		ecloseBtn.addEventListener("click", function(){
+			editModal.classList.add("hidden");
+		});
+
+	  
+	});
+
+});
+
+
 
 	
 	// 글 번호 전달하면서 상세 조회
 	$(document).ready(function() {
-    $('.btn-click').on('click', function() {
-      const row = $(this).closest('tr');
+    $('.Dbtn-click').on('click', function() {
+		const row = $(this).closest('tr');
 
-      const ano = row.find('td:nth-child(1)').text();
+		const ano = row.find('td:nth-child(1)').text();
 
-	  const detailModal = document.querySelector(".detail-modal");
-	  const dcloseBtn = document.querySelector(".DcloseBtn");
-	  const accountDateInput = document.querySelector("#accountDate");
-	  const	categoryNameInput = document.querySelector("#categoryName");
-	  const	contentInput = document.querySelector(".detailContent");
-	  const	priceInput = document.querySelector("#price");
-	  detailModal.classList.remove("hidden");
+		const detailModal = document.querySelector(".detail-modal");
+		const dcloseBtn = document.querySelector(".DcloseBtn");
+		const accountDateInput = document.querySelector("#accountDate");
+		const	categoryNameInput = document.querySelector("#categoryName");
+		const	contentInput = document.querySelector(".detailContent");
+		const	priceInput = document.querySelector("#price");
+		detailModal.classList.remove("hidden");
 
-	  $.ajax({
-		type: 'get', 
-		url: '/app/account/detail', 
-		dataType : "json",
-		data: { no: ano },
-		success: function(voJson) {
-			console.log(voJson);
-			// 받아온 x로 상세내용 채워주기
-			
-
-			const accountDate = voJson.accountDate;
-			const categoryName = voJson.categoryName;
-			const content = voJson.content;
-			console.log(content);
-			const price = voJson.price;
-			accountDateInput.innerHTML = accountDate;
-			categoryNameInput.innerHTML = categoryName;
-			contentInput.innerHTML = content;
-			priceInput.innerHTML = price;
-
-	},
-	error: function(error) {
-		console.error('Error:', error);
-	}
-	});
-
-
-	  dcloseBtn.addEventListener("click", function(){
-		detailModal.classList.add("hidden");
-	  });
-
-	  
+	  	$.ajax({
+			type: 'get', 
+			url: '/app/account/detail', 
+			dataType : "json",
+			data: { no: ano },
+			success: function(voJson) {
+				console.log(voJson);
+				// 받아온 vo로 상세내용 채워주기
+				const accountDate = voJson.accountDate;
+				const categoryName = voJson.categoryName;
+				const content = voJson.content;
+				const price = voJson.price;
+				accountDateInput.innerHTML = accountDate;
+				categoryNameInput.innerHTML = categoryName;
+				contentInput.innerHTML = content;
+				priceInput.innerHTML = price;
+			},
+			error: function(error) {
+				console.error('Error:', error);
+			}
 		});
 
+		dcloseBtn.addEventListener("click", function(){
+			detailModal.classList.add("hidden");
+		});
+
+	  
 	});
 
-	
+});
 
-   
-	
+
 
 	
 	// 금액칸 콤마 정규식
@@ -509,20 +554,17 @@
             text: "다시 되돌릴 수 없습니다.",
             icon: 'warning',
             showCancelButton: true,
-			color: '#333',
             confirmButtonColor: '#ffce31',
             cancelButtonColor: '#ffce31',
             confirmButtonText: '승인',
-			confirmButtonTextColor: '#333',
             cancelButtonText: '취소'
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire(
-                    '삭제가 완료되었습니다.',
+					'삭제가 완료되었습니다.',
                 )
             }
         })
     });
 });
-
 	</script>

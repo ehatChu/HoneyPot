@@ -43,7 +43,12 @@ public class AccountServiceImpl implements AccountService{
 
 	@Override
 	public int edit(AccountVo vo) {
-		return dao.edit(sst, vo);
+		try {
+			dao.edit(sst, vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	@Override
