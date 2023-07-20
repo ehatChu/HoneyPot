@@ -1,5 +1,7 @@
 package com.hp.app.mine.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hp.app.exception.YerinException;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.mine.service.MineService;
 import com.hp.app.mine.vo.MineVo;
@@ -41,20 +44,27 @@ public class MineController {
 	
 	//사유물 등록
 	@PostMapping("mypage/register")
-	public String regiMine(MineVo mvo, List<MultipartFile> fList) {
+	public String regiMine(HttpServletRequest req,MineVo mvo, List<MultipartFile> fList) throws Exception{
 		MultipartFile f =fList.get(0);
 		if(f.getOriginalFilename()==null) {
 			throw new RuntimeException();
 		}
 		
-		String savePath = "resources/member/mine/";
-		
+		//서버에 파일올리기
+		//String savePath = "/resources/member/mine/";
+		String savePath =  req.getServletContext().getRealPath("/resources/member/mine/");
 		String randomName = UUID.randomUUID().toString();//체인지네임 얻기
 		String originName = f.getOriginalFilename();
 		String ext= originName.substring(originName.lastIndexOf("."));//확장자구하기
 		String changeName = randomName+ext;
 		String path = savePath+changeName;
 		
+		File target = new File(path);
+		
+		f.transferTo(target);
+		
+		//이미지명 DB에 저장하기 위해
+		mvo.setImg(changeName);
 		
 		int result = service.register(mvo);
 		if(result!=1) {    

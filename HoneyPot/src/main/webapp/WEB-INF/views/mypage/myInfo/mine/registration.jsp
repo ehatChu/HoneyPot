@@ -185,7 +185,7 @@
 			<c:forEach var ="mvo" items ="${mvoList}">
 				<div class="mine-list">
 					<div><span><input type="checkbox" id="${mvo.no}"><label for="${mvo.no}"  class="middle-text">${mvo.name}</label></span></div>
-					<div><img src="/resources/member/mine/${mvo.img}" alt="${mvo.img}"></div>
+					<div><img src="/app/resources/member/mine/${mvo.img}" alt="${mvo.img}" class="car-img"></div>
 				</div>
 			</c:forEach>
 				
