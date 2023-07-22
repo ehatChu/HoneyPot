@@ -12,13 +12,23 @@ import com.hp.app.mine.vo.MineVo;
 public class MineDaoImpl implements MineDao {
 
 	@Override
-	public int register(SqlSessionTemplate sst,MineVo mvo) {
+	public int registerCar(SqlSessionTemplate sst,MineVo mvo) {
 		return sst.insert("mine.registerCar",mvo);
 	}
 
 	@Override
-	public List<MineVo> getMyCarList(SqlSessionTemplate sst, MemberVo loginMember) {
-		return sst.selectList("mine.getMyCarList",loginMember);
+	public List<MineVo> getCarList(SqlSessionTemplate sst, MemberVo loginMember) {
+		return sst.selectList("mine.getCarList",loginMember);
+	}
+
+	@Override
+	public int registerBicycle(SqlSessionTemplate sst, MineVo mvo) {
+		return sst.insert("mine.registerBicycle",mvo);
+	}
+
+	@Override
+	public List<MineVo> getBicycleList(SqlSessionTemplate sst, MemberVo loginMember) {
+		return sst.selectList("mine.getBicycleList",loginMember);
 	}
 	 
 	

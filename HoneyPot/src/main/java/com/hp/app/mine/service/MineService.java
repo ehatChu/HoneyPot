@@ -8,6 +8,7 @@ import com.hp.app.member.vo.MemberVo;
 import com.hp.app.mine.vo.MineVo;
 
 public interface MineService {
-	int register(MineVo mvo);
-	List<MineVo> getMyCarList(MemberVo loginMember);
+	int register(MineVo mvo,int mineCno);
+	List<MineVo> getCarList(MemberVo loginMember);
+	List<MineVo> getBicycleList(MemberVo loginMember);
 }

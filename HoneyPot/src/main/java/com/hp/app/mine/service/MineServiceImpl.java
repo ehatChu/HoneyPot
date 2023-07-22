@@ -22,12 +22,24 @@ public class MineServiceImpl implements MineService{
 	private final MineDao dao;
 	
 	@Override
-	public int register(MineVo mvo) {
-		return dao.register(sst, mvo); 
+	public int register(MineVo mvo,int mineCno) {
+		if(mineCno==10) {
+			return dao.registerCar(sst, mvo); 
+			
+		}else if(mineCno==20) {
+			return dao.registerBicycle(sst, mvo);
+		}else {
+			throw new RuntimeException();
+		}
 	}
 	@Override
-	public List<MineVo> getMyCarList(MemberVo loginMember) {
-		return dao.getMyCarList(sst, loginMember);
+	public List<MineVo> getCarList(MemberVo loginMember) {
+		return dao.getCarList(sst, loginMember);
+	}
+	@Override
+	public List<MineVo> getBicycleList(MemberVo loginMember) {
+		
+		return dao.getBicycleList(sst, loginMember);
 	}
 
 }

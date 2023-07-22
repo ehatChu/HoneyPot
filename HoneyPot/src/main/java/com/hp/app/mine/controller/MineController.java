@@ -3,6 +3,7 @@ package com.hp.app.mine.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,17 +35,24 @@ public class MineController {
 	public String regiMine(HttpSession session,Model model) {
 		MemberVo loginMember =(MemberVo)session.getAttribute("loginMember");
 		
+		List<MineVo> mvoList = new ArrayList<MineVo>();
 		//리스트 DB에서 조회하기
-		List<MineVo> mvoList=service.getMyCarList(loginMember);
+		List<MineVo> carList = service.getCarList(loginMember);
+		List<MineVo> bicycleList = service.getBicycleList(loginMember);
+		mvoList.addAll(carList);
+		mvoList.addAll(bicycleList);
+		
+		log.info("등록시에 mvoList합쳐졌는지 확인하기 1번회원의 자동차와 자전거 다 mvoList에 출력되는지 : {}",mvoList);
 		
 		model.addAttribute("mvoList",mvoList);
+
 		
 		return "mypage/myInfo/mine/registration";
 	}
 	
 	//사유물 등록
 	@PostMapping("mypage/register")
-	public String regiMine(HttpServletRequest req,MineVo mvo, List<MultipartFile> fList) throws Exception{
+	public String regiMine(HttpServletRequest req,MineVo mvo,int mineCno, List<MultipartFile> fList) throws Exception{
 		MultipartFile f =fList.get(0);
 		if(f.getOriginalFilename()==null) {
 			throw new RuntimeException("이미지없음에러");
@@ -67,11 +75,11 @@ public class MineController {
 		mvo.setImg(changeName);
 		
 		//멤버 값에 넣을 로그인멤버
-		 HttpSession session = req.getSession();
+		HttpSession session = req.getSession();
 		MemberVo loginMember =(MemberVo)session.getAttribute("loginMember");
 		mvo.setMemberNo(loginMember.getNo());
-		
-		int result = service.register(mvo);
+		int result =service.register(mvo,mineCno);
+		//int result = service.register(mvo);
 		if(result!=1) {    
 			throw new RuntimeException("서비스인서트실행중에러");
 		}
