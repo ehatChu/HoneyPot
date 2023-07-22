@@ -13,5 +13,6 @@ public class AccountVo {
 	private String content;
 	private String price;
 	private String accountDate;
+	private String priceCnt;
 	
 }

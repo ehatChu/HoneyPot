@@ -43,12 +43,7 @@ public class AccountServiceImpl implements AccountService{
 
 	@Override
 	public int edit(AccountVo vo) {
-		try {
-			dao.edit(sst, vo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return 0;
+		return dao.edit(sst, vo);
 	}
 
 	@Override
@@ -56,6 +51,15 @@ public class AccountServiceImpl implements AccountService{
 		return dao.delete(sst, vo);
 	}
 
+	@Override
+	public List<AccountVo> calendarList(String mno) {
+		return dao.calendarList(sst, mno);
+	}
+
+	@Override
+	public List<AccountVo> getChart(String mno) {
+		return dao.getChart(sst, mno);
+	}
 	
 
 	

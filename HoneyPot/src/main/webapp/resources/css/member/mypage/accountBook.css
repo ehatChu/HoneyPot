@@ -18,7 +18,7 @@
 		border-radius: 20px;
 		background: #FFFFFF;
 		display: grid;
-		grid-template-rows: 100px 400px;
+		grid-template-rows: 100px 500px;
 		margin-top: 20px;
 		margin-right: 20px;
 		height: 600px;
@@ -31,102 +31,32 @@
 		margin-top: 25px;
 	}
 	
-	.graph-area{
-		position: relative;
-		width: 350px;
-		height: 350px;
-		margin:80px;
-	}
-	.graph {
-		position: relative;
-		width: 350px;
-		height: 350px;
-		border-radius: 50%;
-		transition: 0.3s;
-		display:inline-block;
-	}
-	.graph:after{
-		content:'';
-		background: #fff;
-		position: absolute;
-		top:50%; left:50%;
-		width:200px; height:200px;
-		border-radius: 50%;
-		transform: translate(-50%, -50%);
-	}
-	.chart-bar{
-		width: inherit;
-		height: inherit;
-		border-radius: 50%;
-		position: relative;
-	}
-
-	.chart-total{
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		background:gray;
-		width:100%;
-	}
-	.chart-total span{
-		position: absolute;
-		color:#777;
-	}
-	.chart-total-num{
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		color:#333;
-		text-align: center;
-	}
-	.total_category {
-		font-size: 18px;
-	}
-
-	.answer_category {
-		font-size: 26px;
-		font-weight: bold;
-	}
-
-	.chart-total-text1{
-		top:-170px;right:20px;
-	}
-	.chart-total-text2{
-		top:-50px;right:-70px;
-	}
-	.chart-total-text3{
-		top:140px;right:-10px;
-	}
-	.chart-total-text4{
-		top:0;left:-70px;
-	}
-	.chart-total-text5{
-		top:-130;left:-50px;
-	}
-	.chart-total-text6{
-		top:-50;left:-70px;
-	}
-
 	.A_content {
+		width: 650px;
+		height: 600px;
+		margin-left: 10px;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 600px 180px;
 	}
-
-	.text-area{
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		font-size: 20px;
-		font-weight: 300;
-		justify-items: center;
-		align-content: center;
-		line-height: 50px;
+	
+	.chart-wrapper {
+		position: relative; /* 부모 요소에 position: relative 설정 */
 	}
-
-	.text-area > span:first-child {
-		font-weight: 500;
+	
+	#myChart {
+		width: 400px;
+		height: 600px;
 	}
-
+	
+	.chart-center-text {
+		position: absolute; /* 가운데 정렬을 위해 position: absolute 설정 */
+		top: 50%; /* 위에서 50% 위치로 이동 */
+		left: 50%; /* 왼쪽에서 50% 위치로 이동 */
+		transform: translate(-50%, -50%); /* 가로, 세로 모두 중앙으로 이동 */
+		font-size: 20px; /* 원하는 텍스트 크기로 설정 */
+		color: #333; /* 원하는 텍스트 색상으로 설정 */
+	}
+	
 	/* 캘린더 영역 */
 	#calendar-container {
 		border: 1px solid #FFFFFF;
@@ -147,9 +77,16 @@
 		padding-right: 1em;
 	}
 
-	.fc-event-title-container {
-		background: #f6b341;
+	.fc-daygrid-day-events {
+		height: 40px;
+		font-size: 15px;
 		color: black;
+	}
+
+	.fc-event-main {
+		color: #333;
+		background: #ffce31;
+		font-size: 15px;
 	}
 
 	/* 상세내역 */
@@ -234,17 +171,21 @@
 		height:100%;
 	    padding:0 28px 0 10px;
 	    font-size: 15px;
-		border:0;
-		-webkit-appearance:none--;
-		appearance:none;
 		box-sizing: border-box;
 		background:transparent;
 	 }
 
+	 #Search_acnt_category{
+		font-weight: 550;
+		font-size: 18px;
+		border:0;
+		z-index: 999;
+		cursor: pointer;
+	 }
+
 	 #select-wrap {
-		width:80px;
+		width:160px;
 		height: 28px;
-	    background:url('arr_pink.gif') no-repeat 97% 50%/15px auto;
 		margin: auto;
 	 }
 	 

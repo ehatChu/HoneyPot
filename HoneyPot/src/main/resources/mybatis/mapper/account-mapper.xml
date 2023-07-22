@@ -15,7 +15,7 @@
 		    A.NO AS NO
 		    ,A.CONTENT AS CONTENT
 		    ,A.PRICE AS PRICE
-		    ,TO_CHAR(A.ACCOUNT_DATE, 'YY.MM.DD') AS ACCOUNT_DATE
+		    ,TO_CHAR(A.ACCOUNT_DATE, 'YYYY-MM-DD') AS ACCOUNT_DATE
             ,AC.NAME AS CATEGORY_NAME
             ,A.ACCOUNT_CNO AS ACCOUNT_CNO
 		FROM ACCOUNT A
@@ -40,7 +40,7 @@
 		VALUES 
 			(
 			SEQ_ACCOUNT_NO.NEXTVAL
-			,#{writerNo}
+			,#{no}
 			,#{accountCno}
 			,#{content}
 			,#{price}
@@ -69,6 +69,18 @@
 			ACCOUNT_DATE = #{accountDate}
 		WHERE NO= #{no}
 	</update>
+	
+	<select id="selectByCategory" resultType="com.hp.app.account.vo.AccountVo">
+		SELECT 
+			AC.NAME AS CATEGORY_NAME
+			,SUM(A.PRICE) AS PRICE_CNT
+		FROM ACCOUNT A
+		JOIN ACCOUNT_CATEGORY AC
+		ON (A.ACCOUNT_CNO = AC.NO)
+		WHERE A.WRITER_NO = 5
+		GROUP BY AC.NAME
+	</select>
+	
 	
 
 </mapper>
