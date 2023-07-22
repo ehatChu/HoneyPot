@@ -45,7 +45,7 @@
 		margin-right: 30px;
 	}
 
-	input[name=searchType] {
+	input[name=searchValue] {
 		margin-left: 12px;
 		border: none;
 		width: 330px;
@@ -53,7 +53,7 @@
 		font-size: 18px;
 	}
 
-	input[name=searchType]:focus {outline:none;}
+	input[name=searchValue]:focus {outline:none;}
 
 	#search-btn {
 		margin-left: 10px;
@@ -190,20 +190,22 @@
 
 	<main>
 
+		<form action="/app/board/list" method="get">
 		<div class="board-search-area">
-			<div id="search-type">
-				<select name="searchType">
-					<option value="title">제목</option>
-					<option value="content">내용</option>
-					<option value="writer">글쓴이</option>
-				</select>
-			</div>
+				<div id="search-type">
+					<select name="searchType">
+						<option value="title">제목</option>
+						<option value="content">내용</option>
+						<option value="writer">글쓴이</option>
+					</select>
+				</div>
 
-			<div id="board-search">
-				<input type="search" name="searchType">
-				<span><button type="button" id="search-btn"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button></span>
+				<div id="board-search">
+					<input type="search" name="searchValue" value="${searchVo.searchValue}">
+					<span><button type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button></span>
+				</div>
 			</div>
-		</div>
+		</form>
 
 		<div class="list-content-area">
 			<div class="list-bg">
@@ -281,66 +283,19 @@
 	headerName('게시판'); // 현재 페이지 이름
 	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'], '공지 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 
-	//검색타입
+
+	//검색타입 및 검색어
 	const searchType = '${searchVo.searchType}';
 	const searchValue = '${searchVo.searchValue}';
-
-	const searchValueSelectTag = document.querySelector('select[name="searchType"]');
-	const searchValueInputTag = document.querySelector('input[name="searchValue"]');
 
 	if(searchType.length > 1){
         initSearchType();
     }
 
-    //검색 타입 초기 세팅
+    //검색 후 검색타입 유지되도록
     function initSearchType(){
-        const x = document.querySelector('select > option[value="' + searchType +'"]');
+        const x = document.querySelector('select > option[value="' + searchType + '"]');
 	    x.selected = true;
     }
    
-    //서치타입 변경 시 함수 실행
-    const searchTypeTag = document.querySelector('select[name="searchType"]');
-    searchTypeTag.addEventListener("change", setSearchValueTag)
-
-    function setSearchValueTag() {
-        const searchType = searchTypeTag.value;
-        if(searchType == 'category'){
-            setSearchValueTagSelect();
-        }else{
-            setSearchValueTagInput()
-        }
-    }
-
-    //검색값 영역을 셀렉트가 보이게 변경(타입이 카테고리일 떄)
-    function setSearchValueTagSelect(){
-        searchValueSelectTag.classList.add("active")
-        searchValueSelectTag.disabled = false;
-        searchValueInputTag.classList.remove("active")
-        searchValueInputTag.disabled = true;
-
-        searchValueInputTag.value = '';
-    }
-
-    //검색값 영역을 인풋이 보이게 변경(타입이 카테고리가 아닐 떄)
-    function setSearchValueTagInput(){
-        searchValueInputTag.classList.add("active")
-        searchValueInputTag.disabled = false;
-        searchValueSelectTag.classList.remove("active")
-        searchValueSelectTag.disabled = true;
-    }
-
-    //카테고리로 검색한 이후에 검색값이 유지되게
-    function initSearchValueSelect(){
-        if(searchType != 'category'){
-            return;
-        }
-        const optionTag = document.querySelector("option[value='" + searchValue + "']");
-        optionTag.selected = true;
-    }
-    
-
-    setSearchValueTag();
-    initSearchValueSelect();
-
-
 </script>

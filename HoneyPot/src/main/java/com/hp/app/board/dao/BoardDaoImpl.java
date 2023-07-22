@@ -1,6 +1,7 @@
 package com.hp.app.board.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -12,25 +13,18 @@ import com.hp.app.page.vo.PageVo;
 
 @Repository
 public class BoardDaoImpl implements BoardDao {
-
-	//게시글 목록
-	@Override
-	public List<NoticeVo> getList(SqlSessionTemplate sst, PageVo pv) {
-		RowBounds rb = new RowBounds(pv.getOffset(), pv.getBoardLimit());
-		return sst.selectList("board.getList", null, rb);
-	}
 	
-	//게시글 목록(검색조회)
+	//게시글 목록 조회 (검색조회)
 	@Override
-	public List<NoticeVo> getList(SqlSessionTemplate sst, PageVo pv, String searchType, String searchValue) {
+	public List<NoticeVo> getList(SqlSessionTemplate sst, PageVo pv, Map<String, String> searchVo) {
 		RowBounds rb = new RowBounds(pv.getOffset(), pv.getBoardLimit());
-		return sst.selectList("board.getList", null, rb);
+		return sst.selectList("board.getList", searchVo, rb);
 	}
 
-	//전체 게시글 개수
+	//게시글 개수 (검색 게시글 개수)
 	@Override
-	public int countBoard(SqlSessionTemplate sst) {
-		return sst.selectOne("board.countBoard");
+	public int countBoard(SqlSessionTemplate sst, Map<String, String> searchVo) {
+		return sst.selectOne("board.countBoard", searchVo);
 	}
 
 	//게시글 작성
