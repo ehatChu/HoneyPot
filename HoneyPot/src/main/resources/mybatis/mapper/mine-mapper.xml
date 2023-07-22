@@ -7,16 +7,32 @@
 		INSERT INTO CAR (NO,MEMBER_NO,UNIQUE_NUM,NAME,IMG)
 		VALUES (SEQ_CAR_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
 	</insert>
-	<select id="getMyCarList" resultType="com.hp.app.mine.vo.MineVo">
+	<insert id="registerBicycle">
+		INSERT INTO BICYCLE (NO,MEMBER_NO,UNIQUE_NUM,NAME,IMG)
+		VALUES (SEQ_CAR_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
+	</insert>
+	<select id="getCarList" resultType="com.hp.app.mine.vo.MineVo">
 		SELECT 
 			NO
 			,ADMIN_NO
 			,MEMBER_NO
 			,ENROLL_DATE
-			,MODIFY_DATE
+			,CONFIRM_DATE
 			,UNIQUE_NUM
 			,IMG
 			,NAME
 		FROM CAR WHERE MEMBER_NO = ${no}
+	</select>
+	<select id="getBicycleList" resultType="com.hp.app.mine.vo.MineVo">
+		SELECT 
+			NO
+			,ADMIN_NO
+			,MEMBER_NO
+			,ENROLL_DATE
+			,CONFIRM_DATE
+			,UNIQUE_NUM
+			,IMG
+			,NAME
+		FROM BICYCLE WHERE MEMBER_NO = ${no}
 	</select>
 </mapper>

@@ -252,7 +252,7 @@
 							<div class="big-mine-text">사유물등록</div>
 							<div class="bold-text">사유물 종류</div> 
 							<div>
-								<select name="mine-cno" id="cno" class="input-area">
+								<select name="mineCno" id="cno" class="input-area">
 									<option value="10">자동차</option>
 									<option value="20">자전거</option>
 								</select>
