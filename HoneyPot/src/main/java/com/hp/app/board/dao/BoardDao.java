@@ -1,6 +1,7 @@
 package com.hp.app.board.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -10,14 +11,11 @@ import com.hp.app.page.vo.PageVo;
 
 public interface BoardDao {
 	
-	//게시글 목록
-	public abstract List<NoticeVo> getList(SqlSessionTemplate sst, PageVo pv);
+	//게시글 목록 조회 (검색조회)
+	public abstract List<NoticeVo> getList(SqlSessionTemplate sst, PageVo pv, Map<String, String> searchVo);
 	
-	//게시글 목록(검색조회)
-	public abstract List<NoticeVo> getList(SqlSessionTemplate sst, PageVo pv, String searchType, String searchValue);
-	
-	//전체 게시글 개수
-	public abstract int countBoard(SqlSessionTemplate sst);
+	//게시글 개수 (검색 게시글 개수)
+	public abstract int countBoard(SqlSessionTemplate sst, Map<String, String> searchVo);
 	
 	//게시글 작성
 	public abstract int write(SqlSessionTemplate sst, BoardVo vo);

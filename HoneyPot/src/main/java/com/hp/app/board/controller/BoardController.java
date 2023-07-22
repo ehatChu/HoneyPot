@@ -24,41 +24,39 @@ public class BoardController {
 	// 게시글 목록 조회 (공지사항 화면)
 	@GetMapping("board/list")
 	public String list(String p, Model model, String searchType, String searchValue) {
+		
 		try {
+			
+			//검색값 저장
+			Map<String, String> searchVo = new HashMap<>();
+			searchVo.put("searchType", searchType);
+			searchVo.put("searchValue", searchValue);
+
 			//페이징
 			int intP = 1;
 			if (p != null) {
 				intP = Integer.parseInt(p);
 			}
-			int listCount = service.countBoard();
+			int listCount = service.countBoard(searchVo);
 			int currentPage = intP;
 			int pageLimit = 5;
 			int boardLimit = 8;
 			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
-			
-			Map<String, String> searchVoMap = new HashMap<>();
-			searchVoMap.put("searchType", searchType);
-			searchVoMap.put("searchValue", searchValue);
-
-			List<NoticeVo> voList = null;
-			if (searchType == null || "".equals(searchType) ) {
-				voList = service.getList(pv);
-			}else {
-				voList = service.getList(pv, searchType, searchValue); //searchVoMap 으로 파라미터 바꾸고 인터페이스 바꾸고 등등
-			}
-
+		
+			List<NoticeVo> voList = service.getList(pv, searchVo);
 			
 			model.addAttribute("voList", voList);
 			model.addAttribute("pv", pv);
-			model.addAttribute("searchVo", searchVoMap);
-		} catch (Exception e) {
+			model.addAttribute("searchVo", searchVo);
+			
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return "board/list";
 	}
 
-	
-	
+
 	
 	
 	// 게시글 작성 (화면)
