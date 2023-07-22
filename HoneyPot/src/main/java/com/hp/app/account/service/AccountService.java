@@ -26,6 +26,11 @@ public interface AccountService {
 	// 가계부 삭제
 	int delete(AccountVo vo);
 
-	
+	// 가계부 캘린더
+	List<AccountVo> calendarList(String mno);
+
+
+	// 가계부 차트
+	List<AccountVo> getChart(String mno);
 	
 }

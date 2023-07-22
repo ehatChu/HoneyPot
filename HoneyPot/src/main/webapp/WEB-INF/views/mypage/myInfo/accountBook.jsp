@@ -19,6 +19,9 @@
 		<!-- sweetAlert CDN -->
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<link rel="stylesheet" href="${root}/resources/css/member/mypage/accountBook.css">
+		<!-- chart.js CDN -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 	</head>
 	
 	<body>
@@ -36,43 +39,12 @@
 								분류별 지출
 							</div>
 							<div class="A_content">
-								<div class="graph-area">
-									<div class="graph">
-										<div class="chart-bar" data-deg="50"></div>
-										<div class="chart-bar" data-deg="100"></div>
-										<div class="chart-bar" data-deg="130"></div>
-										<div class="chart-bar" data-deg="80"></div>
-									</div>
-								</div>
-								<div class="text-area">
-									<span>
-										금융/보험
-										<br>
-										생활/마트
-										<br>
-										의료/건강
-										<br>
-										문화/예술
-										<br>
-										경조사/회비
-										<br>
-										교통/차량
-										<br>
-										뷰티/미용
-										<br>
-										기타지출
-									</span>
-									<span>
-										210,000 원
-										83,000 원
-										50,000 원
-										47,200 원
-										35,100 원
-										20,000 원
-										15,000 원
-										7,500 원
-									</span>
-								</div>
+								<canvas id="myChart" style="display: block;height: 500px;width: 730px;" class="chartjs-render-monitor"></canvas>
+								<div class="chart-category">
+									<ul class="chart-legend clearfix" id="legend">
+									  <li>카테고리 이름</li>
+									</ul>
+								  </div>
 							</div>
 						</div>
 						<div id='calendar-container'>
@@ -87,7 +59,7 @@
 					<div id="table-area">
 						<div class="cal-area">
 							<div class="left"><i class="fa-solid fa-chevron-left"></i></div>
-							<span>2023년 7월</span>
+							<span id="currentMonth">2023년 7월</span>
 							<div class="right"><i class="fa-solid fa-chevron-right"></i></div>
 						</div>
 						<div>
@@ -96,7 +68,7 @@
 									<tr id="line">
 										<th>
 											<div id="select-wrap">
-												<select id="acnt_category" name="accountCno">
+												<select id="Search_acnt_category" name="accountCno" onchange="searchByCategory()">
 												<option value="">카테고리</option>
 													<option value="2">생활/마트</option>
 													<option value="3">의료/건강</option>
@@ -296,119 +268,138 @@
 		secondNav(['캘린더', '가계부', '사유물'],'가계부');
 		headerName('마이페이지');
 
-		// 그래프 함수
-		var _chart = document.querySelector('.graph');
-		var _chartBar = document.querySelectorAll('.chart-bar');
-		var color = ['#9986dd','#fbb871','#bd72ac','#f599dc','#ff7ead','#47c4ec','#5f9961','#e7ffb5'] //색상
-		var newDeg = []; //차트 deg
-
-		function insertAfter(newNode, referenceNode) {
-			referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+		//// 차트
+		function drawChart(chartData) {
+		var ctx = document.getElementById("myChart").getContext('2d');
+		var myChart = new Chart(ctx, {
+			type: 'doughnut',
+			data: {
+			labels: chartData.labels,
+			datasets: [{
+				data: chartData.data,
+				backgroundColor: chartData.backgroundColor,
+			}]
+			},
+			options: {
+			cutoutPercentage: 60,
+			legend: {
+				display: false
+			}
+			}
+		});
 		}
 
-		function chartLabel(){
-		var _div = document.createElement('div');
-		_div.className = 'chart-total';
-		_div.innerHTML = `<span class="chart-total-num"><div class="total_category">최대 지출 카테고리</div><br><div class="answer_category">외식</div><br><div class="cost">375,000 원</div></span>
-							<span class="chart-total-text1">문화/예술</span>
-							<span class="chart-total-text2">금융/보험</span>
-							<span class="chart-total-text3">생활/마트</span>
-							<span class="chart-total-text4">의료/건강</span>`;
-		insertAfter(_div,_chart);
+		// DB 에서 정보 가져오기
+		function loadChartData() {
+		$.ajax({
+			url: '/app/account/chart', 
+			method: 'GET',
+			dataType: 'json',
+			success: function (data) {
+			console.log(data);
+			drawChart(data);
+			var legendElement = $("#legend");
+                legendElement.empty(); // 기존 내용 초기화
+
+                if (data.labels && data.data) {
+                    for (var i = 0; i < data.labels.length; i++) {
+                        var label = data.labels[i];
+                        var price = data.data[i];
+
+                        var li = $("<li>").text(label + " - " + price); // 카테고리 이름과 가격을 합쳐서 생성
+                        legendElement.append(li);
+                    }
+                } else {
+                    var li = $("<li>").text("데이터가 없습니다.");
+                    legendElement.append(li);
+                }
+            },
+			error: function (xhr, status, error) {
+			console.error('Error fetching data from the server:', error);
+			}
+		});
 		}
 
-		function chartDraw(){ 
-		for( var i=0;i<_chartBar.length;i++){
-			var _num = _chartBar[i].dataset.deg
-			newDeg.push( _num )
-		}
-
-		var num = newDeg.length - newDeg.length;
-		_chart.style.background = 'conic-gradient(#9986dd '+
-														newDeg[num]+'deg, #fbb871 '+
-														newDeg[num]+'deg '+newDeg[num+1]+'deg, #bd72ac '+
-														newDeg[1]+'deg '+newDeg[2]+'deg, #f599dc '+
-														newDeg[2]+'deg)';
-		
-		chartLabel();
-		}
-
-		chartDraw();
+		// 데이터 차트 그리기 함수 실행
+		$(document).ready(function () {
+		loadChartData();
+		});
+			
 
 		// 캘린더
-		(function(){
-			$(function(){
-			var calendarEl = $('#calendar')[0];
-			// full-calendar 생성
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				height: '560px', // calendar 높이 설정
-				expandRows: true, // 화면에 맞게 높이 재설정
-				// 해더에 표시할 툴바
-				headerToolbar: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'dayGridMonth,timeGridWeek,timeGridDay'
-				},
-				initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
-				navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
-				selectable: true, // 달력 일자 드래그 설정가능
-				nowIndicator: true, // 현재 시간 마크
-				dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
-				locale: 'ko', 
-				eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
-				console.log(obj);
-				},
-				eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
-				console.log(obj);
-				},
-				select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
-				var title = prompt('Event Title:');
-				if (title) {
-					calendar.addEvent({
-					title: title,
-					start: arg.start,
-					end: arg.end,
-					allDay: arg.allDay
-					})
-				}
-				calendar.unselect()
-				},
-				// DB 받아와서 넣어주기
-				events: [
-				{
-					title: 'All Day Event',
-					start: '2023-07-01',
-				},
-				{
-					title: '-20000',
-					start: '2023-07-02',
-				},
-				{
-					title: '-1500',
-					start: '2023-07-03'
-				},
-				{
-					title: '-15000',
-					start: '2023-07-03'
-				},
-				{
-					title: '-10000',
-					start: '2023-07-05'
-				},
-				{
-					title: '-35000',
-					start: '2023-07-07'
-				},
-				{
-					title: '-153000',
-					start: '2023-07-15'
-				}
-				]
-			});
-			// 캘린더 랜더링
-			calendar.render();
-			});
-		})();
+		document.addEventListener('DOMContentLoaded', function () {
+            $(function () {
+                var request = $.ajax({
+                    url: "/app/account/calendar", 
+                    method: "GET",
+                    dataType: "json"
+                });
+ 
+                request.done(function (data) {
+                    console.log(data); // log 로 데이터 찍어주기.
+ 
+                    var calendarEl = document.getElementById('calendar');
+ 
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+						height: 580,
+                        initialDate: new Date(),
+                        initialView: 'dayGridMonth',
+                        headerToolbar: {
+							left: 'prev,next',
+							center: 'title',
+							right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        },
+                        editable: false,
+						dayMaxEventRows: 2,
+						eventDisplay: 'auto',
+						locale: 'ko',
+                        droppable: true, 
+                        drop: function (arg) {
+                            if (document.getElementById('drop-remove').checked) {
+                                arg.draggedEl.parentNode.removeChild(arg.draggedEl);
+                            }
+                        },
+						events: data,
+						eventContent: function(info) {
+						var price = info.event.extendedProps.price;
+						var content = '';
+
+						if (price !== undefined && price !== null) {
+							content = '<div>' + info.event.title + '</div><div class="price">가격: ' + price + '</div>';
+						} else {
+							content = info.event.title;
+						}
+
+						return { html: content };
+						},
+						eventDidMount: function(info) {
+							var title = info.event.title;
+							var eventElement = info.el;
+							var mainElement = eventElement.querySelector('.fc-event-main');
+
+							if (title < 0) {
+								mainElement.style.color = 'red'; // title 값이 0보다 작은 경우 빨간색으로 설정
+							} else {
+								mainElement.style.color = 'blue'; // title 값이 0보다 큰 경우 파란색으로 설정
+							}
+							}
+					});
+
+					calendar.render();
+					});
+
+					request.fail(function(jqXHR, textStatus) {
+					alert("Request failed: " + textStatus);
+					});
+				});
+				});
+
+	/////// 카테고리 검색
+	function searchByCategory() {
+      var selectedCategory = document.getElementById("Search_acnt_category").value;
+      
+    }
+
 
 	////// 등록 모달
 	// 모달 열기
@@ -430,7 +421,7 @@
 	const closeBtn = document.querySelector(".closeBtn");
 	closeBtn.addEventListener("click", closeModal);
 
-	///// 수정 모달
+	///////// 수정 모달
 	$(document).ready(function() {
     $('.Ebtn-click').on('click', function() {
 		const row = $(this).closest('tr');
@@ -442,17 +433,17 @@
 		const price = row.find('td:nth-child(6)').text();
 
 		price.substring();
-		const vo = {"no": ano, "accountCno":cno , "content":content, "price":price}
+		const vo = {"no": ano, "accountCno":cno ,"accountDate":accountDate ,"content":content, "price":price}
 
 		const editModal = document.querySelector(".edit-modal");
 		const ecloseBtn = document.querySelector(".EcloseBtn");
 		editModal.classList.remove("hidden");
 
 	  	$.ajax({
-			type: 'get', 
+			type: 'post', 
 			url: '/app/account/edit', 
 			dataType : "json",
-			contentType : "text",
+			contentType : "application/json",
 			data: JSON.stringify(vo),
 			success: function(result) {
 				if(result == 1){
@@ -474,11 +465,8 @@
 	});
 
 });
-
-
-
 	
-	// 글 번호 전달하면서 상세 조회
+	//////// 글 번호 전달하면서 상세 조회
 	$(document).ready(function() {
     $('.Dbtn-click').on('click', function() {
 		const row = $(this).closest('tr');
@@ -525,6 +513,33 @@
 });
 
 
+    // 상세보기 창 월 별 조회 함수 추가 예정
+    let currentDate = new Date(2023, 6); 
+
+    
+    function displayCurrentMonth() {
+        const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+        const currentMonthElement = document.getElementById("currentMonth");
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth(); 
+
+        currentMonthElement.textContent = year + "년 " + monthNames[month];
+    }
+
+    function updateDisplayedMonth(offset) {
+        currentDate.setMonth(currentDate.getMonth() + offset);
+        displayCurrentMonth();
+    }
+
+    document.querySelector(".left").addEventListener("click", function() {
+        updateDisplayedMonth(-1); 
+    });
+
+    document.querySelector(".right").addEventListener("click", function() {
+        updateDisplayedMonth(1); 
+    });
+
+    displayCurrentMonth();
 
 	
 	// 금액칸 콤마 정규식

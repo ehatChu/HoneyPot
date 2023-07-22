@@ -28,5 +28,11 @@ public interface AccountDao {
 	// 가계부 삭제
 	int delete(SqlSessionTemplate sst,AccountVo vo);
 
+	// 가계부 캘린더
+	List<AccountVo> calendarList(SqlSessionTemplate sst, String mno);
 
+	// 가계부 차트
+	List<AccountVo> getChart(SqlSessionTemplate sst, String mno);
+	
+	
 }
