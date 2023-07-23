@@ -139,6 +139,7 @@
 
 	<body>
 		<%@ include file="/WEB-INF/views/common/setup.jsp" %>
+		<%@ include file="/WEB-INF/views/data/loginWeather.jsp" %>
 			<div id="floor1">
 				<div id="d01">
 					<div id="logo-area">

@@ -5,7 +5,8 @@
 <mapper namespace="main">
 	<select id="getCaptain" resultType="com.hp.app.admin.vo.AdminVo">
 		SELECT * FROM ADMIN
-		WHERE GRADE = 'D' AND NAME = #{name}
+		WHERE
+		GRADE = 'D' AND NAME = #{name}
 	</select>
 
 	<select id="getCaptainLoveCnt" resultType="int">
@@ -20,9 +21,60 @@
 		WHERE LOVE = 'H' AND CAPTAIN_NO = #{no}
 	</select>
 
+	<select id="getMyCaptainLove" resultType="String"
+		parameterType="java.util.List">
+		SELECT LOVE FROM
+		CAPTAIN_LOVE
+		WHERE MEMBER_NO = #{list[0]}
+		AND CAPTAIN_NO = #{list[1]}
+	</select>
+
 	<update id="voteCaptainLove" parameterType="java.util.List">
 		UPDATE CAPTAIN_LOVE
 		SET LOVE = #{list[0]}
-		WHERE MEMBER_NO = #{list[1]} AND CAPTAIN_NO = #{list[2]}
+		WHERE MEMBER_NO = #{list[1]}
+		AND CAPTAIN_NO =
+		#{list[2]}
 	</update>
+
+	<select id="getNoticeCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM NOTICE
+	</select>
+
+	<select id="getNoticeList"
+		resultType="com.hp.app.notice.vo.NoticeVo">
+		SELECT
+		N.NO AS NO
+		,N.NOTICE_CNO AS NOTICE_CNO
+		,C.NAME AS
+		NOTICE_CNAME
+		,N.WRITER_NO AS WRITER_NO
+		,A.NAME AS WRITER_NAME
+		,TITLE
+		,CONTENT
+		,ENROLL_DATE
+		,MODIFY_DATE
+		,STATUS
+		,HIT
+		,IMPORTANT_YN
+		FROM NOTICE N
+		JOIN NOTICE_CATEGORY C ON N.NOTICE_CNO = C.NO
+		JOIN ADMIN A ON
+		N.WRITER_NO = A.NO
+		WHERE N.STATUS = 'Y'
+		ORDER BY
+		N.ENROLL_DATE DESC
+	</select>
+
+	<select id="getPopularCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD
+	</select>
+
+	<select id="getPopularList"
+		resultType="com.hp.app.board.vo.BoardVo">
+		SELECT * FROM BOARD
+		ORDER BY HIT DESC
+	</select>
 </mapper>

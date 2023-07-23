@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("main")
 public class MainController {
 	private final MainService ms;
-	private final BoardService bs;
 	private MemberVo loginMember;
 	private AdminVo captain;
 
@@ -48,48 +47,56 @@ public class MainController {
 	@GetMapping("noticeList")
 	@ResponseBody
 	public List<NoticeVo> getNoticeList() {
-		int listCount = bs.cntBoard();
+		int listCount = ms.getNoticeCnt();
 		int currentPage = 1;
 		int pageLimit = 5;
 		int boardLimit = 7;
 
 		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
-		List<NoticeVo> noticeList = bs.list(pv);
+		List<NoticeVo> noticeList = ms.getNoticeList(pv);
 		return noticeList;
+	}
+	
+	@GetMapping("popularList")
+	@ResponseBody
+	public List<NoticeVo> getPopularList() {
+		int listCount = ms.getPopularCnt();
+		int currentPage = 1;
+		int pageLimit = 5;
+		int boardLimit = 7;
+		
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		List<NoticeVo> popularList = ms.getPopularList(pv);
+		return popularList;
 	}
 
 	@GetMapping("captainLove")
 	@ResponseBody
-	public int[] getCaptainLove() {
-		int[] arr = new int[2];
+	public String[] getCaptainLove() {
+		String[] arr = new String[3];
+		String memberNo = loginMember.getNo();
+		String captainNo = captain.getNo();
+		String[] paramArr = { memberNo, captainNo };
 
-		String no = captain.getNo();
-		int captainLoveCnt = ms.getCaptainLoveCnt(no);
-		int captainHateCnt = ms.getCaptainHateCnt(no);
-		arr[0] = captainLoveCnt;
-		arr[1] = captainHateCnt;
+		arr[0] = Integer.toString(ms.getCaptainLoveCnt(captainNo));
+		arr[1] = Integer.toString(ms.getCaptainHateCnt(captainNo));
+		arr[2] = ms.getMyCaptainLove(paramArr);
 
 		return arr;
 	}
-	
+
 	@GetMapping("vote")
 	@ResponseBody
-	public int[] voteCaptainLove(String love) {
+	public int voteCaptainLove(String love) {
 		String memberNo = loginMember.getNo();
 		String captainNo = captain.getNo();
-		String[] arr = {love, memberNo, captainNo};
-		int temp = ms.voteCaptainLove(arr);
-		
-		if(temp != 1) {
+		String[] paramArr = { love, memberNo, captainNo };
+		int result = ms.voteCaptainLove(paramArr);
+
+		if (result != 1) {
 			throw new RuntimeException();
 		}
-		
-		int[] result = new int[2];
-		int captainLoveCnt = ms.getCaptainLoveCnt(captainNo);
-		int captainHateCnt = ms.getCaptainHateCnt(captainNo);
-		result[0] = captainLoveCnt;
-		result[1] = captainHateCnt;
-		
+
 		return result;
 	}
 
