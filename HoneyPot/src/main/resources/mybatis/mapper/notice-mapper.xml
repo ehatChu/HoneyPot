@@ -89,5 +89,10 @@
 		WHERE N.STATUS = 'Y'
 		AND N.NO = #{no}
 	</select>
+	
+	<update id="plusHit">
+		UPDATE NOTICE SET HIT = HIT +1
+		WHERE NO = #{no} AND STATUS = 'Y'
+	</update>
 
 </mapper>

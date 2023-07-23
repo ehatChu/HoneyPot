@@ -54,6 +54,7 @@ public class NoticeServiceImpl implements NoticeService {
 	//공지사항 상세조회
 	@Override
 	public NoticeVo viewDetail(String no) {
+		dao.plusHit(sst, no);
 		return dao.viewDetail(sst, no);
 	}
 
