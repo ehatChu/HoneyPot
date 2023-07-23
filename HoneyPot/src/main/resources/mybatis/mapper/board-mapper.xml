@@ -9,6 +9,7 @@
 			N.NO AS NO
 			,N.NOTICE_CNO AS NOTICE_CNO
 			,C.NAME AS NOTICE_CNAME
+			,('[' || C.NAME || ']' || ' ' || N.TITLE) AS FULL_NAME
 			,N.WRITER_NO AS WRITER_NO
 			,A.NAME AS WRITER_NAME
 			,TITLE
@@ -25,7 +26,7 @@
 		WHERE N.STATUS = 'Y'
 		
 		<if test="searchType == 'title' and searchValue != null">
-			AND N.TITLE LIKE ('%' || #{searchValue} || '%')
+			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%' || #{searchValue} || '%')
 		</if>
 		<if test="searchType == 'content' and searchValue != null">
 			AND N.CONTENT LIKE ('%' || #{searchValue} || '%')
@@ -35,22 +36,28 @@
 		</if>
 		
 		<choose>
-			<when test="sortType == null || sortType == 'date'">
-				ORDER BY N.NO DESC
+			<when test="sortType == 'date'">
+				ORDER BY N.ENROLL_DATE DESC
 			</when>
 			<when test="sortType == 'hit'">
 				ORDER BY N.HIT DESC, N.NO DESC
 			</when>
+			<otherwise>
+				ORDER BY N.NO DESC
+			</otherwise>
 		</choose>
 		
 	</select>	
 
 	<select id="countBoard" resultType="int">
 		SELECT COUNT(N.NO)
-		FROM NOTICE N JOIN ADMIN A ON N.WRITER_NO = A.NO
+		FROM
+			NOTICE N
+			JOIN NOTICE_CATEGORY C ON N.NOTICE_CNO = C.NO
+			JOIN ADMIN A ON N.WRITER_NO = A.NO
 		WHERE STATUS ='Y'
 		<if test="searchType == 'title' and searchValue != null">
-			AND N.TITLE LIKE ('%' || #{searchValue} || '%')
+			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%' || #{searchValue} || '%')
 		</if>
 		<if test="searchType == 'content' and searchValue != null">
 			AND N.CONTENT LIKE ('%' || #{searchValue} || '%')
