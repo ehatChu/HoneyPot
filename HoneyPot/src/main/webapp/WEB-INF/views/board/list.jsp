@@ -213,7 +213,7 @@
 						<div id="sort-type">
 							<select name="sortType" onchange="this.form.submit()">
 								<option value="date">최신순</option>
-								<!-- <option value="like">인기순</option> -->
+								<option value="like">인기순</option>
 								<option value="hit">조회순</option>
 							</select>
 						</div>
@@ -241,7 +241,7 @@
 									<td id="title">${vo.fullName}</td>
 									<td id="writer">${vo.writerName}</td>
 									<td>${vo.enrollDate}</td>
-									<!-- <td><i class="fa-solid fa-heart"></i>좋아요</td> -->
+									<td><i class="fa-solid fa-heart"></i>좋아요</td>
 									<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
 								</tr>
 							</c:forEach>
@@ -292,7 +292,7 @@
 <script>
 	basicSetting(); // 기본 셋팅
 	headerName('게시판'); // 현재 페이지 이름
-	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'], '공지 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'], '자유 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 
 
 	//검색타입 및 검색어

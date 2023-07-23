@@ -47,7 +47,7 @@
 			</otherwise>
 		</choose>
 		
-	</select>	
+	</select>
 
 	<select id="countNotice" resultType="int">
 		SELECT COUNT(N.NO)
@@ -65,6 +65,29 @@
 		<if test="searchType == 'writer' and searchValue != null">
 			AND A.NAME LIKE ('%' || #{searchValue} || '%')
 		</if>
+	</select>
+	
+	<select id="viewDetail" resultType="com.hp.app.notice.vo.NoticeVo">
+		SELECT 
+			N.NO AS NO
+			,N.NOTICE_CNO AS NOTICE_CNO
+			,C.NAME AS NOTICE_CNAME
+			,('[' || C.NAME || ']' || ' ' || N.TITLE) AS FULL_NAME
+			,N.WRITER_NO AS WRITER_NO
+			,A.NAME AS WRITER_NAME
+			,TITLE
+			,CONTENT
+			,ENROLL_DATE
+			,MODIFY_DATE
+			,STATUS
+			,HIT
+			,IMPORTANT_YN
+		FROM
+			NOTICE N
+			JOIN NOTICE_CATEGORY C ON N.NOTICE_CNO = C.NO
+			JOIN ADMIN A ON N.WRITER_NO = A.NO
+		WHERE N.STATUS = 'Y'
+		AND N.NO = #{no}
 	</select>
 
 </mapper>

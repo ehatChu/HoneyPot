@@ -46,8 +46,8 @@ public class NoticeDaoImpl implements NoticeDao {
 
 	//게시글 상세조회 (+ 조회수 증가)
 	@Override
-	public NoticeVo viewNoticeDetail(SqlSessionTemplate sst, NoticeVo vo) {
-		return null;
+	public NoticeVo viewDetail(SqlSessionTemplate sst, String no) {
+		return sst.selectOne("notice.viewDetail", no);
 	}
 
 	//조회수 증가

@@ -22,7 +22,7 @@ public class NoticeController {
 
 	// 공지사항 목록 조회
 	@GetMapping("notice/list")
-	public String list(String p, Model model, String searchType, String searchValue, String sortType) {
+	public String getList(String p, Model model, String searchType, String searchValue, String sortType) {
 		
 		try {
 			
@@ -49,8 +49,6 @@ public class NoticeController {
 			model.addAttribute("pv", pv);
 			model.addAttribute("searchVo", searchVo);
 			
-			System.out.println(searchVo);
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,8 +56,6 @@ public class NoticeController {
 		return "notice/list";
 	}
 
-
-	
 	
 	// 공지사항 작성 (화면)
 	@GetMapping("notice/write")
@@ -69,8 +65,22 @@ public class NoticeController {
 
 	// 공지사항 조회
 	@GetMapping("notice/detail")
-	public String detail() {
+	public String viewDetail(Model model, String no) {
+		
+		try {
+			
+			NoticeVo vo = service.viewDetail(no);
+			model.addAttribute("vo", vo);
+			if (vo == null) {
+				return "notice/list";
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
 		return "notice/detail";
+		
 	}
 
 }

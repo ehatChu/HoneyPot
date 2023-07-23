@@ -24,6 +24,6 @@ public interface NoticeService {
 	public abstract int delete(NoticeVo vo);
 	
 	//공지사항 상세조회
-	public abstract NoticeVo viewNoticeDetail(NoticeVo vo);
+	public abstract NoticeVo viewDetail(String no);
 
 }
