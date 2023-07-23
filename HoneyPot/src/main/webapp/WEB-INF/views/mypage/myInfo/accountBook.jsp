@@ -54,12 +54,17 @@
 				<div id="detail-area">
 					<div id="search-area">
 						<span>상세내역</span>
-						<div><input type="text" placeholder="검색 할 내용을 입력하세요."><i class="fa-solid fa-magnifying-glass fa-lg" ><a href=""></a></i></div>
-					</div>
+						<form action="/app/account/list" method="GET">
+							<div>
+								<input type="search" placeholder="검색 할 내용을 입력하세요." name="searchValue" value="${searchVo.searchValue}">
+								<button type="submit"><i class="fa-solid fa-magnifying-glass fa-2x" ></i></button>
+							</div>
+						</form>
+						</div>
 					<div id="table-area">
 						<div class="cal-area">
 							<div class="left"><i class="fa-solid fa-chevron-left"></i></div>
-							<span id="currentMonth">2023년 7월</span>
+							<span id="currentMonth"></span>
 							<div class="right"><i class="fa-solid fa-chevron-right"></i></div>
 						</div>
 						<div>
@@ -98,7 +103,7 @@
 											<td class="detailBtn Dbtn-click">${vo.content}</td>
 											<td>${vo.price} 원</td>
 											<td><button id="editBtn" class="editBtn Ebtn-click"><i class="fa-solid fa-pen"></i></button></td>
-											<td><button id="delBtn"><i class="fa-solid fa-xmark"></i></button></td>
+											<td><button class="delBtn"><i class="fa-solid fa-xmark"></i></button></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -125,7 +130,7 @@
 							
 						</div>
 						<button id="openBtn" class="openBtn">등록</button>
-						<div class="modal hidden">
+						<div class="add-modal hidden">
 							<div class="bg"></div>
 								<div class="modalBox">
 									<div class="upper-bar">
@@ -133,56 +138,6 @@
 										<button class="closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
 									</div>
 									<form action="/app/account/add" method="post">
-									<div class="content-modal">
-											<div class="first-area">
-											<input type="hidden" name="ano">
-												<div>
-													<span>일자</span>
-													<br>
-													<input type="date" name="accountDate">
-												</div>
-												<div>
-													<span>카테고리</span>
-													<br>
-													<select id="acnt_category" name="accountCno">
-														<option value="2">생활/마트</option>
-														<option value="3">의료/건강</option>
-														<option value="4">문화/예술</option>
-														<option value="5">경조사/회비</option>
-														<option value="1">금융/보험</option>
-														<option value="6">교통/차량</option>
-														<option value="7">뷰티/미용</option>
-														<option value="8">기타지출</option>
-													  </select>
-												</div>
-											</div>
-											<div class="second-area">
-												<span>금액</span>
-												<br>
-												<input type="text" name="price" dir="rtl" maxlength="10""> 원
-											</div>
-											<div class="third-area">
-												<span>내용</span>
-												<br>
-												<textarea name="content" id="detailContent" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기"></textarea>
-											</div>
-											<div id="submitBtn"><input type="submit" value="등록"></div>
-										</div>
-									</form>
-								</div>
-						</div>
-					</div>
-				</div>
-			</div>
-				<!-- 수정 모달 -->
-				<div class="edit-modal hidden">
-							<div class="bg"></div>
-								<div class="modalBox">
-									<div class="upper-bar">
-										<span>가계부 수정</span>
-										<button class="EcloseBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
-									</div>
-									<form action="/app/account/edit" method="post">
 									<div class="content-modal">
 											<div class="first-area">
 												<div>
@@ -215,11 +170,59 @@
 												<br>
 												<textarea name="content" id="detailContent" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기"></textarea>
 											</div>
-											<div id="submitBtn"><input type="submit" value="수정"></div>
-									</div>
+											<div id="submitBtn"><input type="submit" value="등록"></div>
+										</div>
 									</form>
-							</div>
+								</div>
+						</div>
 					</div>
+				</div>
+			</div>
+				<!-- 수정 모달 -->
+				<div class="edit-modal hidden">
+					<div class="bg"></div>
+					<div class="modalBox">
+						<div class="upper-bar">
+							<span>가계부 수정</span>
+							<button class="EcloseBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+						</div>
+						<div class="content-modal">
+							<div class="first-area">
+								<div>
+									<span>일자</span>
+									<br>
+									<input type="date" id="accountDate" name="accountDate">
+								</div>
+								<div>
+									<span>카테고리</span>
+									<br>
+									<select id="accountCno" name="accountCno">
+										<option value="2">생활/마트</option>
+										<option value="3">의료/건강</option>
+										<option value="4">문화/예술</option>
+										<option value="5">경조사/회비</option>
+										<option value="1">금융/보험</option>
+										<option value="6">교통/차량</option>
+										<option value="7">뷰티/미용</option>
+										<option value="8">기타지출</option>
+									</select>
+								</div>
+							</div>
+							<div class="second-area">
+								<span>금액</span>
+								<br>
+								<input type="text" id="price" name="price" dir="rtl" maxlength="10"> 원
+							</div>
+							<div class="third-area">
+								<span>내용</span>
+								<br>
+								<textarea id="detailContent" name="content" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기"></textarea>
+							</div>
+							<div id="submitBtn"><button id="E_submitBtn">수정</button></div>
+						</div>
+					</div>
+				</div>
+				
 					<!-- 상세조회 -->
 					<div class="detail-modal hidden">
 								<div class="bg"></div>
@@ -233,23 +236,23 @@
 													<div>
 														<span>일자</span>
 														<br>
-														<div id="accountDate"></div>
+														<div id="D_accountDate"></div>
 													</div>
 													<div>
 														<span>카테고리</span>
 														<br>
-														<div id="categoryName"></div>
+														<div id="D_categoryName"></div>
 													</div>
 												</div>
 												<div class="second-area">
 													<span>금액</span>
 													<br>
-													<div id="price"></div>
+													<div id="D_price"></div>
 												</div>
 												<div class="third-area">
 													<span>내용</span>
 													<br>
-													<div class="detailContent"></div>
+													<div class="D_detailContent"></div>
 												</div>
 										</div>
 									</div>
@@ -306,7 +309,7 @@
                         var label = data.labels[i];
                         var price = data.data[i];
 
-                        var li = $("<li>").text(label + " - " + price); // 카테고리 이름과 가격을 합쳐서 생성
+                        var li = $("<li>").text(label + " : " + price + "원"); // 카테고리 이름과 가격을 합쳐서 생성
                         legendElement.append(li);
                     }
                 } else {
@@ -404,12 +407,12 @@
 	////// 등록 모달
 	// 모달 열기
 	const openModal = () => {
-	document.querySelector(".modal").classList.remove("hidden");
+	document.querySelector(".add-modal").classList.remove("hidden");
 	};
 	
 	// 모달 닫기
 	const closeModal = () => {
-	document.querySelector(".modal").classList.add("hidden");
+	document.querySelector(".add-modal").classList.add("hidden");
 	};
 
 	const openBtns = document.querySelectorAll(".openBtn");
@@ -422,50 +425,8 @@
 	closeBtn.addEventListener("click", closeModal);
 
 	///////// 수정 모달
-	$(document).ready(function() {
-    $('.Ebtn-click').on('click', function() {
-		const row = $(this).closest('tr');
-
-		const ano = row.find('td:nth-child(1)').text();
-		const cno = row.find('td:nth-child(2)').text();
-		const accountDate = row.find('td:nth-child(4)').text();
-		const content = row.find('td:nth-child(5)').text();
-		const price = row.find('td:nth-child(6)').text();
-
-		price.substring();
-		const vo = {"no": ano, "accountCno":cno ,"accountDate":accountDate ,"content":content, "price":price}
-
-		const editModal = document.querySelector(".edit-modal");
-		const ecloseBtn = document.querySelector(".EcloseBtn");
-		editModal.classList.remove("hidden");
-
-	  	$.ajax({
-			type: 'post', 
-			url: '/app/account/edit', 
-			dataType : "json",
-			contentType : "application/json",
-			data: JSON.stringify(vo),
-			success: function(result) {
-				if(result == 1){
-					alert("수정 완료!");
-					location.href="/app/account/list?p=1"
-				}
-				console.log("통신은 성공, but..");
-			},
-			error: function(error) {
-				console.error('Error:', error);
-			}
-		});
-
-		ecloseBtn.addEventListener("click", function(){
-			editModal.classList.add("hidden");
-		});
-
-	  
-	});
-
-});
 	
+
 	//////// 글 번호 전달하면서 상세 조회
 	$(document).ready(function() {
     $('.Dbtn-click').on('click', function() {
@@ -475,10 +436,10 @@
 
 		const detailModal = document.querySelector(".detail-modal");
 		const dcloseBtn = document.querySelector(".DcloseBtn");
-		const accountDateInput = document.querySelector("#accountDate");
-		const	categoryNameInput = document.querySelector("#categoryName");
-		const	contentInput = document.querySelector(".detailContent");
-		const	priceInput = document.querySelector("#price");
+		const accountDateInput = document.querySelector("#D_accountDate");
+		const	categoryNameInput = document.querySelector("#D_categoryName");
+		const	contentInput = document.querySelector(".D_detailContent");
+		const	priceInput = document.querySelector("#D_price");
 		detailModal.classList.remove("hidden");
 
 	  	$.ajax({
@@ -512,34 +473,62 @@
 
 });
 
-
     // 상세보기 창 월 별 조회 함수 추가 예정
-    let currentDate = new Date(2023, 6); 
+// 	$(document).ready(function() {
+//     // 현재 날짜 객체 생성
+//     let currentDate = new Date();
 
-    
-    function displayCurrentMonth() {
-        const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
-        const currentMonthElement = document.getElementById("currentMonth");
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth(); 
+//     // 현재 날짜의 년도와 월을 가져옴
+//     let currentYear = currentDate.getFullYear().toString();
+//     let currentMonth = (currentDate.getMonth() + 1).toString();
 
-        currentMonthElement.textContent = year + "년 " + monthNames[month];
-    }
+//     // currentMonth 영역에 현재 날짜의 년도와 월을 표시
+//     $("#currentMonth").text(currentYear + "년 " + currentMonth + "월");
 
-    function updateDisplayedMonth(offset) {
-        currentDate.setMonth(currentDate.getMonth() + offset);
-        displayCurrentMonth();
-    }
+//     // left 버튼 클릭 시 이전 달로 이동
+//     $(".left").on("click", function() {
+//         currentDate.setMonth(currentDate.getMonth() - 1); 
+//         let prevYear = currentDate.getFullYear().toString();
+//         let prevMonth = (currentDate.getMonth() + 1).toString();
+//         $("#currentMonth").text(prevYear + "년 " + prevMonth + "월");
 
-    document.querySelector(".left").addEventListener("click", function() {
-        updateDisplayedMonth(-1); 
-    });
+//         // 이전 달
+//         getSearchResults(prevYear, prevMonth);
+//     });
 
-    document.querySelector(".right").addEventListener("click", function() {
-        updateDisplayedMonth(1); 
-    });
+//     // right 버튼 클릭 시 다음 달로 이동
+//     $(".right").on("click", function() {
+//         currentDate.setMonth(currentDate.getMonth() + 1);
+//         let nextYear = currentDate.getFullYear().toString();
+//         let nextMonth = (currentDate.getMonth() + 1).toString();
+//         $("#currentMonth").text(nextYear + "년 " + nextMonth + "월");
 
-    displayCurrentMonth();
+//         // 다음 달
+//         getSearchResults(nextYear, nextMonth);
+//     });
+
+//     // 초기 페이지에 현재 달의 검색 결과를 가져옴
+//     getSearchResults(currentYear, currentMonth);
+// });
+
+// // 서버에서 데이터를 받아와서 검색 결과 표시
+// function getSearchResults(year, month) {
+//     const yearMonth = year + "-" + month;
+
+//     $.ajax({
+//         type: "GET",
+//         url: "/app/account/list",
+//         data: { yearMonth: yearMonth },
+//         dataType: "json",
+//         success: function(response) {
+//             console.log(response);
+//         },
+//         error: function(error) {
+//             console.error("Error occurred:", error);
+//         }
+//     });
+// }
+
 
 	
 	// 금액칸 콤마 정규식
@@ -561,9 +550,10 @@
   	// 
 
 	// 삭제 알림창
-	// 백엔드 작업 시 삭제 버튼에 del 함수 걸어주기
 	$().ready(function () {
-    $("#delBtn").click(function () {
+	$(".delBtn").click(function () { 
+		const row = $(this).closest('tr');
+		const ano = row.find('td:nth-child(1)').text();
         Swal.fire({
             title: '삭제하시겠습니까?',
             text: "다시 되돌릴 수 없습니다.",
@@ -575,11 +565,19 @@
             cancelButtonText: '취소'
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire(
-					'삭제가 완료되었습니다.',
-                )
-            }
-        })
+                $.ajax({
+                    type: 'POST', 
+                    url: '/app/account/del',  
+                    data: { no: ano }, 
+                    success: function (response) {
+							location.reload();
+                    },
+                    error: function (error) {
+                        console.error('AJAX 요청 실패:', error);
+                    }
+                });
+			}
+        });
     });
 });
 	</script>

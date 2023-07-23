@@ -1,6 +1,7 @@
 package com.hp.app.account.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -22,13 +23,13 @@ public class AccountServiceImpl implements AccountService{
 	private final SqlSessionTemplate sst;
 
 	@Override
-	public List<AccountVo> list(String mno, PageVo pv) {
-		return dao.list(sst,mno,pv);
+	public List<AccountVo> list(PageVo pv,  Map<String, String> searchVo) {
+		return dao.list(sst,pv, searchVo);
 	}
 	
 	@Override
-	public int listCnt(String mno) {
-		return dao.listCnt(sst, mno);
+	public int listCnt(String mno,  Map<String, String> searchVo) {
+		return dao.listCnt(sst, searchVo);
 	}
 
 	@Override
@@ -47,8 +48,8 @@ public class AccountServiceImpl implements AccountService{
 	}
 
 	@Override
-	public int delete(AccountVo vo) {
-		return dao.delete(sst, vo);
+	public int delete(String no) {
+		return dao.delete(sst, no);
 	}
 
 	@Override

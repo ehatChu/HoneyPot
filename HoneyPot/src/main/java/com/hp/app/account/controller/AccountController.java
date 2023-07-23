@@ -2,6 +2,7 @@ package com.hp.app.account.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,24 +40,34 @@ public class AccountController {
 	
 	// 가계부 목록 조회 화면
 	@GetMapping("account/list")
-	public String list(int p,Model model, HttpSession session) {
+	public String list(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam(name = "searchValue", required = false) String searchValue) {
 		
 		//MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
 		//String mno = loginMember.getNo();
 		String mno = "5";
-		int listCount = service.listCnt(mno);
+		Map<String , String> searchVo = new HashMap<String, String>();
+		searchVo.put("searchValue", searchValue);
+		searchVo.put("no", mno);
+		//searchVo.put("yearMonth", yearMonth);
+		log.info(searchVo.toString());
+		log.info("Search Value: {}", searchValue);
+		
+		int listCount = service.listCnt(mno, searchVo);
+		log.info("listCount: {}", listCount);
 		int CurrentPage = p;
 		int pageLimit = 5;
 		int boardLimit = 10;
 		PageVo pv = new PageVo(listCount, CurrentPage, pageLimit, boardLimit);
 		
 		// 로그인한 회원 번호로 가계부 목록 조회
-		List<AccountVo> avoList = service.list(mno,pv);
+		List<AccountVo> avoList = service.list(pv, searchVo);
 		
 		if(!avoList.isEmpty()) {
 			model.addAttribute("pv", pv);
 		}
 		model.addAttribute("avoList", avoList);
+		log.info(avoList.toString());
+		model.addAttribute("searchVo", searchVo);
 		
 		return "mypage/myInfo/accountBook";
 		
@@ -76,15 +88,16 @@ public class AccountController {
 	}
 	
 	// 가계부 수정
-	@PostMapping("account/edit")
-	
-	public int edit(AccountVo vo) {
+	@PostMapping(path="account/edit", consumes="application/json")
+	@ResponseBody
+	public String edit(AccountVo vo) {
+		System.out.println(vo);
 		int result = service.edit(vo);
 		System.out.println(result);
 		if(result != 1) {
 			throw new RuntimeException();
 		}
-		return result;
+		return "success";
 	}
 	
 	// 가계부 상세 조회
@@ -123,10 +136,17 @@ public class AccountController {
 	// 가계부 카테고리 검색
 	
 	
-	// 가계부 내용 검색
-	
-	
 	// 가계부 삭제
+	@PostMapping("account/del")
+	public String del(String no) {
+		log.info(no);
+		int result = service.delete(no);
+		if(result != 1) {
+			throw new RuntimeException();
+		}
+		log.info("result : {}", result);
+		return "redirect:/account/list?p=1";
+	}
 	
 	// 가계부 통계
 	// 회원번호 가지고 카테고리 별 금액 통계 
@@ -150,7 +170,7 @@ public class AccountController {
 	    Map<String, Object> chartData = new HashMap<>();
 	    chartData.put("labels", labels);
 	    chartData.put("data", data);
-	    chartData.put("backgroundColor", Arrays.asList("#f56954", "#00a65a", "#f39c12", "#00c0ef", "#3c8dbc", "#d2d6de"));
+	    chartData.put("backgroundColor", Arrays.asList("#FF7EAD", "#C0FFFB", "#A1FFA5", "#E7FFB5", "#FFC397", "#47C4EC","#FB92E4","#5F9961"));
   
 	    return ResponseEntity.ok(chartData);
 	}
