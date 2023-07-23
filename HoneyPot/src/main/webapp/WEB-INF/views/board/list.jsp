@@ -110,16 +110,16 @@
 		align-items: center;
 	}
 
-	#board-list td {
+	#important-list td, #board-list td {
 		padding: 12px 50px;
 		margin-bottom: 20px;
 		border-bottom: 3px solid #FAD355;
 	}
 
-	#board-list td[id=title] { text-align: left; }
-	#board-list td:not(:first-of-type) { text-align: right; }
+	#important-list td, #board-list td[id=title] { text-align: left; }
+	#important-list td:not(:first-of-type), #board-list td:not(:first-of-type) { text-align: right; }
 
-	#board-list tr:hover {
+	#important-list tr:hover, #board-list tr:hover {
 		background-color: #fdeaab;
 		transition: 0.3s;
 		cursor: pointer;
@@ -219,11 +219,26 @@
 						</div>
 					</div>
 
+
+					<!-- <table id="important-list">
+						<c:forEach items="${voList}" var="vo">
+							<c:if test="${vo.importantYn == 'Y'}">
+								<tr>
+									<td id="important-title">${vo.fullName}</td>
+									<td id="important-writer">${vo.writerName}</td>
+									<td>${vo.enrollDate}</td>
+									<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
+								</tr>
+							</c:if>
+						</c:forEach>
+					</table> -->
+					
+
 					<div class="board-list-area">
 						<table id="board-list">
 							<c:forEach items="${voList}" var="vo">
 								<tr>
-									<td id="title">[${vo.noticeCname}]&nbsp;${vo.title}</td>
+									<td id="title">${vo.fullName}</td>
 									<td id="writer">${vo.writerName}</td>
 									<td>${vo.enrollDate}</td>
 									<!-- <td><i class="fa-solid fa-heart"></i>좋아요</td> -->
