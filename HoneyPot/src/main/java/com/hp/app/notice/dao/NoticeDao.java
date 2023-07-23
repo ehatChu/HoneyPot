@@ -29,6 +29,6 @@ public interface NoticeDao {
 	public abstract NoticeVo viewDetail(SqlSessionTemplate sst, String no);
 	
 	//조회수 증가
-	public abstract int plusHit(SqlSessionTemplate sst, NoticeVo vo);
+	public abstract int plusHit(SqlSessionTemplate sst, String no);
 
 }

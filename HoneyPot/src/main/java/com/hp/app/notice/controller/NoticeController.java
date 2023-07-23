@@ -69,11 +69,14 @@ public class NoticeController {
 		
 		try {
 			
+
+			
 			NoticeVo vo = service.viewDetail(no);
 			model.addAttribute("vo", vo);
-			if (vo == null) {
-				return "notice/list";
-			}
+			
+//			if (no == null) {
+//				return "notice/list";
+//			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();

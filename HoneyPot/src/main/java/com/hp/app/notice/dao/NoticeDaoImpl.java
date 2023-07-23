@@ -52,8 +52,8 @@ public class NoticeDaoImpl implements NoticeDao {
 
 	//조회수 증가
 	@Override
-	public int plusHit(SqlSessionTemplate sst, NoticeVo vo) {
-		return 0;
+	public int plusHit(SqlSessionTemplate sst, String no) {
+		return sst.update("notice.plusHit", no);
 	}
 
 }
