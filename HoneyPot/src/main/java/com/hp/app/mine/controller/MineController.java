@@ -89,7 +89,11 @@ public class MineController {
 	
 	// 사유물내역 (화면)
 	@GetMapping("property-list")
-	public String propertyList() {
+	public String propertyList(Model model) {
+		List<MineVo> mvoList = service.getAllList();
+		
+		model.addAttribute("mvoList",mvoList);
+		
 		return "admin/member/property-list";
 	}
 		

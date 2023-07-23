@@ -11,4 +11,5 @@ public interface MineService {
 	int register(MineVo mvo,int mineCno);
 	List<MineVo> getCarList(MemberVo loginMember);
 	List<MineVo> getBicycleList(MemberVo loginMember);
+	List<MineVo> getAllList();
 }

@@ -21,7 +21,8 @@
 			,UNIQUE_NUM
 			,IMG
 			,NAME
-		FROM CAR WHERE MEMBER_NO = ${no}
+		FROM CAR 
+		<if test="no!=null and no!=''">WHERE MEMBER_NO = ${no}</if> 
 	</select>
 	<select id="getBicycleList" resultType="com.hp.app.mine.vo.MineVo">
 		SELECT 
@@ -33,6 +34,10 @@
 			,UNIQUE_NUM
 			,IMG
 			,NAME
-		FROM BICYCLE WHERE MEMBER_NO = ${no}
+		FROM BICYCLE 
+		<if test="no!=null and no!=''">
+			WHERE MEMBER_NO = ${no}
+		</if>
 	</select>
+	
 </mapper>
