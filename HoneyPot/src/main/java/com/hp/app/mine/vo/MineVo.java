@@ -8,8 +8,11 @@ public class MineVo {
 	private String adminNo;
 	private String memberNo;
 	private String enrollDate;
-	private String modifyDate;
+	private String confirmDate;
 	private String uniqueNum;
 	private String img;
 	private String name;
+	private String memberName;
+	private String adminName;
+	private String phone;
 }

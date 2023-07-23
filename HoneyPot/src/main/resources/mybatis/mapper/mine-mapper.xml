@@ -11,33 +11,51 @@
 		INSERT INTO BICYCLE (NO,MEMBER_NO,UNIQUE_NUM,NAME,IMG)
 		VALUES (SEQ_CAR_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
 	</insert>
-	<select id="getCarList" resultType="com.hp.app.mine.vo.MineVo">
+	
+	<!-- 개인의 목록을 조회하려하니 문제가 발생..  -->
+	<select id="getAllListMember" resultType="com.hp.app.mine.vo.MineVo">
 		SELECT 
-			NO
-			,ADMIN_NO
-			,MEMBER_NO
-			,ENROLL_DATE
-			,CONFIRM_DATE
-			,UNIQUE_NUM
-			,IMG
-			,NAME
-		FROM CAR 
-		<if test="no!=null and no!=''">WHERE MEMBER_NO = ${no}</if> 
-	</select>
-	<select id="getBicycleList" resultType="com.hp.app.mine.vo.MineVo">
-		SELECT 
-			NO
-			,ADMIN_NO
-			,MEMBER_NO
-			,ENROLL_DATE
-			,CONFIRM_DATE
-			,UNIQUE_NUM
-			,IMG
-			,NAME
-		FROM BICYCLE 
-		<if test="no!=null and no!=''">
-			WHERE MEMBER_NO = ${no}
-		</if>
+		    CB.NO
+		    ,CB.ADMIN_NO
+		    ,CB.MEMBER_NO
+		    ,CB.ENROLL_DATE
+		    ,CB.CONFIRM_DATE
+		    ,CB.UNIQUE_NUM
+		    ,CB.IMG
+		    ,CB.NAME
+		FROM 
+		(
+		    SELECT * FROM CAR C
+		    UNION 
+		    SELECT * FROM BICYCLE B
+		) CB WHERE MEMBER_NO = ${no}
+	
 	</select>
 	
+	<select id="getAllListAdmin" resultType="com.hp.app.mine.vo.MineVo">
+		SELECT 
+		    CB.NO
+		    ,CB.ADMIN_NO
+		    ,CB.MEMBER_NO
+		    ,CB.ENROLL_DATE
+		    ,CB.CONFIRM_DATE
+		    ,CB.UNIQUE_NUM
+		    ,CB.IMG
+		    ,CB.NAME
+		    ,M.NAME
+		    ,M.PHONE 
+		    ,A.NAME 
+		FROM 
+		(
+		    SELECT * FROM CAR C
+		    UNION 
+		    SELECT * FROM BICYCLE B
+		) CB 
+		JOIN MEMBER M ON(M.NO = CB.MEMBER_NO)
+		LEFT JOIN ADMIN A ON(A.NO = CB.ADMIN_NO)
+	</select>
+	<select id="getAllCnt" resultType="int">
+		SELECT
+    	(SELECT COUNT(*) FROM CAR) + (SELECT COUNT(*) FROM BICYCLE) AS total_count FROM DUAL
+	</select>
 </mapper>

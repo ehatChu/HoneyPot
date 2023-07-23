@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.mine.dao.MineDao;
 import com.hp.app.mine.vo.MineVo;
+import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,26 +34,20 @@ public class MineServiceImpl implements MineService{
 			throw new RuntimeException();
 		}
 	}
+
 	@Override
-	public List<MineVo> getCarList(MemberVo loginMember) {
-		return dao.getCarList(sst, loginMember);
+	public List<MineVo> getAllList(PageVo pvo) {
+		return dao.getAllList(sst, pvo);
 	}
+	
 	@Override
-	public List<MineVo> getBicycleList(MemberVo loginMember) {
-		
-		return dao.getBicycleList(sst, loginMember);
+	public List<MineVo> getAllList(MemberVo loginMember) {
+		return dao.getAllList(sst, loginMember);
 	}
+	
 	@Override
-	public List<MineVo> getAllList() {
-		List<MineVo> mvoList = new ArrayList<MineVo>();
-		//carList 호출하기
-		mvoList.addAll(dao.getCarList(sst, null));
-		
-		//bicycle리스트 호출하기
-		mvoList.addAll(dao.getBicycleList(sst, null));
-		
-		
-		return mvoList;
+	public int getAllCnt() {
+		return dao.getAllCnt(sst);
 	}
 
 }
