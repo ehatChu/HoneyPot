@@ -186,8 +186,12 @@
 		}
 
 		#weatherImg {
-			width: 200px;
-			height: 90px;
+			width: 100%;
+			margin-top: 5px;
+			height: 110px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 
 		#mealImg {
@@ -217,6 +221,13 @@
 		#weatherTxt {
 			width: 100%;
 			display: flex;
+			align-items: center;
+		}
+
+		#weatherTxt1 {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
 			align-items: center;
 		}
 
@@ -250,7 +261,6 @@
 		#bar {
 			width: 100px;
 			height: 10px;
-			background-color: #FFCE31;
 		}
 
 		#d01 {
@@ -343,7 +353,7 @@
 			background-color: red;
 		}
 
-		.like1 {
+		.love {
 			width: 100px;
 			display: flex;
 			justify-content: space-evenly;
@@ -351,9 +361,29 @@
 			border-radius: 20px;
 		}
 
+		.hate {
+			width: 100px;
+			display: flex;
+			justify-content: space-evenly;
+			align-items: center;
+			border-radius: 20px;
+		}
+
+		.gray {
+			background-color: #D9D9D9;
+		}
+	
+		.green {
+			background-color: rgb(23, 236, 23);
+		}
+
 		.yellow {
 			background-color: #FFCE31;
 			font-weight: bold;
+		}
+
+		.redd {
+			background-color: red;
 		}
 
 		.dong {
@@ -407,26 +437,21 @@
 					</div>
 					<div id="box1">
 						<div id="box2" class="box weatherBox">
-
-							<!-- <img id="weatherImg" src="/app/resources/main/weather.PNG">
+							<div id="weatherImg"></div>
 							<div id="weatherTxt">
 								<div id="grayCircle"></div>
 								<div>미세먼지</div>
 							</div>
-							<div id="weatherTxt2">
-								<div id="bar"></div>
-								<div id="bar"></div>
-								<div id="bar"></div>
+							<div id="weatherTxt1">
+								
 							</div>
 							<div id="weatherTxt">
 								<div id="grayCircle"></div>
 								<div>초미세먼지</div>
 							</div>
 							<div id="weatherTxt2">
-								<div id="bar"></div>
-								<div id="bar"></div>
-								<div id="bar"></div>
-							</div> -->
+								
+							</div>
 						</div>
 
 						<div id="box3" class="box">
@@ -487,13 +512,13 @@
 									<div id="rankFont2">${captain.name}</div>
 								</div>
 								<div class="like">
-									<div class="like1 yellow">
+									<div class="love" onclick="voteCaptainLove('L');">
 										<div class="blue">
 											<i class="fa-solid fa-thumbs-up" style="color: #ffffff;"></i>
 										</div>
 										<span id="love"></span>
 									</div>
-									<div class="like1">
+									<div class="hate" onclick="voteCaptainLove('H');">
 										<div class="red">
 											<i class="fa-solid fa-thumbs-down" style="color: #ffffff;"></i>
 										</div>
@@ -524,7 +549,6 @@
 				<br>
 				<br>
 				<br>
-
 			</main>
 
 	</body>
@@ -536,16 +560,18 @@
 		// 변수 선언
 		const pub1 = document.querySelector("#pub1");
 		const pub2 = document.querySelector("#pub2");
+		const loveBox = document.querySelector(".love");
+		const hateBox = document.querySelector(".hate");
 		const boxff2 = document.querySelector('.boxff2');
 
 
 		// 함수 실행
 		basicSetting(); // 기본 셋팅
 		headerName('홈'); // 현재 페이지 이름
-		getWeatherInfo();
 		getNoticeList();
 		getCaptainLove();
-		
+		applyWeatherInfo(JSON.parse(sessionStorage.getItem("weather")));
+		applyNanoDustInfo();
 
 		// 게시판 선택 1
 		function getNoticeList() {
@@ -563,6 +589,35 @@
 							+ '<div>' + vo.title + '</div>'
 							+ '<div>' + vo.writerName + '</div>'
 							+ '<div>' + vo.enrollDate + '</div>'
+							+ '<div>' + vo.hit + '</div>'
+							+ '</div> <hr>'
+					}
+					boxff2.innerHTML = str;
+				},
+				error: function () {
+					alert("getNoticeList error");
+				}
+			});
+		}
+
+
+		// 게시판 선택 2
+		function getPopularList() {
+			pub2.classList.add('el');
+			pub1.classList.remove('el');
+
+			$.ajax({
+				url: '/app/main/popularList',
+				type: 'get',
+				dataType: 'json',
+				success: function (popularList) {
+					let str = "";
+					for (let vo of popularList) {
+						str += '<div id="boardTxt">'
+							+ '<div>' + vo.title + '</div>'
+							+ '<div>' + vo.writerNo + '</div>'
+							+ '<div>' + vo.enrollDate + '</div>'
+							+ '<div>' + vo.hit + '</div>'
 							+ '</div> <hr>'
 					}
 					boxff2.innerHTML = str;
@@ -573,33 +628,8 @@
 			});
 		}
 
-		// 게시판 선택 2
-		function getPopularList() {
-			pub2.classList.add('el');
-			pub1.classList.remove('el');
 
-			boxff2.innerHTML = "작업 중";
-			// $.ajax({
-			// 	url: '/app/main/popularList',
-			// 	type: 'get',
-			// 	dataType: 'json',
-			// 	success: function (popularList) {
-			// 		let str = "";
-			// 		for (let vo of popularList) {
-			// 			str += '<div id="boardTxt">'
-			// 				+ '<div>' + vo.title + '</div>'
-			// 				+ '<div>' + vo.writerName + '</div>'
-			// 				+ '<div>' + vo.enrollDate + '</div>'
-			// 				+ '</div> <hr>'
-			// 		}
-			// 		boxff2.innerHTML = str;
-			// 	},
-			// 	error: function () {
-			// 		alert("에러");
-			// 	}
-			// });
-		}
-
+		// 동대표 선호도 조회
 		function getCaptainLove() {
 			$.ajax({
 				url: '/app/main/captainLove',
@@ -608,52 +638,48 @@
 				success: function (arr) {
 					const love = document.querySelector('#love');
 					const hate = document.querySelector('#hate');
-
 					let loveCnt = arr[0];
 					let hateCnt = arr[1];
-					let total = loveCnt + hateCnt;
-					
-					love.innerHTML = (loveCnt/total * 100).toFixed(0) + "%";
-					hate.innerHTML = (hateCnt/total * 100).toFixed(0) + "%";
+					let myLove = arr[2];
+					let total = parseInt(loveCnt) + parseInt(hateCnt);
+
+					if (myLove == 'L') {
+						loveBox.classList.add("yellow");
+						hateBox.classList.remove("yellow");
+					} else if (myLove == 'H') {
+						hateBox.classList.add("yellow");
+						loveBox.classList.remove("yellow");
+					}
+					love.innerHTML = (loveCnt / total * 100).toFixed(0) + "%";
+					hate.innerHTML = (hateCnt / total * 100).toFixed(0) + "%";
 				},
 				error: function () {
-					alert("에러");
+					alert("getCaptainLove error");
 				}
 			});
 		}
 
 
-
-		// 동대표 선호도 조사
-		const like1Elements = document.querySelectorAll('.like1');
-		like1Elements.forEach(element => {
-			element.addEventListener('click', () => {
-				like1Elements.forEach(item => item.classList.remove('yellow'));
-				element.classList.toggle('yellow');
-			});
-		});
-
-
-		// 날씨 정보 가져오기 (ajax)
-		function getWeatherInfo() {
+		// 동대표 투표하기
+		function voteCaptainLove(love) {
 			$.ajax({
-				url: '/app/kmsData/weather',
+				url: '/app/main/vote?love=' + love,
 				type: 'get',
-				dataType: 'text',
-				success: function (data) {
-					var jsonObject = JSON.parse(data);
-					weather = jsonObject.response.body.items.item;
-					applyWeatherInfo(weather);
+				dataType: 'json',
+				success: function () {
+					getCaptainLove();
 				},
 				error: function () {
-					alert("에러");
+					alert("voteCaptainLove error");
 				}
 			});
 		}
 
-		// 날씨 정보 헤더에 반영하기
+
+		// 날씨 정보 메인페이지 반영
 		function applyWeatherInfo(weather) {
-			const weatherBox = document.querySelector('.weatherBox');
+			const weatherImg = document.querySelector('#weatherImg');
+
 			let sky = ""; // 하늘 상태
 			let pty = ""; // 강수 형태
 			let pop = ""; // 강수 확률
@@ -667,27 +693,56 @@
 				switch (category) {
 					case "SKY":
 						switch (fcstValue) {
-							case "1": sky += "맑음"; break;
-							case "3": sky += "구름 많음"; break;
-							case "4": sky += "흐림"; break;
+							case "1": sky = '<i class="fa-regular fa-sun fa-4x" style="color: #fe5739;"></i>'; break;
+							default: sky = '<i class="fa-solid fa-cloud fa-4x" style="color: #838fa5;"></i>';
 						}
 						break;
 					case "PTY":
 						switch (fcstValue) {
-							case "0": pty += "없음"; break;
-							case "1": pty += "비"; break;
-							case "2": pty += "비/눈"; break;
-							case "3": pty += "눈"; break;
-							case "4": pty += "소나기"; break;
+							case "0": pty = "없음"; break;
+							case "1": pty = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-solid fa-cloud-rain fa-4x" style="color: #a5adbb;"></i>'; break;
+							case "2": pty = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-solid fa-snowflake fa-4x" style="color: #a5c2f8;"></i>'; break;
+							case "3": pty = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-solid fa-snowflake fa-4x" style="color: #a5c2f8;"></i>'; break;
+							case "4": pty = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-solid fa-cloud-showers-heavy fa-4x" style="color: #0058f0;"></i>'; break;
 						}
 						break;
-					case "POP": pop += fcstValue; break;
-					case "REH": reh += fcstValue; break;
-					case "TMP": tmp += fcstValue; break;
+					case "POP": pop = fcstValue; break;
+					case "REH": reh = fcstValue; break;
+					case "TMP": tmp = fcstValue; break;
 				}
 			}
-			let boxHtml = "<div>하늘상태 : " + sky + "</div><div>강수형태 : " + pty + "</div><div>강수확률 : " + pop + "</div><div>습도 : " + reh + "</div><div>기온 : " + tmp + "</div>";
-			weatherBox.innerHTML = boxHtml;
+
+			if (pty == '없음') {
+				pty = sky;
+			} else {
+				pty += "확률 : " + pop + "%</div>"
+			}
+
+			weatherImg.innerHTML = pty + "<div style='height: 100px; display: flex; flex-direction: column; justify-content:space-between; margin-left: 20px;'><div style='font-size: 44px;'>" + tmp + "℃</div><div><i class='fa-solid fa-droplet fa-lg' style='color: #6da2fd; margin-right: 10px;'></i>습도 : " + reh + "%</div></div>";
+		}
+
+
+		// 미세먼지 정보 메인페이지 반영
+		function applyNanoDustInfo() {
+			const weatherTxt1 = document.querySelector('#weatherTxt1');
+			const weatherTxt2 = document.querySelector('#weatherTxt2');
+			var nanoDust = JSON.parse(sessionStorage.getItem("nanoDust"));
+			
+			if(nanoDust[0].pm10Value < 15) {
+				weatherTxt1.innerHTML = '<div class="green" id="bar"></div><div class="gray" id="bar"></div><div class="gray" id="bar"></div>';
+			} else if(nanoDust[0].pm10Value < 50) {
+				weatherTxt1.innerHTML = '<div class="yellow" id="bar"></div><div class="yellow" id="bar"></div><div class="gray" id="bar"></div>';
+			} else {
+				weatherTxt1.innerHTML = '<div class="redd" id="bar"></div><div class="redd" id="bar"></div><div class="redd" id="bar"></div>';
+			}
+
+			if(nanoDust[0].pm25Value < 15) {
+				weatherTxt2.innerHTML = '<div class="green" id="bar"></div><div class="gray" id="bar"></div><div class="gray" id="bar"></div>';
+			} else if(nanoDust[0].pm10Value < 50) {
+				weatherTxt2.innerHTML = '<div class="yellow" id="bar"></div><div class="yellow" id="bar"></div><div class="gray" id="bar"></div>';
+			} else {
+				weatherTxt2.innerHTML = '<div class="redd" id="bar"></div><div class="redd" id="bar"></div><div class="redd" id="bar"></div>';
+			}
 		}
 
 

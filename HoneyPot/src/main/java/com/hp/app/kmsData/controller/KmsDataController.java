@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +45,7 @@ public class KmsDataController {
 
 	@GetMapping(value = "weather", produces = "text/plain")
 	@ResponseBody
-	public String weather() throws Exception {
+	public String getWeather() throws Exception {
 		String apiUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
 		String serviceKey = "Wyz5uylLIJYn%2BM7ddwH5EvX2ksfqBveLSQbOvXf%2Bb%2F0UdcgJRFVwGU3qj%2FLOkQoLdho99BTsY8e9RLq5WzxLFA%3D%3D";
 		String numOfRows = "12";
@@ -52,8 +53,13 @@ public class KmsDataController {
 		String ny = "125";
 		String type = "json";
 		String baseTime = "0500";
-		
+
 		LocalDate today = LocalDate.now();
+		LocalTime currentTime = LocalTime.now();
+		if (currentTime.isAfter(LocalTime.of(0, 0, 0)) && currentTime.isBefore(LocalTime.of(5, 0, 0))) {
+			today = today.minusDays(1);
+		}
+
 		int year = today.getYear();
 		int month = today.getMonthValue();
 		int day = today.getDayOfMonth();
@@ -61,7 +67,7 @@ public class KmsDataController {
 		String formattedMonth = String.format("%02d", month);
 		String formattedDay = String.format("%02d", day);
 		String baseDate = formattedYear + formattedMonth + formattedDay;
-		
+
 		StringBuilder urlBuilder = new StringBuilder(apiUrl);
 		urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + serviceKey);
 		urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode(numOfRows, "UTF-8"));
@@ -90,9 +96,63 @@ public class KmsDataController {
 		}
 		rd.close();
 		conn.disconnect();
+		
+		return sb.toString();
+	}
 
-		String result = sb.toString();
-		return result;
+	@GetMapping(value = "nanoDust", produces = "text/plain")
+	@ResponseBody
+	public String getNanoDust() throws Exception {
+		LocalDate today = LocalDate.now();
+		LocalTime currentTime = LocalTime.now();
+		if (currentTime.isAfter(LocalTime.of(0, 0, 0)) && currentTime.isBefore(LocalTime.of(5, 0, 0))) {
+			today = today.minusDays(1);
+		}
+
+		int year = today.getYear();
+		int month = today.getMonthValue();
+		int day = today.getDayOfMonth();
+		String formattedYear = String.format("%04d", year);
+		String formattedMonth = String.format("%02d", month);
+		String formattedDay = String.format("%02d", day);
+		String baseDate = formattedYear + formattedMonth + formattedDay;
+
+		
+		StringBuilder urlBuilder = new StringBuilder(
+				"http://apis.data.go.kr/B552584/ArpltnStatsSvc/getMsrstnAcctoRDyrg");
+		urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=Wyz5uylLIJYn%2BM7ddwH5EvX2ksfqBveLSQbOvXf%2Bb%2F0UdcgJRFVwGU3qj%2FLOkQoLdho99BTsY8e9RLq5WzxLFA%3D%3D");
+		urlBuilder.append("&" + URLEncoder.encode("returnType", "UTF-8") + "="
+				+ URLEncoder.encode("json", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "="
+				+ URLEncoder.encode("1", "UTF-8"));
+		urlBuilder
+				.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("inqBginDt", "UTF-8") + "="
+				+ URLEncoder.encode(baseDate, "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("inqEndDt", "UTF-8") + "="
+				+ URLEncoder.encode(baseDate, "UTF-8"));
+		urlBuilder.append(
+				"&" + URLEncoder.encode("msrstnName", "UTF-8") + "=" + URLEncoder.encode("강남구", "UTF-8"));
+		URL url = new URL(urlBuilder.toString());
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Content-type", "application/json");
+		System.out.println("Response code: " + conn.getResponseCode());
+		BufferedReader rd;
+		if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		} else {
+			rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+		}
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = rd.readLine()) != null) {
+			sb.append(line);
+		}
+		rd.close();
+		conn.disconnect();
+
+		return sb.toString();
 	}
 
 	// 페이지 매핑
