@@ -204,20 +204,20 @@
 			</div>
 			
 			<div id="list-area">
-			<c:forEach var ="mvo" items ="${mvoList}">
+			<c:forEach var ="mineVo" items ="${mineVoList}">
 				<div class="mine-list">
-					<div><span><input type="checkbox" id="${mvo.no}"><label for="${mvo.no}"  class="middle-text">${mvo.name}</label></span></div>
+					<div><span><input type="checkbox" id="${mineVo.no}"><label for="${mineVo.no}"  class="middle-text">${mvo.name}</label></span></div>
 					
 					<!-- 막 등록한 승인받지 않았을 때 CSS -->
-					<c:if test="${empty mvo.adminNo}">
+					<c:if test="${empty mineVo.adminNo}">
 						<div class="car-img">
-							<img src="/app/resources/member/mine/${mvo.img}" alt="${mvo.img}">
+							<img src="/app/resources/member/mine/${mvo.img}" alt="${mineVo.img}">
 							<div class="background-color-area">승인받는중...</div>
 						</div>
 					</c:if>
-					<c:if test="${not empty mvo.adminNo}">
+					<c:if test="${not empty mineVo.adminNo}">
 						<div class="car-img">
-							<img src="/app/resources/member/mine/${mvo.img}" alt="${mvo.img}">
+							<img src="/app/resources/member/mine/${mvo.img}" alt="${mineVo.img}">
 						</div>
 					</c:if>
 

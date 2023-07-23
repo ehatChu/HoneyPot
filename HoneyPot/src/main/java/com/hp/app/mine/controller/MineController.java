@@ -21,6 +21,7 @@ import com.hp.app.exception.YerinException;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.mine.service.MineService;
 import com.hp.app.mine.vo.MineVo;
+import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,17 +35,11 @@ public class MineController {
 	@GetMapping("regi/mine/mypage")
 	public String regiMine(HttpSession session,Model model) {
 		MemberVo loginMember =(MemberVo)session.getAttribute("loginMember");
-		
-		List<MineVo> mvoList = new ArrayList<MineVo>();
 		//리스트 DB에서 조회하기
-		List<MineVo> carList = service.getCarList(loginMember);
-		List<MineVo> bicycleList = service.getBicycleList(loginMember);
-		mvoList.addAll(carList);
-		mvoList.addAll(bicycleList);
+		List<MineVo> mvoList = service.getAllList(loginMember);
 		
-		log.info("등록시에 mvoList합쳐졌는지 확인하기 1번회원의 자동차와 자전거 다 mvoList에 출력되는지 : {}",mvoList);
 		
-		model.addAttribute("mvoList",mvoList);
+		model.addAttribute("mineVoList",mvoList);
 
 		
 		return "mypage/myInfo/mine/registration";
@@ -89,10 +84,22 @@ public class MineController {
 	
 	// 사유물내역 (화면)
 	@GetMapping("property-list")
-	public String propertyList(Model model) {
-		List<MineVo> mvoList = service.getAllList();
+	public String propertyList(int p,Model model) {
+		//getCnt로 가져오기
+		//car와 자전거까지 다 세기
+		//도대체 이게 왜안되는지 모르겠다.
+		int listCount = service.getAllCnt(); 		
+		int currentPage = p;
+		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
+		int boardLimit =7; //한페이지에 list는 7개만 들어가게
 		
-		model.addAttribute("mvoList",mvoList);
+		PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
+				
+		
+		//리스트를 가져올때 페이지vo를 넘기면서 가져오기		
+		//전체조회시 pv만 들어가게 조회
+		List<MineVo> mvoList = service.getAllList(pv);
+		model.addAttribute("mineVoList",mvoList);
 		
 		return "admin/member/property-list";
 	}
