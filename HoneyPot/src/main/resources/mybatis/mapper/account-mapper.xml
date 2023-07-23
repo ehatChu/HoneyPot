@@ -5,9 +5,13 @@
 <mapper namespace="account">
 	
 	<select id="listCnt" resultType="int">
-		SELECT COUNT(NO)
+		SELECT COUNT(A.NO)
 		FROM ACCOUNT A
-		WHERE A.WRITER_NO = #{no}
+		WHERE A.WRITER_NO = 5
+		AND A.STATUS = 'Y'
+		<if test="searchValue != null">
+		AND A.CONTENT LIKE('%' || #{searchValue} || '%' )
+		</if>
 	</select>
 	
 	<select id="list" resultType="com.hp.app.account.vo.AccountVo">
@@ -24,6 +28,28 @@
 		JOIN MEMBER M
 		ON A.WRITER_NO = M.NO
 		WHERE A.WRITER_NO = #{no}
+		AND A.STATUS = 'Y'
+		<if test="searchValue != null">
+			AND A.CONTENT LIKE ('%' || #{searchValue} || '%' )
+		</if>
+		ORDER BY A.ACCOUNT_DATE DESC
+	</select>
+	
+	<select id="calList" resultType="com.hp.app.account.vo.AccountVo">
+		SELECT 
+		    A.NO AS NO
+		    ,A.CONTENT AS CONTENT
+		    ,A.PRICE AS PRICE
+		    ,TO_CHAR(A.ACCOUNT_DATE, 'YYYY-MM-DD') AS ACCOUNT_DATE
+            ,AC.NAME AS CATEGORY_NAME
+            ,A.ACCOUNT_CNO AS ACCOUNT_CNO
+		FROM ACCOUNT A
+		JOIN ACCOUNT_CATEGORY AC 
+		ON A.ACCOUNT_CNO = AC.NO
+		JOIN MEMBER M
+		ON A.WRITER_NO = M.NO
+		WHERE A.WRITER_NO = #{no}
+		AND A.STATUS = 'Y'
 		ORDER BY A.ACCOUNT_DATE DESC
 	</select>
 
@@ -40,7 +66,7 @@
 		VALUES 
 			(
 			SEQ_ACCOUNT_NO.NEXTVAL
-			,#{no}
+			,#{writerNo}
 			,#{accountCno}
 			,#{content}
 			,#{price}
@@ -59,6 +85,7 @@
 		JOIN ACCOUNT_CATEGORY AC 
 		ON A.ACCOUNT_CNO = AC.NO
 		WHERE A.NO = #{no}
+		AND A.STATUS = 'Y'
 	</select>
 	
 	<update id="edit">
@@ -77,9 +104,16 @@
 		FROM ACCOUNT A
 		JOIN ACCOUNT_CATEGORY AC
 		ON (A.ACCOUNT_CNO = AC.NO)
-		WHERE A.WRITER_NO = 5
+		WHERE A.WRITER_NO = #{no}
+		AND A.STATUS = 'Y'
 		GROUP BY AC.NAME
 	</select>
+	
+	<update id="del">
+		UPDATE ACCOUNT SET
+		STATUS = 'N'
+		WHERE NO = #{no}
+	</update>
 	
 	
 

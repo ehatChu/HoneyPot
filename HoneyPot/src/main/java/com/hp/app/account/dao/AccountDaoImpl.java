@@ -1,6 +1,7 @@
 package com.hp.app.account.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -14,14 +15,14 @@ import com.hp.app.page.vo.PageVo;
 public class AccountDaoImpl implements AccountDao{
 
 	@Override
-	public List<AccountVo> list(SqlSessionTemplate sst,String mno, PageVo pv) {
+	public List<AccountVo> list(SqlSessionTemplate sst, PageVo pv,  Map<String, String> searchVo) {
 		RowBounds rb = new RowBounds(pv.getOffset() , pv.getBoardLimit());
-		return sst.selectList("account.list", mno, rb);
+		return sst.selectList("account.list",searchVo ,rb);
 	}
 	
 	@Override
-	public int listCnt(SqlSessionTemplate sst, String mno) {
-		return sst.selectOne("account.listCnt", mno);
+	public int listCnt(SqlSessionTemplate sst,  Map<String, String> searchVo) {
+		return sst.selectOne("account.listCnt", searchVo);
 	}
 	
 	@Override
@@ -40,13 +41,13 @@ public class AccountDaoImpl implements AccountDao{
 	}
 
 	@Override
-	public int delete(SqlSessionTemplate sst, AccountVo vo) {
-		return sst.update("account.del", vo.getNo());
+	public int delete(SqlSessionTemplate sst, String no) {
+		return sst.update("account.del", no);
 	}
 
 	@Override
 	public List<AccountVo> calendarList(SqlSessionTemplate sst, String mno) {
-		return sst.selectList("account.list", mno);
+		return sst.selectList("account.calList", mno);
 	}
 
 	@Override

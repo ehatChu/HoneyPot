@@ -1,6 +1,7 @@
 package com.hp.app.account.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hp.app.account.vo.AccountVo;
 import com.hp.app.member.vo.MemberVo;
@@ -9,10 +10,10 @@ import com.hp.app.page.vo.PageVo;
 public interface AccountService {
 
 	// 회원별 가계부 목록 조회
-	List<AccountVo> list(String mno, PageVo pv);
+	List<AccountVo> list( PageVo pv,  Map<String, String> searchVo);
 	
 	// 회원별 가계부 글 개수
-	int listCnt(String mno);
+	int listCnt(String mno, Map<String, String> searchVo);
 	
 	// 가계부 추가
 	int add(AccountVo vo);
@@ -24,7 +25,7 @@ public interface AccountService {
 	int edit(AccountVo vo);
 	
 	// 가계부 삭제
-	int delete(AccountVo vo);
+	int delete(String no);
 
 	// 가계부 캘린더
 	List<AccountVo> calendarList(String mno);
