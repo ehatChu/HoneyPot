@@ -23,7 +23,7 @@ public class BoardController {
 
 	// 게시글 목록 조회 (공지사항 화면)
 	@GetMapping("board/list")
-	public String list(String p, Model model, String searchType, String searchValue) {
+	public String list(String p, Model model, String searchType, String searchValue, String sortType) {
 		
 		try {
 			
@@ -31,6 +31,7 @@ public class BoardController {
 			Map<String, String> searchVo = new HashMap<>();
 			searchVo.put("searchType", searchType);
 			searchVo.put("searchValue", searchValue);
+			searchVo.put("sortType", sortType);
 
 			//페이징
 			int intP = 1;
@@ -48,6 +49,8 @@ public class BoardController {
 			model.addAttribute("voList", voList);
 			model.addAttribute("pv", pv);
 			model.addAttribute("searchVo", searchVo);
+			
+			System.out.println(searchVo);
 			
 		}catch (Exception e) {
 			e.printStackTrace();
