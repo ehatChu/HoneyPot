@@ -26,7 +26,7 @@ public interface NoticeDao {
 	public abstract int delete(SqlSessionTemplate sst, NoticeVo vo);
 	
 	//게시글 상세조회 (+ 조회수 증가)
-	public abstract NoticeVo viewNoticeDetail(SqlSessionTemplate sst, NoticeVo vo);
+	public abstract NoticeVo viewDetail(SqlSessionTemplate sst, String no);
 	
 	//조회수 증가
 	public abstract int plusHit(SqlSessionTemplate sst, NoticeVo vo);

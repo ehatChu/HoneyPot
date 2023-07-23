@@ -189,7 +189,7 @@
 	</nav>
 
 	<main>
-		<form action="/app/board/list" method="get">
+		<form action="/app/notice/list" method="get">
 
 			<div class="board-search-area">
 				<div id="search-type">
@@ -213,7 +213,6 @@
 						<div id="sort-type">
 							<select name="sortType" onchange="this.form.submit()">
 								<option value="date">최신순</option>
-								<!-- <option value="like">인기순</option> -->
 								<option value="hit">조회순</option>
 							</select>
 						</div>
@@ -237,11 +236,10 @@
 					<div class="board-list-area">
 						<table id="board-list">
 							<c:forEach items="${voList}" var="vo">
-								<tr>
+								<tr id="${vo.no}">
 									<td id="title">${vo.fullName}</td>
 									<td id="writer">${vo.writerName}</td>
 									<td>${vo.enrollDate}</td>
-									<!-- <td><i class="fa-solid fa-heart"></i>좋아요</td> -->
 									<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
 								</tr>
 							</c:forEach>
@@ -250,7 +248,7 @@
 			
 					<div class="btn-area">
 						<div id="btn-box">
-							<button type="button" id="write-btn" onclick="location.href='/app/board/write'">글쓰기</button>
+							<button type="button" id="write-btn" onclick="location.href='/app/notice/write'">글쓰기</button>
 						</div>
 					</div>
 			
@@ -264,18 +262,18 @@
 						<button>></button> -->
 
 						<c:if test="${pv.currentPage > 1}">
-							<button type="button" onclick="location.href='/app/board/list?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> < </button>
+							<button type="button" onclick="location.href='/app/notice/list?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> < </button>
 						</c:if>
 						<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
 							<c:if test="${pv.currentPage != i}">
-								<button type="button" onclick="location.href='/app/board/list?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'">${i}</button>
+								<button type="button" onclick="location.href='/app/notice/list?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'">${i}</button>
 							</c:if>
 							<c:if test="${pv.currentPage == i}">
 								<button type="button" id="current-page-btn">${i}</button>
 							</c:if>
 						</c:forEach>
 						<c:if test="${pv.currentPage < pv.maxPage}">
-							<button type="button" onclick="location.href='/app/board/list?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> > </button>
+							<button type="button" onclick="location.href='/app/notice/list?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> > </button>
 						</c:if>
 					</div>
 		
@@ -312,12 +310,25 @@
     function initSearchType(){
         const x = document.querySelector('select[name=searchType] > option[value="' + searchType + '"]');
 	    x.selected = true;
-    }
+    };
 
 	//정렬 후 정렬타입 유지되도록
 	function initSortType(){
 		const y = document.querySelector('select[name=sortType] > option[value="' + sortType + '"]');
 		y.selected = true;
-	}
+	};
+
+
+	// 목록 클릭하여 글번호 얻기
+	const trArray = document.querySelectorAll("tr");
+	trArray.forEach(getNo);
+	
+	function getNo(tr) {
+		tr.addEventListener('click', function() {
+			const no = tr.getAttribute('id');
+			console.log(no);
+			location.href = '/app/notice/detail?no=' + no;
+		});
+	};
    
 </script>
