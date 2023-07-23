@@ -189,9 +189,9 @@
 	</nav>
 
 	<main>
-
 		<form action="/app/board/list" method="get">
-		<div class="board-search-area">
+
+			<div class="board-search-area">
 				<div id="search-type">
 					<select name="searchType">
 						<option value="title">제목</option>
@@ -205,75 +205,71 @@
 					<span><button type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button></span>
 				</div>
 			</div>
-		</form>
 
-		<div class="list-content-area">
-			<div class="list-bg">
+			<div class="list-content-area">
+				<div class="list-bg">
 
-				<div class="sort-type-area">
-					<div id="sort-type">
-						<select name="sortType">
-							<option value="date">최신순</option>
-							<option value="like">인기순</option>
-							<option value="hit">조회순</option>
-
-						</select>
+					<div class="sort-type-area">
+						<div id="sort-type">
+							<select name="sortType" onchange="this.form.submit()">
+								<option value="date">최신순</option>
+								<!-- <option value="like">인기순</option> -->
+								<option value="hit">조회순</option>
+							</select>
+						</div>
 					</div>
-				</div>
 
-				<div class="board-list-area">
-					<table id="board-list">
-						<c:forEach items="${voList}" var="vo">
-							<tr>
-								<td id="title">[${vo.noticeCname}]&nbsp;${vo.title}</td>
-								<td id="writer">${vo.writerName}</td>
-								<td>${vo.enrollDate}</td>
-								<!-- <td><i class="fa-solid fa-heart"></i>좋아요</td> -->
-								<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
-							</tr>
+					<div class="board-list-area">
+						<table id="board-list">
+							<c:forEach items="${voList}" var="vo">
+								<tr>
+									<td id="title">[${vo.noticeCname}]&nbsp;${vo.title}</td>
+									<td id="writer">${vo.writerName}</td>
+									<td>${vo.enrollDate}</td>
+									<!-- <td><i class="fa-solid fa-heart"></i>좋아요</td> -->
+									<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
+			
+					<div class="btn-area">
+						<div id="btn-box">
+							<button type="button" id="write-btn" onclick="location.href='/app/board/write'">글쓰기</button>
+						</div>
+					</div>
+			
+					<div class="page-area">
+						<!-- <button><</button>
+						<button>1</button>
+						<button>2</button>
+						<button>3</button>
+						<button>4</button>
+						<button>5</button>
+						<button>></button> -->
+
+						<c:if test="${pv.currentPage > 1}">
+							<button type="button" onclick="location.href='/app/board/list?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> < </button>
+						</c:if>
+						<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+							<c:if test="${pv.currentPage != i}">
+								<button type="button" onclick="location.href='/app/board/list?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'">${i}</button>
+							</c:if>
+							<c:if test="${pv.currentPage == i}">
+								<button type="button" id="current-page-btn">${i}</button>
+							</c:if>
 						</c:forEach>
-					</table>
-				</div>
-		
-				<div class="btn-area">
-					<div id="btn-box">
-						<button type="button" id="write-btn" onclick="location.href='/app/board/write'">글쓰기</button>
+						<c:if test="${pv.currentPage < pv.maxPage}">
+							<button type="button" onclick="location.href='/app/board/list?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> > </button>
+						</c:if>
 					</div>
-				</div>
 		
-				<div class="page-area">
-					<!-- <button><</button>
-					<button>1</button>
-					<button>2</button>
-					<button>3</button>
-					<button>4</button>
-					<button>5</button>
-					<button>></button> -->
-
-					<c:if test="${pv.currentPage > 1}">
-						<button onclick="location.href='/app/board/list?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}'"> < </button>
-					</c:if>
-					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
-						<c:if test="${pv.currentPage != i}">
-							<button onclick="location.href='/app/board/list?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}'">${i}</button>
-						</c:if>
-						<c:if test="${pv.currentPage == i}">
-							<button id="current-page-btn">${i}</button>
-						</c:if>
-					</c:forEach>
-					<c:if test="${pv.currentPage < pv.maxPage}">
-						<button onclick="location.href='/app/board/list?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}'"> > </button>
-					</c:if>
 				</div>
-	
 			</div>
-		</div>
 
-
-
-
-
+		</form>
 	</main>
+
 
 </body>
 </html>
@@ -287,15 +283,26 @@
 	//검색타입 및 검색어
 	const searchType = '${searchVo.searchType}';
 	const searchValue = '${searchVo.searchValue}';
+	const sortType = '${searchVo.sortType}';
 
 	if(searchType.length > 1){
         initSearchType();
     }
 
+	if(sortType.length > 1){
+		initSortType();
+	}
+
     //검색 후 검색타입 유지되도록
     function initSearchType(){
-        const x = document.querySelector('select > option[value="' + searchType + '"]');
+        const x = document.querySelector('select[name=searchType] > option[value="' + searchType + '"]');
 	    x.selected = true;
     }
+
+	//정렬 후 정렬타입 유지되도록
+	function initSortType(){
+		const y = document.querySelector('select[name=sortType] > option[value="' + sortType + '"]');
+		y.selected = true;
+	}
    
 </script>
