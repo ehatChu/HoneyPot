@@ -117,4 +117,24 @@
 		SELECT * FROM NOTICE_CALENDAR
 		ORDER BY START_DATE
 	</select>
+
+	<select id="getReportCnt" resultType="int">
+		SELECT COUNT(*) FROM REPORT
+		WHERE ANSWER_DATE IS NULL
+	</select>
+	
+	<select id="getQnaCnt" resultType="int">
+		SELECT COUNT(*) FROM QNA
+		WHERE ANSWER_DATE IS NULL
+	</select>
+	
+	<select id="getNormalMemberCnt" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE STATUS = 'Y'
+	</select>
+	
+	<select id="getWaitMemberCnt" resultType="int">
+		SELECT COUNT(*) FROM MEMBER 
+		WHERE STATUS = 'W'
+	</select>
 </mapper>
