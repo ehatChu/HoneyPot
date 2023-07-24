@@ -10,7 +10,10 @@ import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
 import com.hp.app.csc.vo.QNACategoryVo;
 import com.hp.app.csc.vo.QNAVo;
+import com.hp.app.csc.vo.ReportCategoryVo;
 import com.hp.app.csc.vo.ReportVo;
+import com.hp.app.csc.vo.SearchVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
@@ -93,10 +96,28 @@ public class CSCDaoImpl implements CSCDao{
 	}
 
 	// 신고
+	// 신고 카테고리 List 조회
+	@Override
+	public List<ReportCategoryVo> getReportCatList(SqlSessionTemplate sst) {
+		return sst.selectList("csc.getReportCatList");
+	}
+	
+	// 신고 대상 회원 List 조회
+	@Override
+	public List<MemberVo> getMemberList(SqlSessionTemplate sst, SearchVo vo) {
+		return sst.selectList("csc.getMemberList", vo);
+	}
+	
+	// 신고 대상 회원 조회
+	@Override
+	public MemberVo getMemberByNo(SqlSessionTemplate sst, String mno) {
+		return sst.selectOne("csc.getMemberByNo", mno);
+	}
+	
 	// 신고 등록
 	@Override
-	public int write(SqlSessionTemplate sst, ReportVo vo) {
-		return 0;
+	public int insertReport(SqlSessionTemplate sst, ReportVo vo) {
+		return sst.insert("csc.insertReport",vo);
 	}
 
 	// 신고 List 조회
@@ -116,5 +137,8 @@ public class CSCDaoImpl implements CSCDao{
 	public int delete(SqlSessionTemplate sst, ReportVo vo) {
 		return 0;
 	}
+
+
+
 
 } // class

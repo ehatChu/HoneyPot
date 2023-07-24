@@ -13,9 +13,14 @@ import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
 import com.hp.app.csc.vo.QNACategoryVo;
 import com.hp.app.csc.vo.QNAVo;
+import com.hp.app.csc.vo.ReportCategoryVo;
+import com.hp.app.csc.vo.ReportVo;
+import com.hp.app.csc.vo.SearchVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequiredArgsConstructor
@@ -139,8 +144,54 @@ public class CSCController {
 	
 	// 신고하기(화면)
 	@GetMapping("csc/report")
-	public String report() {
+	public String report(Model model) {
+		
+		List<ReportCategoryVo> cList = service.getReportCatList();
+		
+		model.addAttribute("cList", cList);
+		
 		return "csc/member/report";
+	}
+	
+	// 신고하기
+	@PostMapping("csc/report")
+	public String report(ReportVo vo) throws Exception {
+		
+		vo.setReporter("1");
+		System.out.println(vo);
+		
+		int result = service.insertReport(vo);
+		
+		if(result != 1) {
+			throw new Exception("신고하기 에러");
+		}
+		
+		return "csc/member/report-list";
+		
+	}
+	
+	// 신고 대상 회원 List 조회
+	@PostMapping("csc/report/memberList")
+	@ResponseBody
+	public List<MemberVo> getMemberList(SearchVo vo){		
+	
+		List<MemberVo> mList = service.getMemberList(vo);
+		
+		return mList;
+		
+	}
+	
+	// 신고 대상 회원 조회
+	@PostMapping("csc/report/member")
+	@ResponseBody
+	public MemberVo getMemberByNo(String mno) {
+		
+		System.out.println(mno);
+		
+		MemberVo vo = service.getMemberByNo(mno);
+		
+		return vo;
+		
 	}
 	
 	// 신고목록 (화면)

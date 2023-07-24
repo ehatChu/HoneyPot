@@ -6,7 +6,10 @@ import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
 import com.hp.app.csc.vo.QNACategoryVo;
 import com.hp.app.csc.vo.QNAVo;
+import com.hp.app.csc.vo.ReportCategoryVo;
 import com.hp.app.csc.vo.ReportVo;
+import com.hp.app.csc.vo.SearchVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 public interface CSCService {
@@ -46,8 +49,17 @@ public interface CSCService {
 	int delete(QNAVo vo);
 	
 	// 신고
+	// 신고 카테고리 List 조회
+	List<ReportCategoryVo> getReportCatList();
+	
+	// 신고 대상 회원 List 조회
+	List<MemberVo> getMemberList(SearchVo vo);
+	
+	// 신고 대상 회원 조회
+	MemberVo getMemberByNo(String mno);
+	
 	// 신고 등록
-	int write(ReportVo vo);
+	int insertReport(ReportVo vo);
 	
 	// 신고 List 조회
 	List<ReportVo> getReportList(String no);
@@ -57,6 +69,7 @@ public interface CSCService {
 	
 	// 신고 삭제
 	int delete(ReportVo vo);
+
 	
 	
 }

@@ -8,7 +8,10 @@ import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
 import com.hp.app.csc.vo.QNACategoryVo;
 import com.hp.app.csc.vo.QNAVo;
+import com.hp.app.csc.vo.ReportCategoryVo;
 import com.hp.app.csc.vo.ReportVo;
+import com.hp.app.csc.vo.SearchVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 public interface CSCDao {
@@ -51,8 +54,17 @@ public interface CSCDao {
 	int delete(SqlSessionTemplate sst, QNAVo vo);
 	
 	// 신고
+	// 신고 카테고리 List 조회
+	List<ReportCategoryVo> getReportCatList(SqlSessionTemplate sst);
+	
+	// 신고 대상 회원 List 조회
+	List<MemberVo> getMemberList(SqlSessionTemplate sst, SearchVo vo);
+	
+	// 신고 대상 회원 조회
+	MemberVo getMemberByNo(SqlSessionTemplate sst, String mno);
+	
 	// 신고 등록
-	int write(SqlSessionTemplate sst, ReportVo vo);
+	int insertReport(SqlSessionTemplate sst, ReportVo vo);
 	
 	// 신고 List 조회
 	List<ReportVo> getReportList(SqlSessionTemplate sst, String no);

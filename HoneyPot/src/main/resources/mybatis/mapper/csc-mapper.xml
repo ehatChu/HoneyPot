@@ -51,7 +51,7 @@
 	
 	<!-- 문의 -->
 	
-	<!-- 문의 카테고리 가져오기 -->
+	<!-- 문의 카테고리 조회 -->
 	<select id="getQNACatList" resultType="com.hp.app.csc.vo.QNACategoryVo">
 		SELECT 
 			NO
@@ -100,6 +100,62 @@
 			, #{memberNo}
 			, #{title}
 			, #{content}
+		)
+	</insert>
+	
+	<!-- 신고 -->
+	
+	<!-- 신고 카테고리 조회 -->
+	<select id="getReportCatList" resultType="com.hp.app.csc.vo.ReportCategoryVo">
+		SELECT 
+			NO
+			, NAME
+		FROM REPORT_CATEGORY
+	</select>
+	
+	<!-- 신고 대상 회원 List 조회 -->
+	<select id="getMemberList" resultType="com.hp.app.member.vo.MemberVo">
+		SELECT
+		     NO
+		     , NAME
+		     , DONG_NUM
+		     , HO_NUM
+		     , PROFILE
+		FROM MEMBER
+		WHERE STATUS = 'Y'
+		<if test="searchType != null">
+		AND ${searchType} = #{searchValue}
+		</if>
+	</select>
+	
+	<!-- 신고 대상 회원 조회 -->
+	<select id="getMemberByNo" resultType="com.hp.app.member.vo.MemberVo">
+		SELECT
+			NO
+			, NAME
+			, PROFILE
+		FROM MEMBER
+		WHERE STATUS = 'Y'
+		AND NO = #{mno}
+	</select>
+	
+	<!-- 신고 등록 -->
+	<insert id="insertReport">
+		INSERT INTO REPORT 
+		(
+	        NO
+	        ,REPORT_CNO
+	        ,REPORTER
+	        ,RESPONDENT
+	        ,TITLE
+	        ,CONTENT
+    	) VALUES (
+	        SEQ_REPORT_NO.NEXTVAL
+	        , #{reportCno}
+	        , #{reporter}
+	        , #{respondent}
+	        , #{title}
+	        , #{content}
 		)
 	</insert>
   
