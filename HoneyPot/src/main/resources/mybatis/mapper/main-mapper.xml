@@ -86,13 +86,35 @@
 		BY START_DATE
 	</select>
 
-	<select id="getMemberPoint"
+	<select id="getMemberPointList"
 		resultType="com.hp.app.member.vo.MemberVo">
 		SELECT * FROM MEMBER M
 		JOIN
-		(SELECT MEMBER_NO, SUM(SCORE) AS SCORE
+		(SELECT MEMBER_NO, SUM(SCORE) AS
+		SCORE
 		FROM POINT
 		GROUP BY MEMBER_NO) Q
 		ON Q.MEMBER_NO = M.NO
+	</select>
+
+	<select id="getDongPointList"
+		resultType="com.hp.app.member.vo.MemberVo">
+		SELECT DONG_NUM, SUM(SCORE) AS SCORE FROM
+		(SELECT * FROM
+		MEMBER M
+		JOIN
+		(SELECT MEMBER_NO, SUM(SCORE) AS SCORE
+		FROM POINT
+		GROUP BY
+		MEMBER_NO) Q
+		ON Q.MEMBER_NO = M.NO)
+		GROUP BY DONG_NUM
+		ORDER BY SCORE DESC
+	</select>
+
+	<select id="getNoticeCalendarList"
+		resultType="com.hp.app.calendar.vo.NoticeCalendarVo">
+		SELECT * FROM NOTICE_CALENDAR
+		ORDER BY START_DATE
 	</select>
 </mapper>

@@ -1,7 +1,6 @@
 package com.hp.app.main.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -9,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.calendar.vo.MemberCalendarVo;
+import com.hp.app.calendar.vo.NoticeCalendarVo;
 import com.hp.app.main.dao.MainDao;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.vo.NoticeVo;
@@ -76,6 +76,16 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public List<MemberVo> getMemberPointList() {
 		return dao.getMemberPointList(sst);
+	}
+
+	@Override
+	public List<MemberVo> getDongPointList() {
+		return dao.getDongPointList(sst);
+	}
+
+	@Override
+	public List<NoticeCalendarVo> getNoticeCalendarList() {
+		return dao.getNoticeCalendarList(sst);
 	}
 
 }

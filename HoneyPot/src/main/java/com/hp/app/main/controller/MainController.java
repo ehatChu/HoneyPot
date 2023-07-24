@@ -1,7 +1,6 @@
 package com.hp.app.main.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hp.app.admin.vo.AdminVo;
-import com.hp.app.board.service.BoardService;
+import com.hp.app.calendar.vo.NoticeCalendarVo;
 import com.hp.app.calendar.vo.MemberCalendarVo;
 import com.hp.app.main.service.MainService;
 import com.hp.app.member.vo.MemberVo;
@@ -26,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class MainController {
 	private final MainService ms;
 	private MemberVo loginMember;
+	private AdminVo loginAdmin;
 	private AdminVo captain;
 
 	@GetMapping("mmain")
@@ -40,17 +40,25 @@ public class MainController {
 
 		List<MemberCalendarVo> memberCalendarList = ms.getMemberCalendarList(loginMember.getNo());
 		List<MemberVo> memberPointList = ms.getMemberPointList();
-
-		System.out.println(memberPointList);
-
+		List<MemberVo> dongPointList = ms.getDongPointList();
+		
 		model.addAttribute("memberPointList", memberPointList);
 		model.addAttribute("memberCalendarList", memberCalendarList);
+		model.addAttribute("dongPointList", dongPointList);
 
 		return "main/mmain";
 	}
 
 	@GetMapping("amain")
-	public String amain() {
+	public String amain(HttpSession session, Model model) {
+		loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		if (loginAdmin == null) {
+			session.setAttribute("alertMsg", "관리자만 접근 가능합니다");
+			return "redirect:/member/alogin";
+		}
+
+		List<NoticeCalendarVo> noticeCalendarList = ms.getNoticeCalendarList();
+		model.addAttribute("noticeCalendarList", noticeCalendarList);
 		return "main/amain";
 	}
 

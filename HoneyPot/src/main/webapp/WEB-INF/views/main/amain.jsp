@@ -193,16 +193,16 @@
         }
 
         #calendar-container {
-			width: 400px;
-			height: 380px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+            width: 400px;
+            height: 380px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-		#calendar {
-			width: 350px;
-		}
+        #calendar {
+            width: 350px;
+        }
 
         #schedule {
             width: 300px;
@@ -328,15 +328,18 @@
             justify-content: space-between;
         }
 
-        .el {
+        .pub>div {
             font-size: 20px;
             width: 150px;
             height: 60px;
-            border: 4px solid #FAD355;
             border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        .el {
+            border: 4px solid #FAD355;
         }
 
         .like {
@@ -370,12 +373,15 @@
         .red1 {
             color: red;
         }
+
         .blue1 {
             color: blue;
         }
+
         .green1 {
             color: #03A800;
         }
+
         .yellow1 {
             color: #FFB800;
         }
@@ -503,6 +509,22 @@
             margin-left: 60px;
             margin-top: 30px;
         }
+
+        .scheduleBox {
+			overflow-y: auto;
+		}
+
+		.scheduleBox::-webkit-scrollbar {
+			width: 12px;
+		}
+
+		.scheduleBox::-webkit-scrollbar-thumb {
+			background: #4A321F;
+		}
+
+		.scheduleBox::-webkit-scrollbar-track {
+			background: #4a321f23;
+		}
     </style>
 
     <body>
@@ -516,22 +538,50 @@
                     <div id="box1" class="box">
                         <div id="tit1">캘린더</div>
                         <div id='calendar-container'>
-							<div id='calendar'></div>
-						</div>
+                            <div id='calendar'></div>
+                        </div>
                     </div>
-                    <div id="box1" class="box">
-                        <div id="tit2">8월 일정</div>
+                    <div id="box1" class="box scheduleBox">
+                        <div id="tit2" class="scheTit"></div>
 
-                        <% for(int i=0; i < 5; i++) { %>
-                            <div id="schedule">
-                                <img id="starImg" src="/app/resources/main/star1.PNG">
-                                <div id="scheTxt">8월 4일 ~ 8월 10일</div>
+                        <c:forEach items="${noticeCalendarList}" var="vo">
+                            <div id="scsc${vo.no}">
+                                <div id="schedule">
+                                    <c:if test="${vo.love == 'Y'}">
+                                        <img id="starImg" src="/app/resources/main/star1.PNG">
+                                    </c:if>
+                                    <c:if test="${vo.love == 'N'}">
+                                        <img id="starImg" src="/app/resources/main/star2.PNG">
+                                    </c:if>
+
+                                    <div id="scheTxt">${vo.startDate.substring(0, 11)}~
+                                        ${vo.endDate.substring(0,
+                                        11)}</div>
+                                </div>
+                                <div id="schedule">
+                                    <div id="starImg"></div>
+                                    <div>${vo.name}</div>
+                                </div>
                             </div>
-                            <div id="schedule">
-                                <div id="starImg"></div>
-                                <div>아파트 점검</div>
-                            </div>
-                            <% } %>
+
+                            <script>
+                                var scheTit = document.querySelector('.scheTit');
+                                var currentDate = new Date();
+                                var currentYear = currentDate.getFullYear();
+                                var currentMonth = currentDate.getMonth() + 1;
+                                var startDateStr = "${vo.startDate.substring(0, 11)}";
+                                var startDate = new Date(startDateStr);
+                                var startYear = startDate.getFullYear();
+                                var startMonth = startDate.getMonth() + 1;
+
+                                scheTit.innerHTML = currentMonth + "월 일정";
+
+                                if (currentYear != startYear || currentMonth != startMonth) {
+                                    var scsc = document.getElementById("scsc${vo.no}");
+                                    scsc.remove();
+                                }
+                            </script>
+                        </c:forEach>
                     </div>
                     <div id="box1" class="box">
                         <div id="tit2">관리비 사용 비율</div>
@@ -553,22 +603,11 @@
                             <div id="grayCircle2"> ▶ </div>
                         </div>
                         <div class='pub'>
-                            <div class='el'>
-                                공지사항
-                            </div>
-                            <div class='el'>
-                                인기글 모음
-                            </div>
+                            <div id="pub1" onclick="getNoticeList();">공지사항</div>
+                            <div id="pub2" onclick="getPopularList();">인기글 모음</div>
                         </div>
                         <br>
-
-                        <% for(int i=0; i < 7; i++) { %>
-                            <div id="boardTxt">
-                                <div>[공지] 편의시설 등록 관련 질문에 대한 FAQ등록을 위한 개정안</div>
-                                <div>2023.06.01</div>
-                            </div>
-                            <hr>
-                            <% } %>
+                        <div class="boxff2"></div>
                     </div>
 
                     <div id="boxf3">
@@ -611,8 +650,16 @@
     </html>
 
     <script>
+        //변수 선언
+        const pub1 = document.querySelector("#pub1");
+        const pub2 = document.querySelector("#pub2");
+        const boxff2 = document.querySelector('.boxff2');
+
+
+        //함수 실행
         basicSetting(); // 기본 셋팅
         headerName('홈'); // 현재 페이지 이름
+        getNoticeList();
 
         // 그래프 함수
         var _chart = document.querySelector('.graph');
@@ -650,58 +697,133 @@
 
             chartLabel();
         }
-
         chartDraw();
 
-        // 캘린더
-		(function () {
-			$(function () {
-				var calendarEl = $('#calendar')[0];
-				// full-calendar 생성
-				var calendar = new FullCalendar.Calendar(calendarEl, {
-					height: '350px', // calendar 높이 설정
-					expandRows: true, // 화면에 맞게 높이 재설정
-					// 해더에 표시할 툴바
-					headerToolbar: {
-						left: 'prev',
-						center: 'title',
-						right: 'next'
-					},
-					initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
-					navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
-					selectable: true, // 달력 일자 드래그 설정가능
-					nowIndicator: true, // 현재 시간 마크
-					dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
-					locale: 'ko',
-					eventAdd: function (obj) { // 이벤트가 추가되면 발생하는 이벤트
-						console.log(obj);
-					},
-					eventRemove: function (obj) { // 이벤트가 삭제되면 발생하는 이벤트
-						console.log(obj);
-					},
-					select: function (arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
-						var title = prompt('Event Title:');
-						if (title) {
-							calendar.addEvent({
-								title: title,
-								start: arg.start,
-								end: arg.end,
-								allDay: arg.allDay
-							})
-						}
-						calendar.unselect()
-					},
+        // 랜덤 색상 생성
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+                if (color == '#ffffff') {
+                    return color;
+                }
+            }
+            return color;
+        }
 
-					// DB 받아와서 넣어주기
-					events: [
-						// {
-						// 	title: 'All Day Event',
-						// 	start: '2023-07-01',
-						// },
-					]
-				});
-				// 캘린더 랜더링
-				calendar.render();
-			});
-		})();
+
+
+        // 게시판 선택 1
+        function getNoticeList() {
+            pub1.classList.add('el');
+            pub2.classList.remove('el');
+
+            $.ajax({
+                url: '/app/main/noticeList',
+                type: 'get',
+                dataType: 'json',
+                success: function (noticeList) {
+                    let str = "";
+                    for (let vo of noticeList) {
+                        str += '<div id="boardTxt">'
+                            + '<div style="width: 200px; height: 30px; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '...</div>'
+                            + '<div>' + vo.writerName + '</div>'
+                            + '<div>' + vo.enrollDate + '</div>'
+                            + '<div>' + vo.hit + '</div>'
+                            + '</div> <hr>'
+                    }
+                    boxff2.innerHTML = str;
+                },
+                error: function () {
+                    alert("getNoticeList error");
+                }
+            });
+        }
+
+
+        // 게시판 선택 2
+        function getPopularList() {
+            pub2.classList.add('el');
+            pub1.classList.remove('el');
+
+            $.ajax({
+                url: '/app/main/popularList',
+                type: 'get',
+                dataType: 'json',
+                success: function (popularList) {
+                    let str = "";
+                    for (let vo of popularList) {
+                        str += '<div id="boardTxt">'
+                            + '<div style="width: 200px; height: 30px; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '...</div>'
+                            + '<div>' + vo.writerNo + '</div>'
+                            + '<div>' + vo.enrollDate + '</div>'
+                            + '<div>' + vo.hit + '</div>'
+                            + '</div> <hr>'
+                    }
+                    boxff2.innerHTML = str;
+                },
+                error: function () {
+                    alert("에러");
+                }
+            });
+        }
+
+
+        // 캘린더
+        (function () {
+            $(function () {
+                var calendarEl = $('#calendar')[0];
+                // full-calendar 생성
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    height: '350px', // calendar 높이 설정
+                    expandRows: true, // 화면에 맞게 높이 재설정
+                    // 해더에 표시할 툴바
+                    headerToolbar: {
+                        left: 'prev',
+                        center: 'title',
+                        right: 'next'
+                    },
+                    initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+                    navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+                    editable: false,
+                    selectable: true, // 달력 일자 드래그 설정가능
+                    nowIndicator: true, // 현재 시간 마크
+                    dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+                    locale: 'ko',
+                    eventAdd: function (obj) { // 이벤트가 추가되면 발생하는 이벤트
+                        console.log(obj);
+                    },
+                    eventRemove: function (obj) { // 이벤트가 삭제되면 발생하는 이벤트
+                        console.log(obj);
+                    },
+                    select: function (arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+                        // var title = prompt('Event Title:');
+                        // if (title) {
+                        // 	calendar.addEvent({
+                        // 		title: title,
+                        // 		start: arg.start,
+                        // 		end: arg.end,
+                        // 		allDay: arg.allDay
+                        // 	})
+                        // }
+                        // calendar.unselect()
+                    },
+
+                    // DB 받아와서 넣어주기
+                    events: [
+                        <c:forEach items="${noticeCalendarList}" var="vo">
+                            {
+                                title: '${vo.name}',
+                                start: '${vo.startDate}',
+                                end: '${vo.endDate}',
+                                backgroundColor: getRandomColor()
+							},
+                        </c:forEach>
+                    ]
+                });
+                // 캘린더 랜더링
+                calendar.render();
+            });
+        })();
     </script>
