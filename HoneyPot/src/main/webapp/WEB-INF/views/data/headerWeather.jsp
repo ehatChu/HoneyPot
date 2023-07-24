@@ -50,8 +50,8 @@
                 switch (category) {
                     case "SKY":
                         switch (fcstValue) {
-                            case "1": sky = '<i class="fa-regular fa-sun fa-4x" style="color: #fe5739;"></i>'; break;
-                            default: sky = '<i class="fa-solid fa-cloud fa-4x" style="color: #838fa5;"></i>';
+                            case "1": sky = '<i class="fa-regular fa-sun fa-2x" style="color: #fe5739;"></i>'; break;
+                            default: sky = '<i class="fa-solid fa-cloud fa-2x" style="color: #838fa5;"></i>';
                         }
                         break;
                     case "PTY":

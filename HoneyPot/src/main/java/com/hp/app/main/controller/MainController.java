@@ -1,6 +1,8 @@
 package com.hp.app.main.controller;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.board.service.BoardService;
+import com.hp.app.calendar.vo.MemberCalendarVo;
 import com.hp.app.main.service.MainService;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.vo.NoticeVo;
@@ -26,15 +29,26 @@ public class MainController {
 	private AdminVo captain;
 
 	@GetMapping("mmain")
-	public String mmain(HttpSession session) {
-		loginMember = (MemberVo) session.getAttribute("loginMember");
-		if (loginMember == null) {
-			session.setAttribute("alertMsg", "로그인이 필요한 서비스입니다");
-			return "redirect:/member/mlogin";
-		}
+	public String mmain(HttpSession session, Model model) {
+		try {
+			loginMember = (MemberVo) session.getAttribute("loginMember");
+			if (loginMember == null) {
+				session.setAttribute("alertMsg", "로그인이 필요한 서비스입니다");
+				return "redirect:/member/mlogin";
+			}
+			captain = ms.getCaptain(loginMember.getDongNum() + "동대표");
+			session.setAttribute("captain", captain);
 
-		captain = ms.getCaptain(loginMember.getDongNum() + "동대표");
-		session.setAttribute("captain", captain);
+			List<MemberCalendarVo> memberCalendarList = ms.getMemberCalendarList(loginMember.getNo());
+			List<MemberVo> memberPointList = ms.getMemberPointList();
+			
+			System.out.println(memberPointList);
+			
+			model.addAttribute("memberPointList", memberPointList);
+			model.addAttribute("memberCalendarList", memberCalendarList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return "main/mmain";
 	}
@@ -56,7 +70,7 @@ public class MainController {
 		List<NoticeVo> noticeList = ms.getNoticeList(pv);
 		return noticeList;
 	}
-	
+
 	@GetMapping("popularList")
 	@ResponseBody
 	public List<NoticeVo> getPopularList() {
@@ -64,7 +78,7 @@ public class MainController {
 		int currentPage = 1;
 		int pageLimit = 5;
 		int boardLimit = 7;
-		
+
 		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
 		List<NoticeVo> popularList = ms.getPopularList(pv);
 		return popularList;

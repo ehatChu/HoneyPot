@@ -1,12 +1,14 @@
 package com.hp.app.main.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hp.app.admin.vo.AdminVo;
+import com.hp.app.calendar.vo.MemberCalendarVo;
 import com.hp.app.main.dao.MainDao;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.vo.NoticeVo;
@@ -64,6 +66,16 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public List<NoticeVo> getPopularList(PageVo pv) {
 		return dao.getPopularList(sst, pv);
+	}
+
+	@Override
+	public List<MemberCalendarVo> getMemberCalendarList(String no) {
+		return dao.getMemberCalendarList(sst, no);
+	}
+
+	@Override
+	public List<MemberVo> getMemberPointList() {
+		return dao.getMemberPointList(sst);
 	}
 
 }

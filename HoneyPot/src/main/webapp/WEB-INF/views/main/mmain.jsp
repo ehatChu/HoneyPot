@@ -372,7 +372,7 @@
 		.gray {
 			background-color: #D9D9D9;
 		}
-	
+
 		.green {
 			background-color: rgb(23, 236, 23);
 		}
@@ -407,6 +407,22 @@
 			margin-right: -30px;
 			font-weight: bold;
 		}
+
+		.scheduleBox {
+			overflow-y: auto;
+		}
+
+		.scheduleBox::-webkit-scrollbar {
+			width: 12px;
+		}
+
+		.scheduleBox::-webkit-scrollbar-thumb {
+			background: #4A321F;
+		}
+
+		.scheduleBox::-webkit-scrollbar-track {
+			background: #4a321f23;
+		}
 	</style>
 
 	<body>
@@ -421,37 +437,58 @@
 							<div id='calendar'></div>
 						</div>
 					</div>
-					<div id="box1" class="box">
-						<div id="tit2">8월 일정</div>
+					<div id="box1" class="box scheduleBox">
+						<div id="tit2">7월 일정</div>
 
-						<% for (int i=0; i < 5; i++) { %>
-							<div id="schedule">
-								<img id="starImg" src="/app/resources/main/star1.PNG">
-								<div id="scheTxt">8월 4일 ~ 8월 10일</div>
+						<c:forEach items="${memberCalendarList}" var="vo">
+							<div id="scsc${vo.no}">
+								<div id="schedule">
+									<c:if test="${vo.love == 'Y'}">
+										<img id="starImg" src="/app/resources/main/star1.PNG">
+									</c:if>
+									<c:if test="${vo.love == 'N'}">
+										<img id="starImg" src="/app/resources/main/star2.PNG">
+									</c:if>
+
+									<div id="scheTxt">${vo.startDate.substring(0, 11)}~
+										${vo.endDate.substring(0,
+										11)}</div>
+								</div>
+								<div id="schedule">
+									<div id="starImg"></div>
+									<div>${vo.name}</div>
+								</div>
 							</div>
-							<div id="schedule">
-								<div id="starImg"></div>
-								<div>친구들과 여행</div>
-							</div>
-							<% } %>
+
+							<script>
+								var currentDate = new Date();
+								var currentYear = currentDate.getFullYear();
+								var currentMonth = currentDate.getMonth() + 1;
+								var startDateStr = "${vo.startDate.substring(0, 11)}";
+								var startDate = new Date(startDateStr);
+								var startYear = startDate.getFullYear();
+								var startMonth = startDate.getMonth() + 1;
+
+								if (currentYear != startYear || currentMonth != startMonth) {
+									var scsc = document.getElementById("scsc${vo.no}");
+									scsc.remove();
+								}
+							</script>
+						</c:forEach>
 					</div>
 					<div id="box1">
 						<div id="box2" class="box weatherBox">
 							<div id="weatherImg"></div>
 							<div id="weatherTxt">
-								<div id="grayCircle"></div>
-								<div>미세먼지</div>
+								<i class="fa-regular fa-circle-xmark" style="color: #ff841f; margin-right: 5px;"></i>
+								<div id="pm10"></div>
 							</div>
-							<div id="weatherTxt1">
-								
-							</div>
+							<div id="weatherTxt1"></div>
 							<div id="weatherTxt">
-								<div id="grayCircle"></div>
-								<div>초미세먼지</div>
+								<i class="fa-regular fa-circle-xmark" style="color: #ff841f; margin-right: 5px;"></i>
+								<div id="pm25"></div>
 							</div>
-							<div id="weatherTxt2">
-								
-							</div>
+							<div id="weatherTxt2"></div>
 						</div>
 
 						<div id="box3" class="box">
@@ -478,9 +515,7 @@
 							<div id="pub2" onclick="getPopularList();">인기글 모음</div>
 						</div>
 						<br>
-						<div class="boxff2">
-
-						</div>
+						<div class="boxff2"></div>
 					</div>
 					<div id="boxf3">
 						<div id="zzz01">
@@ -495,7 +530,7 @@
 									</div>
 									<div class="rankBar bar2">
 										<img id="rankImg1" src="/app/resources/profile/exam_profile.png">
-										<div class="rankFont">102동 심원용</div>
+										<div class="rankFont">${memberPointList[0].dongNum}동 ${memberPointList[0].name}</div>
 										<div class="bar22 bar">1</div>
 									</div>
 									<div class="rankBar bar3">
@@ -546,9 +581,7 @@
 						</div>
 					</div>
 				</div>
-				<br>
-				<br>
-				<br>
+				<br> <br> <br>
 			</main>
 
 	</body>
@@ -558,12 +591,12 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 	<script>
 		// 변수 선언
+		const today = new Date();
 		const pub1 = document.querySelector("#pub1");
 		const pub2 = document.querySelector("#pub2");
 		const loveBox = document.querySelector(".love");
 		const hateBox = document.querySelector(".hate");
 		const boxff2 = document.querySelector('.boxff2');
-
 
 		// 함수 실행
 		basicSetting(); // 기본 셋팅
@@ -586,7 +619,7 @@
 					let str = "";
 					for (let vo of noticeList) {
 						str += '<div id="boardTxt">'
-							+ '<div>' + vo.title + '</div>'
+							+ '<div style="width: 200px; height: 30px; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '...</div>'
 							+ '<div>' + vo.writerName + '</div>'
 							+ '<div>' + vo.enrollDate + '</div>'
 							+ '<div>' + vo.hit + '</div>'
@@ -614,7 +647,7 @@
 					let str = "";
 					for (let vo of popularList) {
 						str += '<div id="boardTxt">'
-							+ '<div>' + vo.title + '</div>'
+							+ '<div style="width: 200px; height: 30px; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '...</div>'
 							+ '<div>' + vo.writerNo + '</div>'
 							+ '<div>' + vo.enrollDate + '</div>'
 							+ '<div>' + vo.hit + '</div>'
@@ -693,8 +726,8 @@
 				switch (category) {
 					case "SKY":
 						switch (fcstValue) {
-							case "1": sky = '<i class="fa-regular fa-sun fa-4x" style="color: #fe5739;"></i>'; break;
-							default: sky = '<i class="fa-solid fa-cloud fa-4x" style="color: #838fa5;"></i>';
+							case "1": sky = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-regular fa-sun fa-4x" style="color: #fe5739;"></i>'; break;
+							default: sky = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-solid fa-cloud fa-4x" style="color: #838fa5;"></i>';
 						}
 						break;
 					case "PTY":
@@ -714,35 +747,53 @@
 
 			if (pty == '없음') {
 				pty = sky;
-			} else {
-				pty += "확률 : " + pop + "%</div>"
 			}
 
-			weatherImg.innerHTML = pty + "<div style='height: 100px; display: flex; flex-direction: column; justify-content:space-between; margin-left: 20px;'><div style='font-size: 44px;'>" + tmp + "℃</div><div><i class='fa-solid fa-droplet fa-lg' style='color: #6da2fd; margin-right: 10px;'></i>습도 : " + reh + "%</div></div>";
+			pty += '<div><i class="fa-solid fa-cloud-showers-heavy" style="color: #616161; margin-right: 5px;"></i>확률: ' + pop + "%</div></div>";
+			weatherImg.innerHTML = pty + "<div style='height: 100px; display: flex; flex-direction: column; justify-content:space-between; margin-left: 20px;'><div style='font-size: 44px;'>" + tmp + "℃</div><div><i class='fa-solid fa-droplet fa-lg' style='color: #6da2fd; margin-right: 5px;'></i>습도: " + reh + "%</div></div>";
 		}
 
 
 		// 미세먼지 정보 메인페이지 반영
 		function applyNanoDustInfo() {
+			const pm10 = document.querySelector('#pm10');
+			const pm25 = document.querySelector('#pm25');
 			const weatherTxt1 = document.querySelector('#weatherTxt1');
 			const weatherTxt2 = document.querySelector('#weatherTxt2');
 			var nanoDust = JSON.parse(sessionStorage.getItem("nanoDust"));
-			
-			if(nanoDust[0].pm10Value < 15) {
+
+			if (nanoDust[0].pm10Value < 15) {
 				weatherTxt1.innerHTML = '<div class="green" id="bar"></div><div class="gray" id="bar"></div><div class="gray" id="bar"></div>';
-			} else if(nanoDust[0].pm10Value < 50) {
+			} else if (nanoDust[0].pm10Value < 50) {
 				weatherTxt1.innerHTML = '<div class="yellow" id="bar"></div><div class="yellow" id="bar"></div><div class="gray" id="bar"></div>';
 			} else {
 				weatherTxt1.innerHTML = '<div class="redd" id="bar"></div><div class="redd" id="bar"></div><div class="redd" id="bar"></div>';
 			}
 
-			if(nanoDust[0].pm25Value < 15) {
+			if (nanoDust[0].pm25Value < 15) {
 				weatherTxt2.innerHTML = '<div class="green" id="bar"></div><div class="gray" id="bar"></div><div class="gray" id="bar"></div>';
-			} else if(nanoDust[0].pm10Value < 50) {
+			} else if (nanoDust[0].pm10Value < 50) {
 				weatherTxt2.innerHTML = '<div class="yellow" id="bar"></div><div class="yellow" id="bar"></div><div class="gray" id="bar"></div>';
 			} else {
 				weatherTxt2.innerHTML = '<div class="redd" id="bar"></div><div class="redd" id="bar"></div><div class="redd" id="bar"></div>';
 			}
+
+			pm10.innerHTML = "미세먼지 " + nanoDust[0].pm10Value + "㎍/㎥"
+			pm25.innerHTML = "초미세먼지 " + nanoDust[0].pm25Value + "㎍/㎥"
+		}
+
+
+		// 랜덤 색상 생성
+		function getRandomColor() {
+			var letters = '0123456789ABCDEF';
+			var color = '#';
+			for (var i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * 16)];
+				if (color == '#ffffff') {
+					return color;
+				}
+			}
+			return color;
 		}
 
 
@@ -762,9 +813,10 @@
 					},
 					initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
 					navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+					editable: false,
 					selectable: true, // 달력 일자 드래그 설정가능
 					nowIndicator: true, // 현재 시간 마크
-					dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+					dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 					locale: 'ko',
 					eventAdd: function (obj) { // 이벤트가 추가되면 발생하는 이벤트
 						console.log(obj);
@@ -773,24 +825,28 @@
 						console.log(obj);
 					},
 					select: function (arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
-						var title = prompt('Event Title:');
-						if (title) {
-							calendar.addEvent({
-								title: title,
-								start: arg.start,
-								end: arg.end,
-								allDay: arg.allDay
-							})
-						}
-						calendar.unselect()
+						// var title = prompt('Event Title:');
+						// if (title) {
+						// 	calendar.addEvent({
+						// 		title: title,
+						// 		start: arg.start,
+						// 		end: arg.end,
+						// 		allDay: arg.allDay
+						// 	})
+						// }
+						// calendar.unselect()
 					},
 
 					// DB 받아와서 넣어주기
 					events: [
-						// {
-						// 	title: 'All Day Event',
-						// 	start: '2023-07-01',
-						// },
+						<c:forEach items="${memberCalendarList}" var="vo">
+							{
+								title: '${vo.name}',
+								start: '${vo.startDate}',
+								end: '${vo.endDate}',
+								backgroundColor: getRandomColor()
+							},
+						</c:forEach>
 					]
 				});
 				// 캘린더 랜더링

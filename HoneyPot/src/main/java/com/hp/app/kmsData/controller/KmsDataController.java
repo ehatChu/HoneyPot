@@ -104,10 +104,8 @@ public class KmsDataController {
 	@ResponseBody
 	public String getNanoDust() throws Exception {
 		LocalDate today = LocalDate.now();
+		today = today.minusDays(1);
 		LocalTime currentTime = LocalTime.now();
-		if (currentTime.isAfter(LocalTime.of(0, 0, 0)) && currentTime.isBefore(LocalTime.of(5, 0, 0))) {
-			today = today.minusDays(1);
-		}
 
 		int year = today.getYear();
 		int month = today.getMonthValue();

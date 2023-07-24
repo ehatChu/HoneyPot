@@ -18,4 +18,5 @@ public class MemberVo {
 	private String modifyDate;
 	private String status;
 	private String grade;
+	private String score;
 }
