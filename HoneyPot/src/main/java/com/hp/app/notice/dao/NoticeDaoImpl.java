@@ -29,7 +29,7 @@ public class NoticeDaoImpl implements NoticeDao {
 	//게시글 작성
 	@Override
 	public int write(SqlSessionTemplate sst, NoticeVo vo) {
-		return 0;
+		return sst.insert("notice.write", vo);
 	}
 
 	//게시글 수정
