@@ -99,9 +99,7 @@
         font-family: 'Noto Sans KR';
     }
 
-    .write-submit:hover {
-        cursor: pointer;
-    }
+    .write-submit:hover { cursor: pointer; }
 
 
     /* 투표 모달 */
@@ -234,6 +232,8 @@
         margin: 10px 0px;
         padding: 10px;
         background: white;
+        width: 300px;
+        overflow-x: auto;
     }
 
     #vote-header {
@@ -253,9 +253,16 @@
         color: rgb(156, 156, 156);;
     }
 
+    /* #vote-del-btn {
+        align-self: ;
+    } */
+
     #vote-body {
         display: grid;
         grid-template-columns: 1fr;
+        overflow:auto;
+        white-space: nowrap;
+        /* text-overflow: ellipsis; */
     }
 
     /* div { border: 1px solid red; } */
@@ -277,12 +284,23 @@
             <br>
 
             <div class="form-area">
-                <form action="" method="post">
+                <form action="/app/notice/write" method="post">
 
                     <div class="title-area">
                         <div id="article">제목</div>
+
+                        <input type="checkbox" name="importantYn" value="Y"> 중요
+                        <br>
+                        <select name="noticeCno">
+                            <option value="">-선택-</option>
+                            <option value="1">일반</option>
+                            <option value="2">시설</option>
+                            <option value="3">관리</option>
+                            <option value="4">행사</option>
+                        </select>
+
                         <div>
-                            <input type="text" id="title" placeholder="제목을 입력해주세요.">
+                            <input type="text" id="title" name="title" placeholder="제목을 입력해주세요.">
                         </div>
                     </div>
 
@@ -297,17 +315,23 @@
 
                         
                         <!-- 투표 ui -->
-                        <div class="vote-area">
-                            <div id="vote-wrap">
-                                <div id="vote-header">
-                                    <div id="vote-title">투표제목</div>
-                                    <div id="vote-end-date">종료일 : 0000-00-00</div>
+                        <div id="vote-wrap">
+                            <div id="vote-header">
+                                <div id="vote-title">투표제목</div>
+                                <div id="vote-end-date">종료일 : 0000-00-00</div>
+
+                                <div id="vote-del-btn">&times;</div>
+                            </div>
+    
+                            <div id="vote-body">
+                                <div>
+                                    <label><input id="vote-target" type="radio" name="vote" value="1">&nbsp;dddddddddddddddddddddddddddddddddddddddd</label>
                                 </div>
-        
-                                <div id="vote-body">
-                                    <label><input type="radio" name="vote" value="1">1번</label>
-                                    <label><input type="radio" name="vote" value="1">1번</label>
-                                    <label><input type="radio" name="vote" value="1">1번</label>
+                                <div>
+                                    <label><input id="vote-target" type="radio" name="vote" value="1">&nbsp;dddddddddddddddddddd</label>
+                                </div>
+                                <div>
+                                    <label><input id="vote-target" type="radio" name="vote" value="1">&nbsp;ddddddddddddd</label>
                                 </div>
                             </div>
                         </div>

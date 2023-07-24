@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.notice.service.NoticeService;
 import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
@@ -62,14 +66,36 @@ public class NoticeController {
 	public String write() {
 		return "notice/write";
 	}
+	
+	// 공지사항 작성
+	@PostMapping("notice/write")
+	public String write(HttpSession session, Model model, NoticeVo vo) {
+		
+		try {
+			
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+//			if(loginAdmin == null) {
+//				return "redirct:/"
+//			}
+			
+			vo.setWriterNo(loginAdmin.getNo());
+			int result = service.write(vo);
+			if(result != 1) {
+				return "redirect:/notice/list";
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/notice/list";
+	}
 
 	// 공지사항 조회
 	@GetMapping("notice/detail")
 	public String viewDetail(Model model, String no) {
 		
 		try {
-			
-
 			
 			NoticeVo vo = service.viewDetail(no);
 			model.addAttribute("vo", vo);

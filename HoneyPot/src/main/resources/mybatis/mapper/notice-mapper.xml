@@ -94,5 +94,24 @@
 		UPDATE NOTICE SET HIT = HIT +1
 		WHERE NO = #{no} AND STATUS = 'Y'
 	</update>
+	
+ 	<insert id="write">
+		INSERT INTO NOTICE (
+			NO
+		    ,NOTICE_CNO
+		    ,WRITER_NO
+		    ,TITLE
+		    ,CONTENT
+		    <!-- ,IMPORTANT_YN -->
+		    )
+		VALUES (
+		    SEQ_NOTICE_NO.NEXTVAL
+		    ,#{noticeCno}
+		    ,#{writerNo}
+		    ,#{title}
+		    ,#{content}
+		    <!-- ,'N' -->
+		    )
+	</insert>
 
 </mapper>
