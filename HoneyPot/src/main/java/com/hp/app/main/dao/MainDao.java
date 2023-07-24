@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.calendar.vo.MemberCalendarVo;
+import com.hp.app.calendar.vo.NoticeCalendarVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
@@ -33,4 +34,8 @@ public interface MainDao {
 	List<MemberCalendarVo> getMemberCalendarList(SqlSessionTemplate sst, String no);
 
 	List<MemberVo> getMemberPointList(SqlSessionTemplate sst);
+
+	List<MemberVo> getDongPointList(SqlSessionTemplate sst);
+
+	List<NoticeCalendarVo> getNoticeCalendarList(SqlSessionTemplate sst);
 }

@@ -438,7 +438,7 @@
 						</div>
 					</div>
 					<div id="box1" class="box scheduleBox">
-						<div id="tit2">7월 일정</div>
+						<div id="tit2" class="scheTit"></div>
 
 						<c:forEach items="${memberCalendarList}" var="vo">
 							<div id="scsc${vo.no}">
@@ -461,6 +461,7 @@
 							</div>
 
 							<script>
+								var scheTit = document.querySelector('.scheTit');
 								var currentDate = new Date();
 								var currentYear = currentDate.getFullYear();
 								var currentMonth = currentDate.getMonth() + 1;
@@ -468,6 +469,8 @@
 								var startDate = new Date(startDateStr);
 								var startYear = startDate.getFullYear();
 								var startMonth = startDate.getMonth() + 1;
+
+								scheTit.innerHTML = currentMonth + "월 일정";
 
 								if (currentYear != startYear || currentMonth != startMonth) {
 									var scsc = document.getElementById("scsc${vo.no}");
@@ -567,11 +570,11 @@
 							<div class="dong">
 								<div class="dong1">
 									<img id="bee1" class="bee" src="/app/resources/main/image_12.png">
-									<div id="dongTxt">103동</div>
+									<div id="dongTxt">${dongPointList[0].dongNum}동</div>
 								</div>
 								<div class="dong1">
 									<img id="bee2" class="bee" src="/app/resources/main/image_13.png">
-									<div id="dongTxt">102동</div>
+									<div id="dongTxt">103동</div>
 								</div>
 								<div class="dong1">
 									<img id="bee3" class="bee" src="/app/resources/main/image_14.png">

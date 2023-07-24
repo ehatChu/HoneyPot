@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.calendar.vo.MemberCalendarVo;
+import com.hp.app.calendar.vo.NoticeCalendarVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
@@ -32,4 +33,8 @@ public interface MainService {
 	List<MemberCalendarVo> getMemberCalendarList(String no);
 
 	List<MemberVo> getMemberPointList();
+
+	List<MemberVo> getDongPointList();
+
+	List<NoticeCalendarVo> getNoticeCalendarList();
 }

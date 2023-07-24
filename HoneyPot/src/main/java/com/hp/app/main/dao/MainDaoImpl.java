@@ -2,7 +2,6 @@ package com.hp.app.main.dao;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.calendar.vo.MemberCalendarVo;
+import com.hp.app.calendar.vo.NoticeCalendarVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
@@ -73,7 +73,17 @@ public class MainDaoImpl implements MainDao{
 
 	@Override
 	public List<MemberVo> getMemberPointList(SqlSessionTemplate sst) {
-		return sst.selectList("main.getMemberPoint");
+		return sst.selectList("main.getMemberPointList");
+	}
+
+	@Override
+	public List<MemberVo> getDongPointList(SqlSessionTemplate sst) {
+		return sst.selectList("main.getDongPointList");
+	}
+
+	@Override
+	public List<NoticeCalendarVo> getNoticeCalendarList(SqlSessionTemplate sst) {
+		return sst.selectList("main.getNoticeCalendarList");
 	}
 
 }
