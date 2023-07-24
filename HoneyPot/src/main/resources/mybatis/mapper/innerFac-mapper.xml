@@ -3,5 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="innerFac">
+	<!-- 모든시설의 모든 정보 조회 -->
+	<select id="getAllInnerFacInfo" resultType="com.hp.app.innerFac.vo.InnerFacVo">
+		SELECT
+			NO
+			,NAME
+			,CONTENT
+			,MAX_NUM
+			,OPEN_TIME
+			,CLOSE_TIME
+			,STATUS
+			,LOCATION
+		FROM AMENITY 
+	</select>
 	
+	<select id="getOpenCloseTime" resultType="com.hp.app.innerFac.vo.InnerFacVo">
+		SELECT OPEN_TIME, CLOSE_TIME
+		FROM AMENITY WHERE NO=#{no}
+	</select>
 </mapper>
