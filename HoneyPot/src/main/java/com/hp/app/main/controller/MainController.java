@@ -30,25 +30,21 @@ public class MainController {
 
 	@GetMapping("mmain")
 	public String mmain(HttpSession session, Model model) {
-		try {
-			loginMember = (MemberVo) session.getAttribute("loginMember");
-			if (loginMember == null) {
-				session.setAttribute("alertMsg", "로그인이 필요한 서비스입니다");
-				return "redirect:/member/mlogin";
-			}
-			captain = ms.getCaptain(loginMember.getDongNum() + "동대표");
-			session.setAttribute("captain", captain);
-
-			List<MemberCalendarVo> memberCalendarList = ms.getMemberCalendarList(loginMember.getNo());
-			List<MemberVo> memberPointList = ms.getMemberPointList();
-			
-			System.out.println(memberPointList);
-			
-			model.addAttribute("memberPointList", memberPointList);
-			model.addAttribute("memberCalendarList", memberCalendarList);
-		} catch (Exception e) {
-			e.printStackTrace();
+		loginMember = (MemberVo) session.getAttribute("loginMember");
+		if (loginMember == null) {
+			session.setAttribute("alertMsg", "로그인이 필요한 서비스입니다");
+			return "redirect:/member/mlogin";
 		}
+		captain = ms.getCaptain(loginMember.getDongNum() + "동대표");
+		session.setAttribute("captain", captain);
+
+		List<MemberCalendarVo> memberCalendarList = ms.getMemberCalendarList(loginMember.getNo());
+		List<MemberVo> memberPointList = ms.getMemberPointList();
+
+		System.out.println(memberPointList);
+
+		model.addAttribute("memberPointList", memberPointList);
+		model.addAttribute("memberCalendarList", memberCalendarList);
 
 		return "main/mmain";
 	}
