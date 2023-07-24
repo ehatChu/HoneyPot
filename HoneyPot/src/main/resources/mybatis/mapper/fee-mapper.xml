@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fee">
+	
+	<select id="selectMemberFeeList" resultType="com.hp.app.fee.vo.MemberFeeVo">
+		SELECT 
+			MFC.NAME AS CATEGORY_NAME
+			,MF.PRICE AS PRICE
+			,TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM-DD') AS PAYMENT_DATE
+		FROM MEMBER_FEE MF
+		JOIN MEMBER_FEE_CATEGORY MFC
+			ON MF.FEE_CNO = MFC.NO
+		WHERE MF.MEMBER_NO = #{mno}
+	</select>
+	
+	<select id="memeberTotalPrice" resultType="int">
+		SELECT 
+			SUM(MF.PRICE) AS TOTAL_PRICE
+		FROM MEMBER_FEE MF
+		JOIN MEMBER_FEE_CATEGORY MFC
+			ON MF.FEE_CNO = MFC.NO
+		WHERE MF.MEMBER_NO = #{mno}
+	</select>
+	
+
+</mapper>
