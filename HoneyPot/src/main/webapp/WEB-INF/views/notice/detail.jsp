@@ -10,7 +10,7 @@
 	/* 배경 구역 */
 	.board-detail-area {
 		padding: 25px;
-		text-align: center;
+		/* text-align: center; */
 	}
 
 	.bg {
@@ -23,7 +23,6 @@
 	table {
 		border-collapse: collapse;
 		width: 1450px;
-		margin-top: 5px;
 		font-size: 20px;
 	}
 
@@ -44,13 +43,17 @@
 
 
 	/* 본문 */
-	#detail-content {
+	/* #detail-content {
 		width: 100%;
 		resize: none;
 		padding: 50px;
 		border: none;
 		outline: none;
 		overflow-y: hidden;
+	} */
+	#detail-content {
+		margin: 100px;
+		padding-bottom: 100px;
 	}
 
 
@@ -108,9 +111,11 @@
 				
 				<!-- 본문 -->
 				<div class="detail-content-area">
-					<textarea name="" id="detail-content" readonly>
-${vo.content}
-					</textarea>
+					<!-- <textarea name="" id="detail-content" readonly> -->
+					<div id="detail-content">
+						${vo.content}
+					</div>
+					<!-- </textarea> -->
 				</div>
 
 			</div>

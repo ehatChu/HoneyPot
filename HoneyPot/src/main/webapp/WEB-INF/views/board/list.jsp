@@ -110,16 +110,24 @@
 		align-items: center;
 	}
 
-	#important-list td, #board-list td {
+	#board-list td {
 		padding: 12px 50px;
 		margin-bottom: 20px;
 		border-bottom: 3px solid #FAD355;
+		text-align: left;
 	}
 
-	#important-list td, #board-list td[id=title] { text-align: left; }
-	#important-list td:not(:first-of-type), #board-list td:not(:first-of-type) { text-align: right; }
+	#board-list td[id=title] {
+		width: 575px;
+		max-width: 575px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 
-	#important-list tr:hover, #board-list tr:hover {
+	#board-list td:not(:first-of-type) { padding-right: 20px; }
+
+	#board-list tr:hover {
 		background-color: #fdeaab;
 		transition: 0.3s;
 		cursor: pointer;
