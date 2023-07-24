@@ -1,10 +1,12 @@
 package com.hp.app.main.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.admin.vo.AdminVo;
+import com.hp.app.calendar.vo.MemberCalendarVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
@@ -27,4 +29,8 @@ public interface MainDao {
 	int getPopularCnt(SqlSessionTemplate sst);
 
 	List<NoticeVo> getPopularList(SqlSessionTemplate sst, PageVo pv);
+
+	List<MemberCalendarVo> getMemberCalendarList(SqlSessionTemplate sst, String no);
+
+	List<MemberVo> getMemberPointList(SqlSessionTemplate sst);
 }
