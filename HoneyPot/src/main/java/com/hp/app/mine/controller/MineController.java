@@ -91,7 +91,7 @@ public class MineController {
 		int listCount = service.getAllCnt(); 		
 		int currentPage = p;
 		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
-		int boardLimit =7; //한페이지에 list는 7개만 들어가게
+		int boardLimit =9; //한페이지에 list는 7개만 들어가게
 		
 		PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
 				
@@ -99,6 +99,7 @@ public class MineController {
 		//리스트를 가져올때 페이지vo를 넘기면서 가져오기		
 		//전체조회시 pv만 들어가게 조회
 		List<MineVo> mvoList = service.getAllList(pv);
+		model.addAttribute("pv",pv);
 		model.addAttribute("mineVoList",mvoList);
 		
 		return "admin/member/property-list";

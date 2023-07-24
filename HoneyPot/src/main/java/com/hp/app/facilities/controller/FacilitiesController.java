@@ -25,7 +25,7 @@ public class FacilitiesController {
 	//관리자 편의시설 정보변경
 	@GetMapping("admin/library/editInfo")
 	public String editInfo() {
-		return "facilities/library-editInfo";
+		return "admin/facilities/library-editInfo";
 	}
 	
 	//관리자 편의시설 관리
