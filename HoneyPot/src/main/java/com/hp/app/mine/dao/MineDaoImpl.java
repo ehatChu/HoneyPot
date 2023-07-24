@@ -23,9 +23,9 @@ public class MineDaoImpl implements MineDao {
 
 
 	@Override
-	public List<MineVo> getAllList(SqlSessionTemplate sst, PageVo pvo) {
-		RowBounds rb = new RowBounds(pvo.getOffset(),pvo.getBoardLimit());
-		return sst.selectList("mine.getAllListAdmin",rb);
+	public List<MineVo> getAllList(SqlSessionTemplate sst, PageVo pv) {
+		RowBounds rb = new RowBounds(pv.getOffset(),pv.getBoardLimit());
+		return sst.selectList("mine.getAllListAdmin",null,rb);
 	}
 	
 	/*페이징 처리를 안한, pvo를 안받는, 개인조회를 위해 이름만 같은 오버로딩을 사용 pvo를 없애줌*/

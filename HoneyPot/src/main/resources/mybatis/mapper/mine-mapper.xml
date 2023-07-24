@@ -42,9 +42,9 @@
 		    ,CB.UNIQUE_NUM
 		    ,CB.IMG
 		    ,CB.NAME
-		    ,M.NAME
-		    ,M.PHONE 
-		    ,A.NAME 
+		    ,M.NAME AS MEMBER_NAME
+		    ,M.PHONE AS PHONE
+		    ,A.NAME AS ADMIN_NAME
 		FROM 
 		(
 		    SELECT * FROM CAR C

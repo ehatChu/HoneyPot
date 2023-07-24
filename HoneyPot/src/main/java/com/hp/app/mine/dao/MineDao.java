@@ -11,7 +11,7 @@ import com.hp.app.page.vo.PageVo;
 public interface MineDao {
 	int registerCar(SqlSessionTemplate sst,MineVo mvo);
 	int registerBicycle(SqlSessionTemplate sst,MineVo mvo);
-	List<MineVo> getAllList(SqlSessionTemplate sst,PageVo pvo);
+	List<MineVo> getAllList(SqlSessionTemplate sst,PageVo pv);
 	List<MineVo> getAllList(SqlSessionTemplate sst, MemberVo loginMember);
 	int getAllCnt(SqlSessionTemplate sst);
 }

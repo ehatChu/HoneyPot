@@ -34,12 +34,19 @@ public class MineServiceImpl implements MineService{
 			throw new RuntimeException();
 		}
 	}
-
-	@Override
-	public List<MineVo> getAllList(PageVo pvo) {
-		return dao.getAllList(sst, pvo);
-	}
 	
+	//관리자 사유물조회
+	@Override
+	public List<MineVo> getAllList(PageVo pv) {
+		List<MineVo>mvoList = new ArrayList<MineVo>();
+		try {
+			mvoList = dao.getAllList(sst, pv);			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mvoList;
+	}
+	//개인사유물조회
 	@Override
 	public List<MineVo> getAllList(MemberVo loginMember) {
 		return dao.getAllList(sst, loginMember);
