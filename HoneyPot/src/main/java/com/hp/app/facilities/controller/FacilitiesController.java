@@ -1,15 +1,28 @@
 package com.hp.app.facilities.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hp.app.innerFac.service.InnerFacService;
+import com.hp.app.innerFac.vo.InnerFacVo;
+
+import lombok.RequiredArgsConstructor;
+
 @Controller 
 @RequestMapping("facilities")
+@RequiredArgsConstructor
 public class FacilitiesController {
-	
+	private final InnerFacService service;
+	//예약 화면 보여주기
 	@GetMapping("library/reserve")
-	public String reserve() {
+	public String reserve(int no,Model model) {
+		
+		//편의시설마다 시간이 다르므로 조회해와야함.
+		InnerFacVo fvo = service.getOpenCloseTime(no);
+		model.addAttribute("innerFacVo",fvo);
+		
 		return "innerFacilities/makeLibraryReservation";
 	}
 	
