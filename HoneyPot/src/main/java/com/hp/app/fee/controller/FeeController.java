@@ -36,7 +36,7 @@ public class FeeController {
         // 포맷 정의
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM");
         Calendar cal = Calendar.getInstance();
-        System.out.println(cal.add(Calendar.MONTH, -1));
+        //System.out.println(cal.add(Calendar.MONTH, -1));
         
         // 포맷 적용
         String thisMonth = now.format(formatter);

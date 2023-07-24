@@ -56,37 +56,43 @@
 					<div id="search-area">
 						<span>상세내역</span>
 						<form action="/app/account/list" method="GET">
-							<div>
+							<div class="searchDiv">
+								<select name="searchType" id="searchType">
+									<option value="content">내용</option>
+									<option value="accountCno">카테고리</option>
+									<option value="accountDate">월 별</option>
+								</select>
 								<input type="search" placeholder="검색 할 내용을 입력하세요." name="searchValue" value="${searchVo.searchValue}">
+								<select id="search_category" name="accountCno" style="display: none;">
+										<option value="2">생활/마트</option>
+										<option value="3">의료/건강</option>
+										<option value="4">문화/예술</option>
+										<option value="5">경조사/회비</option>
+										<option value="1">금융/보험</option>
+										<option value="6">교통/차량</option>
+										<option value="7">뷰티/미용</option>
+										<option value="8">기타지출</option>
+									</select>
+								<select name="accountDate" id="" style="display: none;"> 
+									<option value="">2023-06</option>
+									<option value="">2023-05</option>
+									<option value="">2023-04</option>
+									<option value="">2023-03</option>
+									<option value="">2023-02</option>
+								</select>
 								<button type="submit"><i class="fa-solid fa-magnifying-glass fa-2x" ></i></button>
 							</div>
 						</form>
 						</div>
 					<div id="table-area">
 						<div class="cal-area">
-							<div class="left"><i class="fa-solid fa-chevron-left"></i></div>
 							<span id="currentMonth"></span>
-							<div class="right"><i class="fa-solid fa-chevron-right"></i></div>
 						</div>
 						<div class="table-body-area">
 							<table class="A_detail">
 								<thead>
 									<tr id="line">
-										<th>
-											<div id="select-wrap">
-												<select id="Search_acnt_category" name="accountCno" onchange="searchByCategory()">
-												<option value="">카테고리</option>
-													<option value="2">생활/마트</option>
-													<option value="3">의료/건강</option>
-													<option value="4">문화/예술</option>
-													<option value="5">경조사/회비</option>
-													<option value="1">금융/보험</option>
-													<option value="6">교통/차량</option>
-													<option value="7">뷰티/미용</option>
-													<option value="8">기타</option>
-												</select>
-											</div>
-										</th>
+										<th>카테고리</th>
 										<th>일자</th>
 										<th>내용</th>
 										<th>금액</th>
@@ -157,7 +163,7 @@
 														<option value="1">금융/보험</option>
 														<option value="6">교통/차량</option>
 														<option value="7">뷰티/미용</option>
-														<option value="8">기타</option>
+														<option value="8">기타지출</option>
 													  </select>
 												</div>
 											</div>
@@ -189,6 +195,7 @@
 						</div>
 						<div class="content-modal">
 							<div class="first-area">
+								<input hidden type="text" name="no" id="no">
 								<div>
 									<span>일자</span>
 									<br>
@@ -205,19 +212,19 @@
 										<option value="1">금융/보험</option>
 										<option value="6">교통/차량</option>
 										<option value="7">뷰티/미용</option>
-										<option value="8">기타</option>
+										<option value="8">기타지출</option>
 									</select>
 								</div>
 							</div>
 							<div class="second-area">
 								<span>금액</span>
 								<br>
-								<input type="text" id="price" name="price" dir="rtl" maxlength="10"> 원
+								<input type="text" id="price" name="price" maxlength="10"> 원
 							</div>
 							<div class="third-area">
 								<span>내용</span>
 								<br>
-								<textarea id="detailContent" name="content" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기"></textarea>
+								<textarea id="E_detailContent" name="content" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기"></textarea>
 							</div>
 							<div id="submitBtn"><button id="E_submitBtn">수정</button></div>
 						</div>
@@ -414,11 +421,31 @@
 				});
 				});
 
-	/////// 카테고리 검색
-	function searchByCategory() {
-      var selectedCategory = document.getElementById("Search_acnt_category").value;
-      
+	/////// 검색 카테고리 선택 시 input 영역 변경
+	$(document).ready(function() {
+    function inputVisibility() {
+      var selectedOption = $("#searchType").val();
+      if (selectedOption === "content") {
+        $("#search_category").hide();
+        $("select[name='accountDate']").hide();
+        $("input[name='searchValue']").show();
+      } else if (selectedOption === "accountCno") {
+        $("input[name='searchValue']").hide();
+        $("select[name='accountDate']").hide();
+        $("#search_category").show();
+      } else if (selectedOption === "accountDate") {
+        $("input[name='searchValue']").hide();
+        $("#search_category").hide();
+        $("select[name='accountDate']").show();
+      }
     }
+
+    inputVisibility();
+
+    $("#searchType").on("change", function() {
+		inputVisibility();
+    });
+  });
 
 
 	////// 등록 모달
@@ -442,7 +469,67 @@
 	closeBtn.addEventListener("click", closeModal);
 
 	///////// 수정 모달
-	
+	$(document).ready(function() {
+    $(".editBtn").on("click", function() {
+	  var no = $(this).closest("tr").find("td:nth-child(1)").text().trim();
+      var categoryName = $(this).closest("tr").find("td:nth-child(3)").text().trim();
+      var accountDate = $(this).closest("tr").find("td:nth-child(4)").text().trim();
+      var content = $(this).closest("tr").find("td:nth-child(5)").text().trim();
+      var price = $(this).closest("tr").find("td:nth-child(6)").text().trim();
+	  // 가격 원 붙은 거 떼기
+      var numericPrice = parseInt(price.replace(/\D/g, ""));
+
+      $("#accountDate").val(accountDate);
+      $("#E_detailContent").text(content);
+      $("#price").val(numericPrice || 0);
+	  $("#no").val(no);
+	  // 카테고리 선택된 값 가져오기
+	  $("#accountCno option").filter(function() {
+        return $(this).text() === categoryName;
+      }).prop('selected', true);
+
+      $(".edit-modal").removeClass("hidden");
+    });
+
+    $(".EcloseBtn").on("click", function() {
+      $(".edit-modal").addClass("hidden");
+    });
+
+    $("#E_submitBtn").on("click", function() {
+
+	  var updatedCategoryName = $("#accountCno").val();
+      var updatedAccountDate = $("#accountDate").val();
+      var updatedContent = $("#E_detailContent").val();
+	  console.log(updatedContent);
+      var updatedPrice = $("#price").val();
+	  var no = $("#no").val();
+
+	  var data = new FormData();
+      data.append("accountCno", updatedCategoryName);
+      data.append("accountDate", updatedAccountDate);
+      data.append("content", updatedContent);
+      data.append("price", updatedPrice);
+	  data.append("no", no);
+
+      $.ajax({
+        type: "POST",
+        url: "/app/account/edit",
+        data: data,
+		contentType: false, 
+        processData: false,
+        success: function(response) {
+			console.log(response);
+			if(response == 'success'){
+				window.location.href = "/app/account/list?p=1";
+			}
+        },
+        error: function(error) {
+        }
+      });
+
+      $(".edit-modal").addClass("hidden");
+    });
+  });
 
 	//////// 글 번호 전달하면서 상세 조회
 	$(document).ready(function() {
@@ -505,53 +592,7 @@
     // currentMonth 영역에 현재 날짜의 년도와 월을 표시
     $("#currentMonth").text(currentYear + "년 " + currentMonth + "월");
 
-    // left 버튼 클릭 시 이전 달로 이동
-    $(".left").on("click", function() {
-        today.setMonth(today.getMonth() - 1); 
-        let prevYear = today.getFullYear().toString();
-        let prevMonth = (today.getMonth() + 1).toString();
-        $("#currentMonth").text(prevYear + "년 " + prevMonth + "월");
-
-        // 이전 달
-        //getSearchResults(prevYear, prevMonth);
-    });
-
-    // right 버튼 클릭 시 다음 달로 이동
-    $(".right").on("click", function() {
-        today.setMonth(today.getMonth() + 1);
-        let nextYear = today.getFullYear().toString();
-        let nextMonth = (today.getMonth() + 1).toString();
-        $("#currentMonth").text(nextYear + "년 " + nextMonth + "월");
-
-        // 다음 달
-        //getSearchResults(nextYear, nextMonth);
-    });
-
-    // 초기 페이지에 현재 달의 검색 결과를 가져옴
-    //getSearchResults(currentYear, currentMonth);
-});
-
-// // 서버에서 데이터를 받아와서 검색 결과 표시
-// function getSearchResults(year, month) {
-//     const yearMonth = year + "-" + month;
-
-//     $.ajax({
-//         type: "GET",
-//         url: "/app/account/list",
-//         data: { yearMonth: yearMonth },
-//         dataType: "json",
-//         success: function(response) {
-//             console.log(response);
-//         },
-//         error: function(error) {
-//             console.error("Error occurred:", error);
-//         }
-//     });
-// }
-
-
-
-  	// 
+	});
 
 	// 삭제 알림창
 	$().ready(function () {
