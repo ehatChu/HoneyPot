@@ -92,37 +92,37 @@ INSERT INTO NOTICE_CALENDAR (NO,WRTIER_NO,NAME,START_DATE,END_DATE) VALUES (SEQ_
 
 -- 편의시설
 -- 도서관
-INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,IMG) VALUES (SEQ_AMENITY_NO.NEXTVAL, '도서관', '안녕하세요 꿀단지 도서관입니다. 
+INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,OPEN_TIME,CLOSE_TIME) VALUES (SEQ_AMENITY_NO.NEXTVAL, '도서관', '안녕하세요 꿀단지 도서관입니다. 
 저희 도서관은 남녀노소 모두에게 열려있는 도서관입니다. 
 
 수용가능 인원은 50명입니다. 
 도서관 관리인 연락처 : 02-4321-9320
 *취소는 반드시 하루 전 날에 가능합니다. 
-이용하시는데 착오 없으시길 바랍니다.', '50', '1단지 앞 커뮤니티 건물 1층', '');
+이용하시는데 착오 없으시길 바랍니다.', '50', '1단지 앞 커뮤니티 건물 1층','07:00','23:00');
 
 -- 수영장
-INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,IMG) VALUES (SEQ_AMENITY_NO.NEXTVAL, '수영장', '안녕하세요 꿀단지 수영장입니다. 
+INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,OPEN_TIME,CLOSE_TIME) VALUES (SEQ_AMENITY_NO.NEXTVAL, '수영장', '안녕하세요 꿀단지 수영장입니다. 
 
 수용가능 인원은 80명입니다. 
 수영장 관리인 연락처 : 02-4321-9321
 *취소는 반드시 하루 전 날에 가능합니다. 
-이용하시는데 착오 없으시길 바랍니다.', '80', '1단지 앞 커뮤니티 건물 지하1층', '수영장대표.jpg');
+이용하시는데 착오 없으시길 바랍니다.', '80', '1단지 앞 커뮤니티 건물 지하1층','08:00','22:00');
 
 -- 헬스장
-INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,IMG) VALUES (SEQ_AMENITY_NO.NEXTVAL, '헬스장', '안녕하세요 꿀단지 헬스장입니다. 
+INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,OPEN_TIME, CLOSE_TIME) VALUES (SEQ_AMENITY_NO.NEXTVAL, '헬스장', '안녕하세요 꿀단지 헬스장입니다. 
 
 수용가능 인원은 50명입니다. 
 헬스장 관리인 연락처 : 02-4321-9322
 *취소는 반드시 하루 전 날에 가능합니다. 
-이용하시는데 착오 없으시길 바랍니다.', '50', '1단지 앞 커뮤니티 건물 1층', '헬스장대표.jpg');
+이용하시는데 착오 없으시길 바랍니다.', '50', '1단지 앞 커뮤니티 건물 1층','10:00','23:00');
 
 -- 골프장
-INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,IMG) VALUES (SEQ_AMENITY_NO.NEXTVAL, '골프장', '안녕하세요 꿀단지 골프장입니다. 
+INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,OPEN_TIME,CLOSE_TIME) VALUES (SEQ_AMENITY_NO.NEXTVAL, '골프장', '안녕하세요 꿀단지 골프장입니다. 
 
 수용가능 인원은 20명입니다. 
 골프장 관리인 연락처 : 02-4321-9323
 *취소는 반드시 하루 전 날에 가능합니다. 
-이용하시는데 착오 없으시길 바랍니다.', '20', '1단지 앞 커뮤니티 건물 1층', '골프장대표.jpg');
+이용하시는데 착오 없으시길 바랍니다.', '20', '1단지 앞 커뮤니티 건물 1층', '12:00','20:00');
 
 
 -- 편의시설 이미지
