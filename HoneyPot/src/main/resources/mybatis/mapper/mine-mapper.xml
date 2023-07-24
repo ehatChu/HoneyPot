@@ -32,7 +32,7 @@
 	
 	</select>
 	
-	<select id="getAllListAdmin" resultType="com.hp.app.mine.vo.MineVo">
+	<select id="getAllListAdmin" resultType="com.hp.app.mine.vo.MineVo" >
 		SELECT 
 		    CB.NO
 		    ,CB.ADMIN_NO
