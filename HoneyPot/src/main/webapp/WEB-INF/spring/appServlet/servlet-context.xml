@@ -35,15 +35,15 @@
 		<beans:property name="maxUploadSizePerFile" value="5000000"/>
 	</beans:bean>
 	
-	<!-- 인터셉터 mapping -->
+	<!-- 인터셉터 mapping
 	<interceptors>
 		<interceptor>
 			<mapping path="/**"/>
-			<!-- 제외할 url -->
+			제외할 url
 			<exclude-mapping path=""/>
 			<beans:bean class="com.hp.app.interceptor.HpInterceptor"></beans:bean>
 		</interceptor>
-	</interceptors>
+	</interceptors> -->
 	
 	<!-- 암호화 -->
 	<beans:bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">

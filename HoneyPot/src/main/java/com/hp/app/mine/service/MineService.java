@@ -11,7 +11,7 @@ import com.hp.app.page.vo.PageVo;
 public interface MineService {
 	int register(MineVo mvo,int mineCno);
 	List<MineVo> getAllList(MemberVo loginMember);
-	List<MineVo> getAllList(PageVo vo);
+	List<MineVo> getAllList(PageVo pv);
 	
 	int getAllCnt();
 }
