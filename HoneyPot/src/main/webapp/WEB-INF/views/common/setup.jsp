@@ -41,10 +41,10 @@
 				padding: 0px;
 				margin: 0px;
 				box-sizing: border-box;
+				font-family: 'Noto Sans KR';
 			}
 
 			body {
-				font-family: 'Noto Sans KR';
 				color: #2e2e2e;
 				overflow: hidden;
 				font-weight: 400;
