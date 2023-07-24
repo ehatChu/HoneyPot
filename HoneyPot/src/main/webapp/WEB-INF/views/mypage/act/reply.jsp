@@ -55,7 +55,15 @@
 		border-bottom: 3px solid #FAD355;
 	}
 
-	#board-list td[id=content] { text-align: left; }
+	#board-list td[id=content] {
+		width: 725px;
+		max-width: 725px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: left;
+	}
+
 	#board-list td[id=date] { text-align: right; }
 
 	#board-list tr:hover {

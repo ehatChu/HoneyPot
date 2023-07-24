@@ -114,18 +114,24 @@
 		padding: 12px 50px;
 		margin-bottom: 20px;
 		border-bottom: 3px solid #FAD355;
+		text-align: left;
 	}
 
-	#important-list td, #board-list td[id=title] { text-align: left; }
-	#important-list td:not(:first-of-type), #board-list td:not(:first-of-type) { text-align: right; }
+	#important-list td, #board-list td[id=title] {
+		width: 700px;
+		max-width: 700px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	#important-list td:not(:first-of-type), #board-list td:not(:first-of-type) { padding-right: 20px; }
 
 	#important-list tr:hover, #board-list tr:hover {
 		background-color: #fdeaab;
 		transition: 0.3s;
 		cursor: pointer;
 	}
-
-	.fa-heart { color: red; }
 
 	/* 글쓰기 버튼 */
 	.btn-area {

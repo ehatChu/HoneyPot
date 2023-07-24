@@ -10,7 +10,7 @@
 	/* 배경 구역 */
 	.board-detail-area {
 		padding: 25px;
-		text-align: center;
+		/* text-align: center; */
 	}
 
 	.bg {
@@ -23,7 +23,6 @@
 	table {
 		border-collapse: collapse;
 		width: 1450px;
-		margin-top: 5px;
 		font-size: 20px;
 	}
 
@@ -44,18 +43,25 @@
 
 
 	/* 본문 */
-	#detail-content {
+	/* #detail-content {
 		width: 100%;
 		resize: none;
 		padding: 50px;
 		border: none;
 		outline: none;
 		overflow-y: hidden;
+	} */
+	#detail-content {
+		margin: 100px;
+		padding-bottom: 100px;
 	}
 
 
 	/* 좋아요 버튼 */
-	.like-btn-area { padding: 10px 40px 40px; }
+	.like-btn-area {
+		padding: 10px 40px 40px;
+		text-align: center;
+	}
 
 	#like-btn {
 		width: 90px;
@@ -197,7 +203,18 @@
 				
 				<!-- 본문 -->
 				<div class="detail-content-area">
-					<textarea name="" id="detail-content" readonly>
+					<div id="detail-content">
+						${vo.content}
+						이마가 훤히 보이게 뒤로 묶은 머리카락
+						걸을 때마다 찰랑찰랑
+						매끈한 다리를 감싼 바지 끝단 아래로 가벼운 운동화
+						모든 게 심플하지만 아름다움이 풍겨와
+						또 어딜 가든 예의 바른 행동과
+						미소와 말툰 내 거친 생각마저 상냥하게
+						만들어 넌 마치
+						내 심장 위에 타투
+					</div>
+					<!-- <textarea name="" id="detail-content" readonly>
 						이마가 훤히 보이게 뒤로 묶은 머리카락
 						걸을 때마다 찰랑찰랑
 						매끈한 다리를 감싼 바지 끝단 아래로 가벼운 운동화
@@ -218,33 +235,7 @@
 						어설픈 외모가 왠지 더 끌려 난
 						우물쭈물 하다가 너를 놓칠까 봐
 						난 미칠 것 만 같아
-						진흙탕을 달리는 마차처럼 막 살아
-						왠지 거칠어 보이지만 막상
-						뜯어보면 상처 많은 남자
-						공장 굴뚝의 연기처럼
-						흘러가는 대로 살아왔지 혼자
-						땀내나게 일해 쌀과 돈은 넘쳐났지만
-						함께 나누고픈 사랑을 못 찾았지 난
-						하지만 넌 좀 달라
-						마치 LP처럼 사람 손을 그리워할 줄 아는 여자
-						힘든 하루하루 나는 너를 알고 난 후
-						모든 것들이 다시 제자리로 돌아가
-						힘든 하루하루 나는 너를 알고 난 후
-						모든 것이 다 숨을 쉬며 살아가
-						사람냄새가 나서 니가 너무 좋아져
-						어설픈 외모가 왠지 더 끌려 난
-						우물쭈물 하다가 너를 놓칠까 봐
-						난 미칠 것 만 같아
-						하늘이 하늘답게 보여지듯이
-						바람이 바람답게 느껴지듯이
-						있는 그대로의 니 모습
-						꾸며지지 않은 니 모습
-						그 아름다움에 빠져들어
-						사람냄새가 나서 니가 너무 좋아져
-						어설픈 외모가 왠지 더 끌려 난
-						우물쭈물 하다가 너를 놓칠까 봐
-						난 미칠 것 만 같아
-					</textarea>
+					</textarea> -->
 				</div>
 
 				<!-- 좋아요 버튼 -->

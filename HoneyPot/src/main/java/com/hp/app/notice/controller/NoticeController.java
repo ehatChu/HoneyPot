@@ -78,7 +78,8 @@ public class NoticeController {
 //				return "redirct:/"
 //			}
 			
-			vo.setWriterNo(loginAdmin.getNo());
+//			vo.setWriterNo(loginAdmin.getNo());
+			vo.setWriterNo("2"); // 임시 작성자번호
 			int result = service.write(vo);
 			if(result != 1) {
 				return "redirect:/notice/list";

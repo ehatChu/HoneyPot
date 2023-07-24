@@ -53,9 +53,18 @@
 		padding: 12px 50px;
 		margin-bottom: 20px;
 		border-bottom: 3px solid #FAD355;
+		text-align: left;
 	}
 
-	#board-list td[id=title] { text-align: left; }
+	#board-list td[id=title] {
+		width: 700px;
+		max-width: 700px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	#board-list td:not(:first-of-type) { padding-right: 20px; }
 
 	#board-list tr:hover {
 		background-color: #fdeaab;
