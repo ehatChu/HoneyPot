@@ -42,17 +42,17 @@ public class AccountController {
 	@GetMapping("account/list")
 	public String list(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam(name = "searchValue", required = false) String searchValue) {
 		
-		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
-		String mno = loginMember.getNo();
+		/*
+		 * MemberVo loginMember = (MemberVo)session.getAttribute("loginMember"); String
+		 * mno = loginMember.getNo();
+		 */
+		String mno = "5";
 		Map<String , String> searchVo = new HashMap<String, String>();
 		searchVo.put("searchValue", searchValue);
 		searchVo.put("no", mno);
 		//searchVo.put("yearMonth", yearMonth);
-		log.info(searchVo.toString());
-		log.info("Search Value: {}", searchValue);
 		
 		int listCount = service.listCnt(mno, searchVo);
-		log.info("listCount: {}", listCount);
 		int CurrentPage = p;
 		int pageLimit = 5;
 		int boardLimit = 10;
@@ -65,7 +65,6 @@ public class AccountController {
 			model.addAttribute("pv", pv);
 		}
 		model.addAttribute("avoList", avoList);
-		log.info(avoList.toString());
 		model.addAttribute("searchVo", searchVo);
 		
 		return "mypage/myInfo/accountBook";
@@ -75,9 +74,10 @@ public class AccountController {
 	//가계부 등록
 	@PostMapping("account/add")
 	public String addAccount(AccountVo vo, HttpSession session) {
-		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
-		String writerNo = loginMember.getNo();
-		vo.setWriterNo(writerNo);
+		//MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		//String writerNo = loginMember.getNo();
+		String mno = "5";
+		vo.setWriterNo(mno);
 		int result = service.add(vo);
 		
 		if(result != 1) {
@@ -87,12 +87,12 @@ public class AccountController {
 	}
 	
 	// 가계부 수정
-	@PostMapping(path="account/edit", consumes="application/json")
+	@PostMapping(path="account/edit")
 	@ResponseBody
 	public String edit(AccountVo vo) {
-		System.out.println(vo);
+		log.info(vo.toString());
 		int result = service.edit(vo);
-		System.out.println(result);
+		log.info("result : {}", result);
 		if(result != 1) {
 			throw new RuntimeException();
 		}
@@ -108,7 +108,6 @@ public class AccountController {
 		ObjectMapper mapper = new ObjectMapper();
 		String voJson = mapper.writeValueAsString(vo);
 		
-		log.info(voJson);
 		return voJson;
 	}
 
@@ -127,8 +126,6 @@ public class AccountController {
 	        event.put("start", cvo.getAccountDate());
 	        events.add(event);
 	    }
-
-	    log.info("events: {}", events);
 	    return events;
 	}
 	
@@ -143,7 +140,6 @@ public class AccountController {
 		if(result != 1) {
 			throw new RuntimeException();
 		}
-		log.info("result : {}", result);
 		return "redirect:/account/list?p=1";
 	}
 	
