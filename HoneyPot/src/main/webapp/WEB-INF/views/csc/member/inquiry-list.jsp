@@ -54,7 +54,7 @@
                 </div>
                 <div class="qna-model-body-area">
                     <div class="qna-model-body-first">
-                        <div class="qna-model-title-text">qna 질문</div>
+                        <div class="qna-model-title-text">QNA 질문</div>
                         <div class="qna-model-question-title" id="qna-model-question">제목01</div>
                         <div class="qna-model-question-area">
                             <div class="qna-model-question-icon">Q</div>

@@ -170,7 +170,7 @@ public class CSCController {
 	}
 	
 	// 제제내역 (화면)
-	@GetMapping("admin/csc/sanction-list")
+	@GetMapping("admin/member/sanction-list")
 	public String sanctionList() {
 		return "admin/member/sanction-list";
 	}
