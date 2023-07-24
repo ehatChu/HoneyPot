@@ -7,237 +7,9 @@
 		<title>Insert title here</title>
 		<!-- chart.js CDN -->
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+		<!-- CSS -->
+		<link rel="stylesheet" href="/app/resources/css/member/mypage/fee/list.css">
 	</head>
-
-	<style>
-		#wrap {
-			height: 1000px;
-			display: grid;
-			grid-template-columns: 750px 792px;
-		}
-
-		#fee-area {
-			display: grid;
-			grid-template-rows: 250px 550px;
-		}
-
-		.total-area {
-			background-color: #4A321f;
-			color: #ffffff;
-			display: grid;
-			grid-template-rows: 40px 170px 40px;
-		}
-
-		.select-area {
-			margin-left: 20px;
-		}
-
-		.select-area > #date-box {
-			width: 200px;
-			height: 35px;
-			border: none;
-			background-color: #4A321f;
-			color: #ffffff;
-			font-size: 25px;
-			font-weight: 530;
-			margin-top: 10px;
-			cursor: pointer;
-		}
-
-		.price-area{
-			display: flex;
-			justify-content: space-around;
-			align-items: center;
-			font-size: 22px;
-		}
-
-		.priceBox {
-			display: flex;
-			align-items: center;
-			font-size: 30px;
-		}
-
-		.price-area > div > .won {
-			color: #fad355;
-			font-size: 35px;
-			font-weight: 600;
-			margin-right: 10px;
-		}
-
-		.detail-area {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			font-size: 23px;
-			margin-bottom: 10px;
-		}
-
-		.detail-content-area > table{
-			height: 800px;
-			width: 720px;
-			border: 1px solid black;
-			text-align: center;
-			border-collapse: collapse;
-		}
-
-		.detail-content-area > table > thead {
-			float:left; width:750px;
-		}
-
-		.detail-content-area > table > tbody {
-			overflow-y:auto; overflow-x:hidden; float:left; width:750px; height:800px
-		}
-
-		.detail-content-area > table > tbody::-webkit-scrollbar {
-			width: 10px; 
-		}
-		
-		.detail-content-area > table > tbody::-webkit-scrollbar-track {
-			background-color: #e0e0e0; 
-		}
-		
-		.detail-content-area > table > tbody::-webkit-scrollbar-thumb {
-			background-color: #4A321F; 
-		}
-
-
-		.detail-content-area > table > tbody > tr:hover {
-			cursor: pointer;
-			background-color: #fdeaab;
-		}
-
-		.detail-content-area > table > thead> tr {
-			width: 100%;
-		}
-
-
-		.detail-content-area > table > thead> tr > th {
-			background-color: #d9d9d9;
-			font-weight: 500;
-			font-size: 23px;
-			border-right: 1px solid black;
-			height: 40px;
-			width: 380px;
-			border-bottom: 1px solid black;
-		}
-
-		.detail-content-area > table > tbody > tr > td {
-			font-weight: 500;
-			font-size: 23px;
-			padding: 10px;
-			width: 380px;
-		}
-
-		.detail-content-area > table > tbody > tr > td:last-child {
-			border-right: none; 
-		}
-
-		.detail-content-area > table > tbody > tr:last-child > td {
-			border-bottom: none; 
-		}
-
-		/* 차트 영역 */
-		#chart-area  {
-			display: grid;
-			grid-template-rows: 100px 500px 400px;
-			width: 100%;
-		}
-		
-		.bar-chart-area {
-			display: grid;
-			grid-template-rows: 400px 40px;
-			background: #ffffff;
-			width: 730px;
-			height: 500px;
-			margin: auto;
-		}
-
-		.title {
-			height: 50px;
-			width: 320px;
-			background-color: #4A321f;
-			color: #ffffff;
-			border-radius: 10px 10px 0 0;
-			padding-left: 15px;
-			padding-top: 5px;
-			margin-top: 50px;
-			margin-left: 30px;
-			font-size: 23px;
-		}
-
-		.bar-chart-area > .bar {
-			display: flex;
-			justify-content: space-evenly;
-			align-items: flex-end;
-		}
-
-		.bar-chart-area > .bar > div {
-			width: 120px;
-			height: 220px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			background-color: #fad355;
-			color: black;
-			font-weight: 600;
-		}
-
-		.bar-chart-area > .bar > div:first-child {
-			width: 120px;
-			height: 300px;
-		}
-
-		.bar-chart-area > .text {
-			display: flex;
-			justify-content: space-evenly;
-			align-items: center;
-			font-size: 20px;
-			margin-top: 20px;
-		}
-
-		.bar-chart-area > .text > div:nth-child(1){
-			margin-right: 30px;
-		}
-
-		.bar-chart-area > .text > div:nth-child(1) > div{
-			color: #00A3FF;
-		}
-
-		.bar-chart-area > .text > div:nth-child(3){
-			margin-left: 45px;
-		}
-
-		.bar-chart-area > .text > div:nth-child(3) > div{
-			color: #EB2114;
-		}
-
-		.line-chart-area {
-			display: grid;
-			grid-template-rows: 40px 200px;
-			font-weight: 500;
-			font-size: 23px;
-			margin-top: 50px;
-			margin-left: 30px;
-			margin-right: 30px;
-		}
-
-		.line-chart-area > div {
-			height: 50px;
-			width: 250px;
-			background-color: #4A321f;
-			color: #ffffff;
-			border-radius: 10px 10px 0 0;
-			padding-bottom: 10px;
-			padding-left: 15px;
-		}
-
-		#myChart {
-			width: 200px;
-			height: 300px;
-			background: #ffffff;
-		}
-
-	</style>
 
 	<body>
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -252,6 +24,7 @@
 						<div class="total-area">
 							<div class="select-area">
 								<select name="" id="date-box">
+									<!-- 현재 달부터 5개의 달 조회-->
 									<option value="2023-02">2023년 02월분</option>
 									<option value="2023-03">2023년 03월분</option>
 									<option value="2023-04">2023년 04월분</option>
@@ -260,8 +33,8 @@
 								</select>
 							</div>
 							<div class="price-area">
-								<div class="priceBox"><div class="won">258,440 </div> 원</div>
-								<span>납부일자 : 2023년 6월 17일</span>
+								<div class="priceBox"><div class="won">${memberTotal }</div> 원</div>
+								<span>납부일자 : ${mfvoList[0].paymentDate}</span>
 							</div>
 							<div class="detail-area"><span>상세내역</span></div>
 						</div>
@@ -274,10 +47,10 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach begin="1" end="25">
+									<c:forEach items="${mfvoList}" var="list">
 										<tr>
-											<td>일반관리비</td>
-											<td>19,390</td>
+											<td>${list.categoryName}</td>
+											<td>${list.price}원</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -287,27 +60,10 @@
 					<div id="chart-area">
 						<div class="title">우리집 관리비 전월/전년 비교</div>
 						<div class="bar-chart-area">
-							<div class="bar">
-								<div>275,500원</div>
-								<div>260,500원</div>
-								<div>260,500원</div>
-							</div>
-							<div class="text">
-								<div>
-									전월대비
-									<br>
-									<div>-2,060</div>
-								</div>
-								<div>이번 달</div>
-								<div>
-									전년대비
-									<br>
-									<div>+7,700</div>
-								</div>
-							</div>
+							<canvas id="priceChart"></canvas>
 						</div>
 						<div class="line-chart-area">
-							<div>당해 일반관리비 추이</div>
+							<div>당해 <span class="category_area">일반관리비</span> 추이</div>
 							<canvas id="myChart"></canvas>
 						</div>
 					</div>
@@ -326,7 +82,74 @@
 		secondNav(['조회', '납부'],'조회');
     	headerName('마이페이지');
 
-		// 라인 차트 함수
+		// 금액칸 콤마 정규식
+		function comma(price) {
+				str = String(str);
+				return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+			}
+
+		function uncomma(str) {
+			str = String(str);
+			return str.replace(/[^\d]+/g, '');
+		} 
+
+		function inputNumberFormat(obj) {
+			obj.value = comma(uncomma(obj.value));
+		}
+
+		// 금액들 콤마 처리
+		const priceDiv = document.querySelector(".won");
+		const price = priceDiv.innerHTML;
+		console.log(price);
+
+
+		//////// 관리비 전월/전년 대비 차트 함수 
+		function drawChart(chartData) {
+		var ctx = document.getElementById("priceChart").getContext('2d');
+		var myChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+			labels: chartData.labels,
+			datasets: [{
+				data: chartData.data,
+				backgroundColor: chartData.backgroundColor,
+			}]
+			},
+			options: {
+			legend: {
+				display: false
+			}}
+		});
+		}
+
+		// DB 에서 정보 가져오기
+		function loadChartData() {
+		$.ajax({
+			url: '/app/fee/member/bar-chart', 
+			method: 'GET',
+			dataType: 'json',
+			success: function (data) {
+			console.log(data);
+			drawChart(data);
+			var legendElement = $("#legend");
+                legendElement.empty(); // 기존 내용 초기화
+
+               
+            },
+			error: function (error) {
+			console.log(error);
+			}
+		});
+		}
+
+		// 데이터 차트 그리기 함수 실행
+		$(document).ready(function () {
+		loadChartData();
+		});
+
+
+
+		//////// 라인 차트 함수
 		function addZero(i) {
 		var rtn = i + 100;
 		return rtn.toString().substr(1, 3);
@@ -338,7 +161,8 @@
 
 		var dt = new Date();
 		var year = dt.getFullYear();
-		var mon = addZero(eval(dt.getMonth()+1));		
+		var mon = addZero(eval(dt.getMonth()+1));
+		console.log(addZero(dt.getMonth()+1));		
 		var now = mon;
 
 		// 날짜 범위

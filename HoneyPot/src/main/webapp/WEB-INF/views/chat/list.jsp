@@ -51,7 +51,7 @@
 						<div class="content-area">
 							<div class="icon-area">
 								<div class="icon-wrap">
-									<button><i class="fa-solid fa-user-group fa-2x" style="color: #858181;"></i></button>
+									<button class="moveFollowerList"><i class="fa-solid fa-user-group fa-2x" style="color: #858181;"></i></button>
 									<button class="moveChatList"><i class="fa-solid fa-comment fa-2x" ></i></button>
                                     
 								</div>
@@ -187,6 +187,12 @@
 		// 헤더 함수 실행
 		basicSetting();
     	headerName('채팅');
+
+		// 채팅 아이콘 클릭 시 이동
+		const followIcon = document.querySelector(".moveFollowerList");
+		followIcon.addEventListener("click", function(){
+			location.href="/app/chat/followerList";
+		})
 
 		// 채팅방 수정 모달 열기
         const openModal = () => {

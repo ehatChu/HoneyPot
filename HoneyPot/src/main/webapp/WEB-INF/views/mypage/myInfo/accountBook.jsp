@@ -18,10 +18,11 @@
 		<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
 		<!-- sweetAlert CDN -->
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-		<link rel="stylesheet" href="${root}/resources/css/member/mypage/accountBook.css">
 		<!-- chart.js CDN -->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+		<!-- CSS -->
+		<link rel="stylesheet" href="${root}/resources/css/member/mypage/accountBook.css">
 	</head>
 	
 	<body>
@@ -67,7 +68,7 @@
 							<span id="currentMonth"></span>
 							<div class="right"><i class="fa-solid fa-chevron-right"></i></div>
 						</div>
-						<div>
+						<div class="table-body-area">
 							<table class="A_detail">
 								<thead>
 									<tr id="line">
@@ -82,7 +83,7 @@
 													<option value="1">금융/보험</option>
 													<option value="6">교통/차량</option>
 													<option value="7">뷰티/미용</option>
-													<option value="8">기타지출</option>
+													<option value="8">기타</option>
 												</select>
 											</div>
 										</th>
@@ -156,21 +157,21 @@
 														<option value="1">금융/보험</option>
 														<option value="6">교통/차량</option>
 														<option value="7">뷰티/미용</option>
-														<option value="8">기타지출</option>
+														<option value="8">기타</option>
 													  </select>
 												</div>
 											</div>
 											<div class="second-area">
 												<span>금액</span>
 												<br>
-												<input type="text" name="price" dir="rtl" maxlength="10"> 원
+												<input type="text" name="price" maxlength="10"> 원
 											</div>
 											<div class="third-area">
 												<span>내용</span>
 												<br>
 												<textarea name="content" id="detailContent" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기"></textarea>
 											</div>
-											<div id="submitBtn"><input type="submit" value="등록"></div>
+											<div id="A_submitBtn"><input type="submit" value="등록"></div>
 										</div>
 									</form>
 								</div>
@@ -204,7 +205,7 @@
 										<option value="1">금융/보험</option>
 										<option value="6">교통/차량</option>
 										<option value="7">뷰티/미용</option>
-										<option value="8">기타지출</option>
+										<option value="8">기타</option>
 									</select>
 								</div>
 							</div>
@@ -271,6 +272,21 @@
 		secondNav(['캘린더', '가계부', '사유물'],'가계부');
 		headerName('마이페이지');
 
+		// 금액칸 콤마 정규식
+		function comma(str) {
+				str = String(str);
+				return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+			}
+
+		function uncomma(str) {
+			str = String(str);
+			return str.replace(/[^\d]+/g, '');
+		} 
+
+		function inputNumberFormat(obj) {
+			obj.value = comma(uncomma(obj.value));
+		}
+
 		//// 차트
 		function drawChart(chartData) {
 		var ctx = document.getElementById("myChart").getContext('2d');
@@ -284,11 +300,10 @@
 			}]
 			},
 			options: {
-			cutoutPercentage: 60,
+			cutoutPercentage: 40,
 			legend: {
 				display: false
-			}
-			}
+			}}
 		});
 		}
 
@@ -308,8 +323,10 @@
                     for (var i = 0; i < data.labels.length; i++) {
                         var label = data.labels[i];
                         var price = data.data[i];
+						
+						console.log(price);
 
-                        var li = $("<li>").text(label + " : " + price + "원"); // 카테고리 이름과 가격을 합쳐서 생성
+                        var li = $("<li>").text(label + " : " + comma(price) + "원"); // 카테고리 이름과 가격을 합쳐서 생성
                         legendElement.append(li);
                     }
                 } else {
@@ -317,8 +334,8 @@
                     legendElement.append(li);
                 }
             },
-			error: function (xhr, status, error) {
-			console.error('Error fetching data from the server:', error);
+			error: function (error) {
+			console.log(error);
 			}
 		});
 		}
@@ -474,42 +491,45 @@
 });
 
     // 상세보기 창 월 별 조회 함수 추가 예정
-// 	$(document).ready(function() {
-//     // 현재 날짜 객체 생성
-//     let currentDate = new Date();
+	$(document).ready(function() {
+    // 현재 날짜 객체 생성
+    let today = new Date();
 
-//     // 현재 날짜의 년도와 월을 가져옴
-//     let currentYear = currentDate.getFullYear().toString();
-//     let currentMonth = (currentDate.getMonth() + 1).toString();
+    // 현재 날짜의 년도와 월을 가져옴
+    let currentYear = today.getFullYear().toString();
+    let currentMonth = (today.getMonth() + 1).toString();
+	let currentDate = today.getDate().toString();
+	console.log(currentDate);
+	const defaultDay = currentYear + "-" + currentMonth + "-" + currentDate;
 
-//     // currentMonth 영역에 현재 날짜의 년도와 월을 표시
-//     $("#currentMonth").text(currentYear + "년 " + currentMonth + "월");
+    // currentMonth 영역에 현재 날짜의 년도와 월을 표시
+    $("#currentMonth").text(currentYear + "년 " + currentMonth + "월");
 
-//     // left 버튼 클릭 시 이전 달로 이동
-//     $(".left").on("click", function() {
-//         currentDate.setMonth(currentDate.getMonth() - 1); 
-//         let prevYear = currentDate.getFullYear().toString();
-//         let prevMonth = (currentDate.getMonth() + 1).toString();
-//         $("#currentMonth").text(prevYear + "년 " + prevMonth + "월");
+    // left 버튼 클릭 시 이전 달로 이동
+    $(".left").on("click", function() {
+        today.setMonth(today.getMonth() - 1); 
+        let prevYear = today.getFullYear().toString();
+        let prevMonth = (today.getMonth() + 1).toString();
+        $("#currentMonth").text(prevYear + "년 " + prevMonth + "월");
 
-//         // 이전 달
-//         getSearchResults(prevYear, prevMonth);
-//     });
+        // 이전 달
+        //getSearchResults(prevYear, prevMonth);
+    });
 
-//     // right 버튼 클릭 시 다음 달로 이동
-//     $(".right").on("click", function() {
-//         currentDate.setMonth(currentDate.getMonth() + 1);
-//         let nextYear = currentDate.getFullYear().toString();
-//         let nextMonth = (currentDate.getMonth() + 1).toString();
-//         $("#currentMonth").text(nextYear + "년 " + nextMonth + "월");
+    // right 버튼 클릭 시 다음 달로 이동
+    $(".right").on("click", function() {
+        today.setMonth(today.getMonth() + 1);
+        let nextYear = today.getFullYear().toString();
+        let nextMonth = (today.getMonth() + 1).toString();
+        $("#currentMonth").text(nextYear + "년 " + nextMonth + "월");
 
-//         // 다음 달
-//         getSearchResults(nextYear, nextMonth);
-//     });
+        // 다음 달
+        //getSearchResults(nextYear, nextMonth);
+    });
 
-//     // 초기 페이지에 현재 달의 검색 결과를 가져옴
-//     getSearchResults(currentYear, currentMonth);
-// });
+    // 초기 페이지에 현재 달의 검색 결과를 가져옴
+    //getSearchResults(currentYear, currentMonth);
+});
 
 // // 서버에서 데이터를 받아와서 검색 결과 표시
 // function getSearchResults(year, month) {
@@ -530,22 +550,6 @@
 // }
 
 
-	
-	// 금액칸 콤마 정규식
-	function comma(str) {
-			str = String(str);
-			return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-		}
-
-	function uncomma(str) {
-        str = String(str);
-        return str.replace(/[^\d]+/g, '');
-    } 
-
-  	function inputNumberFormat(obj) {
-        obj.value = comma(uncomma(obj.value));
-    }
-  	
 
   	// 
 

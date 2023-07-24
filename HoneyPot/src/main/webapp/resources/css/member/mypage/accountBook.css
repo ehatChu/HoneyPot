@@ -157,19 +157,29 @@
 		margin-right: 50px;
 	}
 
+	.table-body-area {
+		height: 100%;
+		width: 1518px;
+	}
+
 	.A_detail {
 		width: 1518px;
-		height: 450px;
 		text-align: center;
 		vertical-align: middle;
 		border-collapse: collapse;
 		background: #FFFFFF;
 	}
 
-	#line{border-bottom:1px solid black;}
+	#line{
+		border-bottom:1px solid black;
+	}
 	
 	.A_detail > thead > tr {
 		font-size: 18px;
+		height: 40px;
+	}
+
+	.A_detail > tbody > tr {
 		height: 40px;
 	}
 
@@ -250,6 +260,7 @@
 	#editBtn, .delBtn {
 		border: none;
 		background-color: transparent;
+		cursor: pointer;
 	}
 
 	#openBtn {
@@ -262,6 +273,7 @@
 		text-align: center;
 		border-radius: 12px;
 		border: none;
+		cursor: pointer;
 	}
 
 	/* 등록 모달 영역 */
@@ -364,6 +376,7 @@
 	.second-area > input {
 		width: 170px;
 		height: 30px;
+		padding: 10px;
 	}
 
 	.third-area{
@@ -380,13 +393,14 @@
 		font-family: 'Noto Sans KR';
 	}
 
-	#submitBtn {
+	#A_submitBtn {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
 
-	#submitBtn > button{
+	#A_submitBtn > input{
+		cursor: pointer;
 		background-color: #ffce31;
 		width: 120px;
 		height: 40px;

@@ -42,9 +42,8 @@ public class AccountController {
 	@GetMapping("account/list")
 	public String list(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam(name = "searchValue", required = false) String searchValue) {
 		
-		//MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
-		//String mno = loginMember.getNo();
-		String mno = "5";
+		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		String mno = loginMember.getNo();
 		Map<String , String> searchVo = new HashMap<String, String>();
 		searchVo.put("searchValue", searchValue);
 		searchVo.put("no", mno);
@@ -76,9 +75,9 @@ public class AccountController {
 	//가계부 등록
 	@PostMapping("account/add")
 	public String addAccount(AccountVo vo, HttpSession session) {
-		//MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
-		//String writerNo = loginMember.getNo();
-		vo.setWriterNo("5");
+		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		String writerNo = loginMember.getNo();
+		vo.setWriterNo(writerNo);
 		int result = service.add(vo);
 		
 		if(result != 1) {
