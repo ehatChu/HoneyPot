@@ -51,6 +51,7 @@
 	
 	<!-- 문의 -->
 	
+	<!-- 문의 카테고리 가져오기 -->
 	<select id="getQNACatList" resultType="com.hp.app.csc.vo.QNACategoryVo">
 		SELECT 
 			NO
@@ -58,6 +59,33 @@
 		FROM QNA_CATEGORY
 	</select>
 	
+	<!-- 문의 목록 (화면) -->
+	<select id="getQNAList" resultType="com.hp.app.csc.vo.QNAVo">
+		SELECT
+		    Q.NO AS NO
+		    , Q.TITLE AS TITLE
+            , C.NAME AS QNA_CNAME
+		    , TO_CHAR(Q.ENROLL_DATE, 'YY.MM.DD HH:MI') AS ENROLL_DATE
+            , Q.ANSWER_YN
+		FROM QNA Q
+		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
+		ORDER BY Q.ENROLL_DATE DESC
+	
+	</select>
+	
+	<!-- 문의 상세 조회 (화면) -->
+	<select id="getQNAByNo" resultType="com.hp.app.csc.vo.QNAVo">
+		SELECT 
+            Q.TITLE,
+            Q.CONTENT,
+            Q.ANSWER
+        FROM QNA Q
+        JOIN MEMBER M ON Q.MEMBER_NO = M.NO
+        WHERE Q.NO = #{no}
+        AND M.NO = #{memberNo}
+	</select>
+	
+	<!-- 문의 등록 -->
 	<insert id="insertInquiry">
 		INSERT INTO QNA
 		(

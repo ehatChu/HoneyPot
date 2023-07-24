@@ -77,13 +77,13 @@ public class CSCDaoImpl implements CSCDao{
 	// 문의 List 조회
 	@Override
 	public List<QNAVo> getQNAList(SqlSessionTemplate sst, String no) {
-		return null;
+		return sst.selectList("csc.getQNAList", no);
 	}
 
 	// 문의 상세 조회
 	@Override
 	public QNAVo getQNAByNo(SqlSessionTemplate sst, QNAVo vo) {
-		return null;
+		return sst.selectOne("csc.getQNAByNo", vo);
 	}
 
 	// 문의 삭제

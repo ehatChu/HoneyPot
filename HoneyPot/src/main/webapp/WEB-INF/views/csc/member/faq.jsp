@@ -194,7 +194,7 @@
         document.querySelector(".faq-background").className = "faq-background";
     }
 
-
+    
     document.querySelector("#faq-close").addEventListener('click', FAQclose);
     document.querySelector("#faq-check-btn").addEventListener('click', FAQclose);
 

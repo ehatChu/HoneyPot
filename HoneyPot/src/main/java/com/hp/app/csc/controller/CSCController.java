@@ -84,7 +84,11 @@ public class CSCController {
 	
 	// 문의등룍
 	@PostMapping("csc/inquiry")
-	public String inquiry(QNAVo vo) {
+	public String inquiry(QNAVo vo) throws Exception {
+		
+		if(vo.getTitle() == null || vo.getContent() == null) {
+			throw new Exception("게시판 작성 에러");
+		}
 		
 		vo.setMemberNo("1");
 		int result = service.insertInquiry(vo);
@@ -99,8 +103,37 @@ public class CSCController {
 	
 	// 문의목록 (화면)
 	@GetMapping("csc/inquiry-list")
-	public String inquiryList() {
+	public String inquiryList(Model model) {
+		String no = "1";
+		List<QNAVo> qList = service.getQNAList(no);
+		
+		model.addAttribute("qList", qList);
+		
 		return "csc/member/inquiry-list";
+	}
+	
+	// 문의상세조회 (화면)
+	@GetMapping("csc/qna/detail")
+	@ResponseBody
+	public QNAVo getQNADetail(String qno) throws Exception {
+		
+		String no = "1";
+		
+		if("".equals(qno) || qno == null) {
+			throw new Exception("QNA 상세조회 실패");
+		}
+		
+		QNAVo qvo = new QNAVo();
+		qvo.setMemberNo(no);
+		qvo.setNo(qno);
+		
+		QNAVo vo = service.getQNAByNo(qvo);
+		
+		if(vo == null) {
+			throw new Exception("QNA 상세조회 실패");
+		}
+		
+		return vo;
 	}
 	
 	

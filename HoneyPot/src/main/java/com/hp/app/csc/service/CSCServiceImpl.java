@@ -81,13 +81,13 @@ public class CSCServiceImpl implements CSCService {
 	// 문의 List 조회
 	@Override
 	public List<QNAVo> getQNAList(String no) {
-		return null;
+		return dao.getQNAList(sst, no);
 	}
 
 	// 문의 상세 조회
 	@Override
 	public QNAVo getQNAByNo(QNAVo vo) {
-		return null;
+		return dao.getQNAByNo(sst, vo);
 	}
 
 	// 문의 삭제

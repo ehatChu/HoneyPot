@@ -19,97 +19,58 @@
             <div class="inquiry-text-title">문의 목록</div>
 
             <div class="inquiry-list-content-area">
-                <div class="inquiry-list">
-                    <div class="inquiry-list-detail">
-                        <div class="inquiry-respond-true">답변</div>
-                        <div><span class="text-yellow">[카테고리1]</span> 문의 제목입니다.</div>
-                        <div>2023-07-04</div>
-                    </div>
-                </div>
-    
-                <div class="inquiry-list">
-                    <div class="inquiry-list-detail">
-                        <div class="inquiry-respond-false">미답변</div>
-                        <div><span class="text-yellow">[카테고리1]</span> 문의 제목입니다.</div>
-                        <div>2023-07-04</div>
-                    </div>
-                </div>
-
-                <div class="inquiry-list">
-                    <div class="inquiry-list-detail">
-                        <div class="inquiry-respond-false">미답변</div>
-                        <div><span class="text-yellow">[카테고리1]</span> 문의 제목입니다.</div>
-                        <div>2023-07-04</div>
-                    </div>
-                </div>
-
-                <div class="inquiry-list">
-                    <div class="inquiry-list-detail">
-                        <div class="inquiry-respond-false">미답변</div>
-                        <div><span class="text-yellow">[카테고리1]</span> 문의 제목입니다.</div>
-                        <div>2023-07-04</div>
-                    </div>
-                </div>
-
-                <div class="inquiry-list">
-                    <div class="inquiry-list-detail">
-                        <div class="inquiry-respond-false">미답변</div>
-                        <div><span class="text-yellow">[카테고리1]</span> 문의 제목입니다.</div>
-                        <div>2023-07-04</div>
-                    </div>
-                </div>
-
-                <div class="inquiry-list">
-                    <div class="inquiry-list-detail">
-                        <div class="inquiry-respond-false">미답변</div>
-                        <div><span class="text-yellow">[카테고리1]</span> 문의 제목입니다.</div>
-                        <div>2023-07-04</div>
-                    </div>
-                </div>
-
-                <div class="inquiry-list">
-                    <div class="inquiry-list-detail">
-                        <div class="inquiry-respond-false">미답변</div>
-                        <div><span class="text-yellow">[카테고리1]</span> 문의 제목입니다.</div>
-                        <div>2023-07-04</div>
-                    </div>
-                </div>
+				<c:forEach items="${qList}" var="vo">
+					<div class="inquiry-list">
+                        <div class="inquiry-list-detail" onclick="detailQna(this);">
+                            <div hidden>${vo.no}</div>
+                            <c:if test="${vo.answerYn eq 'Y'}">
+	                    		<div class="inquiry-respond-true">답변</div>    
+	                        </c:if>
+	                        <c:if test="${vo.answerYn eq 'N'}">
+	                    		<div class="inquiry-respond-false">미답변</div>    
+	                        </c:if>
+	                        <div><span class="text-yellow">[${vo.qnaCname}]</span> ${vo.title}</div>
+	                        <div>${vo.enrollDate}</div>
+	                    </div>
+	                </div>
+				</c:forEach>
             </div>
 
         </div>
 
-
-
     </main>
 
-    <!-- FAQ 상세보기 모달 -->
-    <div class="faq-background">
-        <div class="faq-window">
-            <div class="faq-popup">
-                <div class="faq-model-header-area">
-                    <div class="faq-model-header">
-                        <div class="faq-model-header-text">상세보기</div>
-                        <span class="material-symbols-outlined" id="faq-close">
+    <!-- QNA 상세보기 모달 -->
+    <div class="qna-background">
+        <div class="qna-window">
+            <div class="qna-popup">
+                <div class="qna-model-header-area">
+                    <div class="qna-model-header">
+                        <div class="qna-model-header-text">상세보기</div>
+                        <span class="material-symbols-outlined" id="qna-close">
                             close
                         </span>
                     </div>
                 </div>
-                <div class="faq-model-body-area">
-                    <div class="faq-model-body-first">
-                        <div class="faq-model-sanction-date">
-                            <div class="faq-model-title-text">FAQ 질문</div>
-                            <div class="faq-model-question-text" id="faq-model-question"></div>
+                <div class="qna-model-body-area">
+                    <div class="qna-model-body-first">
+                        <div class="qna-model-title-text">qna 질문</div>
+                        <div class="qna-model-question-title" id="qna-model-question">제목01</div>
+                        <div class="qna-model-question-area">
+                            <div class="qna-model-question-icon">Q</div>
+                            <div class="qna-model-question-text"  id="qna-model-question-content"></div>
                         </div>
                     </div>
-                    <div class="faq-model-answer-text-area">
-                        <span class="material-symbols-outlined" id="faq-model-answer-icon">
-                            subdirectory_arrow_right
-                            </span>
-                        <div class="faq-model-answer-text" id="faq-model-answer"></div>
+
+                    <div class="qna-model-answer-text-area">
+                        <div class="qna-model-question-area">
+                            <div class="qna-model-answer-text" id="qna-model-answer"></div>
+                            <div class="qna-model-answer-icon">A</div>
+                        </div>
                     </div>
 
-                    <div class="faq-model-btn-area">
-                        <button id="faq-check-btn" class="faq-model-btn">닫기</button>
+                    <div class="qna-model-btn-area">
+                        <button id="qna-check-btn" class="qna-model-btn">닫기</button>
 
                     </div>
 
@@ -137,5 +98,56 @@
 
     headerName('고객센터'); // 현재 페이지 이름
 	firstNav(['자주묻는질문', '문의하기', '문의목록', '신고하기', '신고목록'], '문의목록');
+
+    // QNA 상세보기 버튼
+    function detailQna(e) {
+    const bno = e.firstElementChild.innerText;
+    console.log(bno);
+    $.ajax({
+        url : "/app/csc/qna/detail",
+        method : "GET",
+        data : {
+            "qno" : bno
+        },
+        dataType : "json",
+        success : function(data) {
+            const question = document.querySelector("#qna-model-question");
+            const questionC = document.querySelector("#qna-model-question-content");
+            const answer = document.querySelector("#qna-model-answer");
+
+            question.innerHTML = "";
+            questionC.innerHTML = "";
+            answer.innerHTML = "";
+
+            const answerStr = data.answer;
+            const questionStr = data.title;
+            const questionCStr = data.content;
+
+            question.innerHTML = questionStr;
+            questionC.innerHTML = questionCStr;
+            answer.innerHTML = answerStr;
+
+
+        },
+        error : function() {
+            alert("실패");
+        },
+    })	
+
+    document.querySelector(".qna-background").className = "qna-background show";
+    }
+
+    // qna 상세보기 모달 사용
+    function qnashow () {
+        document.querySelector(".qna-background").className = "qna-background show";
+    }
+
+    function qnaclose () { 
+        document.querySelector(".qna-background").className = "qna-background";
+    }
+
+    // document.querySelector("#temp-btn").addEventListener('click', qnashow);
+    document.querySelector("#qna-close").addEventListener('click', qnaclose);
+    document.querySelector("#qna-check-btn").addEventListener('click', qnaclose);
 
 </script>
