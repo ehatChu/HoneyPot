@@ -37,4 +37,6 @@ public interface MainService {
 	List<MemberVo> getDongPointList();
 
 	List<NoticeCalendarVo> getNoticeCalendarList();
+
+	int[] getParamCntArr();
 }

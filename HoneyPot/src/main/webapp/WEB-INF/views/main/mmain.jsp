@@ -622,7 +622,7 @@
 					let str = "";
 					for (let vo of noticeList) {
 						str += '<div id="boardTxt">'
-							+ '<div style="width: 200px; height: 30px; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '...</div>'
+							+ '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
 							+ '<div>' + vo.writerName + '</div>'
 							+ '<div>' + vo.enrollDate + '</div>'
 							+ '<div>' + vo.hit + '</div>'
@@ -650,7 +650,7 @@
 					let str = "";
 					for (let vo of popularList) {
 						str += '<div id="boardTxt">'
-							+ '<div style="width: 200px; height: 30px; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '...</div>'
+							+ '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
 							+ '<div>' + vo.writerNo + '</div>'
 							+ '<div>' + vo.enrollDate + '</div>'
 							+ '<div>' + vo.hit + '</div>'

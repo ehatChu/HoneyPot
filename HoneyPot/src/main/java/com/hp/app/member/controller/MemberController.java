@@ -28,7 +28,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("mlogin")
-	public String mlogin() {
+	public String mlogin(HttpSession session) {
 		return "member/mlogin";
 	}
 	
@@ -45,7 +45,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("alogin")
-	public String alogin() {
+	public String alogin(HttpSession session) {
 		return "member/alogin";
 	}
 

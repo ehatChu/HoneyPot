@@ -88,4 +88,15 @@ public class MainServiceImpl implements MainService {
 		return dao.getNoticeCalendarList(sst);
 	}
 
+	@Override
+	public int[] getParamCntArr() {
+		int[] paramCntArr = new int[4];
+		paramCntArr[0] = dao.getReportCnt(sst);
+		paramCntArr[1] = dao.getQnaCnt(sst);
+		paramCntArr[2] = dao.getNormalMemberCnt(sst);
+		paramCntArr[3] = dao.getWaitMemberCnt(sst);
+
+		return paramCntArr;
+	}
+
 }

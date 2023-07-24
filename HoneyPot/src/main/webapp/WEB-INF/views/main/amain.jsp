@@ -616,11 +616,11 @@
                             <div id="dbox">
                                 <div id="bbox" class="box">
                                     <div id="tit3">신고</div>
-                                    <div id="tit4" class="red1">11</div>
+                                    <div id="tit4" class="red1">${paramCntArr[0]}</div>
                                 </div>
                                 <div id="bbox" class="box">
                                     <div id="tit3">문의</div>
-                                    <div id="tit4" class="yellow1">5</div>
+                                    <div id="tit4" class="yellow1">${paramCntArr[1]}</div>
                                 </div>
                             </div>
                         </div>
@@ -629,11 +629,11 @@
                             <div id="dbox">
                                 <div id="bbox" class="box">
                                     <div id="tit3">가입 대기</div>
-                                    <div id="tit4" class="green1">3</div>
+                                    <div id="tit4" class="green1">${paramCntArr[3]}</div>
                                 </div>
                                 <div id="bbox" class="box">
                                     <div id="tit3">입주민 수</div>
-                                    <div id="tit4" class="blue1">476</div>
+                                    <div id="tit4" class="blue1">${paramCntArr[4]}</div>
                                 </div>
                             </div>
                         </div>
@@ -727,7 +727,7 @@
                     let str = "";
                     for (let vo of noticeList) {
                         str += '<div id="boardTxt">'
-                            + '<div style="width: 200px; height: 30px; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '...</div>'
+                            + '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
                             + '<div>' + vo.writerName + '</div>'
                             + '<div>' + vo.enrollDate + '</div>'
                             + '<div>' + vo.hit + '</div>'
@@ -755,7 +755,7 @@
                     let str = "";
                     for (let vo of popularList) {
                         str += '<div id="boardTxt">'
-                            + '<div style="width: 200px; height: 30px; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '...</div>'
+                            + '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
                             + '<div>' + vo.writerNo + '</div>'
                             + '<div>' + vo.enrollDate + '</div>'
                             + '<div>' + vo.hit + '</div>'

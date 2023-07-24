@@ -15,8 +15,8 @@ import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
 
 @Repository
-public class MainDaoImpl implements MainDao{
-	
+public class MainDaoImpl implements MainDao {
+
 	@Override
 	public AdminVo getCaptain(SqlSessionTemplate sst, String name) {
 		return sst.selectOne("main.getCaptain", name);
@@ -86,4 +86,23 @@ public class MainDaoImpl implements MainDao{
 		return sst.selectList("main.getNoticeCalendarList");
 	}
 
+	@Override
+	public int getReportCnt(SqlSessionTemplate sst) {
+		return sst.selectOne("main.getReportCnt");
+	}
+
+	@Override
+	public int getQnaCnt(SqlSessionTemplate sst) {
+		return sst.selectOne("main.getQnaCnt");
+	}
+
+	@Override
+	public int getNormalMemberCnt(SqlSessionTemplate sst) {
+		return sst.selectOne("main.getNormalMemberCnt");
+	}
+
+	@Override
+	public int getWaitMemberCnt(SqlSessionTemplate sst) {
+		return sst.selectOne("main.getWaitMemberCnt");
+	}
 }

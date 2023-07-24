@@ -41,7 +41,7 @@ public class MainController {
 		List<MemberCalendarVo> memberCalendarList = ms.getMemberCalendarList(loginMember.getNo());
 		List<MemberVo> memberPointList = ms.getMemberPointList();
 		List<MemberVo> dongPointList = ms.getDongPointList();
-		
+
 		model.addAttribute("memberPointList", memberPointList);
 		model.addAttribute("memberCalendarList", memberCalendarList);
 		model.addAttribute("dongPointList", dongPointList);
@@ -58,7 +58,11 @@ public class MainController {
 		}
 
 		List<NoticeCalendarVo> noticeCalendarList = ms.getNoticeCalendarList();
+		int[] paramCntArr = ms.getParamCntArr();
+		
 		model.addAttribute("noticeCalendarList", noticeCalendarList);
+		model.addAttribute("paramCntArr", paramCntArr);
+		
 		return "main/amain";
 	}
 

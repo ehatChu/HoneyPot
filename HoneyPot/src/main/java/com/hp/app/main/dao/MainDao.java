@@ -38,4 +38,12 @@ public interface MainDao {
 	List<MemberVo> getDongPointList(SqlSessionTemplate sst);
 
 	List<NoticeCalendarVo> getNoticeCalendarList(SqlSessionTemplate sst);
+
+	int getReportCnt(SqlSessionTemplate sst);
+
+	int getQnaCnt(SqlSessionTemplate sst);
+
+	int getNormalMemberCnt(SqlSessionTemplate sst);
+
+	int getWaitMemberCnt(SqlSessionTemplate sst);
 }
