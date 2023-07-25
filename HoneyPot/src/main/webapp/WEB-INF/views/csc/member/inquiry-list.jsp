@@ -8,6 +8,10 @@
     <!-- css -->
     <link rel="stylesheet" href="/app/resources/css/csc/member/inquiry-list.css">
 
+    <!-- 알람창 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.18/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.18/dist/sweetalert2.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -72,7 +76,8 @@
                     </div>
 
                     <div class="qna-model-btn-area">
-                        <button id="qna-check-btn" class="qna-model-btn">닫기</button>
+                        <button id="qna-check-btn" class="qna-model-check-btn">확인</button>
+                        <button id="qna-delete-btn" class="qna-model-delete-btn">삭제</button>
 
                     </div>
 
@@ -151,5 +156,30 @@
     // document.querySelector("#temp-btn").addEventListener('click', qnashow);
     document.querySelector("#qna-close").addEventListener('click', qnaclose);
     document.querySelector("#qna-check-btn").addEventListener('click', qnaclose);
+
+    // 삭제 버튼 활성화
+    const deleteBtn = document.querySelector("#qna-delete-btn");
+    deleteBtn.addEventListener("click", function(){
+        Swal.fire({
+            title: '정말로 삭제 하시겠습니까?',
+            text: '다시 되돌릴 수 없습니다. 신중하세요.',
+            icon: 'warning',
+            
+            showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+            confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+            cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+            
+            // reverseButtons: true, // 버튼 순서 거꾸로
+            
+            }).then(result => {
+            // 만약 Promise리턴을 받으면,
+            if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+            
+                Swal.fire('삭제가 완료되었습니다.', '', 'success');
+            }
+        });
+    });
 
 </script>
