@@ -1,6 +1,7 @@
 package com.hp.app.csc.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -37,15 +38,15 @@ public class CSCServiceImpl implements CSCService {
 	
 	// FAQ 모든 글 갯수
 	@Override
-	public int getFAQCnt() {
-		return dao.getFAQCnt(sst);
+	public int getFAQCnt(Map<String, String> searchVo) {
+		return dao.getFAQCnt(sst, searchVo);
 	}
 
 	
 	// FAQ 모든 List 조회
 	@Override
-	public List<FAQVo> getFAQList(PageVo pvo) {
-		return dao.getFAQList(sst, pvo);
+	public List<FAQVo> getFAQList(PageVo pvo, Map<String, String> searchVo) {
+		return dao.getFAQList(sst, pvo, searchVo);
 	}
 
 	// FAQ 상세 조회
@@ -139,7 +140,7 @@ public class CSCServiceImpl implements CSCService {
 	// 신고 삭제
 	@Override
 	public int deleteReport(ReportVo vo) {
-		return 0;
+		return dao.deleteReport(sst, vo);
 	}
 
 	

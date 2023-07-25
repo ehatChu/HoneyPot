@@ -28,6 +28,11 @@
         width: 150px;
         text-align: center;
     }
+
+    .menu-box > a{
+        text-decoration: none;
+        color: black;
+    }
     
     </style>
 </head>
@@ -37,10 +42,10 @@
 		<%@ include file="/WEB-INF/views/common/first-nav.jsp"%>
         <div id="category-choice">
             <div id="category-sub-choice">
-                <div class="menu-box text-bold">전체</div>
-                <div class="menu-box text-bold">전체</div>
-                <div class="menu-box text-bold">전체</div>
-                <div class="menu-box text-bold">전체</div>
+            	<div class="menu-box"><a href="/app/csc/faq?page=1&searchType=">전체</a></div>
+               <c:forEach items="${cList}" var="vo">
+               	 <div class="menu-box"><a href="/app/csc/faq?page=1&searchType=${vo.no}">${vo.name}</a></div>
+               </c:forEach>
 
             </div>
 
@@ -50,12 +55,16 @@
 	<main>
 		<div class="faq-area">
             <div class="faq-search-area">
-                <div class="faq-search">
-                    <input type="text" name="faqSearch">
-                    <span id="faq-search-icon" class="material-symbols-outlined">
-                        search
-                        </span>
-                </div>
+                <form action="/app/csc/faq" method="get">
+                    <div class="faq-search">
+                        <input type="text" name="searchValue">
+                        <button type="submit" id="faq-search-btn">
+                            <span id="faq-search-icon" class="material-symbols-outlined">
+                                search
+                                </span>
+                        </button>
+                    </div>
+                </form>
 
             </div>
             <div class="board-list-area">
@@ -66,7 +75,7 @@
                         <td><span class="faq-category-color">[${vo.faqCname}] </span>${vo.question}</td>
                         <td>${vo.writerName}</td>
                         <td>${vo.enrollDate}</td>
-                        <td><i class="fa-solid fa-eye"></i>${vo.hit}</td>
+                        <td><i class="fa-solid fa-eye"></i> ${vo.hit}</td>
                     </tr>
                 </c:forEach>
                 </table>
@@ -76,18 +85,18 @@
             <div class="page-area">
 
                 <c:if test="${pvo.currentPage > 1}">
-                    <a href="/app/csc/faq?page=${pvo.currentPage - 1}"><</a>
+                    <a href="/app/csc/faq?page=${pvo.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}"><</a>
                 </c:if>
                     <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" step="1" var="i">
                         <c:if test="${pvo.currentPage != i}">
-                            <a href="/app/csc/faq?page=${i}">${i}</a>
+                            <a href="/app/csc/faq?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
                         </c:if>
                         <c:if test="${pvo.currentPage == i}">
                             <a id="current-page">${i}</a>
                         </c:if>
                     </c:forEach>
                 <c:if test="${pvo.currentPage < pvo.maxPage}">
-                    <a href="/app/csc/faq?page=${pvo.currentPage + 1}">></a>
+                    <a href="/app/csc/faq?page=${pvo.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">></a>
                 </c:if>
             </div>
 
@@ -198,5 +207,29 @@
     document.querySelector("#faq-close").addEventListener('click', FAQclose);
     document.querySelector("#faq-check-btn").addEventListener('click', FAQclose);
 
+    // FAQ 카테고리 bold 만들기
+    function categoryBold(){
+        const categoryMenu = document.querySelectorAll(".menu-box");
+        let keyUrl = window.location.search;
+        let categorypos = keyUrl.indexOf("searchType");
+        if(categorypos != -1){
+            let result = keyUrl.substr(categorypos + 11,1);
+            console.log(result);
+            if(result == "" || result == "&"){
+                categoryMenu[0].className = "menu-box text-bold"
+            }else if(result == 1){
+                categoryMenu[1].className = "menu-box text-bold"
+            }else if(result == 2){
+                categoryMenu[2].className = "menu-box text-bold"
+            }else if(result == 3){
+                categoryMenu[3].className = "menu-box text-bold"
+            }
+        }else{
+            categoryMenu[0].className = "menu-box text-bold"
+        }
+
+    }
+
+    categoryBold();
 
 </script>

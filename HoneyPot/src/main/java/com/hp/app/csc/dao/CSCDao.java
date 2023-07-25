@@ -1,6 +1,7 @@
 package com.hp.app.csc.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -23,10 +24,10 @@ public interface CSCDao {
 	List<FAQCategoryVo> getFAQCatList(SqlSessionTemplate sst);
 	
 	// FAQ 모든 글 갯수
-	int getFAQCnt(SqlSessionTemplate sst);
+	int getFAQCnt(SqlSessionTemplate sst, Map<String, String> searchVo);
 	
 	// FAQ 모든 List 조회
-	List<FAQVo> getFAQList(SqlSessionTemplate sst, PageVo pvo);
+	List<FAQVo> getFAQList(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchVo);
 	
 	// FAQ 상세 조회
 	FAQVo getFAQByNo(SqlSessionTemplate sst, String fno);
