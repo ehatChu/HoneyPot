@@ -89,10 +89,10 @@ public class CSCDaoImpl implements CSCDao{
 		return sst.selectOne("csc.getQNAByNo", vo);
 	}
 
-	// 문의 삭제
+	// 문의 내역 삭제
 	@Override
-	public int delete(SqlSessionTemplate sst, QNAVo vo) {
-		return 0;
+	public int deleteInquiry(SqlSessionTemplate sst, QNAVo vo) {
+		return sst.delete("csc.deleteInquiry", vo);
 	}
 
 	// 신고
@@ -129,12 +129,12 @@ public class CSCDaoImpl implements CSCDao{
 	// 신고 상세 조회
 	@Override
 	public ReportVo getReportByNo(SqlSessionTemplate sst, ReportVo vo) {
-		return null;
+		return sst.selectOne("csc.getReportByNo", vo);
 	}
 
 	// 신고 삭제
 	@Override
-	public int delete(SqlSessionTemplate sst, ReportVo vo) {
+	public int deleteReport(SqlSessionTemplate sst, ReportVo vo) {
 		return 0;
 	}
 

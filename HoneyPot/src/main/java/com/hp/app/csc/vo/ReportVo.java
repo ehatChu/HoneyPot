@@ -15,5 +15,7 @@ public class ReportVo {
 	private String content;
 	private String enrollDate;
 	private String answerDate;
+	private String memberName;
+	private String memberProfile;
 
 }
