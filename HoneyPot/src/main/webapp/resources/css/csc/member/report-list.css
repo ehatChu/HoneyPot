@@ -72,3 +72,261 @@
 .text-yellow{
     color: #FFCE31;
 }
+
+/* 신고 내역 상세 보기 모달 */
+.report-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    /* display: none; */
+    
+    /* 숨기기 */
+    z-index: -1;
+    opacity: 0;
+}
+
+.show {
+    opacity: 1;
+    z-index: 1000;
+    transition: all .5s;
+    /* display: block; */
+}
+
+.report-window {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.report-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    
+    /* 임시 지정 */
+    width: 700px;
+    
+    /* 초기에 약간 아래에 배치 */
+    transform: translate(-50%, -40%);
+ }
+
+.show .report-popup {
+    transform: translate(-50%, -50%);
+    transition: all .5s;
+}
+
+.report-model-header-area{
+    width: 700px;
+    height: 50px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #ff4e4e;
+}
+
+.report-model-header{
+    margin-left: 20px;
+    width: 660px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+#report-close{
+    font-size: 30px;
+    font-weight: 900;
+    cursor: pointer;
+    
+}
+
+.report-model-header-text{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.report-model-body-area{
+    width: 600px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.report-model-body-first{
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.report-model-title-area{
+    display: flex;
+    width: 580px;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.report-model-title-text{
+    font-size: 26px;
+    font-weight: bold;
+    /* color: gray; */
+    color: black;
+}
+
+.report-model-member-area{
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.report-model-member-target{
+    font-size: 22px;
+    font-weight: 800;
+    margin-right: 20px;
+}
+
+.report-model-member-name{
+    font-weight: 800;
+    margin-right: 10px;
+}
+
+.report-model-member-profile{
+    width: 50px;
+    height: 50px;
+    border-radius: 70%;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.report-model-member-profile > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.report-model-question-area{
+    margin-left: 10px;
+    margin-top: 20px;
+    display: flex;
+    width: 600px;
+}
+
+.report-model-question-title{
+    width: 500px;
+    margin-left: 20px;
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.report-model-question-icon{
+    width: 50px;
+    height: 50px;
+    border-radius: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFCE31;
+    font-weight: 800;
+    font-size: 24px;
+
+}
+
+.report-model-question-text{
+    border-radius: 6px;
+    padding: 15px;
+    width: 560px;
+    background-color: #ffcdcd;
+    font-weight: bold;
+}
+
+.report-model-icon-area{
+    width: 600px;
+    display: flex;
+    justify-content: center;
+    
+}
+
+#report-model-icon{
+    color: #FFCE31;
+    font-weight: 800;
+    font-size: 30px;
+}
+
+.report-model-answer-text-area{
+    margin-top: 20px;
+    width: 600px;
+    display: flex;
+}
+
+#report-model-answer-icon{
+    font-weight: bold;
+    font-size: 24px;
+    color: #3183ff;
+}
+
+.report-model-answer-text{
+    border-radius: 6px;
+    padding: 15px;
+    width: 500px;
+    background-color: #ffebda;
+    font-weight: bold;
+}
+
+.report-model-answer-icon{
+    margin-left: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #885d3b;
+    font-weight: 800;
+    font-size: 24px;
+
+}
+
+.report-model-btn-area{
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+
+.report-model-check-btn{
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Noto Sans KR';
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #FFCE31;
+    margin-right: 20px;
+}
+
+.report-model-delete-btn{
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Noto Sans KR';
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #ff4e4e;
+    margin-left: 20px;
+}

@@ -93,10 +93,10 @@ public class CSCServiceImpl implements CSCService {
 		return dao.getQNAByNo(sst, vo);
 	}
 
-	// 문의 삭제
+	// 문의 내역 삭제
 	@Override
-	public int delete(QNAVo vo) {
-		return 0;
+	public int deleteInquiry(QNAVo vo) {
+		return dao.deleteInquiry(sst, vo);
 	}
 
 	// 신고
@@ -133,12 +133,12 @@ public class CSCServiceImpl implements CSCService {
 	// 신고 상세 조회
 	@Override
 	public ReportVo getReportByNo(ReportVo vo) {
-		return null;
+		return dao.getReportByNo(sst, vo);
 	}
 
 	// 신고 삭제
 	@Override
-	public int delete(ReportVo vo) {
+	public int deleteReport(ReportVo vo) {
 		return 0;
 	}
 

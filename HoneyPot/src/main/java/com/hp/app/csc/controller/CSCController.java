@@ -141,6 +141,23 @@ public class CSCController {
 		return vo;
 	}
 	
+	// 문의 내역 삭제
+	@GetMapping("/csc/inquiry/delete")
+	public String deleteInquiry(String bno) throws Exception {
+		
+		QNAVo vo = new QNAVo();
+		vo.setNo(bno);
+		vo.setMemberNo("1");
+		
+		int result = service.deleteInquiry(vo);
+		
+		if(result != 1) {
+			throw new Exception("문의내역 에러...");
+		}
+		
+		return "redirect:/csc/inquiry-list";
+	}
+	
 	
 	// 신고하기(화면)
 	@GetMapping("csc/report")
@@ -205,6 +222,31 @@ public class CSCController {
 		model.addAttribute("rList", rList);
 		
 		return "csc/member/report-list";
+	}
+	
+	// 신고 상세 조회
+	@GetMapping("csc/report/detail")
+	@ResponseBody
+	public ReportVo getReportByNo(String rno) throws Exception {
+		
+		String no = "1";
+		
+		if("".equals(rno) || rno == null) {
+			throw new Exception("QNA 상세조회 실패");
+		}
+		
+		ReportVo rvo = new ReportVo();
+		rvo.setReporter(no);
+		rvo.setNo(rno);
+		
+		
+		ReportVo vo = service.getReportByNo(rvo);
+		
+		if(vo == null) {
+			throw new Exception("QNA 상세조회 실패");
+		}
+		
+		return vo;
 	}
 	
 	// 관리자

@@ -76,6 +76,7 @@
 	<!-- 문의 상세 조회 (화면) -->
 	<select id="getQNAByNo" resultType="com.hp.app.csc.vo.QNAVo">
 		SELECT 
+			Q.NO,
             Q.TITLE,
             Q.CONTENT,
             Q.ANSWER
@@ -102,6 +103,14 @@
 			, #{content}
 		)
 	</insert>
+	
+	<!-- 문의 내역 삭제 -->
+	 <delete id="deleteInquiry">
+	 	DELETE FROM QNA
+	 	WHERE NO = #{no}
+	 	AND MEMBER_NO = #{memberNo}
+	 </delete>
+	
 	
 	<!-- 신고 -->
 	
@@ -171,6 +180,21 @@
 		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
 		WHERE R.REPORTER = #{no}
 		ORDER BY R.ENROLL_DATE DESC
+	</select>
+	
+	<!-- 신고 상세 조회 -->
+	<select id="getReportByNo" resultType="com.hp.app.csc.vo.ReportVo">
+		SELECT
+		    R.NO
+		    ,R.TITLE
+		    ,R.CONTENT
+		    ,R.ANSWER_DATE
+		    ,M.NAME AS MEMBER_NAME
+		    ,M.PROFILE AS MEMBER_PROFILE
+		FROM REPORT R
+		JOIN MEMBER M ON R.RESPONDENT = M.NO
+		WHERE R.NO = #{no}
+		AND R.REPORTER = ${reporter}
 	</select>
   
 </mapper>

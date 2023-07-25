@@ -107,9 +107,11 @@
 	firstNav(['자주묻는질문', '문의하기', '문의목록', '신고하기', '신고목록'], '문의목록');
 
     // QNA 상세보기 버튼
+    let deleteBno = null;
+
     function detailQna(e) {
     const bno = e.firstElementChild.innerText;
-    console.log(bno);
+    // console.log(bno);
     $.ajax({
         url : "/app/csc/qna/detail",
         method : "GET",
@@ -133,15 +135,15 @@
             question.innerHTML = questionStr;
             questionC.innerHTML = questionCStr;
             answer.innerHTML = answerStr;
+            deleteBno = data.no;
 
-
+            document.querySelector(".qna-background").className = "qna-background show";
         },
         error : function() {
             alert("실패");
         },
     })	
 
-    document.querySelector(".qna-background").className = "qna-background show";
     }
 
     // qna 상세보기 모달 사용
@@ -177,7 +179,7 @@
             // 만약 Promise리턴을 받으면,
             if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
             
-                Swal.fire('삭제가 완료되었습니다.', '', 'success');
+                location.href="/app/csc/inquiry/delete?bno=" + deleteBno;
             }
         });
     });

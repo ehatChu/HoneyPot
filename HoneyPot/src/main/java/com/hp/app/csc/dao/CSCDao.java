@@ -50,8 +50,8 @@ public interface CSCDao {
 	// 문의 상세 조회
 	QNAVo getQNAByNo(SqlSessionTemplate sst, QNAVo vo);
 	
-	// 문의 삭제
-	int delete(SqlSessionTemplate sst, QNAVo vo);
+	// 문의 내역 삭제
+	int deleteInquiry(SqlSessionTemplate sst, QNAVo vo);
 	
 	// 신고
 	// 신고 카테고리 List 조회
@@ -73,6 +73,6 @@ public interface CSCDao {
 	ReportVo getReportByNo(SqlSessionTemplate sst, ReportVo vo);
 	
 	// 신고 삭제
-	int delete(SqlSessionTemplate sst, ReportVo vo);
+	int deleteReport(SqlSessionTemplate sst, ReportVo vo);
 	
 }

@@ -45,8 +45,8 @@ public interface CSCService {
 	// 문의 상세 조회
 	QNAVo getQNAByNo(QNAVo vo);
 	
-	// 문의 삭제
-	int delete(QNAVo vo);
+	// 문의 내역 삭제
+	int deleteInquiry(QNAVo vo);
 	
 	// 신고
 	// 신고 카테고리 List 조회
@@ -68,7 +68,7 @@ public interface CSCService {
 	ReportVo getReportByNo(ReportVo vo);
 	
 	// 신고 삭제
-	int delete(ReportVo vo);
+	int deleteReport(ReportVo vo);
 
 	
 	
