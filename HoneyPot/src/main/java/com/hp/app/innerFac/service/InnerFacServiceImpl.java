@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hp.app.innerFac.dao.InnerFacDao;
+import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
 
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,11 @@ public class InnerFacServiceImpl implements InnerFacService {
 	
 		
 		return fvo;
+	}
+
+	@Override
+	public int makeReservation(InnerFacRsVo rsVo) {
+		return dao.makeReservation(sst,rsVo);
 	}
 
 }
