@@ -1,6 +1,8 @@
 package com.hp.app.csc.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,13 +34,18 @@ public class CSCController {
 	
 	// FAQ 조회(화면)
 	@GetMapping("csc/faq")
-	public String getFAQList(Model model, String page, String searchTitle) {
+	public String getFAQList(Model model, String page, String searchType, String searchValue) {
 		
 		if(page == null) {
-			return "redirect:/csc/faq?page=1";
+			page = "1";
 		}
 		
-		int listCount = service.getFAQCnt();
+		//검색값 저장
+		Map<String, String> searchVo = new HashMap<>();
+		searchVo.put("searchType", searchType);
+		searchVo.put("searchValue", searchValue);
+		
+		int listCount = service.getFAQCnt(searchVo);
 		int currentPage = Integer.parseInt(page);
 		int pageLimit = 5;
 		int boardLimit = 8;
@@ -47,14 +54,13 @@ public class CSCController {
 		
 
 		
-		List<FAQVo> fList = service.getFAQList(pvo);
-		
-		
+		List<FAQVo> fList = service.getFAQList(pvo,searchVo);
 		List<FAQCategoryVo> cList = service.getFAQCatList();
 		
 		model.addAttribute("fList", fList);
 		model.addAttribute("cList", cList);
 		model.addAttribute("pvo", pvo);
+		model.addAttribute("searchVo", searchVo);
 		
 		return "csc/member/faq";
 	}
@@ -248,6 +254,28 @@ public class CSCController {
 		
 		return vo;
 	}
+	
+	// 신고 내역 삭제
+	@GetMapping("csc/report/delete")
+	public String deleteReport(String rno) throws Exception {
+		
+		String memberNo = "1";
+		
+		ReportVo rvo = new ReportVo();
+		
+		rvo.setNo(rno);
+		rvo.setReporter(memberNo);
+		
+		int result = service.deleteReport(rvo);
+		
+		if(result != 1) {
+			throw new Exception("신고 내역 삭제 에러");
+		}
+		
+		return "redirect:/csc/report-list";
+	}
+	
+	//--------------------------------------------------------------------------------------------
 	
 	// 관리자
 	

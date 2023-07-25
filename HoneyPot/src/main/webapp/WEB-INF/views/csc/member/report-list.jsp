@@ -62,9 +62,9 @@
                                 <div class="report-model-title-text">신고 내역</div>
                                 <div class="report-model-member-area">
                                     <div class="report-model-member-target">신고대상</div>
-                                    <div class="report-model-member-name">김지수</div>
+                                    <div class="report-model-member-name" id="report-model-member-name"></div>
                                     <div class="report-model-member-profile">
-                                        <img src="" alt="프로필 사진">
+                                        <img id="report-model-member-profile" src="" alt="프로필 사진">
                                     </div>
                                 </div>
                             </div>
@@ -105,12 +105,12 @@
     headerName('고객센터'); // 현재 페이지 이름
 	firstNav(['자주묻는질문', '문의하기', '문의목록', '신고하기', '신고목록'], '신고목록');
 
-    // report 상세보기 버튼
-    let deleteBno = null;
+    // 신고 내역 상세보기 버튼
+    let deleteRno = null;
 
     function detailReport(e) {
     const rno = e.firstElementChild.innerText;
-    console.log(rno);
+    // console.log(rno);
     $.ajax({
         url : "/app/csc/report/detail",
         method : "GET",
@@ -121,16 +121,25 @@
         success : function(data) {
             const question = document.querySelector("#report-model-question");
             const questionC = document.querySelector("#report-model-question-content");
+            const name = document.querySelector("#report-model-member-name")
+            const profile = document.querySelector("#report-model-member-profile");
 
             question.innerHTML = "";
             questionC.innerHTML = "";
+            name.innerHTML = "";
+            profile.src = "";
 
             const questionStr = data.title;
             const questionCStr = data.content;
+            const nameStr = data.memberName;
+            const profileStr = data.memberProfile;
 
             question.innerHTML = questionStr;
             questionC.innerHTML = questionCStr;
-            deleteBno = data.no;
+            name.innerHTML = nameStr;
+            profile.src = profileStr;
+            deleteRno = data.no;
+            console.log(deleteRno);
 
             document.querySelector(".report-background").className = "report-background show";
         },
@@ -153,6 +162,31 @@
     // document.querySelector("#temp-btn").addEventListener('click', reportshow);
     document.querySelector("#report-close").addEventListener('click', reportclose);
     document.querySelector("#report-check-btn").addEventListener('click', reportclose);
+
+    // 삭제 버튼 활성화
+    const deleteBtn = document.querySelector("#report-delete-btn");
+    deleteBtn.addEventListener("click", function(){
+        Swal.fire({
+            title: '정말로 삭제 하시겠습니까?',
+            text: '다시 되돌릴 수 없습니다. 신중하세요.',
+            icon: 'warning',
+            
+            showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+            confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+            cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+            
+            // reverseButtons: true, // 버튼 순서 거꾸로
+            
+            }).then(result => {
+            // 만약 Promise리턴을 받으면,
+            if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+            
+                location.href="/app/csc/report/delete?rno=" + deleteRno;
+            }
+        });
+    });
 
 
 </script>

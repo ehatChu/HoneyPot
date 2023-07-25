@@ -1,6 +1,7 @@
 package com.hp.app.csc.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -35,15 +36,15 @@ public class CSCDaoImpl implements CSCDao{
 
 	// FAQ 모든 글 갯수
 	@Override
-	public int getFAQCnt(SqlSessionTemplate sst) {
-		return sst.selectOne("csc.getFAQCnt");
+	public int getFAQCnt(SqlSessionTemplate sst, Map<String, String> searchVo) {
+		return sst.selectOne("csc.getFAQCnt", searchVo);
 	}
 	
 	// FAQ 모든 List 조회
 	@Override
-	public List<FAQVo> getFAQList(SqlSessionTemplate sst, PageVo pvo) {
+	public List<FAQVo> getFAQList(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchVo) {
 		RowBounds rb = new RowBounds(pvo.getOffset(), pvo.getBoardLimit()); // (건널 뛸 갯수, 보여줄 갯수)
-		return sst.selectList("csc.getFAQList", null, rb);
+		return sst.selectList("csc.getFAQList", searchVo, rb);
 	}
 
 	// FAQ 상세 조회
@@ -135,7 +136,7 @@ public class CSCDaoImpl implements CSCDao{
 	// 신고 삭제
 	@Override
 	public int deleteReport(SqlSessionTemplate sst, ReportVo vo) {
-		return 0;
+		return sst.delete("csc.deleteReport", vo);
 	}
 
 

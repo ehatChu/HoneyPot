@@ -1,6 +1,7 @@
 package com.hp.app.csc.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
@@ -21,10 +22,10 @@ public interface CSCService {
 	List<FAQCategoryVo> getFAQCatList();
 	
 	// FAQ 모든 글 갯수
-	int getFAQCnt();
+	int getFAQCnt(Map<String, String> searchVo);
 	
 	// FAQ 모든 List 조회
-	List<FAQVo> getFAQList(PageVo pvo);
+	List<FAQVo> getFAQList(PageVo pvo, Map<String, String> searchVo);
 	
 	// FAQ 상세 조회
 	FAQVo getFAQByNo(String fNo) throws Exception;
