@@ -103,6 +103,7 @@
 			
 				<div id="reservation-area">
 					<div>
+						<h1>1.날짜선택</h1>
 						<input type="date" id="date-choice" >
 						<script>
 				
@@ -133,8 +134,14 @@
 					</div>
 					<div></div>
 					<div id="span-area">
-						<h1>2.시간선택</h1><h3>${innerFacVo.openTime}</h3><h3>${innerFacVo.closeTime}</h3>
-						<c:forEach var="i" begin="1" end="18">
+						<!--  -->
+						<h1>2.시간선택</h1>
+						
+						<c:if test="${openTime < closeTime}">
+							07ㅅ;부터 23시까지는 이게 보여야함.
+						</c:if>
+						<c:forEach var="i" begin="${openTime}" end="${closeTime}">
+							
 							<!-- small-box이용하면 label을 박스형태로 바꿀 수 있음. -->
 							<label for="${i}" class="small-box orange-color">${i}</label><input type="checkbox" name="startTime" id="${i}" value="${i}">
 								
