@@ -289,19 +289,28 @@
                     <div class="title-area">
                         <div id="article">제목</div>
 
-                        <input type="checkbox" name="importantYn" value="Y"> 중요
+                        <!-- 중요여부 체크박스 -->
+                        <c:choose>
+                            <c:when test="${vo.importantYn eq 'Y'}">
+                                <input type="checkbox" name="importantYn" value="Y" checked> 중요
+                                <!-- <input type="hidden" name="importantYn" value="N" id="hiddenImportantYn"> -->
+                            </c:when>
+                            <c:when test="${vo.importantYn eq 'N' || empty vo.importantYn}">
+                                <input type="checkbox" name="importantYn" value="Y"> 중요
+                            </c:when>
+                        </c:choose>
                         <br>
                         
+                        <!-- 카테고리 -->
                         <select name="noticeCno">
                             <option value="">--선택--</option>
                             <c:forEach items="${cvo}" var="cvo">
-                                <option value="${cvo.no}">${cvo.name}</option>
-                                <!-- <c:if test="${vo.noticeCno} eq ${cvo.no}">
-                                    <option value="${cvo.no}" selected="selected">${cvo.name}</option>
+                                <c:if test="${vo.noticeCno eq cvo.no}">
+                                    <option value="${cvo.no}" selected>${cvo.name}</option>
                                 </c:if>
-                                <c:if test="${vo.noticeCno} not eq ${cvo.no}">
+                                <c:if test="${vo.noticeCno ne cvo.no}">
                                     <option value="${cvo.no}">${cvo.name}</option>
-                                </c:if> -->
+                                </c:if>
                             </c:forEach>
                         </select>
 

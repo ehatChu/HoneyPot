@@ -289,9 +289,12 @@
                     <div class="title-area">
                         <div id="article">제목</div>
 
+                        <!-- 중요여부 체크박스 -->
                         <input type="checkbox" name="importantYn" value="Y"> 중요
+                        <!-- <input type="hidden" name="importantYn" value="N" id="hiddenImportantYn"> -->
                         <br>
 
+                        <!-- 카테고리 -->
                         <select name="noticeCno">
                             <option value="" selected>--선택--</option>
                             <c:forEach items="${cvo}" var="cvo">
