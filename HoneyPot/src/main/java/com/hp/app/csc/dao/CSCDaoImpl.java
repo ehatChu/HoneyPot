@@ -123,7 +123,7 @@ public class CSCDaoImpl implements CSCDao{
 	// 신고 List 조회
 	@Override
 	public List<ReportVo> getReportList(SqlSessionTemplate sst, String no) {
-		return null;
+		return sst.selectList("csc.getReportList", no);
 	}
 
 	// 신고 상세 조회

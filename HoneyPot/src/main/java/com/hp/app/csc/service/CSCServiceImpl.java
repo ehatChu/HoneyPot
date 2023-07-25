@@ -127,7 +127,7 @@ public class CSCServiceImpl implements CSCService {
 	// 신고 List 조회
 	@Override
 	public List<ReportVo> getReportList(String no) {
-		return null;
+		return dao.getReportList(sst, no);
 	}
 
 	// 신고 상세 조회

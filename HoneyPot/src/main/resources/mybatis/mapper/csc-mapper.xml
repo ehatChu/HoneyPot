@@ -158,5 +158,19 @@
 	        , #{content}
 		)
 	</insert>
+	
+	<!-- 신고 List 조회 -->
+	<select id="getReportList" resultType="com.hp.app.csc.vo.ReportVo">
+		SELECT
+		    R.NO
+		    , R.TITLE
+		    , TO_CHAR(R.ENROLL_DATE, 'YY.MM.DD HH:MI') AS ENROLL_DATE
+		    , C.NAME AS REPORT_CNAME
+		    , R.ANSWER_DATE
+		FROM REPORT R
+		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
+		WHERE R.REPORTER = #{no}
+		ORDER BY R.ENROLL_DATE DESC
+	</select>
   
 </mapper>
