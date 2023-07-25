@@ -7,338 +7,9 @@
 		<title>Insert title here</title>
         <!-- sweetAlert CDN -->
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <!-- CSS -->
+		<link rel="stylesheet" href="/app/resources/css/admin/fee/list.css">
 	</head>
-
-	<style>
-		#wrap {
-			height: 1400px;
-			display: grid;
-			grid-template-rows: 600px 800px;
-		}
-
-        /* 관리비 내역, 등록, 수정 영역 */
-        #list-area {
-			display: grid;
-			grid-template-rows: 50px 500px 50px;
-			margin-top: 30px;
-           
-		}
-
-		#search-area {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-
-		}
-
-		#search-area > div:first-child {
-            width: 250px;
-            height: 50px;
-			font-weight: 500;
-			font-size: 23px;
-			color: #4A321F;
-            display: flex;
-            align-items: center;
-            background: #ffce31;
-            border-radius: 20px 20px 0px 0px;
-		}
-
-        #search-area > div > #date-box {
-            border-radius: 20px 0px 0 0;
-            background: #ffce31;
-            border: none;
-            font-size: 20px;
-            font-weight: 600;
-            margin-left: 10px;
-            margin-right: 20px;
-        }
-
-		#search-area > div:nth-child(2) > input{
-			width: 300px;
-			height: 40px;
-			border-radius: 20px;
-			margin-right: 20px;
-			font-size: 15px;
-			padding: 20px;
-		}
-
-        #search-area > div:nth-child(2) > i {
-            margin-right: 10px;
-        }
-
-
-		.A_detail {
-			width: 1548px;
-			height: 500px;
-			text-align: center;
-			vertical-align: middle;
-			border-collapse: collapse;
-			background: #FFFFFF;
-            
-		}
-
-		.line{border-bottom:1px solid black;}
-		
-		.A_detail > thead > tr {
-			font-size: 18px;
-			height: 40px;
-            background-color: #4A321F;
-            color: #FFFFFF;
-		}
-
-        .A_detail > tbody > tr:hover {
-            cursor: pointer;
-			background-color: #fdeaab;
-        }
-
-		.A_detail > thead > tr >th:first-child > i {
-			margin-left: 10px;
-		}
-
-		#page-area {
-			display: grid;
-			grid-template-columns: 950px 564px;
-			justify-items: end;
-			align-items: center;
-			border-radius: 0 0 10px 0;
-		}
-		
-		.paging {
-			display: flex;
-			align-items: baseline;
-		}
-
-        #page-area > .paging >.pageBtn {
-            font-weight: bold;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: transparent;
-        }
-
-        #page-area > .paging > .pageBtn:hover{
-            background-color: #FAD355;
-            color: white;
-        }
-
-		#editBtn, #delBtn {
-			border: none;
-			background-color: transparent;
-            cursor: pointer;
-		}
-
-		#openBtn {
-			background-color: #ffce31;
-			color: black;
-			width: 150px;
-			height: 40px;
-			font-size: 18px;
-			font-weight: 550;
-			text-align: center;
-			border-radius: 12px;
-			border: none;
-            cursor: pointer;
-		}
-
-		/* 등록 모달 영역 */
-		.modal {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .modal .bg {
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.6);
-        }
-
-        .modalBox {
-          position: absolute;
-          background-color: #fff;
-          width: 700px;
-          height: 600px;
-		  border-radius: 30px;
-		  display: grid;
-		  grid-template-rows: 50px 550px;
-        }
-
-        .modalBox button {
-          display: block;
-          margin: 0 auto;
-		  border: none;
-		  background-color: #ffce31;
-        }
-
-        .hidden {
-          display: none;
-        }
-
-		/* 모달 디자인 영역 */
-		.upper-bar {
-			display: grid;
-			grid-template-columns: 650px 50px;
-			align-items: center;
-			background: #ffce31;
-			color: black;
-			border-radius: 30px 30px 0px 0px;
-		}
-
-		.upper-bar > span {
-			margin-left: 20px;
-			font-size: 20px;
-			font-weight: 530;
-		}
-	
-		.content-modal {
-			display: grid;
-			grid-template-rows: 100px 100px 260px 90px;
-			color: #464646;
-		}
-
-		.first-area {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			padding: 40px;
-			font-size: 18px;
-		}
-
-		.first-area > div > input {
-			width: 170px;
-			height: 30px;
-		}
-
-        .first-area > div:nth-child(2) > .categorySearch > input {
-            width: 180px;
-            height: 30px;
-        }
-
-        .first-area > div:nth-child(2) > .categorySearch > i {
-            margin-left: 10px;
-        }
-
-		#acnt_category{
-			width: 170px;
-			height: 30px;
-		}
-
-		.second-area{
-			padding: 40px;
-			font-size: 18px;
-		}
-
-		.second-area > input {
-			width: 170px;
-			height: 30px;
-		}
-
-		.third-area{
-			padding: 40px;
-			font-size: 18px;
-		}
-
-		#detailContent{
-			width: 610px;
-			height: 170px;
-			border-radius: 15px;
-			resize: none;
-			padding: 15px;
-		}
-
-		#submitBtn {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-
-		#submitBtn > input{
-			background-color: #ffce31;
-			width: 120px;
-			height: 40px;
-			font-size: 18px;
-			font-weight: 600;
-			color: black;
-			border: none;
-			border-radius: 10px;
-		}
-
-	
-        /* 관리비 월 총괄표 */
-        #month-total-area {
-            margin-top: 150px;
-            display: grid;
-			grid-template-rows: 50px 500px 50px;
-        }
-        
-        .excel {
-            background-color: none;
-            margin-right: 20px;
-            cursor: pointer;
-        }
-
-        .A_detail > tbody > #subTotal {
-            background-color: rgba(253, 255, 160, 0.326);
-            font-weight: 550;
-        }
-
-        .A_detail > tbody > #test {
-            background-color: #ffffff;
-        }
-        
-        #title-area {
-            display: flex;
-			justify-content: space-between;
-			align-items: center;
-            background-color: #ffffff;
-            border-radius: 20px 20px 0 0;
-        }
-
-        #title-area > div:first-child {
-            width: 250px;
-            height: 50px;
-			font-weight: 500;
-			font-size: 23px;
-			color: #4A321F;
-            display: flex;
-            align-items: center;
-            background: #ffce31;
-            border-radius: 20px 20px 0px 0px;
-		}
-
-        #title-area > div > #date-box {
-            border-radius: 20px 0px 0 0;
-            background: #ffce31;
-            border: none;
-            font-size: 20px;
-            font-weight: 600;
-            margin-left: 10px;
-            margin-right: 20px;
-        }
-
-		#title-area > div:nth-child(2) > input{
-			width: 300px;
-			height: 40px;
-			border-radius: 20px;
-			margin-right: 20px;
-			font-size: 15px;
-			padding: 20px;
-		}
-
-        #search-area > div:nth-child(2) > i {
-            margin-right: 10px;
-        }
-
-       
-
-	</style>
-
 	<body>
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 			<nav>
@@ -352,16 +23,26 @@
                     <div id="list-area">
                         <div id="search-area">
                             <div>
-                                <select name="" id="date-box">
-									<option value="2023-02">02월</option>
-									<option value="2023-03">03월</option>
-									<option value="2023-04">04월</option>
-									<option value="2023-05">05월</option>
-									<option value="2023-06" selected>06월</option>
-								</select>
+                                <span>6월</span>
                                <div>관리비 내역</div>                            
                             </div>
-                            <div><input type="text" placeholder="검색 할 내용을 입력하세요."><i class="fa-solid fa-magnifying-glass fa-lg" ><a href=""></a></i></div>
+                            <form action="/app/fee/admin" method="GET">
+                                <div class="searchDiv">
+                                    <select name="searchType" id="searchType">
+                                        <option value="content">내용</option>
+                                        <option value="accountDate">월 별</option>
+                                    </select>
+                                    <input type="search" placeholder="검색 할 내용을 입력하세요." name="searchValue" value="${searchVo.searchValue}">
+                                    <select name="paymentDate" id="" style="display: none;"> 
+                                        <option value="">2023-06</option>
+                                        <option value="">2023-05</option>
+                                        <option value="">2023-04</option>
+                                        <option value="">2023-03</option>
+                                        <option value="">2023-02</option>
+                                    </select>
+                                    <button type="submit"><i class="fa-solid fa-magnifying-glass fa-2x" ></i></button>
+                                </div>
+                            </form>
                         </div>
                         <div>
                             <table class="A_detail">
@@ -376,12 +57,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach begin="1" end="10">
+                                    <c:forEach items="${avoList }" var="vo">
                                         <tr class="line">
-                                            <td>소독비</td>
-                                            <td>38,000</td>
-                                            <td>16일</td>
-                                            <td>3주차 소독 진행</td>
+                                            <td hidden>${vo.no}</td>
+                                            <td>${vo.categoryName}</td>
+                                            <td>${vo.price }</td>
+                                            <td>${vo.paymentDate }</td>
+                                            <td>${vo.content }</td>
                                             <td><button id="editBtn" class="openBtn"><i class="fa-solid fa-pen"></i></button></td>
                                             <td><button id="delBtn"><i class="fa-solid fa-xmark fa-lg"></i></button></td>
                                         </tr>
@@ -389,70 +71,72 @@
                                 </tbody>
                             </table>
                         </div>
+                        <!-- 페이지 영역 -->
                         <div id="page-area">
                             <div class="paging">
-                                <button class="pageBtn"><</button>
-                                <button class="pageBtn">1</button>
-                                <button class="pageBtn">2</button>
-                                <button class="pageBtn">3</button>
-                                <button class="pageBtn">4</button>
-                                <button class="pageBtn">5</button>
-                                <button class="pageBtn">></button>
-                                <!-- <c:if test="${pv.currentPage > 1}">
-                                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
-                                </c:if>
-                                    <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
-                                        <c:if test="${pv.currentPage != i}">
-                                            <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
-                                        </c:if>
-                                        <c:if test="${pv.currentPage == i}">
-                                            <a class="btn btn-primary btn-sm">${i}</a>
-                                        </c:if>
-                                    </c:forEach>
-                                <c:if test="${pv.currentPage < pv.maxPage}">
-                                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
-                                </c:if> -->
-                            </div>
+                                <c:if test="${pv.currentPage > 1}">
+                            <button id="pbtn" onclick="location.href='/app/fee/admin?p=${pv.currentPage - 1}'"> < </button>
+                        </c:if>
+                        <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+                            <c:if test="${pv.currentPage != i}">
+                                <button id="pbtn" onclick="location.href='/app/fee/admin?p=${i}'">${i}</button>
+                            </c:if>
+                            <c:if test="${pv.currentPage == i}">
+                                <button id="current-page-btn">${i}</button>
+                            </c:if>
+                        </c:forEach>
+                        <c:if test="${pv.currentPage < pv.maxPage}">
+                            <button id="pbtn" onclick="location.href='/app/fee/admin?p=${pv.currentPage + 1}'"> > </button>
+                        </c:if>
+                        </div>
                             <button id="openBtn" class="openBtn">등록</button>
-                            <!-- 모달 영역 -->
-                            <div class="modal hidden">
+                            <!-- 등록 모달 영역 -->
+                            <div class="A_modal hidden">
                                 <div class="bg"></div>
                                     <div class="modalBox">
                                         <div class="upper-bar">
                                             <span>관리비 등록</span>
-                                            <button class="closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+                                            <button class="A_closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
                                         </div>
-                                        <form action="/app/account/add" method="post">
+                                        <form action="/app/fee/admin/add" method="post">
                                         <div class="content-modal">
                                                 <div class="first-area">
                                                     <div>
                                                         <span>발생일자</span>
                                                         <br>
-                                                        <input type="date">
+                                                        <input type="date" name="paymentDate">
                                                     </div>
                                                     <div>
                                                         <span>카테고리</span>
                                                         <br>
-                                                        <!-- 검색 영역으로 만들기 -->
-                                                        <div class="categorySearch"><input type="text" placeholder="검색 할 내용을 입력하세요."><i class="fa-solid fa-magnifying-glass fa-lg" ><a href=""></a></i></div>
+                                                        <select id="A_afee_category" name="feeCno">
+                                                            <option value="1">시설 유지보수</option>
+                                                            <option value="2">소독 및 청소</option>
+                                                            <option value="3">경비원 비용</option>
+                                                            <option value="4">정원 가꾸기</option>
+                                                            <option value="5">보험</option>
+                                                            <option value="6">공공 요금</option>
+                                                            <option value="7">일반 관리비</option>
+                                                            <option value="8">기타</option>
+                                                          </select>
                                                     </div>
                                                 </div>
                                                 <div class="second-area">
                                                     <span>금액</span>
                                                     <br>
-                                                    <input type="text" dir="rtl" maxlength="10" onkeyup="inputNumberFormat(this);"> 원
+                                                    <input type="text" dir="rtl" maxlength="10" name="price"> 원
                                                 </div>
                                                 <div class="third-area">
-                                                    <span>내용</span>
+                                                    <span>비고 작성란</span>
                                                     <br>
-                                                    <textarea name="" id="detailContent" placeholder="상세 내용을 입력하세요. 예시:저녁 장보기"></textarea>
+                                                    <textarea id="A_detailContent" placeholder="상세하게 적을 내용을 작성하세요. 예시 : 공공 요금 (열 요금, 가스 요금 등)" name="content"></textarea>
                                                 </div>
-                                                <div id="submitBtn"><input type="submit" value="등록"></div>
+                                                <div id="A_submitBtn"><input type="submit" value="등록"></div>
                                             </div>
                                         </form>
                                     </div>
                             </div>
-                        </div>
+
                     </div>
 
                     <!-- 관리비 월별 총괄표-->
@@ -506,30 +190,49 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div id="page-area">
-                            <div class="paging">
-                                <button class="pageBtn"><</button>
-                                <button class="pageBtn">1</button>
-                                <button class="pageBtn">2</button>
-                                <button class="pageBtn">3</button>
-                                <button class="pageBtn">4</button>
-                                <button class="pageBtn">5</button>
-                                <button class="pageBtn">></button>
-                                <!-- <c:if test="${pv.currentPage > 1}">
-                                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
-                                </c:if>
-                                    <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
-                                        <c:if test="${pv.currentPage != i}">
-                                            <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
-                                        </c:if>
-                                        <c:if test="${pv.currentPage == i}">
-                                            <a class="btn btn-primary btn-sm">${i}</a>
-                                        </c:if>
-                                    </c:forEach>
-                                <c:if test="${pv.currentPage < pv.maxPage}">
-                                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
-                                </c:if> -->
-                            </div>
+                        </div>
+
+                        <!-- 수정 모달 영역 -->
+                        <div class="edit-modal hidden">
+                            <div class="bg"></div>
+                            <div class="modalBox">
+                                <div class="upper-bar">
+                                    <span>관리비 수정</span>
+                                    <button class="EcloseBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+                                </div>
+                                <div class="content-modal">
+                                    <div class="first-area">
+                                        <div>
+                                            <span>발생일자</span>
+                                            <br>
+                                            <input type="date" name="paymentDate">
+                                        </div>
+                                        <div>
+                                            <span>카테고리</span>
+                                            <br>
+                                            <select id="E_afee_category" name="feeCno">
+                                                <option value="1">시설 유지보수</option>
+                                                <option value="2">소독 및 청소</option>
+                                                <option value="3">경비원 비용</option>
+                                                <option value="4">정원 가꾸기</option>
+                                                <option value="5">보험</option>
+                                                <option value="6">공공 요금</option>
+                                                <option value="7">일반 관리비</option>
+                                                <option value="8">기타</option>
+                                              </select>
+                                        </div>
+                                    </div>
+                                    <div class="second-area">
+                                        <span>금액</span>
+                                        <br>
+                                        <input type="text" dir="rtl" maxlength="10" name="price"> 원
+                                    </div>
+                                    <div class="third-area">
+                                        <span>비고 작성란</span>
+                                        <br>
+                                        <textarea id="E_detailContent" placeholder="상세하게 적을 내용을 작성하세요. 예시 : 공공 요금 (열 요금, 가스 요금 등)" name="content"></textarea>
+                                    </div>
+                                    <div id="E_submitBtn"><input type="submit" value="등록"></div>
                             </div>
                         </div>
                     </div>
@@ -548,16 +251,36 @@
 		secondNav(['관리비', '비품관리', '편의시설관리', '리뷰관리'],'관리비');
     	headerName('관리자');
 
-        // 등록 모달
+        $(document).ready(function() {
+            function inputVisibility() {
+            var selectedOption = $("#searchType").val();
+            if (selectedOption === "content") {
+                $("select[name='paymentDate']").hide();
+                $("input[name='searchValue']").show();
+            } else if (selectedOption === "accountDate") {
+                $("input[name='searchValue']").hide();
+                $("select[name='paymentDate']").show();
+            }
+            }
+
+            inputVisibility();
+
+            $("#searchType").on("change", function() {
+                inputVisibility();
+            });
+        });
+
+
+        ////// 등록 모달
 
         // 모달 열기
         const openModal = () => {
-        document.querySelector(".modal").classList.remove("hidden");
+        document.querySelector(".A_modal").classList.remove("hidden");
         };
 
         // 모달 닫기
         const closeModal = () => {
-        document.querySelector(".modal").classList.add("hidden");
+        document.querySelector(".A_modal").classList.add("hidden");
         };
 
         const openBtns = document.querySelectorAll(".openBtn");
@@ -566,10 +289,75 @@
         });
 
         // 모달 닫기 버튼에 이벤트 추가
-        document.querySelector(".closeBtn").addEventListener("click", closeModal);
+        document.querySelector(".A_closeBtn").addEventListener("click", closeModal);
 
         // 모달 배경 클릭 시 모달 닫기
         document.querySelector(".bg").addEventListener("click", closeModal);
+
+        ///////// 수정 모달
+        $(document).ready(function() {
+        $(".editBtn").on("click", function() {
+        var no = $(this).closest("tr").find("td:nth-child(1)").text().trim();
+        var categoryName = $(this).closest("tr").find("td:nth-child(3)").text().trim();
+        var paymentDate = $(this).closest("tr").find("td:nth-child(4)").text().trim();
+        var content = $(this).closest("tr").find("td:nth-child(5)").text().trim();
+        var price = $(this).closest("tr").find("td:nth-child(6)").text().trim();
+        // 가격 원 붙은 거 떼기
+        var numericPrice = parseInt(price.replace(/\D/g, ""));
+
+        $("#paymentDate").val(paymentDate);
+        $("#E_detailContent").text(content);
+        $("#price").val(numericPrice || 0);
+        $("#no").val(no);
+        // 카테고리 선택된 값 가져오기
+        $("#feeCno option").filter(function() {
+            return $(this).text() === categoryName;
+        }).prop('selected', true);
+
+        $(".edit-modal").removeClass("hidden");
+        });
+
+        $(".EcloseBtn").on("click", function() {
+        $(".edit-modal").addClass("hidden");
+        });
+
+        $("#E_submitBtn").on("click", function() {
+
+        var updatedCategoryName = $("#accountCno").val();
+        var updatedPaymentDate = $("#paymentDate").val();
+        var updatedContent = $("#E_detailContent").val();
+        console.log(updatedContent);
+        var updatedPrice = $("#price").val();
+        var no = $("#no").val();
+
+        var data = new FormData();
+        data.append("accountCno", updatedCategoryName);
+        data.append("paymentDate", updatedPaymentDate);
+        data.append("content", updatedContent);
+        data.append("price", updatedPrice);
+        data.append("no", no);
+
+        $.ajax({
+            type: "POST",
+            url: "/app/account/edit",
+            data: data,
+            contentType: false, 
+            processData: false,
+            success: function(response) {
+                console.log(response);
+                if(response == 'success'){
+                    window.location.href = "/app/account/list?p=1";
+                }
+            },
+            error: function(error) {
+            }
+        });
+
+        $(".edit-modal").addClass("hidden");
+        });
+    });
+
+
 
 
         // 금액칸 콤마 정규식
@@ -587,32 +375,36 @@
             obj.value = comma(uncomma(obj.value));
         }
 
-        // 삭제 알림창
-        // 백엔드 작업 시 삭제 버튼에 del 함수 걸어주기
+        // 삭제 모달
         $().ready(function () {
-            const delBtns = document.querySelectorAll("#delBtn")
-            delBtns.forEach((btn) => {
-            btn.addEventListener("click", function () {
+        $("#delBtn").click(function () { 
+            const row = $(this).closest('tr');
+            const ano = row.find('td:nth-child(1)').text();
             Swal.fire({
                 title: '삭제하시겠습니까?',
                 text: "다시 되돌릴 수 없습니다.",
                 icon: 'warning',
                 showCancelButton: true,
-                color: '#333',
                 confirmButtonColor: '#ffce31',
                 cancelButtonColor: '#ffce31',
-                confirmButtonText: '확인',
-                confirmButtonTextColor: '#333',
+                confirmButtonText: '승인',
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        '삭제가 완료되었습니다.',
-                    )
+                    $.ajax({
+                        type: 'POST', 
+                        url: '/app/fee/admin/del',  
+                        data: { no: ano }, 
+                        success: function (response) {
+                                location.reload();
+                        },
+                        error: function (error) {
+                            console.error('AJAX 요청 실패:', error);
+                        }
+                    });
                 }
             });
-        }
-            )}
-            )});
+        });
+    });
 		
 	</script>
