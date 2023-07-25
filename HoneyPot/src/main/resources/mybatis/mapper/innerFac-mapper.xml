@@ -21,4 +21,12 @@
 		SELECT OPEN_TIME, CLOSE_TIME
 		FROM AMENITY WHERE NO=#{no}
 	</select>
+	<select id="getPeopleCnt">
+	</select>
+	<insert id="makeReservation"> 
+		INSERT INTO AMENITY_RESERVATION 
+			(NO,AMENITY_NO,MEMBER_NO,RESERVE_TIME) 
+		VALUES 
+			(SEQ_AMENITY_RESERVATION_NO.NEXTVAL, #{amenityNo}, #{memberNo}, #{reserveTime})
+	</insert>
 </mapper>

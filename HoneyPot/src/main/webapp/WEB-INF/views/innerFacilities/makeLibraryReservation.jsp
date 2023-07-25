@@ -99,81 +99,86 @@
 
 	<main>
 		
-		<form action="${root}/library/reserve" method="post">
+		<form action="/app/facilities/reserve" method="post">
+			<input type="hidden" value="1" name="amenityNo">
 			<div id="temp-main-wrapper">
 			
 				<div id="reservation-area">
-					<div>
-						<h1>1.날짜선택</h1>
-						<input type="date" id="date-choice" >
-						<script>
-				
-
+					<form action="/app/member/login" method="post">
+						<div>
+							<h1>1.날짜선택</h1>
+							<input type="date" id="date-choice" name="date">
+							<script>
+					
+	
+								
+								//오늘 날짜를 -형식으로 바꿀 것 
+								let today = new Date();
+								
+								let dateElem = document.querySelector("#date-choice");
+								
+								dateElem.setAttribute("value",dateFormat(new Date()));
+								dateElem.setAttribute("min",dateFormat(new Date()));
+								
+								//7일 후 날짜구하기
+								let afterWeek = new Date(Date.parse(today)+7*1000*60*60*24);
+								dateElem.setAttribute("max",dateFormat(afterWeek));
 							
-							//오늘 날짜를 -형식으로 바꿀 것 
-							let today = new Date();
+					
+	
+								//포메팅 자주쓰일것 같아 함수로 분리함.
+								function dateFormat(date) {
+									let dateFormat2 = date.getFullYear() +
+										'-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+										'-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
+									return dateFormat2;
+								}	
+							</script>
+						</div>
+						<div></div>
+						<div id="span-area">
+							<!--  -->
+							<h1>2.시간선택</h1>
 							
-							let dateElem = document.querySelector("#date-choice");
+							<c:forEach var="i" begin="${openTime}" end="${closeTime}" step="1">
+								
+								<!-- small-box이용하면 label을 박스형태로 바꿀 수 있음. -->
 							
-							dateElem.setAttribute("value",dateFormat(new Date()));
-							dateElem.setAttribute("min",dateFormat(new Date()));
+	
+								<label for="${i}" class="small-box orange-color time${i}"></label><input type="radio" name="startTime" value="${i}">
+										
+							</c:forEach>
+							<script>
+								//openTime과 closeTime을 변수로 불러오기
+								const openTime = "${openTime}";
+								const closeTime = "${closeTime}";
+								//라벨 다 가져와서 for문 돌려보자
+								const label = document.querySelectorAll("label"); //다 가져와서 모든 요소에 값을 넣어주면 되는데...
+	
+								for(let lb of label){
+									//7라벨의 for값을 가져와서 
+									const forValue = lb.getAttribute("for");
+	
+									//forValue가 10보다 작다면 
+									let resultValue = forValue < 10 ? '0'+forValue : forValue;
+									lb.innerText =resultValue+':00';
+								}
 							
-							//7일 후 날짜구하기
-							let afterWeek = new Date(Date.parse(today)+7*1000*60*60*24);
-							dateElem.setAttribute("max",dateFormat(afterWeek));
-						
-				
-
-							//포메팅 자주쓰일것 같아 함수로 분리함.
-							function dateFormat(date) {
-								let dateFormat2 = date.getFullYear() +
-									'-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
-									'-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
-								return dateFormat2;
-							}	
-						</script>
-					</div>
-					<div></div>
-					<div id="span-area">
-						<!--  -->
-						<h1>2.시간선택</h1>
-						
-						<c:forEach var="i" begin="${openTime}" end="${closeTime}" step="1">
+	
+							</script>
 							
-							<!-- small-box이용하면 label을 박스형태로 바꿀 수 있음. -->
-						
+						</div>
+						<div id="count-people">
+							<div class="middle-size">선택한 시간대의 예약자는 현재</div>
+							<div class="big-size orange-font-color">23</div><span class="middle-size">/50명입니다.</span>
+						</div>
+						<div>
+							<h1>3.신청하시겠습니까?</h1>
+							<input type="submit" value="예약하기" class="orange-color btn-box"> <button class="brown-color btn-box">예약취소</button>
+						</div>
+					</form>
+					
 
-							<label for="${i}" class="small-box orange-color time${i}"></label><input type="checkbox" name="startTime" id="${i}" value="${i}">
-									
-						</c:forEach>
-						<script>
-							//openTime과 closeTime을 변수로 불러오기
-							const openTime = "${openTime}";
-							const closeTime = "${closeTime}";
-							//라벨 다 가져와서 for문 돌려보자
-							const label = document.querySelectorAll("label"); //다 가져와서 모든 요소에 값을 넣어주면 되는데...
-
-							for(let lb of label){
-								//7라벨의 for값을 가져와서 
-								const forValue = lb.getAttribute("for");
-
-								//forValue가 10보다 작다면 
-								let resultValue = forValue < 10 ? '0'+forValue : forValue;
-								lb.innerText =resultValue+':00';
-							}
-						
-
-						</script>
-						
-					</div>
-					<div id="count-people">
-						<div class="middle-size">선택한 시간대의 예약자는 현재</div>
-						<div class="big-size orange-font-color">23</div><span class="middle-size">/50명입니다.</span>
-					</div>
-					<div>
-						<h1>3.신청하시겠습니까?</h1>
-						<input type="submit" value="예약하기" class="orange-color btn-box"> <button class="brown-color btn-box">예약취소</button>
-					</div>
 				</div>
 				<div id="today-area">
 					<h1 class="text-center">오늘의 예약</h1>
