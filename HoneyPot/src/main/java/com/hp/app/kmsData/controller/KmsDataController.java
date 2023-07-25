@@ -19,28 +19,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hp.app.diet.vo.DietVo;
 import com.hp.app.kmsData.captcha.CaptchaUtil;
 import nl.captcha.Captcha;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@Slf4j
 @RequestMapping("kmsData")
 public class KmsDataController {
-	@GetMapping("breakFast")
-	public String breakFast(HttpServletRequest req, Model model) {
+	@ResponseBody
+	@GetMapping("diet")
+	public String meal(HttpServletRequest req) throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
-		try {
-			String root = req.getServletContext().getRealPath("/resources/data/diet.json");
-			File jsonFile = new File(root);
-			Object jsonData = objectMapper.readValue(jsonFile, Object.class);
-			String jsonString = objectMapper.writeValueAsString(jsonData);
-			model.addAttribute("jsonString", jsonString);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return "data/breakFast";
+		String root = req.getServletContext().getRealPath("/resources/data/meal.json");
+		File jsonFile = new File(root);
+		return "temp";
 	}
 
 	@GetMapping(value = "weather", produces = "text/plain")
@@ -96,7 +89,7 @@ public class KmsDataController {
 		}
 		rd.close();
 		conn.disconnect();
-		
+
 		return sb.toString();
 	}
 
@@ -115,22 +108,16 @@ public class KmsDataController {
 		String formattedDay = String.format("%02d", day);
 		String baseDate = formattedYear + formattedMonth + formattedDay;
 
-		
 		StringBuilder urlBuilder = new StringBuilder(
 				"http://apis.data.go.kr/B552584/ArpltnStatsSvc/getMsrstnAcctoRDyrg");
-		urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=Wyz5uylLIJYn%2BM7ddwH5EvX2ksfqBveLSQbOvXf%2Bb%2F0UdcgJRFVwGU3qj%2FLOkQoLdho99BTsY8e9RLq5WzxLFA%3D%3D");
-		urlBuilder.append("&" + URLEncoder.encode("returnType", "UTF-8") + "="
-				+ URLEncoder.encode("json", "UTF-8"));
-		urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "="
-				+ URLEncoder.encode("1", "UTF-8"));
-		urlBuilder
-				.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
-		urlBuilder.append("&" + URLEncoder.encode("inqBginDt", "UTF-8") + "="
-				+ URLEncoder.encode(baseDate, "UTF-8"));
-		urlBuilder.append("&" + URLEncoder.encode("inqEndDt", "UTF-8") + "="
-				+ URLEncoder.encode(baseDate, "UTF-8"));
-		urlBuilder.append(
-				"&" + URLEncoder.encode("msrstnName", "UTF-8") + "=" + URLEncoder.encode("강남구", "UTF-8"));
+		urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8")
+				+ "=Wyz5uylLIJYn%2BM7ddwH5EvX2ksfqBveLSQbOvXf%2Bb%2F0UdcgJRFVwGU3qj%2FLOkQoLdho99BTsY8e9RLq5WzxLFA%3D%3D");
+		urlBuilder.append("&" + URLEncoder.encode("returnType", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("inqBginDt", "UTF-8") + "=" + URLEncoder.encode(baseDate, "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("inqEndDt", "UTF-8") + "=" + URLEncoder.encode(baseDate, "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("msrstnName", "UTF-8") + "=" + URLEncoder.encode("강남구", "UTF-8"));
 		URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");

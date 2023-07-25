@@ -41,6 +41,7 @@ public class MemberController {
 			session.setAttribute("alertMsg", "입력하신 정보와 일치하는 회원 계정이 없습니다");
 			return "redirect:/member/mlogin";
 		}
+		session.removeAttribute("loginAdmin");
 		return "redirect:/main/mmain";
 	}
 	
@@ -58,6 +59,7 @@ public class MemberController {
 			session.setAttribute("alertMsg", "입력하신 정보와 일치하는 관리자 계정이 없습니다");
 			return "redirect:/member/alogin";
 		}
+		session.removeAttribute("loginMember");
 		return "redirect:/main/amain";
 	}
 
