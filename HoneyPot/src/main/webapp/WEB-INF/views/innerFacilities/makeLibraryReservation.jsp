@@ -87,6 +87,7 @@
 	/* input[name="startTime"] {
 		visibility: hidden;	
 	} */
+	
 </style>
 </head>
 <body>
@@ -137,15 +138,33 @@
 						<!--  -->
 						<h1>2.시간선택</h1>
 						
-						<c:if test="${openTime < closeTime}">
-							07ㅅ;부터 23시까지는 이게 보여야함.
-						</c:if>
-						<c:forEach var="i" begin="${openTime}" end="${closeTime}">
+						<c:forEach var="i" begin="${openTime}" end="${closeTime}" step="1">
 							
 							<!-- small-box이용하면 label을 박스형태로 바꿀 수 있음. -->
-							<label for="${i}" class="small-box orange-color">${i}</label><input type="checkbox" name="startTime" id="${i}" value="${i}">
-								
+						
+
+							<label for="${i}" class="small-box orange-color time${i}"></label><input type="checkbox" name="startTime" id="${i}" value="${i}">
+									
 						</c:forEach>
+						<script>
+							//openTime과 closeTime을 변수로 불러오기
+							const openTime = "${openTime}";
+							const closeTime = "${closeTime}";
+							//라벨 다 가져와서 for문 돌려보자
+							const label = document.querySelectorAll("label"); //다 가져와서 모든 요소에 값을 넣어주면 되는데...
+
+							for(let lb of label){
+								//7라벨의 for값을 가져와서 
+								const forValue = lb.getAttribute("for");
+
+								//forValue가 10보다 작다면 
+								let resultValue = forValue < 10 ? '0'+forValue : forValue;
+								lb.innerText =resultValue+':00';
+							}
+						
+
+						</script>
+						
 					</div>
 					<div id="count-people">
 						<div class="middle-size">선택한 시간대의 예약자는 현재</div>

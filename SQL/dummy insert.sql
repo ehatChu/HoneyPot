@@ -98,7 +98,7 @@ INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,OPEN_TIME,CLOSE_TIME) VALUE
 수용가능 인원은 50명입니다. 
 도서관 관리인 연락처 : 02-4321-9320
 *취소는 반드시 하루 전 날에 가능합니다. 
-이용하시는데 착오 없으시길 바랍니다.', '50', '1단지 앞 커뮤니티 건물 1층','07:00','23:00');
+이용하시는데 착오 없으시길 바랍니다.', '3', '1단지 앞 커뮤니티 건물 1층','07:00','23:00');
 
 -- 수영장
 INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,OPEN_TIME,CLOSE_TIME) VALUES (SEQ_AMENITY_NO.NEXTVAL, '수영장', '안녕하세요 꿀단지 수영장입니다. 
