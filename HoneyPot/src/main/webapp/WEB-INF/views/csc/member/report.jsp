@@ -5,7 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<!-- css -->
 <link rel="stylesheet" href="/app/resources/css/csc/member/report.css">
+
+<!-- 알람창 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.18/dist/sweetalert2.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.18/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -19,7 +25,7 @@
             <div class="report-text-title">신고 등록</div>
 
             <div class="report-form-area">
-                <form action="/app/csc/report" method="post">
+                <form action="/app/csc/report" method="post" onsubmit="return checkInput();">
                     <div class="report-first-area">
                         <div>
                             <div class="report-text">신고유형</div>
@@ -319,6 +325,25 @@
         })
 
 
+    }
+
+    // 값 확인 onsubmit
+    function checkInput(){
+        const title = document.querySelector("input[name='title']");
+        const content = document.querySelector("textarea[name='content']");
+        
+        if(title.value == "" || title.value == null || content.value == null || content.value == ""){
+            $().ready(function () {
+                    Swal.fire({
+                        icon: 'error',                         // Alert 타입
+                        title: '제출형식이 맞지않습니다.',         // Alert 제목
+                        text: '제목과 내용을 입력해주세요',  // Alert 내용
+                    });
+            });
+            return false;
+        }
+
+        return true;
     }
     
 

@@ -166,7 +166,7 @@ public class CSCController {
 			throw new Exception("신고하기 에러");
 		}
 		
-		return "csc/member/report-list";
+		return "redirect:/csc/report-list";
 		
 	}
 	
@@ -196,7 +196,14 @@ public class CSCController {
 	
 	// 신고목록 (화면)
 	@GetMapping("csc/report-list")
-	public String reportList() {
+	public String getReportList(Model model) {
+		
+		String no = "1";
+		
+		List<ReportVo> rList = service.getReportList(no);
+		
+		model.addAttribute("rList", rList);
+		
 		return "csc/member/report-list";
 	}
 	
