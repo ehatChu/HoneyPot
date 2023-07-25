@@ -24,5 +24,72 @@
 		WHERE MF.MEMBER_NO = #{mno}
 	</select>
 	
+	<!-- 회원별 현재 달 관리비 금액 -->
+	<!-- <select id="">
+		SELECT 
+			SUM(MF.PRICE)
+		FROM MEMBER_FEE MF
+			JOIN MEMBER_FEE_CATEGORY MFC
+			ON (MF.FEE_CNO= MFC.NO)
+		WHERE MF.MEMBER_NO = 1
+		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = '2023-06'
+	</select> -->
+	
+	<select id="adminFeeCnt" resultType="int">
+		SELECT 
+			COUNT(AF.NO)
+		FROM ADMIN_FEE AF
+			JOIN ADMIN_FEE_CATEGORY AFC
+			ON (AF.FEE_CNO = AFC.NO)
+		<!-- <if test="searchType == 'content' & searchValue != null">
+			WHERE TO_CHAR(AF.PAYMENT_DATE, 'YYYY-MM') = '2023-06'
+		WHERE AF.CONTENT LIKE('%' || #{searchValue} || '%' )
+		</if>
+		<if test="searchType == 'accountDate' & searchValue != null">
+			AND AF.CONTENT LIKE('%' || #{searchValue} || '%' )
+		</if> -->
+	</select>
+	
+	<select id="adminFeeList" resultType="com.hp.app.fee.vo.AdminFeeVo">
+		SELECT 
+		    AF.NO AS NO
+            ,AF.PRICE AS PRICE
+		    ,AF.CONTENT AS CONTENT
+		    ,TO_CHAR(AF.PAYMENT_DATE, 'YYYY-MM-DD') AS PAYMENT_DATE
+            ,AFC.NAME AS CATEGORY_NAME
+            ,AF.FEE_CNO AS FEE_CNO
+		FROM ADMIN_FEE AF
+		JOIN ADMIN_FEE_CATEGORY AFC 
+		ON AF.FEE_CNO = AFC.NO
+		ORDER BY AF.PAYMENT_DATE DESC
+	</select>
+	
+	<insert id="addFee">
+		INSERT INTO ADMIN_FEE
+		(
+		    NO
+		    ,ADMIN_NO
+		    ,FEE_CNO
+		    ,CONTENT
+		    ,PRICE
+		    ,PAYMENT_DATE
+		)
+		VALUES 
+		(
+		    SEQ_ADMIN_FEE_NO.NEXTVAL
+		    ,#{adminNo}
+		    ,#{feeCno}
+		    ,#{content}
+		    ,#{price}
+		    ,#{paymentDate}
+		)
+	</insert>
+	
+	<delete id="delete">
+		DELETE ADMIN_FEE
+		WHERE NO = #{no}
+	</delete>
+	
+	
 
 </mapper>
