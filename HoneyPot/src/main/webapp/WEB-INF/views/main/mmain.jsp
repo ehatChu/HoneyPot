@@ -412,15 +412,15 @@
 			overflow-y: auto;
 		}
 
-		.scheduleBox::-webkit-scrollbar {
+		*::-webkit-scrollbar {
 			width: 12px;
 		}
 
-		.scheduleBox::-webkit-scrollbar-thumb {
+		*::-webkit-scrollbar-thumb {
 			background: #4A321F;
 		}
 
-		.scheduleBox::-webkit-scrollbar-track {
+		*::-webkit-scrollbar-track {
 			background: #4a321f23;
 		}
 	</style>
