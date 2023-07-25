@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hp.app.notice.dao.NoticeDao;
+import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
 
@@ -56,6 +57,12 @@ public class NoticeServiceImpl implements NoticeService {
 	public NoticeVo viewDetail(String no) {
 		dao.plusHit(sst, no);
 		return dao.viewDetail(sst, no);
+	}
+
+	//공지사항 카테고리 조회
+	@Override
+	public List<NoticeCategoryVo> getCategory() {
+		return dao.getCategory(sst);
 	}
 
 }

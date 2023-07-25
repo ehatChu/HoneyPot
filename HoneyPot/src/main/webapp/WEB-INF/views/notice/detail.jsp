@@ -124,9 +124,9 @@
 		<!-- 버튼 -->
 		<div class="btn-area">
 			<div id="btn-box">
-				<button type="button" id="post-report-btn" onclick="">신고</button>
-				<button type="button" id="post-edit-btn" onclick="">수정</button>
-				<button type="button" id="post-del-btn" onclick="">삭제</button>
+				<button type="button" id="post-report-btn" onclick="location.href=''">신고</button>
+				<button type="button" id="post-edit-btn" onclick="location.href='/app/notice/edit?no=${vo.no}'">수정</button>
+				<button type="button" id="post-del-btn" onclick="location.href='/app/notice/delete?no=${vo.no}'">삭제</button>
 			</div>
 		</div>
 
@@ -141,9 +141,9 @@
 	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'], '공지 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 
 	// textarea 높이 자동 조절
-	window.addEventListener('DOMContentLoaded', function() {
-		const textarea = document.querySelector('#detail-content');
-		textarea.style.height = textarea.scrollHeight + 'px';
-	});
+	// window.addEventListener('DOMContentLoaded', function() {
+	// 	const textarea = document.querySelector('#detail-content');
+	// 	textarea.style.height = textarea.scrollHeight + 'px';
+	// });
 
 </script>
