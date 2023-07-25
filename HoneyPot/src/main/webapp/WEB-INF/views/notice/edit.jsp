@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 작성</title>
+<title>게시글 수정</title>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <style>
     .write-area {
@@ -279,28 +279,34 @@
 
         <!-- 게시글 작성란 -->
         <div class="write-area">
-            <div id="page-title">게시글 작성</div>
+            <div id="page-title">게시글 수정</div>
 
             <br>
 
             <div class="form-area">
-                <form action="/app/notice/write" method="post">
+                <form action="/app/notice/edit?no=${vo.no}" method="post">
 
                     <div class="title-area">
                         <div id="article">제목</div>
 
                         <input type="checkbox" name="importantYn" value="Y"> 중요
                         <br>
-
+                        
                         <select name="noticeCno">
-                            <option value="" selected>--선택--</option>
+                            <option value="">--선택--</option>
                             <c:forEach items="${cvo}" var="cvo">
                                 <option value="${cvo.no}">${cvo.name}</option>
+                                <!-- <c:if test="${vo.noticeCno} eq ${cvo.no}">
+                                    <option value="${cvo.no}" selected="selected">${cvo.name}</option>
+                                </c:if>
+                                <c:if test="${vo.noticeCno} not eq ${cvo.no}">
+                                    <option value="${cvo.no}">${cvo.name}</option>
+                                </c:if> -->
                             </c:forEach>
                         </select>
 
                         <div>
-                            <input type="text" id="title" name="title" placeholder="제목을 입력해주세요.">
+                            <input type="text" id="title" name="title" value="${vo.title}">
                         </div>
                     </div>
 
@@ -341,7 +347,7 @@
                         <div class="write-content"><textarea id="summernote" name="content"></textarea></div>
                     </div>
 
-                    <div class="write-submit-area"><input class="write-submit" type="submit" value="글쓰기"></div>
+                    <div class="write-submit-area"><input class="write-submit" type="submit" value="수정하기"></div>
 
                 </form>
             </div>
@@ -412,10 +418,8 @@
 
 
     //서머노트
-
-
     $('#summernote').summernote({
-        placeholder: '내용을 입력해주세요.',
+        // placeholder: '${vo.content}',
         tabsize: 2,
         height: 300,
         maxHeight: 300,
@@ -431,6 +435,9 @@
             ['view', ['fullscreen', 'codeview', 'help']]
         ]
     });
+
+    // 서머노트에 글 내용 추가
+    $("#summernote").summernote('code', '${vo.content}');
 
 
     //모달

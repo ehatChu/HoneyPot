@@ -3,6 +3,7 @@ package com.hp.app.notice.service;
 import java.util.List;
 import java.util.Map;
 
+import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
 
@@ -25,5 +26,9 @@ public interface NoticeService {
 	
 	//공지사항 상세조회
 	public abstract NoticeVo viewDetail(String no);
+
+	//공지사항 카테고리 조회
+	public abstract List<NoticeCategoryVo> getCategory();
+
 
 }

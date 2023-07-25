@@ -4,6 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="notice">
 	
+	<!-- 공지사항 조회 -->
 	<select id="getNoticeList" resultType="com.hp.app.notice.vo.NoticeVo">
 		SELECT 
 			N.NO AS NO
@@ -49,6 +50,7 @@
 		
 	</select>
 
+	<!-- 공지사항 개수 -->
 	<select id="countNotice" resultType="int">
 		SELECT COUNT(N.NO)
 		FROM
@@ -90,11 +92,13 @@
 		AND N.NO = #{no}
 	</select>
 	
+	<!-- 조회수 증가 -->
 	<update id="plusHit">
 		UPDATE NOTICE SET HIT = HIT +1
 		WHERE NO = #{no} AND STATUS = 'Y'
 	</update>
 	
+	<!-- 글 작성 -->
  	<insert id="write">
 		INSERT INTO NOTICE (
 			NO
@@ -110,8 +114,25 @@
 		    ,#{writerNo}
 		    ,#{title}
 		    ,#{content}
-		    <!-- ,'N' -->
+		    <!-- ,#{importantYn -->
 		    )
 	</insert>
+	
+	<!-- 글 수정 -->
+	<update id="edit">
+		UPDATE NOTICE
+			SET
+				NOTICE_CNO = #{noticeCno}
+			    ,TITLE = #{title}
+			    ,CONTENT = #{content}
+			    <!-- ,IMPORTANT_YN = #{importantYn} -->
+			WHERE NO = #{no} AND WRITER_NO = #{writerNo}
+	</update>
+	
+	<!-- 카테고리 조회 -->
+	<select id="getCategory" resultType="com.hp.app.notice.vo.NoticeCategoryVo">
+		SELECT NO, NAME
+		FROM NOTICE_CATEGORY
+	</select>
 
 </mapper>
