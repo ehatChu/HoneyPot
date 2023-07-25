@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hp.app.innerFac.service.InnerFacService;
 import com.hp.app.innerFac.vo.InnerFacVo;
+import com.hp.app.yerin.functions.YerinFunctions;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +22,15 @@ public class FacilitiesController {
 		
 		//편의시설마다 시간이 다르므로 조회해와야함.
 		InnerFacVo fvo = service.getOpenCloseTime(no);
-		model.addAttribute("innerFacVo",fvo);
+		
+		//예린함수를 거쳐서 openTime, closeTime전달...
+		YerinFunctions y = new YerinFunctions();
+		int opentime = y.changeInt(fvo.getOpenTime());
+		int closetime = y.changeInt(fvo.getCloseTime());
+		
+		
+		model.addAttribute("openTime",opentime);
+		model.addAttribute("closeTime",closetime);
 		
 		return "innerFacilities/makeLibraryReservation";
 	}
