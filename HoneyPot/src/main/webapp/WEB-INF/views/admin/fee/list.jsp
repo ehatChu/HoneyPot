@@ -32,13 +32,13 @@
                                         <option value="content">내용</option>
                                         <option value="accountDate">월 별</option>
                                     </select>
-                                    <input type="search" placeholder="검색 할 내용을 입력하세요." name="searchValue" value="${searchVo.searchValue}">
+                                    <input type="search" placeholder="검색 할 내용을 입력하세요." name="searchValue" value="${paramMap.searchValue}">
                                     <select name="paymentDate" id="" style="display: none;"> 
-                                        <option value="">2023-06</option>
-                                        <option value="">2023-05</option>
-                                        <option value="">2023-04</option>
-                                        <option value="">2023-03</option>
-                                        <option value="">2023-02</option>
+                                        <option value="2023-06">2023-06</option>
+                                        <option value="2023-05">2023-05</option>
+                                        <option value="2023-04">2023-04</option>
+                                        <option value="2023-03">2023-03</option>
+                                        <option value="2023-02">2023-02</option>
                                     </select>
                                     <button type="submit"><i class="fa-solid fa-magnifying-glass fa-2x" ></i></button>
                                 </div>
@@ -61,10 +61,10 @@
                                         <tr class="line">
                                             <td hidden>${vo.no}</td>
                                             <td>${vo.categoryName}</td>
-                                            <td>${vo.price }</td>
+                                            <td id="listPrice">${vo.price }</td>
                                             <td>${vo.paymentDate }</td>
-                                            <td>${vo.content }</td>
-                                            <td><button id="editBtn" class="openBtn"><i class="fa-solid fa-pen"></i></button></td>
+                                            <td class="detailBtn Dbtn-click">${vo.content }</td>
+                                            <td><button id="editBtn" class="editBtn Ebtn-click"><i class="fa-solid fa-pen"></i></button></td>
                                             <td><button id="delBtn"><i class="fa-solid fa-xmark fa-lg"></i></button></td>
                                         </tr>
                                     </c:forEach>
@@ -201,16 +201,17 @@
                                     <button class="EcloseBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
                                 </div>
                                 <div class="content-modal">
+                                    <input type="text" id="no" name="no" hidden>
                                     <div class="first-area">
                                         <div>
                                             <span>발생일자</span>
                                             <br>
-                                            <input type="date" name="paymentDate">
+                                            <input type="date" name="paymentDate" id="paymentDate">
                                         </div>
                                         <div>
                                             <span>카테고리</span>
                                             <br>
-                                            <select id="E_afee_category" name="feeCno">
+                                            <select class="E_afee_category" name="feeCno" id="feeCno">
                                                 <option value="1">시설 유지보수</option>
                                                 <option value="2">소독 및 청소</option>
                                                 <option value="3">경비원 비용</option>
@@ -225,17 +226,62 @@
                                     <div class="second-area">
                                         <span>금액</span>
                                         <br>
-                                        <input type="text" dir="rtl" maxlength="10" name="price"> 원
+                                        <input type="text" dir="rtl" maxlength="10" name="price" id="price"> 원
                                     </div>
                                     <div class="third-area">
                                         <span>비고 작성란</span>
                                         <br>
-                                        <textarea id="E_detailContent" placeholder="상세하게 적을 내용을 작성하세요. 예시 : 공공 요금 (열 요금, 가스 요금 등)" name="content"></textarea>
+                                        <textarea id="E_detailContent" placeholder="상세하게 적을 내용을 작성하세요. 예시 : 공공 요금 (열 요금, 가스 요금 등)" name="content" ></textarea>
                                     </div>
                                     <div id="E_submitBtn"><input type="submit" value="등록"></div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- 상세조회 -->
+					<div class="detail-modal hidden">
+                        <div class="bg"></div>
+                            <div class="modalBox">
+                                <div class="upper-bar">
+                                    <span>관리비 조회</span>
+                                    <button class="DcloseBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+                                </div>
+                                <div class="content-modal">
+                                        <div class="first-area">
+                                            <div>
+                                                <span>발생일자</span>
+                                                <br>
+                                                <input type="date" name="paymentDate" id="D_paymentDate">
+                                            </div>
+                                            <div>
+                                                <span>카테고리</span>
+                                                <br>
+                                                <select class="D_afee_category" name="feeCno" id="D_feeCno">
+                                                    <option value="1">시설 유지보수</option>
+                                                    <option value="2">소독 및 청소</option>
+                                                    <option value="3">경비원 비용</option>
+                                                    <option value="4">정원 가꾸기</option>
+                                                    <option value="5">보험</option>
+                                                    <option value="6">공공 요금</option>
+                                                    <option value="7">일반 관리비</option>
+                                                    <option value="8">기타</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="second-area">
+                                            <span>금액</span>
+                                            <br>
+                                            <input type="text" dir="rtl" maxlength="10" name="price" id="D_price"> 원
+                                        </div>
+                                        <div class="third-area">
+                                            <span>비고 작성란</span>
+                                        <br>
+                                        <textarea id="D_detailContent" name="content" ></textarea>
+                                        </div>
+                                </div>
+                            </div>
+                    </div>
+
 				</div>
 			</main>
 
@@ -269,6 +315,24 @@
                 inputVisibility();
             });
         });
+
+        // 숫자를 3자리마다 쉼표가 있는 문자열로 변환하는 함수
+		function addCommasToNumberInElement(element) {
+			const text = element.textContent;
+			const number = parseFloat(text.replace(/,/g, '')); // 쉼표를 제거한 후 숫자로 변환
+			if (!isNaN(number)) {
+			const formattedNumber = number.toLocaleString();
+			element.textContent = formattedNumber; // 쉼표가 있는 형식으로 변경하여 다시 업데이트
+			}
+		}
+
+		// 페이지 로드 후 해당 함수를 호출하여 각 요소의 텍스트를 적절하게 포맷팅
+		window.onload = function () {
+			const priceElements = document.querySelectorAll('#listPrice');
+			priceElements.forEach((element) => {
+			addCommasToNumberInElement(element);
+		});
+	};
 
 
         ////// 등록 모달
@@ -323,7 +387,7 @@
 
         $("#E_submitBtn").on("click", function() {
 
-        var updatedCategoryName = $("#accountCno").val();
+        var updatedCategoryName = $("#feeCno").val();
         var updatedPaymentDate = $("#paymentDate").val();
         var updatedContent = $("#E_detailContent").val();
         console.log(updatedContent);
@@ -331,7 +395,7 @@
         var no = $("#no").val();
 
         var data = new FormData();
-        data.append("accountCno", updatedCategoryName);
+        data.append("feeCno", updatedCategoryName);
         data.append("paymentDate", updatedPaymentDate);
         data.append("content", updatedContent);
         data.append("price", updatedPrice);
@@ -339,14 +403,14 @@
 
         $.ajax({
             type: "POST",
-            url: "/app/account/edit",
+            url: "/app/fee/admin/edit",
             data: data,
             contentType: false, 
             processData: false,
             success: function(response) {
                 console.log(response);
                 if(response == 'success'){
-                    window.location.href = "/app/account/list?p=1";
+                    window.location.href = "/app/fee/admin?p=1";
                 }
             },
             error: function(error) {
@@ -358,6 +422,31 @@
     });
 
 
+        // 상세조회 ajax
+        $(document).ready(function() {
+        $(".Dbtn-click").on("click", function() {
+        var categoryName = $(this).closest("tr").find("td:nth-child(2)").text().trim();
+        var paymentDate = $(this).closest("tr").find("td:nth-child(4)").text().trim();
+        var content = $(this).closest("tr").find("td:nth-child(5)").text().trim();
+        var price = $(this).closest("tr").find("td:nth-child(3)").text().trim();
+        // 가격 원 붙은 거 떼기
+        var numericPrice = parseInt(price.replace(/\D/g, ""));
+
+        $("#D_paymentDate").val(paymentDate);
+        $("#D_detailContent").text(content);
+        $("#D_price").val(numericPrice || 0);
+        // 카테고리 선택된 값 가져오기
+        $("#D_feeCno option").filter(function() {
+            return $(this).text() === categoryName;
+        }).prop('selected', true);
+
+        $(".detail-modal").removeClass("hidden");
+        });
+
+        $(".DcloseBtn").on("click", function() {
+        $(".detail-modal").addClass("hidden");
+        });
+            });
 
 
         // 금액칸 콤마 정규식

@@ -23,13 +23,13 @@ public class AccountServiceImpl implements AccountService{
 	private final SqlSessionTemplate sst;
 
 	@Override
-	public List<AccountVo> list(PageVo pv,  Map<String, String> searchVo) {
-		return dao.list(sst,pv, searchVo);
+	public List<AccountVo> list(PageVo pv,  Map<String, String> paramMap) {
+		return dao.list(sst,pv, paramMap);
 	}
 	
 	@Override
-	public int listCnt(String mno,  Map<String, String> searchVo) {
-		return dao.listCnt(sst, searchVo);
+	public int listCnt(Map<String, String> paramMap) {
+		return dao.listCnt(sst, paramMap);
 	}
 
 	@Override

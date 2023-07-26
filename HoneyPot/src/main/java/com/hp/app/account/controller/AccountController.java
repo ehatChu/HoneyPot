@@ -40,32 +40,30 @@ public class AccountController {
 	
 	// 가계부 목록 조회 화면
 	@GetMapping("account/list")
-	public String list(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam(name = "searchValue", required = false) String searchValue) {
+	public String list(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
 		
 		/*
 		 * MemberVo loginMember = (MemberVo)session.getAttribute("loginMember"); String
 		 * mno = loginMember.getNo();
 		 */
 		String mno = "5";
-		Map<String , String> searchVo = new HashMap<String, String>();
-		searchVo.put("searchValue", searchValue);
-		searchVo.put("no", mno);
 		//searchVo.put("yearMonth", yearMonth);
-		
-		int listCount = service.listCnt(mno, searchVo);
+		paramMap.put("no", mno);
+		log.info(paramMap.toString());
+		int listCount = service.listCnt(paramMap);
 		int CurrentPage = p;
 		int pageLimit = 5;
 		int boardLimit = 10;
 		PageVo pv = new PageVo(listCount, CurrentPage, pageLimit, boardLimit);
 		
 		// 로그인한 회원 번호로 가계부 목록 조회
-		List<AccountVo> avoList = service.list(pv, searchVo);
+		List<AccountVo> avoList = service.list(pv, paramMap);
 		
 		if(!avoList.isEmpty()) {
 			model.addAttribute("pv", pv);
 		}
 		model.addAttribute("avoList", avoList);
-		model.addAttribute("searchVo", searchVo);
+		model.addAttribute("paramMap", paramMap);
 		
 		return "mypage/myInfo/accountBook";
 		

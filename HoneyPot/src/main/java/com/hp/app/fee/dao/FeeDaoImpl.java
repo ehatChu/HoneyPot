@@ -61,4 +61,19 @@ public class FeeDaoImpl implements FeeDao{
 		return sst.selectOne("fee.yearAgoFee",dateVo);
 	}
 
+	@Override
+	public int edit(SqlSessionTemplate sst, AdminFeeVo vo) {
+		return sst.update("fee.AdminEdit", vo);
+	}
+
+	@Override
+	public List<MemberFeeVo> thisMonth(SqlSessionTemplate sst,Map<String, String> dateVo) {
+		return sst.selectList("fee.thisMonth", dateVo);
+	}
+
+	@Override
+	public List<MemberFeeVo> prevMonth(SqlSessionTemplate sst, Map<String, String> dateVo) {
+		return sst.selectList("fee.prevMonth", dateVo);
+	}
+
 }
