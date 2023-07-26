@@ -26,14 +26,14 @@
 			JOIN ADMIN A ON N.WRITER_NO = A.NO
 		WHERE N.STATUS = 'Y'
 		
-		<if test="searchType == 'title' and searchValue != null">
-			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%' || #{searchValue} || '%')
+		<if test="searchType == 'title' and searchValue != null or searchValue != ''">
+			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'content' and searchValue != null">
-			AND N.CONTENT LIKE ('%' || #{searchValue} || '%')
+		<if test="searchType == 'content' and searchValue != null or searchValue != ''">
+			AND N.CONTENT LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'writer' and searchValue != null">
-			AND A.NAME LIKE ('%' || #{searchValue} || '%')
+		<if test="searchType == 'writer' and searchValue != null or searchValue != ''">
+			AND A.NAME LIKE ('%${searchValue}%')
 		</if>
 		
 		<choose>
@@ -50,6 +50,7 @@
 		
 	</select>
 
+
 	<!-- 공지사항 개수 -->
 	<select id="countNotice" resultType="int">
 		SELECT COUNT(N.NO)
@@ -58,17 +59,19 @@
 			JOIN NOTICE_CATEGORY C ON N.NOTICE_CNO = C.NO
 			JOIN ADMIN A ON N.WRITER_NO = A.NO
 		WHERE STATUS ='Y'
-		<if test="searchType == 'title' and searchValue != null">
-			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%' || #{searchValue} || '%')
+		<if test="searchType == 'title' and searchValue != null or searchValue != ''">
+			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'content' and searchValue != null">
-			AND N.CONTENT LIKE ('%' || #{searchValue} || '%')
+		<if test="searchType == 'content' and searchValue != null or searchValue != ''">
+			AND N.CONTENT LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'writer' and searchValue != null">
-			AND A.NAME LIKE ('%' || #{searchValue} || '%')
+		<if test="searchType == 'writer' and searchValue != null or searchValue != ''">
+			AND A.NAME LIKE ('%${searchValue}%')
 		</if>
 	</select>
 	
+	
+	<!-- 공지사항 상세조회 -->
 	<select id="viewDetail" resultType="com.hp.app.notice.vo.NoticeVo">
 		SELECT 
 			N.NO AS NO
@@ -92,11 +95,13 @@
 		AND N.NO = #{no}
 	</select>
 	
+	
 	<!-- 조회수 증가 -->
 	<update id="plusHit">
 		UPDATE NOTICE SET HIT = HIT +1
 		WHERE NO = #{no} AND STATUS = 'Y'
 	</update>
+	
 	
 	<!-- 글 작성 -->
  	<insert id="write">
@@ -125,6 +130,7 @@
 		    )
 	</insert>
 	
+	
 	<!-- 글 수정 -->
 	<update id="edit">
 		UPDATE NOTICE
@@ -133,7 +139,7 @@
 			    ,TITLE = #{title}
 			    ,CONTENT = #{content}
 			    <choose>
-					<when test="importantYn == 'Y' or importantYn != null">
+					<when test='importantYn == "Y" or importantYn != null'>
 						,IMPORTANT_YN = #{importantYn}
 					</when>
 					<when test="importantYn == null">
@@ -144,10 +150,20 @@
 			WHERE NO = #{no} AND WRITER_NO = #{writerNo}
 	</update>
 	
+	
 	<!-- 카테고리 조회 -->
 	<select id="getCategory" resultType="com.hp.app.notice.vo.NoticeCategoryVo">
 		SELECT NO, NAME
 		FROM NOTICE_CATEGORY
 	</select>
+	
+	
+	<!-- 글 삭제 -->
+	<delete id="delete">
+		UPDATE NOTICE 
+			SET STATUS = 'N'
+		WHERE NO = #{no}
+		AND WRITER_NO = #{writerNo}
+	</delete>
 
 </mapper>

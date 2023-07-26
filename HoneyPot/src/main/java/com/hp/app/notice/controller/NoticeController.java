@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.notice.service.NoticeService;
 import com.hp.app.notice.vo.NoticeCategoryVo;
@@ -27,23 +29,23 @@ public class NoticeController {
 
 	// 공지사항 목록 조회
 	@GetMapping("notice/list")
-	public String getList(String p, Model model, String searchType, String searchValue, String sortType) {
+	public String getList(@RequestParam(defaultValue = "1") String p, Model model, @RequestParam Map<String, String> searchVo) {
 		
 		try {
 			
 			//검색값 저장
-			Map<String, String> searchVo = new HashMap<>();
-			searchVo.put("searchType", searchType);
-			searchVo.put("searchValue", searchValue);
-			searchVo.put("sortType", sortType);
+//			Map<String, String> searchVo = new HashMap<>();
+//			searchVo.put("searchType", searchType);
+//			searchVo.put("searchValue", searchValue);
+//			searchVo.put("sortType", sortType);
 
 			//페이징
-			int intP = 1;
-			if (p != null) {
-				intP = Integer.parseInt(p);
-			}
+//			int intP = 1;
+//			if (p != null) {
+//				intP = Integer.parseInt(p);
+//			}
 			int listCount = service.countNotice(searchVo);
-			int currentPage = intP;
+			int currentPage = Integer.parseInt(p);
 			int pageLimit = 5;
 			int boardLimit = 8;
 			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
@@ -88,6 +90,7 @@ public class NoticeController {
 			vo.setWriterNo("2"); // 임시 작성자번호
 			int result = service.write(vo);
 			if(result != 1) {
+				session.setAttribute("alert", "게시글 작성 실패...");
 				return "redirect:/notice/list";
 			}
 			
@@ -95,10 +98,11 @@ public class NoticeController {
 			e.printStackTrace();
 		}
 		
+		session.setAttribute("alert", "게시글 작성 성공!");
 		return "redirect:/notice/list";
 	}
 
-	// 공지사항 조회
+	// 공지사항 상세조회
 	@GetMapping("notice/detail")
 	public String viewDetail(Model model, String no) {
 		
@@ -136,23 +140,56 @@ public class NoticeController {
 	
 	//공지사항 수정
 	@PostMapping("notice/edit")
-	public String edit(HttpSession session, Model model, NoticeVo vo) {
+	public String edit(HttpSession session, NoticeVo vo) {
 		
 		try {
 			
-			vo.setWriterNo("2");
+//			vo.setWriterNo("2");
 			int result = service.edit(vo);
 			if(result != 1) {
-				session.setAttribute("alert", "게시글 수정 실패...");
-				return "redirect:/notice/list";
+				session.setAttribute("alertMsg", "게시글 수정 실패...");
+				return "redirect:/notice/list?no=" + vo.getNo();
 			}
-			session.setAttribute("alert", "게시글 수정 성공!");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		session.setAttribute("alertMsg", "게시글 수정 성공!");
+		return "redirect:/notice/detail?no=" + vo.getNo();
+	}
+	
+	//공지사항 삭제
+	@GetMapping("notice/delete")
+	public String delete(HttpSession session, String no) {
+		
+		try {
+			
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+//			if (loginAdmin == null) {
+//				session.setAttribute("alertMsg", "게시글 삭제 실패...");
+//				return "redirect:/main/amain";
+//			}
+			
+			//String writerNo = loginAdmin.getNo();
+			String writerNo = "2";
+			
+			Map<String, String> noMap = new HashMap<>();
+			noMap.put("writerNo", writerNo);
+			noMap.put("no", no);
+			
+			int result = service.delete(noMap);
+			if(result != 1) {
+				session.setAttribute("alertMsg", "게시글 삭제 실패...");
+				return "redirect:/notice/detail?no=" + no;
+			}
 			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "redirect:/notice/detail?no=" + vo.getNo();
+		session.setAttribute("alertMsg", "게시글 삭제 성공 !");
+		return "redirect:/notice/list";
+		
 	}
 
 }

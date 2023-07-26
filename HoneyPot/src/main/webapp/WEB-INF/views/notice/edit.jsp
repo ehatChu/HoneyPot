@@ -24,24 +24,26 @@
         margin-top: 10px;
     }
 
-    .write-form-area {
-        margin-top: 15px;
+    .title-area { margin-bottom: 20px; }
+
+    #importantYn {
+        font-size: 15px;
+        font-weight: 700;
+        color: #5F5F5F;
+        margin-top: 10px;
         margin-left: 10px;
     }
 
-    .write-category {
-        width: 400px;
-        height: 50px;
+    #category {
+        margin-top: 10px;
+        width: 140px;
+		height: 50px;
         border-radius: 8px;
         border: 1px solid rgb(156, 156, 156);
-    }
-
-    .write-category-area {
-        margin-top: 10px;
-    }
-
-    #title-area {
-        margin-top: 10px;
+        padding: 10px;
+        outline: none;
+        font-size: 18px;
+		font-family: 'Noto Sans KR';
     }
 
     #title {
@@ -50,7 +52,7 @@
         height: 50px;
         border-radius: 8px;
         border: 1px solid rgb(156, 156, 156);
-        padding-left: 10px;
+        padding: 10px;
         outline: none;
         font-size: 18px;
 		font-family: 'Noto Sans KR';
@@ -287,40 +289,41 @@
                 <form action="/app/notice/edit?no=${vo.no}" method="post">
 
                     <div class="title-area">
-                        <div id="article">제목</div>
+                        <span id="article">제목</span>
 
                         <!-- 중요여부 체크박스 -->
-                        <c:choose>
-                            <c:when test="${vo.importantYn eq 'Y'}">
-                                <input type="checkbox" name="importantYn" value="Y" checked> 중요
-                                <!-- <input type="hidden" name="importantYn" value="N" id="hiddenImportantYn"> -->
-                            </c:when>
-                            <c:when test="${vo.importantYn eq 'N' || empty vo.importantYn}">
-                                <input type="checkbox" name="importantYn" value="Y"> 중요
-                            </c:when>
-                        </c:choose>
-                        <br>
+                        <span id="importantYn">
+                            <c:choose>
+                                <c:when test="${vo.importantYn eq 'Y'}">
+                                    <input type="checkbox" name="importantYn" value="Y" checked> 중요
+                                    <!-- <input type="hidden" name="importantYn" value="N" id="hiddenImportantYn"> -->
+                                </c:when>
+                                <c:when test="${vo.importantYn eq 'N' || empty vo.importantYn}">
+                                    <input type="checkbox" name="importantYn" value="Y"> 중요
+                                </c:when>
+                            </c:choose>
+                        </span>
                         
-                        <!-- 카테고리 -->
-                        <select name="noticeCno">
-                            <option value="">--선택--</option>
-                            <c:forEach items="${cvo}" var="cvo">
-                                <c:if test="${vo.noticeCno eq cvo.no}">
-                                    <option value="${cvo.no}" selected>${cvo.name}</option>
-                                </c:if>
-                                <c:if test="${vo.noticeCno ne cvo.no}">
-                                    <option value="${cvo.no}">${cvo.name}</option>
-                                </c:if>
-                            </c:forEach>
-                        </select>
-
                         <div>
+                            <!-- 카테고리 -->
+                            <select id="category" name="noticeCno">
+                                <option value="" selected>--카테고리--</option>
+                                <c:forEach items="${cvo}" var="cvo">
+                                    <c:if test="${vo.noticeCno eq cvo.no}">
+                                        <option value="${cvo.no}" selected>${cvo.name}</option>
+                                    </c:if>
+                                    <c:if test="${vo.noticeCno ne cvo.no}">
+                                        <option value="${cvo.no}">${cvo.name}</option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+    
                             <input type="text" id="title" name="title" value="${vo.title}">
                         </div>
                     </div>
 
                     <div>
-                        <div id="article">내용</div>
+                        <span id="article">내용</span>
 
                         <div class="vote-btn-area">
                             <button type="button" id="vote-btn">
