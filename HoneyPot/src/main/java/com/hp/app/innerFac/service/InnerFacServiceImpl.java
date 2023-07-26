@@ -1,5 +1,7 @@
 package com.hp.app.innerFac.service;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +41,13 @@ public class InnerFacServiceImpl implements InnerFacService {
 	@Override
 	public int makeReservation(InnerFacRsVo rsVo) {
 		return dao.makeReservation(sst,rsVo);
+	}
+	
+	//한사람의 모든 예약현황 가져오기
+	@Override
+	public List<InnerFacRsVo> getReservationByMemberNo(String memberNo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
