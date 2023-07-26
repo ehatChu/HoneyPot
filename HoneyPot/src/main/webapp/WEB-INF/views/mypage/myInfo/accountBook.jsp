@@ -55,7 +55,7 @@
 				<div id="detail-area">
 					<div id="search-area">
 						<span>상세내역</span>
-						<form action="/app/account/list" method="GET">
+						<form id="accountForm" action="/app/account/list" method="GET">
 							<div class="searchDiv">
 								<select name="searchType" id="searchType">
 									<option value="content">내용</option>
@@ -74,11 +74,11 @@
 										<option value="8">기타지출</option>
 									</select>
 								<select id="accountDate" style="display: none;"> 
-									<option value="2023-07">2023-07</option>
-									<option value="2023-06">2023-06</option>
-									<option value="2023-05">2023-05</option>
-									<option value="2023-04">2023-04</option>
-									<option value="2023-03">2023-03</option>
+									<option value=""></option>
+									<option value=""></option>
+									<option value=""></option>
+									<option value=""></option>
+									<option value=""></option>
 								</select>
 								<button type="submit"><i class="fa-solid fa-magnifying-glass fa-2x" ></i></button>
 							</div>
@@ -86,7 +86,7 @@
 						</div>
 					<div id="table-area">
 						<div class="cal-area">
-							<span id="currentMonth"></span>
+							
 						</div>
 						<div class="table-body-area">
 							<table class="A_detail">
@@ -445,18 +445,112 @@
     $("#searchType").on("change", function() {
 		inputVisibility();
     });
+
+	$("#accountForm").submit(function(e) {
+        e.preventDefault(); 
+
+        var selectedOption = $("#searchType").val();
+        if (selectedOption === "accountCno") {
+            var selectedCategory = $("#search_category").val();
+            window.location.href = "/app/account/list?searchType=" + selectedOption + "&searchValue=" + selectedCategory;
+        } else if (selectedOption === "accountDate") {
+            var selectedDate = $("#accountDate").val();
+            window.location.href = "/app/account/list?searchType=" + selectedOption + "&searchValue=" + selectedDate;
+        } else {
+            this.submit();
+        }
+    });
   });
 
-  const searchType = '${paramMap.searchType}';
-  if(searchType.length > 1){
-        initSearchType();
-    }
+ 
 
-	//검색 후 검색타입 유지되도록
-    function initSearchType(){
-        const x = document.querySelector('select[name=searchType] > option[value="' + searchType + '"]');
-	    x.selected = true;
-    }
+	//검색 후 검색타입과 검색value 유지되도록
+	const searchTypeTagArr = document.querySelectorAll("#searchType > option");
+	const contentValue = document.querySelector("input[name=searchValue]");
+	const categorySelect = document.querySelectorAll("#search_category > option");
+	const dateSelect = document.querySelectorAll("#accountDate > option");
+  	const searchValue = '${paramMap.searchValue}';
+	
+	if(searchValue === '1'){
+		categorySelect[4].selected = true;
+	}else if(searchValue === '2'){
+		categorySelect[0].selected = true;
+	}else if(searchValue === '3'){
+		categorySelect[1].selected = true;
+	}else if(searchValue === '4'){
+		categorySelect[2].selected = true;
+	}else if(searchValue === '5'){
+		categorySelect[3].selected = true;
+	}else if(searchValue === '6'){
+		categorySelect[5].selected = true;
+	}else if(searchValue === '7'){
+		categorySelect[7].selected = true;
+	}else if(searchValue === '8'){
+		categorySelect[8].selected = true;
+	}
+
+	contentValue.value = '${paramMap.searchValue}';
+
+	const x = "${paramMap.searchType}"; 
+
+	if(x === 'content'){
+		searchTypeTagArr[0].selected = true;
+	}else if(x === 'accountCno'){
+		searchTypeTagArr[1].selected = true;
+	}else if(x === 'accountDate'){
+		searchTypeTagArr[2].selected = true;
+	}
+
+
+	// 이번 달부터 5개의 달 생성
+	function makeCurrentMonths() {
+		var currentDate = new Date();
+		var recentMonths = [];
+
+		for (var i = 0; i < 5; i++) {
+			var year = currentDate.getFullYear();
+			var month = currentDate.getMonth() + 1;
+			if (month < 10) {
+				month = "0" + month;
+			}
+			var formattedDate = year + "-" + month;
+			recentMonths.push(formattedDate);
+
+			currentDate.setMonth(currentDate.getMonth() - 1);
+		}
+
+		return recentMonths;
+	}
+
+	// 날짜 검색란에 옵션 추가 함수
+	function addOptionsToAccountDateSelect() {
+		var accountDateSelect = document.querySelector("#accountDate");
+		var recentMonths = makeCurrentMonths();
+		var optionsHTML = "";
+
+		for (var i = 0; i < recentMonths.length; i++) {
+			optionsHTML += '<option value="' + recentMonths[i] + '">' + recentMonths[i].replace("-", "년 ") + '월</option>';
+		}
+
+		accountDateSelect.innerHTML = optionsHTML;
+
+    // #currentMonth 업데이트
+    var selectedDate = accountDateSelect.value;
+    document.getElementById("currentMonth").textContent = selectedDate.replace("-", "년 ") + "월";
+}
+
+	// 날짜 검색 푸쉬 함수 호출
+	addOptionsToAccountDateSelect();
+
+	// #accountDate의 change 이벤트에 대한 처리
+	var accountDateSelect = document.querySelector("#accountDate");
+	accountDateSelect.addEventListener("change", function () {
+		var selectedDate = accountDateSelect.value;
+		document.getElementById("currentMonth").textContent = selectedDate.replace("-", "년 ") + "월";
+	});
+
+
+
 
 
 
@@ -589,22 +683,6 @@
 
 });
 
-    // 상세보기 창 월 별 조회 함수 추가 예정
-	$(document).ready(function() {
-    // 현재 날짜 객체 생성
-    let today = new Date();
-
-    // 현재 날짜의 년도와 월을 가져옴
-    let currentYear = today.getFullYear().toString();
-    let currentMonth = (today.getMonth() + 1).toString();
-	let currentDate = today.getDate().toString();
-	console.log(currentDate);
-	const defaultDay = currentYear + "-" + currentMonth + "-" + currentDate;
-
-    // currentMonth 영역에 현재 날짜의 년도와 월을 표시
-    $("#currentMonth").text(currentYear + "년 " + currentMonth + "월");
-
-	});
 
 	// 삭제 알림창
 	$().ready(function () {

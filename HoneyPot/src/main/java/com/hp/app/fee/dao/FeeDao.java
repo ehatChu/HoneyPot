@@ -27,10 +27,10 @@ public interface FeeDao {
 	int yearAgoFee(SqlSessionTemplate sst,Map<String, String> dateVo);
 
 	// 관리자 관리비 목록 개수 조회
-	int adminListCnt(SqlSessionTemplate sst, Map<String , String> searchVo);
+	int adminListCnt(SqlSessionTemplate sst, Map<String , String> paramMap);
 	
 	// 관리자 관리비 목록 조회
-	List<AdminFeeVo> adminList(SqlSessionTemplate sst, PageVo pv, Map<String , String> searchVo);
+	List<AdminFeeVo> adminList(SqlSessionTemplate sst, PageVo pv, Map<String , String> paramMap);
 	
 	// 관리자 관리비 등록
 	int add(SqlSessionTemplate sst, AdminFeeVo vo);

@@ -22,29 +22,26 @@
                     <!-- 관리비 등록,수정 -->
                     <div id="list-area">
                         <div id="search-area">
-                            <div>
-                                <span>6월</span>
-                               <div>관리비 내역</div>                            
-                            </div>
-                            <form action="/app/fee/admin" method="GET">
+                               <div>관리비 상세 내역</div>                            
+                            <form id="adminFeeForm"action="/app/fee/admin" method="GET">
                                 <div class="searchDiv">
                                     <select name="searchType" id="searchType">
                                         <option value="content">내용</option>
-                                        <option value="accountDate">월 별</option>
+                                        <option value="paymentDate">월 별</option>
                                     </select>
-                                    <input type="search" placeholder="검색 할 내용을 입력하세요." name="searchValue" value="${paramMap.searchValue}">
-                                    <select name="paymentDate" id="" style="display: none;"> 
-                                        <option value="2023-06">2023-06</option>
-                                        <option value="2023-05">2023-05</option>
-                                        <option value="2023-04">2023-04</option>
-                                        <option value="2023-03">2023-03</option>
-                                        <option value="2023-02">2023-02</option>
+                                    <input type="search" placeholder="검색 할 내용을 입력하세요." name="searchValue">
+                                    <select id="paymentDate" style="display: none;"> 
+                                        <option value=""></option>
+                                        <option value=""></option>
+                                        <option value=""></option>
+                                        <option value=""></option>
+                                        <option value=""></option>
                                     </select>
                                     <button type="submit"><i class="fa-solid fa-magnifying-glass fa-2x" ></i></button>
                                 </div>
                             </form>
                         </div>
-                        <div>
+                        <div class="table-body-area">
                             <table class="A_detail">
                                 <thead>
                                     <tr class="line">
@@ -319,14 +316,13 @@
         // 숫자를 3자리마다 쉼표가 있는 문자열로 변환하는 함수
 		function addCommasToNumberInElement(element) {
 			const text = element.textContent;
-			const number = parseFloat(text.replace(/,/g, '')); // 쉼표를 제거한 후 숫자로 변환
+			const number = parseFloat(text.replace(/,/g, '')); 
 			if (!isNaN(number)) {
 			const formattedNumber = number.toLocaleString();
-			element.textContent = formattedNumber; // 쉼표가 있는 형식으로 변경하여 다시 업데이트
+			element.textContent = formattedNumber; 
 			}
 		}
 
-		// 페이지 로드 후 해당 함수를 호출하여 각 요소의 텍스트를 적절하게 포맷팅
 		window.onload = function () {
 			const priceElements = document.querySelectorAll('#listPrice');
 			priceElements.forEach((element) => {
@@ -334,6 +330,85 @@
 		});
 	};
 
+    // 이번 달부터 5개의 달 생성
+	function makeCurrentMonths() {
+		var currentDate = new Date();
+		var recentMonths = [];
+
+		for (var i = 0; i < 5; i++) {
+			var year = currentDate.getFullYear();
+			var month = currentDate.getMonth() + 1;
+			if (month < 10) {
+				month = "0" + month;
+			}
+			var formattedDate = year + "-" + month;
+			recentMonths.push(formattedDate);
+
+			currentDate.setMonth(currentDate.getMonth() - 1);
+		}
+
+		return recentMonths;
+	}
+
+	// 날짜 검색란에 옵션 추가 함수
+	function addOptionsToAccountDateSelect() {
+		var accountDateSelect = document.querySelector("#paymentDate");
+		var recentMonths = makeCurrentMonths();
+		var optionsHTML = "";
+
+		for (var i = 0; i < recentMonths.length; i++) {
+			optionsHTML += '<option value="' + recentMonths[i] + '">' + recentMonths[i].replace("-", "년 ") + '월</option>';
+		}
+
+		accountDateSelect.innerHTML = optionsHTML;
+
+    
+}
+
+	// 날짜 검색 푸쉬 함수 호출
+	addOptionsToAccountDateSelect();
+
+	// #accountDate의 change 이벤트에 대한 처리
+	var accountDateSelect = document.querySelector("#paymentDate");
+	accountDateSelect.addEventListener("change", function () {
+		var selectedDate = accountDateSelect.value;
+	});
+
+
+    /////// 검색 카테고리 선택 시 input 영역 변경
+	$(document).ready(function () {
+    function inputVisibility() {
+        var selectedOption = $("#searchType").val();
+        if (selectedOption === "content") {
+            $("#paymentDate").hide();
+            $("input[name='searchValue']").show();
+        } else if (selectedOption === "paymentDate") {
+            $("input[name='searchValue']").hide();
+            $("#paymentDate").show();
+        }
+    }
+
+    inputVisibility();
+
+    $("#searchType").on("change", function () {
+        inputVisibility();
+    });
+
+    // form 제출할 때 값 보내주기 
+    $("#adminFeeForm").submit(function (e) {
+        e.preventDefault();
+
+        var selectedOption = $("#searchType").val();
+        if (selectedOption === "paymentDate") {
+            var selectedDate = $("#paymentDate").val();
+            window.location.href = "/app/fee/admin?searchType=" + selectedOption + "&searchValue=" + selectedDate;
+        } else {
+            this.submit();
+        }
+    });
+});
+
+    
 
         ////// 등록 모달
 
