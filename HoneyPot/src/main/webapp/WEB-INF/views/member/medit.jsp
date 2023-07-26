@@ -158,6 +158,15 @@
 				justify-content: space-between;
 				align-items: center;
 			}
+
+			input[name=pwd],
+			input[name=name],
+			input[name=birth],
+			input[name=dongNum],
+			input[name=hoNum] {
+				background-color: #4A321F;
+				color: white;
+			}
 		</style>
 
 	</head>
@@ -183,28 +192,36 @@
 					<div id="tit3">회원</div>
 					<div></div>
 					<div id="tit">아이디</div>
-					<input style="padding-left: 30px;" type="text" class="box" name="id" value="${loginMember.id}">
+					<input style="padding-left: 30px;" type="text" maxlength="15" class="box formValue" name="id"
+						value="${loginMember.id}">
 					<div></div>
 					<div id="tit">비밀번호</div>
-					<input style="padding-left: 30px;" type="password" class="box" name="pwd" value="${loginMember.pwd}" readonly>
-					<div onclick="location.href ='/app/member/changePwd';" class="box3 box">수정</div>
+					<input style="padding-left: 30px;" type="password" class="box formValue" name="pwd"
+						value="${loginMember.pwd}" readonly>
+					<div onclick="goChangePwd();" class="box3 box">수정</div>
 					<div id="tit">이름</div>
-					<input style="padding-left: 30px;" type="text" class="box" name="name" value="${loginMember.name}" readonly>
+					<input style="padding-left: 30px;" type="text" class="box formValue" name="name"
+						value="${loginMember.name}" readonly>
 					<div></div>
 					<div id="tit">생년월일</div>
-					<input style="padding-left: 30px;" type="text" class="box" name="birth" value="${loginMember.birth}" readonly>
+					<input style="padding-left: 30px;" type="text" class="box formValue" name="birth"
+						value="${loginMember.birth}" readonly>
 					<div></div>
 					<div id="tit">연락처</div>
-					<input style="padding-left: 30px;" type="text" class="box" name="phone" value="${loginMember.phone}">
+					<input style="padding-left: 30px;" type="text" maxlength="11" class="box formValue" name="phone"
+						value="${loginMember.phone}">
 					<div></div>
 					<div id="tit">동 / 호수</div>
 					<div class="dongHo">
-						<input style="padding-left: 30px; padding-right: 30px;" type="text" class="box" name="dongNum" value="${loginMember.dongNum}" readonly>
-						<input style="padding-left: 30px; padding-right: 30px;" type="text" class="box" name="hoNum" value="${loginMember.hoNum}" readonly>
+						<input style="padding-left: 30px; padding-right: 30px;" type="text" class="box formValue"
+							name="dongNum" value="${loginMember.dongNum}" readonly>
+						<input style="padding-left: 30px; padding-right: 30px;" type="text" class="box formValue"
+							name="hoNum" value="${loginMember.hoNum}" readonly>
 					</div>
 					<div></div>
 					<div id="tit">이메일</div>
-					<input style="padding-left: 30px;" type="text" class="box" name="email" value="${loginMember.email}">
+					<input style="padding-left: 30px;" type="email" class="box" name="email"
+						value="${loginMember.email}">
 					<div></div>
 					<div></div>
 					<div class="box4">
@@ -220,25 +237,66 @@
 	</html>
 
 	<script>
-		function validateForm() {
-			const idValue = document.getElementsByName("id")[0].value;
-			const pwdValue = document.getElementsByName("pwd")[0].value;
-			const nameValue = document.getElementsByName("name")[0].value;
-			const birthValue = document.getElementsByName("birth")[0].value;
-			const phoneValue = document.getElementsByName("phone")[0].value;
-			const dongNumValue = document.getElementsByName("dongNum")[0].value;
-			const hoNumValue = document.getElementsByName("hoNum")[0].value;
-			const emailValue = document.getElementsByName("email")[0].value;
+		let idValue = sessionStorage.getItem("idValue")
+		let phoneValue = sessionStorage.getItem("phoneValue")
+		let emailValue = sessionStorage.getItem("emailValue")
+		let newPwdValue = sessionStorage.getItem("newPwdValue");
 
-			if (idValue.trim() === "" || pwdValue.trim() === "" || nameValue.trim() === "" || birthValue.trim() === "" || phoneValue.trim() === "" || dongNumValue.trim() === "" || hoNumValue.trim() === "" || emailValue.trim() === "") {
+		if (newPwdValue != null) {
+			const id = document.querySelector('input[name=id]');
+			const pwd = document.querySelector('input[name=pwd]');
+			const phone = document.querySelector('input[name=phone]');
+			const email = document.querySelector('input[name=email]');
+			id.value = idValue;
+			pwd.value = newPwdValue;
+			phone.value = phoneValue;
+			email.value = emailValue;
+		}
+
+
+		function validateForm() {
+			let isValidate = true;
+			const id = document.querySelector('input[name=id]');
+			const phone = document.querySelector('input[name=phone]');
+			const email = document.querySelector('input[name=email]');
+			const formValues = document.querySelectorAll('.formValue');
+
+			for (let tag of formValues) {
+				if (tag.value == "") {
+					isValidate = false;
+				}
+			}
+
+			if (phone.value && (!/^\d{11}$/.test(phone.value))) {
+				alert("유효한 휴대폰 번호를 입력해주세요.");
+				return false;
+			}
+			if (!isValidate) {
 				alert("입력값이 충분하지 않습니다");
 				return false;
 			}
 
+			sessionStorage.removeItem('idValue');
+			sessionStorage.removeItem('phoneValue');
+			sessionStorage.removeItem('emailValue');
+			sessionStorage.removeItem('newPwdValue');
 			return true;
 		}
 
+
 		function quit() {
 			location.href = "/app/member/quit";
+		}
+
+
+		function goChangePwd() {
+			const id = document.querySelector('input[name=id]');
+			const phone = document.querySelector('input[name=phone]');
+			const email = document.querySelector('input[name=email]');
+			sessionStorage.setItem("idValue", id.value);
+			sessionStorage.setItem("phoneValue", phone.value);
+			sessionStorage.setItem("emailValue", email.value);
+
+			location.href = '/app/member/changePwd';
 		}
 	</script>

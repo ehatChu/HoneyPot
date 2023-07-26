@@ -39,5 +39,10 @@ public class MemberDaoImpl implements MemberDao {
 		return sst.update("member.aedit");
 	}
 
+	@Override
+	public int idDubCheck(SqlSessionTemplate sst, String id) {
+		return sst.selectOne("member.idDubCheck", id);
+	}
+
 	
 }

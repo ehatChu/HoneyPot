@@ -19,4 +19,6 @@ public interface MemberDao {
 
 	int aedit(SqlSessionTemplate sst, AdminVo vo);
 
+	int idDubCheck(SqlSessionTemplate sst, String id);
+
 }
