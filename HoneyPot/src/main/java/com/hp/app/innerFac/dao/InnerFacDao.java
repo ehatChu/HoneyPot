@@ -13,4 +13,5 @@ public interface InnerFacDao {
 	List<InnerFacVo> getAllInnerFacInfo(SqlSessionTemplate sst);
 	InnerFacVo getOpenCloseTime(SqlSessionTemplate sst,int no);
 	int makeReservation(SqlSessionTemplate sst, InnerFacRsVo rsVo);
+	List<String> getReservationTimeInfo(SqlSessionTemplate sst, InnerFacRsVo rsVo);
 }

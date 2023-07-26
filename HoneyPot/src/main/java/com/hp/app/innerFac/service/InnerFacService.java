@@ -8,5 +8,5 @@ import com.hp.app.innerFac.vo.InnerFacVo;
 public interface InnerFacService {
 	InnerFacVo getOpenCloseTime(int no);
 	int makeReservation(InnerFacRsVo rsVo);
-	List<InnerFacRsVo> getReservationByMemberNo(String memberNo);
+	List<String> getReservationTimeInfo(InnerFacRsVo rsVo);
 }
