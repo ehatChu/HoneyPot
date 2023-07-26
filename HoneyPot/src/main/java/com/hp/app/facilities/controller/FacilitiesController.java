@@ -1,6 +1,7 @@
 package com.hp.app.facilities.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,14 +28,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FacilitiesController {
 	private final InnerFacService service;
-	@Autowired
 	private final YerinFunctions y;
 	//예약 화면 보여주기
+	//no=1이면 도서관 관련
 	@GetMapping("library/reserve")
-	public String reserve(int no,Model model) {
+	public String reserve(int no,Model model,HttpSession session) {
+		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		String MemberNo = loginMember.getNo();
 		
-		//편의시설마다 시간이 다르므로 조회해와야함.
+		//편의시설마다 시간이 다르므로 조회해와야함. 
 		InnerFacVo fvo = service.getOpenCloseTime(no);
+		
+		List<InnerFacRsVo> rsvList = service.getReservationByMemberNo(MemberNo);
 		
 		//예린함수를 거쳐서 openTime, closeTime전달...
 		int opentime = y.changeInt(fvo.getOpenTime());
