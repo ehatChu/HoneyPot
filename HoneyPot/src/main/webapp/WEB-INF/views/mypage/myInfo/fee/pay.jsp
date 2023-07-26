@@ -291,16 +291,18 @@
                             <thead>
                                 <tr>
                                     <td>항목</td>
+                                    <td>내용</td>
                                     <td>전월</td>
                                     <td>당월</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach begin="1" end="10">
+                                <c:forEach items="${mvoList}" var="list">
                                     <tr>
-                                        <td>일반관리비</td>
-                                        <td>19,390</td>
-                                        <td>20,390</td>
+                                        <td>${list.categoryName}</td>
+                                        <td>${list.content}</td>
+                                        <td></td>
+                                        <td>${list.price}</td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

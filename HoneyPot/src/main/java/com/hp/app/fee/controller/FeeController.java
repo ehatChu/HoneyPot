@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hp.app.account.vo.AccountVo;
 import com.hp.app.fee.service.FeeService;
 import com.hp.app.fee.vo.AdminFeeVo;
@@ -108,11 +109,37 @@ public class FeeController {
 	    return ResponseEntity.ok(chartData);
 	} 
 	
-	//회원 납부 화면
+	//회원 납부 조회
+	// 회원 번호랑 월 데이터로 셀렉트(카테고리 이름, 가격)
 	@GetMapping("fee/member/pay")
-	public String payFee() {
+	public String payFee(Model model) {
+		String mno = "1";
+		// 현재 날짜
+	    LocalDate currentDate = LocalDate.now();
+
+	    // 1. 현재 달
+	    String currentMonth = currentDate.format(DateTimeFormatter.ofPattern("YYYY-MM"));
+	    // 2. 현재 달 바로 이전 달
+	    String previousMonth = currentDate.minusMonths(1).format(DateTimeFormatter.ofPattern("YYYY-MM"));
+	    
+	    // 서비스 전달하고 int 값으로 받아와서 data set
+	    Map<String , String> dateVo = new HashMap<String, String>();
+		dateVo.put("currentMonth", currentMonth);
+		dateVo.put("previousMonth", previousMonth);
+		dateVo.put("no", mno);
+		
+		// 서비스
+		List<MemberFeeVo> mvoList = service.thisMonth(dateVo);
+		List<MemberFeeVo> pvoList = service.prevMonth(dateVo);
+		
+		model.addAttribute("mvoList", mvoList);
+		model.addAttribute("pvoList", pvoList);
+		
 		return "/mypage/myInfo/fee/pay";
 	}
+	
+	// 회원 납부
+	
 	
 	// 관리자 조회
 	@GetMapping("fee/admin")
@@ -158,7 +185,17 @@ public class FeeController {
 	}
 	
 	// 관리자 관리비 수정
-	
+	@PostMapping(path="fee/admin/edit")
+	@ResponseBody
+	public String edit(AdminFeeVo vo) {
+		log.info(vo.toString());
+		int result = service.edit(vo);
+		log.info("result : {}", result);
+		if(result != 1) {
+			throw new RuntimeException();
+		}
+		return "success";
+	}
 	
 	// 관리자 관리비 삭제
 	@PostMapping("fee/admin/del")
@@ -170,6 +207,8 @@ public class FeeController {
 		}
 		return "redirect:/fee/admin?p=1";
 	}
+	
+	
 	
 	
 }

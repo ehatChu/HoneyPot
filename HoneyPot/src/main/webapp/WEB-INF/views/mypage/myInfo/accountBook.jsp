@@ -62,8 +62,8 @@
 									<option value="accountCno">카테고리</option>
 									<option value="accountDate">월 별</option>
 								</select>
-								<input type="search" placeholder="검색 할 내용을 입력하세요." name="searchValue" value="${searchVo.searchValue}">
-								<select id="search_category" name="accountCno" style="display: none;">
+								<input type="search" placeholder="검색 할 내용을 입력하세요." name="searchValue">
+								<select id="search_category" style="display: none;">
 										<option value="2">생활/마트</option>
 										<option value="3">의료/건강</option>
 										<option value="4">문화/예술</option>
@@ -73,12 +73,12 @@
 										<option value="7">뷰티/미용</option>
 										<option value="8">기타지출</option>
 									</select>
-								<select name="accountDate" id="" style="display: none;"> 
-									<option value="">2023-06</option>
-									<option value="">2023-05</option>
-									<option value="">2023-04</option>
-									<option value="">2023-03</option>
-									<option value="">2023-02</option>
+								<select id="accountDate" style="display: none;"> 
+									<option value="2023-07">2023-07</option>
+									<option value="2023-06">2023-06</option>
+									<option value="2023-05">2023-05</option>
+									<option value="2023-04">2023-04</option>
+									<option value="2023-03">2023-03</option>
 								</select>
 								<button type="submit"><i class="fa-solid fa-magnifying-glass fa-2x" ></i></button>
 							</div>
@@ -427,16 +427,16 @@
       var selectedOption = $("#searchType").val();
       if (selectedOption === "content") {
         $("#search_category").hide();
-        $("select[name='accountDate']").hide();
+        $("#accountDate").hide();
         $("input[name='searchValue']").show();
       } else if (selectedOption === "accountCno") {
         $("input[name='searchValue']").hide();
-        $("select[name='accountDate']").hide();
+        $("#accountDate").hide();
         $("#search_category").show();
       } else if (selectedOption === "accountDate") {
         $("input[name='searchValue']").hide();
         $("#search_category").hide();
-        $("select[name='accountDate']").show();
+        $("#accountDate").show();
       }
     }
 
@@ -446,6 +446,18 @@
 		inputVisibility();
     });
   });
+
+  const searchType = '${paramMap.searchType}';
+  if(searchType.length > 1){
+        initSearchType();
+    }
+
+	//검색 후 검색타입 유지되도록
+    function initSearchType(){
+        const x = document.querySelector('select[name=searchType] > option[value="' + searchType + '"]');
+	    x.selected = true;
+    }
+
 
 
 	////// 등록 모달

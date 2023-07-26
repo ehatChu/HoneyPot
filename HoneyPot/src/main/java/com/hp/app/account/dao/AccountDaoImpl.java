@@ -15,14 +15,14 @@ import com.hp.app.page.vo.PageVo;
 public class AccountDaoImpl implements AccountDao{
 
 	@Override
-	public List<AccountVo> list(SqlSessionTemplate sst, PageVo pv,  Map<String, String> searchVo) {
+	public List<AccountVo> list(SqlSessionTemplate sst, PageVo pv,  Map<String, String> paramMap) {
 		RowBounds rb = new RowBounds(pv.getOffset() , pv.getBoardLimit());
-		return sst.selectList("account.list",searchVo ,rb);
+		return sst.selectList("account.list",paramMap ,rb);
 	}
 	
 	@Override
-	public int listCnt(SqlSessionTemplate sst,  Map<String, String> searchVo) {
-		return sst.selectOne("account.listCnt", searchVo);
+	public int listCnt(SqlSessionTemplate sst,  Map<String, String> paramMap) {
+		return sst.selectOne("account.listCnt", paramMap);
 	}
 	
 	@Override

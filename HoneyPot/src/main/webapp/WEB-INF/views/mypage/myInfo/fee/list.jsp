@@ -64,7 +64,7 @@
 						</div>
 						<div class="line-chart-area">
 							<div>당해 <span class="category_area">일반관리비</span> 추이</div>
-							<canvas id="myChart"></canvas>
+							<canvas id="category_Chart"></canvas>
 						</div>
 					</div>
 				</div>
@@ -94,15 +94,15 @@
 
 		// 페이지 로드 후 해당 함수를 호출하여 각 요소의 텍스트를 적절하게 포맷팅
 		window.onload = function () {
-		const priceElements = document.querySelectorAll('#listPrice');
-		priceElements.forEach((element) => {
-	 	addCommasToNumberInElement(element);
-	});
+			const priceElements = document.querySelectorAll('#listPrice');
+			priceElements.forEach((element) => {
+			addCommasToNumberInElement(element);
+		});
 
-		const memberTotalElement = document.getElementById('memberTotal');
-		if (memberTotalElement) {
-		addCommasToNumberInElement(memberTotalElement);
-		}
+			const memberTotalElement = document.getElementById('memberTotal');
+			if (memberTotalElement) {
+			addCommasToNumberInElement(memberTotalElement);
+			}
 	};
 
 
@@ -134,7 +134,6 @@
 			success: function (data) {
 			console.log(data);
 			drawChart(data);
-			
             },
 			error: function (error) {
 			console.log(error);
@@ -149,47 +148,45 @@
 
 
 
-		//////// 라인 차트 함수
-		function addZero(i) {
-		var rtn = i + 100;
-		return rtn.toString().substr(1, 3);
-		}
-
-		var monthList = [];
-		// DB에서 꺼내온 걸로 바꿔주기
-		var monthData = [21000,19500,20500,18700,23050,21590, 22750];
-
-		var dt = new Date();
-		var year = dt.getFullYear();
-		var mon = addZero(eval(dt.getMonth()+1));
-		console.log(addZero(dt.getMonth()+1));		
-		var now = mon;
-
-		// 날짜 범위
-		for(var i = (now - 6); i <= now; i++){
-			var format =  i;
-			monthList.push(format);
-		}
-
-		const ctx = document.getElementById('myChart').getContext('2d');
-		const myChart = new Chart(ctx, {
+		//////// 관리비 항목별 라인 함수 
+		function L_drawChart(chartData) {
+		var ctx = document.getElementById("category_Chart").getContext('2d');
+		var myChart = new Chart(ctx, {
 			type: 'line',
 			data: {
-				labels: monthList,
-				datasets: [{
-					data: monthData,
-					borderColor:'rgba(250, 211, 85)',
-					borderWidth: 1
-				}]
+			labels: chartData.labels,
+			datasets: [{
+				data: chartData.data,
+				backgroundColor: chartData.backgroundColor,
+			}]
 			},
-
 			options: {
-			responsive: true,
-			plugins: {
-				legend: {
+			legend: {
 				display: false
-				}
-			}
+			}}
+		});
+		}
+
+		// DB 에서 정보 가져오기
+		function L_loadChartData() {
+		$.ajax({
+			url: '/app/fee/member/line-chart', 
+			method: 'GET',
+			dataType: 'json',
+			success: function (data) {
+			console.log(data);
+			L_drawChart(data);
+			
+            },
+			error: function (error) {
+			console.log(error);
 			}
 		});
+		}
+
+		//데이터 차트 그리기 함수 실행
+		$(document).ready(function () {
+		L_loadChartData();
+		});
+
 	</script>

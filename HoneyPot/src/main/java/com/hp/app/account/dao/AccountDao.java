@@ -12,10 +12,10 @@ import com.hp.app.page.vo.PageVo;
 public interface AccountDao {
 	
 	// 가계부 목록 조회
-	List<AccountVo> list(SqlSessionTemplate sst, PageVo pv, Map<String, String> searchVo);
+	List<AccountVo> list(SqlSessionTemplate sst, PageVo pv, Map<String, String> paramMap);
 
 	// 목록 개수
-	int listCnt(SqlSessionTemplate sst,  Map<String, String> searchVo);
+	int listCnt(SqlSessionTemplate sst,  Map<String, String> paramMap);
 	
 	// 가계부 추가
 	int add(SqlSessionTemplate sst,AccountVo vo);

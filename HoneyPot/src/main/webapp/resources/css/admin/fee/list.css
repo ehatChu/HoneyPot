@@ -155,7 +155,7 @@ color: white;
 }
 
 /* 등록 모달 영역 */
-.A_modal {
+.A_modal, .edit-modal, .detail-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -166,7 +166,7 @@ color: white;
   align-items: center;
 }
 
-.A_modal .bg {
+.A_modal .bg , .edit-modal .bg , .detail-modal .bg{
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
@@ -236,7 +236,7 @@ color: white;
     margin-left: 10px;
 }
 
-#A_afee_category,#E_afee_category{
+#A_afee_category,.E_afee_category, .D_afree_Category{
     width: 170px;
     height: 30px;
 }
@@ -256,7 +256,7 @@ color: white;
     font-size: 18px;
 }
 
-#A_detailContent,#E_detailContent{
+#A_detailContent,#E_detailContent, #D_detailContent{
     width: 610px;
     height: 170px;
     border-radius: 15px;

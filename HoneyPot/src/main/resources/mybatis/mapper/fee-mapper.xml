@@ -57,6 +57,32 @@
 		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = #{oneYearAgo}
 	</select>
 	
+	<!-- 회원 관리비 납부 카테고리 조회(당월) -->
+	<select id="thisMonth">
+		SELECT 
+			MF.PRICE
+            ,MFC.NAME AS CATEGORY_NAME
+            ,MF.CONTENT
+		FROM MEMBER_FEE MF
+			JOIN MEMBER_FEE_CATEGORY MFC
+			ON (MF.FEE_CNO= MFC.NO)
+		WHERE MF.MEMBER_NO = #{no}
+		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = #{currentMonth}
+	</select>
+	
+	<!-- 회원 관리비 납부 카테고리 조회(전월) -->
+	<select id="prevMonth">
+		SELECT 
+			MF.PRICE
+            ,MFC.NAME AS CATEGORY_NAME
+            ,MF.CONTENT
+		FROM MEMBER_FEE MF
+			JOIN MEMBER_FEE_CATEGORY MFC
+			ON (MF.FEE_CNO= MFC.NO)
+		WHERE MF.MEMBER_NO = #{no}
+		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = #{previousMonth}
+	</select>
+	
 	<select id="adminFeeCnt" resultType="int">
 		SELECT 
 			COUNT(AF.NO)
@@ -86,6 +112,7 @@
 		ORDER BY AF.PAYMENT_DATE DESC
 	</select>
 	
+	<!-- 관리자 관리비 추가 -->
 	<insert id="addFee">
 		INSERT INTO ADMIN_FEE
 		(
@@ -106,11 +133,21 @@
 		    ,#{paymentDate}
 		)
 	</insert>
-	
+	<!-- 관리자 관리비 삭제 -->
 	<delete id="delete">
 		DELETE ADMIN_FEE
 		WHERE NO = #{no}
 	</delete>
+	
+	<!-- 관리자 관리비 수정 -->
+	<update id="AdminEdit">
+		UPDATE ADMIN_FEE SET 
+			FEE_CNO = #{feeCno},
+			CONTENT = #{content},
+			PRICE = #{price},
+			PAYMENT_DATE = #{paymentDate}
+		WHERE NO= #{no}
+	</update>
 	
 	
 

@@ -33,7 +33,16 @@ public interface FeeService {
 	// 관리자 관리비 등록
 	int add(AdminFeeVo vo);
 	
+	// 관리지 관리비 수정
+	int edit(AdminFeeVo vo);
+	
 	// 관리자 관리비 삭제
 	int delete(String no);
+
+	// 회원 관리비 당월 카테고리 조회
+	List<MemberFeeVo> thisMonth(Map<String, String> dateVo);
+
+	// 회원 관리비 전월 카테고리 조회
+	List<MemberFeeVo> prevMonth(Map<String, String> dateVo);
 	
 }

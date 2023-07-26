@@ -37,4 +37,13 @@ public interface FeeDao {
 
 	// 관리자 관리비 삭제
 	int delete(SqlSessionTemplate sst, String no);
+
+	// 관리자 수정
+	int edit(SqlSessionTemplate sst, AdminFeeVo vo);
+
+	// 회원 납부 관리비 당월 조회
+	List<MemberFeeVo> thisMonth(SqlSessionTemplate sst ,Map<String, String> dateVo);
+
+	// 회원 납부 관리비 전월 조회
+	List<MemberFeeVo> prevMonth(SqlSessionTemplate sst, Map<String, String> dateVo);
 }
