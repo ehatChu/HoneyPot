@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.member.service.MemberService;
@@ -76,7 +77,7 @@ public class MemberController {
 			session.setAttribute("alertMsg", "회원 가입에 실패하였습니다");
 			return "redirect:/member/mjoin";
 		}
-		return "redirect:/main/mmain";
+		return "redirect:/member/mlogin";
 	}
 
 	@GetMapping("ajoin")
@@ -156,9 +157,25 @@ public class MemberController {
 	public String pwdChange() {
 		return "member/changePwd";
 	}
+	
+	@PostMapping("changePwd")
+	public String pwdChange(HttpSession session) {
+		return "redirect:/member/medit";
+	}
 
 	@GetMapping("quit")
 	public String quit() {
 		return "member/quit";
+	}
+	
+	@GetMapping("idDubCheck")
+	@ResponseBody
+	public String idDubCheck(String id) {
+		int result = ms.idDubCheck(id);
+		log.info("result : {}", result);
+		if(result != 0) {
+			return "error";
+		}
+		return "success";
 	}
 }

@@ -84,4 +84,9 @@ public class MemberServiceImpl implements MemberService{
 	public int aedit(AdminVo vo) {
 		return dao.aedit(sst, vo);
 	}
+
+	@Override
+	public int idDubCheck(String id) {
+		return dao.idDubCheck(sst, id);
+	}
 }

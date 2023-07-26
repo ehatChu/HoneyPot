@@ -651,6 +651,8 @@
         </html>
 
         <script>
+            sessionStorage.clear();
+
             //변수 선언
             const pub1 = document.querySelector("#pub1");
             const pub2 = document.querySelector("#pub2");

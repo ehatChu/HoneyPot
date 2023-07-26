@@ -5,31 +5,35 @@
 <mapper namespace="member">
 	<select id="mlogin" resultType="com.hp.app.member.vo.MemberVo">
 		SELECT * FROM MEMBER
-		WHERE ID = #{id} AND PWD = #{pwd}
+		WHERE ID =
+		#{id} AND PWD = #{pwd}
 	</select>
-	
+
 	<select id="alogin" resultType="com.hp.app.admin.vo.AdminVo">
 		SELECT * FROM ADMIN
 		WHERE ID =
 		#{id} AND PWD = #{pwd}
 	</select>
-	
+
 	<insert id="mjoin">
 		INSERT INTO MEMBER
 		(NO, NAME, ID, PWD, DONG_NUM,
 		HO_NUM, BIRTH, PHONE, EMAIL, PROFILE)
 		VALUES
-		(SEQ_MEMBER_NO.NEXTVAL, #{name}, #{id}, #{pwd}, #{dongNum}, #{hoNum},
-		#{birth}, #{phone}, #{email}, #{profile})
+		(SEQ_MEMBER_NO.NEXTVAL,
+		#{name}, #{id}, #{pwd}, #{dongNum}, #{hoNum},
+		#{birth}, #{phone},
+		#{email}, #{profile})
 	</insert>
-	
+
 	<insert id="ajoin">
 		INSERT INTO ADMIN
 		(NO, ID, PWD, NAME, GRADE, PROFILE)
 		VALUES
-		(SEQ_ADMIN_NO.NEXTVAL, #{id}, #{pwd}, #{name}, #{grade}, #{profile})
+		(SEQ_ADMIN_NO.NEXTVAL, #{id}, #{pwd}, #{name}, #{grade},
+		#{profile})
 	</insert>
-	
+
 	<update id="medit">
 		UPDATE MEMBER
 		<set>
@@ -42,7 +46,7 @@
 			NO = #{no}
 		</where>
 	</update>
-	
+
 	<update id="aedit">
 		UPDATE ADMIN
 		<set>
@@ -54,5 +58,10 @@
 			NO = #{no}
 		</where>
 	</update>
+
+	<select id="idDubCheck" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE ID = #{id}
+	</select>
 
 </mapper>
