@@ -42,46 +42,71 @@ public class FeeController {
 	
 	// 회원 관리비 조회
 	// 회원 grade 가 'Y' 만 조회 가능 (세대주)
-	@RequestMapping("fee/member")
+	@GetMapping("fee/member")
 	public String MemberList(Model model) throws Exception {
 		String mno = "1";
-		// 관리비 상세 목록 조회
+//		// 관리비 상세 목록 조회
 		List<MemberFeeVo> mfvoList= service.memberFeeList(mno);
-		log.info(mfvoList.toString());
-		// 관리비 총 금액과 납부 일자 조회
+//		log.info(mfvoList.toString());
+//		// 관리비 총 금액과 납부 일자 조회
 		int mTotalFee = service.totalMemberFee(mno);
-		System.out.println(mTotalFee);
+//		log.info("{total : }", mTotalFee);
 		model.addAttribute("mfvoList", mfvoList);
 		model.addAttribute("memberTotal", mTotalFee);
 		return "/mypage/myInfo/fee/list";
 	}
 	
 	// 회원 관리비 바 차트 데이터
-//	@GetMapping(path = "fee/member/bar-chart", produces= "application/json")
-//	@ResponseBody
-//	public ResponseEntity<Map<String,Object>> getBarChart() {
-//		
-//		String mno = "1";
-//		//AccountVo voCurrent = service.getBarChart(mno);
-//		
-//		List<String> labels = new ArrayList<>();
-//	    List<Integer> data = new ArrayList<>();
+	@GetMapping(path = "fee/member/bar-chart", produces= "application/json")
+	@ResponseBody
+	public ResponseEntity<Map<String,Object>> getBarChart(MemberFeeVo vo) {
+		
+		String mno = "1";
+		//AccountVo voCurrent = service.getBarChart(mno);
+		
+		// 현재 날짜
+	    LocalDate currentDate = LocalDate.now();
 
-	    //for (AccountVo accountVo : tvoList) {
-	       // String categoryName = accountVo.getCategoryName();
-//	        int priceCnt = Integer.parseInt(accountVo.getPriceCnt());
-//
-//	        labels.add(categoryName);
-//	        data.add(priceCnt);
-//	    }
-//
-//	    Map<String, Object> chartData = new HashMap<>();
-//	    chartData.put("labels", labels);
-//	    chartData.put("data", data);
-//	    chartData.put("backgroundColor", Arrays.asList("#FF7EAD", "#C0FFFB", "#A1FFA5", "#E7FFB5", "#FFC397", "#47C4EC","#FB92E4","#5F9961"));
-//  
-//	    return ResponseEntity.ok(chartData);
-	//} 
+	    // 1. 현재 달
+	    String currentMonth = currentDate.format(DateTimeFormatter.ofPattern("YYYY-MM"));
+	    // 2. 현재 달 바로 이전 달
+	    String previousMonth = currentDate.minusMonths(1).format(DateTimeFormatter.ofPattern("YYYY-MM"));
+	    // 3. 현재 달에서 1년을 뺀 달
+	    String oneYearAgo = currentDate.minusYears(1).format(DateTimeFormatter.ofPattern("YYYY-MM"));
+	    
+	    // 서비스 전달하고 int 값으로 받아와서 data set
+	    Map<String , String> dateVo = new HashMap<String, String>();
+		dateVo.put("currentMonth", currentMonth);
+		dateVo.put("previousMonth", previousMonth);
+		dateVo.put("oneYearAgo", oneYearAgo);
+		dateVo.put("no", mno);
+		log.info(dateVo.toString());
+		
+		int currentFee = service.currentFee(dateVo);
+		int prevFee = service.prevFee(dateVo);
+		int yearAgoFee = service.yearAgoFee(dateVo);
+	    
+		List<String> labels = new ArrayList<>();
+	    List<Integer> data = new ArrayList<>();
+	    
+	    data.add(currentFee);
+	    data.add(prevFee);
+	    data.add(yearAgoFee);
+
+	    labels.add(currentMonth);
+	    labels.add(oneYearAgo);
+	    labels.add(previousMonth);
+	    
+	    Map<String, Object> chartData = new HashMap<>();
+	    chartData.put("labels", labels);
+	    chartData.put("data", data);
+	    chartData.put("backgroundColor", Arrays.asList("#FF7EAD", "#C0FFFB", "#A1FFA5"));
+  
+	    log.info(data.toString());
+	    log.info(labels.toString());
+	    
+	    return ResponseEntity.ok(chartData);
+	} 
 	
 	//회원 납부 화면
 	@GetMapping("fee/member/pay")

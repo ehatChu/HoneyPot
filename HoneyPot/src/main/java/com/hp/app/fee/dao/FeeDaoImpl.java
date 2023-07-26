@@ -46,4 +46,19 @@ public class FeeDaoImpl implements FeeDao{
 		return sst.delete("fee.delete",no);
 	}
 
+	@Override
+	public int currentFee(SqlSessionTemplate sst, Map<String , String> dateVo) {
+		return sst.selectOne("fee.currentFee", dateVo);
+	}
+
+	@Override
+	public int prevFee(SqlSessionTemplate sst, Map<String , String> dateVo) {
+		return sst.selectOne("fee.prevFee", dateVo);
+	}
+
+	@Override
+	public int yearAgoFee(SqlSessionTemplate sst, Map<String , String> dateVo) {
+		return sst.selectOne("fee.yearAgoFee",dateVo);
+	}
+
 }

@@ -17,6 +17,15 @@ public interface FeeDao {
 	// 회원 관리비 총 금액 조회
 	int totalMemberFee(SqlSessionTemplate sst, String mno);
 	
+	// 회원 관리비 당월 총 금액
+	int currentFee(SqlSessionTemplate sst, Map<String, String> dateVo);
+	
+	// 회원 관리비 전 월 총 금액
+	int prevFee(SqlSessionTemplate sst,Map<String, String> dateVo);
+	
+	// 회원 관리비 전 년 총 금액
+	int yearAgoFee(SqlSessionTemplate sst,Map<String, String> dateVo);
+
 	// 관리자 관리비 목록 개수 조회
 	int adminListCnt(SqlSessionTemplate sst, Map<String , String> searchVo);
 	

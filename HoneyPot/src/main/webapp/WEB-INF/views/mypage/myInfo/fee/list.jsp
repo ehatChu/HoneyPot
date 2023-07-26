@@ -33,7 +33,7 @@
 								</select>
 							</div>
 							<div class="price-area">
-								<div class="priceBox"><div class="won">${memberTotal }</div> 원</div>
+								<div class="priceBox"><div class="won" id="memberTotal">${memberTotal}</div> 원</div>
 								<span>납부일자 : ${mfvoList[0].paymentDate}</span>
 							</div>
 							<div class="detail-area"><span>상세내역</span></div>
@@ -50,7 +50,7 @@
 									<c:forEach items="${mfvoList}" var="list">
 										<tr>
 											<td>${list.categoryName}</td>
-											<td>${list.price}원</td>
+											<td><div id="listPrice">${list.price}</div></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -82,25 +82,28 @@
 		secondNav(['조회', '납부'],'조회');
     	headerName('마이페이지');
 
-		// 금액칸 콤마 정규식
-		function comma(price) {
-				str = String(str);
-				return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+		// 숫자를 3자리마다 쉼표가 있는 문자열로 변환하는 함수
+		function addCommasToNumberInElement(element) {
+			const text = element.textContent;
+			const number = parseFloat(text.replace(/,/g, '')); // 쉼표를 제거한 후 숫자로 변환
+			if (!isNaN(number)) {
+			const formattedNumber = number.toLocaleString();
+			element.textContent = formattedNumber; // 쉼표가 있는 형식으로 변경하여 다시 업데이트
 			}
-
-		function uncomma(str) {
-			str = String(str);
-			return str.replace(/[^\d]+/g, '');
-		} 
-
-		function inputNumberFormat(obj) {
-			obj.value = comma(uncomma(obj.value));
 		}
 
-		// 금액들 콤마 처리
-		const priceDiv = document.querySelector(".won");
-		const price = priceDiv.innerHTML;
-		console.log(price);
+		// 페이지 로드 후 해당 함수를 호출하여 각 요소의 텍스트를 적절하게 포맷팅
+		window.onload = function () {
+		const priceElements = document.querySelectorAll('#listPrice');
+		priceElements.forEach((element) => {
+	 	addCommasToNumberInElement(element);
+	});
+
+		const memberTotalElement = document.getElementById('memberTotal');
+		if (memberTotalElement) {
+		addCommasToNumberInElement(memberTotalElement);
+		}
+	};
 
 
 		//////// 관리비 전월/전년 대비 차트 함수 
@@ -131,10 +134,7 @@
 			success: function (data) {
 			console.log(data);
 			drawChart(data);
-			var legendElement = $("#legend");
-                legendElement.empty(); // 기존 내용 초기화
-
-               
+			
             },
 			error: function (error) {
 			console.log(error);
@@ -142,7 +142,7 @@
 		});
 		}
 
-		// 데이터 차트 그리기 함수 실행
+		//데이터 차트 그리기 함수 실행
 		$(document).ready(function () {
 		loadChartData();
 		});

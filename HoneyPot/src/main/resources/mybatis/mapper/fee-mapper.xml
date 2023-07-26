@@ -15,7 +15,7 @@
 		WHERE MF.MEMBER_NO = #{mno}
 	</select>
 	
-	<select id="memeberTotalPrice" resultType="int">
+	<select id="memberTotalPrice" resultType="int">
 		SELECT 
 			SUM(MF.PRICE) AS TOTAL_PRICE
 		FROM MEMBER_FEE MF
@@ -25,15 +25,37 @@
 	</select>
 	
 	<!-- 회원별 현재 달 관리비 금액 -->
-	<!-- <select id="">
+	<select id="currentFee" resultType="int">
 		SELECT 
 			SUM(MF.PRICE)
 		FROM MEMBER_FEE MF
 			JOIN MEMBER_FEE_CATEGORY MFC
 			ON (MF.FEE_CNO= MFC.NO)
-		WHERE MF.MEMBER_NO = 1
-		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = '2023-06'
-	</select> -->
+		WHERE MF.MEMBER_NO = #{no}
+		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = #{currentMonth}
+	</select>
+	
+	<!-- 회원별 전월 관리비 금액 -->
+	<select id="prevFee"  resultType="int">
+		SELECT 
+			SUM(MF.PRICE)
+		FROM MEMBER_FEE MF
+			JOIN MEMBER_FEE_CATEGORY MFC
+			ON (MF.FEE_CNO= MFC.NO)
+		WHERE MF.MEMBER_NO = #{no}
+		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = #{previousMonth}
+	</select>
+	
+	<!-- 회원별 현재 달 관리비 금액 -->
+	<select id="yearAgoFee" resultType="int">
+		SELECT 
+			SUM(MF.PRICE)
+		FROM MEMBER_FEE MF
+			JOIN MEMBER_FEE_CATEGORY MFC
+			ON (MF.FEE_CNO= MFC.NO)
+		WHERE MF.MEMBER_NO = #{no}
+		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = #{oneYearAgo}
+	</select>
 	
 	<select id="adminFeeCnt" resultType="int">
 		SELECT 
