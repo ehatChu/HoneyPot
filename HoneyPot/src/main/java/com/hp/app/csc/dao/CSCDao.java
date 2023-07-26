@@ -46,13 +46,13 @@ public interface CSCDao {
 	int insertInquiry(SqlSessionTemplate sst, QNAVo vo);
 	
 	// 문의 List 조회
-	List<QNAVo> getQNAList(SqlSessionTemplate sst, String no);
+	List<QNAVo> getMyQNAList(SqlSessionTemplate sst, String no);
 	
 	// 문의 상세 조회
-	QNAVo getQNAByNo(SqlSessionTemplate sst, QNAVo vo);
+	QNAVo getMyQNAByNo(SqlSessionTemplate sst, QNAVo vo);
 	
 	// 문의 내역 삭제
-	int deleteInquiry(SqlSessionTemplate sst, QNAVo vo);
+	int deleteMyInquiry(SqlSessionTemplate sst, QNAVo vo);
 	
 	// 신고
 	// 신고 카테고리 List 조회
@@ -68,12 +68,26 @@ public interface CSCDao {
 	int insertReport(SqlSessionTemplate sst, ReportVo vo);
 	
 	// 신고 List 조회
-	List<ReportVo> getReportList(SqlSessionTemplate sst, String no);
+	List<ReportVo> getMyReportList(SqlSessionTemplate sst, String no);
 	
 	// 신고 상세 조회
-	ReportVo getReportByNo(SqlSessionTemplate sst, ReportVo vo);
+	ReportVo getMyReportByNo(SqlSessionTemplate sst, ReportVo vo);
 	
 	// 신고 삭제
-	int deleteReport(SqlSessionTemplate sst, ReportVo vo);
+	int deleteMyReport(SqlSessionTemplate sst, ReportVo vo);
+
+	//-------------------------------------------------------------------------------------------------------------
+	
+	// 관리자
+	
+	// 문의
+	// 문의 List 검색 갯수
+	int getQNACnt(SqlSessionTemplate sst, Map<String, String> searchMap);
+	
+	// 문의 List 검색 조회
+	List<QNAVo> getQNAAllList(SqlSessionTemplate sst, Map<String, String> searchMap);
+	
+	// 문의 List 검색 조회(페이징)
+	List<QNAVo> getQNAList(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchMap);
 	
 }

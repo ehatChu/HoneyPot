@@ -84,20 +84,20 @@ public class CSCServiceImpl implements CSCService {
 
 	// 문의 List 조회
 	@Override
-	public List<QNAVo> getQNAList(String no) {
-		return dao.getQNAList(sst, no);
+	public List<QNAVo> getMyQNAList(String no) {
+		return dao.getMyQNAList(sst, no);
 	}
 
 	// 문의 상세 조회
 	@Override
-	public QNAVo getQNAByNo(QNAVo vo) {
-		return dao.getQNAByNo(sst, vo);
+	public QNAVo getMyQNAByNo(QNAVo vo) {
+		return dao.getMyQNAByNo(sst, vo);
 	}
 
 	// 문의 내역 삭제
 	@Override
-	public int deleteInquiry(QNAVo vo) {
-		return dao.deleteInquiry(sst, vo);
+	public int deleteMyInquiry(QNAVo vo) {
+		return dao.deleteMyInquiry(sst, vo);
 	}
 
 	// 신고
@@ -127,24 +127,43 @@ public class CSCServiceImpl implements CSCService {
 
 	// 신고 List 조회
 	@Override
-	public List<ReportVo> getReportList(String no) {
-		return dao.getReportList(sst, no);
+	public List<ReportVo> getMyReportList(String no) {
+		return dao.getMyReportList(sst, no);
 	}
 
 	// 신고 상세 조회
 	@Override
-	public ReportVo getReportByNo(ReportVo vo) {
-		return dao.getReportByNo(sst, vo);
+	public ReportVo getMyReportByNo(ReportVo vo) {
+		return dao.getMyReportByNo(sst, vo);
 	}
 
 	// 신고 삭제
 	@Override
-	public int deleteReport(ReportVo vo) {
-		return dao.deleteReport(sst, vo);
+	public int deleteMyReport(ReportVo vo) {
+		return dao.deleteMyReport(sst, vo);
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	
+	// 관리자
+
+	// 문의 List 검색 갯수
+	@Override
+	public int getQNACnt(Map<String, String> searchMap) {
+		return dao.getQNACnt(sst, searchMap);
+	}
+
+	// 문의 List 검색 조회
+	@Override
+	public List<QNAVo> getQNAAllList(Map<String, String> searchMap) {
+		return dao.getQNAAllList(sst, searchMap);
+	}
+	
+	// 문의 List 검색 조회(페이징)
+	@Override
+	public List<QNAVo> getQNAList(PageVo pvo, Map<String, String> searchMap) {
+		return dao.getQNAList(sst, pvo, searchMap);
 	}
 
 	
-
-
-
-}
+} // class

@@ -29,7 +29,7 @@
 			AND C.NO = #{searchType}
 		</if>
 		<if test="searchValue != '' and searchValue != null">
-			AND F.QUESTION LIKE ('%' || #{searchValue} || '%')
+			AND F.QUESTION LIKE '%${searchValue}%'
 		</if>
 		ORDER BY F.ENROLL_DATE DESC
 	</select>
@@ -51,7 +51,7 @@
 			AND FAQ_CNO = #{searchType}
 		</if>
 		<if test="searchValue != '' and searchValue != null">
-			AND QUESTION LIKE ('%' || #{searchValue} || '%')
+			AND QUESTION LIKE '%${searchValue}%'
 		</if>
 	</select>
 	
@@ -72,7 +72,7 @@
 	</select>
 	
 	<!-- 문의 목록 (화면) -->
-	<select id="getQNAList" resultType="com.hp.app.csc.vo.QNAVo">
+	<select id="getMyQNAList" resultType="com.hp.app.csc.vo.QNAVo">
 		SELECT
 		    Q.NO AS NO
 		    , Q.TITLE AS TITLE
@@ -86,7 +86,7 @@
 	</select>
 	
 	<!-- 문의 상세 조회 (화면) -->
-	<select id="getQNAByNo" resultType="com.hp.app.csc.vo.QNAVo">
+	<select id="getMyQNAByNo" resultType="com.hp.app.csc.vo.QNAVo">
 		SELECT 
 			Q.NO,
             Q.TITLE,
@@ -117,7 +117,7 @@
 	</insert>
 	
 	<!-- 문의 내역 삭제 -->
-	 <delete id="deleteInquiry">
+	 <delete id="deleteMyInquiry">
 	 	DELETE FROM QNA
 	 	WHERE NO = #{no}
 	 	AND MEMBER_NO = #{memberNo}
@@ -181,7 +181,7 @@
 	</insert>
 	
 	<!-- 신고 List 조회 -->
-	<select id="getReportList" resultType="com.hp.app.csc.vo.ReportVo">
+	<select id="getMyReportList" resultType="com.hp.app.csc.vo.ReportVo">
 		SELECT
 		    R.NO
 		    , R.TITLE
@@ -195,7 +195,7 @@
 	</select>
 	
 	<!-- 신고 상세 조회 -->
-	<select id="getReportByNo" resultType="com.hp.app.csc.vo.ReportVo">
+	<select id="getMyReportByNo" resultType="com.hp.app.csc.vo.ReportVo">
 		SELECT
 		    R.NO
 		    ,R.TITLE
@@ -210,10 +210,50 @@
 	</select>
 	
 	<!-- 신고 내역 삭제 -->
-	<delete id="deleteReport">
+	<delete id="deleteMyReport">
 		DELETE FROM REPORT
 		WHERE NO = #{no}
 		AND REPORTER = #{reporter}
 	</delete>
+	
+	<!-- ********************************************************************************************************* -->
+	
+	<!-- 관리자 -->
+	
+	<!-- 문의 List 전체 갯수 -->
+	<select id="getQNAAllCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM QNA
+	</select>
+	
+	<!-- 문의 List 검색 갯수 -->
+	<select id="getQNACnt" resultType="int">
+		SELECT COUNT(*)
+		FROM QNA
+	</select>
+	
+	<!-- 문의 List 검색 조회 -->
+	<select id="getQNAAllList" resultType="com.hp.app.csc.vo.QNAVo">
+		SELECT 
+			ANSWER_YN
+		FROM QNA
+	</select>
+	
+	<!-- 문의 List 검색 조회 -->
+	<select id="getQNAList" resultType="com.hp.app.csc.vo.QNAVo">
+		SELECT 
+		    Q.NO
+		    , C.NAME AS QNACNAME
+		    , Q.TITLE
+		    , M.NAME AS MEMBERNAME
+		    , TO_CHAR(Q.ENROLL_DATE, 'YY.MM.DD HH:MI') AS ENROLL_DATE
+		    , TO_CHAR(Q.ANSWER_DATE, 'YY.MM.DD HH:MI') AS ANSWER_DATE
+		    , Q.ANSWER_YN
+		FROM QNA Q
+		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
+		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
+		ORDER BY Q.ENROLL_DATE DESC
+	</select>
+	
   
 </mapper>

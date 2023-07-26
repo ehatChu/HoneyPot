@@ -10,6 +10,7 @@ public class QNAVo {
 	private String qnaCno;
 	private String qnaCname;
 	private String memberNo;
+	private String memberName;
 	private String title;
 	private String content;
 	private String enrollDate;
