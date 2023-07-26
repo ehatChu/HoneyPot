@@ -52,4 +52,19 @@ public class FeeServiceImpl implements FeeService{
 		return dao.delete(sst,no);
 	}
 
+	@Override
+	public int currentFee(Map<String , String> dateVo) {
+		return dao.currentFee(sst, dateVo);
+	}
+
+	@Override
+	public int prevFee(Map<String , String> dateVo) {
+		return dao.prevFee(sst, dateVo);
+	}
+
+	@Override
+	public int yearAgoFee(Map<String , String> dateVo) {
+		return dao.yearAgoFee(sst, dateVo);
+	}
+
 }

@@ -15,6 +15,15 @@ public interface FeeService {
 	// 회원 관리비 총 금액&납부 일자 조회
 	int totalMemberFee(String mno);
 	
+	// 회원 관리비 당월 총 금액
+	int currentFee(Map<String , String> dateVo);
+	
+	// 회원 관리비 전 월 총 금액
+	int prevFee(Map<String , String> dateVo);
+	
+	// 회원 관리비 전 년 총 금액
+	int yearAgoFee(Map<String , String> dateVo);
+	
 	// 관리자 관리비 목록 개수 조회
 	int adminListCnt(Map<String , String> searchVo);
 	

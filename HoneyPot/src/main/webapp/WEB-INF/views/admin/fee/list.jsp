@@ -298,10 +298,10 @@
         $(document).ready(function() {
         $(".editBtn").on("click", function() {
         var no = $(this).closest("tr").find("td:nth-child(1)").text().trim();
-        var categoryName = $(this).closest("tr").find("td:nth-child(3)").text().trim();
+        var categoryName = $(this).closest("tr").find("td:nth-child(2)").text().trim();
         var paymentDate = $(this).closest("tr").find("td:nth-child(4)").text().trim();
         var content = $(this).closest("tr").find("td:nth-child(5)").text().trim();
-        var price = $(this).closest("tr").find("td:nth-child(6)").text().trim();
+        var price = $(this).closest("tr").find("td:nth-child(3)").text().trim();
         // 가격 원 붙은 거 떼기
         var numericPrice = parseInt(price.replace(/\D/g, ""));
 
