@@ -24,24 +24,26 @@
         margin-top: 10px;
     }
 
-    .write-form-area {
-        margin-top: 15px;
+    .title-area { margin-bottom: 20px; }
+
+    #importantYn {
+        font-size: 15px;
+        font-weight: 700;
+        color: #5F5F5F;
+        margin-top: 10px;
         margin-left: 10px;
     }
 
-    .write-category {
-        width: 400px;
-        height: 50px;
+    #category {
+        margin-top: 10px;
+        width: 140px;
+		height: 50px;
         border-radius: 8px;
         border: 1px solid rgb(156, 156, 156);
-    }
-
-    .write-category-area {
-        margin-top: 10px;
-    }
-
-    #title-area {
-        margin-top: 10px;
+        padding: 10px;
+        outline: none;
+        font-size: 18px;
+		font-family: 'Noto Sans KR';
     }
 
     #title {
@@ -50,7 +52,7 @@
         height: 50px;
         border-radius: 8px;
         border: 1px solid rgb(156, 156, 156);
-        padding-left: 10px;
+        padding: 10px;
         outline: none;
         font-size: 18px;
 		font-family: 'Noto Sans KR';
@@ -287,28 +289,29 @@
                 <form action="/app/notice/write" method="post">
 
                     <div class="title-area">
-                        <div id="article">제목</div>
+                        <span id="article">제목</span>
 
                         <!-- 중요여부 체크박스 -->
-                        <input type="checkbox" name="importantYn" value="Y"> 중요
-                        <!-- <input type="hidden" name="importantYn" value="N" id="hiddenImportantYn"> -->
-                        <br>
-
-                        <!-- 카테고리 -->
-                        <select name="noticeCno">
-                            <option value="" selected>--선택--</option>
-                            <c:forEach items="${cvo}" var="cvo">
-                                <option value="${cvo.no}">${cvo.name}</option>
-                            </c:forEach>
-                        </select>
-
+                        <span id="importantYn">
+                            <input type="checkbox" name="importantYn" value="Y"> 중요
+                            <!-- <input type="hidden" name="importantYn" value="N" id="hiddenImportantYn"> -->
+                        </span>
+                        
                         <div>
+                            <!-- 카테고리 -->
+                            <select id="category" name="noticeCno">
+                                <option value="" selected>--카테고리--</option>
+                                <c:forEach items="${cvo}" var="cvo">
+                                    <option value="${cvo.no}">${cvo.name}</option>
+                                </c:forEach>
+                            </select>
+    
                             <input type="text" id="title" name="title" placeholder="제목을 입력해주세요.">
                         </div>
                     </div>
 
                     <div>
-                        <div id="article">내용</div>
+                        <span id="article">내용</span>
 
                         <div class="vote-btn-area">
                             <button type="button" id="vote-btn">
