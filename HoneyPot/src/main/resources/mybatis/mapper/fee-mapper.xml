@@ -89,13 +89,18 @@
 		FROM ADMIN_FEE AF
 			JOIN ADMIN_FEE_CATEGORY AFC
 			ON (AF.FEE_CNO = AFC.NO)
-		<!-- <if test="searchType == 'content' & searchValue != null">
-			WHERE TO_CHAR(AF.PAYMENT_DATE, 'YYYY-MM') = '2023-06'
-		WHERE AF.CONTENT LIKE('%' || #{searchValue} || '%' )
-		</if>
-		<if test="searchType == 'accountDate' & searchValue != null">
-			AND AF.CONTENT LIKE('%' || #{searchValue} || '%' )
-		</if> -->
+		<where>
+        <if test="searchType != null and searchType != '' and searchValue != null and searchValue != ''">
+            <choose>
+                <when test="searchType == 'content'">
+                   AND AF.CONTENT LIKE '%${searchValue}%'
+                </when>
+                <when test="searchType == 'paymentDate'">
+                   AND TO_CHAR(AF.PAYMENT_DATE, 'YYYY-MM') LIKE '%${searchValue}%'
+                </when>
+            </choose>
+        </if>
+    </where>
 	</select>
 	
 	<select id="adminFeeList" resultType="com.hp.app.fee.vo.AdminFeeVo">
@@ -109,6 +114,18 @@
 		FROM ADMIN_FEE AF
 		JOIN ADMIN_FEE_CATEGORY AFC 
 		ON AF.FEE_CNO = AFC.NO
+		<where>
+        <if test="searchType != null and searchType != '' and searchValue != null and searchValue != ''">
+            <choose>
+                <when test="searchType == 'content'">
+                   AND AF.CONTENT LIKE '%${searchValue}%'
+                </when>
+                <when test="searchType == 'paymentDate'">
+                   AND TO_CHAR(AF.PAYMENT_DATE, 'YYYY-MM') LIKE '%${searchValue}%'
+                </when>
+            </choose>
+        </if>
+    </where>
 		ORDER BY AF.PAYMENT_DATE DESC
 	</select>
 	

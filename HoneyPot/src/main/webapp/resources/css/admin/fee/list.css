@@ -7,7 +7,6 @@
 /* 관리비 내역, 등록, 수정 영역 */
 #list-area {
     display: grid;
-    grid-template-rows: 50px 500px 50px;
     margin-top: 30px;
    
 }
@@ -22,24 +21,17 @@
 #search-area > div:first-child {
     width: 250px;
     height: 50px;
-    font-weight: 500;
-    font-size: 23px;
+    font-weight: 570;
+    font-size: 25px;
     color: #4A321F;
     display: flex;
     align-items: center;
     background: #ffce31;
     border-radius: 20px 20px 0px 0px;
+    padding-left: 40px;
 }
 
-#search-area > div > span {
-    border-radius: 20px 0px 0 0;
-    background: #ffce31;
-    border: none;
-    font-size: 22px;
-    font-weight: 600;
-    margin-left: 20px;
-    margin-right: 20px;
-}
+
 
 .searchDiv{
 width: 450px;
@@ -64,9 +56,14 @@ background-color: #f5f5f5;
     cursor: pointer;
 }
 
+.table-body-area {
+    height: 440px;
+    width: 1548px;
+    background: #FFFFFF;
+}
+
 .A_detail {
     width: 1548px;
-    height: 500px;
     text-align: center;
     vertical-align: middle;
     border-collapse: collapse;
@@ -81,6 +78,11 @@ background-color: #f5f5f5;
     height: 40px;
     background-color: #4A321F;
     color: #FFFFFF;
+}
+
+.A_detail > tbody > tr {
+    font-size: 18px;
+    height: 40px;
 }
 
 .A_detail > tbody > tr:hover {

@@ -143,14 +143,9 @@ public class FeeController {
 	
 	// 관리자 조회
 	@GetMapping("fee/admin")
-	public String AdminList(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam(name = "searchValue", required = false) String searchValue,@RequestParam(name = "searchType", required = false) String searchType) {
+	public String AdminList(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
 		
-		Map<String , String> searchVo = new HashMap<String, String>();
-		searchVo.put("searchType", searchType);
-		searchVo.put("searchValue", searchValue);
-		//searchVo.put("yearMonth", yearMonth);
-		
-		int listCount = service.adminListCnt(searchVo);
+		int listCount = service.adminListCnt(paramMap);
 		log.info("{listCount :,}", listCount);
 		int CurrentPage = p;
 		int pageLimit = 5;
@@ -158,14 +153,14 @@ public class FeeController {
 		PageVo pv = new PageVo(listCount, CurrentPage, pageLimit, boardLimit);
 		
 		// 로그인한 회원 번호로 가계부 목록 조회
-		List<AdminFeeVo> avoList = service.adminList(pv, searchVo);
+		List<AdminFeeVo> avoList = service.adminList(pv, paramMap);
 		
 		log.info(avoList.toString());
 		if(!avoList.isEmpty()) {
 			model.addAttribute("pv", pv);
 		}
 		model.addAttribute("avoList", avoList);
-		model.addAttribute("searchVo", searchVo);
+		model.addAttribute("paramMap", paramMap);
 		
 		return "/admin/fee/list";
 	}

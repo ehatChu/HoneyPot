@@ -25,10 +25,10 @@ public interface FeeService {
 	int yearAgoFee(Map<String , String> dateVo);
 	
 	// 관리자 관리비 목록 개수 조회
-	int adminListCnt(Map<String , String> searchVo);
+	int adminListCnt(Map<String, String> paramMap);
 	
 	// 관리자 관리비 목록 조회
-	List<AdminFeeVo> adminList(PageVo pv, Map<String , String> searchVo);
+	List<AdminFeeVo> adminList(PageVo pv, Map<String , String> paramMap);
 	
 	// 관리자 관리비 등록
 	int add(AdminFeeVo vo);

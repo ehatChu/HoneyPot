@@ -33,13 +33,13 @@ public class FeeServiceImpl implements FeeService{
 	}
 
 	@Override
-	public int adminListCnt(Map<String, String> searchVo) {
-		return dao.adminListCnt(sst, searchVo);
+	public int adminListCnt(Map<String, String> paramMap) {
+		return dao.adminListCnt(sst, paramMap);
 	}
 
 	@Override
-	public List<AdminFeeVo> adminList(PageVo pv, Map<String, String> searchVo) {
-		return dao.adminList(sst, pv, searchVo);
+	public List<AdminFeeVo> adminList(PageVo pv, Map<String, String> paramMap) {
+		return dao.adminList(sst, pv, paramMap);
 	}
 
 	@Override

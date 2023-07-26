@@ -26,14 +26,14 @@ public class FeeDaoImpl implements FeeDao{
 	}
 
 	@Override
-	public int adminListCnt(SqlSessionTemplate sst, Map<String, String> searchVo) {
-		return sst.selectOne("fee.adminFeeCnt", searchVo);
+	public int adminListCnt(SqlSessionTemplate sst, Map<String, String> paramMap) {
+		return sst.selectOne("fee.adminFeeCnt", paramMap);
 	}
 
 	@Override
-	public List<AdminFeeVo> adminList(SqlSessionTemplate sst, PageVo pv, Map<String, String> searchVo) {
+	public List<AdminFeeVo> adminList(SqlSessionTemplate sst, PageVo pv, Map<String, String> paramMap) {
 		RowBounds rb = new RowBounds(pv.getOffset() , pv.getBoardLimit());
-		return sst.selectList("fee.adminFeeList", searchVo, rb);
+		return sst.selectList("fee.adminFeeList", paramMap, rb);
 	}
 
 	@Override
