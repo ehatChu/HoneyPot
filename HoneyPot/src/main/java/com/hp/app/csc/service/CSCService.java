@@ -41,13 +41,13 @@ public interface CSCService {
 	int insertInquiry(QNAVo vo);
 	
 	// 문의 List 조회
-	List<QNAVo> getQNAList(String no);
+	List<QNAVo> getMyQNAList(String no);
 	
 	// 문의 상세 조회
-	QNAVo getQNAByNo(QNAVo vo);
+	QNAVo getMyQNAByNo(QNAVo vo);
 	
 	// 문의 내역 삭제
-	int deleteInquiry(QNAVo vo);
+	int deleteMyInquiry(QNAVo vo);
 	
 	// 신고
 	// 신고 카테고리 List 조회
@@ -63,14 +63,34 @@ public interface CSCService {
 	int insertReport(ReportVo vo);
 	
 	// 신고 List 조회
-	List<ReportVo> getReportList(String no);
+	List<ReportVo> getMyReportList(String no);
 	
 	// 신고 상세 조회
-	ReportVo getReportByNo(ReportVo vo);
+	ReportVo getMyReportByNo(ReportVo vo);
 	
 	// 신고 삭제
-	int deleteReport(ReportVo vo);
+	int deleteMyReport(ReportVo vo);
+
+	//-------------------------------------------------------------------------------------------------------------
+	
+	// 관리자
+	
+	// 문의
+	// 문의 카테고리 조회
+	// getQNACatList 사용
+	
+	// 문의 List 검색 갯수
+	int getQNACnt(Map<String, String> searchMap);
+	
+	// 문의 List 검색 조회
+	List<QNAVo> getQNAAllList(Map<String, String> searchMap);
+	
+	// 문의 List 검색 조회(페이징)
+	List<QNAVo> getQNAList(PageVo pvo, Map<String, String> searchMap);
 
 	
+	// 문의 상세 조회
+	// 문의 삭제
+	// 문의 답변
 	
 }

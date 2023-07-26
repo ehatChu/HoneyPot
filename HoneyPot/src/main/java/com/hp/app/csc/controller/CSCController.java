@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hp.app.csc.service.CSCService;
@@ -34,16 +35,18 @@ public class CSCController {
 	
 	// FAQ 조회(화면)
 	@GetMapping("csc/faq")
-	public String getFAQList(Model model, String page, String searchType, String searchValue) {
+	public String getFAQList(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchVo) {
+
+//		@RequestParam defaultValue로 수정		
+//		if(page == null) {
+//			page = "1";
+//		}
 		
-		if(page == null) {
-			page = "1";
-		}
-		
+		// @RequestParam Map<String, String> searchVo으로 수정
 		//검색값 저장
-		Map<String, String> searchVo = new HashMap<>();
-		searchVo.put("searchType", searchType);
-		searchVo.put("searchValue", searchValue);
+//		Map<String, String> searchVo = new HashMap<>();
+//		searchVo.put("searchType", searchType);
+//		searchVo.put("searchValue", searchValue);
 		
 		int listCount = service.getFAQCnt(searchVo);
 		int currentPage = Integer.parseInt(page);
@@ -116,7 +119,7 @@ public class CSCController {
 	@GetMapping("csc/inquiry-list")
 	public String inquiryList(Model model) {
 		String no = "1";
-		List<QNAVo> qList = service.getQNAList(no);
+		List<QNAVo> qList = service.getMyQNAList(no);
 		
 		model.addAttribute("qList", qList);
 		
@@ -138,7 +141,7 @@ public class CSCController {
 		qvo.setMemberNo(no);
 		qvo.setNo(qno);
 		
-		QNAVo vo = service.getQNAByNo(qvo);
+		QNAVo vo = service.getMyQNAByNo(qvo);
 		
 		if(vo == null) {
 			throw new Exception("QNA 상세조회 실패");
@@ -155,7 +158,7 @@ public class CSCController {
 		vo.setNo(bno);
 		vo.setMemberNo("1");
 		
-		int result = service.deleteInquiry(vo);
+		int result = service.deleteMyInquiry(vo);
 		
 		if(result != 1) {
 			throw new Exception("문의내역 에러...");
@@ -223,7 +226,7 @@ public class CSCController {
 		
 		String no = "1";
 		
-		List<ReportVo> rList = service.getReportList(no);
+		List<ReportVo> rList = service.getMyReportList(no);
 		
 		model.addAttribute("rList", rList);
 		
@@ -246,7 +249,7 @@ public class CSCController {
 		rvo.setNo(rno);
 		
 		
-		ReportVo vo = service.getReportByNo(rvo);
+		ReportVo vo = service.getMyReportByNo(rvo);
 		
 		if(vo == null) {
 			throw new Exception("QNA 상세조회 실패");
@@ -266,7 +269,7 @@ public class CSCController {
 		rvo.setNo(rno);
 		rvo.setReporter(memberNo);
 		
-		int result = service.deleteReport(rvo);
+		int result = service.deleteMyReport(rvo);
 		
 		if(result != 1) {
 			throw new Exception("신고 내역 삭제 에러");
@@ -281,7 +284,49 @@ public class CSCController {
 	
 	// 1대1 상담내역(화면)
 	@GetMapping("admin/csc/inquiry-list")
-	public String adminInquiryList() {
+	public String adminInquiryList(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchMap) throws Exception {
+		
+		// 페이징 처리
+		int listCount = service.getQNACnt(searchMap);
+		int currentPage = Integer.parseInt(page);
+		int pageLimit = 5;
+		int boardLimit = 6;
+		
+		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+		List<QNACategoryVo> cList = service.getQNACatList();
+		List<QNAVo> qList = service.getQNAList(pvo, searchMap);
+		
+		if(cList == null) {
+			throw new Exception("문의등록 카테고리 조회 에러");
+		}
+		
+		// 갯수 조회
+		List<QNAVo> nList = service.getQNAAllList(searchMap);
+		int sum = 0;
+		int answerY = 0;
+		int answerN = 0;
+		
+		for(QNAVo vo : nList) {
+			if("N".equals(vo.getAnswerYn())) {
+				answerN++;
+			}else if("Y".equals(vo.getAnswerYn())) {
+				answerY++;
+			}
+		}
+		
+		sum = answerY + answerN;
+		Map<String, String> listCnt = new HashMap<String, String>();
+		
+		
+		listCnt.put("sum", Integer.toString(sum));
+		listCnt.put("answerY", Integer.toString(answerY));
+		listCnt.put("answerN", Integer.toString(answerN));
+		
+		model.addAttribute("listCnt", listCnt);
+		model.addAttribute("cList", cList);
+		model.addAttribute("qList", qList);
+		
 		return "csc/admin/inquiry-list";
 	}
 	

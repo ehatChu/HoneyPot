@@ -80,20 +80,20 @@ public class CSCDaoImpl implements CSCDao{
 
 	// 문의 List 조회
 	@Override
-	public List<QNAVo> getQNAList(SqlSessionTemplate sst, String no) {
-		return sst.selectList("csc.getQNAList", no);
+	public List<QNAVo> getMyQNAList(SqlSessionTemplate sst, String no) {
+		return sst.selectList("csc.getMyQNAList", no);
 	}
 
 	// 문의 상세 조회
 	@Override
-	public QNAVo getQNAByNo(SqlSessionTemplate sst, QNAVo vo) {
-		return sst.selectOne("csc.getQNAByNo", vo);
+	public QNAVo getMyQNAByNo(SqlSessionTemplate sst, QNAVo vo) {
+		return sst.selectOne("csc.getMyQNAByNo", vo);
 	}
 
 	// 문의 내역 삭제
 	@Override
-	public int deleteInquiry(SqlSessionTemplate sst, QNAVo vo) {
-		return sst.delete("csc.deleteInquiry", vo);
+	public int deleteMyInquiry(SqlSessionTemplate sst, QNAVo vo) {
+		return sst.delete("csc.deleteMyInquiry", vo);
 	}
 
 	// 신고
@@ -123,21 +123,46 @@ public class CSCDaoImpl implements CSCDao{
 
 	// 신고 List 조회
 	@Override
-	public List<ReportVo> getReportList(SqlSessionTemplate sst, String no) {
-		return sst.selectList("csc.getReportList", no);
+	public List<ReportVo> getMyReportList(SqlSessionTemplate sst, String no) {
+		return sst.selectList("csc.getMyReportList", no);
 	}
 
 	// 신고 상세 조회
 	@Override
-	public ReportVo getReportByNo(SqlSessionTemplate sst, ReportVo vo) {
-		return sst.selectOne("csc.getReportByNo", vo);
+	public ReportVo getMyReportByNo(SqlSessionTemplate sst, ReportVo vo) {
+		return sst.selectOne("csc.getMyReportByNo", vo);
 	}
 
 	// 신고 삭제
 	@Override
-	public int deleteReport(SqlSessionTemplate sst, ReportVo vo) {
-		return sst.delete("csc.deleteReport", vo);
+	public int deleteMyReport(SqlSessionTemplate sst, ReportVo vo) {
+		return sst.delete("csc.deleteMyReport", vo);
 	}
+	
+	
+	//-------------------------------------------------------------------------------------------------------------
+	
+	// 관리자
+	
+	// 문의 List 검색 갯수
+	@Override
+	public int getQNACnt(SqlSessionTemplate sst, Map<String, String> searchMap) {
+		return sst.selectOne("csc.getQNACnt", searchMap);
+	}
+
+	// 문의 List 검색 조회
+	@Override
+	public List<QNAVo> getQNAAllList(SqlSessionTemplate sst, Map<String, String> searchMap) {
+		return sst.selectList("csc.getQNAAllList", searchMap);
+	}
+	
+	// 문의 List 검색 조회(페이징)
+	@Override
+	public List<QNAVo> getQNAList(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchMap) {
+		RowBounds rb = new RowBounds(pvo.getOffset(), pvo.getBoardLimit()); // (건널 뛸 갯수, 보여줄 갯수)
+		return sst.selectList("csc.getQNAList",searchMap,rb);
+	}
+
 
 
 
