@@ -48,8 +48,8 @@ public class NoticeServiceImpl implements NoticeService {
 
 	//공지사항 삭제
 	@Override
-	public int delete(NoticeVo vo) {
-		return dao.delete(sst, vo);
+	public int delete(Map<String, String> noMap) {
+		return dao.delete(sst, noMap);
 	}
 
 	//공지사항 상세조회

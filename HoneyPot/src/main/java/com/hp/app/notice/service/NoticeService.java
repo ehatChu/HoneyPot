@@ -22,7 +22,7 @@ public interface NoticeService {
 	public abstract int edit(NoticeVo vo);
 	
 	//공지사항 삭제
-	public abstract int delete(NoticeVo vo);
+	public abstract int delete(Map<String, String> noMap);
 	
 	//공지사항 상세조회
 	public abstract NoticeVo viewDetail(String no);

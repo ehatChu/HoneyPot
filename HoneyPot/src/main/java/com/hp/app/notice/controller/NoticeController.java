@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.notice.service.NoticeService;
@@ -98,7 +99,7 @@ public class NoticeController {
 		return "redirect:/notice/list";
 	}
 
-	// 공지사항 조회
+	// 공지사항 상세조회
 	@GetMapping("notice/detail")
 	public String viewDetail(Model model, String no) {
 		
@@ -136,11 +137,12 @@ public class NoticeController {
 	
 	//공지사항 수정
 	@PostMapping("notice/edit")
-	public String edit(HttpSession session, Model model, NoticeVo vo) {
+	public String edit(HttpSession session, NoticeVo vo) {
 		
 		try {
 			
-			vo.setWriterNo("2");
+//			vo.setWriterNo("2");
+			System.out.println(vo);
 			int result = service.edit(vo);
 			if(result != 1) {
 				session.setAttribute("alert", "게시글 수정 실패...");
@@ -153,6 +155,34 @@ public class NoticeController {
 		}
 		
 		return "redirect:/notice/detail?no=" + vo.getNo();
+	}
+	
+	//공지사항 삭제
+	@GetMapping("notice/delete")
+	public String delete(HttpSession session, String no) {
+		
+		try {
+			
+			//String writerNo = loginAdmin.getNo();
+			String writerNo = "2";
+			
+			Map<String, String> noMap = new HashMap<>();
+			noMap.put("writerNo", writerNo);
+			noMap.put("no", no);
+			
+			int result = service.delete(noMap);
+			if(result != 1) {
+				session.setAttribute("alertMsg", "게시글 삭제 실패...");
+				return "redirect:/notice/detail?no=" + no;
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		session.setAttribute("alertMsg", "게시글 삭제 성공 !");
+		return "redirect:/notice/list";
+		
 	}
 
 }

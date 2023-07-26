@@ -69,6 +69,7 @@
 		</if>
 	</select>
 	
+	<!-- 공지사항 상세조회 -->
 	<select id="viewDetail" resultType="com.hp.app.notice.vo.NoticeVo">
 		SELECT 
 			N.NO AS NO
@@ -132,14 +133,14 @@
 				NOTICE_CNO = #{noticeCno}
 			    ,TITLE = #{title}
 			    ,CONTENT = #{content}
-			    <choose>
+<!-- 			    <choose>
 					<when test="importantYn == 'Y' or importantYn != null">
 						,IMPORTANT_YN = #{importantYn}
 					</when>
 					<when test="importantYn == null">
 						,IMPORTANT_YN = 'N'
 					</when>
-				</choose>
+				</choose> -->
 			    
 			WHERE NO = #{no} AND WRITER_NO = #{writerNo}
 	</update>
@@ -149,5 +150,13 @@
 		SELECT NO, NAME
 		FROM NOTICE_CATEGORY
 	</select>
+	
+	<!-- 글 삭제 -->
+	<delete id="delete">
+		UPDATE NOTICE 
+			SET STATUS = 'N'
+		WHERE NO = #{no}
+		AND WRITER_NO = #{writerNo}
+	</delete>
 
 </mapper>
