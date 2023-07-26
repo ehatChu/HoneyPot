@@ -199,4 +199,27 @@
 	headerName('예약하기'); // 현재 페이지 이름
 	firstNav(['도서관', '수영장', '헬스장'], '도서관'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 	secondNav(['시설소개', '예약하기'], '예약하기'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+
+	//날짜를 받는 input태그의 값이 change될 때 ajax를 실행 하도록 
+	let date = document.querySelector("#date-choice");
+	
+	date.addEventListener("change",function(){
+		const v1 = date.value;
+		$.ajax({
+			url : "/app/innerFac/reserve/reservationInfo",
+			type : "get",
+			data : {
+				date : v1, 
+			},
+			dataType : "json",
+			success : function(data){
+				alert("통신성공");
+				console.log(data); //hi가 나와야한다.
+			} ,
+			error : function(){
+				alert("통신실패");
+			} ,
+		});
+	});
+
 </script>

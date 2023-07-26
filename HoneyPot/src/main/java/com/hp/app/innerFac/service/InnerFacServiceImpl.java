@@ -43,11 +43,12 @@ public class InnerFacServiceImpl implements InnerFacService {
 		return dao.makeReservation(sst,rsVo);
 	}
 	
-	//한사람의 모든 예약현황 가져오기
+	//한사람의 한날짜의 예약내역 다가져오기
 	@Override
-	public List<InnerFacRsVo> getReservationByMemberNo(String memberNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> getReservationTimeInfo(InnerFacRsVo rsVo) {
+		return dao.getReservationTimeInfo(sst,rsVo);
 	}
+	
+
 
 }

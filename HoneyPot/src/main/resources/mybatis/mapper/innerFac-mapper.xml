@@ -29,4 +29,12 @@
 		VALUES 
 			(SEQ_AMENITY_RESERVATION_NO.NEXTVAL, #{amenityNo}, #{memberNo}, #{reserveTime})
 	</insert>
+	
+	<!-- 개인의 예약현황을 불러오기 -->
+	<select id="getReservationTimeInfo" resultType="String">
+		SELECT RESERVE_TIME 
+		FROM AMENITY_RESERVATION 
+		WHERE MEMBER_NO=#{memberNo} 
+		AND RESERVE_TIME LIKE '${reserveTime}%'
+	</select>
 </mapper>
