@@ -90,4 +90,10 @@ public interface CSCDao {
 	// 문의 List 검색 조회(페이징)
 	List<QNAVo> getQNAList(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchMap);
 	
+	// 문의내역 상세조회
+	QNAVo getQNAByNo(SqlSessionTemplate sst, String qno);
+	
+	// 문의내역 삭제
+	int deleteInquiry(SqlSessionTemplate sst, String qno);
+	
 }

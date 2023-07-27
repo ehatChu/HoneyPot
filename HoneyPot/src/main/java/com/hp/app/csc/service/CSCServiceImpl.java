@@ -165,5 +165,17 @@ public class CSCServiceImpl implements CSCService {
 		return dao.getQNAList(sst, pvo, searchMap);
 	}
 
+	// 문의내역 상세조회
+	@Override
+	public QNAVo getQNAByNo(String qno) {
+		return dao.getQNAByNo(sst, qno);
+	}
+
+	// 문의내역 삭제
+	@Override
+	public int deleteInquiry(String qno) {
+		return dao.deleteInquiry(sst, qno);
+	}
+
 	
 } // class

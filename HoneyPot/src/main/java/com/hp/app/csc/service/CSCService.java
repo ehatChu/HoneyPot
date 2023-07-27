@@ -88,9 +88,12 @@ public interface CSCService {
 	// 문의 List 검색 조회(페이징)
 	List<QNAVo> getQNAList(PageVo pvo, Map<String, String> searchMap);
 
+	// 문의내역 상세조회
+	QNAVo getQNAByNo(String qno);
 	
-	// 문의 상세 조회
-	// 문의 삭제
+	// 문의내역 삭제
+	int deleteInquiry(String qno);
+	
 	// 문의 답변
 	
 }

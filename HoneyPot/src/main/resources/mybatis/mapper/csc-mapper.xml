@@ -301,5 +301,26 @@
 		ORDER BY Q.ENROLL_DATE DESC
 	</select>
 	
+	<!-- 문의내역 상세조회 -->
+	<select id="getQNAByNo" resultType="com.hp.app.csc.vo.QNAVo">
+		SELECT 
+		    Q.NO
+		    , Q.TITLE
+		    , Q.CONTENT
+		    , Q.ANSWER
+		    , Q.ANSWER_YN
+		    , M.NO AS MEMBER_NO
+		    , M.NAME AS MEMBER_NAME
+		    , M.PROFILE AS MEMBER_PROFILE
+		FROM QNA Q
+		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
+		WHERE Q.NO = #{qno}
+	</select>
+	
+	<!-- 문의내역 삭제 -->
+	<delete id="deleteInquiry">
+		DELETE FROM QNA
+		WHERE NO = #{qno}
+	</delete>
   
 </mapper>
