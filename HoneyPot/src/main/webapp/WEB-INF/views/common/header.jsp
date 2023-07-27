@@ -7,6 +7,7 @@
 		<head>
 			<meta charset="UTF-8">
 			<title>Insert title here</title>
+			<%@ include file="/WEB-INF/views/common/setup.jsp" %>
 			<style>
 				#wrapper {
 					width: 1920px;
@@ -338,175 +339,174 @@
 		</head>
 
 		<body>
-			<%@ include file="/WEB-INF/views/common/setup.jsp" %>
-				<div id="wrapper">
-					<c:if test="${empty loginAdmin}">
-						<div id="side-bar">
-							<div id="logo-area" onclick="location.href='/app/main/mmain'">
-								<span> <img id="logo" src="/app/resources/main/logo.png">
-									<img id="logo" src="/app/resources/main/honeyPot.png">
-								</span>
-							</div>
-							<div id="all-center">
-								<div id="blank01"></div>
-								<div id="profile-area">
-									<div id="profile-img" onclick="location.href='/app/member/medit';">
-										<img src="/app/resources/profile/exam_profile.png" height="230px">
-										<div id="setting-icon-area">
-											<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
-										</div>
-									</div>
-									<div id="profile-name">${loginMember.name}</div>
-									<div id="name-info">(${loginMember.dongNum}동 ${loginMember.hoNum}호)</div>
-									<div id="logout-info" onclick="location.href='/app/member/logout';">로그아웃</div>
-								</div>
-							</div>
-
-							<div id="menu-area">
-								<div id="blank02"></div>
-								<div id="icon-area">
-									<div>
-										<i class="fa-regular fa-user fa-2x" style="color: #2e2e2e;"></i>
-									</div>
-									<div>
-										<i class="fa-solid fa-user-group fa-2x" style="color: #2e2e2e;"></i>
-									</div>
-									<div>
-										<i class="fa-regular fa-pen-to-square fa-2x" style="color: #2e2e2e;"></i>
-									</div>
-									<div>
-										<i class="fa-solid fa-dumbbell fa-2x" style="color: #2e2e2e;"></i>
-									</div>
-									<div>
-										<i class="fa-solid fa-map-location-dot fa-2x" style="color: #2e2e2e;"></i>
+			<div id="wrapper">
+				<c:if test="${empty loginAdmin}">
+					<div id="side-bar">
+						<div id="logo-area" onclick="location.href='/app/main/mmain'">
+							<span> <img id="logo" src="/app/resources/main/logo.png">
+								<img id="logo" src="/app/resources/main/honeyPot.png">
+							</span>
+						</div>
+						<div id="all-center">
+							<div id="blank01"></div>
+							<div id="profile-area">
+								<div id="profile-img" onclick="location.href='/app/member/medit';">
+									<img src="/app/resources/profile/exam_profile.png" height="230px">
+									<div id="setting-icon-area">
+										<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
 									</div>
 								</div>
-								<div id="text-area">
-									<div onclick="location.href='/app/info/calendar/mypage'">마이페이지</div>
-									<div onclick="location.href='/app/member/friends'">이웃목록</div>
-									<div onclick="location.href='/app/notice/list'">게시판</div>
-									<div onclick="location.href='/app/facilities/library/reserve?no=1'">편의시설</div>
-									<div onclick="location.href='/app/facilities/outerFacilities/map'">주변시설</div>
-								</div>
-							</div>
-							<div id="info-qna-area">
-								<div onclick="location.href=''">고객센터</div>
-								<div id="small-text">
-									<span onclick="location.href=''">문의하기</span> 
-									<span>|</span> 
-									<span onclick="location.href='/app/csc/faq'">FAQ</span> 
-									<span>|</span> 
-									<span onclick="location.href=''">경비원호출</span>
-								</div>
+								<div id="profile-name">${loginMember.name}</div>
+								<div id="name-info">(${loginMember.dongNum}동 ${loginMember.hoNum}호)</div>
+								<div id="logout-info" onclick="location.href='/app/member/logout';">로그아웃</div>
 							</div>
 						</div>
-					</c:if>
 
-					<c:if test="${not empty loginAdmin}">
-						<div id="side-bar">
-							<div id="logo-area" onclick="location.href='/app/main/amain'">
-								<span> <img id="logo" src="/app/resources/main/logo.png">
-									<img id="logo" src="/app/resources/main/honeyPot.png">
-								</span>
-							</div>
-							<div id="all-center">
-								<div id="blank01"></div>
-								<div id="profile-area">
-									<div id="profile-img" onclick="location.href='/app/member/aedit';">
-										<img src="/app/resources/profile/exam_profile.png" height="230px">
-										<div id="setting-icon-area">
-											<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
-										</div>
-									</div>
-									<div id="profile-name">${loginAdmin.name}</div>
-									<div id="logout-info" onclick="location.href='/app/member/logout';">로그아웃</div>
+						<div id="menu-area">
+							<div id="blank02"></div>
+							<div id="icon-area">
+								<div>
+									<i class="fa-regular fa-user fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+								<div>
+									<i class="fa-solid fa-user-group fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+								<div>
+									<i class="fa-regular fa-pen-to-square fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+								<div>
+									<i class="fa-solid fa-dumbbell fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+								<div>
+									<i class="fa-solid fa-map-location-dot fa-2x" style="color: #2e2e2e;"></i>
 								</div>
 							</div>
-
-							<div id="menu-area">
-								<div id="blank02"></div>
-								<div id="icon-area">
-									<div>
-										<i class="fa-regular fa-user fa-2x" style="color: #2e2e2e;"></i>
-									</div>
-									<div>
-										<i class="fa-solid fa-headphones-simple fa-2x" style="color: #2e2e2e;"></i>
-									</div>
-									<div>
-										<i class="fa-regular fa-pen-to-square fa-2x" style="color: #2e2e2e;"></i>
-									</div>
-									<div>
-										<i class="fa-solid fa-building-user fa-2x" style="color: #2e2e2e;"></i>
-									</div>
-									<div>
-										<i class="fa-solid fa-calendar-days fa-2x" style="color: #2e2e2e;"></i>
-									</div>
-								</div>
-								<div id="text-area">
-									<div onclick="location.href=''">회원관리</div>
-									<div onclick="location.href=''">상담센터</div>
-									<div onclick="location.href='/app/notice/list'">게시판</div>
-									<div onclick="location.href=''">단지관리</div>
-									<div onclick="location.href=''">캘린더</div>
-								</div>
-							</div>
-							<div id="info-qna-area">
-								<div onclick="location.href=''">고객센터</div>
-								<div id="small-text">
-									<span onclick="location.href=''">관리하기</span> 
-									<span>|</span> 
-									<span onclick="location.href='/app/csc/faq'">FAQ</span>
-								</div>
+							<div id="text-area">
+								<div onclick="location.href='/app/info/calendar/mypage'">마이페이지</div>
+								<div onclick="location.href='/app/member/friends'">이웃목록</div>
+								<div onclick="location.href='/app/notice/list'">게시판</div>
+								<div onclick="location.href='/app/facilities/library/reserve?no=1'">편의시설</div>
+								<div onclick="location.href='/app/facilities/outerFacilities/map'">주변시설</div>
 							</div>
 						</div>
-					</c:if>
-
-
-					<div id="main">
-						<div id="header">
-							<div id="header-main-text"></div>
-							<div id="header-icon-area">
-								<div id="header-weather">
-									<%@ include file="/WEB-INF/views/data/headerWeather.jsp" %>
-								</div>
-								<div class="header-calling">
-									<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;">
-										<div style="font-size: 7px; font-weight: 800;">15</div>
-									</i>
-								</div>
-								<div class="header-chatting-icon">
-									<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
-										<div style="font-size: 7px; font-weight: 800;">4</div>
-									</i>
-								</div>
+						<div id="info-qna-area">
+							<div onclick="location.href=''">고객센터</div>
+							<div id="small-text">
+								<span onclick="location.href=''">문의하기</span>
+								<span>|</span>
+								<span onclick="location.href='/app/csc/faq'">FAQ</span>
+								<span>|</span>
+								<span onclick="location.href=''">경비원호출</span>
 							</div>
 						</div>
-						<!-- 채팅 알림 모달 -->
-						<div class="chat_modal_wrap hidden">
-							<div class="chat_modalBox">
-								<c:forEach begin="1" end="5">
-									<div class="latest-chat">
-										<div class="contentCon"><i class="fa-regular fa-envelope fa-2x"
-												style="color: #ffce31;"></i></div>
-										<div class="contentSpan">
-											<span>101동 골프모임</span>
-											<br>
-											<span>이거봐봐 완전 웃김</span>
-										</div>
-										<div>pm 6:30</div>
-									</div>
-								</c:forEach>
-							</div>
-							<div>
-								<button class="chat-detail-Btn">
-									상세보기
-								</button>
-							</div>
-						</div>
-						<div id="nav-area"></div>
-						<div id="main-area"></div>
 					</div>
+				</c:if>
+
+				<c:if test="${not empty loginAdmin}">
+					<div id="side-bar">
+						<div id="logo-area" onclick="location.href='/app/main/amain'">
+							<span> <img id="logo" src="/app/resources/main/logo.png">
+								<img id="logo" src="/app/resources/main/honeyPot.png">
+							</span>
+						</div>
+						<div id="all-center">
+							<div id="blank01"></div>
+							<div id="profile-area">
+								<div id="profile-img" onclick="location.href='/app/member/aedit';">
+									<img src="/app/resources/profile/exam_profile.png" height="230px">
+									<div id="setting-icon-area">
+										<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
+									</div>
+								</div>
+								<div id="profile-name">${loginAdmin.name}</div>
+								<div id="logout-info" onclick="location.href='/app/member/logout';">로그아웃</div>
+							</div>
+						</div>
+
+						<div id="menu-area">
+							<div id="blank02"></div>
+							<div id="icon-area">
+								<div>
+									<i class="fa-regular fa-user fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+								<div>
+									<i class="fa-solid fa-headphones-simple fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+								<div>
+									<i class="fa-regular fa-pen-to-square fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+								<div>
+									<i class="fa-solid fa-building-user fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+								<div>
+									<i class="fa-solid fa-calendar-days fa-2x" style="color: #2e2e2e;"></i>
+								</div>
+							</div>
+							<div id="text-area">
+								<div onclick="location.href=''">회원관리</div>
+								<div onclick="location.href=''">상담센터</div>
+								<div onclick="location.href='/app/notice/list'">게시판</div>
+								<div onclick="location.href=''">단지관리</div>
+								<div onclick="location.href=''">캘린더</div>
+							</div>
+						</div>
+						<div id="info-qna-area">
+							<div onclick="location.href=''">고객센터</div>
+							<div id="small-text">
+								<span onclick="location.href=''">관리하기</span>
+								<span>|</span>
+								<span onclick="location.href='/app/csc/faq'">FAQ</span>
+							</div>
+						</div>
+					</div>
+				</c:if>
+
+
+				<div id="main">
+					<div id="header">
+						<div id="header-main-text"></div>
+						<div id="header-icon-area">
+							<div id="header-weather">
+								<%@ include file="/WEB-INF/views/data/headerWeather.jsp" %>
+							</div>
+							<div class="header-calling">
+								<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;">
+									<div style="font-size: 7px; font-weight: 800;">15</div>
+								</i>
+							</div>
+							<div class="header-chatting-icon">
+								<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
+									<div style="font-size: 7px; font-weight: 800;">4</div>
+								</i>
+							</div>
+						</div>
+					</div>
+					<!-- 채팅 알림 모달 -->
+					<div class="chat_modal_wrap hidden">
+						<div class="chat_modalBox">
+							<c:forEach begin="1" end="5">
+								<div class="latest-chat">
+									<div class="contentCon"><i class="fa-regular fa-envelope fa-2x"
+											style="color: #ffce31;"></i></div>
+									<div class="contentSpan">
+										<span>101동 골프모임</span>
+										<br>
+										<span>이거봐봐 완전 웃김</span>
+									</div>
+									<div>pm 6:30</div>
+								</div>
+							</c:forEach>
+						</div>
+						<div>
+							<button class="chat-detail-Btn">
+								상세보기
+							</button>
+						</div>
+					</div>
+					<div id="nav-area"></div>
+					<div id="main-area"></div>
 				</div>
+			</div>
 		</body>
 
 		</html>
@@ -536,7 +536,7 @@
 				}
 			}
 
-			// 수정1,2 : navMenu1,2에 메뉴를 적어주세요
+			// 기본 셋팅 2 (수정) : navMenu1,2에 메뉴를 적어주세요
 			function firstNav(navMenu1, boldMenu) {
 				const mainChoice = document.querySelector("#main-choice");
 
@@ -550,7 +550,6 @@
 				}
 				mainChoice.innerHTML = menus;
 			}
-
 			function secondNav(navMenu2, boldMenu) {
 				const subChoice = document.querySelector("#grid-sub-choice");
 
@@ -565,6 +564,25 @@
 				}
 				subChoice.innerHTML = menus;
 			}
+
+			// 기본 셋팅 3 (수정) : 링크 주소를 적어주세요
+			function firstNavLink(linkArr) {
+				const choiceElemArr = document.querySelectorAll('.choice-elem');
+				for (let i = 0; i < choiceElemArr.length; i++) {
+					choiceElemArr[i].addEventListener("click", function() {
+						location.href = linkArr[i];
+					});
+				}
+			}
+			function secondNavLink(linkArr) {
+				const choiceElemArr = document.querySelectorAll('.menu-box');
+				for (let i = 0; i < choiceElemArr.length; i++) {
+					choiceElemArr[i].addEventListener("click", function() {
+						location.href = linkArr[i];
+					});
+				}
+			}
+
 
 			// 헤더 네임 바꾸기
 			function headerName(name) {

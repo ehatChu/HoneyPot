@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Insert title here</title>
-
+        <%@ include file="/WEB-INF/views/common/setup.jsp" %>
         <style>
             #weather-info-msg {
                 font-size: 15px;
@@ -21,11 +21,7 @@
 
     </html>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
-        getWeatherInfo();
-        getNanoDustInfo();
-
         // 날씨 정보 가져오기
         function getWeatherInfo() {
             $.ajax({

@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Insert title here</title>
-
+        <%@ include file="/WEB-INF/views/common/setup.jsp" %>
         <style>
             #weather-info-msg {
                 width: 100px;
@@ -28,7 +28,6 @@
 
     </html>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
         // 함수 실행
         applyHeaderWeatherInfo(JSON.parse(sessionStorage.getItem("weather")));

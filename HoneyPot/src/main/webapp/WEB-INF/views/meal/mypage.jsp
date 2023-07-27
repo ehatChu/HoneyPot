@@ -154,6 +154,8 @@
 	<script>
 		basicSetting(); // 기본 셋팅
     	headerName('마이페이지'); // 현재 페이지 이름
-		firstNav(['내정보', '나의활동', '신청내역', '관리비'], '신청내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-		secondNav(['조식예약', '편의시설예약'], '조식예약'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+		firstNav(['내정보', '나의활동', '신청내역', '관리비'], '신청내역');
+		secondNav(['조식예약', '편의시설예약'], '조식예약');
+		firstNavLink(['/app/','/app/','/app/meal/mypage','/app/']);
+		secondNavLink(['/app/','/app/']);
 	</script>
