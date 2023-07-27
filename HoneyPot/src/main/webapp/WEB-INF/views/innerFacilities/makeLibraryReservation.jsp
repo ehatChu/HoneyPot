@@ -91,6 +91,11 @@
 		background-color: #4A321F;
 		color: white;
 	}
+
+	.color-red {
+		background-color: red;
+		font-weight: 800;
+	}
 </style>
 </head>
 <body>
@@ -148,11 +153,12 @@
 								<!-- small-box이용하면 label을 박스형태로 바꿀 수 있음. -->
 							
 	
-								<label for="${i}" class="small-box orange-color time${i}"></label><input type="radio" name="startTime" value="${i}">
+								<label for="${i}" class="small-box orange-color time${i}"></label><input type="radio" name="startTime" value="${i}" id="${i}">
 										
 							</c:forEach>
 							<script>
 								
+
 							</script>
 							
 						</div>
@@ -242,6 +248,8 @@
 			data : {
 				date : v1, 
 			},
+
+
 			dataType : "json",
 			success : function(data){
 				alert("통신성공");
@@ -254,4 +262,15 @@
 		});
 	});
 
+
+	//클릭하면 checked로 바꿔주고 당연한거아님? 
+	//인풋태그 가져와서 값이 바뀌면 클릭하면 색깔이 바뀌고 예약인원이 보여야한다.
+	//함수를 만들자 is체크드인지 확인하고 색깔을 바꿔주는 함수 
+	const timeSelector = document.querySelectorAll("input[type=radio]");
+	for(let ts of timeSelector){
+	
+		
+	}
+
+	
 </script>
