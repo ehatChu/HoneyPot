@@ -5,80 +5,89 @@
 	<head>
 		<meta charset="EUC-KR">
 		<title>Insert title here</title>
+		<%@ include file="/WEB-INF/views/common/setup.jsp" %>
+			<style>
+				#tit2 {
+					font-size: 22px;
+					margin-bottom: 10px;
+				}
 
-		<style>
-			#tit2 {
-				font-size: 22px;
-				margin-bottom: 10px;
-			}
+				.f1 {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					height: 60px;
+					width: 100%;
+					margin-bottom: 10px;
+				}
 
-			.f1 {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				height: 60px;
-				width: 100%;
-				margin-bottom: 10px;
-			}
+				.ff1 {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					width: 65%;
+					height: 100%;
+				}
 
-			.ff1 {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				width: 65%;
-				height: 100%;
-			}
+				.ff2 {
+					background-color: #4A321F;
+					border-radius: 20px;
+					color: white;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					width: 120px;
+					height: 40px;
+				}
 
-			.ff2 {
-				background-color: #4A321F;
-				border-radius: 20px;
-				color: white;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				width: 120px;
-				height: 40px;
-			}
+				#abc {
+					margin-top: -10px;
+					width: 220px;
+					height: 100px;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					align-items: end;
+				}
 
-			#abc {
-				margin-top: -10px;
-				width: 220px;
-				height: 100px;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-				align-items: end;
-			}
+				.bbbox {
+					background-color: rgb(255, 255, 255);
+					border-radius: 20px;
+					border: none;
+					height: 40px;
+					width: 100%;
+				}
 
-			.bbbox {
-				background-color: rgb(255, 255, 255);
-				border-radius: 20px;
-				border: none;
-				height: 40px;
-				width: 100%;
-			}
+				.bbbbox {
+					background-color: rgb(255, 255, 255);
+					border-radius: 20px;
+					border: none;
+					height: 40px;
+					width: 60%;
+					margin-right: 10%;
+				}
 
-			#subsub {
-				width: 100%;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-			}
+				#subsub {
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+				}
 
-			.bbox {
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-				align-items: start;
-				border-radius: 20px;
-				border: none;
-				height: 220px;
-			}
-		</style>
+				.bbox {
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					align-items: start;
+					border-radius: 20px;
+					border: none;
+					height: 220px;
+				}
+			</style>
 	</head>
 
 	<body>
-		<label id="tit2" for="captcha" style="display: block">자동 입력 방지 코드</label>
+		<label id="tit2" for="captcha" style="display: block">자동입력 방지코드</label>
 		<div class="f1">
 			<div style="overflow: hidden">
 				<div style="float: left">
@@ -92,7 +101,8 @@
 			</div>
 		</div>
 		<div id="subsub" style="padding: 3px">
-			<input style="padding-left: 30px;" id="answer" class="bbbox" type="text" value=""> 
+			<input style="padding-left: 30px;" id="answer" class="bbbbox" type="text" value="">
+			<div class="ff2" id="check">확인</div>
 		</div>
 	</body>
 
@@ -103,17 +113,30 @@
 			getImage();	// 이미지 가져오기
 
 			document.querySelector('#check').addEventListener('click', function () {
-				var params = { answer: document.querySelector('#answer').getAttribute('value') };
-				AF.ajax('/app/kmsData/chkAnswer.do', params, function (returnData) {
-					if (returnData == 200) {
-						alert('입력값이 일치합니다.');
-						// 성공 코드
-					} else {
-						alert('입력값이 일치하지 않습니다.');
-						getImage();
-						document.querySelector('#answer').setAttribute('value', '');
+				const ans = document.querySelector('#answer');
+				var params = { answer: ans.value };
+				console.log(params);
+				$.ajax({
+					url: '/app/kmsData/chkAnswer.do',
+					type: 'POST',
+					data: params,
+					dataType: 'json',
+					success: function (returnData) {
+						if (returnData === 200) {
+							alert("통과되었습니다");
+							ans.readOnly = true;
+							ans.style.backgroundColor = '#4A321F';
+							ans.style.color = 'white';
+						} else {
+							getImage();
+							ans.value = '';
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error('Error:', error);
 					}
-				}, 'json');
+				});
+
 			});
 		}
 		/*매번 랜덤값을 파라미터로 전달하는 이유 : IE의 경우 매번 다른 임의 값을 전달하지 않으면 '새로고침' 클릭해도 정상 호출되지 않아 이미지가 변경되지 않는 문제가 발생된다*/
