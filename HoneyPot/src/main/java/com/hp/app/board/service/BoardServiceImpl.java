@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hp.app.board.dao.BoardDao;
+import com.hp.app.board.vo.BoardCategoryVo;
 import com.hp.app.board.vo.BoardVo;
-import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	//게시글 목록 조회 (검색조회)
 	@Override
-	public List<NoticeVo> getList(PageVo pv, Map<String, String> searchVo) {
+	public List<BoardVo> getList(PageVo pv, Map<String, String> searchVo) {
 		return dao.getList(sst, pv, searchVo);
 	}
 
@@ -37,25 +37,34 @@ public class BoardServiceImpl implements BoardService {
 	//게시글 작성
 	@Override
 	public int write(BoardVo vo) {
-		return dao.write(sst, vo);
+//		return dao.write(sst, vo);
+		return 0;
 	}
 
 	//게시글 수정
 	@Override
 	public int edit(BoardVo vo) {
-		return dao.edit(sst, vo);
+//		return dao.edit(sst, vo);
+		return 0;
 	}
 
 	//게시글 삭제
 	@Override
-	public int delete(BoardVo vo) {
-		return dao.delete(sst, vo);
+	public int delete(Map<String, String> noMap) {
+//		return dao.delete(sst, noMap);
+		return 0;
 	}
 
 	//게시글 상세조회
 	@Override
-	public BoardVo detail(BoardVo vo) {
-		return dao.detail(sst, vo);
+	public BoardVo viewDetail(BoardVo vo) {
+		return null;
+	}
+
+	//게시글 카테고리 조회
+	@Override
+	public List<BoardCategoryVo> getCategory() {
+		return null;
 	}
 
 }

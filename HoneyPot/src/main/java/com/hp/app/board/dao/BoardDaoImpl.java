@@ -7,8 +7,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.hp.app.board.vo.BoardCategoryVo;
 import com.hp.app.board.vo.BoardVo;
-import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
 
 @Repository
@@ -16,7 +16,7 @@ public class BoardDaoImpl implements BoardDao {
 	
 	//게시글 목록 조회 (검색조회)
 	@Override
-	public List<NoticeVo> getList(SqlSessionTemplate sst, PageVo pv, Map<String, String> searchVo) {
+	public List<BoardVo> getList(SqlSessionTemplate sst, PageVo pv, Map<String, String> searchVo) {
 		RowBounds rb = new RowBounds(pv.getOffset(), pv.getBoardLimit());
 		return sst.selectList("board.getList", searchVo, rb);
 	}
@@ -41,13 +41,13 @@ public class BoardDaoImpl implements BoardDao {
 
 	//게시글 삭제
 	@Override
-	public int delete(SqlSessionTemplate sst, BoardVo vo) {
+	public int delete(SqlSessionTemplate sst, Map<String, String> noMap) {
 		return 0;
 	}
 
 	//게시글 상세조회 (+ 조회수 증가)
 	@Override
-	public BoardVo detail(SqlSessionTemplate sst, BoardVo vo) {
+	public BoardVo viewDetail(SqlSessionTemplate sst, String no) {
 		return null;
 	}
 
@@ -55,6 +55,12 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public int plusHit(SqlSessionTemplate sst, String no) {
 		return 0;
+	}
+
+	//게시글 카테고리 조회
+	@Override
+	public List<BoardCategoryVo> getCategory(SqlSessionTemplate sst) {
+		return null;
 	}
 
 }

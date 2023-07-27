@@ -3,68 +3,75 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
-	
-	<select id="getList" resultType="com.hp.app.notice.vo.NoticeVo">
-		SELECT 
-			N.NO AS NO
-			,N.NOTICE_CNO AS NOTICE_CNO
-			,C.NAME AS NOTICE_CNAME
-			,('[' || C.NAME || ']' || ' ' || N.TITLE) AS FULL_NAME
-			,N.WRITER_NO AS WRITER_NO
-			,A.NAME AS WRITER_NAME
-			,TITLE
-			,CONTENT
-			,ENROLL_DATE
-			,MODIFY_DATE
-			,STATUS
-			,HIT
-			,IMPORTANT_YN
+
+	<!-- 게시글 목록 -->	
+	<select id="getList" resultType="com.hp.app.board.vo.BoardVo">
+		SELECT
+		    B.NO AS NO
+		    ,B.WRITER_NO AS WRITER_NO
+		    ,M.NAME AS WRITER_NAME
+		    ,BOARD_STATUS_NO
+		    ,S.NAME AS BOARD_STATUS_NAME
+		    ,B.BOARD_CNO AS BOARD_CNO
+		    ,C.NAME AS BOARD_CNAME
+		    ,TITLE
+		    ,B.CONTENT AS CONTENT
+		    ,B.ENROLL_DATE AS ENROLL_DATE
+		    ,B.MODIFY_DATE AS MODIFY_DATE
+		    ,HIT
+		    ,COALESCE(A.LOVE_CNT, 0) AS LOVE_CNT
+	 		<!-- ,L.MEMBER_NO AS LOVE_MEMBER -->
+<!-- 		    ,I.NO AS IMG_NO
+		    ,I.NAME AS IMG_NAME -->
 		FROM
-			NOTICE N
-			JOIN NOTICE_CATEGORY C ON N.NOTICE_CNO = C.NO
-			JOIN ADMIN A ON N.WRITER_NO = A.NO
-		WHERE N.STATUS = 'Y'
+		    BOARD B
+		    JOIN BOARD_CATEGORY C ON B.BOARD_CNO = C.NO
+		    JOIN BOARD_STATUS S ON B.BOARD_STATUS_NO = S.NO
+		    JOIN MEMBER M ON B.WRITER_NO = M.NO
+		    LEFT JOIN
+		    		(
+	        			SELECT BOARD_NO, COUNT(MEMBER_NO) AS LOVE_CNT
+	        			FROM LOVE
+	        			GROUP BY BOARD_NO
+	        		) A ON A.BOARD_NO = B.NO
+		    <!-- JOIN LOVE L ON B.NO = L.BOARD_NO -->
+			<!-- JOIN BOARD_IMG I ON B.NO = I.BOARD_NO -->
+		WHERE S.NO != 5
 		
-		<if test="searchType == 'title' and searchValue != null">
-			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%' || #{searchValue} || '%')
+<!-- 		<if test="searchType == 'title' and searchValue != null or searchValue != ''">
+			AND TITLE LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'content' and searchValue != null">
-			AND N.CONTENT LIKE ('%' || #{searchValue} || '%')
+		<if test="searchType == 'content' and searchValue != null or searchValue != ''">
+			AND N.CONTENT LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'writer' and searchValue != null">
-			AND A.NAME LIKE ('%' || #{searchValue} || '%')
-		</if>
+		<if test="searchType == 'writer' and searchValue != null or searchValue != ''">
+			AND A.NAME LIKE ('%${searchValue}%')
+		</if> -->
 		
-		<choose>
-			<when test="sortType == 'date'">
-				ORDER BY N.ENROLL_DATE DESC
-			</when>
-			<when test="sortType == 'hit'">
-				ORDER BY N.HIT DESC, N.NO DESC
-			</when>
-			<otherwise>
-				ORDER BY N.NO DESC
-			</otherwise>
-		</choose>
-		
+		ORDER BY B.NO DESC, ENROLL_DATE DESC
 	</select>	
 
-	<select id="countBoard" resultType="int">
-		SELECT COUNT(N.NO)
-		FROM
-			NOTICE N
-			JOIN NOTICE_CATEGORY C ON N.NOTICE_CNO = C.NO
-			JOIN ADMIN A ON N.WRITER_NO = A.NO
-		WHERE STATUS ='Y'
-		<if test="searchType == 'title' and searchValue != null">
-			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%' || #{searchValue} || '%')
-		</if>
-		<if test="searchType == 'content' and searchValue != null">
-			AND N.CONTENT LIKE ('%' || #{searchValue} || '%')
-		</if>
-		<if test="searchType == 'writer' and searchValue != null">
-			AND A.NAME LIKE ('%' || #{searchValue} || '%')
-		</if>
-	</select>
 
+	<!-- 게시글 개수 -->
+	<select id="countBoard" resultType="int">
+		SELECT COUNT(B.NO)
+		FROM
+		    BOARD B
+		    JOIN BOARD_CATEGORY C ON B.BOARD_CNO = C.NO
+		    JOIN BOARD_STATUS S ON B.BOARD_STATUS_NO = S.NO
+   		WHERE S.NO != 5
+   		<!-- AND C.NO = 4 -->
+   		
+<!-- 		<if test="searchType == 'title' and searchValue != null or searchValue != ''">
+			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%${searchValue}%')
+		</if>
+		<if test="searchType == 'content' and searchValue != null or searchValue != ''">
+			AND N.CONTENT LIKE ('%${searchValue}%')
+		</if>
+		<if test="searchType == 'writer' and searchValue != null or searchValue != ''">
+			AND A.NAME LIKE ('%${searchValue}%')
+		</if> -->
+		
+	</select>
+	
 </mapper>
