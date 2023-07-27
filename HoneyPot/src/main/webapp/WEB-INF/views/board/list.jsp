@@ -221,36 +221,21 @@
 						<div id="sort-type">
 							<select name="sortType" onchange="this.form.submit()">
 								<option value="date">최신순</option>
-								<option value="like">인기순</option>
 								<option value="hit">조회순</option>
+								<option value="love">인기순</option>
 							</select>
 						</div>
 					</div>
-
-
-					<!-- <table id="important-list">
-						<c:forEach items="${voList}" var="vo">
-							<c:if test="${vo.importantYn == 'Y'}">
-								<tr>
-									<td id="important-title">${vo.fullName}</td>
-									<td id="important-writer">${vo.writerName}</td>
-									<td>${vo.enrollDate}</td>
-									<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
-								</tr>
-							</c:if>
-						</c:forEach>
-					</table> -->
-					
 
 					<div class="board-list-area">
 						<table id="board-list">
 							<c:forEach items="${voList}" var="vo">
 								<tr>
-									<td id="title">${vo.fullName}</td>
+									<td id="title">${vo.title}</td>
 									<td id="writer">${vo.writerName}</td>
 									<td>${vo.enrollDate}</td>
-									<td><i class="fa-solid fa-heart"></i>좋아요</td>
-									<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
+									<td><i class="fa-solid fa-heart"></i> &nbsp; ${vo.loveCnt}</td>
+									<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>
 								</tr>
 							</c:forEach>
 						</table>

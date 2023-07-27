@@ -30,5 +30,4 @@ public interface NoticeService {
 	//공지사항 카테고리 조회
 	public abstract List<NoticeCategoryVo> getCategory();
 
-
 }

@@ -7,12 +7,18 @@ public class BoardVo {
 	
 	private String no;
 	private String writerNo;
+	private String writerName;
 	private String boardStatusNo;
+	private String boardStatusName;
 	private String boardCno;
+	private String boardCname;
 	private String title;
 	private String content;
+	private String imgNo;
+	private String imgName;
 	private String enrollDate;
 	private String modifyDate;
 	private String hit;
+	private String loveCnt;
 
 }
