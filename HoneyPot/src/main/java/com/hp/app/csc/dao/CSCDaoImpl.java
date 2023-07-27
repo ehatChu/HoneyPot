@@ -153,6 +153,7 @@ public class CSCDaoImpl implements CSCDao{
 	// 문의 List 검색 조회
 	@Override
 	public List<QNAVo> getQNAAllList(SqlSessionTemplate sst, Map<String, String> searchMap) {
+		
 		return sst.selectList("csc.getQNAAllList", searchMap);
 	}
 	
@@ -160,6 +161,7 @@ public class CSCDaoImpl implements CSCDao{
 	@Override
 	public List<QNAVo> getQNAList(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchMap) {
 		RowBounds rb = new RowBounds(pvo.getOffset(), pvo.getBoardLimit()); // (건널 뛸 갯수, 보여줄 갯수)
+		System.out.println(searchMap);
 		return sst.selectList("csc.getQNAList",searchMap,rb);
 	}
 
