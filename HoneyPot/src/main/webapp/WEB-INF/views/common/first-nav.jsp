@@ -21,18 +21,25 @@
 	z-index: 1;
 }
 
-.title-elem {
-	border: 4px solid #FAD355;
+.choice-elem {
 	height: 40px;
 	border-radius: 30px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	padding: 20px;
+	margin-right: 20px;
+	min-width: 180px;
 }
 
-.choice-elem {
-	width: 200px;
-	
+.title-elem {
+	border: 4px solid #FAD355;
+}
+
+.choice-elem:hover {
+	border: 4px solid #FAD355;
+	font-weight: bold;
+	background-color: white;
 }
 
 #main-area {
