@@ -145,7 +145,7 @@
 				<div id="d02">
 					<img class="bee" id="bee1" src="/app/resources/main/image_14.png">
 					<img class="bee" id="bee2" src="/app/resources/main/image_14.png"> 
-					<img class="bee" id="bee3" src="/app/resources/main/image_14.png">
+					<img class="bee" id="bee3" src="/app/resources/main/image_14.png" onclick="location.href='/app/member/mlogin'">
 				</div>
 			</div>
 			<div id="floor2">

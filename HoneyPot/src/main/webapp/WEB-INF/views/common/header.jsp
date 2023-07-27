@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	
+
 		<!DOCTYPE html>
 		<html>
 
@@ -211,9 +211,9 @@
 					align-items: center;
 					justify-content: center;
 				}
-				
+
 				/* 채팅 알림 모달 레이아웃 */
-				.chat_modal_wrap{
+				.chat_modal_wrap {
 					position: fixed;
 					width: 300px;
 					height: 230px;
@@ -235,24 +235,28 @@
 					border: 1px solid #8A8A8A;
 					box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
 					overflow-y: auto;
-					 /* 스크롤바 숨기기 */
-  					scrollbar-width: thin;
-  					scrollbar-color: transparent transparent; /* 스크롤바 색상을 투명하게 설정 */
+					/* 스크롤바 숨기기 */
+					scrollbar-width: thin;
+					scrollbar-color: transparent transparent;
+					/* 스크롤바 색상을 투명하게 설정 */
 				}
-				
-				
+
+
 				.chat_modalBox::-webkit-scrollbar {
-					width: 0; /* 스크롤바의 너비 설정 */
+					width: 0;
+					/* 스크롤바의 너비 설정 */
 				}
-				
+
 				.chat_modalBox::-webkit-scrollbar-track {
-					background-color: transparent; /* 스크롤바 트랙의 배경색을 투명하게 설정 */
+					background-color: transparent;
+					/* 스크롤바 트랙의 배경색을 투명하게 설정 */
 				}
-				
+
 				.chat_modalBox::-webkit-scrollbar-thumb {
-					background-color: transparent; /* 스크롤바 썸의 배경색을 투명하게 설정 */
+					background-color: transparent;
+					/* 스크롤바 썸의 배경색을 투명하게 설정 */
 				}
-				
+
 				.hidden {
 					display: none;
 				}
@@ -279,12 +283,12 @@
 					align-items: center;
 				}
 
-				.contentSpan > span:first-child {
+				.contentSpan>span:first-child {
 					font-weight: 570;
 					font-size: 17px;
 				}
 
-				.contentSpan > span:nth-child(2){
+				.contentSpan>span:nth-child(2) {
 					font-size: 15px;
 				}
 
@@ -336,61 +340,127 @@
 		<body>
 			<%@ include file="/WEB-INF/views/common/setup.jsp" %>
 				<div id="wrapper">
-					<div id="side-bar">
-						<div id="logo-area" onclick="location.href='/app/main/mmain'">
-							<span> <img id="logo" src="/app/resources/main/logo.png">
-								<img id="logo" src="/app/resources/main/honeyPot.png">
-							</span>
-						</div>
-						<div id="all-center">
-							<div id="blank01"></div>
-							<div id="profile-area">
-								<div id="profile-img" onclick="location.href='/app/member/medit';">
-									<img src="/app/resources/profile/exam_profile.png" height="230px">
-									<div id="setting-icon-area">
-										<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
+					<c:if test="${empty loginAdmin}">
+						<div id="side-bar">
+							<div id="logo-area" onclick="location.href='/app/main/mmain'">
+								<span> <img id="logo" src="/app/resources/main/logo.png">
+									<img id="logo" src="/app/resources/main/honeyPot.png">
+								</span>
+							</div>
+							<div id="all-center">
+								<div id="blank01"></div>
+								<div id="profile-area">
+									<div id="profile-img" onclick="location.href='/app/member/medit';">
+										<img src="/app/resources/profile/exam_profile.png" height="230px">
+										<div id="setting-icon-area">
+											<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
+										</div>
+									</div>
+									<div id="profile-name">${loginMember.name}</div>
+									<div id="name-info">(${loginMember.dongNum}동 ${loginMember.hoNum}호)</div>
+									<div id="logout-info" onclick="location.href='/app/member/logout';">로그아웃</div>
+								</div>
+							</div>
+
+							<div id="menu-area">
+								<div id="blank02"></div>
+								<div id="icon-area">
+									<div>
+										<i class="fa-regular fa-user fa-2x" style="color: #2e2e2e;"></i>
+									</div>
+									<div>
+										<i class="fa-solid fa-user-group fa-2x" style="color: #2e2e2e;"></i>
+									</div>
+									<div>
+										<i class="fa-regular fa-pen-to-square fa-2x" style="color: #2e2e2e;"></i>
+									</div>
+									<div>
+										<i class="fa-solid fa-dumbbell fa-2x" style="color: #2e2e2e;"></i>
+									</div>
+									<div>
+										<i class="fa-solid fa-map-location-dot fa-2x" style="color: #2e2e2e;"></i>
 									</div>
 								</div>
-								<div id="profile-name">김아름다움</div>
-								<div id="name-info">(101동 1306호)</div>
-								<div id="logout-info" onclick="location.href='/app/member/logout';">로그아웃</div>
+								<div id="text-area">
+									<div onclick="location.href='/app/info/calendar/mypage'">마이페이지</div>
+									<div onclick="location.href='/app/member/friends'">이웃목록</div>
+									<div onclick="location.href='/app/notice/list'">게시판</div>
+									<div onclick="location.href='/app/facilities/library/reserve?no=1'">편의시설</div>
+									<div onclick="location.href='/app/facilities/outerFacilities/map'">주변시설</div>
+								</div>
+							</div>
+							<div id="info-qna-area">
+								<div onclick="location.href=''">고객센터</div>
+								<div id="small-text">
+									<span onclick="location.href=''">문의하기</span> 
+									<span>|</span> 
+									<span onclick="location.href='/app/csc/faq'">FAQ</span> 
+									<span>|</span> 
+									<span onclick="location.href=''">경비원호출</span>
+								</div>
 							</div>
 						</div>
+					</c:if>
 
-						<div id="menu-area">
-							<div id="blank02"></div>
-							<div id="icon-area">
-								<div>
-									<i class="fa-regular fa-user fa-2x" style="color: #2e2e2e;"></i>
-								</div>
-								<div>
-									<i class="fa-solid fa-user-group fa-2x" style="color: #2e2e2e;"></i>
-								</div>
-								<div>
-									<i class="fa-regular fa-pen-to-square fa-2x" style="color: #2e2e2e;"></i>
-								</div>
-								<div>
-									<i class="fa-solid fa-building-user fa-2x" style="color: #2e2e2e;"></i>
-								</div>
-								<div>
-									<i class="fa-solid fa-map-location-dot fa-2x" style="color: #2e2e2e;"></i>
+					<c:if test="${not empty loginAdmin}">
+						<div id="side-bar">
+							<div id="logo-area" onclick="location.href='/app/main/amain'">
+								<span> <img id="logo" src="/app/resources/main/logo.png">
+									<img id="logo" src="/app/resources/main/honeyPot.png">
+								</span>
+							</div>
+							<div id="all-center">
+								<div id="blank01"></div>
+								<div id="profile-area">
+									<div id="profile-img" onclick="location.href='/app/member/aedit';">
+										<img src="/app/resources/profile/exam_profile.png" height="230px">
+										<div id="setting-icon-area">
+											<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
+										</div>
+									</div>
+									<div id="profile-name">${loginAdmin.name}</div>
+									<div id="logout-info" onclick="location.href='/app/member/logout';">로그아웃</div>
 								</div>
 							</div>
-							<div id="text-area">
-								<div onclick="location.href=''">마이페이지</div>
-								<div onclick="location.href=''">이웃목록</div>
-								<div onclick="location.href=''">게시판</div>
-								<div onclick="location.href=''">편의시설</div>
-								<div onclick="location.href=''">주변시설</div>
+
+							<div id="menu-area">
+								<div id="blank02"></div>
+								<div id="icon-area">
+									<div>
+										<i class="fa-regular fa-user fa-2x" style="color: #2e2e2e;"></i>
+									</div>
+									<div>
+										<i class="fa-solid fa-headphones-simple fa-2x" style="color: #2e2e2e;"></i>
+									</div>
+									<div>
+										<i class="fa-regular fa-pen-to-square fa-2x" style="color: #2e2e2e;"></i>
+									</div>
+									<div>
+										<i class="fa-solid fa-building-user fa-2x" style="color: #2e2e2e;"></i>
+									</div>
+									<div>
+										<i class="fa-solid fa-calendar-days fa-2x" style="color: #2e2e2e;"></i>
+									</div>
+								</div>
+								<div id="text-area">
+									<div onclick="location.href=''">회원관리</div>
+									<div onclick="location.href=''">상담센터</div>
+									<div onclick="location.href='/app/notice/list'">게시판</div>
+									<div onclick="location.href=''">단지관리</div>
+									<div onclick="location.href=''">캘린더</div>
+								</div>
+							</div>
+							<div id="info-qna-area">
+								<div onclick="location.href=''">고객센터</div>
+								<div id="small-text">
+									<span onclick="location.href=''">관리하기</span> 
+									<span>|</span> 
+									<span onclick="location.href='/app/csc/faq'">FAQ</span>
+								</div>
 							</div>
 						</div>
-						<div id="info-qna-area">
-							<div>고객센터</div>
-							<div id="small-text">
-								<span>문의하기</span> <span>|</span> <span>FAQ</span> <span>|</span> <span>경비원호출</span>
-							</div>
-						</div>
-					</div>
+					</c:if>
+
 
 					<div id="main">
 						<div id="header">
@@ -416,7 +486,8 @@
 							<div class="chat_modalBox">
 								<c:forEach begin="1" end="5">
 									<div class="latest-chat">
-										<div class="contentCon"><i class="fa-regular fa-envelope fa-2x" style="color: #ffce31;"></i></div>
+										<div class="contentCon"><i class="fa-regular fa-envelope fa-2x"
+												style="color: #ffce31;"></i></div>
 										<div class="contentSpan">
 											<span>101동 골프모임</span>
 											<br>
@@ -500,7 +571,7 @@
 				const mainChoice = document.querySelector("#header-main-text");
 				mainChoice.innerHTML = name;
 			}
-			
+
 			// 채팅 알림 모달 열기
 			const openChatAlertModal = () => {
 				document.querySelector(".chat_modal_wrap").classList.remove("hidden");
@@ -514,7 +585,7 @@
 
 			// 채팅 아이콘 클릭 이벤트 추가
 			const chatCon = document.querySelector('.header-chatting-icon');
-			chatCon.addEventListener("click", function() {
+			chatCon.addEventListener("click", function () {
 
 				// 모달이 이미 열려있는 경우 닫기
 				if (!document.querySelector(".chat_modal_wrap").classList.contains("hidden")) {
@@ -526,10 +597,10 @@
 
 			// 채팅 알림 상세보기 버튼 이벤트 추가
 			const chatDetail = document.querySelector(".chat-detail-Btn");
-			chatDetail.addEventListener('click', function(){
-				location.href="/app/chat/list";
+			chatDetail.addEventListener('click', function () {
+				location.href = "/app/chat/list";
 			})
-			
+
 			// 로그인 정보 출력
 			console.log("loginMember : ${loginMember}");
 			console.log("loginAdmin : ${loginAdmin}");
