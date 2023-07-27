@@ -33,4 +33,13 @@ public class YerinFunctions {
 	
 		return combinedDate;
 	}
+	
+	//현재 날짜를 넘기면 '2023-05-21'같은 형식으로 format해주는 함수
+	public String getStringDate(Date date) {
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String stringDate = simpleDateFormat.format(date);
+		
+		return stringDate;
+	}
 }

@@ -36,23 +36,44 @@ public class FacilitiesController {
 
 	//예약 화면 보여주기
 	//no=1이면 도서관 관련
+	//이때에도 화면측으로 현재 날짜의 예약들을 보내주어야함.
 	@GetMapping("facilities/library/reserve")
-	public String reserve(int no,Model model,HttpSession session) {
+	public String reserve(int no,Model model,HttpSession session) throws Exception {
 		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
 		String MemberNo = loginMember.getNo();
 		
 		//편의시설마다 시간이 다르므로 조회해와야함. 
 		InnerFacVo fvo = service.getOpenCloseTime(no);
 		
-//		List<InnerFacRsVo> rsvList = service.getReservationByMemberNo(MemberNo);
+		InnerFacRsVo rsVo = new InnerFacRsVo();
+		rsVo.setMemberNo(MemberNo);
+		
+		//현재날짜정보만 String type으로 넘기기
+		//날짜를 주면 String으로 format에 맞게 변환해주는 함수 호출
+		String date = y.getStringDate(new Date());
+		
+		rsVo.setReserveTime(date);
+		
+		//json으로 변환해야함
+		List<String> dateList = service.getReservationTimeInfo(rsVo);
+		ObjectMapper om = new ObjectMapper();
+		String jsonDate = om.writeValueAsString(dateList);
 		
 		//예린함수를 거쳐서 openTime, closeTime전달...
 		int opentime = y.changeInt(fvo.getOpenTime());
 		int closetime = y.changeInt(fvo.getCloseTime());
 		
 		
+		
+		
+		
+		
 		model.addAttribute("openTime",opentime);
 		model.addAttribute("closeTime",closetime);
+		model.addAttribute("reservedDate",jsonDate);
+		
+		
+		
 		
 		return "innerFacilities/makeLibraryReservation";
 	}
@@ -90,6 +111,7 @@ public class FacilitiesController {
 		
 	}
 	
+	//ajax로 날짜가 바뀔 때마다 요청받았을 때 
 	@GetMapping(produces ="application/json; charset=UTF-8",value = "innerFac/reserve/reservationInfo")
 	@ResponseBody
 	public String getReservationInfoByNo(String date,HttpSession session,HttpServletResponse resp) throws Exception {

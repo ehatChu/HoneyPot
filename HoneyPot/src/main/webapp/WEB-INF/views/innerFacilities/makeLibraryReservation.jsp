@@ -87,7 +87,10 @@
 	/* input[name="startTime"] {
 		visibility: hidden;	
 	} */
-	
+	.reserved-color {
+		background-color: #4A321F;
+		color: white;
+	}
 </style>
 </head>
 <body>
@@ -139,7 +142,7 @@
 						<div id="span-area">
 							<!--  -->
 							<h1>2.시간선택</h1>
-							
+						
 							<c:forEach var="i" begin="${openTime}" end="${closeTime}" step="1">
 								
 								<!-- small-box이용하면 label을 박스형태로 바꿀 수 있음. -->
@@ -149,22 +152,7 @@
 										
 							</c:forEach>
 							<script>
-								//openTime과 closeTime을 변수로 불러오기
-								const openTime = "${openTime}";
-								const closeTime = "${closeTime}";
-								//라벨 다 가져와서 for문 돌려보자
-								const label = document.querySelectorAll("label"); //다 가져와서 모든 요소에 값을 넣어주면 되는데...
-	
-								for(let lb of label){
-									//7라벨의 for값을 가져와서 
-									const forValue = lb.getAttribute("for");
-	
-									//forValue가 10보다 작다면 
-									let resultValue = forValue < 10 ? '0'+forValue : forValue;
-									lb.innerText =resultValue+':00';
-								}
-							
-	
+								
 							</script>
 							
 						</div>
@@ -203,7 +191,50 @@
 	//날짜를 받는 input태그의 값이 change될 때 ajax를 실행 하도록 
 	let date = document.querySelector("#date-choice");
 	
+
+	//openTime과 closeTime을 변수로 불러오기
+	const openTime = "${openTime}";
+	const closeTime = "${closeTime}";
+	//라벨 다 가져와서 for문 돌려보자
+	const label = document.querySelectorAll("label"); //다 가져와서 모든 요소에 값을 넣어주면 되는데...
+
+	const dateList = '${reservedDate}';//배열같이 생긴 문자열임..
+	let dateValue = JSON.parse(dateList);
+	dateStringToInt(dateValue);
+
+	//json타입받으면 문자열 받으면 int로 변환시켜주는 그인트를 가지고 lb의를 변경시켜주는
+	function dateStringToInt(dateValue){
+		var no = [];
+	
+		for(let i=0;i<dateValue.length;i++){
+			//12번째부터 13번째까지
+			no[i]= parseInt(dateValue[i].substring(11,13),10);
+		}
+		//라벨에 값넣어주기 innerText
+		for(let lb of label){
+		//7라벨의 for값을 가져와서 
+		const forValue = lb.getAttribute("for");
+
+		//forValue가 10보다 작다면 
+		let resultValue = forValue < 10 ? '0'+forValue : forValue;
+		lb.innerText =resultValue+':00';	
+
+			for(let i=0;i<no.length;i++){
+				if(no[i]==forValue){
+					lb.classList.add('reserved-color');
+				}
+			}
+
+		}
+	}
+
+
 	date.addEventListener("change",function(){
+		//일단 바뀌면 모든 label값들 가져와서 class에서 removed-color뺏기
+		for(let lb of label){
+			lb.classList.remove('reserved-color');
+		}
+
 		const v1 = date.value;
 		$.ajax({
 			url : "/app/innerFac/reserve/reservationInfo",
@@ -214,7 +245,8 @@
 			dataType : "json",
 			success : function(data){
 				alert("통신성공");
-				console.log(data); //hi가 나와야한다.
+				//date를 넘기면 숫자가 나오는 그런....... 함수를.........
+				dateStringToInt(data);
 			} ,
 			error : function(){
 				alert("통신실패");
