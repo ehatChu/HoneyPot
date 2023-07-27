@@ -593,8 +593,6 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 	<script>
-		sessionStorage.clear();
-
 		// 변수 선언
 		const today = new Date();
 		const pub1 = document.querySelector("#pub1");
