@@ -26,13 +26,13 @@
 			JOIN ADMIN A ON N.WRITER_NO = A.NO
 		WHERE N.STATUS = 'Y'
 		
-		<if test="searchType == 'title' and searchValue != null or searchValue != ''">
+		<if test="searchType == 'title' and searchValue != null and searchValue != ''">
 			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'content' and searchValue != null or searchValue != ''">
+		<if test="searchType == 'content' and searchValue != null and searchValue != ''">
 			AND N.CONTENT LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'writer' and searchValue != null or searchValue != ''">
+		<if test="searchType == 'writer' and searchValue != null and searchValue != ''">
 			AND A.NAME LIKE ('%${searchValue}%')
 		</if>
 		
@@ -59,13 +59,13 @@
 			JOIN NOTICE_CATEGORY C ON N.NOTICE_CNO = C.NO
 			JOIN ADMIN A ON N.WRITER_NO = A.NO
 		WHERE STATUS ='Y'
-		<if test="searchType == 'title' and searchValue != null or searchValue != ''">
+		<if test="searchType == 'title' and searchValue != null and searchValue != ''">
 			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'content' and searchValue != null or searchValue != ''">
+		<if test="searchType == 'content' and searchValue != null and searchValue != ''">
 			AND N.CONTENT LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'writer' and searchValue != null or searchValue != ''">
+		<if test="searchType == 'writer' and searchValue != null and searchValue != ''">
 			AND A.NAME LIKE ('%${searchValue}%')
 		</if>
 	</select>

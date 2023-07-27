@@ -37,18 +37,33 @@
 		    <!-- JOIN LOVE L ON B.NO = L.BOARD_NO -->
 			<!-- JOIN BOARD_IMG I ON B.NO = I.BOARD_NO -->
 		WHERE S.NO != 5
+		<!-- AND C.NO = 4 -->
 		
-<!-- 		<if test="searchType == 'title' and searchValue != null or searchValue != ''">
+ 		<if test="searchType == 'title' and searchValue != null and searchValue != ''">
 			AND TITLE LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'content' and searchValue != null or searchValue != ''">
-			AND N.CONTENT LIKE ('%${searchValue}%')
+		<if test="searchType == 'content' and searchValue != null and searchValue != ''">
+			AND B.CONTENT LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'writer' and searchValue != null or searchValue != ''">
-			AND A.NAME LIKE ('%${searchValue}%')
-		</if> -->
+		<if test="searchType == 'writer' and searchValue != null and searchValue != ''">
+			AND M.NAME LIKE ('%${searchValue}%')
+		</if>
 		
-		ORDER BY B.NO DESC, ENROLL_DATE DESC
+		<choose>
+			<when test="sortType == 'date'">
+				ORDER BY B.ENROLL_DATE DESC
+			</when>
+			<when test="sortType == 'hit'">
+				ORDER BY HIT DESC, B.NO DESC
+			</when>
+			<when test="sortType == 'love'">
+				ORDER BY LOVE_CNT DESC, B.NO DESC
+			</when>
+			<otherwise>
+				ORDER BY B.NO DESC
+			</otherwise>
+		</choose>
+
 	</select>	
 
 
@@ -62,15 +77,15 @@
    		WHERE S.NO != 5
    		<!-- AND C.NO = 4 -->
    		
-<!-- 		<if test="searchType == 'title' and searchValue != null or searchValue != ''">
-			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%${searchValue}%')
+   		<if test="searchType == 'title' and searchValue != null and searchValue != ''">
+			AND TITLE LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'content' and searchValue != null or searchValue != ''">
-			AND N.CONTENT LIKE ('%${searchValue}%')
+		<if test="searchType == 'content' and searchValue != null and searchValue != ''">
+			AND B.CONTENT LIKE ('%${searchValue}%')
 		</if>
-		<if test="searchType == 'writer' and searchValue != null or searchValue != ''">
-			AND A.NAME LIKE ('%${searchValue}%')
-		</if> -->
+		<if test="searchType == 'writer' and searchValue != null and searchValue != ''">
+			AND M.NAME LIKE ('%${searchValue}%')
+		</if>
 		
 	</select>
 	
