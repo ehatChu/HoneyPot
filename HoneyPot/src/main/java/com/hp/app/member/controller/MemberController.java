@@ -3,7 +3,6 @@ package com.hp.app.member.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -154,12 +153,25 @@ public class MemberController {
 	}
 
 	@GetMapping("changePwd")
-	public String pwdChange() {
+	public String changePwd(HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		if (loginMember == null && loginAdmin == null) {
+			return "redirect:/main/mmain";
+		}
 		return "member/changePwd";
 	}
 	
 	@PostMapping("changePwd")
 	public String pwdChange(HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		if (loginMember == null && loginAdmin == null) {
+			return "redirect:/main/mmain";
+		}
+		if(loginMember == null) {
+			return "redirect:/member/aedit";
+		}
 		return "redirect:/member/medit";
 	}
 

@@ -241,6 +241,10 @@
 		let phoneValue = sessionStorage.getItem("phoneValue")
 		let emailValue = sessionStorage.getItem("emailValue")
 		let newPwdValue = sessionStorage.getItem("newPwdValue");
+		sessionStorage.removeItem('idValue');
+		sessionStorage.removeItem('phoneValue');
+		sessionStorage.removeItem('emailValue');
+		sessionStorage.removeItem('newPwdValue');
 
 		if (newPwdValue != null) {
 			const id = document.querySelector('input[name=id]');
@@ -276,10 +280,6 @@
 				return false;
 			}
 
-			sessionStorage.removeItem('idValue');
-			sessionStorage.removeItem('phoneValue');
-			sessionStorage.removeItem('emailValue');
-			sessionStorage.removeItem('newPwdValue');
 			return true;
 		}
 

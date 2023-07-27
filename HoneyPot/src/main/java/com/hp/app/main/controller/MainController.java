@@ -23,10 +23,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("main")
 public class MainController {
+	public static MemberVo loginMember;
+	public static AdminVo loginAdmin;
+	public static AdminVo captain;
 	private final MainService ms;
-	private MemberVo loginMember;
-	private AdminVo loginAdmin;
-	private AdminVo captain;
 
 	@GetMapping("mmain")
 	public String mmain(HttpSession session, Model model) {
