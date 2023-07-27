@@ -286,46 +286,54 @@ public class CSCController {
 	@GetMapping("admin/csc/inquiry-list")
 	public String adminInquiryList(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchMap) throws Exception {
 		
-		// 페이징 처리
-		int listCount = service.getQNACnt(searchMap);
-		int currentPage = Integer.parseInt(page);
-		int pageLimit = 5;
-		int boardLimit = 6;
-		
-		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
-		
-		List<QNACategoryVo> cList = service.getQNACatList();
-		List<QNAVo> qList = service.getQNAList(pvo, searchMap);
-		
-		if(cList == null) {
-			throw new Exception("문의등록 카테고리 조회 에러");
-		}
-		
-		// 갯수 조회
-		List<QNAVo> nList = service.getQNAAllList(searchMap);
-		int sum = 0;
-		int answerY = 0;
-		int answerN = 0;
-		
-		for(QNAVo vo : nList) {
-			if("N".equals(vo.getAnswerYn())) {
-				answerN++;
-			}else if("Y".equals(vo.getAnswerYn())) {
-				answerY++;
+		try {
+			System.out.println(searchMap);
+			
+			// 페이징 처리
+			int listCount = service.getQNACnt(searchMap);
+			int currentPage = Integer.parseInt(page);
+			int pageLimit = 5;
+			int boardLimit = 6;
+			
+			PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+			
+			List<QNACategoryVo> cList = service.getQNACatList();
+			List<QNAVo> qList = service.getQNAList(pvo, searchMap);
+			
+			if(cList == null) {
+				throw new Exception("문의등록 카테고리 조회 에러");
 			}
+			
+			// 갯수 조회
+			List<QNAVo> nList = service.getQNAAllList(searchMap);
+			int sum = 0;
+			int answerY = 0;
+			int answerN = 0;
+			
+			for(QNAVo vo : nList) {
+				if("N".equals(vo.getAnswerYn())) {
+					answerN++;
+				}else if("Y".equals(vo.getAnswerYn())) {
+					answerY++;
+				}
+			}
+			
+			sum = answerY + answerN;
+			Map<String, String> listCnt = new HashMap<String, String>();
+			
+			
+			listCnt.put("sum", Integer.toString(sum));
+			listCnt.put("answerY", Integer.toString(answerY));
+			listCnt.put("answerN", Integer.toString(answerN));
+			
+			model.addAttribute("listCnt", listCnt);
+			model.addAttribute("cList", cList);
+			model.addAttribute("qList", qList);
+			model.addAttribute("pvo", pvo);
+			model.addAttribute("searchVo", searchMap);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		sum = answerY + answerN;
-		Map<String, String> listCnt = new HashMap<String, String>();
-		
-		
-		listCnt.put("sum", Integer.toString(sum));
-		listCnt.put("answerY", Integer.toString(answerY));
-		listCnt.put("answerN", Integer.toString(answerN));
-		
-		model.addAttribute("listCnt", listCnt);
-		model.addAttribute("cList", cList);
-		model.addAttribute("qList", qList);
 		
 		return "csc/admin/inquiry-list";
 	}

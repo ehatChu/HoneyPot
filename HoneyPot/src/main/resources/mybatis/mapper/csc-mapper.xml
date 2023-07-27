@@ -220,23 +220,52 @@
 	
 	<!-- 관리자 -->
 	
-	<!-- 문의 List 전체 갯수 -->
-	<select id="getQNAAllCnt" resultType="int">
-		SELECT COUNT(*)
-		FROM QNA
-	</select>
-	
 	<!-- 문의 List 검색 갯수 -->
 	<select id="getQNACnt" resultType="int">
-		SELECT COUNT(*)
-		FROM QNA
+		SELECT COUNT(Q.NO)
+		FROM QNA Q
+		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
+		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
+		<where>
+			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
+				AND Q.TITLE LIKE '%${searchValue}%'
+			</if>
+			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
+				AND M.NAME LIKE '%${searchValue}%'
+			</if>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND Q.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
+			</if>
+			<if test="answerYn != null and answerYn != ''">
+				AND Q.ANSWER_YN = #{answerYn} 
+			</if>
+			<if test="qnaCno != null and qnaCno != ''">
+				AND Q.QNA_CNO = #{qnaCno}
+			</if>
+		</where>
 	</select>
 	
 	<!-- 문의 List 검색 조회 -->
 	<select id="getQNAAllList" resultType="com.hp.app.csc.vo.QNAVo">
 		SELECT 
-			ANSWER_YN
-		FROM QNA
+			Q.ANSWER_YN
+		FROM QNA Q
+		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
+		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
+		<where>
+			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
+				AND Q.TITLE LIKE '%${searchValue}%'
+			</if>
+			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
+				AND M.NAME LIKE '%${searchValue}%'
+			</if>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND Q.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
+			</if>
+			<if test="qnaCno != null and qnaCno != ''">
+				AND Q.QNA_CNO = #{qnaCno}
+			</if>
+		</where>
 	</select>
 	
 	<!-- 문의 List 검색 조회 -->
@@ -252,6 +281,23 @@
 		FROM QNA Q
 		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
 		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
+		<where>
+			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
+				AND Q.TITLE LIKE '%${searchValue}%'
+			</if>
+			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
+				AND M.NAME LIKE '%${searchValue}%'
+			</if>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND Q.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
+			</if>
+			<if test="answerYn != null and answerYn != ''">
+				AND Q.ANSWER_YN = #{answerYn} 
+			</if>
+			<if test="qnaCno != null and qnaCno != ''">
+				AND Q.QNA_CNO = #{qnaCno}
+			</if>
+		</where>
 		ORDER BY Q.ENROLL_DATE DESC
 	</select>
 	

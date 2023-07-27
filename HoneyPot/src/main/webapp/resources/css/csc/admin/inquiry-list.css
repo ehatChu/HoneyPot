@@ -62,12 +62,12 @@
 }
 
 .inquiry-category-text{
-    margin-left: 100px;
+    margin-left: 210px;
     font-size: 18px;
     font-weight: 700;
 }
 
-input[name=allDate]{
+.inquiry-allDate{
     margin-left: 20px;
 }
 
@@ -153,13 +153,22 @@ input[name=endDate]{
     height: 100%;
     width: 260px;
     /* box-sizing: border-box; */
+    text-decoration: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-left: 1px solid rgb(156, 156, 156);
 }
 
-.right-border{
+.inquiry-list-category-last{
+    height: 100%;
+    width: 260px;
+    /* box-sizing: border-box; */
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 1px solid rgb(156, 156, 156);
     border-right: 1px solid rgb(156, 156, 156);
 }
 
@@ -172,11 +181,13 @@ input[name=endDate]{
     font-size: 16px;
     margin-left: 20px;
     font-weight: 900;
+    color: black;
 }
 
 .list-category-num{
     font-weight: 900;
     margin-right: 20px;
+    color: black;
 }
 
 .yellow{
@@ -213,13 +224,14 @@ input[name=endDate]{
 }
 
 .page-area {
+    margin-top: 20px;
     width: 1560px;
-    margin-top: 15px;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
-.page-area button {
+.page-area > a {
     display: inline-block;
     font-weight: bold;
     font-size: 18px;
@@ -228,13 +240,269 @@ input[name=endDate]{
     padding: 10px 20px;
     cursor: pointer;
     background-color: transparent;
+    text-decoration: none;
+    color: black;
 }
 
-.page-area button:hover{
-    background-color: #FAD355;
+.page-area > a:hover{
+    background-color: #FFCE31;
     color: white;
 }
 
-.category-color{
-    color: #e7bf3a;
+#current-page{
+    color: #FFCE31;
+}
+
+#current-page:hover{
+    color: #FFCE31;
+}
+
+.faq-category-color{
+    color: #FFCE31;
+}
+
+.text-bold{
+    font-weight: 800;
+}
+
+.blinking{
+    -webkit-animation: blink 0.7s ease-in-out infinite alternate;
+    -moz-animation: blink 0.7s ease-in-out infinite alternate;
+    animation: blink 0.7s ease-in-out infinite alternate;
+  }
+  
+  @-webkit-keyframes blink{
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  
+  @-moz-keyframes blink{
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  
+  @keyframes blink{
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+
+.red{
+    color: rgb(255, 40, 40);
+}
+
+/* 문의 내용 상세 보기 모달 */
+.qna-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    /* display: none; */
+    
+    /* 숨기기 */
+    z-index: -1;
+    opacity: 0;
+}
+
+.show {
+    opacity: 1;
+    z-index: 1000;
+    transition: all .5s;
+    /* display: block; */
+}
+
+.qna-window {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.qna-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    
+    /* 임시 지정 */
+    width: 700px;
+    
+    /* 초기에 약간 아래에 배치 */
+    transform: translate(-50%, -40%);
+ }
+
+.show .qna-popup {
+    transform: translate(-50%, -50%);
+    transition: all .5s;
+}
+
+.qna-model-header-area{
+    width: 700px;
+    height: 50px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #FFCE31;
+}
+
+.qna-model-header{
+    margin-left: 20px;
+    width: 660px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+#qna-close{
+    font-size: 30px;
+    font-weight: 900;
+    cursor: pointer;
+    
+}
+
+.qna-model-header-text{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.qna-model-body-area{
+    width: 600px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.qna-model-body-first{
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.qna-model-title-text{
+    font-size: 26px;
+    font-weight: bold;
+    /* color: gray; */
+    color: black;
+}
+.qna-model-question-area{
+    margin-left: 10px;
+    margin-top: 10px;
+    display: flex;
+    width: 550px;
+}
+
+.qna-model-question-title{
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.qna-model-question-icon{
+    width: 50px;
+    height: 50px;
+    border-radius: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFCE31;
+    font-weight: 800;
+    font-size: 24px;
+
+}
+
+.qna-model-question-text{
+    margin-left: 10px;
+    border-radius: 6px;
+    padding: 15px;
+    width: 500px;
+    background-color: #fff5d6;
+    font-weight: bold;
+}
+
+.qna-model-icon-area{
+    width: 600px;
+    display: flex;
+    justify-content: center;
+    
+}
+
+#qna-model-icon{
+    color: #FFCE31;
+    font-weight: 800;
+    font-size: 30px;
+}
+
+.qna-model-answer-text-area{
+    margin-top: 20px;
+    width: 600px;
+    display: flex;
+}
+
+#qna-model-answer-icon{
+    font-weight: bold;
+    font-size: 24px;
+    color: #3183ff;
+}
+
+.qna-model-answer-text{
+    border-radius: 6px;
+    padding: 15px;
+    width: 500px;
+    background-color: #ffebda;
+    font-weight: bold;
+}
+
+.qna-model-answer-icon{
+    margin-left: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #885d3b;
+    font-weight: 800;
+    font-size: 24px;
+
+}
+
+.qna-model-btn-area{
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+
+.qna-model-check-btn{
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Noto Sans KR';
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #FFCE31;
+    margin-right: 20px;
+}
+
+.qna-model-delete-btn{
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Noto Sans KR';
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #ff4e4e;
+    margin-left: 20px;
 }
