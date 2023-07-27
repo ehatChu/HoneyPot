@@ -161,8 +161,19 @@ public class CSCDaoImpl implements CSCDao{
 	@Override
 	public List<QNAVo> getQNAList(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchMap) {
 		RowBounds rb = new RowBounds(pvo.getOffset(), pvo.getBoardLimit()); // (건널 뛸 갯수, 보여줄 갯수)
-		System.out.println(searchMap);
 		return sst.selectList("csc.getQNAList",searchMap,rb);
+	}
+
+	// 문의내역 상세조회
+	@Override
+	public QNAVo getQNAByNo(SqlSessionTemplate sst, String qno) {
+		return sst.selectOne("csc.getQNAByNo", qno);
+	}
+
+	// 문의내역 삭제
+	@Override
+	public int deleteInquiry(SqlSessionTemplate sst, String qno) {
+		return sst.delete("csc.deleteInquiry", qno);
 	}
 
 

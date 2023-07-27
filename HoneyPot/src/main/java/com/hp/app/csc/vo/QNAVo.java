@@ -11,6 +11,7 @@ public class QNAVo {
 	private String qnaCname;
 	private String memberNo;
 	private String memberName;
+	private String memberProfile;
 	private String title;
 	private String content;
 	private String enrollDate;

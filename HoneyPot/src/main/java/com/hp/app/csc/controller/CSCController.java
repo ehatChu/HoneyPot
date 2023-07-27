@@ -152,7 +152,7 @@ public class CSCController {
 	
 	// 문의 내역 삭제
 	@GetMapping("/csc/inquiry/delete")
-	public String deleteInquiry(String bno) throws Exception {
+	public String deleteMyInquiry(String bno) throws Exception {
 		
 		QNAVo vo = new QNAVo();
 		vo.setNo(bno);
@@ -260,7 +260,7 @@ public class CSCController {
 	
 	// 신고 내역 삭제
 	@GetMapping("csc/report/delete")
-	public String deleteReport(String rno) throws Exception {
+	public String deleteMyReport(String rno) throws Exception {
 		
 		String memberNo = "1";
 		
@@ -287,7 +287,7 @@ public class CSCController {
 	public String adminInquiryList(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchMap) throws Exception {
 		
 		try {
-			System.out.println(searchMap);
+//			System.out.println(searchMap);
 			
 			// 페이징 처리
 			int listCount = service.getQNACnt(searchMap);
@@ -336,6 +336,38 @@ public class CSCController {
 		}
 		
 		return "csc/admin/inquiry-list";
+	}
+	
+	// 문의내역 상세조회
+	@PostMapping("admin/csc/inquiry/detail")
+	@ResponseBody
+	public QNAVo getQNAByNo(String qno) throws Exception {
+	
+		QNAVo qvo = service.getQNAByNo(qno);
+		
+		if(qvo == null) {
+			throw new Exception("문의내역 상세조회 에러");
+		}
+		
+		return qvo;
+	}
+	
+	// 문의내역 삭제
+	@GetMapping("admin/csc/inquiry/delete")
+	public String deleteInquiry(String qno) throws Exception {
+		
+		try {
+			int result = service.deleteInquiry(qno);
+			
+			if(result != 1) {
+				throw new Exception("관리자 문의내역 삭제 에러");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/admin/csc/inquiry-list";
+		
 	}
 	
 	// 신고내역(화면)
