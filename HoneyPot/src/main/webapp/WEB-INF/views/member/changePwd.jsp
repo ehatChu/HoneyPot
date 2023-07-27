@@ -76,7 +76,7 @@
 					</div>
 					<div></div>
 					<div id="tit">이전 비밀번호</div>
-					<input style="padding-left: 30px;" type="password" class="box originPwd" value="${loginMember.pwd}"
+					<input style="padding-left: 30px; background-color: #4A321F; color: white;" type="password" class="box originPwd" value="${loginMember.pwd}"
 						readonly>
 					<div></div>
 					<div id="tit">새 비밀번호</div>
