@@ -58,30 +58,31 @@
 	</select>
 	
 	<!-- 회원 관리비 납부 카테고리 조회(당월) -->
-	<select id="thisMonth">
+	<select id="thisMonth" resultType="com.hp.app.fee.vo.MemberFeeVo">
 		SELECT 
-			MF.PRICE
-            ,MFC.NAME AS CATEGORY_NAME
-            ,MF.CONTENT
-		FROM MEMBER_FEE MF
-			JOIN MEMBER_FEE_CATEGORY MFC
-			ON (MF.FEE_CNO= MFC.NO)
-		WHERE MF.MEMBER_NO = #{no}
-		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = #{currentMonth}
+        MF.PRICE
+        ,MFC.NAME AS CATEGORY_NAME
+        ,MF.CONTENT
+        ,TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') AS PAYMENT_DATE
+    FROM MEMBER_FEE MF
+        JOIN MEMBER_FEE_CATEGORY MFC
+        ON (MF.FEE_CNO= MFC.NO)
+    WHERE MF.MEMBER_NO = 1
+    AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = #{currentMonth}
+    UNION
+    SELECT
+    MF.PRICE
+        ,MFC.NAME AS CATEGORY_NAME
+        ,MF.CONTENT
+        ,TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') AS PAYMENT_DATE
+    FROM MEMBER_FEE MF
+        JOIN MEMBER_FEE_CATEGORY MFC
+        ON (MF.FEE_CNO= MFC.NO)
+    WHERE MF.MEMBER_NO = 1
+    AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = #{previousMonth}
 	</select>
 	
 	<!-- 회원 관리비 납부 카테고리 조회(전월) -->
-	<select id="prevMonth">
-		SELECT 
-			MF.PRICE
-            ,MFC.NAME AS CATEGORY_NAME
-            ,MF.CONTENT
-		FROM MEMBER_FEE MF
-			JOIN MEMBER_FEE_CATEGORY MFC
-			ON (MF.FEE_CNO= MFC.NO)
-		WHERE MF.MEMBER_NO = #{no}
-		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = #{previousMonth}
-	</select>
 	
 	<select id="adminFeeCnt" resultType="int">
 		SELECT 

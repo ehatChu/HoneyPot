@@ -7,226 +7,14 @@
 		<title>Insert title here</title>
 		<!-- chart.js CDN -->
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+        <!-- CSS -->
+		<link rel="stylesheet" href="/app/resources/css/member/mypage/fee/pay.css">
+        <!-- iamport.payment.js -->
+        <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 	</head>
 
 	<style>
-		#wrap {
-			height: 1000px;
-			display: grid;
-			grid-template-rows: 210px 800px;
-		}
-
-        #total-area {
-            display: grid;
-            grid-template-rows: 100px 80px;
-            margin-top: 30px;
-        }
-
-        .monthBox {
-            width: 250px;
-            height: 60px;
-            margin-left: 30px;
-            margin-bottom: 10px;
-            border: 4px solid #fad355;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 20px;
-        }
-
-        .monthBox > select {
-            width: 220px;
-            height: 50px;
-            background-color: transparent;
-            border: none;
-            font-size: 22px;
-            color: #666060;
-            font-family: 'Noto Sans KR';
-            font-weight: 550;
-            cursor: pointer;
-        }
-
-        .payBox {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 20px;
-            font-weight: 500;
-            background-color: rgba(74, 50, 31, 0.8);
-        }
-
-        .payBox > div > #payBtn {
-            border: none;
-            width: 180px;
-            height: 50px;
-            background-color: #fad355;
-            color: #666060;
-            border-radius: 10px;
-            font-size: 23px;
-            font-weight: 550;
-            margin-right: 60px;
-            cursor: pointer;
-        }
-
-        .payBox > div:first-child{
-            margin-left: 60px;
-            color: #ffffff;
-            font-size: 20px;
-        }
-
-        .payBox > div > span {
-            color: #fad355;
-            font-size: 25px;
-            margin-left: 20px;
-        }
-
-        #detail-area {
-            display: grid;
-            grid-template-rows: 50px 750px;
-        }
-
-        #detail-area > div:first-child {
-            background-color: #ffffff;
-            font-size: 23px;
-            font-weight: 570;
-            color: black;
-            display: flex;
-            align-items: center;
-            border-left: 1px solid black;
-        }
-
-        #detail-area > div:first-child > span {
-            margin-left: 60px;
-        }
-
-        #detail-area > table {
-            border: none;
-            border-collapse: collapse;
-        }
-
-        #detail-area > table > thead {
-            border-left: 1px solid #4a321f;
-            background-color: #4a321f;
-            color: #ffffff;
-            font-size: 20px;
-            text-align: center;
-            height: 60px;
-            font-weight: 450;
-        }
-
-        #detail-area > table > tbody {
-            text-align: center;
-            font-size: 18px;
-            font-weight: 400;
-            background-color: #ffffff;
-            
-        }
-
-        #detail-area > table > tbody > tr {
-            border-bottom: 1px solid black;
-            border-left: 1px solid black;
-        }
-
-        /* 모달 영역 */
-        .modal {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .modal .bg {
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.6);
-        }
-
-        .modalBox {
-          position: absolute;
-          background-color: #fff;
-          width: 700px;
-          height: 700px;
-		  border-radius: 30px;
-		  display: grid;
-		  grid-template-rows: 50px 550px;
-        }
-
-        .modalBox button {
-          display: block;
-          margin: 0 auto;
-		  border: none;
-		  background-color: #ffce31;
-        }
-
-        .hidden {
-          display: none;
-        }
-
-		/* 모달 디자인 영역 */
-		.upper-bar {
-			display: grid;
-			grid-template-columns: 650px 50px;
-			align-items: center;
-			background: #ffce31;
-			color: black;
-			border-radius: 30px 30px 0px 0px;
-		}
-
-		.upper-bar > span {
-			margin-left: 20px;
-			font-size: 20px;
-			font-weight: 530;
-            font-family: 'Noto Sans KR';
-		}
-	
-		.content-modal {
-			display: grid;
-			grid-template-rows: 100px 150px 300px;
-			color: #464646;
-		}
-
-		.first-area {
-			display: flex;
-			font-size: 25px;
-            font-weight: 450;
-            align-items: center;
-            margin-left: 30px;
-            font-family: 'Noto Sans KR';
-		}
-
-        .first-area > span:first-child {
-            font-weight: 600;
-            border-bottom: 7px solid #fff53deb;
-            margin-right: 20px;
-        }
-
-        .text-area{
-            text-align: center;
-            margin-top: 10px;
-            font-size: 22px;
-        }
-
-        .text-area > div > span {
-            font-size: 18px;
-            color: #a3a2a2;
-        }
-
-        .qr-area {
-            display: flex;
-            justify-content: center;
-            align-items: center;   
-        }
-        .qr-area > img {
-            width: 340px;
-            height: 300px;
-            border: 3px solid #fff53deb;
-            border-radius: 20px;
-            margin-bottom: 25px;
-        }
+		
 
 
 
@@ -252,8 +40,8 @@
                             </select>
                         </div>
                         <div class="payBox">
-                            <div>납부 금액 : <span>125,350</span> 원</div>
-                            <div><button id="payBtn" class="openBtn">납부하기</button></div>
+                            <div>납부 금액 : <span id="totalPrice">125,350</span> 원</div>
+                            <div><button id="payBtn" onclick="iamport()">납부하기</button></div>
                             <div class="modal hidden">
                                 <div class="bg"></div>
                                     <div class="modalBox">
@@ -298,12 +86,13 @@
                             </thead>
                             <tbody>
                                 <c:forEach items="${mvoList}" var="list">
-                                    <tr>
-                                        <td>${list.categoryName}</td>
-                                        <td>${list.content}</td>
-                                        <td></td>
-                                        <td>${list.price}</td>
-                                    </tr>
+                                        <tr>
+                                            <td>${list.categoryName}</td>
+                                            <td>${list.content}</td>
+                                            <td id="payDate" hidden>${list.paymentDate}</td>
+                                            <td id="prevPrice">${list.price}</td>
+                                            <td id="currentPrice">${list.price}</td>
+                                        </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
@@ -343,5 +132,30 @@
 
         // 모달 배경 클릭 시 모달 닫기
         document.querySelector(".bg").addEventListener("click", closeModal);
+
+
+        function iamport(){
+
+            //가맹점 식별코드
+            IMP.init('imp81480717');
+            IMP.request_pay({
+                pg : 'kakaopay',
+                pay_method : 'card',
+                merchant_uid : 'merchant_' + new Date().getTime(), // 주문번호,, 필요 없을 듯
+                name : '푸리미엄관리비' , //결제창에서 보여질 이름
+                amount : 100, //실제 결제되는 가격 totalPrice 로 채워주기
+                buyer_name : '구매자이름', // 회원이름
+                buyer_addr : '서울 강남구 도곡동', // 아파트 동/호 넣어주기
+            }, function(rsp) {
+                console.log(rsp);
+                console.log(rsp);
+                // 결제검증
+                $.ajax({
+                    type : "POST",
+                    url : "/app/fee/member/payment/" + rsp.imp_uid 
+                });
+                }
+                )};
+
 		
 	</script>

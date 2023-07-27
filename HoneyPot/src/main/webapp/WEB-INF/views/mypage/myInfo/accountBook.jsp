@@ -534,9 +534,7 @@
 
 		accountDateSelect.innerHTML = optionsHTML;
 
-    // #currentMonth 업데이트
-    var selectedDate = accountDateSelect.value;
-    document.getElementById("currentMonth").textContent = selectedDate.replace("-", "년 ") + "월";
+   
 }
 
 	// 날짜 검색 푸쉬 함수 호출
@@ -546,7 +544,6 @@
 	var accountDateSelect = document.querySelector("#accountDate");
 	accountDateSelect.addEventListener("change", function () {
 		var selectedDate = accountDateSelect.value;
-		document.getElementById("currentMonth").textContent = selectedDate.replace("-", "년 ") + "월";
 	});
 
 

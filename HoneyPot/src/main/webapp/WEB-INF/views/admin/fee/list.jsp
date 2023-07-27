@@ -485,7 +485,7 @@
             success: function(response) {
                 console.log(response);
                 if(response == 'success'){
-                    window.location.href = "/app/fee/admin?p=1";
+                    window.location.href = "/app/fee/admin";
                 }
             },
             error: function(error) {
