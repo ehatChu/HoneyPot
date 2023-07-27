@@ -23,13 +23,12 @@
 					<div id="fee-area">
 						<div class="total-area">
 							<div class="select-area">
-								<select name="" id="date-box">
-									<!-- 현재 달부터 5개의 달 조회-->
-									<option value="2023-02">2023년 02월분</option>
-									<option value="2023-03">2023년 03월분</option>
-									<option value="2023-04">2023년 04월분</option>
-									<option value="2023-05">2023년 05월분</option>
-									<option value="2023-06" selected>2023년 06월분</option>
+								<select id="paymentDate"> 
+									<option value=""></option>
+									<option value=""></option>
+									<option value=""></option>
+									<option value=""></option>
+									<option value=""></option>
 								</select>
 							</div>
 							<div class="price-area">
@@ -106,6 +105,52 @@
 	};
 
 
+	// 이번 달부터 5개의 달 생성
+	function makeCurrentMonths() {
+		var currentDate = new Date();
+		var recentMonths = [];
+
+		for (var i = 0; i < 5; i++) {
+			var year = currentDate.getFullYear();
+			var month = currentDate.getMonth() + 1;
+			if (month < 10) {
+				month = "0" + month;
+			}
+			var formattedDate = year + "-" + month;
+			recentMonths.push(formattedDate);
+
+			currentDate.setMonth(currentDate.getMonth() - 1);
+		}
+
+		return recentMonths;
+	}
+
+	// 날짜 검색란에 옵션 추가 함수
+	function addOptionsToAccountDateSelect() {
+		var accountDateSelect = document.querySelector("#paymentDate");
+		var recentMonths = makeCurrentMonths();
+		var optionsHTML = "";
+
+		for (var i = 0; i < recentMonths.length; i++) {
+			optionsHTML += '<option value="' + recentMonths[i] + '">' + recentMonths[i].replace("-", "년 ") + '월</option>';
+		}
+
+		accountDateSelect.innerHTML = optionsHTML;
+
+    
+}
+
+	// 날짜 검색 푸쉬 함수 호출
+	addOptionsToAccountDateSelect();
+
+	// #accountDate의 change 이벤트에 대한 처리
+	var accountDateSelect = document.querySelector("#paymentDate");
+	accountDateSelect.addEventListener("change", function () {
+		var selectedDate = accountDateSelect.value;
+	});
+
+
+
 		//////// 관리비 전월/전년 대비 차트 함수 
 		function drawChart(chartData) {
 		var ctx = document.getElementById("priceChart").getContext('2d');
@@ -148,7 +193,7 @@
 
 
 
-		//////// 관리비 항목별 라인 함수 
+		////// 관리비 항목별 라인 함수 
 		function L_drawChart(chartData) {
 		var ctx = document.getElementById("category_Chart").getContext('2d');
 		var myChart = new Chart(ctx, {

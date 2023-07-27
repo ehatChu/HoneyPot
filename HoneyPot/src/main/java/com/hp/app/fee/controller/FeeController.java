@@ -1,5 +1,6 @@
 package com.hp.app.fee.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -18,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +33,10 @@ import com.hp.app.fee.vo.AdminFeeVo;
 import com.hp.app.fee.vo.MemberFeeVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +47,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FeeController {
 
 	private final FeeService service;
+	
 	
 	// 회원 관리비 조회
 	// 회원 grade 가 'Y' 만 조회 가능 (세대주)
@@ -81,8 +89,7 @@ public class FeeController {
 		dateVo.put("previousMonth", previousMonth);
 		dateVo.put("oneYearAgo", oneYearAgo);
 		dateVo.put("no", mno);
-		log.info(dateVo.toString());
-		
+
 		int currentFee = service.currentFee(dateVo);
 		int prevFee = service.prevFee(dateVo);
 		int yearAgoFee = service.yearAgoFee(dateVo);
@@ -103,9 +110,6 @@ public class FeeController {
 	    chartData.put("data", data);
 	    chartData.put("backgroundColor", Arrays.asList("#FF7EAD", "#C0FFFB", "#A1FFA5"));
   
-	    log.info(data.toString());
-	    log.info(labels.toString());
-	    
 	    return ResponseEntity.ok(chartData);
 	} 
 	
@@ -127,20 +131,22 @@ public class FeeController {
 		dateVo.put("currentMonth", currentMonth);
 		dateVo.put("previousMonth", previousMonth);
 		dateVo.put("no", mno);
+		log.info(dateVo.toString());
 		
 		// 서비스
 		List<MemberFeeVo> mvoList = service.thisMonth(dateVo);
-		List<MemberFeeVo> pvoList = service.prevMonth(dateVo);
+		log.info(mvoList.toString());
+		//List<MemberFeeVo> pvoList = service.prevMonth(dateVo);
+		//log.info(pvoList.toString());
 		
 		model.addAttribute("mvoList", mvoList);
-		model.addAttribute("pvoList", pvoList);
 		
 		return "/mypage/myInfo/fee/pay";
 	}
 	
 	// 회원 납부
 	
-	
+		
 	// 관리자 조회
 	@GetMapping("fee/admin")
 	public String AdminList(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
