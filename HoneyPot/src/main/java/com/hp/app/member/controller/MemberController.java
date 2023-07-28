@@ -1,16 +1,21 @@
 package com.hp.app.member.controller;
 
-import javax.servlet.http.HttpSession;
+import java.io.File;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.multipart.MultipartFile;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.member.service.MemberService;
 import com.hp.app.member.vo.MemberVo;
+import com.hp.app.util.file.FileUploader;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,18 +25,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MemberController {
 	private final MemberService ms;
-	
+
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/member/mlogin";
 	}
-	
+
 	@GetMapping("mlogin")
 	public String mlogin(HttpSession session) {
 		return "member/mlogin";
 	}
-	
+
 	@PostMapping("mlogin")
 	public String mlogin(MemberVo vo, HttpSession session) {
 		MemberVo loginMember = ms.mlogin(vo);
@@ -44,7 +49,7 @@ public class MemberController {
 		session.removeAttribute("loginAdmin");
 		return "redirect:/main/mmain";
 	}
-	
+
 	@GetMapping("alogin")
 	public String alogin(HttpSession session) {
 		return "member/alogin";
@@ -67,7 +72,7 @@ public class MemberController {
 	public String mjoin() {
 		return "member/mjoin";
 	}
-	
+
 	@PostMapping("mjoin")
 	public String mjoin(MemberVo vo, HttpSession session) {
 		int result = ms.mjoin(vo);
@@ -83,7 +88,7 @@ public class MemberController {
 	public String ajoin() {
 		return "member/ajoin";
 	}
-	
+
 	@PostMapping("ajoin")
 	public String ajoin(AdminVo vo, HttpSession session) {
 		int result = ms.ajoin(vo);
@@ -97,20 +102,37 @@ public class MemberController {
 
 	@GetMapping("medit")
 	public String medit(HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if (loginMember == null) {
+			return "redirect:/main/mmain";
+		}
 		return "member/medit";
 	}
-	
+
 	@PostMapping("medit")
-	public String medit(MemberVo vo, HttpSession session) {
+	public String medit(MemberVo vo, HttpSession session, HttpServletRequest req,
+			@RequestParam("file") MultipartFile file) throws Exception {
 		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		MemberVo loginTemp = loginMember;
 		loginTemp.setId(vo.getId());
 		loginTemp.setPwd(vo.getPwd());
 		loginTemp.setPhone(vo.getPhone());
 		loginTemp.setEmail(vo.getEmail());
+
+		String path = req.getServletContext().getRealPath("/resources/member/profile/");
+		String fileName = "";
+		if (!file.isEmpty()) {
+			fileName = FileUploader.saveFile(path, file);
+			String filePath = path + fileName;
+			File destinationFile = new File(filePath);
+			file.transferTo(destinationFile);
+			loginTemp.setProfile(fileName);
+		}
+
 		int result = ms.medit(loginMember);
 		log.info("result : {}", result);
 		if (result != 1) {
+			(new File(fileName)).delete();
 			session.setAttribute("alertMsg", "회원정보 수정에 실패하였습니다");
 			return "redirect:/member/medit";
 		}
@@ -123,7 +145,7 @@ public class MemberController {
 	public String aedit() {
 		return "member/aedit";
 	}
-	
+
 	@PostMapping("aedit")
 	public String aedit(AdminVo vo, HttpSession session) {
 		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
@@ -161,7 +183,7 @@ public class MemberController {
 		}
 		return "member/changePwd";
 	}
-	
+
 	@PostMapping("changePwd")
 	public String pwdChange(HttpSession session) {
 		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
@@ -169,7 +191,7 @@ public class MemberController {
 		if (loginMember == null && loginAdmin == null) {
 			return "redirect:/main/mmain";
 		}
-		if(loginMember == null) {
+		if (loginMember == null) {
 			return "redirect:/member/aedit";
 		}
 		return "redirect:/member/medit";
@@ -179,13 +201,13 @@ public class MemberController {
 	public String quit() {
 		return "member/quit";
 	}
-	
+
 	@GetMapping("idDubCheck")
 	@ResponseBody
 	public String idDubCheck(String id) {
 		int result = ms.idDubCheck(id);
 		log.info("result : {}", result);
-		if(result != 0) {
+		if (result != 0) {
 			return "error";
 		}
 		return "success";
