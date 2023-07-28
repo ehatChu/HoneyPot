@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<script src="https://kit.fontawesome.com/794ac64f16.js" crossorigin="anonymous"></script>
+		<%@ include file="/WEB-INF/views/common/setup.jsp" %>
 		<style>
 			* {
 				padding: 0px;

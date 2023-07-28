@@ -5,6 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		<%@ include file="/WEB-INF/views/common/setup.jsp" %>
 		<style>
 			#floor {
 				height: 937px;
@@ -75,28 +76,34 @@
 	</head>
 
 	<body>
-		<%@ include file="/WEB-INF/views/common/setup.jsp" %>
-			<div id="floor">
-				<div id="login-area">
-					<div id="loginForm">
-						<div></div>
-						<div class="logo">정말 탈퇴하시겠습니까?</div>
-						<div></div>
-						<div></div>
-						<div class="bbox">
-							<%@ include file="/WEB-INF/views/data/captcha.jsp" %>
-						</div>
-						<div></div>
-						<div></div>
-						<input type="submit" class="box box2" value="회원 탈퇴">
-						<div></div>
+		<div id="floor">
+			<div id="login-area">
+				<form id="loginForm" action="/app/member/quit" method="post" onsubmit="return validateForm()">
+					<div></div>
+					<div class="logo">정말 탈퇴하시겠습니까?</div>
+					<div></div>
+					<div></div>
+					<div class="bbox">
+						<%@ include file="/WEB-INF/views/data/captcha.jsp" %>
 					</div>
-				</div>
+					<div></div>
+					<div></div>
+					<input type="submit" class="box box2" value="회원 탈퇴">
+					<div></div>
+				</form>
 			</div>
+		</div>
 	</body>
 
 	</html>
 
 	<script>
-
+		function validateForm() {
+			const ans = document.querySelector('#answer');
+			if (ans.style.backgroundColor != 'rgb(74, 50, 31)') {
+				alert("자동입력 방지코드를 다시 확인해주세요")
+				return false;
+			}
+			return true;
+		}
 	</script>

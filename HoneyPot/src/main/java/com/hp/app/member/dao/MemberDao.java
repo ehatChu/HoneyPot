@@ -21,4 +21,6 @@ public interface MemberDao {
 
 	int idDubCheck(SqlSessionTemplate sst, String id);
 
+	int quit(SqlSessionTemplate sst, String no);
+
 }

@@ -168,7 +168,6 @@ public class KmsDataController {
 		String result = "";
 		Captcha captcha = (Captcha) req.getSession().getAttribute(Captcha.NAME);
 		String ans = req.getParameter("answer");
-		System.out.println(ans);
 		if (ans != null && !"".equals(ans)) {
 			if (captcha.isCorrect(ans)) {
 				req.getSession().removeAttribute(Captcha.NAME);

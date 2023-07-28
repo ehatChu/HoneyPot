@@ -89,4 +89,9 @@ public class MemberServiceImpl implements MemberService{
 	public int idDubCheck(String id) {
 		return dao.idDubCheck(sst, id);
 	}
+
+	@Override
+	public int quit(String no) {
+		return dao.quit(sst, no);
+	}
 }
