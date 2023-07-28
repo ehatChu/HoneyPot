@@ -149,8 +149,8 @@
 								</select>
                                <div>관리비 총괄표</div>                            
                             </div>
-                            <div>
-                                <div><img src="/app/resources/temp/excel.png" alt="" width="40px" height="40px" class="excel"></div>
+                            <div class="excel">
+                                <img src="/app/resources/temp/excel.png" alt="" width="40" height="40">
                             </div>
                         </div>
                         <div>

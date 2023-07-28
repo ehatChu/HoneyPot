@@ -82,6 +82,11 @@ public class FeeServiceImpl implements FeeService{
 		return dao.prevMonth(sst, dateVo);
 	}
 
+	@Override
+	public List<MemberFeeVo> oneYearFee(Map<String, String> dateVo) {
+		return dao.oneYearFee(sst, dateVo);
+	}
+
 	
 
 }

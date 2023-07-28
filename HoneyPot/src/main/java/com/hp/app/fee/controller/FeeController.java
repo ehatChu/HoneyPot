@@ -83,7 +83,6 @@ public class FeeController {
 	    
 		List<String> labels = new ArrayList<>();
 	    List<Integer> data = new ArrayList<>();
-	    
 	    data.add(currentFee);
 	    data.add(prevFee);
 	    data.add(yearAgoFee);
@@ -99,6 +98,45 @@ public class FeeController {
   
 	    return ResponseEntity.ok(chartData);
 	} 
+	
+	// 회원 관리비 라인 차트 데이터
+		@GetMapping(path = "fee/member/line-chart", produces= "application/json")
+		@ResponseBody
+		public ResponseEntity<Map<String,Object>> getLineChart(MemberFeeVo vo) {
+			
+			String mno = "1";
+			//AccountVo voCurrent = service.getBarChart(mno);
+			// 현재 날짜
+		    LocalDate currentDate = LocalDate.now();
+		    // 1. 현재 달
+		    String currentYear = currentDate.format(DateTimeFormatter.ofPattern("YYYY"));
+		    // 서비스 전달하고 int 값으로 받아와서 data set
+		    Map<String , String> dateVo = new HashMap<String, String>();
+			dateVo.put("currentYear", currentYear);
+			dateVo.put("no", mno);
+
+			List<MemberFeeVo> cfList = service.oneYearFee(dateVo);
+		    
+			List<String> labels = new ArrayList<>();
+			List<String> data = new ArrayList<>();
+			for(MemberFeeVo cvo : cfList) {
+				labels.add(cvo.getPaymentDate());
+				data.add(cvo.getTotalPrice());
+			}
+			
+			
+			Map<String, Object> chartData = new HashMap<>();
+			
+			chartData.put("labels", labels);
+			chartData.put("data", data);
+			chartData.put("backgroundColor", Arrays.asList("#FF7EAD", "#C0FFFB", "#A1FFA5", "#E7FFB5", "#FFC397", "#47C4EC","#FB92E4","#5F9961"));
+			
+			return ResponseEntity.ok(chartData);
+	  
+		} 
+	
+	
+	
 	
 	//회원 납부 조회
 	// 회원 번호랑 월 데이터로 셀렉트(카테고리 이름, 가격)
