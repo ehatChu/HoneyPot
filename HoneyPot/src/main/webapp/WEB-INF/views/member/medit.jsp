@@ -174,7 +174,8 @@
 	<body>
 		<div id="floor">
 			<div id="login-area">
-				<form id="loginForm" action="/app/member/medit" method="post" onsubmit="return validateForm()">
+				<form id="loginForm" action="/app/member/medit" enctype="multipart/form-data" method="post"
+					onsubmit="return validateForm()">
 					<div></div>
 					<div class="logo" onclick="location.href = '/app/main/mmain';">
 						<img id="logo" src="/app/resources/main/honeyPot.png">
@@ -182,9 +183,12 @@
 					<div></div>
 					<div></div>
 					<div>
+						<input type="file" id="fileInput" name="file" style="display: none;">
 						<div class="grayCircle">
-							<div id=cir><i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i></div>
-							<i class="fa-sharp fa-solid fa-user fa-7x" style="color: #ffffff;"></i>
+							<div id="cir" onclick="fileUpload();"><i class="fa-solid fa-gear fa-2xl"
+									style="color: #d9d9d9;"></i></div>
+							<img id="profileThumbnail">
+							<i class="fa-sharp fa-solid fa-user fa-7x person" style="color: #ffffff;"></i>
 						</div>
 					</div>
 					<div></div>
@@ -299,4 +303,40 @@
 
 			location.href = '/app/member/changePwd';
 		}
+
+		function fileUpload() {
+			document.getElementById('fileInput').click();
+		}
+
+		//파일 미리보기
+		const fileTag = document.querySelector("#fileInput");
+		const personThumbnail = document.querySelector(".person");
+		const profileThumbnail = document.querySelector("#profileThumbnail");
+
+		if ('${loginMember.profile != null}') {
+			personThumbnail.style.display = "none";
+			profileThumbnail.style.display = "block";
+			profileThumbnail.src = "/app/resources/member/profile/${loginMember.profile}";
+			profileThumbnail.style.borderRadius = "50%";
+			profileThumbnail.width = "200";
+			profileThumbnail.height = "200";
+		}
+
+		fileTag.addEventListener("change", function () {
+			if (fileTag.files.length > 0) {
+				personThumbnail.style.display = "none";
+				profileThumbnail.style.display = "block";
+				const fr = new FileReader();
+				fr.readAsDataURL(fileTag.files[0]);
+				fr.addEventListener("load", function (event) {
+					profileThumbnail.src = event.target.result;
+					profileThumbnail.style.borderRadius = "50%";
+					profileThumbnail.width = "200";
+					profileThumbnail.height = "200";
+				});
+			} else {
+				profileThumbnail.style.display = "none";
+				personThumbnail.style.display = "block";
+			}
+		});
 	</script>
