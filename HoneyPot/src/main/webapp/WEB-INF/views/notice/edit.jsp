@@ -494,8 +494,6 @@
 
 
     //투표 삽입
-    const textarea = document.querySelector('#summernote');
-    textarea.innerHTML = '안녕하세요';
 
 
 </script>
