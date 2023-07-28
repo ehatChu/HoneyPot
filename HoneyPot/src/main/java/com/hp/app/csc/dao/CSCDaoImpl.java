@@ -176,6 +176,15 @@ public class CSCDaoImpl implements CSCDao{
 		return sst.delete("csc.deleteInquiry", qno);
 	}
 
+	// 문의내역 답변
+	@Override
+	public int anwerInuqiry(SqlSessionTemplate sst, String qno, String answer) {
+		QNAVo vo = new QNAVo();
+		vo.setNo(qno);
+		vo.setAnswer(answer);
+		return sst.update("csc.answerInquiry", vo);
+	}
+
 
 
 

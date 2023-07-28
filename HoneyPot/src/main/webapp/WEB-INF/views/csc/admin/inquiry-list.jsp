@@ -9,6 +9,10 @@
     <!-- css -->
     <link rel="stylesheet" href="/app/resources/css/csc/admin/inquiry-list.css">
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+
+
+
 </head>
 
 <body>
@@ -166,8 +170,6 @@
                         </div>
 
                         <div class="qna-model-btn-area">
-                            <button id="qna-answer-btn" class="qna-model-check-btn">답변하기</button>
-                            <button id="qna-delete-btn" class="qna-model-delete-btn">삭제</button>
 
                         </div>
 
@@ -179,37 +181,48 @@
                 <!-- QNA 답변 달기 모달 -->
                 <div class="qna-answer-background">
                     <div class="qna-answer-window">
-                        <div class="qna-answer-popup">
-                            <div class="qna-model-header-area">
-                                <div class="qna-model-header">
-                                    <div class="qna-model-header-text">상세보기</div>
+                        <div class="qna-answer-popup" id="qna-answer-popup">
+                            <div class="qna-answer-model-header-area">
+                                <div class="qna-answer-model-header">
+                                    <div class="qna-answer-model-header-text">답변하기</div>
                                     <span class="material-symbols-outlined" id="qna-answer-close">
                                         close
                                     </span>
                                 </div>
                             </div>
-                            <div class="qna-model-body-area">
-                                <div class="qna-model-body-first">
-                                    <div class="qna-model-title-area">
-                                        <div class="qna-model-title-text">문의 내역</div>
-                                        <div class="qna-model-member-area">
-                                            <div class="qna-model-member-target">문의자</div>
-                                            <div class="qna-model-member-name" id="qna-model-member-name"></div>
-                                            <div class="qna-model-member-profile">
-                                                <img id="qna-model-member-profile" src="" alt="프로필 사진">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="qna-model-question-title" id="qna-model-question">제목01</div>
-                                    <div class="qna-model-question-area">
-                                        <div class="qna-model-question-icon">Q</div>
-                                        <div class="qna-model-question-text"  id="qna-model-question-content"></div>
-                                    </div>
+                            <div class="qna-answer-model-body-area">
+                                
+                                <textarea id="qna-answer-content" class="qna-answer-model-content"></textarea>
+
+                                <div class="qna-answer-model-btn-area">
+                                    <button id="qna-answer-compelet-btn" class="qna-answer-model-check-btn">답변완료</button>
+
                                 </div>
 
+                            </div>
 
-                                <div class="qna-model-btn-area">
-                                    <button id="qna-answer-compelet-btn" class="qna-model-check-btn">답변완료</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QNA 답변 수정 모달 -->
+                <div class="qna-answer-edit-background">
+                    <div class="qna-answer-edit-window">
+                        <div class="qna-answer-edit-popup" id="qna-answer-edit-popup">
+                            <div class="qna-answer-edit-model-header-area">
+                                <div class="qna-answer-edit-model-header">
+                                    <div class="qna-answer-edit-model-header-text">답변수정</div>
+                                    <span class="material-symbols-outlined" id="qna-answer-edit-close">
+                                        close
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="qna-answer-edit-model-body-area">
+                                
+                                <textarea id="qna-answer-edit-content" class="qna-answer-edit-model-content"></textarea>
+
+                                <div class="qna-answer-edit-model-btn-area">
+                                    <button id="qna-answer-edit-compelet-btn" class="qna-answer-edit-model-check-btn">수정완료</button>
 
                                 </div>
 
@@ -223,6 +236,8 @@
         
 
 </body>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
 
@@ -272,14 +287,31 @@
 
         const qnaCno = document.querySelector("select[name='qnaCno']");
         qnaCno.firstElementChild.selected = true;
-    }
+    }   
+    $( function() {
+	  //draggable() 함수 	jquery-ul.js 스크립트 파일 안에 선언된 함수
+    $("#qna-answer-popup").draggable({
+        scroll : false,
+        containment : 'parent',
+        handle : '.qna-answer-model-header-area'
+    });
+    } );
+
+    $( function() {
+	  //draggable() 함수 	jquery-ul.js 스크립트 파일 안에 선언된 함수
+    $("#qna-answer-edit-popup").draggable({
+        scroll : false,
+        containment : 'parent',
+        handle : '.qna-answer-edit-model-header-area'
+    });
+    } );
 
 
     </script>
 
 </html>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
 
 <script>
     basicSetting(); // 기본 셋팅
@@ -327,6 +359,16 @@
             profile.src = profileStr;
             clickQno = data.no;
 
+            const btnArea = document.querySelector(".qna-model-btn-area");
+            btnArea.innerHTML = "";
+
+            if(data.answerYn == 'N'){
+                btnArea.innerHTML = '<button id="qna-answer-btn" class="qna-model-check-btn" onclick="qnaAnswerShow();">답변하기</button><button id="qna-delete-btn" class="qna-model-delete-btn" onclick="deleteQNA()">삭제</button>';
+
+            }else if(data.answerYn == 'Y'){
+                btnArea.innerHTML = '<button id="qna-answer-btn" class="qna-model-check-btn" onclick="qnaAnwserEditModel();">답변수정</button><button id="qna-delete-btn" class="qna-model-delete-btn" onclick="deleteQNA()">삭제</button>';
+            }
+
             document.querySelector(".qna-background").className = "qna-background show";
 
         },
@@ -351,7 +393,7 @@
 
     // 삭제 버튼 활성화
     const deleteBtn = document.querySelector("#qna-delete-btn");
-    deleteBtn.addEventListener("click", function(){
+    function deleteQNA(){
         Swal.fire({
             title: '정말로 삭제 하시겠습니까?',
             text: '다시 되돌릴 수 없습니다. 신중하세요.',
@@ -372,7 +414,49 @@
                 location.href="/app/admin/csc/inquiry/delete?qno=" + clickQno;
             }
         });
-    });
+    };
+
+    // 답변 하기 활성화
+    const answerBtn = document.querySelector("#qna-answer-compelet-btn");
+    answerBtn.addEventListener("click", function(){
+        const answerValue = document.querySelector("#qna-answer-content").value;
+        $.ajax({
+        url : "/app/admin/csc/inquiry/answer",
+        method : "POST",
+        data : {
+            "qno" : clickQno,
+            "answer" : answerValue
+        },
+        dataType : "json",
+        success : function(data) {
+            qnaAnswerClose();
+            qnaclose();
+            const answer = document.querySelector("#qna-model-answer");
+
+            answer.innerHTML = "";
+
+            const answerStr = data.answer;
+
+            answer.innerHTML = answerStr;
+
+            const btnArea = document.querySelector(".qna-model-btn-area");
+            btnArea.innerHTML = "";
+
+            if(data.answerYn == 'N'){
+                btnArea.innerHTML = '<button id="qna-answer-btn" class="qna-model-check-btn" onclick="qnaAnswerShow();">답변하기</button><button id="qna-delete-btn" class="qna-model-delete-btn" onclick="deleteQNA()">삭제</button>';
+
+            }else if(data.answerYn == 'Y'){
+                btnArea.innerHTML = '<button id="qna-answer-btn" class="qna-model-check-btn" onclick="qnaAnwserEditModel();">답변수정</button><button id="qna-delete-btn" class="qna-model-delete-btn" onclick="deleteQNA()">삭제</button>';
+            }
+
+            qnashow();
+
+        },
+        error : function() {
+                alert("실패");
+            },
+        })
+    })
 
     // 문의 답변 모달 사용
     function qnaAnswerShow () {
@@ -385,13 +469,79 @@
 
     document.querySelector("#qna-answer-close").addEventListener('click', qnaAnswerClose);
 
-    const answerBtn = document.querySelector("#qna-answer-btn");
-    answerBtn.addEventListener("click", function(){
-        qnaAnswerShow();
+    // 문의 답변 수정 모달 사용
+    function qnaAnswerEditShow() {
+        document.querySelector(".qna-answer-edit-background").className = "qna-answer-edit-background asshow";
+    }
 
+    function qnaAnswerEditClose() { 
+        document.querySelector(".qna-answer-edit-background").className = "qna-answer-edit-background";
+    }
 
+    document.querySelector("#qna-answer-edit-close").addEventListener('click', qnaAnswerEditClose);
 
+    function qnaAnwserEditModel(){
+        $.ajax({
+            url : "/app/admin/csc/inquiry/detail",
+            method : "POST",
+            data : {
+                "qno" : clickQno
+            },
+            dataType : "json",
+            success : function(data) {
+            const answerEditBox = document.querySelector("#qna-answer-edit-content");
+
+            answerEditBox.innerHTML = data.answer;
+
+            qnaAnswerEditShow();
+
+        },
+        error : function() {
+                alert("실패");
+            },
+        })
+    }
+
+    // 문의 답변 수정 하기
+    const answerEditBtn = document.querySelector("#qna-answer-edit-compelet-btn");
+    answerEditBtn.addEventListener("click", function(){
+        const answerValue = document.querySelector("#qna-answer-edit-content").value;
+        $.ajax({
+        url : "/app/admin/csc/inquiry/answer",
+        method : "POST",
+        data : {
+            "qno" : clickQno,
+            "answer" : answerValue
+        },
+        dataType : "json",
+        success : function(data) {
+            qnaAnswerEditClose();
+            qnaclose();
+            const answer = document.querySelector("#qna-model-answer");
+
+            answer.innerHTML = "";
+
+            const answerStr = data.answer;
+
+            answer.innerHTML = answerStr;
+
+            const btnArea = document.querySelector(".qna-model-btn-area");
+            btnArea.innerHTML = "";
+
+            if(data.answerYn == 'N'){
+                btnArea.innerHTML = '<button id="qna-answer-btn" class="qna-model-check-btn" onclick="qnaAnswerShow();">답변하기</button><button id="qna-delete-btn" class="qna-model-delete-btn" onclick="deleteQNA()">삭제</button>';
+
+            }else if(data.answerYn == 'Y'){
+                btnArea.innerHTML = '<button id="qna-answer-btn" class="qna-model-check-btn" onclick="qnaAnwserEditModel();">답변수정</button><button id="qna-delete-btn" class="qna-model-delete-btn" onclick="deleteQNA()">삭제</button>';
+            }
+
+            qnashow();
+
+        },
+        error : function() {
+                alert("실패");
+            },
+        })
     })
-    
 
 </script>

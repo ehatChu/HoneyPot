@@ -177,5 +177,19 @@ public class CSCServiceImpl implements CSCService {
 		return dao.deleteInquiry(sst, qno);
 	}
 
+	// 문의내역 답변
+	@Override
+	public QNAVo anwerInuqiry(String qno, String answer) throws Exception {
+		
+		int result = dao.anwerInuqiry(sst, qno, answer);
+		if(result != 1) {
+			throw new Exception();
+		}
+		
+		QNAVo vo = dao.getQNAByNo(sst, qno);
+		
+		return vo;
+	}
+
 	
 } // class
