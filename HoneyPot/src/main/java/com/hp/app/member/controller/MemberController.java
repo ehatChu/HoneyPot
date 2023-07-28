@@ -37,6 +37,11 @@ public class MemberController {
 		return "member/mlogin";
 	}
 
+	@GetMapping("alogin")
+	public String alogin(HttpSession session) {
+		return "member/alogin";
+	}
+
 	@PostMapping("mlogin")
 	public String mlogin(MemberVo vo, HttpSession session) {
 		MemberVo loginMember = ms.mlogin(vo);
@@ -48,11 +53,6 @@ public class MemberController {
 		}
 		session.removeAttribute("loginAdmin");
 		return "redirect:/main/mmain";
-	}
-
-	@GetMapping("alogin")
-	public String alogin(HttpSession session) {
-		return "member/alogin";
 	}
 
 	@PostMapping("alogin")
@@ -72,6 +72,11 @@ public class MemberController {
 	public String mjoin() {
 		return "member/mjoin";
 	}
+	
+	@GetMapping("ajoin")
+	public String ajoin() {
+		return "member/ajoin";
+	}
 
 	@PostMapping("mjoin")
 	public String mjoin(MemberVo vo, HttpSession session) {
@@ -82,11 +87,6 @@ public class MemberController {
 			return "redirect:/member/mjoin";
 		}
 		return "redirect:/member/mlogin";
-	}
-
-	@GetMapping("ajoin")
-	public String ajoin() {
-		return "member/ajoin";
 	}
 
 	@PostMapping("ajoin")
@@ -107,6 +107,15 @@ public class MemberController {
 			return "redirect:/main/mmain";
 		}
 		return "member/medit";
+	}
+
+	@GetMapping("aedit")
+	public String aedit(HttpSession session) {
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		if (loginAdmin == null) {
+			return "redirect:/main/mmain";
+		}
+		return "member/aedit";
 	}
 
 	@PostMapping("medit")
@@ -139,11 +148,6 @@ public class MemberController {
 		session.setAttribute("loginMember", loginTemp);
 		session.setAttribute("alertMsg", "회원정보 수정에 성공하였습니다!");
 		return "redirect:/main/mmain";
-	}
-
-	@GetMapping("aedit")
-	public String aedit() {
-		return "member/aedit";
 	}
 
 	@PostMapping("aedit")
@@ -185,7 +189,7 @@ public class MemberController {
 	}
 
 	@PostMapping("changePwd")
-	public String pwdChange(HttpSession session) {
+	public String changePwd2(HttpSession session) {
 		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
 		if (loginMember == null && loginAdmin == null) {
@@ -198,13 +202,30 @@ public class MemberController {
 	}
 
 	@GetMapping("quit")
-	public String quit() {
+	public String quit(HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if (loginMember == null) {
+			return "redirect:/main/mmain";
+		}
 		return "member/quit";
+	}
+
+	@PostMapping("quit")
+	public String quit2(HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		int result = ms.quit(loginMember.getNo());
+		log.info("result : {}", result);
+		if (result != 1) {
+			session.setAttribute("alertMsg", "계정 탈퇴가 실패하였습니다");
+			return "redirect:/member/medit";
+		}
+		session.setAttribute("alertMsg", "계정 탈퇴가 완료되었습니다");
+		return "redirect:/member/mlogin";
 	}
 
 	@GetMapping("idDubCheck")
 	@ResponseBody
-	public String idDubCheck(String id) {
+	public String idDubCheck(String id, HttpSession session) {
 		int result = ms.idDubCheck(id);
 		log.info("result : {}", result);
 		if (result != 0) {

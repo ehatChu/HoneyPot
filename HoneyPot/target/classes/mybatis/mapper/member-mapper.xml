@@ -7,6 +7,7 @@
 		SELECT * FROM MEMBER
 		WHERE ID =
 		#{id} AND PWD = #{pwd}
+		AND STATUS = 'Y'
 	</select>
 
 	<select id="alogin" resultType="com.hp.app.admin.vo.AdminVo">
@@ -64,4 +65,8 @@
 		WHERE ID = #{id}
 	</select>
 
+	<update id="quit">
+		UPDATE MEMBER SET STATUS = 'N' 
+		WHERE NO = #{no}
+	</update>
 </mapper>

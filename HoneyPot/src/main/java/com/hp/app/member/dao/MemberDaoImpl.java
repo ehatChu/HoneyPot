@@ -44,5 +44,10 @@ public class MemberDaoImpl implements MemberDao {
 		return sst.selectOne("member.idDubCheck", id);
 	}
 
+	@Override
+	public int quit(SqlSessionTemplate sst, String no) {
+		return sst.update("member.quit", no);
+	}
+
 	
 }

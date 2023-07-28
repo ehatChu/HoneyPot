@@ -76,7 +76,7 @@
 					</div>
 					<div></div>
 					<div id="tit">이전 비밀번호</div>
-					<input style="padding-left: 30px; background-color: #4A321F; color: white;" type="password" class="box originPwd" value="${loginMember.pwd}"
+					<input style="padding-left: 30px; background-color: #4A321F; color: white;" type="password" class="box originPwd" value=""
 						readonly>
 					<div></div>
 					<div id="tit">새 비밀번호</div>
@@ -101,8 +101,14 @@
 	</html>
 
 	<script>
+		const originPwd = document.querySelector('.originPwd');
+		if('${not empty loginMember}' =='true') {
+			originPwd.value = '${loginMember.pwd}';
+		} else {
+			originPwd.value = '${loginAdmin.pwd}';
+		}
+
 		function validateForm() {
-			const originPwd = document.querySelector('.originPwd');
 			const newPwd1 = document.querySelector('.newPwd1');
 			const newPwd2 = document.querySelector('.newPwd2');
 			const ans = document.querySelector('#answer');
@@ -122,7 +128,7 @@
 			}
 
 			if(ans.style.backgroundColor != 'rgb(74, 50, 31)') {
-				alert("자동입력 방지코드를 입력해주세요")
+				alert("자동입력 방지코드를 다시 확인해주세요")
 				return false;
 			}
 

@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<script src="https://kit.fontawesome.com/794ac64f16.js" crossorigin="anonymous"></script>
+		<%@ include file="/WEB-INF/views/common/setup.jsp" %>
 		<style>
 			* {
 				padding: 0px;
@@ -308,12 +308,11 @@
 			document.getElementById('fileInput').click();
 		}
 
-		//파일 미리보기
 		const fileTag = document.querySelector("#fileInput");
 		const personThumbnail = document.querySelector(".person");
 		const profileThumbnail = document.querySelector("#profileThumbnail");
 
-		if ('${loginMember.profile != null}') {
+		if ('${loginMember.profile != null}' == 'true') {
 			personThumbnail.style.display = "none";
 			profileThumbnail.style.display = "block";
 			profileThumbnail.src = "/app/resources/member/profile/${loginMember.profile}";
