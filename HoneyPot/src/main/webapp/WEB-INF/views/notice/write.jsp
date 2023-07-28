@@ -286,7 +286,7 @@
             <br>
 
             <div class="form-area">
-                <form action="/app/notice/write" method="post">
+                <form action="/app/notice/write" method="post" enctype="multipart/form-data">
 
                     <div class="title-area">
                         <span id="article">제목</span>

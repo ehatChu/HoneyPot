@@ -227,7 +227,7 @@
 					<c:forEach begin="1" end="2">
 						<div id="product">
 							<div id="product-img">
-								<img src="/app/resources/brick.jpg" alt="상품사진">
+								<img src="/app/resources/board/brick.jpg" alt="상품사진">
 							</div>
 							<div id="title">
 								[판매] 닌텐도 스위치
