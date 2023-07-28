@@ -57,6 +57,19 @@
 		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') = #{oneYearAgo}
 	</select>
 	
+	<!-- 회원 카테고리별 올 해 금액 조회 -->
+	<select id="categoryLineChart" resultType="com.hp.app.fee.vo.MemberFeeVo">
+		SELECT 
+			SUM(MF.PRICE) AS TOTAL_PRICE
+			,TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') AS PAYMENT_DATE
+		FROM MEMBER_FEE MF
+			JOIN MEMBER_FEE_CATEGORY MFC
+			ON(MF.FEE_CNO = MFC.NO)
+		WHERE MFC.NAME = '일반관리비'
+		AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY') = #{currentYear}
+		GROUP BY TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM')
+	</select>
+	
 	<!-- 회원 관리비 납부 카테고리 조회(당월) -->
 	<select id="thisMonth" resultType="com.hp.app.fee.vo.MemberFeeVo">
 		SELECT 

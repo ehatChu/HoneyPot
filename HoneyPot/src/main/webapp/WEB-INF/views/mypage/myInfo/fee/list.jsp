@@ -7,6 +7,7 @@
 		<title>Insert title here</title>
 		<!-- chart.js CDN -->
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 		<!-- CSS -->
 		<link rel="stylesheet" href="/app/resources/css/member/mypage/fee/list.css">
 	</head>
@@ -63,7 +64,7 @@
 						</div>
 						<div class="line-chart-area">
 							<div>당해 <span class="category_area">일반관리비</span> 추이</div>
-							<canvas id="category_Chart"></canvas>
+							<canvas id="category_Chart" width="100" height="100"></canvas>
 						</div>
 					</div>
 				</div>
@@ -111,7 +112,6 @@
 	function makeCurrentMonths() {
 		var currentDate = new Date();
 		var recentMonths = [];
-
 		for (var i = 0; i < 5; i++) {
 			var year = currentDate.getFullYear();
 			var month = currentDate.getMonth() + 1;
@@ -158,6 +158,7 @@
 		var ctx = document.getElementById("priceChart").getContext('2d');
 		var myChart = new Chart(ctx, {
 			type: 'bar',
+			plugins:[ChartDataLabels],
 			data: {
 			labels: chartData.labels,
 			datasets: [{
@@ -166,12 +167,34 @@
 			}]
 			},
 			options: {
-			legend: {
-				display: false
-			}}
-		});
-		}
+			plugins:{
+				legend: { // 범례 사용 안 함
+				display: false,
+				},
+				tooltip: { // 기존 툴팁 사용 안 함
+				enabled: false
+				},
+				animation: { // 차트 애니메이션 사용 안 함 (옵션)
+				duration: 0,
+				},
+				datalabels: { // datalables 플러그인 세팅
+				formatter: function (value, context) {
+					var idx = context.dataIndex; // 각 데이터 인덱스
 
+					// 출력 텍스트
+					return value.toLocaleString() + '원';
+					},
+					font: { // font 설정
+					weight: 'bold',
+					size: '22px',
+				},
+				color: '#222', // font color
+				}
+			}
+		}
+	}
+)};
+		
 		// DB 에서 정보 가져오기
 		function loadChartData() {
 		$.ajax({
@@ -200,6 +223,7 @@
 		var ctx = document.getElementById("category_Chart").getContext('2d');
 		var myChart = new Chart(ctx, {
 			type: 'line',
+			plugins:[ChartDataLabels],
 			data: {
 			labels: chartData.labels,
 			datasets: [{
@@ -208,9 +232,32 @@
 			}]
 			},
 			options: {
-			legend: {
-				display: false
-			}}
+				plugins:{
+				legend: { // 범례 사용 안 함
+				display: false,
+				},
+				tooltip: { // 기존 툴팁 사용 안 함
+				enabled: false
+				},
+				animation: { // 차트 애니메이션 사용 안 함 (옵션)
+				duration: 0,
+				},
+				datalabels: { // datalables 플러그인 세팅
+				formatter: function (value, context) {
+					var idx = context.dataIndex; // 각 데이터 인덱스
+
+					// 출력 텍스트
+					return value.toLocaleString() + '원';
+					},
+					font: { // font 설정
+					weight: 'bold',
+					size: '13px',
+				},
+				color: '#222', // font color
+				align:'right'
+				}
+			}
+			}
 		});
 		}
 
