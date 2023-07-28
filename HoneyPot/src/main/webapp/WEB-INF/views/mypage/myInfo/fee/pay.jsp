@@ -31,68 +31,33 @@
 				<div id="wrap">
 					<div id="total-area">
                         <div class="monthBox">
-                            <select name="" id="date-box">
-                                <option value="2023-02">2023년 02월분</option>
-                                <option value="2023-03">2023년 03월분</option>
-                                <option value="2023-04">2023년 04월분</option>
-                                <option value="2023-05">2023년 05월분</option>
-                                <option value="2023-06" selected>2023년 06월분</option>
-                            </select>
+                           <span id="currentDate"></span>
                         </div>
                         <div class="payBox">
-                            <div>납부 금액 : <span id="totalPrice">125,350</span> 원</div>
+                            <div>납부 금액 : <span id="totalPrice">${totalPrice}</span> 원</div>
                             <div><button id="payBtn" onclick="iamport()">납부하기</button></div>
-                            <div class="modal hidden">
-                                <div class="bg"></div>
-                                    <div class="modalBox">
-                                        <div class="upper-bar">
-                                            <span>카카오페이 아이콘</span>
-                                            <button class="closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
-                                        </div>
-                                        <form action="/app/fee/member/pay" method="post">
-                                        <div class="content-modal">
-                                                <div class="first-area">
-                                                  <span>QR결제</span>
-                                                  <span>카톡결제</span>
-                                                </div>
-                                                <div class="text-area">
-                                                    <div>
-                                                        휴대폰으로 스캔하면
-                                                        <br>
-                                                        결제 화면으로 이동합니다.
-                                                        <br>
-                                                        <span>스마트폰 카메라 및 모든 QR스캐너로 가능</span>
-                                                    </div>
-                                                </div>
-                                                <div class="qr-area">
-                                                    <img src="/app/resources/temp/qr.png" alt="임시사진">
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                            </div>
                         </div>
                     </div>
 					<div id="detail-area">
                         <div><span>상세 내역</span></div>
+                        <input type="hidden" value="${mvoList[0].memberName}" id="memberName">
+                        <input type="hidden" value="${mvoList[0].dong}" id="dong">
+                        <input type="hidden" value="${mvoList[0].ho}" id="ho">
                         <table>
                             <thead>
                                 <tr>
                                     <td>항목</td>
                                     <td>내용</td>
-                                    <td>전월</td>
-                                    <td>당월</td>
+                                    <td>금액</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${mvoList}" var="list">
-                                        <tr>
-                                            <td>${list.categoryName}</td>
-                                            <td>${list.content}</td>
-                                            <td id="payDate" hidden>${list.paymentDate}</td>
-                                            <td id="prevPrice">${list.price}</td>
-                                            <td id="currentPrice">${list.price}</td>
-                                        </tr>
+                                <c:forEach items="${currentMonthData}" var="currentData">
+                                    <tr>
+                                        <td>${currentData.categoryName}</td>
+                                        <td>${currentData.content}</td>
+                                        <td>${currentData.price}</td>
+                                    </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
@@ -111,51 +76,78 @@
 		firstNav(['내정보', '나의활동', '신청내역', '관리비'],'관리비');
 		secondNav(['조회', '납부'],'납부');
     	headerName('마이페이지');
+        firstNavLink(['','','','/app/fee/member']);
+        secondNavLink(['/app/fee/member','/app/fee/member/pay']);
 
-        // 모달 열기
-        const openModal = () => {
-        document.querySelector(".modal").classList.remove("hidden");
-        };
+        // 이번 달 넣어주기
+        document.addEventListener("DOMContentLoaded", function () {
+        const currentDateElement = document.getElementById("currentDate");
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1; 
+        const formattedDate = year + "년 " + month + "월분";
+        currentDateElement.textContent = formattedDate;
+    });
 
-        // 모달 닫기
-        const closeModal = () => {
-        document.querySelector(".modal").classList.add("hidden");
-        };
+        // 숫자를 3자리마다 쉼표가 있는 문자열로 변환하는 함수
+		function addCommasToNumberInElement(element) {
+			const text = element.textContent;
+			const number = parseFloat(text.replace(/,/g, '')); // 쉼표를 제거한 후 숫자로 변환
+			if (!isNaN(number)) {
+			const formattedNumber = number.toLocaleString();
+			element.textContent = formattedNumber; // 쉼표가 있는 형식으로 변경하여 다시 업데이트
+			}
+		}
 
-        const openBtns = document.querySelectorAll(".openBtn");
-        openBtns.forEach((btn) => {
-        btn.addEventListener("click", openModal);
-        });
+		// 페이지 로드 후 해당 함수를 호출하여 각 요소의 텍스트를 적절하게 포맷팅
+		window.onload = function () {
+			const price = document.querySelector('#totalPrice');
+			addCommasToNumberInElement(price);
+		};
 
-        // 모달 닫기 버튼에 이벤트 추가
-        document.querySelector(".closeBtn").addEventListener("click", closeModal);
-
-        // 모달 배경 클릭 시 모달 닫기
-        document.querySelector(".bg").addEventListener("click", closeModal);
-
-
+		
+        // 결제 함수
         function iamport(){
+
+            const price = document.querySelector('#totalPrice');
+            const priceText = price.innerText
+            const number = parseFloat(priceText.replace(/,/g, '')); 
+            console.log(number);
+            const nameInput = document.querySelector("#memberName");
+            const memberName = nameInput.value;
+            console.log(memberName);
+            const dongInput = document.querySelector("#dong");
+            const dong = dongInput.value;
+            const hoInput = document.querySelector("#ho");
+            const ho = hoInput.value;
 
             //가맹점 식별코드
             IMP.init('imp81480717');
             IMP.request_pay({
                 pg : 'kakaopay',
                 pay_method : 'card',
-                merchant_uid : 'merchant_' + new Date().getTime(), // 주문번호,, 필요 없을 듯
+                merchant_uid : 'merchant_' + new Date().getTime(), // 주문번호
                 name : '푸리미엄관리비' , //결제창에서 보여질 이름
-                amount : 100, //실제 결제되는 가격 totalPrice 로 채워주기
-                buyer_name : '구매자이름', // 회원이름
-                buyer_addr : '서울 강남구 도곡동', // 아파트 동/호 넣어주기
+                amount : number, //실제 결제되는 가격 totalPrice 로 채워주기
+                buyer_name : memberName, // 회원이름
+                buyer_addr : dong + '동 ' + ho + '호', // 아파트 동/호 넣어주기
             }, function(rsp) {
                 console.log(rsp);
-                console.log(rsp);
-                // 결제검증
+                // 결제검증 status paid 되면 결제하기 버튼 결제완료로 바뀌고, disabled
                 $.ajax({
                     type : "POST",
-                    url : "/app/fee/member/payment/" + rsp.imp_uid 
+                    url : "/app/fee/member/payment/" + rsp.imp_uid,
                 });
+                const status = rsp.status;
+                const payBtnBox = document.querySelector("#payBtn");
+                
+                if(status == 'paid'){
+                    payBtnBox.innerText = '납부완료';
+                    payBtnBox.style.cursor = 'default';
+                    payBtnBox.disabled = true;
                 }
-                )};
+            }
+        )};
 
 		
 	</script>

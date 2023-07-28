@@ -44,5 +44,7 @@ public interface FeeService {
 
 	// 회원 관리비 전월 카테고리 조회
 	List<MemberFeeVo> prevMonth(Map<String, String> dateVo);
+
+	
 	
 }

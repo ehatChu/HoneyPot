@@ -76,4 +76,6 @@ public class FeeDaoImpl implements FeeDao{
 		return sst.selectList("fee.prevMonth", dateVo);
 	}
 
+
+
 }

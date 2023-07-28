@@ -46,4 +46,6 @@ public interface FeeDao {
 
 	// 회원 납부 관리비 전월 조회
 	List<MemberFeeVo> prevMonth(SqlSessionTemplate sst, Map<String, String> dateVo);
+
+	
 }

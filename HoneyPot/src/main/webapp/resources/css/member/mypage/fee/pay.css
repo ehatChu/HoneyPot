@@ -22,16 +22,15 @@
     border-radius: 20px;
 }
 
-.monthBox > select {
+#currentDate {
     width: 220px;
-    height: 50px;
     background-color: transparent;
     border: none;
     font-size: 22px;
     color: #666060;
     font-family: 'Noto Sans KR';
     font-weight: 550;
-    cursor: pointer;
+    text-align: center;
 }
 
 .payBox {

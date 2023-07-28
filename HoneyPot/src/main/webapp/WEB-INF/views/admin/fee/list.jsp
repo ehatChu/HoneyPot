@@ -198,17 +198,17 @@
                                     <button class="EcloseBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
                                 </div>
                                 <div class="content-modal">
-                                    <input type="text" id="no" name="no" hidden>
+                                    <input type="text" id="E_no" name="no" hidden>
                                     <div class="first-area">
                                         <div>
                                             <span>발생일자</span>
                                             <br>
-                                            <input type="date" name="paymentDate" id="paymentDate">
+                                            <input type="date" name="paymentDate" id="E_paymentDate">
                                         </div>
                                         <div>
                                             <span>카테고리</span>
                                             <br>
-                                            <select class="E_afee_category" name="feeCno" id="feeCno">
+                                            <select class="E_afee_category" name="feeCno" id="E_feeCno">
                                                 <option value="1">시설 유지보수</option>
                                                 <option value="2">소독 및 청소</option>
                                                 <option value="3">경비원 비용</option>
@@ -223,7 +223,7 @@
                                     <div class="second-area">
                                         <span>금액</span>
                                         <br>
-                                        <input type="text" dir="rtl" maxlength="10" name="price" id="price"> 원
+                                        <input type="text" dir="rtl" maxlength="10" name="price" id="E_price"> 원
                                     </div>
                                     <div class="third-area">
                                         <span>비고 작성란</span>
@@ -394,6 +394,22 @@
         inputVisibility();
     });
 
+    //검색 후 검색타입과 검색value 유지되도록
+	const searchTypeTagArr = document.querySelectorAll("#searchType > option");
+	const contentValue = document.querySelector("input[name=searchValue]");
+	const dateSelect = document.querySelectorAll("#paymentDate > option");
+  	const searchValue = '${paramMap.searchValue}';
+	
+	contentValue.value = '${paramMap.searchValue}';
+
+	const x = "${paramMap.searchType}"; 
+
+	if(x === 'content'){
+		searchTypeTagArr[0].selected = true;
+	}else if(x === 'paymentDate'){
+		searchTypeTagArr[1].selected = true;
+	}
+
     // form 제출할 때 값 보내주기 
     $("#adminFeeForm").submit(function (e) {
         e.preventDefault();
@@ -407,8 +423,6 @@
         }
     });
 });
-
-    
 
         ////// 등록 모달
 
@@ -444,12 +458,12 @@
         // 가격 원 붙은 거 떼기
         var numericPrice = parseInt(price.replace(/\D/g, ""));
 
-        $("#paymentDate").val(paymentDate);
+        $("#E_paymentDate").val(paymentDate);
         $("#E_detailContent").text(content);
-        $("#price").val(numericPrice || 0);
-        $("#no").val(no);
+        $("#E_price").val(numericPrice || 0);
+        $("#E_no").val(no);
         // 카테고리 선택된 값 가져오기
-        $("#feeCno option").filter(function() {
+        $("#E_feeCno option").filter(function() {
             return $(this).text() === categoryName;
         }).prop('selected', true);
 
@@ -462,12 +476,12 @@
 
         $("#E_submitBtn").on("click", function() {
 
-        var updatedCategoryName = $("#feeCno").val();
-        var updatedPaymentDate = $("#paymentDate").val();
+        var updatedCategoryName = $("#E_feeCno").val();
+        var updatedPaymentDate = $("#E_paymentDate").val();
         var updatedContent = $("#E_detailContent").val();
         console.log(updatedContent);
-        var updatedPrice = $("#price").val();
-        var no = $("#no").val();
+        var updatedPrice = $("#E_price").val();
+        var no = $("#E_no").val();
 
         var data = new FormData();
         data.append("feeCno", updatedCategoryName);
