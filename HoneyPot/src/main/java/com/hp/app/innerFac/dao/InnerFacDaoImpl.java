@@ -1,6 +1,7 @@
 package com.hp.app.innerFac.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -38,6 +39,12 @@ public class InnerFacDaoImpl implements InnerFacDao {
 	@Override
 	public List<String> getReservationTimeInfo(SqlSessionTemplate sst, InnerFacRsVo rsVo) {
 		return sst.selectList("innerFac.getReservationTimeInfo",rsVo);
+	}
+
+	//선택한 시간에 해당 시설에 예약한 사람의 수를 반환
+	@Override
+	public int getReservedPeopleCntByTime(SqlSessionTemplate sst, Map<String, String> map) {
+		return sst.selectOne("innerFac.getReservedPeopleCntBytime",map);
 	}
 
 }
