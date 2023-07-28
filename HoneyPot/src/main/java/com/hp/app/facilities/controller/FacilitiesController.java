@@ -2,7 +2,9 @@ package com.hp.app.facilities.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -142,6 +145,31 @@ public class FacilitiesController {
 		//이러면 list가 json형태로 잘 전달되서 log로 찍히겠지? 
 		return jsonStr;
 	}
+	
+	//ajax로 get요청을 받았을 때 선택한 시간에 따라 인원수를 화면측으로 전달
+	//json형식이여햐함.
+	@GetMapping("innerFac/reserve/reservedPeopleCnt")
+	@ResponseBody
+	public String getNumberOfPeople(@RequestParam Map<String,String> paramMap) throws Exception {		
+		//예린함수를 통해 date와 time을 넘기면 String date를 반환하는 함수 호출
+		String date = y.getCombinedDate(paramMap.get("date"), paramMap.get("time"));
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("reserveTime", date);
+		map.put("amenityNo", paramMap.get("amenityNo"));
+		//map을 전달하면서 서비스를 호출 int를 반환
+		int peopleCnt = service.getReservedPeopleCntByTime(map);
+		
+		String cnt = peopleCnt+"";
+		
+		ObjectMapper om = new ObjectMapper();
+		
+		Map<String,String> resultMap = new HashMap<String, String>();
+		resultMap.put("cnt", cnt);
+		
+		String jsonStr = om.writeValueAsString(resultMap);
+		return jsonStr;
+	}
+	
 	
 	@GetMapping("facilities/outerFacilities/map")
 	public String showMap() {

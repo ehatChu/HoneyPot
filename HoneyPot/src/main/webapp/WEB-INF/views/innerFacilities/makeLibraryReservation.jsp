@@ -100,7 +100,7 @@
 		background-color: #FAD355;
 	}
 
-	input[type="radio"]:checked + label {
+	input[type="radio"]:checked + label{
       background-color: red; /* 여기에 바꾸고자 하는 색상을 입력합니다. */
     }
 </style>
@@ -160,7 +160,7 @@
 								<!-- small-box이용하면 label을 박스형태로 바꿀 수 있음. -->
 							
 	
-								<label for="${i}" class="small-box orange-color time${i}"></label><input type="radio" name="startTime" value="${i}" id="${i}">
+								<input type="radio" name="startTime" value="${i}" id="${i}"><label for="${i}" class="small-box orange-color"></label>
 										
 							</c:forEach>
 							<script>
@@ -270,29 +270,31 @@
 	});
 
 
-	//클릭하면 checked로 바꿔주고 당연한거아님? 
-	//인풋태그 가져와서 값이 바뀌면 클릭하면 색깔이 바뀌고 예약인원이 보여야한다.
-	//함수를 만들자 is체크드인지 확인하고 색깔을 바꿔주는 함수 
-	//체크드인지 아닌지.. 어떻게 가져오더라?
-
-	//checked상태가 아니면 color-red클래스를 지워주고싶어 checked상태인것만 color-red클래스를 가지도록 만들려고해
-	// const timeSelector = document.querySelectorAll("input[type=radio]");
-	// for(let i=0;i<timeSelector.length;i++){
-	// 	timeSelector[i].addEventListener("change",function(){
-	// 		timeChange(i);
-	// 	});
-	// }
-	// function timeChange(i){
-	// 	if(timeSelector[i].checked){
-	// 		label[i].classList.add("color-red");
-	// 	}else {
-	// 		label[i].classList.remove("color-red");
-	// 	}
-	// }
-	//라디오박스에서 체크한것만 색상이 바뀌게 하고 싶어.
-
-
-
+	//클릭할 때마다 에드이벤트리스너 달기
+	for(let lb of label){
+		lb.addEventListener("click",function(){
+			//ajax부르기 (data값으로 lb.getAttribute("for")을 전달)
+			//date와 time값 가지고오기
+			let time = lb.getAttribute("for");
+			let date = document.querySelector("#date-choice").value
+			$.ajax({
+				url : "/app/innerFac/reserve/reservedPeopleCnt" ,
+				type : "get",
+				data : {
+					date : date,
+					time : time,
+					amenityNo : 1, 
+				},
+				dataType : "json",
+				success : function(result){
+					console.log(result);
+				},
+				error : function(){
+					alert("통신실패");
+				},
+			});
+		});
+	}
 
 	
 </script>

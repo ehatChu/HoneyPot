@@ -1,6 +1,7 @@
 package com.hp.app.innerFac.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,12 @@ public class InnerFacServiceImpl implements InnerFacService {
 	@Override
 	public List<String> getReservationTimeInfo(InnerFacRsVo rsVo) {
 		return dao.getReservationTimeInfo(sst,rsVo);
+	}
+
+	//해당 시간에 해당 편의시설을 예약한 사람 수를 반환
+	@Override
+	public int getReservedPeopleCntByTime(Map<String, String> map) {
+		return dao.getReservedPeopleCntByTime(sst,map);
 	}
 	
 

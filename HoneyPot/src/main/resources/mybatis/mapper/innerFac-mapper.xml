@@ -37,4 +37,10 @@
 		WHERE MEMBER_NO=#{memberNo} 
 		AND RESERVE_TIME LIKE '${reserveTime}%'
 	</select>
+	
+	<!-- 해당시설에 해당시간에 예약한 사람 수 가져오기 -->
+	<select id="getReservedPeopleCntBytime" resultType="int">
+		SELECT COUNT(*) FROM AMENITY_RESERVATION
+		WHERE AMENITY_NO =#{amenityNo} AND RESERVE_TIME =#{reserveTime}
+	</select>
 </mapper>

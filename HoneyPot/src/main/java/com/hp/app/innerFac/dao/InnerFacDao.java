@@ -1,6 +1,7 @@
 package com.hp.app.innerFac.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,5 @@ public interface InnerFacDao {
 	InnerFacVo getOpenCloseTime(SqlSessionTemplate sst,int no);
 	int makeReservation(SqlSessionTemplate sst, InnerFacRsVo rsVo);
 	List<String> getReservationTimeInfo(SqlSessionTemplate sst, InnerFacRsVo rsVo);
+	int getReservedPeopleCntByTime(SqlSessionTemplate sst, Map<String, String> map);
 }
