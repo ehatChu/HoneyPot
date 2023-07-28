@@ -1,5 +1,6 @@
 package com.hp.app.fee.vo;
 
+
 import lombok.Data;
 
 @Data
@@ -13,5 +14,8 @@ public class MemberFeeVo {
 	private String paymentDate;
 	private String totalPrice;
 	private String categoryName;
+	private String memberName;
+	private String dong;
+	private String ho;
 
 }

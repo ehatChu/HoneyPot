@@ -1,17 +1,11 @@
 package com.hp.app.fee.controller;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -20,23 +14,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hp.app.account.vo.AccountVo;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.hp.app.fee.service.FeeService;
 import com.hp.app.fee.vo.AdminFeeVo;
 import com.hp.app.fee.vo.MemberFeeVo;
-import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
-import com.siot.IamportRestClient.IamportClient;
-import com.siot.IamportRestClient.exception.IamportResponseException;
-import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +35,6 @@ import lombok.extern.slf4j.Slf4j;
 public class FeeController {
 
 	private final FeeService service;
-	
 	
 	// 회원 관리비 조회
 	// 회원 grade 가 'Y' 만 조회 가능 (세대주)
@@ -116,7 +103,7 @@ public class FeeController {
 	//회원 납부 조회
 	// 회원 번호랑 월 데이터로 셀렉트(카테고리 이름, 가격)
 	@GetMapping("fee/member/pay")
-	public String payFee(Model model) {
+	public String payFee(Model model) throws Exception {
 		String mno = "1";
 		// 현재 날짜
 	    LocalDate currentDate = LocalDate.now();
@@ -131,16 +118,31 @@ public class FeeController {
 		dateVo.put("currentMonth", currentMonth);
 		dateVo.put("previousMonth", previousMonth);
 		dateVo.put("no", mno);
-		log.info(dateVo.toString());
 		
 		// 서비스
 		List<MemberFeeVo> mvoList = service.thisMonth(dateVo);
 		log.info(mvoList.toString());
-		//List<MemberFeeVo> pvoList = service.prevMonth(dateVo);
-		//log.info(pvoList.toString());
 		
-		model.addAttribute("mvoList", mvoList);
+		// 총 금액
+		int totalPrice = service.currentFee(dateVo);
 		
+		List<MemberFeeVo> currentMonthData = new ArrayList<>();
+		List<MemberFeeVo> previousMonthData = new ArrayList<>();
+
+		// 당월 , 전월에 해당하는 데이터를 분리하여 리스트에 추가
+		for (MemberFeeVo memberFeeVo : mvoList) {
+		    if (memberFeeVo.getPaymentDate().equals(currentMonth)) {
+		        currentMonthData.add(memberFeeVo);
+		    } else if (memberFeeVo.getPaymentDate().equals(previousMonth)) {
+		        previousMonthData.add(memberFeeVo);
+		    }
+		}
+		
+	    model.addAttribute("currentMonthData", currentMonthData);
+	    model.addAttribute("previousMonthData", previousMonthData);
+	    model.addAttribute("mvoList", mvoList);
+	    model.addAttribute("totalPrice", totalPrice);
+	    
 		return "/mypage/myInfo/fee/pay";
 	}
 	

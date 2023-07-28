@@ -195,16 +195,16 @@
 						</div>
 						<div class="content-modal">
 							<div class="first-area">
-								<input hidden type="text" name="no" id="no">
+								<input hidden type="text" name="no" id="E_no">
 								<div>
 									<span>일자</span>
 									<br>
-									<input type="date" id="accountDate" name="accountDate">
+									<input type="date" id="E_accountDate" name="accountDate">
 								</div>
 								<div>
 									<span>카테고리</span>
 									<br>
-									<select id="accountCno" name="accountCno">
+									<select id="E_accountCno" name="accountCno">
 										<option value="2">생활/마트</option>
 										<option value="3">의료/건강</option>
 										<option value="4">문화/예술</option>
@@ -219,7 +219,7 @@
 							<div class="second-area">
 								<span>금액</span>
 								<br>
-								<input type="text" id="price" name="price" maxlength="10"> 원
+								<input type="text" id="E_price" name="price" maxlength="10"> 원
 							</div>
 							<div class="third-area">
 								<span>내용</span>
@@ -278,6 +278,8 @@
 		firstNav(['내정보', '나의활동', '신청내역', '관리비'],'내정보');
 		secondNav(['캘린더', '가계부', '사유물'],'가계부');
 		headerName('마이페이지');
+		firstNavLink(['','','','/app/fee/member']);
+        secondNavLink(['','/app/account/list','']);
 
 		// 금액칸 콤마 정규식
 		function comma(str) {
@@ -547,10 +549,6 @@
 	});
 
 
-
-
-
-
 	////// 등록 모달
 	// 모달 열기
 	const openModal = () => {
@@ -582,10 +580,10 @@
 	  // 가격 원 붙은 거 떼기
       var numericPrice = parseInt(price.replace(/\D/g, ""));
 
-      $("#accountDate").val(accountDate);
+      $("#E_accountDate").val(accountDate);
       $("#E_detailContent").text(content);
-      $("#price").val(numericPrice || 0);
-	  $("#no").val(no);
+      $("#E_price").val(numericPrice || 0);
+	  $("#E_no").val(no);
 	  // 카테고리 선택된 값 가져오기
 	  $("#accountCno option").filter(function() {
         return $(this).text() === categoryName;
@@ -600,12 +598,12 @@
 
     $("#E_submitBtn").on("click", function() {
 
-	  var updatedCategoryName = $("#accountCno").val();
-      var updatedAccountDate = $("#accountDate").val();
+	  var updatedCategoryName = $("#E_accountCno").val();
+      var updatedAccountDate = $("#E_accountDate").val();
       var updatedContent = $("#E_detailContent").val();
 	  console.log(updatedContent);
-      var updatedPrice = $("#price").val();
-	  var no = $("#no").val();
+      var updatedPrice = $("#E_price").val();
+	  var no = $("#E_no").val();
 
 	  var data = new FormData();
       data.append("accountCno", updatedCategoryName);
@@ -623,7 +621,7 @@
         success: function(response) {
 			console.log(response);
 			if(response == 'success'){
-				window.location.href = "/app/account/list?p=1";
+				window.location.href = "/app/account/list";
 			}
         },
         error: function(error) {
