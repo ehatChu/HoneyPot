@@ -96,4 +96,7 @@ public interface CSCDao {
 	// 문의내역 삭제
 	int deleteInquiry(SqlSessionTemplate sst, String qno);
 	
+	// 문의내역 답변
+	int anwerInuqiry(SqlSessionTemplate sst, String qno, String answer);
+	
 }

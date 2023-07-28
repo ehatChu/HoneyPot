@@ -93,7 +93,8 @@ public interface CSCService {
 	
 	// 문의내역 삭제
 	int deleteInquiry(String qno);
-	
-	// 문의 답변
+
+	// 문의내역 답변
+	QNAVo anwerInuqiry(String qno, String answer) throws Exception;
 	
 }

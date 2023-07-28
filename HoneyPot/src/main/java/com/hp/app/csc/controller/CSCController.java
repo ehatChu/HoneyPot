@@ -23,7 +23,6 @@ import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
-import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequiredArgsConstructor
@@ -368,6 +367,20 @@ public class CSCController {
 		
 		return "redirect:/admin/csc/inquiry-list";
 		
+	}
+	
+	// 문의내역 답변 달기
+	@PostMapping("admin/csc/inquiry/answer")
+	@ResponseBody
+	public QNAVo answerInquiry(String qno, String answer) throws Exception {
+		
+		QNAVo vo = service.anwerInuqiry(qno, answer);
+		
+		if(vo == null) {
+			throw new Exception();
+		}
+		
+		return vo;
 	}
 	
 	// 신고내역(화면)
