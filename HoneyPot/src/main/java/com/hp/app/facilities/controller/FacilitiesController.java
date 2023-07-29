@@ -187,11 +187,13 @@ public class FacilitiesController {
 		return "redirect:/facilities/library/reserve?no=1";
 	}
 	
-	
+	//주변시설지도화면
 	@GetMapping("facilities/outerFacilities/map")
 	public String showMap() {
 		return "outerFacilities/showMap";
 	}
+	
+	//본인이 남긴 리뷰화면
 	@GetMapping("facilities/outer/review-list")
 	public String reviewList() {
 		return "mypage/act/reviewOuterFacilities";
