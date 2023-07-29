@@ -1,5 +1,6 @@
 package com.hp.app.innerFac.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,10 +39,27 @@ public class InnerFacServiceImpl implements InnerFacService {
 		
 		return fvo;
 	}
-
+	//예약 insert
 	@Override
 	public int makeReservation(InnerFacRsVo rsVo) {
-		return dao.makeReservation(sst,rsVo);
+		//현재인원조회
+		Map<String,String> map = new HashMap();
+		map.put("amenityNo", rsVo.getAmenityNo());
+		map.put("reserveTime", rsVo.getReserveTime());
+		log.info("Map : {}",map);
+		int nowNo =dao.getReservedPeopleCntByTime(sst,map);
+	
+		//max예약인원조회
+		int maxNo = dao.getMaxPeopleCnt(sst,rsVo.getAmenityNo());
+	
+		log.info("nowNum :{} maxNum: {}",nowNo,maxNo);
+		//인원에 따라 예약막기
+		if(nowNo==maxNo) {
+			throw new RuntimeException();
+		}else {
+			return dao.makeReservation(sst,rsVo);			
+		}
+		
 	}
 	
 	//한사람의 한날짜의 예약내역 다가져오기
@@ -54,6 +72,11 @@ public class InnerFacServiceImpl implements InnerFacService {
 	@Override
 	public int getReservedPeopleCntByTime(Map<String, String> map) {
 		return dao.getReservedPeopleCntByTime(sst,map);
+	}
+	//삭제
+	@Override
+	public int delete(InnerFacRsVo rsVo) {
+		return dao.delete(sst,rsVo);
 	}
 	
 

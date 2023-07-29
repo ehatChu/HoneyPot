@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class InnerFacRsVo {
-	private String no;;
+	private String no;
 	private String amenityNo;
 	private String memberNo;
 	private String reserveTime;

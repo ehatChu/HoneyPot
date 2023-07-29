@@ -114,12 +114,12 @@
 
 	<main>
 		
-		<form action="/app/facilities/reserve" method="post">
+		<form>
 			<input type="hidden" value="1" name="amenityNo">
 			<div id="temp-main-wrapper">
 			
 				<div id="reservation-area">
-					<form action="/app/member/login" method="post">
+					
 						<div>
 							<h1>1.날짜선택</h1>
 							<input type="date" id="date-choice" name="date">
@@ -171,13 +171,20 @@
 						</div>
 						<div id="count-people">
 							<div class="middle-size">선택한 시간대의 예약자는 현재</div>
-							<div class="big-size orange-font-color">23</div><span class="middle-size">/50명입니다.</span>
+							<div class="big-size orange-font-color" id="nowNo"></div><span class="middle-size">/${maxNum}명입니다.</span>
 						</div>
+						<script>
+							var nowNo = document.querySelector("#nowNo");
+							if(nowNo.innerText==''||nowNo.innerText==null){
+								nowNo.innerText='0';
+							}
+						</script>
 						<div>
 							<h1>3.신청하시겠습니까?</h1>
-							<input type="submit" value="예약하기" class="orange-color btn-box"> <button class="brown-color btn-box">예약취소</button>
+							<input type="submit" value="예약하기" class="orange-color btn-box" formaction="/app/facilities/reserve"> 
+							<input type="submit" value="예약취소" class="brown-color btn-box" formaction="/app/innerFac/delete">
 						</div>
-					</form>
+				
 					
 
 				</div>
@@ -269,7 +276,7 @@
 		});
 	});
 
-
+	
 	//클릭할 때마다 에드이벤트리스너 달기
 	for(let lb of label){
 		lb.addEventListener("click",function(){
@@ -277,6 +284,7 @@
 			//date와 time값 가지고오기
 			let time = lb.getAttribute("for");
 			let date = document.querySelector("#date-choice").value
+			
 			$.ajax({
 				url : "/app/innerFac/reserve/reservedPeopleCnt" ,
 				type : "get",
@@ -287,7 +295,9 @@
 				},
 				dataType : "json",
 				success : function(result){
-					console.log(result);
+					//nowNo
+					
+					nowNo.innerText=result.cnt;
 				},
 				error : function(){
 					alert("통신실패");
@@ -295,6 +305,6 @@
 			});
 		});
 	}
-
+	
 	
 </script>
