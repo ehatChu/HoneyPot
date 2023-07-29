@@ -198,30 +198,30 @@
 	}
 
 	/* 지도 검색 결과 목록 */
-	/* #placesList li {list-style: none;} */
-	/* #placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;} */
+	#placesList li {list-style: none;}
+	#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
 	#placesList .item span {display: block;margin-top:4px;}
-	/* #placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;} */
-	/* #placesList .item .info{padding:10px 0 10px 55px;} */
-	/* #placesList .info .gray {color:#8a8a8a;} */
-	/* #placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;} */
-	/* #placesList .info .tel {color:#009900;} */
-	/* #placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;} */
-	/* #placesList .item .marker_1 {background-position: 0 -10px;} */ 
-	/* #placesList .item .marker_2 {background-position: 0 -56px;} */
-	/* #placesList .item .marker_3 {background-position: 0 -102px} */
-	/* #placesList .item .marker_4 {background-position: 0 -148px;} */
-	/* #placesList .item .marker_5 {background-position: 0 -194px;} */
-	/* #placesList .item .marker_6 {background-position: 0 -240px;} */
-	/* #placesList .item .marker_7 {background-position: 0 -286px;} */
-	/* #placesList .item .marker_8 {background-position: 0 -332px;} */ 
-	/* #placesList .item .marker_9 {background-position: 0 -378px;} */
-	/* #placesList .item .marker_10 {background-position: 0 -423px;} */
-	/* #placesList .item .marker_11 {background-position: 0 -470px;} */
-	/* #placesList .item .marker_12 {background-position: 0 -516px;} */
-	/* #placesList .item .marker_13 {background-position: 0 -562px;} */
-	/* #placesList .item .marker_14 {background-position: 0 -608px;} */
-	/* #placesList .item .marker_15 {background-position: 0 -654px;}  */
+	#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+	#placesList .item .info{padding:10px 0 10px 55px;}
+	#placesList .info .gray {color:#8a8a8a;}
+	#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+	#placesList .info .tel {color:#009900;}
+	#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+	#placesList .item .marker_1 {background-position: 0 -10px;} 
+	#placesList .item .marker_2 {background-position: 0 -56px;}
+	#placesList .item .marker_3 {background-position: 0 -102px}
+	#placesList .item .marker_4 {background-position: 0 -148px;}
+	#placesList .item .marker_5 {background-position: 0 -194px;}
+	#placesList .item .marker_6 {background-position: 0 -240px;}
+	#placesList .item .marker_7 {background-position: 0 -286px;}
+	#placesList .item .marker_8 {background-position: 0 -332px;} 
+	#placesList .item .marker_9 {background-position: 0 -378px;}
+	#placesList .item .marker_10 {background-position: 0 -423px;}
+	#placesList .item .marker_11 {background-position: 0 -470px;}
+	#placesList .item .marker_12 {background-position: 0 -516px;}
+	#placesList .item .marker_13 {background-position: 0 -562px;}
+	#placesList .item .marker_14 {background-position: 0 -608px;}
+	#placesList .item .marker_15 {background-position: 0 -654px;} 
 </style>
 </head>
 <body>
@@ -241,7 +241,7 @@
 				<div class="option">
 					<div>
 						<form onsubmit="searchPlaces(); return false;">
-							키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
+							키워드 : <input type="text" value="세화빌라트" id="keyword" size="15"> 
 							<button type="submit">검색하기</button> 
 						</form>
 					</div>
@@ -634,4 +634,24 @@
 			el.removeChild (el.lastChild);
 		}
 	}
+
+	//클릭한 곳의 위도 경도를 가져오기 
+	kakao.maps.event.addListener(map,"rightclick",function(mouseEvent){
+		// 클릭한 위도, 경도 정보를 가져옵니다 
+		var latlng = mouseEvent.latLng;
+		//console.log(latlng.La); latlng.Ma
+		var markerPosition  = new kakao.maps.LatLng(latlng.La, latlng.Ma);
+
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+			position: markerPosition
+		});
+		
+		//여기에 우클릭시 그게뜨게하고 그걸누르면 마커가 생성이 되도록하게하기
+		//
+
+		
+
+		marker.setMap(map);
+	});
 </script>
