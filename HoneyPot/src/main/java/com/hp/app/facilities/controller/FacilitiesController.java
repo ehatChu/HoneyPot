@@ -46,6 +46,7 @@ public class FacilitiesController {
 		String MemberNo = loginMember.getNo();
 		
 		//편의시설마다 시간이 다르므로 조회해와야함. 
+		//이때 최대인원도 같이 조회하면되잖아?
 		InnerFacVo fvo = service.getOpenCloseTime(no);
 		
 		InnerFacRsVo rsVo = new InnerFacRsVo();
@@ -56,7 +57,7 @@ public class FacilitiesController {
 		String date = y.getStringDate(new Date());
 		
 		rsVo.setReserveTime(date);
-		
+		rsVo.setAmenityNo("1");
 		//json으로 변환해야함
 		List<String> dateList = service.getReservationTimeInfo(rsVo);
 		ObjectMapper om = new ObjectMapper();
@@ -74,7 +75,7 @@ public class FacilitiesController {
 		model.addAttribute("openTime",opentime);
 		model.addAttribute("closeTime",closetime);
 		model.addAttribute("reservedDate",jsonDate);
-		
+		model.addAttribute("maxNum",fvo.getMaxNum());
 		
 		
 		
@@ -82,7 +83,7 @@ public class FacilitiesController {
 	}
 	
 	//도서관 예약시 DB에 insert하기
-	@PostMapping("facilities/reserve")
+	@RequestMapping("facilities/reserve")
 	public String reserve(String amenityNo, String date, String startTime,HttpSession session,Model model) {
 		//값이 잘 전달 되는거 확인 했다
 		//전달된 값으로 에약일시 구하기 두 값을 전달하여 합친 예약일시를 구하는 함수 호출 및 메서드 실행ㅇ
@@ -168,6 +169,22 @@ public class FacilitiesController {
 		
 		String jsonStr = om.writeValueAsString(resultMap);
 		return jsonStr;
+	}
+	@RequestMapping("innerFac/delete")
+	public String cancelReservation(String amenityNo, String date, String startTime,HttpSession session,Model model) {
+		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		
+		//상태값을 변경해주는 걸로다가..
+		String dateStr = y.getCombinedDate(date, startTime);
+		//rsVo
+		InnerFacRsVo rsVo = new InnerFacRsVo();
+		rsVo.setAmenityNo(amenityNo);
+		rsVo.setReserveTime(dateStr);
+		rsVo.setMemberNo(loginMember.getNo());
+		log.info("값이 잘넘어왔는지 확인좀...rsvo : {}",rsVo);
+		int result = service.delete(rsVo);
+		
+		return "redirect:/facilities/library/reserve?no=1";
 	}
 	
 	

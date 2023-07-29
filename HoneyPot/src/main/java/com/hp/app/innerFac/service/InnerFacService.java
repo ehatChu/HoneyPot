@@ -11,4 +11,6 @@ public interface InnerFacService {
 	int makeReservation(InnerFacRsVo rsVo);
 	List<String> getReservationTimeInfo(InnerFacRsVo rsVo);
 	int getReservedPeopleCntByTime(Map<String, String> map);
+//	int updateCancelStatus(InnerFacRsVo rsVo);
+	int delete(InnerFacRsVo rsVo);
 }

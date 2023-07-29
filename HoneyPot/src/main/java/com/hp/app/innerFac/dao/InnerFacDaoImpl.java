@@ -46,5 +46,17 @@ public class InnerFacDaoImpl implements InnerFacDao {
 	public int getReservedPeopleCntByTime(SqlSessionTemplate sst, Map<String, String> map) {
 		return sst.selectOne("innerFac.getReservedPeopleCntBytime",map);
 	}
+	
+	//최대인원조회, 시설번호를 매개변수로하는
+	@Override
+	public int getMaxPeopleCnt(SqlSessionTemplate sst,String amenityNo) {
+		return sst.selectOne("innerFac.getMaxPeopleCnt",amenityNo);
+	}
+
+	//삭제
+	@Override
+	public int delete(SqlSessionTemplate sst, InnerFacRsVo rsVo) {
+		return sst.delete("innerFac.delete",rsVo);
+	}
 
 }
