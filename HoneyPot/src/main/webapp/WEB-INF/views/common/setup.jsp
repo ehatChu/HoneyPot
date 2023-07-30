@@ -43,7 +43,7 @@
 
 			body {
 				color: #2e2e2e;
-				overflow: hidden;
+				overflow-x: hidden;
 				font-weight: 400;
 				background-color: #f5f5f5;
 			}

@@ -3,5 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="meal">
-	
+	<select id="getMealList" resultType="com.hp.app.meal.vo.MealVo">
+		SELECT * FROM BREAKFAST B
+		JOIN DIET D ON B.DIET_NO = D.NO
+		ORDER BY BREAKFAST_DATE
+	</select>
 </mapper>

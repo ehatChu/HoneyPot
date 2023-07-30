@@ -159,6 +159,7 @@
 				align-items: center;
 			}
 
+			input[name=id],
 			input[name=pwd],
 			input[name=name],
 			input[name=birth],
@@ -197,7 +198,7 @@
 					<div></div>
 					<div id="tit">아이디</div>
 					<input style="padding-left: 30px;" type="text" maxlength="15" class="box formValue" name="id"
-						value="${loginMember.id}">
+						value="${loginMember.id}" readonly>
 					<div></div>
 					<div id="tit">비밀번호</div>
 					<input style="padding-left: 30px;" type="password" class="box formValue" name="pwd"
@@ -224,7 +225,7 @@
 					</div>
 					<div></div>
 					<div id="tit">이메일</div>
-					<input style="padding-left: 30px;" type="email" class="box" name="email"
+					<input style="padding-left: 30px;" type="text" class="box" name="email"
 						value="${loginMember.email}">
 					<div></div>
 					<div></div>
@@ -241,21 +242,17 @@
 	</html>
 
 	<script>
-		let idValue = sessionStorage.getItem("idValue")
 		let phoneValue = sessionStorage.getItem("phoneValue")
 		let emailValue = sessionStorage.getItem("emailValue")
 		let newPwdValue = sessionStorage.getItem("newPwdValue");
-		sessionStorage.removeItem('idValue');
 		sessionStorage.removeItem('phoneValue');
 		sessionStorage.removeItem('emailValue');
 		sessionStorage.removeItem('newPwdValue');
 
 		if (newPwdValue != null) {
-			const id = document.querySelector('input[name=id]');
 			const pwd = document.querySelector('input[name=pwd]');
 			const phone = document.querySelector('input[name=phone]');
 			const email = document.querySelector('input[name=email]');
-			id.value = idValue;
 			pwd.value = newPwdValue;
 			phone.value = phoneValue;
 			email.value = emailValue;
@@ -264,21 +261,25 @@
 
 		function validateForm() {
 			let isValidate = true;
-			const id = document.querySelector('input[name=id]');
 			const phone = document.querySelector('input[name=phone]');
 			const email = document.querySelector('input[name=email]');
-			const formValues = document.querySelectorAll('.formValue');
 
-			for (let tag of formValues) {
-				if (tag.value == "") {
-					isValidate = false;
-				}
+			//전번 - 숫자 11자리
+			if (!/^\d{11}$/.test(phone.value)) {
+				isValidate = false;
+			} else {
+				phone.style.backgroundColor = '#4A321F';
+				phone.style.color = 'white';
 			}
 
-			if (phone.value && (!/^\d{11}$/.test(phone.value))) {
-				alert("유효한 휴대폰 번호를 입력해주세요.");
-				return false;
+			// 이메일 제약조건
+			if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email.value)) {
+				isValidate = false;
+			} else {
+				email.style.backgroundColor = '#4A321F';
+				email.style.color = 'white';
 			}
+
 			if (!isValidate) {
 				alert("입력값이 충분하지 않습니다");
 				return false;

@@ -6,14 +6,14 @@
 	<select id="mlogin" resultType="com.hp.app.member.vo.MemberVo">
 		SELECT * FROM MEMBER
 		WHERE ID =
-		#{id} AND PWD = #{pwd}
+		#{id}
 		AND STATUS = 'Y'
 	</select>
 
 	<select id="alogin" resultType="com.hp.app.admin.vo.AdminVo">
 		SELECT * FROM ADMIN
 		WHERE ID =
-		#{id} AND PWD = #{pwd}
+		#{id}
 	</select>
 
 	<insert id="mjoin">
@@ -41,7 +41,8 @@
 			Id = #{id},
 			PWD = #{pwd},
 			PHONE = #{phone},
-			EMAIL = #{email}
+			EMAIL = #{email},
+			PROFILE = #{profile}
 		</set>
 		<where>
 			NO = #{no}
@@ -51,17 +52,21 @@
 	<update id="aedit">
 		UPDATE ADMIN
 		<set>
-			ID = #{id}
 			PWD = #{pwd},
-			NAME = #{name}
+			PROFILE = #{profile}
 		</set>
 		<where>
 			NO = #{no}
 		</where>
 	</update>
 
-	<select id="idDubCheck" resultType="int">
+	<select id="midDubCheck" resultType="int">
 		SELECT COUNT(*) FROM MEMBER
+		WHERE ID = #{id}
+	</select>
+	
+	<select id="aidDubCheck" resultType="int">
+		SELECT COUNT(*) FROM ADMIN
 		WHERE ID = #{id}
 	</select>
 

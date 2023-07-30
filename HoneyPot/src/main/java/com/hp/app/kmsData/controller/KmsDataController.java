@@ -42,8 +42,8 @@ public class KmsDataController {
 		String apiUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
 		String serviceKey = "Wyz5uylLIJYn%2BM7ddwH5EvX2ksfqBveLSQbOvXf%2Bb%2F0UdcgJRFVwGU3qj%2FLOkQoLdho99BTsY8e9RLq5WzxLFA%3D%3D";
 		String numOfRows = "12";
-		String nx = "60";
-		String ny = "125";
+		String nx = "37";
+		String ny = "127";
 		String type = "json";
 		String baseTime = "0500";
 

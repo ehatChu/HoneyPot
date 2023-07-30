@@ -439,7 +439,9 @@
 					</div>
 					<div id="box1" class="box scheduleBox">
 						<div id="tit2" class="scheTit"></div>
-
+						<c:if test="${empty memberCalendarList}">
+							<h1>등록된 일정이 없습니다</h1>
+						</c:if>
 						<c:forEach items="${memberCalendarList}" var="vo">
 							<div id="scsc${vo.no}">
 								<div id="schedule">
