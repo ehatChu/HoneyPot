@@ -23,19 +23,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("main")
 public class MainController {
-	public static MemberVo loginMember;
-	public static AdminVo loginAdmin;
-	public static AdminVo captain;
 	private final MainService ms;
 
 	@GetMapping("mmain")
 	public String mmain(HttpSession session, Model model) {
-		loginMember = (MemberVo) session.getAttribute("loginMember");
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		if (loginMember == null) {
 			session.setAttribute("alertMsg", "로그인이 필요한 서비스입니다");
 			return "redirect:/member/mlogin";
 		}
-		captain = ms.getCaptain(loginMember.getDongNum() + "동대표");
+		AdminVo captain = ms.getCaptain(loginMember.getDongNum() + "동대표");
 		session.setAttribute("captain", captain);
 
 		List<MemberCalendarVo> memberCalendarList = ms.getMemberCalendarList(loginMember.getNo());
@@ -51,7 +48,7 @@ public class MainController {
 
 	@GetMapping("amain")
 	public String amain(HttpSession session, Model model) {
-		loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
 		if (loginAdmin == null) {
 			session.setAttribute("alertMsg", "관리자만 접근 가능합니다");
 			return "redirect:/member/alogin";
@@ -59,10 +56,10 @@ public class MainController {
 
 		List<NoticeCalendarVo> noticeCalendarList = ms.getNoticeCalendarList();
 		int[] paramCntArr = ms.getParamCntArr();
-		
+
 		model.addAttribute("noticeCalendarList", noticeCalendarList);
 		model.addAttribute("paramCntArr", paramCntArr);
-		
+
 		return "main/amain";
 	}
 
@@ -94,7 +91,9 @@ public class MainController {
 
 	@GetMapping("captainLove")
 	@ResponseBody
-	public String[] getCaptainLove() {
+	public String[] getCaptainLove(HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		AdminVo captain = (AdminVo) session.getAttribute("captain");
 		String[] arr = new String[3];
 		String memberNo = loginMember.getNo();
 		String captainNo = captain.getNo();
@@ -109,7 +108,9 @@ public class MainController {
 
 	@GetMapping("vote")
 	@ResponseBody
-	public int voteCaptainLove(String love) {
+	public int voteCaptainLove(String love, HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		AdminVo captain = (AdminVo) session.getAttribute("captain");
 		String memberNo = loginMember.getNo();
 		String captainNo = captain.getNo();
 		String[] paramArr = { love, memberNo, captainNo };

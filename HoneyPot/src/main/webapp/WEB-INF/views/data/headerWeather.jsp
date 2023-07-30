@@ -22,7 +22,6 @@
 
     <body>
         <div id="weather-info-msg">
-            작업 중
         </div>
     </body>
 

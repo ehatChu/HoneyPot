@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	private final MemberService ms;
 
+	// 겟 매핑
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
@@ -42,6 +43,86 @@ public class MemberController {
 		return "member/alogin";
 	}
 
+	@GetMapping("mjoin")
+	public String mjoin() {
+		return "member/mjoin";
+	}
+
+	@GetMapping("ajoin")
+	public String ajoin() {
+		return "member/ajoin";
+	}
+
+	@GetMapping("medit")
+	public String medit(HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if (loginMember == null) {
+			return "redirect:/main/mmain";
+		}
+		return "member/medit";
+	}
+
+	@GetMapping("aedit")
+	public String aedit(HttpSession session) {
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		if (loginAdmin == null) {
+			return "redirect:/main/amain";
+		}
+		return "member/aedit";
+	}
+
+	@GetMapping("findId")
+	public String findId() {
+		return "member/findId";
+	}
+
+	@GetMapping("findPwd")
+	public String findPwd() {
+		return "member/findPwd";
+	}
+
+	@GetMapping("changePwd")
+	public String changePwd(HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		if (loginMember == null && loginAdmin == null) {
+			return "redirect:/main/mmain";
+		}
+		return "member/changePwd";
+	}
+
+	@GetMapping("quit")
+	public String quit(HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if (loginMember == null) {
+			return "redirect:/main/mmain";
+		}
+		return "member/quit";
+	}
+
+	@GetMapping("midDubCheck")
+	@ResponseBody
+	public String midDubCheck(String id, HttpSession session) {
+		int result = ms.midDubCheck(id);
+		log.info("result : {}", result);
+		if (result != 0) {
+			return "error";
+		}
+		return "success";
+	}
+
+	@GetMapping("aidDubCheck")
+	@ResponseBody
+	public String aidDubCheck(String id, HttpSession session) {
+		int result = ms.aidDubCheck(id);
+		log.info("result : {}", result);
+		if (result != 0) {
+			return "error";
+		}
+		return "success";
+	}
+
+	// 포스트 매핑
 	@PostMapping("mlogin")
 	public String mlogin(MemberVo vo, HttpSession session) {
 		MemberVo loginMember = ms.mlogin(vo);
@@ -68,54 +149,52 @@ public class MemberController {
 		return "redirect:/main/amain";
 	}
 
-	@GetMapping("mjoin")
-	public String mjoin() {
-		return "member/mjoin";
-	}
-	
-	@GetMapping("ajoin")
-	public String ajoin() {
-		return "member/ajoin";
-	}
-
 	@PostMapping("mjoin")
-	public String mjoin(MemberVo vo, HttpSession session) {
+	public String mjoin(MemberVo vo, HttpSession session, HttpServletRequest req,
+			@RequestParam("file") MultipartFile file) throws Exception {
+		String path = req.getServletContext().getRealPath("/resources/member/profile/");
+		String fileName = "";
+		if (!file.isEmpty()) {
+			fileName = FileUploader.saveFile(path, file);
+			String filePath = path + fileName;
+			File destinationFile = new File(filePath);
+			file.transferTo(destinationFile);
+			vo.setProfile(fileName);
+		}
+
 		int result = ms.mjoin(vo);
 		log.info("result : {}", result);
 		if (result != 1) {
+			(new File(fileName)).delete();
 			session.setAttribute("alertMsg", "회원 가입에 실패하였습니다");
 			return "redirect:/member/mjoin";
 		}
+		session.setAttribute("alertMsg", "회원 가입을 성공하였습니다");
 		return "redirect:/member/mlogin";
 	}
 
 	@PostMapping("ajoin")
-	public String ajoin(AdminVo vo, HttpSession session) {
+	public String ajoin(AdminVo vo, HttpSession session, HttpServletRequest req,
+			@RequestParam("file") MultipartFile file) throws Exception {
+		String path = req.getServletContext().getRealPath("/resources/member/profile/");
+		String fileName = "";
+		if (!file.isEmpty()) {
+			fileName = FileUploader.saveFile(path, file);
+			String filePath = path + fileName;
+			File destinationFile = new File(filePath);
+			file.transferTo(destinationFile);
+			vo.setProfile(fileName);
+		}
+
 		int result = ms.ajoin(vo);
 		log.info("result : {}", result);
 		if (result != 1) {
+			(new File(fileName)).delete();
 			session.setAttribute("alertMsg", "관리자 가입에 실패하였습니다");
 			return "redirect:/member/ajoin";
 		}
-		return "redirect:/main/amain";
-	}
-
-	@GetMapping("medit")
-	public String medit(HttpSession session) {
-		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-		if (loginMember == null) {
-			return "redirect:/main/mmain";
-		}
-		return "member/medit";
-	}
-
-	@GetMapping("aedit")
-	public String aedit(HttpSession session) {
-		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
-		if (loginAdmin == null) {
-			return "redirect:/main/mmain";
-		}
-		return "member/aedit";
+		session.setAttribute("alertMsg", "관리자 가입을 성공하였습니다");
+		return "redirect:/member/alogin";
 	}
 
 	@PostMapping("medit")
@@ -151,41 +230,31 @@ public class MemberController {
 	}
 
 	@PostMapping("aedit")
-	public String aedit(AdminVo vo, HttpSession session) {
+	public String aedit(AdminVo vo, HttpSession session, HttpServletRequest req,
+			@RequestParam("file") MultipartFile file) throws Exception {
 		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
 		AdminVo loginTemp = loginAdmin;
-		loginTemp.setId(vo.getId());
 		loginTemp.setPwd(vo.getPwd());
-		loginTemp.setName(vo.getName());
+
+		String path = req.getServletContext().getRealPath("/resources/member/profile/");
+		String fileName = "";
+		if (!file.isEmpty()) {
+			fileName = FileUploader.saveFile(path, file);
+			String filePath = path + fileName;
+			File destinationFile = new File(filePath);
+			file.transferTo(destinationFile);
+			loginTemp.setProfile(fileName);
+		}
+
 		int result = ms.aedit(loginTemp);
 		log.info("result : {}", result);
 		if (result != 1) {
-			session.setAttribute("alertMsg", "회원정보 수정에 실패하였습니다");
+			session.setAttribute("alertMsg", "관리자 정보 수정에 실패하였습니다");
 			return "redirect:/member/aedit";
 		}
 		session.setAttribute("loginAdmin", loginTemp);
 		session.setAttribute("alertMsg", "관리자 정보 수정에 성공하였습니다!");
 		return "redirect:/main/amain";
-	}
-
-	@GetMapping("findId")
-	public String findId() {
-		return "member/findId";
-	}
-
-	@GetMapping("findPwd")
-	public String findPwd() {
-		return "member/findPwd";
-	}
-
-	@GetMapping("changePwd")
-	public String changePwd(HttpSession session) {
-		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
-		if (loginMember == null && loginAdmin == null) {
-			return "redirect:/main/mmain";
-		}
-		return "member/changePwd";
 	}
 
 	@PostMapping("changePwd")
@@ -201,15 +270,6 @@ public class MemberController {
 		return "redirect:/member/medit";
 	}
 
-	@GetMapping("quit")
-	public String quit(HttpSession session) {
-		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-		if (loginMember == null) {
-			return "redirect:/main/mmain";
-		}
-		return "member/quit";
-	}
-
 	@PostMapping("quit")
 	public String quit2(HttpSession session) {
 		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
@@ -221,16 +281,5 @@ public class MemberController {
 		}
 		session.setAttribute("alertMsg", "계정 탈퇴가 완료되었습니다");
 		return "redirect:/member/mlogin";
-	}
-
-	@GetMapping("idDubCheck")
-	@ResponseBody
-	public String idDubCheck(String id, HttpSession session) {
-		int result = ms.idDubCheck(id);
-		log.info("result : {}", result);
-		if (result != 0) {
-			return "error";
-		}
-		return "success";
 	}
 }

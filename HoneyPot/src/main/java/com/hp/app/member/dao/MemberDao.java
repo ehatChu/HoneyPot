@@ -19,7 +19,9 @@ public interface MemberDao {
 
 	int aedit(SqlSessionTemplate sst, AdminVo vo);
 
-	int idDubCheck(SqlSessionTemplate sst, String id);
+	int midDubCheck(SqlSessionTemplate sst, String id);
+
+	int aidDubCheck(SqlSessionTemplate sst, String id);
 
 	int quit(SqlSessionTemplate sst, String no);
 

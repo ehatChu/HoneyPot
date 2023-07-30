@@ -16,7 +16,9 @@ public interface MemberService {
 
 	int aedit(AdminVo vo);
 
-	int idDubCheck(String id);
+	int midDubCheck(String id);
+
+	int aidDubCheck(String id);
 
 	int quit(String no);
 

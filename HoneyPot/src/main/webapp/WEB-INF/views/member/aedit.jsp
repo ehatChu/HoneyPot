@@ -42,6 +42,7 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					overflow: auto;
 				}
 
 				#login-area {
@@ -149,6 +150,7 @@
 					left: 150px;
 				}
 
+				input[name=id],
 				input[name=pwd],
 				input[name=name] {
 					background-color: #4A321F;
@@ -161,8 +163,7 @@
 	<body>
 		<div id="floor">
 			<div id="login-area">
-				<form id="loginForm" action="/app/member/aedit" enctype="multipart/form-data" method="post"
-					onsubmit="return validateForm()">
+				<form id="loginForm" action="/app/member/aedit" enctype="multipart/form-data" method="post">
 					<div></div>
 					<div class="logo" onclick="location.href = '/app/main/amain';">
 						<img id="logo" src="/app/resources/main/honeyPot.png">
@@ -183,55 +184,35 @@
 					<div id="tit3">관리자</div>
 					<div></div>
 					<div id="tit">아이디</div>
-					<input style="padding-left: 30px;" type="text" class="box formValue" value="${loginAdmin.id}" name="id">
+					<input style="padding-left: 30px;" type="text" class="box formValue" value="${loginAdmin.id}"
+						name="id">
 					<div></div>
 					<div id="tit">비밀번호</div>
-					<input style="padding-left: 30px;" type="password" class="box formValue" value="${loginAdmin.pwd}" readonly name="pwd">
+					<input style="padding-left: 30px;" type="password" class="box formValue" value="${loginAdmin.pwd}"
+						readonly name="pwd">
 					<div onclick="goChangePwd();" class="box3 box">수정</div>
 					<div id="tit">직책</div>
-					<input style="padding-left: 30px;" type="text" class="box formValue" value="${loginAdmin.name}" name="name">
+					<input style="padding-left: 30px;" type="text" class="box formValue" value="${loginAdmin.name}"
+						name="name">
 					<div></div>
 
 					<div></div>
 					<input type="submit" class="box box2" value="수정">
 					<div></div>
-				</div>
 			</div>
+		</div>
 		</div>
 	</body>
 
 	</html>
 
 	<script>
-		let idValue = sessionStorage.getItem("idValue")
 		let newPwdValue = sessionStorage.getItem("newPwdValue");
-		sessionStorage.removeItem('idValue');
 		sessionStorage.removeItem('newPwdValue');
 
 		if (newPwdValue != null) {
-			const id = document.querySelector('input[name=id]');
 			const pwd = document.querySelector('input[name=pwd]');
-			id.value = idValue;
 			pwd.value = newPwdValue;
-		}
-
-		function validateForm() {
-			let isValidate = true;
-			const id = document.querySelector('input[name=id]');
-			const formValues = document.querySelectorAll('.formValue');
-
-			for (let tag of formValues) {
-				if (tag.value == "") {
-					isValidate = false;
-				}
-			}
-
-			if (!isValidate) {
-				alert("입력값이 충분하지 않습니다");
-				return false;
-			}
-
-			return true;
 		}
 
 		function goChangePwd() {
@@ -247,7 +228,7 @@
 		const fileTag = document.querySelector("#fileInput");
 		const personThumbnail = document.querySelector(".person");
 		const profileThumbnail = document.querySelector("#profileThumbnail");
-		
+
 		if ('${loginAdmin.profile != null}' == 'true') {
 			personThumbnail.style.display = "none";
 			profileThumbnail.style.display = "block";
