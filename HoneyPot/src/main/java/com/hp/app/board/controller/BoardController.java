@@ -3,13 +3,20 @@ package com.hp.app.board.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.board.service.BoardService;
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
@@ -59,6 +66,33 @@ public class BoardController {
 	public String detail() {
 		return "board/detail";
 	}
+	
+	//댓글 작성
+	@PostMapping("reply")
+	@ResponseBody
+	public String writeReply(HttpSession session, HttpServletResponse resp, BoardVo vo, String boardNo, String writerNo, String content) {
+		
+		AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
+		ReplyVo rvo = new ReplyVo();
+		
+		rvo.setBoardNo(boardNo);
+		rvo.setWriterNo(writerNo);
+		rvo.setContent(content);
+		
+		System.out.println(rvo);
+		
+		int result = service.writeReply(rvo);
+		System.out.println(result);
+		if(result < 0) {
+//			resp.getWriter().write("fail");
+			return "fail";
+		}
+		
+//		resp.getWriter().write("success");
+		return "success";
+		
+	}
+	
 
 	// 자유게시판 (화면)
 	@GetMapping("board/free")

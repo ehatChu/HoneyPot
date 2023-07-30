@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.board.vo.BoardCategoryVo;
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
 
 public interface BoardDao {
@@ -34,5 +35,8 @@ public interface BoardDao {
 	
 	//게시글 카테고리 조회
 	public abstract List<BoardCategoryVo> getCategory(SqlSessionTemplate sst);
+
+	//댓글 작성
+	public abstract int writeReply(SqlSessionTemplate sst, ReplyVo rvo);
 
 }

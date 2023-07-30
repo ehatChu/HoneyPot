@@ -89,4 +89,24 @@
 		
 	</select>
 	
+	
+	<!-- 댓글 작성 -->
+	<insert id="writeReply">
+		INSERT INTO REPLY (
+			NO
+			,BOARD_NO
+			,WRITER_NO
+			,CONTENT
+<!-- 			<if test="replyNo != null">
+				,REPLY_NO
+			</if> -->
+		)
+		VALUES (
+			SEQ_REPLY_NO.NEXTVAL
+			,#{boardNo}
+			,#{writerNo}
+			,#{content}
+		)
+	</insert>
+	
 </mapper>
