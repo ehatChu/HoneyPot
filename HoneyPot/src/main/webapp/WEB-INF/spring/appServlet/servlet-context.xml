@@ -4,7 +4,9 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
@@ -49,6 +51,18 @@
 	<beans:bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
    
    </beans:bean>
+   
+   <!-- 웹소켓 bean 등록 -->
+	<beans:bean id="ChatHandler" class="com.hp.app.chat.socket.server.ChatSocketServer"></beans:bean>
+	
+	<!-- 웹소켓 핸들러 맵핑 -->
+	<!-- 웹소켓 만들 때 경로를 path 에 넣어주기 -->
+	<websocket:handlers>
+		<websocket:mapping handler="ChatHandler" path="/chat"/>
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
 	
 	
 </beans:beans>

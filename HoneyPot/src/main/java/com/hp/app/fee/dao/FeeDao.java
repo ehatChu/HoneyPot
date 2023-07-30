@@ -12,10 +12,10 @@ import com.hp.app.page.vo.PageVo;
 public interface FeeDao {
 
 	// 회원 관리비 조회
-	List<MemberFeeVo> memberFeeList(SqlSessionTemplate sst, String mno);
+	List<MemberFeeVo> memberFeeList(SqlSessionTemplate sst, Map<String, String> paramMap);
 	
 	// 회원 관리비 총 금액 조회
-	int totalMemberFee(SqlSessionTemplate sst, String mno);
+	int totalMemberFee(SqlSessionTemplate sst, Map<String, String> mfMap);
 	
 	// 회원 관리비 당월 총 금액
 	int currentFee(SqlSessionTemplate sst, Map<String, String> dateVo);
@@ -49,6 +49,9 @@ public interface FeeDao {
 
 	// 회원 카테고리 라인 차트
 	List<MemberFeeVo> oneYearFee(SqlSessionTemplate sst, Map<String, String> dateVo);
+
+	// 납부 완료 시 여부 전환
+	int changePayStatus(SqlSessionTemplate sst, String memberName);
 
 	
 }

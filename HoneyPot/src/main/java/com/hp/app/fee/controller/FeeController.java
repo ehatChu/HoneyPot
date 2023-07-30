@@ -13,8 +13,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,6 +27,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.hp.app.fee.service.FeeService;
 import com.hp.app.fee.vo.AdminFeeVo;
 import com.hp.app.fee.vo.MemberFeeVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
@@ -36,22 +40,26 @@ public class FeeController {
 
 	private final FeeService service;
 	
-	// 회원 관리비 조회
-	// 회원 grade 가 'Y' 만 조회 가능 (세대주)
 	@GetMapping("fee/member")
-	public String MemberList(Model model) throws Exception {
-		String mno = "1";
-//		// 관리비 상세 목록 조회
-		List<MemberFeeVo> mfvoList= service.memberFeeList(mno);
-//		log.info(mfvoList.toString());
-//		// 관리비 총 금액과 납부 일자 조회
-		int mTotalFee = service.totalMemberFee(mno);
-//		log.info("{total : }", mTotalFee);
-		model.addAttribute("mfvoList", mfvoList);
-		model.addAttribute("memberTotal", mTotalFee);
-		return "/mypage/myInfo/fee/list";
-	}
-	
+    public String memberList(Model model,HttpSession session,@RequestParam Map<String, String> paramMap) throws Exception {
+       
+//            MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+//            String memberGrade = loginMember.getGrade();
+//            if (memberGrade == null || !memberGrade.equals("Y")) {
+//                throw new Exception("세대주가 아님");
+//            }
+            //log.info(memberGrade);
+			String no = "1";
+			paramMap.put("no", no);
+		    //mfMap.put("paymentDate", paymentDate);
+		    List<MemberFeeVo> mfvoList = service.memberFeeList(paramMap);
+		    int mTotalFee = service.totalMemberFee(paramMap);
+
+            model.addAttribute("mfvoList", mfvoList);
+            model.addAttribute("memberTotal", mTotalFee);
+            return "/mypage/myInfo/fee/list";
+    }
+
 	// 회원 관리비 바 차트 데이터
 	@GetMapping(path = "fee/member/bar-chart", produces= "application/json")
 	@ResponseBody
@@ -83,13 +91,13 @@ public class FeeController {
 	    
 		List<String> labels = new ArrayList<>();
 	    List<Integer> data = new ArrayList<>();
-	    data.add(currentFee);
 	    data.add(prevFee);
+	    data.add(currentFee);
 	    data.add(yearAgoFee);
 
+	    labels.add(previousMonth);
 	    labels.add(currentMonth);
 	    labels.add(oneYearAgo);
-	    labels.add(previousMonth);
 	    
 	    Map<String, Object> chartData = new HashMap<>();
 	    chartData.put("labels", labels);
@@ -99,7 +107,7 @@ public class FeeController {
 	    return ResponseEntity.ok(chartData);
 	} 
 	
-	// 회원 관리비 라인 차트 데이터
+		// 회원 관리비 라인 차트 데이터
 		@GetMapping(path = "fee/member/line-chart", produces= "application/json")
 		@ResponseBody
 		public ResponseEntity<Map<String,Object>> getLineChart(MemberFeeVo vo) {
@@ -110,10 +118,13 @@ public class FeeController {
 		    LocalDate currentDate = LocalDate.now();
 		    // 1. 현재 달
 		    String currentYear = currentDate.format(DateTimeFormatter.ofPattern("YYYY"));
+		    // 받아온 카테고리 이름 추가
+		    String categoryName = vo.getCategoryName();
 		    // 서비스 전달하고 int 값으로 받아와서 data set
 		    Map<String , String> dateVo = new HashMap<String, String>();
 			dateVo.put("currentYear", currentYear);
 			dateVo.put("no", mno);
+			dateVo.put("categoryName", categoryName);
 
 			List<MemberFeeVo> cfList = service.oneYearFee(dateVo);
 		    

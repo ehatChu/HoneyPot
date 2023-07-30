@@ -16,13 +16,13 @@ import com.hp.app.page.vo.PageVo;
 public class FeeDaoImpl implements FeeDao{
 
 	@Override
-	public List<MemberFeeVo> memberFeeList(SqlSessionTemplate sst, String mno) {
-		return sst.selectList("fee.selectMemberFeeList", mno);
+	public List<MemberFeeVo> memberFeeList(SqlSessionTemplate sst,Map<String, String> paramMap) {
+		return sst.selectList("fee.selectMemberFeeList", paramMap);
 	}
 
 	@Override
-	public int totalMemberFee(SqlSessionTemplate sst, String mno) {
-		return sst.selectOne("fee.memberTotalPrice", mno);
+	public int totalMemberFee(SqlSessionTemplate sst, Map<String, String> paramMap) {
+		return sst.selectOne("fee.memberTotalPrice", paramMap);
 	}
 
 	@Override
@@ -79,6 +79,11 @@ public class FeeDaoImpl implements FeeDao{
 	@Override
 	public List<MemberFeeVo> oneYearFee(SqlSessionTemplate sst, Map<String, String> dateVo) {
 		return sst.selectList("fee.categoryLineChart", dateVo);
+	}
+
+	@Override
+	public int changePayStatus(SqlSessionTemplate sst, String memberName) {
+		return sst.update("fee.changePayYN",memberName);
 	}
 
 

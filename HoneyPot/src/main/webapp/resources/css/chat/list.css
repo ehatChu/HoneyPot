@@ -179,7 +179,7 @@
 #chat-area > .input-area > textarea{
     border-radius: 10px;
     width: 700px;
-    height: 50px;
+    height: 60px;
     margin-left: 50px;
     font-size: 18px;
     resize: none;
@@ -199,9 +199,12 @@
 }
 
 /* 채팅 내용 영역 */
-.chat-content-area {
-    display: grid;
-    grid-template-columns: 660px 500px;
+
+#chatArea {
+    width: 1160px; 
+    height: 730px;
+    overflow-y: auto; 
+    border: 1px solid black;
 }
 
 

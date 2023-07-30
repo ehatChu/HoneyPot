@@ -10,10 +10,10 @@ import com.hp.app.page.vo.PageVo;
 public interface FeeService {
 	
 	// 회원 관리비 목록 조회
-	List<MemberFeeVo> memberFeeList(String mno);
+	List<MemberFeeVo> memberFeeList(Map<String, String> paramMap);
 	
 	// 회원 관리비 총 금액&납부 일자 조회
-	int totalMemberFee(String mno);
+	int totalMemberFee(Map<String, String> paramMap);
 	
 	// 회원 관리비 당월 총 금액
 	int currentFee(Map<String , String> dateVo);
@@ -47,6 +47,9 @@ public interface FeeService {
 
 	// 회원 관리비 카테고리 라인 차트
 	List<MemberFeeVo> oneYearFee(Map<String, String> dateVo);
+
+	// 회원 관리비 납부 완료 시 여부
+	int changePayStatus(String memberName);
 
 	
 	
