@@ -30,7 +30,7 @@ public class MainController {
 		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		if (loginMember == null) {
 			session.setAttribute("alertMsg", "로그인이 필요한 서비스입니다");
-			return "redirect:/member/mlogin";
+			return "member/mlogin";
 		}
 		AdminVo captain = ms.getCaptain(loginMember.getDongNum() + "동대표");
 		session.setAttribute("captain", captain);
