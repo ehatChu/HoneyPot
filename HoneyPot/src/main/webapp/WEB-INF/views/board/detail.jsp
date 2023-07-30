@@ -240,7 +240,7 @@
 
 				<!-- 좋아요 버튼 -->
 				<div class="like-btn-area">
-					<button type="button" id="like-btn" onclick=""><i class="fa-solid fa-heart"></i>&nbsp;좋아요</button>
+					<button type="button" id="like-btn" onclick=""><i class="fa-solid fa-heart"></i>&nbsp; 숫자</button>
 				</div>
 
 			</div>
@@ -260,6 +260,8 @@
 				
 				<!-- 댓글 -->
 				<div class="user-reply">
+					<input type="hidden" name="boardNo" value="${vo.no}">
+
 					<div id="profile">
 						<img src="/app/resources/profile/profile04cheese.jpg" alt="프로필사진">
 					</div>
@@ -267,6 +269,7 @@
 					<div id="reply-body">
 						<div id="reply-writer">
 							댓쓴이
+							<!-- ${rvo.writerName} -->
 						</div>
 
 						<div id="reply-content">
@@ -318,7 +321,7 @@
 						<textarea name="" id="reply-write" placeholder="내용을 입력하세요."></textarea>
 					</div>
 
-					<div><button type="button" id="reply-insert-btn" onclick="">댓글쓰기</button></div>
+					<div><button type="button" id="reply-insert-btn" onclick="writeReply();">댓글쓰기</button></div>
 					
 					<div id="secret-check">
                         <label><input type="checkbox" id="secret" value="y">&nbsp;비밀댓글</label>
@@ -350,5 +353,46 @@
 	// 	this.style.height = 'auto'; // Reset the height to auto
 	// 	this.style.height = this.scrollHeight + 'px'; // Set the height to match the content
 	// });
+
+
+	function writeReply(){
+		const replyWriteTag = document.querySelector('#reply-write');
+		const replyWriteContent = replyWriteTag.value;
+		console.log(replyWriteTag);
+		console.log(replyWriteContent);
+
+		$.ajax({
+			url : '/app/reply' ,
+			type : 'post' ,
+			data : {
+				boardNo : '2' ,
+				// boardNo : '${vo.no}' ,
+				writerNo : '2' ,
+				// writerNo : '${loginMember.no}' ,
+				content : replyWriteContent ,
+			} ,
+			success :function(result) {
+
+				console.log(result);
+
+				if (result == 'success') {
+					alert("댓글 작성 성공!");
+					location.reload();
+					replyWriteContent = '';
+					loadReply();
+				}else{
+					alert("댓글 작성 실패...");
+				}
+			},
+			error : function(fail) {
+				console.log(fail);
+			},
+		})
+	}
+
+	function loadReply() {
+		
+	}
+
 
 </script>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hp.app.board.vo.BoardCategoryVo;
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
 
 @Repository
@@ -61,6 +62,12 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public List<BoardCategoryVo> getCategory(SqlSessionTemplate sst) {
 		return null;
+	}
+
+	//댓글 작성
+	@Override
+	public int writeReply(SqlSessionTemplate sst, ReplyVo rvo) {
+		return sst.insert("board.writeReply", rvo);
 	}
 
 }

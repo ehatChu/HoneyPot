@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -16,13 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
-import com.google.gson.JsonObject;
 import com.hp.app.admin.vo.AdminVo;
-import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.service.NoticeService;
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeImgVo;
@@ -85,7 +80,7 @@ public class NoticeController {
 	
 	// 공지사항 작성
 	@PostMapping("notice/write")
-	public String write(HttpSession session, HttpServletRequest req, @RequestParam("file") List<MultipartFile> fList, NoticeVo vo) {
+	public String write(HttpSession session, NoticeVo vo) {
 		
 		try {
 			
@@ -97,43 +92,6 @@ public class NoticeController {
 			
 //			List<NoticeCategoryVo> cvo = service.getCategory();
 //			model.addAttribute("cvo", cvo);
-			
-			
-			
-//			//파일처리 (프사)
-//			Part profile = req.getPart("profile");
-//			//사진 첨부해야 지정된 경로에 사진 저장 
-//			AttachmentVo attachmentVo = new AttachmentVo();
-//			String path = req.getServletContext().getRealPath("/static/img/profile/");
-//			if(profile.getSize() > 0) {
-//				attachmentVo = FileUploader.saveFile(path, profile);
-//			}
-
-			
-//			//파일 업로드
-//			List<Part> fList = new ArrayList<>();
-//			Collection<Part> parts = req.getParts();
-//			for (Part part : parts) {
-//				if(part.getName().equals("f")) {
-//					fList.add(part);
-//				}
-//			}
-			
-			
-			
-
-			
-			
-			
-
-//			if (result != 1) {
-//				(new File(fileName)).delete();
-//				session.setAttribute("alertMsg", "회원정보 수정에 실패하였습니다");
-//				return "redirect:/member/medit";
-//			}
-			
-			
-			
 			
 			vo.setWriterNo("2"); // 임시 작성자번호
 			int result = service.write(vo);
@@ -150,71 +108,27 @@ public class NoticeController {
 		return "redirect:/notice/list";
 	}
 	
-	//서머노트 사진 업로드
-//	@PostMapping("/upload")
-//	@ResponseBody
-//	public JsonObject uploadImg (@RequestParam("file") MultipartFile file, HttpServletRequest req) {
-//		
-//		JsonObject jsonObject = new JsonObject(); 
-//		
-//		Part x = req.getPart("f");
-//		System.out.println(x);
-//		
-//		return saveImg;
-//	}
-	
 	
 	//서머노트 사진 업로드
     @PostMapping("/upload")
     @ResponseBody
-    public List<String> handleFileUpload(@RequestParam("f") List<MultipartFile> flist, HttpServletRequest req, HttpServletResponse response) throws Exception {
+    public List<String> handleFileUpload(@RequestParam("f") List<MultipartFile> flist, HttpServletRequest req) throws Exception {
         
-    	System.out.println(flist);
+    	NoticeImgVo imgVo = new NoticeImgVo();
+    	List<NoticeImgVo> imgVoList = new ArrayList();
     	
-    	List<String> changeNameList = new ArrayList<>();
-    	try {
-    		
-            String path = "/resources/notice/";
-
-            try {
-                changeNameList = FileUploader.saveFile(path, flist);
-            } catch (Exception e) {
-                 e.printStackTrace();
-            }
-
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-    		
-    	}catch (Exception e) {
-			e.printStackTrace();
+		String path = req.getServletContext().getRealPath("/resources/notice/");
+		List<String> imgList =  FileUploader.saveFile(path, flist);
+		for (int j = 0 ; j < imgList.size() ; j++) {
+			String filePath = path + imgList.get(j);
+			File destinationFile = new File(filePath);
+			flist.get(j).transferTo(destinationFile);
+			
+			System.out.println(imgList);
 		}
-    	
-    	return changeNameList;
-    	
-    	
-		//민성
-//		String path = req.getServletContext().getRealPath("/resources/notice/");
-//		
-//		List<String> Imglist =  FileUploader.saveFile(path, fList);
-//		for (int j = 0; j < Imglist.size(); j++) {
-//			String filePath = path + Imglist.get(j);
-//			File destinationFile = new File(filePath);
-//			fList.get(j).transferTo(destinationFile);
-//		}
+		
+		return imgList;
 
-        
-        
-//		String path = req.getServletContext().getRealPath("/resources/notice/");
-//		
-//		List<String> changeNameList =  FileUploader.saveFile(path, flist);
-//		for (int j = 0; j < changeNameList.size(); j++) {
-//			String filePath = path + changeNameList.get(j);
-//			File destinationFile = new File(filePath);
-//			flist.get(j).transferTo(destinationFile);
-//		}
-//		
-//		return changeNameList;
-        
     }
 
 	// 공지사항 상세조회

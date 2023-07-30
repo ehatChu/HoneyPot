@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hp.app.board.dao.BoardDao;
 import com.hp.app.board.vo.BoardCategoryVo;
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
@@ -65,6 +66,12 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardCategoryVo> getCategory() {
 		return null;
+	}
+
+	//댓글 작성
+	@Override
+	public int writeReply(ReplyVo rvo) {
+		return dao.writeReply(sst, rvo);
 	}
 
 }

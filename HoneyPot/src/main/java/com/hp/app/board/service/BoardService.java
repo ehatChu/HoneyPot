@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.hp.app.board.vo.BoardCategoryVo;
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
 
 public interface BoardService {
@@ -29,5 +30,8 @@ public interface BoardService {
 	
 	//게시글 카테고리 조회
 	public abstract List<BoardCategoryVo> getCategory();
+
+	//댓글 작성
+	public abstract int writeReply(ReplyVo rvo);
 
 }

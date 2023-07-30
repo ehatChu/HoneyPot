@@ -4,8 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 작성</title>
-<%@ include file="/WEB-INF/views/common/setup.jsp" %>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <style>
     .write-area {
         width: 1440px;
@@ -409,10 +407,7 @@
 </body>
 </html>
 
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script> -->
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script>
 
     basicSetting(); // 기본 셋팅
@@ -449,8 +444,6 @@
             fd.append("f" , file);
         }
 
-        console.log(fd);
-
         $.ajax({
             url : '/app/upload' ,
             type : 'post' ,
@@ -461,7 +454,7 @@
             success : function(changeNameList){
                 console.log(changeNameList);
                 for(let changeName of changeNameList){
-                $('#summernote').summernote('insertImage' , '/resources/notice/' + changeNameList);
+                $('#summernote').summernote('insertImage' , '/app/resources/notice/' + changeName);
                 }
             } ,
             error : function(error){
