@@ -8,17 +8,16 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("chat")
 public class ChatController {
 
 	// 채팅 친구 목록 화면
-	@GetMapping("followerList")
+	@GetMapping("chat/followerList")
 	public String followerList() {
 		return "/chat/followerList";
 	}
 	
 	// 채팅방 목록 조회 화면
-	@GetMapping("list")
+	@GetMapping("chat/list")
 	public String chatList() {
 		return "/chat/list";
 	}

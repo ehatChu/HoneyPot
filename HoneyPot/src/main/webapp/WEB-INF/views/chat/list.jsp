@@ -117,37 +117,12 @@
 					<div id="chat-area">
                         <div class="room-name-area">
                             <div><span>101동 골프 모임</span><button class="openBtn"><i class="fa-solid fa-pen fa-sm" style="color: #000000;"></i></button></div>
-                            
                             <div><button class="quitBtn"><span>나가기</span><i class="fa-solid fa-arrow-right-from-bracket fa-lg" style="color: #000000;"></i></button></div>
                         </div>
-                        <div class="chat-content-area">
-							<div class="well" id="chatdata">
-								<!-- 대화내용 출력 -->
-								<!-- <c:forEach items="${conlist}" var="list">
-								<div class="well">
-								<c:if test="${list.usersdto.uname ne uname}">
-									<div class="otehr-content">
-										<div class="other-content-info">
-												<strong> ${list.usersdto.uname}</strong><br>
-										</div>
-										<p class="other-content-wrap"> ${list.content}</p> 
-										<span class="other-content-date">${list.fdate }</span>
-									</div>
-								</c:if>
-								<c:if test="${list.usersdto.uname eq uname}">
-									<div class="mycontent">
-										<div class="mycontent-info">
-										</div>
-										<p class="mycontent-wrap"> ${list.content}</p> 
-									</div>
-								</c:if>
-								</div>
-								</c:forEach> -->
-							</div>
-						</div>
+						<div id="chatArea"><div id="chatMessageArea"></div></div>
                         <div class="input-area">
-                            <textarea name="" id="" placeholder="내용을 입력하세요."></textarea>
-                            <button id="sendBtn">보내기</button>
+                            <textarea name="" id="message" placeholder="내용을 입력하세요."></textarea>
+							<button id="sendBtn">보내기</button>
                         </div>
                     </div>
 					<!-- 채팅 수정 모달 영역 -->
@@ -322,5 +297,94 @@
 		// 친구 초대 클릭 이벤트 추가
 		const inviteBtn = document.querySelector(".inviteMember");
 		inviteBtn.addEventListener("click", openListModal);
+
+
+		// 웹소켓 만들기
+		let wsocket = new WebSocket("ws://127.0.0.1:8888/app/chat");
+		wsocket.onopen = funcOpen; 
+		wsocket.onclose = funcClose;
+		wsocket.onerror = funcError;
+		wsocket.onmessage = funcMessage;
+		
+		function funcOpen() {
+			console.log("소켓 연결");
+		}
+
+		function funcClose() {
+			console.log("소켓 닫힘");
+		}
+
+		function funcError() {
+			console.log("소켓 에러");
+		}
+
+		function funcMessage(x) {
+			console.log("메세지 받음");
+
+			var data = JSON.parse(x.data);
+			var name = data.name;
+			var msg = data.msg;
+			var time = data.time;
+			appendMessage(data)
+			console.log(data);;
+		}
+
+		// 나가기 버튼 클릭시 작동 함수
+		function disconnect() {
+			wsocket.close();
+		}
+
+
+		function send() {
+        
+			//var nickname = $("#nickname").val();
+			var msg = $("#message").val();
+			wsocket.send("msg:" + msg );
+			$("#message").val("");
+		}
+
+
+		function appendMessage(msg) {
+        
+        // 메세지 입력창에 msg를 하고 줄바꿈 처리
+        $("#chatMessageArea").append(msg.msg);
+        
+        // 채팅창의 heigth를 할당
+        var chatAreaHeight = $("#chatArea").height();
+        
+        // 쌓인 메세지의 height에서 채팅창의 height를 뺀다
+        // 이를 이용해서 바로 밑에서 스크롤바의 상단여백을 설정한다
+        var maxScroll = $("#chatMessageArea").height() - chatAreaHeight;
+        
+        /* .scrollTop(int) : Set the current vertical position of the scroll bar
+                             for each of the set of matched elements.*/
+        // .scrollTop(int) : 파라미터로 들어간 px 만큼 top에 공백을 둔 채
+        //                   스크롤바를 위치시킨다
+        $("#chatArea").scrollTop(maxScroll);
+    }
+
+	$(document).ready(function() {
+        
+        // 메세지 입력창에 keypress 이벤트가 발생했을때 발동 함수
+        // 키 하나하나 입력 하면 그때마다 발동된다
+        $('#message').keypress(function(event){
+
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+				
+		// enter를 쳤을 때 keycode가 13이다
+		if(keycode == '13'){
+					send(); 
+				}
+				
+				// 만일의 경우를 대비하여 이벤트 발생 범위를 한정
+		// http://ismydream.tistory.com/98 참고
+				event.stopPropagation();
+			});
+			$('#sendBtn').click(function() { send(); });
+			$('.quitBtn').click(function() { disconnect(); });
+		});
+
+
+
 
 	</script>

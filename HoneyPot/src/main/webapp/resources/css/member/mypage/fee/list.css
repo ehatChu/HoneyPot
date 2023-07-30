@@ -18,6 +18,7 @@
 
 .select-area {
     margin-left: 20px;
+    display: grid;
 }
 
 #paymentDate {
@@ -30,6 +31,13 @@
     font-weight: 530;
     margin-top: 10px;
     cursor: pointer;
+}
+
+#searchBtn {
+    width: 50px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
 }
 
 .price-area{
@@ -204,15 +212,15 @@
 }
 
 .line-chart-area {
-   display: grid;
-    background: #ffffff;
+    display: grid;
+    grid-template-rows: 50px 500px;
     width: 730px;
-    height: 500px;
+    height: 550px;
     margin-top: 50px;
     margin-left: 30px;
 }
 
-.line-chart-area div, .categoroy_area{
+.line-chart-area div:first-child, .categoroy_area{
     height: 50px;
     width: 320px;
     background-color: #4A321f;
@@ -222,3 +230,11 @@
     padding-top: 5px;
     font-size: 23px;
 }
+
+#categoryC {
+    background: #ffffff;
+    width: 730px;
+    height: 480px;
+}
+
+

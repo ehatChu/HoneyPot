@@ -23,13 +23,13 @@ public class FeeServiceImpl implements FeeService{
 	private final SqlSessionTemplate sst;
 	
 	@Override
-	public List<MemberFeeVo> memberFeeList(String mno) {
-		return dao.memberFeeList(sst, mno);
+	public List<MemberFeeVo> memberFeeList(Map<String, String> paramMap) {
+		return dao.memberFeeList(sst, paramMap);
 	}
 
 	@Override
-	public int totalMemberFee(String mno) {
-		return dao.totalMemberFee(sst, mno);
+	public int totalMemberFee(Map<String, String> paramMap) {
+		return dao.totalMemberFee(sst, paramMap);
 	}
 
 	@Override
@@ -85,6 +85,11 @@ public class FeeServiceImpl implements FeeService{
 	@Override
 	public List<MemberFeeVo> oneYearFee(Map<String, String> dateVo) {
 		return dao.oneYearFee(sst, dateVo);
+	}
+
+	@Override
+	public int changePayStatus(String memberName) {
+		return dao.changePayStatus(sst, memberName);
 	}
 
 	

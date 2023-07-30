@@ -40,6 +40,7 @@
                     </div>
 					<div id="detail-area">
                         <div><span>상세 내역</span></div>
+                        <input type="hidden" value="${mvoList[0].memberNo}" id="memberNo">
                         <input type="hidden" value="${mvoList[0].memberName}" id="memberName">
                         <input type="hidden" value="${mvoList[0].dong}" id="dong">
                         <input type="hidden" value="${mvoList[0].ho}" id="ho">
@@ -116,6 +117,9 @@
             const nameInput = document.querySelector("#memberName");
             const memberName = nameInput.value;
             console.log(memberName);
+            const noInput = document.querySelector("#memberNo");
+            const memberNo = noInput.value;
+            console.log(memberNo);
             const dongInput = document.querySelector("#dong");
             const dong = dongInput.value;
             const hoInput = document.querySelector("#ho");
@@ -135,17 +139,22 @@
                 console.log(rsp);
                 // 결제검증 status paid 되면 결제하기 버튼 결제완료로 바뀌고, disabled
                 $.ajax({
-                    type : "POST",
-                    url : "/app/fee/member/payment/" + rsp.imp_uid,
+                    type: "POST",
+                    url: "/app/fee/member/payment/" + rsp.imp_uid,
+                    contentType: "application/json",
+                    data: JSON.stringify({ memberNo: memberNo }),
+                    success: function (response) {
+                        console.log('서버에서 결제 상태를 업데이트했습니다.');
+                        const payBtnBox = document.querySelector("#payBtn");
+                            payBtnBox.innerText = '납부완료';
+                            payBtnBox.style.cursor = 'default';
+                            payBtnBox.disabled = true;
+                      
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('결제 상태 업데이트 오류:', error);
+                    },
                 });
-                const status = rsp.status;
-                const payBtnBox = document.querySelector("#payBtn");
-                
-                if(status == 'paid'){
-                    payBtnBox.innerText = '납부완료';
-                    payBtnBox.style.cursor = 'default';
-                    payBtnBox.disabled = true;
-                }
             }
         )};
 
