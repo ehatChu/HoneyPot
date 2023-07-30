@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -14,9 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+import com.google.gson.JsonObject;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.service.NoticeService;
@@ -117,26 +121,9 @@ public class NoticeController {
 			
 			
 			
-			
-			String path = req.getServletContext().getRealPath("/resources/notice/");
-			
-			List<String> Imglist =  FileUploader.saveFile(path, fList);
-//			"sdfsdfsdfs.jpg" 
-			for (int j = 0; j < Imglist.size(); j++) {
-				String filePath = path + Imglist.get(j);
-				File destinationFile = new File(filePath);
-				fList.get(j).transferTo(destinationFile);
-			}
+
 			
 			
-			
-////			if (fList.size() != 0) {
-////				fileName = FileUploader.saveFile(path, img);
-////					String filePath = path + fileName;
-////					File destinationFile = new File(filePath);
-////					fList.transferTo(destinationFile);
-//////				loginTemp.setProfile(fileName);
-//				}
 			
 
 //			if (result != 1) {
@@ -162,6 +149,73 @@ public class NoticeController {
 		session.setAttribute("alert", "게시글 작성 성공!");
 		return "redirect:/notice/list";
 	}
+	
+	//서머노트 사진 업로드
+//	@PostMapping("/upload")
+//	@ResponseBody
+//	public JsonObject uploadImg (@RequestParam("file") MultipartFile file, HttpServletRequest req) {
+//		
+//		JsonObject jsonObject = new JsonObject(); 
+//		
+//		Part x = req.getPart("f");
+//		System.out.println(x);
+//		
+//		return saveImg;
+//	}
+	
+	
+	//서머노트 사진 업로드
+    @PostMapping("/upload")
+    @ResponseBody
+    public List<String> handleFileUpload(@RequestParam("f") List<MultipartFile> flist, HttpServletRequest req, HttpServletResponse response) throws Exception {
+        
+    	System.out.println(flist);
+    	
+    	List<String> changeNameList = new ArrayList<>();
+    	try {
+    		
+            String path = "/resources/notice/";
+
+            try {
+                changeNameList = FileUploader.saveFile(path, flist);
+            } catch (Exception e) {
+                 e.printStackTrace();
+            }
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+    		
+    	}catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	return changeNameList;
+    	
+    	
+		//민성
+//		String path = req.getServletContext().getRealPath("/resources/notice/");
+//		
+//		List<String> Imglist =  FileUploader.saveFile(path, fList);
+//		for (int j = 0; j < Imglist.size(); j++) {
+//			String filePath = path + Imglist.get(j);
+//			File destinationFile = new File(filePath);
+//			fList.get(j).transferTo(destinationFile);
+//		}
+
+        
+        
+//		String path = req.getServletContext().getRealPath("/resources/notice/");
+//		
+//		List<String> changeNameList =  FileUploader.saveFile(path, flist);
+//		for (int j = 0; j < changeNameList.size(); j++) {
+//			String filePath = path + changeNameList.get(j);
+//			File destinationFile = new File(filePath);
+//			flist.get(j).transferTo(destinationFile);
+//		}
+//		
+//		return changeNameList;
+        
+    }
 
 	// 공지사항 상세조회
 	@GetMapping("notice/detail")

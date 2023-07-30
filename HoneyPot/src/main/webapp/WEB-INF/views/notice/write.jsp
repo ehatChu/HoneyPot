@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 작성</title>
+<%@ include file="/WEB-INF/views/common/setup.jsp" %>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <style>
     .write-area {
@@ -319,6 +320,52 @@
                             </button>
                         </div>
 
+
+                        <!-- 모달 -->
+                        <div class="modal hidden">
+                            <div class="bg"></div>
+
+                            <div class="modal-content">
+                                <div id="modal-head">
+                                    <div>투표 생성</div>
+                                    <div id="close-btn">&times;</div>
+                                </div>
+
+                                <div id="modal-body">
+                                    <div id="modal-article">제목</div>
+                                    <input type="text" id="modal-input" placeholder="투표 제목">
+
+                                    <div id="modal-article">기간</div>
+                                    <input type="date" id="start-date"> ~ <input type="date" id="end-date">
+
+                                    <div id="vote-article-area">
+                                        <div id="modal-article">투표항목</div>
+                                        <div class="vote-article">
+                                            <input type="text" id="vote-article" placeholder="항목 입력"><span
+                                                onclick="del();">&times;</span>
+                                        </div>
+                                    </div>
+
+                                    <div id="modal-article" class="plus-article">
+                                        <i class="fa-solid fa-plus"></i> &nbsp; 항목 추가
+                                    </div>
+
+                                    <div id="dup-checkbox">
+                                        <label for="dup">
+                                            <input type="checkbox" id="dup" value="y">
+                                            중복 투표 허용
+                                        </label>
+                                    </div>
+
+                                    <div id="insert-btn-area">
+                                        <button type="button" id="insert-btn">확인</button>
+                                    </div>
+                                </div>
+                                
+                                <br>
+                            </div>
+                        </div>
+
                         
                         <!-- 투표 ui -->
                         <div id="vote-wrap">
@@ -355,58 +402,14 @@
         </div>
 
 
-        <!-- 모달 -->
-        <div class="modal hidden">
 
-            <div class="bg"></div>
-
-            <div class="modal-content">
-                <div id="modal-head">
-                    <div>투표 생성</div>
-                    <div id="close-btn">&times;</div>
-                </div>
-
-                <div id="modal-body">
-                    <div id="modal-article">제목</div>
-                    <input type="text" id="modal-input" placeholder="투표 제목">
-
-                    <div id="modal-article">기간</div>
-                    <input type="date" id="start-date"> ~ <input type="date" id="end-date">
-
-                    <div id="vote-article-area">
-                        <div id="modal-article">투표항목</div>
-                        <div class="vote-article">
-                            <input type="text" id="vote-article" placeholder="항목 입력"><span
-                                onclick="del();">&times;</span>
-                        </div>
-                    </div>
-
-                    <div id="modal-article" class="plus-article">
-                        <i class="fa-solid fa-plus"></i> &nbsp; 항목 추가
-                    </div>
-
-                    <div id="dup-checkbox">
-                        <label for="dup">
-                            <input type="checkbox" id="dup" value="y">
-                            중복 투표 허용
-                        </label>
-                    </div>
-
-                    <div id="insert-btn-area">
-                        <button type="button" id="insert-btn">확인</button>
-                    </div>
-                </div>
-                
-                <br>
-            </div>
-
-        </div>
 
     </main>
 
 </body>
 </html>
 
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script> -->
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
@@ -425,6 +428,9 @@
         maxHeight: 300,
         minHeight: 300,
         width: 1200,
+        callbacks : {
+          onImageUpload : f01
+        },
         toolbar: [
             ['style', ['style']],
             ['font', ['bold', 'underline', 'clear']],
@@ -435,6 +441,34 @@
             ['view', ['fullscreen', 'codeview', 'help']]
         ]
     });
+
+    //파일업로드 발생 시 동작하는 콜백함수
+    function f01(fileList){
+        const fd = new FormData();
+        for(let file of fileList){
+            fd.append("f" , file);
+        }
+
+        console.log(fd);
+
+        $.ajax({
+            url : '/app/upload' ,
+            type : 'post' ,
+            data : fd ,
+            processData : false ,
+            contentType : false ,
+            dataType : 'json' ,
+            success : function(changeNameList){
+                console.log(changeNameList);
+                for(let changeName of changeNameList){
+                $('#summernote').summernote('insertImage' , '/resources/notice/' + changeNameList);
+                }
+            } ,
+            error : function(error){
+                console.log(error);
+            } ,
+        });
+    }
 
 
     //모달
