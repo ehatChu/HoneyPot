@@ -193,10 +193,10 @@
 				<div class="detail-title-area">
 					<table id="detail-title">
 						<tr>
-							<td id="title">제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-							<td id="writer">관리자</td>
-							<td>2023.01.01 15:49</td>
-							<td><i class="fa-solid fa-eye"></i>조회수</td>
+							<td id="title">${vo.title}</td>
+							<td id="writer">${vo.writerName}</td>
+							<td>${vo.enrollDate}</td>
+							<td><i class="fa-solid fa-eye"></i>${vo.hit}</td>
 						</tr>
 					</table>
 				</div>
@@ -205,37 +205,7 @@
 				<div class="detail-content-area">
 					<div id="detail-content">
 						${vo.content}
-						이마가 훤히 보이게 뒤로 묶은 머리카락
-						걸을 때마다 찰랑찰랑
-						매끈한 다리를 감싼 바지 끝단 아래로 가벼운 운동화
-						모든 게 심플하지만 아름다움이 풍겨와
-						또 어딜 가든 예의 바른 행동과
-						미소와 말툰 내 거친 생각마저 상냥하게
-						만들어 넌 마치
-						내 심장 위에 타투
 					</div>
-					<!-- <textarea name="" id="detail-content" readonly>
-						이마가 훤히 보이게 뒤로 묶은 머리카락
-						걸을 때마다 찰랑찰랑
-						매끈한 다리를 감싼 바지 끝단 아래로 가벼운 운동화
-						모든 게 심플하지만 아름다움이 풍겨와
-						또 어딜 가든 예의 바른 행동과
-						미소와 말툰 내 거친 생각마저 상냥하게
-						만들어 넌 마치
-						내 심장 위에 타투
-						숨통이 막히도록 차있어 내 가슴 가득
-						우리 함께 밤을 보낸 다음 이불 끝자락에 남은
-						너의 향기에 난 취해 잠을 자
-						새하얀 너의 살을 부드러운 뺨을 마음껏 품은 다음
-						밤새도록 괴롭히고파
-						돈 보다 자기 삶을 즐기며 살 줄 아는
-						평범치 않은 아름다운 매력의 소유자
-						사람냄새가 나 이 복잡한 세상 넌 마치 때 타지 않은 자연산
-						사람냄새가 나서 니가 너무 좋아져
-						어설픈 외모가 왠지 더 끌려 난
-						우물쭈물 하다가 너를 놓칠까 봐
-						난 미칠 것 만 같아
-					</textarea> -->
 				</div>
 
 				<!-- 좋아요 버튼 -->
@@ -249,9 +219,9 @@
 		<!-- 버튼 -->
 		<div class="btn-area">
 			<div id="btn-box">
-				<button type="button" id="post-report-btn" onclick="">신고</button>
-				<button type="button" id="post-edit-btn" onclick="">수정</button>
-				<button type="button" id="post-del-btn" onclick="">삭제</button>
+				<button type="button" id="post-report-btn" onclick="location.href=''">신고</button>
+				<button type="button" id="post-edit-btn" onclick="location.href='/app/board/edit?no=${vo.no}'">수정</button>
+				<button type="button" id="post-del-btn" onclick="location.href='/app/board/delete?no=${vo.no}'">삭제</button>
 			</div>
 		</div>
 		
@@ -261,9 +231,11 @@
 				<!-- 댓글 -->
 				<div class="user-reply">
 					<input type="hidden" name="boardNo" value="${vo.no}">
+					<input type="hidden" name="replyNo" value="${rvo.no}">
 
 					<div id="profile">
 						<img src="/app/resources/profile/profile04cheese.jpg" alt="프로필사진">
+						<!-- <img src="/app/resources/profile/${loginMember.profile}" alt="프로필사진"> -->
 					</div>
 
 					<div id="reply-body">
@@ -274,19 +246,34 @@
 
 						<div id="reply-content">
 							댓글내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+							<!-- ${rvo.content} -->
 						</div>
 
 						<div id="reply-footer">
 							<div id="reply-date">
 								2023.08.10 15:49
+								<!-- ${rvo.enrollDate} -->
 							</div>
-							<div id="re-reply-btn">답글쓰기</div>
-							<div id="reply-edit-btn">수정</div>
-							<div id="reply-del-btn">삭제</div>
-							<div id="reply-report-btn">신고</div>
+							<div id="re-reply-btn" onclick="">답글쓰기</div>
+							<div id="reply-edit-btn" onclick="">수정</div>
+							<div id="reply-del-btn" onclick="">삭제</div>
+							<div id="reply-report-btn" onclick="">신고</div>
 						</div>
 					</div>
 				</div>
+
+								<!-- 댓글 작성란 -->
+								<div class="reply-submit-area">
+									<div class="reply-write-area">
+										<textarea name="" id="reply-write" placeholder="내용을 입력하세요."></textarea>
+									</div>
+				
+									<div><button type="button" id="reply-insert-btn" onclick="writeReply();">댓글쓰기</button></div>
+									
+									<div id="secret-check">
+										<label><input type="checkbox" id="secret" value="y">&nbsp;비밀댓글</label>
+									</div>
+								</div>
 
 				<!-- 대댓글 -->
 				<div class="user-re-reply">
@@ -358,8 +345,14 @@
 	function writeReply(){
 		const replyWriteTag = document.querySelector('#reply-write');
 		const replyWriteContent = replyWriteTag.value;
+		const replyWriteContentTrim = replyWriteTag.value.trim();
 		console.log(replyWriteTag);
 		console.log(replyWriteContent);
+		console.log(replyWriteContentTrim);
+
+		if(!replyWriteContentTrim) {
+			return;
+		}
 
 		$.ajax({
 			url : '/app/reply' ,
@@ -376,7 +369,7 @@
 				console.log(result);
 
 				if (result == 'success') {
-					alert("댓글 작성 성공!");
+					alert("댓글이 등록되었습니다.");
 					location.reload();
 					replyWriteContent = '';
 					loadReply();

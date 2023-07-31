@@ -45,8 +45,6 @@ public class BoardController {
 			model.addAttribute("pv", pv);
 			model.addAttribute("searchVo", searchVo);
 			
-			System.out.println(voList);
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,26 +61,37 @@ public class BoardController {
 
 	// 게시글 상세 조회
 	@GetMapping("board/detail")
-	public String detail() {
+	public String detail(Model model, String no) {
+		
+		try {
+			BoardVo vo = service.viewDetail(no);
+			model.addAttribute("vo", vo);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return "board/detail";
 	}
 	
 	//댓글 작성
 	@PostMapping("reply")
 	@ResponseBody
-	public String writeReply(HttpSession session, HttpServletResponse resp, BoardVo vo, String boardNo, String writerNo, String content) {
+	public String writeReply(HttpSession session, HttpServletResponse resp, ReplyVo rvo) {
 		
 		AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
-		ReplyVo rvo = new ReplyVo();
-		
-		rvo.setBoardNo(boardNo);
-		rvo.setWriterNo(writerNo);
-		rvo.setContent(content);
 		
 		System.out.println(rvo);
 		
+		//댓글 null 검사
+		if (rvo.getContent() == null || rvo.getContent().trim().isEmpty()) {
+			return "empty";
+		}
+		
 		int result = service.writeReply(rvo);
+		
 		System.out.println(result);
+		System.out.println(rvo);
+		
 		if(result < 0) {
 //			resp.getWriter().write("fail");
 			return "fail";

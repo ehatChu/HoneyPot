@@ -10,7 +10,7 @@
 		    B.NO AS NO
 		    ,B.WRITER_NO AS WRITER_NO
 		    ,M.NAME AS WRITER_NAME
-		    ,BOARD_STATUS_NO
+		    ,S.NO AS BOARD_STATUS_NO
 		    ,S.NAME AS BOARD_STATUS_NAME
 		    ,B.BOARD_CNO AS BOARD_CNO
 		    ,C.NAME AS BOARD_CNAME
@@ -88,6 +88,50 @@
 		</if>
 		
 	</select>
+	
+	
+	<!-- 상세조회 -->
+	<select id="viewDetail" resultType="com.hp.app.board.vo.BoardVo">		
+		SELECT
+		    B.NO AS NO
+		    ,B.WRITER_NO AS WRITER_NO
+		    ,M.NAME AS WRITER_NAME
+		    ,S.NO AS BOARD_STATUS_NO
+		    ,S.NAME AS BOARD_STATUS_NAME
+		    ,B.BOARD_CNO AS BOARD_CNO
+		    ,C.NAME AS BOARD_CNAME
+		    ,TITLE
+		    ,B.CONTENT AS CONTENT
+		    ,B.ENROLL_DATE AS ENROLL_DATE
+		    ,B.MODIFY_DATE AS MODIFY_DATE
+		    ,HIT
+		    ,COALESCE(A.LOVE_CNT, 0) AS LOVE_CNT
+		FROM
+		    BOARD B
+		    JOIN BOARD_CATEGORY C ON B.BOARD_CNO = C.NO
+		    JOIN BOARD_STATUS S ON B.BOARD_STATUS_NO = S.NO
+		    JOIN MEMBER M ON B.WRITER_NO = M.NO
+		    LEFT JOIN
+		    		(
+	        			SELECT BOARD_NO, COUNT(MEMBER_NO) AS LOVE_CNT
+	        			FROM LOVE
+	        			GROUP BY BOARD_NO
+	        		) A ON A.BOARD_NO = B.NO
+		WHERE S.NO != 5
+		AND B.NO = #{no}
+		<!-- AND C.NO = 4 -->
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="plusHit">
+		UPDATE (
+					SELECT B.NO AS NO, B.HIT AS HIT
+					FROM BOARD B JOIN BOARD_STATUS S ON B.BOARD_STATUS_NO = S.NO
+					WHERE S.NO != 5
+				) 
+		SET HIT = HIT +1
+        WHERE NO = #{no}
+	</update>
 	
 	
 	<!-- 댓글 작성 -->

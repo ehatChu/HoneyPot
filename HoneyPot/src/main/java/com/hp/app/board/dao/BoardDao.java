@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.board.vo.BoardCategoryVo;
+import com.hp.app.board.vo.BoardImgVo;
 import com.hp.app.board.vo.BoardVo;
 import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
@@ -38,5 +39,8 @@ public interface BoardDao {
 
 	//댓글 작성
 	public abstract int writeReply(SqlSessionTemplate sst, ReplyVo rvo);
+	
+	//사진 목록 조회
+	public abstract List<BoardImgVo> getImgList(SqlSessionTemplate sst, String no);
 
 }

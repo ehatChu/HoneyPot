@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hp.app.board.dao.BoardDao;
 import com.hp.app.board.vo.BoardCategoryVo;
+import com.hp.app.board.vo.BoardImgVo;
 import com.hp.app.board.vo.BoardVo;
 import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
@@ -58,8 +59,9 @@ public class BoardServiceImpl implements BoardService {
 
 	//게시글 상세조회
 	@Override
-	public BoardVo viewDetail(BoardVo vo) {
-		return null;
+	public BoardVo viewDetail(String no) {
+		int result = dao.plusHit(sst, no);
+		return dao.viewDetail(sst, no);
 	}
 
 	//게시글 카테고리 조회
@@ -72,6 +74,12 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int writeReply(ReplyVo rvo) {
 		return dao.writeReply(sst, rvo);
+	}
+
+	//사진 목록 조회
+	@Override
+	public List<BoardImgVo> getImgList(String no) {
+		return null;
 	}
 
 }
