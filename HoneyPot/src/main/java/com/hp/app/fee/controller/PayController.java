@@ -48,9 +48,6 @@ public class PayController {
 		String memberName = paymentInfo.getMemberNo();
 		log.info(memberName);
 		int result = service.changePayStatus(memberName);
-		// 클라이언트 측에서 보낸 memberName을 사용하여 업데이트 처리
-		// paymentInfo.getMemberName() 메소드를 사용하여 멤버 이름을 얻어올 수 있습니다.
-		// service.updatePaymentStatus(imp_uid, paymentInfo.getMemberName()); // 이렇게 업데이트 메소드를 호출하여 결제 상태를 업데이트합니다.
 
 		return api.paymentByImpUid(imp_uid);
 	}
