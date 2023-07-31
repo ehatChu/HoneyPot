@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -235,7 +236,7 @@ public class CSCController {
 	// 신고 상세 조회
 	@GetMapping("csc/report/detail")
 	@ResponseBody
-	public ReportVo getReportByNo(String rno) throws Exception {
+	public ReportVo getMyReportByNo(String rno) throws Exception {
 		
 		String no = "1";
 		
@@ -385,8 +386,88 @@ public class CSCController {
 	
 	// 신고내역(화면)
 	@GetMapping("admin/csc/report-list")
-	public String adminReportList() {
+	public String adminReportList(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchMap) throws Exception {
+		
+		try {
+			List<ReportCategoryVo> cList = service.getReportCatList();
+			
+			if(cList == null) {
+				throw new Exception("신고 내역 카테고리 조회 에러");
+			}
+			
+			// 페이징 처리
+			int listCount = service.getReportCnt(searchMap);
+			int currentPage = Integer.parseInt(page);
+			int pageLimit = 5;
+			int boardLimit = 6;
+			
+			PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+			List<ReportVo> rList = service.getReportList(pvo, searchMap);
+			
+			// 갯수 조회
+			List<ReportVo> nList = service.getReportAllList(searchMap);
+			int sum = 0;
+			int answerY = 0;
+			int answerN = 0;
+
+			for(ReportVo vo : nList) {
+				if("N".equals(vo.getAnswerYn())) {
+					answerN++;
+				}else if("Y".equals(vo.getAnswerYn())) {
+					answerY++;
+				}
+			}
+			
+			sum = answerY + answerN;
+			Map<String, String> listCnt = new HashMap<String, String>();
+			
+			
+			listCnt.put("sum", Integer.toString(sum));
+			listCnt.put("answerY", Integer.toString(answerY));
+			listCnt.put("answerN", Integer.toString(answerN));
+			
+			model.addAttribute("cList", cList);
+			model.addAttribute("listCnt", listCnt);
+			model.addAttribute("rList", rList);
+			model.addAttribute("pvo", pvo);
+			model.addAttribute("searchVo", searchMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return "csc/admin/report-list";
+	}
+	
+	// 신고내역 상세조회
+	@PostMapping("admin/csc/report/detail")
+	@ResponseBody
+	public ReportVo getReportByNo(String rno) throws Exception {
+	
+		ReportVo qvo = service.getReportByNo(rno);
+		
+		if(qvo == null) {
+			throw new Exception("신고내역 상세조회 에러");
+		}
+		
+		return qvo;
+	}
+	
+	// 문의내역 삭제
+	@GetMapping("admin/csc/report/delete")
+	public String deleteReport(String rno) throws Exception {
+		
+		try {
+			int result = service.deleteReport(rno);
+			
+			if(result != 1) {
+				throw new Exception("관리자 문의내역 삭제 에러");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/admin/csc/report-list";
+		
 	}
 	
 	// FAQ조회(화면)

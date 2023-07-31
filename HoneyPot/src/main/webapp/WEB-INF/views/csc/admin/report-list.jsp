@@ -6,249 +6,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-    <style>
-        .inquiry-search-area{
-            width: 1560px;
-            height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-bottom: 1px solid rgb(156, 156, 156);
-            
-        }
+    <!-- css -->
+    <link rel="stylesheet" href="/app/resources/css/csc/admin/report-list.css">
 
-        .model-search-area{
-            display: flex;
-            flex-direction: row;
-        }
-
-        .model-search-box-area{
-            width: 1000px;
-            height: 60px;
-            background-color: white;
-            display: flex;
-            flex-direction: row;
-            box-shadow: 3px 3px 5px rgb(145, 145, 145);
-        }
-
-        .model-search-category{
-            padding-left: 10px;
-            width: 150px;
-            height: 60px;
-            border: none;
-            font-size: 18px;
-            font-family: 'Noto Sans KR';
-        }
-
-        
-        .model-serach-category:focus{
-            outline: none;
-        }
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 
 
 
-        .model-serach-input{
-            padding-left: 15px;
-            font-size: 18px;
-            width: 850px;
-            height: 60px;
-            border: none;
-            font-family: 'Noto Sans KR';
-        }
-
-        .model-serach-input:focus{
-            outline: none;
-        }
-
-        .inquiry-category-area{
-            background-color: #f5f5f5;
-            width: 1560px;
-            height: 65px;
-            border-bottom: 1px solid rgb(156, 156, 156);
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        .inquiry-category-text{
-            margin-left: 100px;
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        input[name=allDate]{
-            margin-left: 20px;
-        }
-
-        .inquiry-category-text2{
-            margin-left: 5px;
-            font-size: 14px;
-            color: gray;
-        }
-
-        input[name=startDate]{
-            margin-left: 20px;
-            margin-right: 10px;
-            width: 130px;
-            height: 25px;
-        }
-
-        input[name=endDate]{
-            margin-left: 10px;
-            height: 25px;
-            width: 130px;
-            margin-right: 50px;
-        }
-
-        .answer-category-box{
-            margin-left: 20px;
-            width: 170px;
-            height: 30px;
-            margin-right: 50px;
-        }
-
-        .content-category-box{
-            margin-left: 20px;
-            width: 170px;
-            height: 30px;
-        }
-
-        .inquiry-btn-area{
-            background-color: #E7E7E7;
-            width: 1560px;
-            height: 70px;
-            border-bottom: 1px solid rgb(156, 156, 156);
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .inquiry-search-btn{
-            margin-left: 30px;
-            width: 100px;
-            height: 45px;
-            border: none;
-            background-color: #FF3131;
-            border-radius: 4px;
-            font-weight: 900;
-            font-family: 'Noto Sans KR';
-            font-size: 20px;
-        }
-
-        .inquiry-search-btn:hover{
-            cursor: pointer;
-        }
-
-        .white{
-            background-color: white;
-        }
-
-        .inquiry-list-category-area{
-            background-color: #E7E7E7;
-            width: 1560px;
-            height: 80px;
-            /* border-bottom: 1px solid rgb(156, 156, 156); */
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        .inquiry-list-category{
-            height: 100%;
-            width: 260px;
-            /* box-sizing: border-box; */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 1px solid rgb(156, 156, 156);
-        }
-        
-        .right-border{
-            border-right: 1px solid rgb(156, 156, 156);
-        }
-
-        .focus-category{
-            background-color: white;
-            border-top: 3px solid black;
-        }
-
-        .list-category-text{
-            font-size: 16px;
-            margin-left: 20px;
-            font-weight: 900;
-        }
-
-        .list-category-num{
-            font-weight: 900;
-            margin-right: 20px;
-        }
-
-        .yellow{
-            color: #FFCE31;
-        }
-
-        .red{
-            color: #FF3131;
-        }
-
-        .inquiry-list-area > table{
-            width: 1560px;
-            text-align: center;
-            border-collapse : collapse;
-            border-spacing : 0;
-        }
-        
-        .inquiry-list-area > table tr{
-            background-color: #f5f5f5;
-            height: 60px;
-            
-        }
-
-        .inquiry-list-area > table tr > th{
-            border: 2px solid rgb(156, 156, 156);
-        }
-
-        .inquiry-list-area > table tr > td{
-            border: 1px solid rgb(156, 156, 156);
-        }
-
-        .inquiry-list-area > table tr:not(:first-of-type):hover{
-            background-color: #FFD0D0;
-        }
-
-        .inquiry-list-area > table tr > th:nth-of-type(2){
-            width: 500px;
-        }
-
-        .page-area {
-            width: 1560px;
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .page-area button {
-            display: inline-block;
-            font-weight: bold;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: transparent;
-        }
-
-        .page-area button:hover{
-            background-color: #fa5555;
-            color: white;
-        }
-
-        .category-color{
-            color: #e73a3a;
-        }
-
-    </style>
 </head>
 
 <body>
@@ -259,63 +23,65 @@
         </nav>
 
         <main>
-            <div class="inquiry-search-area">
-                <div class="model-search-area">
-                    <div class="model-search-box-area">
-                        <select name="" id="" class="model-search-category">
-                            <option value="">이름</option>
-                            <option value="">호수</option>
-                        </select>
-                        <input type="text" class="model-serach-input">
-                    </div>
-                    
-                </div>
-            </div>
-            <div class="inquiry-category-area">
-                <div class="inquiry-category-text">기간</div>
-                <input type="checkbox" name="allDate">
-                <div class="inquiry-category-text2">전체기간</div>
-                <input type="date" name="startDate">
-                <div>~</div>
-                <input type="date" name="endDate">
-                <div class="inquiry-category-text">처리여부</div>
-                <select name="" id="" class="answer-category-box">
-                    <option value="">전체</option>
-                    <option value="">미처리</option>
-                    <option value="">처리</option>
-                </select>
-                <div class="inquiry-category-text">분류</div>
-                <select name="" id="" class="content-category-box">
-                    <option value="">전체</option>
-                    <option value="">카테고리1</option>
-                    <option value="">카테고리2</option>
-                    <option value="">카테고리3</option>
-                    <option value="">카테고리4</option>
-                </select>
+            <form action="/app/admin/csc/report-list">
+	            <div class="report-search-area">
+	                <div class="model-search-area">
+	                    <div class="model-search-box-area">
+	                        <select name="searchType" class="model-search-category">
+	                            <option value="TITLE">제목</option>
+	                            <option value="NAME">작성자</option>
+	                        </select>
+	                        <input type="text" name="searchValue" class="model-serach-input">
+	                    </div>
+	                    
+	                </div>
+	            </div>
+	            <div class="report-category-area">
+	                <div class="report-category-text">기간</div>
+	                <input type="checkbox" class="report-allDate" id="allDate" value="all">
+	                <label for="allDate" class="report-category-text2">전체기간</label>
+	                <input type="date" name="startDate">
+	                <div>~</div>
+	                <input type="date" name="endDate">
+	                <!-- <div class="report-category-text">답변여부</div>
+	                <select name="answerYn" id="" class="answer-category-box">
+	                    <option value="">전체</option>
+	                    <option value="Y">답변</option>
+	                    <option value="N">미답변</option>
+	                </select> -->
+	                <div class="report-category-text">분류</div>
+	                <select name="reportCno" id="" class="content-category-box">
+	                    <option value="">전체</option>
+	                    <c:forEach items="${cList}" var="vo">
+	                    	<option value="${vo.no}">${vo.name}</option>
+	                    </c:forEach>
+	                    
+	                </select>
+	
+	            </div>
+	            <div class="report-btn-area">
+	                <button type="submit" class="report-search-btn">검색</button>
+	                <button type="button" class="report-search-btn white margin-r50" onclick="resetValue();">초기화</button>
+	
+	            </div>
+            </form>
 
-            </div>
-            <div class="inquiry-btn-area">
-                <button type="button" class="inquiry-search-btn">검색</button>
-                <button type="button" class="inquiry-search-btn white">초기화</button>
-
-            </div>
-
-            <div class="inquiry-list-category-area">
-                <div class="inquiry-list-category focus-category">
+            <div class="report-list-category-area">
+                <a href="/app/admin/csc/report-list?searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&startDate=${searchVo.startDate}&endDate=${searchVo.endDate}&reportCno=${searchVo.reportCnoCno}" class="report-list-category" id="answerAll">
                     <div class="list-category-text">전체</div>
-                    <div class="list-category-num red">3</div>
-                </div>
-                <div class="inquiry-list-category">
+                    <div class="list-category-num">${listCnt.sum}</div>
+                </a>
+                <a href="/app/admin/csc/report-list?searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&startDate=${searchVo.startDate}&endDate=${searchVo.endDate}&answerYn=Y&reportCno=${searchVo.reportCnoCno}" class="report-list-category" id="answerY">
                     <div class="list-category-text">처리완료</div>
-                    <div class="list-category-num">3</div>
-                </div>
-                <div class="inquiry-list-category right-border">
+                    <div class="list-category-num">${listCnt.answerY}</div>
+                </a>
+                <a href="/app/admin/csc/report-list?searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&startDate=${searchVo.startDate}&endDate=${searchVo.endDate}&answerYn=N&reportCno=${searchVo.reportCnoCno}" class="report-list-category-last" id="answerN">
                     <div class="list-category-text">미처리</div>
-                    <div class="list-category-num">3</div>
-                </div>
+                    <div class="list-category-num">${listCnt.answerN}</div>
+                </a>
             </div>
 
-            <div class="inquiry-list-area">
+            <div class="report-list-area">
                 <table>
                     <tr>
                         <th>분류</th>
@@ -323,103 +89,255 @@
                         <th>작성자</th>
                         <th>작성일자</th>
                         <th>답변일자</th>
-                        <th>처리자</th>
                     </tr>
 
-                    <tr>
-                        <td>카테고리1</td>
-                        <td>제목01</td>
-                        <td>작성자01</td>
-                        <td>2023-05-05 17:54</td>
-                        <td>-</td>
-                        <td>답변자01</td>
-
-                    </tr>
-
-                    <tr>
-                        <td>카테고리1</td>
-                        <td>제목01</td>
-                        <td>작성자01</td>
-                        <td>2023-05-05 17:54</td>
-                        <td>-</td>
-                        <td>답변자01</td>
-
-                    </tr>
-
-                    <tr>
-                        <td>카테고리1</td>
-                        <td>제목01</td>
-                        <td>작성자01</td>
-                        <td>2023-05-05 17:54</td>
-                        <td>-</td>
-                        <td>답변자01</td>
-
-                    </tr>
-
-                    <tr>
-                        <td>카테고리1</td>
-                        <td>제목01</td>
-                        <td>작성자01</td>
-                        <td>2023-05-05 17:54</td>
-                        <td>-</td>
-                        <td>답변자01</td>
-
-                    </tr>
-
-                    <tr>
-                        <td>카테고리1</td>
-                        <td>제목01</td>
-                        <td>작성자01</td>
-                        <td>2023-05-05 17:54</td>
-                        <td>-</td>
-                        <td>답변자01</td>
-
-                    </tr>
-                    <tr>
-                        <td>카테고리1</td>
-                        <td>제목01</td>
-                        <td>작성자01</td>
-                        <td>2023-05-05 17:54</td>
-                        <td>-</td>
-                        <td>답변자01</td>
-
-                    </tr>
+					<c:forEach items="${rList}" var="vo">
+						<tr onclick="detailReport(this);">
+							<td hidden>${vo.no}</td>
+	                        <td>${vo.reportCname}</td>
+	                        <td>${vo.title}</td>
+	                        <td>${vo.reporter}</td>
+	                        <td>${vo.enrollDate}</td>
+	                        <c:if test="${vo.answerYn eq 'Y'}">
+	                        	<td>${vo.answerDate}</td>
+	                        </c:if>
+	                        <c:if test="${vo.answerYn eq 'N'}">
+	                        	<td>-</td>
+	                        </c:if>
+	
+	                    </tr>
+					</c:forEach>
                     
                 </table>
             </div>
 
             <div class="page-area">
-                <button class="red"><</button>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button class="red">></button>
-                <!-- <c:if test="${pv.currentPage > 1}">
-                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
+
+                <c:if test="${pvo.currentPage > 1}">
+                    <a href="/app/admin/csc/report-list?page=${pvo.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&startDate=${searchVo.startDate}&endDate=${searchVo.endDate}&answerYn=${searchVo.answerYn}&reportCno=${searchVo.reportCno}"><</a>
                 </c:if>
-                    <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
-                        <c:if test="${pv.currentPage != i}">
-                            <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
+                    <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" step="1" var="i">
+                        <c:if test="${pvo.currentPage != i}">
+                            <a href="/app/admin/csc/report-list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&startDate=${searchVo.startDate}&endDate=${searchVo.endDate}&answerYn=${searchVo.answerYn}&reportCno=${searchVo.reportCno}">${i}</a>
                         </c:if>
-                        <c:if test="${pv.currentPage == i}">
-                            <a class="btn btn-primary btn-sm">${i}</a>
+                        <c:if test="${pvo.currentPage == i}">
+                            <a id="current-page">${i}</a>
                         </c:if>
                     </c:forEach>
-                <c:if test="${pv.currentPage < pv.maxPage}">
-                    <a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
-                </c:if> -->
+                <c:if test="${pvo.currentPage < pvo.maxPage}">
+                    <a href="/app/admin/csc/report-list?page=${pvo.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&startDate=${searchVo.startDate}&endDate=${searchVo.endDate}&answerYn=${searchVo.answerYn}&reportCno=${searchVo.reportCno}">></a>
+                </c:if>
             </div>
+
         </main>
+
+        <!-- report 상세보기 모달 -->
+        <div class="report-background">
+            <div class="report-window">
+                <div class="report-popup">
+                    <div class="report-model-header-area">
+                        <div class="report-model-header">
+                            <div class="report-model-header-text">상세보기</div>
+                            <span class="material-symbols-outlined" id="report-close">
+                                close
+                            </span>
+                        </div>
+                    </div>
+                    <div class="report-model-body-area">
+                        <div class="report-model-body-first">
+                            <div class="report-model-title-area">
+                                <div class="report-model-title-text">신고 내역</div>
+                                <div class="report-model-member-area">
+                                    <div class="report-model-member-target">신고대상</div>
+                                    <div class="report-model-member-name" id="report-model-member-name"></div>
+                                    <div class="report-model-member-profile">
+                                        <img id="report-model-member-profile" src="" alt="프로필 사진">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="report-model-question-title" id="report-model-question">제목01</div>
+                            <div class="report-model-question-area">
+                                <div class="report-model-question-text"  id="report-model-question-content"></div>
+                            </div>
+                        </div>
+
+                        <div class="report-model-btn-area">
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        
 
 </body>
 
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+
+    // 답변여부 카테고리 동적 css
+    function answerCheck(){
+        const answerCheck = '${searchVo.answerYn}'
+        const answerAll = document.querySelector("#answerAll");
+        const answerY = document.querySelector("#answerY");
+        const answerN = document.querySelector("#answerN");
+
+        if(answerCheck == '' || answerCheck == null || answerCheck == undefined){
+            answerAll.classList.add("focus-category");
+            // answerAll.lastElementChild.classList.add("yellow");
+        }else if(answerCheck == 'Y'){
+            answerY.classList.add("focus-category");
+            // answerY.lastElementChild.classList.add("yellow");
+        }else if(answerCheck == 'N'){
+            answerN.classList.add("focus-category");
+            // answerN.lastElementChild.classList.add("yellow");
+        }
+
+    }
+    
+    // 미답변 여부 확인
+    function answerNCheck(){
+        let noAnswerNum = '${listCnt.answerN}'
+        const answerN = document.querySelector("#answerN");
+        if(noAnswerNum > 0){
+            answerN.lastElementChild.classList.add("blinking");
+            answerN.lastElementChild.classList.add("red");
+        }
+    }
+    answerCheck();
+    answerNCheck();
+
+    // 초기화 버튼
+    function resetValue(){
+        const inputBtnArr = document.querySelectorAll("input");
+        for(let inputBtn of inputBtnArr){
+            inputBtn.value = "";
+        }
+        const checkBtn = document.querySelector("input[type='checkbox']");
+        checkBtn.checked = false;
+
+        const searchType = document.querySelector("select[name='searchType']");
+        searchType.firstElementChild.selected = true;
+
+        const reportCno = document.querySelector("select[name='reportCno']");
+        reportCno.firstElementChild.selected = true;
+    } 
+
+    </script>
+
 </html>
+
+
 
 <script>
     basicSetting(); // 기본 셋팅
     headerName('고객센터'); // 현재 페이지 이름
     firstNav(['문의 내역', '신고 내역', 'FAQ 관리'], '신고 내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
     // secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+
+    
+    // report 상세보기 버튼
+    let clickRno = null;
+
+    function detailReport(e) {
+    const rno = e.firstElementChild.innerText;
+    console.log(rno);
+    $.ajax({
+        url : "/app/admin/csc/report/detail",
+        method : "POST",
+        data : {
+            "rno" : rno
+        },
+        dataType : "json",
+        success : function(data) {
+            const question = document.querySelector("#report-model-question");
+            const questionC = document.querySelector("#report-model-question-content");
+            const name = document.querySelector("#report-model-member-name")
+            const profile = document.querySelector("#report-model-member-profile");
+
+            question.innerHTML = "";
+            questionC.innerHTML = "";
+            name.innerHTML = "";
+            profile.src = "";
+
+            const questionStr = data.title;
+            const questionCStr = data.content;
+            const nameStr = data.respondentName;
+            const profileStr = data.respondentProfile;
+
+            question.innerHTML = questionStr;
+            questionC.innerHTML = questionCStr;
+            name.innerHTML = nameStr;
+            profile.src = profileStr;
+            clickRno = data.no;
+
+            const btnArea = document.querySelector(".report-model-btn-area");
+            btnArea.innerHTML = "";
+
+            if(data.answerYn == 'N'){
+                btnArea.innerHTML = '<button id="report-answer-btn" class="report-model-check-btn" onclick="reportComplete()">처리완료</button><button id="report-delete-btn" class="report-model-delete-btn" onclick="deletereport()">삭제</button>';
+
+            }else if(data.answerYn == 'Y'){
+                btnArea.innerHTML = '<button id="report-delete-btn" class="report-model-delete-btn" onclick="deletereport()">삭제</button>';
+            }
+
+            document.querySelector(".report-background").className = "report-background show";
+
+        },
+        error : function() {
+                alert("실패");
+            },
+        })
+    }
+
+    // report 상세보기 모달 사용
+    function reportshow () {
+        document.querySelector(".report-background").className = "report-background show";
+    }
+
+    function reportclose () { 
+        document.querySelector(".report-background").className = "report-background";
+    }
+
+    // document.querySelector("#temp-btn").addEventListener('click', reportshow);
+    document.querySelector("#report-close").addEventListener('click', reportclose);
+    // document.querySelector("#report-check-btn").addEventListener('click', reportclose);
+
+    // 삭제 버튼 활성화
+    function deletereport(){
+        Swal.fire({
+            title: '정말로 삭제 하시겠습니까?',
+            text: '다시 되돌릴 수 없습니다. 신중하세요.',
+            icon: 'warning',
+            
+            showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+            confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+            cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+            
+            // reverseButtons: true, // 버튼 순서 거꾸로
+            
+            }).then(result => {
+            // 만약 Promise리턴을 받으면,
+            if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+            
+                location.href="/app/admin/csc/report/delete?rno=" + clickRno;
+            }
+        });
+    };
+
+    // 신고 처리 버튼 활성화
+    function reportComplete(){
+        
+    }
+
+
+
+
 </script>
