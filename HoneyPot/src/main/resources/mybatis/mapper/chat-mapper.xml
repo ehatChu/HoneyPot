@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chat">
+	
+	<select id="selectRoomListByMno" resultType="com.hp.app.chat.vo.ChatRoomVo">
+		SELECT * 
+		FROM CHATTING_ROOM CR
+		JOIN CHATTING_MEMBER_LIST CML
+		ON CR.NO = CML.CHATTING_ROOM_NO
+		WHERE CML.MEMBER_NO = #{mno}
+	</select>
+	
+	
+	<select id="selectDetailByNo" resultType="com.hp.app.chat.vo.ChatRoomVo">
+		SELECT CR.NO
+		,CR.NAME
+		,CR.IMG
+		, M.NAME AS MEMBER_NAME
+		, M.PROFILE AS MEMBER_PROFILE
+		FROM CHATTING_ROOM CR
+		JOIN CHATTING_MEMBER_LIST CML
+		ON CR.NO = CML.CHATTING_ROOM_NO
+		JOIN MEMBER M
+		ON CML.MEMBER_NO = M.NO
+		WHERE CR.NO = #{no}
+	</select>
+	
+
+</mapper>
