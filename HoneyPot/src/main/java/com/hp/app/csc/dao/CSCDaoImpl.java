@@ -219,6 +219,12 @@ public class CSCDaoImpl implements CSCDao{
 	public int deleteReport(SqlSessionTemplate sst, String rno) {
 		return sst.delete("csc.deleteReport", rno);
 	}
+
+	// 신고 내역 처리
+	@Override
+	public int completeReport(SqlSessionTemplate sst, String rno) {
+		return sst.update("csc.completeReport", rno);
+	}
 	
 	
 

@@ -224,6 +224,11 @@ public class CSCServiceImpl implements CSCService {
 	}
 	
 	// 신고 내역 처리
+	@Override
+	public int completeReport(String rno) {
+		return dao.completeReport(sst, rno);
+	}
+
 	
 
 

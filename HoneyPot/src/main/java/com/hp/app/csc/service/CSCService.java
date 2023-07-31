@@ -117,5 +117,18 @@ public interface CSCService {
 	int deleteReport(String rno);
 	
 	// 신고 내역 처리
+	int completeReport(String rno);
+	
+	// FAQ
+	// FAQ 카테고리 조회
+	// getFAQCatList() 사용
+	
+	// FAQ 전체 갯수
+	// FAQ LIST 검색 갯수
+	// FAQ LIST 검색 조회(페이징)
+	// FAQ 상세 조회
+	// FAQ 작성
+	// FAQ 수정
+	// FAQ 삭제
 	
 }

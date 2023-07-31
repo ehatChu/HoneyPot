@@ -435,5 +435,14 @@
 		DELETE FROM REPORT
 		WHERE NO = #{rno}
 	</delete>
+	
+	<!-- 신고내역 처리 -->
+  	<update id="completeReport">
+  		UPDATE REPORT
+		SET 
+		    ANSWER_YN = 'Y'
+		    , ANSWER_DATE = SYSDATE
+		WHERE NO = #{rno}
+  	</update>
   
 </mapper>
