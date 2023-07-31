@@ -230,7 +230,7 @@
 					<div class="board-list-area">
 						<table id="board-list">
 							<c:forEach items="${voList}" var="vo">
-								<tr>
+								<tr id="${vo.no}">
 									<td id="title">${vo.title}</td>
 									<td id="writer">${vo.writerName}</td>
 									<td>${vo.enrollDate}</td>
@@ -313,4 +313,15 @@
 		y.selected = true;
 	}
    
+
+   	// 목록 클릭하여 글번호 얻기
+	const trArray = document.querySelectorAll("tr");
+	trArray.forEach(getNo);
+	
+	function getNo(tr) {
+		tr.addEventListener('click', function() {
+			const no = tr.getAttribute('id');
+			location.href = '/app/board/detail?no=' + no;
+		});
+	};
 </script>

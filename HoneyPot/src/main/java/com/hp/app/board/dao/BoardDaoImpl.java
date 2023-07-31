@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.hp.app.board.vo.BoardCategoryVo;
+import com.hp.app.board.vo.BoardImgVo;
 import com.hp.app.board.vo.BoardVo;
 import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
@@ -49,13 +50,13 @@ public class BoardDaoImpl implements BoardDao {
 	//게시글 상세조회 (+ 조회수 증가)
 	@Override
 	public BoardVo viewDetail(SqlSessionTemplate sst, String no) {
-		return null;
+		return sst.selectOne("board.viewDetail", no);
 	}
 
 	//조회수 증가
 	@Override
 	public int plusHit(SqlSessionTemplate sst, String no) {
-		return 0;
+		return sst.update("board.plusHit", no);
 	}
 
 	//게시글 카테고리 조회
@@ -68,6 +69,12 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public int writeReply(SqlSessionTemplate sst, ReplyVo rvo) {
 		return sst.insert("board.writeReply", rvo);
+	}
+
+	//사진 목록 조회
+	@Override
+	public List<BoardImgVo> getImgList(SqlSessionTemplate sst, String no) {
+		return null;
 	}
 
 }

@@ -332,7 +332,6 @@
 	function getNo(tr) {
 		tr.addEventListener('click', function() {
 			const no = tr.getAttribute('id');
-			console.log(no);
 			location.href = '/app/notice/detail?no=' + no;
 		});
 	};

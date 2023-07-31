@@ -14,8 +14,8 @@ public class BoardVo {
 	private String boardCname;
 	private String title;
 	private String content;
-	private String imgNo;
-	private String imgName;
+//	private String imgNo;
+//	private String imgName;
 	private String enrollDate;
 	private String modifyDate;
 	private String hit;

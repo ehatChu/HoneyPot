@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hp.app.board.vo.BoardCategoryVo;
+import com.hp.app.board.vo.BoardImgVo;
 import com.hp.app.board.vo.BoardVo;
 import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
@@ -26,12 +27,15 @@ public interface BoardService {
 	public abstract int delete(Map<String, String> noMap);
 	
 	//게시글 상세조회
-	public abstract BoardVo viewDetail(BoardVo vo);
+	public abstract BoardVo viewDetail(String no);
 	
 	//게시글 카테고리 조회
 	public abstract List<BoardCategoryVo> getCategory();
 
 	//댓글 작성
 	public abstract int writeReply(ReplyVo rvo);
+	
+	//사진 목록 조회
+	public abstract List<BoardImgVo> getImgList(String no);
 
 }
