@@ -332,33 +332,21 @@
 </script>
 
 <script>
-	// 지도 좌클릭시 작은..버튼뜨게하기
-	function handlerCreateContextMenu(event){
-		event.preventDefault();
-
-		const ctxMenu = document.querySelector('#dochi_context_menu');
-		ctxMenu.style.display = 'block';
-
-		ctxMenu.style.top = event.pageY+'px';
-		ctxMenu.style.left = event.pageX+'px';
-	}
+	
 
 	function handlerClearContextMenu(event){
-
+		//안보이게하기
 		const ctxMenu = document.querySelector('#dochi_context_menu');
 		ctxMenu.style.display = 'none';
 
+		//안보이게하기
 		ctxMenu.style.top = null;
 		ctxMenu.style.left = null;
 	}
-	document.addEventListener('contextmenu',handlerCreateContextMenu,false);
+	// document.addEventListener('contextmenu',handlerCreateContextMenu,false);
 	document.addEventListener('click',handlerClearContextMenu,false);
 	
 
-	// const loremIpsum = document.getElementById("lorem-ipsum")
-	// fetch("https://baconipsum.com/api/?type=all-meat&paras=200&format=html")
-	// 	.then(response => response.text())
-	// 	.then(result => loremIpsum.innerHTML = result)
 
 	//모달창띄우기
 	const modal = document.querySelector("#modal");
@@ -374,6 +362,7 @@
 	let main = document.querySelector("main");
 	function showModal(){
 		modal.style.display="block";
+		//뒤쪽에 백그라운드 색상 회색으로 변하는 효과
 		main.classList.add('main-box');
 	}
 
@@ -443,11 +432,7 @@
 
 	// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
 	function placesSearchCB(data, status, pagination) {
-		/*파라미터들이 의미하는게 뭔지 궁금하다.
-		애초에 이걸 부를때 넘겨주는 파라미터가 없는데? 
-		위에서 장소검색요청할때 값을 안넘기는데 무슨값을 
-		받아와서 전달하는거임?
-		*/
+		console.log("data : "+data+",status : "+status+",pagination:"+pagination);
 		/*
 		data : 검색결과나오는 데이터들
 		status : 검색결과 상태
@@ -648,7 +633,16 @@
 		});
 		
 		//여기에 우클릭시 그게뜨게하고 그걸누르면 마커가 생성이 되도록하게하기
-		//
+		//원래 우클릭시 나오던 효과지우기
+		event.preventDefault();
+
+		//모달같은거 띄우기
+		const ctxMenu = document.querySelector('#dochi_context_menu');
+		ctxMenu.style.display = 'block';
+
+		//위에 것의 위치정하기
+		ctxMenu.style.top = event.pageY+'px';
+		ctxMenu.style.left = event.pageX+'px';
 
 		
 
