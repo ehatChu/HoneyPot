@@ -99,4 +99,25 @@ public interface CSCDao {
 	// 문의내역 답변
 	int anwerInuqiry(SqlSessionTemplate sst, String qno, String answer);
 	
+	// 신고
+	// 신고 카테고리 조회
+	// getReportCatList() 메소드 사용
+	
+	// 신고 List 검색 갯수
+	int getReportCnt(SqlSessionTemplate sst, Map<String, String> searchMap);
+	
+	// 신고 List 검색 조회
+	List<ReportVo> getReportAllList(SqlSessionTemplate sst, Map<String, String> searchMap);
+	
+	// 신고 List 검색 조회(페이징)
+	List<ReportVo> getReportList(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchMap);
+	
+	// 신고 내역 상세조회
+	ReportVo getReportByNo(SqlSessionTemplate sst, String rno);
+	
+	// 신고 내역 삭제
+	int deleteReport(SqlSessionTemplate sst, String rno);
+	
+	// 신고 내역 처리
+	
 }

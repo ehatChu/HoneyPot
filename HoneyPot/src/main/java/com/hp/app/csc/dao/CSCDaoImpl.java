@@ -184,6 +184,43 @@ public class CSCDaoImpl implements CSCDao{
 		vo.setAnswer(answer);
 		return sst.update("csc.answerInquiry", vo);
 	}
+	
+	// 신고
+	// 신고 카테고리 조회
+	// getReportCatList() 메소드 사용
+	
+	// 신고 List 검색 갯수
+	@Override
+	public int getReportCnt(SqlSessionTemplate sst, Map<String, String> searchMap) {
+		return sst.selectOne("csc.getReportCnt", searchMap);
+	}
+
+	// 신고 List 검색 조회
+	@Override
+	public List<ReportVo> getReportAllList(SqlSessionTemplate sst, Map<String, String> searchMap) {
+		return sst.selectList("csc.getReportAllList", searchMap);
+	}
+
+	// 신고 List 검색 조회(페이징)
+	@Override
+	public List<ReportVo> getReportList(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchMap) {
+		RowBounds rb = new RowBounds(pvo.getOffset(), pvo.getBoardLimit()); // (건널 뛸 갯수, 보여줄 갯수)
+		return sst.selectList("csc.getReportList",searchMap,rb);
+	}
+
+	// 신고 내역 상세조회
+	@Override
+	public ReportVo getReportByNo(SqlSessionTemplate sst, String rno) {
+		return sst.selectOne("csc.getReportByNo", rno);
+	}
+
+	// 신고 내역 삭제
+	@Override
+	public int deleteReport(SqlSessionTemplate sst, String rno) {
+		return sst.delete("csc.deleteReport", rno);
+	}
+	
+	
 
 
 

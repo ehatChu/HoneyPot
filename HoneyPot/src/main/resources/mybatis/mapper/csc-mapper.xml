@@ -268,7 +268,7 @@
 		</where>
 	</select>
 	
-	<!-- 문의 List 검색 조회 -->
+	<!-- 문의 List 검색 조회(페이징) -->
 	<select id="getQNAList" resultType="com.hp.app.csc.vo.QNAVo">
 		SELECT 
 		    Q.NO
@@ -331,5 +331,109 @@
 		    , ANSWER = #{answer}
 		WHERE NO = #{no}
 	</update>
+	
+	<!-- 신고 -->
+	
+	<!-- 신고 List 검색 갯수 -->
+	<select id="getReportCnt" resultType="int">
+		SELECT COUNT(R.NO)
+		FROM REPORT R
+		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
+		JOIN MEMBER M ON R.REPORTER = M.NO
+		<where>
+			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
+				AND R.TITLE LIKE '%${searchValue}%'
+			</if>
+			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
+				AND M.NAME LIKE '%${searchValue}%'
+			</if>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND R.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
+			</if>
+			<if test="answerYn != null and answerYn != ''">
+				AND R.ANSWER_YN = #{answerYn} 
+			</if>
+			<if test="reportCno != null and reportCno != ''">
+				AND R.REPORT_CNO = #{reportCno}
+			</if>
+		</where>
+	</select>
+	
+	<!--신고 List 검색 조회 -->
+	<select id="getReportAllList" resultType="com.hp.app.csc.vo.ReportVo">
+		SELECT 
+			R.ANSWER_YN
+		FROM REPORT R
+		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
+		JOIN MEMBER M ON R.REPORTER = M.NO
+		<where>
+			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
+				AND R.TITLE LIKE '%${searchValue}%'
+			</if>
+			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
+				AND M.NAME LIKE '%${searchValue}%'
+			</if>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND R.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
+			</if>
+			<if test="reportCno != null and reportCno != ''">
+				AND R.REPORT_CNO = #{reportCno}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 신고 List 검색 조회(페이징) -->
+	<select id="getReportList" resultType="com.hp.app.csc.vo.ReportVo">
+		SELECT 
+		    R.NO
+		    , C.NAME AS REPORTCNAME
+		    , R.TITLE
+		    , M.NAME AS REPORTER
+		    , TO_CHAR(R.ENROLL_DATE, 'YY.MM.DD HH24:MI') AS ENROLL_DATE
+		    , TO_CHAR(R.ANSWER_DATE, 'YY.MM.DD HH24:MI') AS ANSWER_DATE
+		    , R.ANSWER_YN
+		FROM REPORT R
+		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
+		JOIN MEMBER M ON R.REPORTER = M.NO
+		<where>
+			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
+				AND R.TITLE LIKE '%${searchValue}%'
+			</if>
+			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
+				AND M.NAME LIKE '%${searchValue}%'
+			</if>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND R.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
+			</if>
+			<if test="answerYn != null and answerYn != ''">
+				AND R.ANSWER_YN = #{answerYn} 
+			</if>
+			<if test="reportCno != null and reportCno != ''">
+				AND R.REPORT_CNO = #{reportCno}
+			</if>
+		</where>
+		ORDER BY R.ENROLL_DATE DESC
+	</select>
+	
+	<!-- 신고내역 상세조회 -->
+	<select id="getReportByNo" resultType="com.hp.app.csc.vo.ReportVo">
+		SELECT 
+		    R.NO
+		    , R.TITLE
+		    , R.CONTENT
+		    , R.ANSWER_YN
+		    , M.NO AS RESPONDENT
+		    , M.NAME AS RESPONDENT_NAME
+		    , M.PROFILE AS RESPONDENT_PROFILE
+		FROM REPORT R
+		JOIN MEMBER M ON R.RESPONDENT = M.NO
+		WHERE R.NO = #{rno}
+	</select>
+	
+	<!-- 신고 내역 삭제 -->
+	<delete id="deleteReport">
+		DELETE FROM REPORT
+		WHERE NO = #{rno}
+	</delete>
   
 </mapper>

@@ -190,6 +190,42 @@ public class CSCServiceImpl implements CSCService {
 		
 		return vo;
 	}
+	
+	// 신고
+	
+	// 신고 List 검색 갯수
+	@Override
+	public int getReportCnt(Map<String, String> searchMap) {
+		return dao.getReportCnt(sst, searchMap);
+	}
+
+	// 신고 List 검색 조회
+	@Override
+	public List<ReportVo> getReportAllList(Map<String, String> searchMap) {
+		return dao.getReportAllList(sst, searchMap);
+	}
+	
+	// 신고 List 검색 조회(페이징)
+	@Override
+	public List<ReportVo> getReportList(PageVo pvo, Map<String, String> searchMap) {
+		return dao.getReportList(sst, pvo, searchMap);
+	}
+
+	// 신고 내역 상세조회
+	@Override
+	public ReportVo getReportByNo(String rno) {
+		return dao.getReportByNo(sst, rno);
+	}
+
+	// 신고 내역 삭제
+	@Override
+	public int deleteReport(String rno) {
+		return dao.deleteReport(sst, rno);
+	}
+	
+	// 신고 내역 처리
+	
+
 
 	
 } // class

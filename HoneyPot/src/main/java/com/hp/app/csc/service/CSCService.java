@@ -97,4 +97,25 @@ public interface CSCService {
 	// 문의내역 답변
 	QNAVo anwerInuqiry(String qno, String answer) throws Exception;
 	
+	// 신고
+	// 신고 카테고리 조회
+	// getReportCatList() 메소드 사용
+	
+	// 신고 List 검색 갯수
+	int getReportCnt(Map<String, String> searchMap);
+	
+	// 신고 List 검색 조회
+	List<ReportVo> getReportAllList(Map<String, String> searchMap);
+	
+	// 신고 List 검색 조회(페이징)
+	List<ReportVo> getReportList(PageVo pvo, Map<String, String> searchMap);
+	
+	// 신고 내역 상세조회
+	ReportVo getReportByNo(String rno);
+	
+	// 신고 내역 삭제
+	int deleteReport(String rno);
+	
+	// 신고 내역 처리
+	
 }
