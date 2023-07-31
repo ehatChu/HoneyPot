@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -452,7 +451,7 @@ public class CSCController {
 		return qvo;
 	}
 	
-	// 문의내역 삭제
+	// 신고내역 삭제
 	@GetMapping("admin/csc/report/delete")
 	public String deleteReport(String rno) throws Exception {
 		
@@ -470,9 +469,38 @@ public class CSCController {
 		
 	}
 	
+	// 신고 내역 처리
+	@GetMapping("admin/csc/report/complete")
+	public String completeReport(String rno) throws Exception {
+		int result = service.completeReport(rno);
+		
+		if(result != 1) {
+			throw new Exception("신고 내역 처리 에러");
+		}
+		
+		return "redirect:/admin/csc/report-list";
+	}
+	
 	// FAQ조회(화면)
 	@GetMapping("admin/csc/faq")
-	public String adminFAQ() {
+	public String adminFAQ(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchVo) {
+		
+		int listCount = service.getFAQCnt(searchVo);
+		int currentPage = Integer.parseInt(page);
+		int pageLimit = 5;
+		int boardLimit = 8;
+		
+		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+
+		
+		List<FAQVo> fList = service.getFAQList(pvo,searchVo);
+		List<FAQCategoryVo> cList = service.getFAQCatList();
+		
+		
+		model.addAttribute("cList", cList);
+		model.addAttribute("fList", fList);
+		model.addAttribute("pvo", pvo);
 		return "csc/admin/faq";
 	}
 	

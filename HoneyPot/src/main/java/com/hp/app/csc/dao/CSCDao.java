@@ -119,5 +119,6 @@ public interface CSCDao {
 	int deleteReport(SqlSessionTemplate sst, String rno);
 	
 	// 신고 내역 처리
+	int completeReport(SqlSessionTemplate sst, String rno);
 	
 }
