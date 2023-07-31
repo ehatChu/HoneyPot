@@ -71,17 +71,18 @@
 	<body>
 		<div id="floor">
 			<div id="login-area">
-				<form id="loginForm" action="/app/member/emailCheckId" method="post">
+				<form id="loginForm" action="/app/member/findId" method="post" onsubmit="return validateForm()">
+					<input hidden type="text" class="box" name="email" value="${email}">
 					<div></div>
 					<div class="logo" onclick="location.href = '/app/member/mlogin';">
 						<img id="logo" src="/app/resources/main/honeyPot.png">
 					</div>
 					<div></div>
-					<div id="tit">이메일</div>
-					<input style="padding-left: 30px;" type="text" class="box" name="email">
+					<div id="tit">인증번호</div>
+					<input style="padding-left: 30px;" type="text" class="box" name="emailCheck">
 					<div></div>
 					<div></div>
-					<input type="submit" class="box box2" value="아이디 찾기">
+					<input type="submit" class="box box2" value="확인">
 					<div></div>
 				</form>
 			</div>
@@ -91,5 +92,13 @@
 	</html>
 
 	<script>
+		function validateForm() { 
+			const emailCheck = document.querySelector("input[name=emailCheck]")
+			if(emailCheck.value.trim() != '${emailCheck}') {
+				alert("인증번호가 틀렸습니다");
+				return false;
+			}
 
+			return true;
+		}
 	</script>

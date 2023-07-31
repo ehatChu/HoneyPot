@@ -71,19 +71,27 @@
 	<body>
 		<div id="floor">
 			<div id="login-area">
-				<form id="loginForm" action="/app/member/emailCheckId" method="post">
+				<div id="loginForm">
 					<div></div>
 					<div class="logo" onclick="location.href = '/app/member/mlogin';">
 						<img id="logo" src="/app/resources/main/honeyPot.png">
 					</div>
 					<div></div>
-					<div id="tit">이메일</div>
-					<input style="padding-left: 30px;" type="text" class="box" name="email">
+					<c:if test="${not empty id}">
+						<div id="tit">아이디</div>
+						<input style="padding-left: 30px; background-color: #4A321F; color: white;" type="text"
+							class="box" name="result" value="${id}" readonly>
+					</c:if>
+					<c:if test="${not empty pwd}">
+						<div id="tit">비밀번호</div>
+						<input style="padding-left: 30px; background-color: #4A321F; color: white;" type="text"
+							class="box" name="result" value="${pwd.substring(0, 3)}" readonly>
+					</c:if>
 					<div></div>
 					<div></div>
-					<input type="submit" class="box box2" value="아이디 찾기">
+					<input type="submit" class="box box2" value="확인" onclick="location.href='/app/member/mlogin'">
 					<div></div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</body>
@@ -91,5 +99,8 @@
 	</html>
 
 	<script>
-
+		if ('${pwd}' != null) {
+			const result = document.querySelector('input[name=result]');
+			result.value += '*'.repeat('${pwd}'.length - 3);
+		}
 	</script>

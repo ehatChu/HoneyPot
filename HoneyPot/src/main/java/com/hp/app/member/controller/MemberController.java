@@ -5,6 +5,7 @@ import java.io.File;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import com.hp.app.admin.vo.AdminVo;
+import com.hp.app.member.service.MailSendService;
 import com.hp.app.member.service.MemberService;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.util.file.FileUploader;
@@ -25,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MemberController {
 	private final MemberService ms;
+	private final MailSendService mss;
 
 	// 겟 매핑
 	@GetMapping("logout")
@@ -255,6 +258,46 @@ public class MemberController {
 		session.setAttribute("loginAdmin", loginTemp);
 		session.setAttribute("alertMsg", "관리자 정보 수정에 성공하였습니다!");
 		return "redirect:/main/amain";
+	}
+
+	@PostMapping("emailCheckId")
+	public String emailCheck(String email, Model model, HttpSession session) {
+		try {
+			model.addAttribute("email", email);
+			model.addAttribute("emailCheck", mss.joinEmail(email));
+		} catch (Exception e) {
+			session.setAttribute("alertMsg", "입력된 이메일로 가입된 계정이 없습니다");
+			return "redirect:/member/findId";
+		}
+		return "member/emailCheckId";
+	}
+
+	@PostMapping("emailCheckPwd")
+	public String emailCheck(String id, String email, Model model, HttpSession session) {
+		try {
+			model.addAttribute("id", id);
+			model.addAttribute("email", email);
+			model.addAttribute("emailCheck", mss.joinEmail(email));
+		} catch (Exception e) {
+			session.setAttribute("alertMsg", "입력된 아이디와 이메일로 가입된 계정이 없습니다");
+			return "redirect:/member/findPwd";
+		}
+
+		return "member/emailCheckPwd";
+	}
+
+	@PostMapping("findId")
+	public String findId(String email, Model model) {
+		String id = ms.findId(email);
+		model.addAttribute("id", id);
+		return "member/emailResult";
+	}
+
+	@PostMapping("findPwd")
+	public String findPwd(MemberVo vo, Model model) {
+		String pwd = ms.findPwd(vo);
+		model.addAttribute("pwd", pwd);
+		return "member/emailResult";
 	}
 
 	@PostMapping("changePwd")
