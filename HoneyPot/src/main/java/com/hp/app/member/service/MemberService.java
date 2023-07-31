@@ -22,4 +22,8 @@ public interface MemberService {
 
 	int quit(String no);
 
+	String findId(String email);
+
+	String findPwd(MemberVo vo);
+
 }

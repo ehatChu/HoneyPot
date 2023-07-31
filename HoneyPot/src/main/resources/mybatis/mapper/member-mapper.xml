@@ -64,14 +64,24 @@
 		SELECT COUNT(*) FROM MEMBER
 		WHERE ID = #{id}
 	</select>
-	
+
 	<select id="aidDubCheck" resultType="int">
 		SELECT COUNT(*) FROM ADMIN
 		WHERE ID = #{id}
 	</select>
 
 	<update id="quit">
-		UPDATE MEMBER SET STATUS = 'N' 
+		UPDATE MEMBER SET STATUS = 'N'
 		WHERE NO = #{no}
 	</update>
+
+	<select id="findId" resultType="String">
+		SELECT ID FROM MEMBER WHERE
+		EMAIL = #{email}
+	</select>
+	
+	<select id="findPwd" resultType="String">
+		SELECT PWD FROM MEMBER WHERE
+		EMAIL = #{email} AND ID = #{id}
+	</select>
 </mapper>

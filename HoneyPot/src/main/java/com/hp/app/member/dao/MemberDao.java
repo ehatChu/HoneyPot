@@ -25,4 +25,8 @@ public interface MemberDao {
 
 	int quit(SqlSessionTemplate sst, String no);
 
+	String findId(SqlSessionTemplate sst, String email);
+
+	String findPwd(SqlSessionTemplate sst, MemberVo vo);
+
 }

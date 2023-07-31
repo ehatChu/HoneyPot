@@ -99,4 +99,14 @@ public class MemberServiceImpl implements MemberService{
 	public int quit(String no) {
 		return dao.quit(sst, no);
 	}
+
+	@Override
+	public String findId(String email) {
+		return dao.findId(sst, email);
+	}
+
+	@Override
+	public String findPwd(MemberVo vo) {
+		return dao.findPwd(sst, vo);
+	}
 }

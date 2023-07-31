@@ -54,5 +54,15 @@ public class MemberDaoImpl implements MemberDao {
 		return sst.update("member.quit", no);
 	}
 
+	@Override
+	public String findId(SqlSessionTemplate sst, String email) {
+		return sst.selectOne("member.findId", email);
+	}
+
+	@Override
+	public String findPwd(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("member.findPwd", vo);
+	}
+
 	
 }
