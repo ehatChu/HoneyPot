@@ -8,6 +8,7 @@ public class ReplyVo {
 	private String no;
 	private String boardNo;
 	private String writerNo;
+	private String writerName;
 	private String replyNo;
 	private String content;
 	private String enrollDate;

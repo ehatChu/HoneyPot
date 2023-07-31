@@ -35,6 +35,9 @@ public interface BoardService {
 	//댓글 작성
 	public abstract int writeReply(ReplyVo rvo);
 	
+	//댓글 목록 조회
+	public abstract List<ReplyVo> getReplyList(String no);
+	
 	//사진 목록 조회
 	public abstract List<BoardImgVo> getImgList(String no);
 
