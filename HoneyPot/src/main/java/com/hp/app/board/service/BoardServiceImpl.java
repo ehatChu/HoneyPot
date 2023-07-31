@@ -75,11 +75,18 @@ public class BoardServiceImpl implements BoardService {
 	public int writeReply(ReplyVo rvo) {
 		return dao.writeReply(sst, rvo);
 	}
+	
+	//댓글 목록 조회
+	@Override
+	public List<ReplyVo> getReplyList(String no) {
+		return dao.getReplyList(sst, no);
+	}
 
 	//사진 목록 조회
 	@Override
 	public List<BoardImgVo> getImgList(String no) {
 		return null;
 	}
+
 
 }

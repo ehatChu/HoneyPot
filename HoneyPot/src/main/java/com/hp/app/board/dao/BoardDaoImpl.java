@@ -70,6 +70,12 @@ public class BoardDaoImpl implements BoardDao {
 	public int writeReply(SqlSessionTemplate sst, ReplyVo rvo) {
 		return sst.insert("board.writeReply", rvo);
 	}
+	
+	//댓글 목록 조회
+	@Override
+	public List<ReplyVo> getReplyList(SqlSessionTemplate sst, String no) {
+		return sst.selectList("board.getReplyList", no);
+	}
 
 	//사진 목록 조회
 	@Override

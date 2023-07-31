@@ -40,6 +40,9 @@ public interface BoardDao {
 	//댓글 작성
 	public abstract int writeReply(SqlSessionTemplate sst, ReplyVo rvo);
 	
+	//댓글 목록 조회
+	public abstract List<ReplyVo> getReplyList(SqlSessionTemplate sst, String no);
+	
 	//사진 목록 조회
 	public abstract List<BoardImgVo> getImgList(SqlSessionTemplate sst, String no);
 

@@ -20,9 +20,6 @@
 		    ,B.MODIFY_DATE AS MODIFY_DATE
 		    ,HIT
 		    ,COALESCE(A.LOVE_CNT, 0) AS LOVE_CNT
-	 		<!-- ,L.MEMBER_NO AS LOVE_MEMBER -->
-<!-- 		    ,I.NO AS IMG_NO
-		    ,I.NAME AS IMG_NAME -->
 		FROM
 		    BOARD B
 		    JOIN BOARD_CATEGORY C ON B.BOARD_CNO = C.NO
@@ -34,8 +31,6 @@
 	        			FROM LOVE
 	        			GROUP BY BOARD_NO
 	        		) A ON A.BOARD_NO = B.NO
-		    <!-- JOIN LOVE L ON B.NO = L.BOARD_NO -->
-			<!-- JOIN BOARD_IMG I ON B.NO = I.BOARD_NO -->
 		WHERE S.NO != 5
 		<!-- AND C.NO = 4 -->
 		
@@ -152,5 +147,22 @@
 			,#{content}
 		)
 	</insert>
+	
+	
+	<!-- 댓글목록 -->
+	<select id="getReplyList" resultType="com.hp.app.board.vo.ReplyVo">
+		SELECT 
+		    R.NO AS NO
+		    ,BOARD_NO
+		    ,WRITER_NO
+		    ,M.NAME AS WRITER_NAME
+		    ,REPLY_NO
+		    ,CONTENT
+		    ,R.ENROLL_DATE AS ENROLL_DATE
+		    ,R.MODIFY_DATE AS MODIFY_DATE
+		    ,R.STATUS AS STATUS
+		FROM REPLY R JOIN MEMBER M ON R.WRITER_NO = M.NO
+		WHERE R.STATUS = 'Y'
+	</select>
 	
 </mapper>

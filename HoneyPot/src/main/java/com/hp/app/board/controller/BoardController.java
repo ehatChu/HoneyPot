@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hp.app.account.vo.AccountVo;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.board.service.BoardService;
 import com.hp.app.board.vo.BoardVo;
@@ -61,7 +64,7 @@ public class BoardController {
 
 	// 게시글 상세 조회
 	@GetMapping("board/detail")
-	public String detail(Model model, String no) {
+	public String viewDetail(Model model, String no) {
 		
 		try {
 			BoardVo vo = service.viewDetail(no);
@@ -74,9 +77,9 @@ public class BoardController {
 	}
 	
 	//댓글 작성
-	@PostMapping("reply")
+	@PostMapping("reply/write")
 	@ResponseBody
-	public String writeReply(HttpSession session, HttpServletResponse resp, ReplyVo rvo) {
+	public String writeReply(HttpSession session, ReplyVo rvo) {
 		
 		AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
 		
@@ -101,6 +104,32 @@ public class BoardController {
 		return "success";
 		
 	}
+	
+	
+	//댓글 목록 조회
+	@GetMapping("reply/list")
+	@ResponseBody
+	public String getReplyList(HttpSession session, String no) throws JsonProcessingException {
+		
+		AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
+		
+		List<ReplyVo> rvoList = service.getReplyList(no);
+		
+		if(rvoList == null) {
+			return "fail";
+		}
+		
+		//자바객체 -> JSON 형태
+		ObjectMapper mapper = new ObjectMapper();
+		String replyList = mapper.writeValueAsString(rvoList);
+		
+		System.out.println(replyList);
+		
+		return replyList;
+
+	}
+	
+	
 	
 
 	// 자유게시판 (화면)

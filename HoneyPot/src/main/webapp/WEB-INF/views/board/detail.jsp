@@ -13,7 +13,7 @@
 		/* text-align: center; */
 	}
 
-	.bg {
+	.bg, .reply-bg {
 		background: white;
 		border-radius: 20px;
 	}
@@ -210,7 +210,7 @@
 
 				<!-- 좋아요 버튼 -->
 				<div class="like-btn-area">
-					<button type="button" id="like-btn" onclick=""><i class="fa-solid fa-heart"></i>&nbsp; 숫자</button>
+					<button type="button" id="like-btn" onclick=""><i class="fa-solid fa-heart"></i>&nbsp; ${vo.loveCnt}</button>
 				</div>
 
 			</div>
@@ -226,44 +226,47 @@
 		</div>
 		
 		<div class="reply-area">
-			<div class="bg">
+			<div class="reply-bg">
 				
 				<!-- 댓글 -->
-				<div class="user-reply">
-					<input type="hidden" name="boardNo" value="${vo.no}">
-					<input type="hidden" name="replyNo" value="${rvo.no}">
+				<div class="reply-wrapper">
 
-					<div id="profile">
-						<img src="/app/resources/profile/profile04cheese.jpg" alt="프로필사진">
-						<!-- <img src="/app/resources/profile/${loginMember.profile}" alt="프로필사진"> -->
-					</div>
-
-					<div id="reply-body">
-						<div id="reply-writer">
-							댓쓴이
-							<!-- ${rvo.writerName} -->
+					<div class="user-reply">
+						<input type="hidden" name="boardNo" value="${vo.no}">
+	
+						<input type="hidden" name="replyNo" value="${rvo.no}">
+						<div id="profile">
+							<img src="/app/resources/profile/profile04cheese.jpg" alt="프로필사진">
+							<!-- <img src="/app/resources/profile/${loginMember.profile}" alt="프로필사진"> -->
 						</div>
-
-						<div id="reply-content">
-							댓글내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-							<!-- ${rvo.content} -->
-						</div>
-
-						<div id="reply-footer">
-							<div id="reply-date">
-								2023.08.10 15:49
-								<!-- ${rvo.enrollDate} -->
+	
+						<div id="reply-body">
+							<div id="reply-writer">
+								댓쓴이
+								<!-- ${rvo.writerName} -->
 							</div>
-							<div id="re-reply-btn" onclick="">답글쓰기</div>
-							<div id="reply-edit-btn" onclick="">수정</div>
-							<div id="reply-del-btn" onclick="">삭제</div>
-							<div id="reply-report-btn" onclick="">신고</div>
+	
+							<div id="reply-content">
+								댓글내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+								<!-- ${rvo.content} -->
+							</div>
+	
+							<div id="reply-footer">
+								<div id="reply-date">
+									2023.08.10 15:49
+									<!-- ${rvo.enrollDate} -->
+								</div>
+								<div id="re-reply-btn" onclick="">답글쓰기</div>
+								<div id="reply-edit-btn" onclick="">수정</div>
+								<div id="reply-del-btn" onclick="">삭제</div>
+								<div id="reply-report-btn" onclick="">신고</div>
+							</div>
 						</div>
 					</div>
 				</div>
 
 								<!-- 댓글 작성란 -->
-								<div class="reply-submit-area">
+								<!-- <div class="reply-submit-area">
 									<div class="reply-write-area">
 										<textarea name="" id="reply-write" placeholder="내용을 입력하세요."></textarea>
 									</div>
@@ -273,7 +276,7 @@
 									<div id="secret-check">
 										<label><input type="checkbox" id="secret" value="y">&nbsp;비밀댓글</label>
 									</div>
-								</div>
+								</div> -->
 
 				<!-- 대댓글 -->
 				<div class="user-re-reply">
@@ -342,6 +345,7 @@
 	// });
 
 
+	//댓글 작성
 	function writeReply(){
 		const replyWriteTag = document.querySelector('#reply-write');
 		const replyWriteContent = replyWriteTag.value;
@@ -355,7 +359,7 @@
 		}
 
 		$.ajax({
-			url : '/app/reply' ,
+			url : '/app/reply/write' ,
 			type : 'post' ,
 			data : {
 				boardNo : '2' ,
@@ -383,9 +387,61 @@
 		})
 	}
 
+
+	//댓글 목록
 	function loadReply() {
-		
+		// const userReply = document.querySelector('.user-reply');
+		// const replyBg = document.querySelector('.reply-bg');
+		const replyWrapper = document.querySelector('.reply-wrapper');
+
+		$.ajax({
+			url : '/app/reply/list',
+			type : 'get',
+			data : {
+				boardNo : '${vo.no}',
+			},
+			success : function(data){
+				console.log(data);
+				const replyList = JSON.parse(data);
+				console.log(replyList);
+
+				// userReply.innerHTML = "";
+				replyWrapper.innerHTML = "";
+				let str = "";
+				for (let i=0 ; i < replyList.length ; i++) {
+					str += '<div class="user-reply">';
+					str += '<input type="hidden" name="replyNo" value="replyList[i].no">';
+					str += '<div id="profile">';
+					str += '<img src="/app/resources/profile/${loginMember.profile}" alt="프로필사진">';
+					str += '</div>';
+					str += '<div id="reply-body">';
+					str += '<div id="reply-writer">';
+					str += 'replyList[i].writerName';
+					str += '</div>';
+					str += '<div id="reply-content">';
+					str += 'replyList[i].content';
+					str += '</div>';
+					str += '<div id="reply-footer">';
+					str += '<div id="reply-date">';
+					str += 'replyList[i].enrollDate';
+					str += '</div>';
+					str += '<div id="re-reply-btn" onclick="">답글쓰기</div>';
+					str += '<div id="reply-edit-btn" onclick="">수정</div>';
+					str += '<div id="reply-del-btn" onclick="">삭제</div>';
+					str += '<div id="reply-report-btn" onclick="">신고</div>';
+					str += '</div>';
+					str += '</div>';
+					str += '</div>';
+				}
+				replyWrapper.innerHTML += str;
+			},
+			error: function(e){
+				console.log(e);
+			},
+		})
 	}
+
+	loadReply();
 
 
 </script>
