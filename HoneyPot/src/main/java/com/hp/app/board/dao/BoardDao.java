@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.hp.app.board.vo.BoardCategoryVo;
 import com.hp.app.board.vo.BoardImgVo;
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.board.vo.LoveVo;
 import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
 
@@ -41,9 +42,21 @@ public interface BoardDao {
 	public abstract int writeReply(SqlSessionTemplate sst, ReplyVo rvo);
 	
 	//댓글 목록 조회
-	public abstract List<ReplyVo> getReplyList(SqlSessionTemplate sst, String no);
+	public abstract List<ReplyVo> getReplyList(SqlSessionTemplate sst, String boardNo);
 	
 	//사진 목록 조회
 	public abstract List<BoardImgVo> getImgList(SqlSessionTemplate sst, String no);
+	
+	//좋아요 개수
+	public abstract int countLove(SqlSessionTemplate sst, LoveVo lvo);
+	
+	//좋아요 여부
+	public abstract int checkLoveYn(SqlSessionTemplate sst, LoveVo lvo);
+	
+	//좋아요 삽입
+	public abstract int insertLove(SqlSessionTemplate sst, LoveVo lvo);
+	
+	//좋아요 삭제
+	public abstract int deleteLove(SqlSessionTemplate sst, LoveVo lvo);
 
 }

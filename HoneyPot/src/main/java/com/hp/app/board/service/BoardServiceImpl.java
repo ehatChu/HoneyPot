@@ -11,6 +11,7 @@ import com.hp.app.board.dao.BoardDao;
 import com.hp.app.board.vo.BoardCategoryVo;
 import com.hp.app.board.vo.BoardImgVo;
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.board.vo.LoveVo;
 import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
 
@@ -78,14 +79,38 @@ public class BoardServiceImpl implements BoardService {
 	
 	//댓글 목록 조회
 	@Override
-	public List<ReplyVo> getReplyList(String no) {
-		return dao.getReplyList(sst, no);
+	public List<ReplyVo> getReplyList(String boardNo) {
+		return dao.getReplyList(sst, boardNo);
 	}
 
 	//사진 목록 조회
 	@Override
 	public List<BoardImgVo> getImgList(String no) {
 		return null;
+	}
+
+	//좋아요 개수
+	@Override
+	public int countLove(LoveVo lvo) {
+		return 0;
+	}
+
+	//좋아요 여부
+	@Override
+	public int checkLoveYn(LoveVo lvo) {
+		return 0;
+	}
+
+	//좋아요 삽입
+	@Override
+	public int insertLove(LoveVo lvo) {
+		return 0;
+	}
+
+	//좋아요 삭제
+	@Override
+	public int deleteLove(LoveVo lvo) {
+		return 0;
 	}
 
 

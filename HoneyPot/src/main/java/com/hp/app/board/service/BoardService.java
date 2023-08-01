@@ -6,6 +6,7 @@ import java.util.Map;
 import com.hp.app.board.vo.BoardCategoryVo;
 import com.hp.app.board.vo.BoardImgVo;
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.board.vo.LoveVo;
 import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
 
@@ -36,9 +37,23 @@ public interface BoardService {
 	public abstract int writeReply(ReplyVo rvo);
 	
 	//댓글 목록 조회
-	public abstract List<ReplyVo> getReplyList(String no);
+	public abstract List<ReplyVo> getReplyList(String boardNo);
 	
 	//사진 목록 조회
 	public abstract List<BoardImgVo> getImgList(String no);
+
+	//좋아요 개수
+	public abstract int countLove(LoveVo lvo);
+	
+	//좋아요 여부
+	public abstract int checkLoveYn(LoveVo lvo);
+	
+	//좋아요 삽입
+	public abstract int insertLove(LoveVo lvo);
+	
+	//좋아요 삭제
+	public abstract int deleteLove(LoveVo lvo);
+	
+	
 
 }

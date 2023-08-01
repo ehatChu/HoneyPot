@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.hp.app.board.vo.BoardCategoryVo;
 import com.hp.app.board.vo.BoardImgVo;
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.board.vo.LoveVo;
 import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.page.vo.PageVo;
 
@@ -73,8 +74,8 @@ public class BoardDaoImpl implements BoardDao {
 	
 	//댓글 목록 조회
 	@Override
-	public List<ReplyVo> getReplyList(SqlSessionTemplate sst, String no) {
-		return sst.selectList("board.getReplyList", no);
+	public List<ReplyVo> getReplyList(SqlSessionTemplate sst, String boardNo) {
+		return sst.selectList("board.getReplyList", boardNo);
 	}
 
 	//사진 목록 조회
@@ -82,5 +83,30 @@ public class BoardDaoImpl implements BoardDao {
 	public List<BoardImgVo> getImgList(SqlSessionTemplate sst, String no) {
 		return null;
 	}
+
+	//좋아요 개수
+	@Override
+	public int countLove(SqlSessionTemplate sst, LoveVo lvo) {
+		return 0;
+	}
+
+	//좋아요 여부
+	@Override
+	public int checkLoveYn(SqlSessionTemplate sst, LoveVo lvo) {
+		return 0;
+	}
+
+	//좋아요 삽입
+	@Override
+	public int insertLove(SqlSessionTemplate sst, LoveVo lvo) {
+		return 0;
+	}
+
+	//좋아요 삭제
+	@Override
+	public int deleteLove(SqlSessionTemplate sst, LoveVo lvo) {
+		return 0;
+	}
+	
 
 }
