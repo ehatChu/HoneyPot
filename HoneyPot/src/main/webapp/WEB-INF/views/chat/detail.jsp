@@ -70,15 +70,17 @@
 											<span>대화상대 초대</span>
 										</button>
 									</div>
-									<!-- 방장만 강퇴 우클릭 이벤트 보이게  -->
+									<!-- 로그인 멤버 제외한 나머지 멤버들만 조회  -->
 									<c:forEach items="${cvoList}" var="cvoList">
-										<div class="kick-out">
-											<img src="${root}/resources/img/chat/${cvoList.memberProfile}" alt="프로필사진">
-											<span>${cvoList.memberName}</span>
-											<ul class="kick-area">
-												<li><a href="#">강퇴</a></li>
-											</ul>
-										</div>
+										<c:if test="${cvoList.masterNo ne cvoList.memberNo}">
+											<div class="kick-out">
+												<img src="${root}/resources/img/chat/${cvoList.memberProfile}" alt="프로필사진">
+												<span>${cvoList.memberName}</span>
+												<ul class="kick-area">
+													<li><a href="#">강퇴</a></li>
+												</ul>
+											</div>
+										</c:if>
 									</c:forEach>
 									<!-- 강퇴 모달 -->
 									<div id="kick-modal" style="display: none;">
@@ -95,7 +97,7 @@
                     <!-- 채팅 영역 -->
 					<div id="chat-area">
                         <div class="room-name-area">
-                            <div><span>101동 골프 모임</span><button class="openBtn"><i class="fa-solid fa-pen fa-sm" style="color: #000000;"></i></button></div>
+                            <div><span>${cvoList[0].name}</span><button class="openBtn"><i class="fa-solid fa-pen fa-sm" style="color: #000000;"></i></button></div>
                             <div><button class="quitBtn"><span>나가기</span><i class="fa-solid fa-arrow-right-from-bracket fa-lg" style="color: #000000;"></i></button></div>
                         </div>
 						<div id="chatArea"><div id="chatMessageArea"></div></div>
@@ -116,7 +118,7 @@
 								<div class="first-area">
 									<div class="nameBox">
 										채팅방 이름
-										<input type="text" id="name" value="${vo.name}">
+										<input type="text" id="name" value="${cvoList[0].name}">
 									</div>
 									<div class="picBox">
 										채팅방 사진
@@ -299,11 +301,7 @@
 
 		function funcMessage(x) {
 			console.log("메세지 받음");
-
 			var data = JSON.parse(x.data);
-			var name = data.name;
-			var msg = data.msg;
-			var time = data.time;
 			appendMessage(data)
 			console.log(data);;
 		}
@@ -313,47 +311,101 @@
 			wsocket.close();
 		}
 
-
 		function send() {
-        
-			//var nickname = $("#nickname").val();
 			var msg = $("#message").val();
-			wsocket.send("msg:" + msg );
+			wsocket.send(msg );
 			$("#message").val("");
 		}
 
+		function adjustChatAreaHeight() {
+			var chatArea = $("#chatArea");
+			var chatMessageArea = $("#chatMessageArea");
 
-		function appendMessage(msg) {
-        
-        // 메세지 입력창에 msg를 하고 줄바꿈 처리
-        $("#chatMessageArea").append(msg.msg);
-        
-        // 채팅창의 heigth를 할당
-        var chatAreaHeight = $("#chatArea").height();
-        
-        // 쌓인 메세지의 height에서 채팅창의 height를 뺀다
-        // 이를 이용해서 바로 밑에서 스크롤바의 상단여백을 설정한다
-        var maxScroll = $("#chatMessageArea").height() - chatAreaHeight;
-        
-        /* .scrollTop(int) : Set the current vertical position of the scroll bar
-                             for each of the set of matched elements.*/
-        // .scrollTop(int) : 파라미터로 들어간 px 만큼 top에 공백을 둔 채
-        //                   스크롤바를 위치시킨다
-        $("#chatArea").scrollTop(maxScroll);
-    }
+			// 총 메시지 영역의 높이를 계산하여 chatMessageArea의 높이 설정
+			var totalMessageHeight = 0;
+			chatMessageArea.find('.nameAndMessage').each(function() {
+				totalMessageHeight += $(this).outerHeight(true);
+			});
+
+			// chatArea의 높이와 총 메시지 영역의 높이 비교 후 설정
+			var chatAreaHeight = chatArea.height();
+			if (totalMessageHeight > chatAreaHeight) {
+				chatMessageArea.height(totalMessageHeight);
+			} else {
+				chatMessageArea.height(chatAreaHeight);
+			}
+		}
+
+		function appendMessage(data) {
+			var name = data.name;
+			var msg = data.msg;
+			var time = data.time;
+			var profile = data.profile;
+			var date = new Date(time);
+
+			var hours = date.getHours();
+			var minutes = date.getMinutes();
+
+			var amOrPm = hours < 12 ? "오전" : "오후";
+
+			hours = (hours % 12) || 12; 
+			hours = hours < 10 ? "0" + hours : hours;
+			minutes = minutes < 10 ? "0" + minutes : minutes;
+
+			var messageElement = $('<div class="message"></div>');
+			var profileElement = $('<div class="memberProfile"></div>');
+			var nameElement = $('<div class="memberName"></div>');
+			var timeElement = $('<p class="time"></p>');
+			var profileImg = $('<img>');
+			profileImg.attr('src', "/app/resources/img/chat/" + profile);
+
+			profileElement.append(profileImg);
+
+			
+
+			nameElement.text(name );
+			messageElement.text(msg);
+			timeElement.text(amOrPm + ' ' + hours + ':' + minutes);
+
+			var nameAndMessageDiv = $('<div class="nameAndMessage"></div>');
+			nameAndMessageDiv.append(nameElement);
+			nameAndMessageDiv.append(messageElement);
+
+			if (name === "${cvoList[0].memberName}") {
+				messageElement.addClass("my-message");
+			} else {
+				messageElement.addClass("other-message");
+			}
+
+			$("#chatMessageArea").append(profileElement);
+  			$("#chatMessageArea").append(nameAndMessageDiv);
+			$("#chatMessageArea").append(timeElement);
+
+			var chatArea = $("#chatArea");
+			chatArea.scrollTop(chatArea.prop("scrollHeight"));
+			
+			// chatArea의 높이 조정
+  			adjustChatAreaHeight();
+		}
+
+		// 윈도우 리사이즈 이벤트에 대해 chatArea의 높이 다시 조정
+		$(window).resize(function() {
+			adjustChatAreaHeight();
+		});
 
 	$(document).ready(function() {
         
         // 메세지 입력창에 keypress 이벤트가 발생했을때 발동 함수
         // 키 하나하나 입력 하면 그때마다 발동된다
-        $('#message').keypress(function(event){
+        $('#message').keypress(function(event) {
+			var keycode = (event.keyCode ? event.keyCode : event.which);
 
-		var keycode = (event.keyCode ? event.keyCode : event.which);
-				
-		// enter를 쳤을 때 keycode가 13이다
-		if(keycode == '13'){
-					send(); 
-				}
+			// Prevent the default behavior of Enter key (keyCode 13)
+			if (keycode == 13) {
+			event.preventDefault(); // This prevents the newline from being added
+
+			send();
+			}
 				
 				// 만일의 경우를 대비하여 이벤트 발생 범위를 한정
 		// http://ismydream.tistory.com/98 참고

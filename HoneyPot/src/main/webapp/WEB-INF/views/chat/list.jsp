@@ -21,6 +21,7 @@
 					<div id="left-area">
 						<div class="upper-area">
 							<span>채팅방 목록</span>
+							<input type="hidden" value="${loginMember.no}" id="loginMember">
 						</div>
 						<div class="content-area">
 							<div class="icon-area">
@@ -62,23 +63,26 @@
 							<button class="invite-closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
 						</div>
 						<div class="invite-first-area">
+							<form action="/app/chat/list" method="GET">
 							<div class="search-list">
-								<input type="text" id="name">
-								<button class="searchBtn">검색</button>
-							</div>
-							<form action="/app/chat/add" method="post">
-								<div class="friend-list">
-									<c:forEach begin="1" end="10">
-										<div>
-											<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-											<span>이정민</span>
-											<label for="addMember"><input type="checkbox" name="checkMember"></label>
-										</div>
-									</c:forEach>
+									<input type="text" id="name" name="searchValue">
+									<button type="submit" class="searchBtn">검색</button>
 								</div>
 							</form>
-								<div id="inviteBtn"><button>채팅 시작하기</button></div>
+							<div class="friend-list">
+								<form action="/app/chat/add" method="post">
+								<c:forEach items="${fvoList}" var="list">
+									<div id="friend">
+										<input type="hidden" value="${list.friendNo }">
+										<img src="/app/resources/img/chat/${list.friendProfile}" alt="프로필사진" class="memberPic">
+										<span class="memberName">${list.friendName }</span>
+										<label for="addMember" class="checkArea"><input type="checkbox" name="checkMember"></label>
+									</div>
+								</c:forEach>
 							</div>
+							<div id="inviteBtn"><button>채팅 시작하기</button></div>
+						</form>
+						</div>
 					</div>
 				</div>
 			</main>
@@ -114,27 +118,8 @@
 			location.href="/app/chat/detail";
 		})
 
-		// 채팅방 초대 모달 열기
-        const openListModal = () => {
-        document.querySelector(".invite-modal").classList.remove("hidden");
-        };
-
-        // 채팅방 초대 모달 닫기
-        const closeListModal = () => {
-        document.querySelector(".invite-modal").classList.add("hidden");
-        };
-
-		// 모달 닫기 버튼에 이벤트 추가
-		document.querySelector(".invite-closeBtn").addEventListener("click", closeListModal);
-
-		// 모달 배경 클릭 시 모달 닫기
-		document.querySelector(".bg").addEventListener("click", closeListModal);
-
-
-		// 친구 초대 클릭 이벤트 추가
-		const inviteBtn = document.querySelector(".openChat");
-		inviteBtn.addEventListener("click", openListModal);
 		
+
 		// 채팅방 눌렀을 시, detail 로 이동
 		$(document).ready(function() {
 			const detailBtns = document.querySelectorAll("#detailBtn");
@@ -143,21 +128,53 @@
 			var rno = $(this).closest("div").find("#roomNo").text().trim();
 			console.log(rno);
 
-		// $.ajax({
-		// 		type: "GET",
-		// 		url: "/app/chat/detail",
-		// 		data: {no : rno},
-		// 		success: function(response) {
-		// 			console.log(response);
-		// 			location.href="/app/chat/detail?no=" + rno;
-		// 		},
-		// 		error: function(error) {
-		// 			console.log(error);
-		// 		}
-		// 	});
+		$.ajax({
+				type: "GET",
+				url: "/app/chat/detail",
+				data: {no : rno},
+				success: function(response) {
+					console.log(response);
+					location.href="/app/chat/detail?no=" + rno;
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
 		})
 			});
 	});
+	
+	// 채팅방 초대 모달 닫기
+	const closeListModal = () => {
+	document.querySelector(".invite-modal").classList.add("hidden");
+	};
+
+	// 모달 닫기 버튼에 이벤트 추가
+	document.querySelector(".invite-closeBtn").addEventListener("click", closeListModal);
+
+	// 모달 배경 클릭 시 모달 닫기
+	document.querySelector(".bg").addEventListener("click", closeListModal);
+	
+	var memberNo = $("#loginMember").val();
+	var openBtn = document.querySelector(".openChat");
+	openBtn.addEventListener("click", function(){
+		console.log(memberNo);
+		// 채팅방 초대 모달 열기
+		
+		document.querySelector(".invite-modal").classList.remove("hidden");
+		// $.ajax({
+		// 	type: "GET",
+		// 	url: "/app/chat/friend",
+		// 	data: {memberNo : memberNo},
+		// 	success: function(data) {
+		// 		console.log(data);
+		// 	},
+		// 	error: function(error) {
+		// 		console.log(error);
+		// 	}
+		// });
+
+		});
 	
 	
 

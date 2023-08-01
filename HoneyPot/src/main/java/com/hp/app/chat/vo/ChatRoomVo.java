@@ -11,6 +11,7 @@ public class ChatRoomVo {
 	private String img;
 	private String memberName;
 	private String memberProfile;
+	private String memberNo;
 
 	
 }
