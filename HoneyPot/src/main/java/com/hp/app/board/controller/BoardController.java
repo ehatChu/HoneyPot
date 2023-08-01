@@ -1,5 +1,6 @@
 package com.hp.app.board.controller;
 
+import java.beans.Encoder;
 import java.util.List;
 import java.util.Map;
 
@@ -14,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hp.app.account.vo.AccountVo;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.board.service.BoardService;
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.board.vo.LoveVo;
 import com.hp.app.board.vo.ReplyVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
@@ -109,24 +110,52 @@ public class BoardController {
 	//댓글 목록 조회
 	@GetMapping("reply/list")
 	@ResponseBody
-	public String getReplyList(HttpSession session, String no) throws JsonProcessingException {
+	public List<ReplyVo> getReplyList(HttpSession session, String boardNo) throws JsonProcessingException {
 		
-		AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		
-		List<ReplyVo> rvoList = service.getReplyList(no);
+		List<ReplyVo> rvoList = service.getReplyList(boardNo);
 		
-		if(rvoList == null) {
-			return "fail";
-		}
+		System.out.println(rvoList);
+		
+//		if(rvoList == null) {
+//			return "fail";
+//		}
 		
 		//자바객체 -> JSON 형태
-		ObjectMapper mapper = new ObjectMapper();
-		String replyList = mapper.writeValueAsString(rvoList);
+//		ObjectMapper mapper = new ObjectMapper();
+//		String replyList = mapper.writeValueAsString(rvoList);
 		
-		System.out.println(replyList);
-		
-		return replyList;
+		return rvoList;
 
+	}
+	
+	//좋아요
+	@GetMapping("love")
+	@ResponseBody
+	public int clickLove(LoveVo lvo) {
+		
+		//좋아요 여부
+		int loveYn = service.checkLoveYn(lvo);
+		
+		//여부에 따라 좋아요 증감
+		if (loveYn != 1) {
+			int result = service.insertLove(lvo);
+		}else {
+			int result = service.deleteLove(lvo);
+		}
+		
+		//좋아요 세기
+		int loveCnt = service.countLove(lvo);
+		
+//	    SELECT COUNT(L.MEMBER_NO) AS LOVE_CNT
+//	    FROM LOVE L
+//	        JOIN MEMBER M ON L.MEMBER_NO = M.NO
+//	        JOIN BOARD B ON L.BOARD_NO = B.NO
+//	    WHERE B.NO = 1
+		
+		return loveCnt;
+		
 	}
 	
 	

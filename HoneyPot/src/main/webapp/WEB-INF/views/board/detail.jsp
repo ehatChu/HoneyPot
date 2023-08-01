@@ -210,7 +210,7 @@
 
 				<!-- 좋아요 버튼 -->
 				<div class="like-btn-area">
-					<button type="button" id="like-btn" onclick=""><i class="fa-solid fa-heart"></i>&nbsp; ${vo.loveCnt}</button>
+					<button type="button" id="like-btn" onclick="clickLove();"><i class="fa-solid fa-heart"></i>&nbsp; ${vo.loveCnt}</button>
 				</div>
 
 			</div>
@@ -329,7 +329,7 @@
 <script>
 	basicSetting(); // 기본 셋팅
 	headerName('게시판'); // 현재 페이지 이름
-	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'], '공지 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'], '자유 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 
 	// textarea 높이 자동 조절
 	window.addEventListener('DOMContentLoaded', function() {
@@ -362,8 +362,7 @@
 			url : '/app/reply/write' ,
 			type : 'post' ,
 			data : {
-				boardNo : '2' ,
-				// boardNo : '${vo.no}' ,
+				boardNo : '${vo.no}' ,
 				writerNo : '2' ,
 				// writerNo : '${loginMember.no}' ,
 				content : replyWriteContent ,
@@ -390,6 +389,8 @@
 
 	//댓글 목록
 	function loadReply() {
+
+		console.log("댓글 불러옴");
 		// const userReply = document.querySelector('.user-reply');
 		// const replyBg = document.querySelector('.reply-bg');
 		const replyWrapper = document.querySelector('.reply-wrapper');
@@ -400,30 +401,27 @@
 			data : {
 				boardNo : '${vo.no}',
 			},
-			success : function(data){
-				console.log(data);
-				const replyList = JSON.parse(data);
-				console.log(replyList);
-
+			success : function(replyList){
+				
 				// userReply.innerHTML = "";
 				replyWrapper.innerHTML = "";
 				let str = "";
 				for (let i=0 ; i < replyList.length ; i++) {
 					str += '<div class="user-reply">';
-					str += '<input type="hidden" name="replyNo" value="replyList[i].no">';
+					str += '<input type="hidden" name="replyNo" value="' + replyList[i].no + '">';
 					str += '<div id="profile">';
-					str += '<img src="/app/resources/profile/${loginMember.profile}" alt="프로필사진">';
+					str += '<img src="/app/resources/profile/${loginMember.profile}" alt="프사">';
 					str += '</div>';
 					str += '<div id="reply-body">';
 					str += '<div id="reply-writer">';
-					str += 'replyList[i].writerName';
+					str += replyList[i].writerName;
 					str += '</div>';
 					str += '<div id="reply-content">';
-					str += 'replyList[i].content';
+					str += replyList[i].content;
 					str += '</div>';
 					str += '<div id="reply-footer">';
 					str += '<div id="reply-date">';
-					str += 'replyList[i].enrollDate';
+					str += replyList[i].enrollDate;
 					str += '</div>';
 					str += '<div id="re-reply-btn" onclick="">답글쓰기</div>';
 					str += '<div id="reply-edit-btn" onclick="">수정</div>';
@@ -442,6 +440,30 @@
 	}
 
 	loadReply();
+
+
+	//좋아요
+	function clickLove(){
+		const likeBtn = document.querySelector('#like-btn');
+
+		$.ajax({
+			url : 'app/love',
+			type : 'get',
+			data : {
+				boardNo : '${vo.no}',
+				// memberNo : '${loginMember.no}',
+				memberNo : '2',
+			},
+			success : function (loveCnt) {
+				console.log(loveCnt);
+				likeBtn.innerHTML = '<i class="fa-solid fa-heart"></i>&nbsp;' + loveCnt;
+			},
+			error : function (error) {
+				console.log(error);
+			},
+		})
+	}
+
 
 
 </script>

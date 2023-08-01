@@ -163,6 +163,7 @@
 		    ,R.STATUS AS STATUS
 		FROM REPLY R JOIN MEMBER M ON R.WRITER_NO = M.NO
 		WHERE R.STATUS = 'Y'
+		AND BOARD_NO = #{boardNo}
 	</select>
 	
 </mapper>
