@@ -33,11 +33,19 @@
 	}
 
 	#detail-title td {
-		padding: 20px 50px;
+		padding: 20px 50px 10px;
 		border-bottom: 5px solid #FAD355;
 	}
 
-	#detail-title td[id=title] { text-align: left; }
+	#detail-title td[id=title] {
+		width: 700px;
+		max-width: 700px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: left;
+	}
+
 
 	#detail-title td:not(:first-of-type) { text-align: right;}
 
@@ -104,7 +112,7 @@
 							<td id="title">${vo.fullName}</td>
 							<td id="writer">${vo.writerName}</td>
 							<td>${vo.enrollDate}</td>
-							<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
+							<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>
 						</tr>
 					</table>
 				</div>

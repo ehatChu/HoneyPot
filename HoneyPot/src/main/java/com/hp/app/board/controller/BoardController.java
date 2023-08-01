@@ -134,25 +134,19 @@ public class BoardController {
 	@GetMapping("love")
 	@ResponseBody
 	public int clickLove(LoveVo lvo) {
-		
+
 		//좋아요 여부
 		int loveYn = service.checkLoveYn(lvo);
 		
 		//여부에 따라 좋아요 증감
-		if (loveYn != 1) {
-			int result = service.insertLove(lvo);
-		}else {
-			int result = service.deleteLove(lvo);
+		if (loveYn == 0 ) {
+			service.insertLove(lvo);
+		}else if (loveYn == 1 ) {
+			service.deleteLove(lvo);
 		}
 		
 		//좋아요 세기
 		int loveCnt = service.countLove(lvo);
-		
-//	    SELECT COUNT(L.MEMBER_NO) AS LOVE_CNT
-//	    FROM LOVE L
-//	        JOIN MEMBER M ON L.MEMBER_NO = M.NO
-//	        JOIN BOARD B ON L.BOARD_NO = B.NO
-//	    WHERE B.NO = 1
 		
 		return loveCnt;
 		

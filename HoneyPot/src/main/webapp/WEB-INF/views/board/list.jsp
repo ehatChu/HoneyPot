@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지 게시판</title>
+<title>자유게시판</title>
 <style>
 
 	/* 검색바 */

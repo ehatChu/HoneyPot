@@ -87,25 +87,25 @@ public class BoardDaoImpl implements BoardDao {
 	//좋아요 개수
 	@Override
 	public int countLove(SqlSessionTemplate sst, LoveVo lvo) {
-		return 0;
+		return sst.selectOne("board.countLove", lvo);
 	}
 
 	//좋아요 여부
 	@Override
 	public int checkLoveYn(SqlSessionTemplate sst, LoveVo lvo) {
-		return 0;
+		return sst.selectOne("board.checkLoveYn", lvo);
 	}
 
 	//좋아요 삽입
 	@Override
 	public int insertLove(SqlSessionTemplate sst, LoveVo lvo) {
-		return 0;
+		return sst.insert("board.insertLove", lvo);
 	}
 
 	//좋아요 삭제
 	@Override
 	public int deleteLove(SqlSessionTemplate sst, LoveVo lvo) {
-		return 0;
+		return sst.delete("board.deleteLove", lvo);
 	}
 	
 
