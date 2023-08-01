@@ -7,5 +7,6 @@ public class FAQCategoryVo {
 
 	private String no;
 	private String name;
+	private String categorySum;
 	
 }
