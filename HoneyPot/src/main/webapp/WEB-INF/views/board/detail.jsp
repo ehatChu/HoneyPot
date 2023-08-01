@@ -33,11 +33,18 @@
 	}
 
 	#detail-title td {
-		padding: 20px 50px;
+		padding: 20px 50px 10px;
 		border-bottom: 5px solid #FAD355;
 	}
 
-	#detail-title td[id=title] { text-align: left; }
+	#detail-title td[id=title] {
+		width: 700px;
+		max-width: 700px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: left;
+	}
 
 	#detail-title td:not(:first-of-type) { text-align: right;}
 
@@ -64,8 +71,8 @@
 	}
 
 	#like-btn {
-		width: 90px;
-		height: 90px;
+		width: 75px;
+		height: 75px;
 		background-color: #FAD355;
 		color: black;
 		border-radius: 45px;
@@ -196,7 +203,7 @@
 							<td id="title">${vo.title}</td>
 							<td id="writer">${vo.writerName}</td>
 							<td>${vo.enrollDate}</td>
-							<td><i class="fa-solid fa-eye"></i>${vo.hit}</td>
+							<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>
 						</tr>
 					</table>
 				</div>
@@ -447,16 +454,16 @@
 		const likeBtn = document.querySelector('#like-btn');
 
 		$.ajax({
-			url : 'app/love',
+			url : '/app/love',
 			type : 'get',
 			data : {
 				boardNo : '${vo.no}',
 				// memberNo : '${loginMember.no}',
-				memberNo : '2',
+				memberNo : '1',
 			},
 			success : function (loveCnt) {
 				console.log(loveCnt);
-				likeBtn.innerHTML = '<i class="fa-solid fa-heart"></i>&nbsp;' + loveCnt;
+				likeBtn.innerHTML = '<i class="fa-solid fa-heart"></i>&nbsp; ' + loveCnt;
 			},
 			error : function (error) {
 				console.log(error);

@@ -92,25 +92,25 @@ public class BoardServiceImpl implements BoardService {
 	//좋아요 개수
 	@Override
 	public int countLove(LoveVo lvo) {
-		return 0;
+		return dao.countLove(sst, lvo);
 	}
 
 	//좋아요 여부
 	@Override
 	public int checkLoveYn(LoveVo lvo) {
-		return 0;
+		return dao.checkLoveYn(sst, lvo);
 	}
 
 	//좋아요 삽입
 	@Override
 	public int insertLove(LoveVo lvo) {
-		return 0;
+		return dao.insertLove(sst, lvo);
 	}
 
 	//좋아요 삭제
 	@Override
 	public int deleteLove(LoveVo lvo) {
-		return 0;
+		return dao.deleteLove(sst, lvo);
 	}
 
 

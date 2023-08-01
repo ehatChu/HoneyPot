@@ -166,4 +166,29 @@
 		AND BOARD_NO = #{boardNo}
 	</select>
 	
+	
+	<!-- 좋아요 개수 -->
+	<select id="countLove" resultType="int">
+	    SELECT COUNT(*)
+	    FROM LOVE
+	    WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<!-- 좋아요 여부 -->
+	<select id="checkLoveYn" resultType="int">
+	    SELECT COUNT(*)
+	    FROM LOVE
+	    WHERE MEMBER_NO = #{memberNo} AND BOARD_NO = #{boardNo}
+	</select>
+	
+	<!-- 좋아요 삽입 -->
+	<insert id="insertLove">
+		INSERT INTO LOVE (MEMBER_NO, BOARD_NO) VALUES (#{memberNo}, #{boardNo})
+	</insert>
+	
+	<!-- 좋아요 삭제 -->
+	<delete id="deleteLove">
+		DELETE FROM LOVE WHERE MEMBER_NO = #{memberNo} AND BOARD_NO = #{boardNo}
+	</delete>
+	
 </mapper>
