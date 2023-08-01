@@ -225,6 +225,32 @@ public class CSCDaoImpl implements CSCDao{
 	public int completeReport(SqlSessionTemplate sst, String rno) {
 		return sst.update("csc.completeReport", rno);
 	}
+
+	// FAQ
+	// FAQ 카테고리 조회
+	@Override
+	public List<FAQCategoryVo> getFAQCatListAdmin(SqlSessionTemplate sst) {
+		return sst.selectList("csc.getFAQCatListAdmin");
+	}
+
+	// FAQ 전체 갯수
+	@Override
+	public int getFAQCntAdmin(SqlSessionTemplate sst, Map<String, String> searchVo) {
+		return sst.selectOne("csc.getFAQCntAdmin", searchVo);
+	}
+
+	// FAQ LIST 검색 조회(페이징)
+	@Override
+	public List<FAQVo> getFAQListAdmin(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchVo) {
+		RowBounds rb = new RowBounds(pvo.getOffset(), pvo.getBoardLimit()); // (건널 뛸 갯수, 보여줄 갯수)
+		return sst.selectList("csc.getFAQListAdmin", searchVo, rb);
+	}
+	
+	// FAQ 삭제
+	@Override
+	public int deleteFAQ(SqlSessionTemplate sst, String fno) {
+		return sst.update("csc.deleteFAQ", fno);
+	}
 	
 	
 

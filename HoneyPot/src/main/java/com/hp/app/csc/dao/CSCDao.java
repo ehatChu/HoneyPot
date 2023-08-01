@@ -121,4 +121,17 @@ public interface CSCDao {
 	// 신고 내역 처리
 	int completeReport(SqlSessionTemplate sst, String rno);
 	
+	// FAQ
+	// FAQ 카테고리 조회
+	List<FAQCategoryVo> getFAQCatListAdmin(SqlSessionTemplate sst);
+	
+	// FAQ 전체 갯수
+	int getFAQCntAdmin(SqlSessionTemplate sst, Map<String, String> searchVo);
+
+	// FAQ LIST 검색 조회(페이징)
+	List<FAQVo> getFAQListAdmin(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchVo);
+
+	// FAQ 삭제
+	int deleteFAQ(SqlSessionTemplate sst, String fno);
+	
 }

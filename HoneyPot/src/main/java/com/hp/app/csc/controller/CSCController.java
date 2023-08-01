@@ -481,27 +481,50 @@ public class CSCController {
 		return "redirect:/admin/csc/report-list";
 	}
 	
-	// FAQ조회(화면)
+	// FAQ 조회(화면)
 	@GetMapping("admin/csc/faq")
 	public String adminFAQ(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchVo) {
 		
-		int listCount = service.getFAQCnt(searchVo);
-		int currentPage = Integer.parseInt(page);
-		int pageLimit = 5;
-		int boardLimit = 8;
+		try {
+			int listCount = service.getFAQCntAdmin(searchVo);
+			int currentPage = Integer.parseInt(page);
+			int pageLimit = 5;
+			int boardLimit = 8;
+			
+			PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+			
+			List<FAQVo> fList = service.getFAQListAdmin(pvo,searchVo);
+			List<FAQCategoryVo> cListCnt = service.getFAQCatListAdmin();
+			List<FAQCategoryVo> cList = service.getFAQCatList();
+			
+			
+			model.addAttribute("cList", cList);
+			model.addAttribute("cListCnt", cListCnt);
+			model.addAttribute("fList", fList);
+			model.addAttribute("pvo", pvo);
+			model.addAttribute("searchVo", searchVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
-		
-
-		
-		List<FAQVo> fList = service.getFAQList(pvo,searchVo);
-		List<FAQCategoryVo> cList = service.getFAQCatList();
-		
-		
-		model.addAttribute("cList", cList);
-		model.addAttribute("fList", fList);
-		model.addAttribute("pvo", pvo);
 		return "csc/admin/faq";
+	}
+	
+	// FAQ 삭제
+	@GetMapping("admin/csc/faq/delete")
+	public String deleteFAQ(String fno) throws Exception {
+		
+		try {
+			int result = service.deleteFAQ(fno);
+			
+			if(result != 1) {
+				throw new Exception("FAQ 삭제 에러");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/admin/csc/faq";
 	}
 	
 	// 제제내역 (화면)

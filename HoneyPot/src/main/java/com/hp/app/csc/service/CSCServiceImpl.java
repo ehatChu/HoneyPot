@@ -228,6 +228,31 @@ public class CSCServiceImpl implements CSCService {
 	public int completeReport(String rno) {
 		return dao.completeReport(sst, rno);
 	}
+	
+	// FAQ
+	// FAQ 카테고리 조회
+	@Override
+	public List<FAQCategoryVo> getFAQCatListAdmin() {
+		return dao.getFAQCatListAdmin(sst);
+	}
+
+	// FAQ 전체 갯수
+	@Override
+	public int getFAQCntAdmin(Map<String, String> searchVo) {
+		return dao.getFAQCntAdmin(sst, searchVo);
+	}
+
+	// FAQ LIST 검색 조회(페이징)
+	@Override
+	public List<FAQVo> getFAQListAdmin(PageVo pvo, Map<String, String> searchVo) {
+		return dao.getFAQListAdmin(sst, pvo, searchVo);
+	}
+
+	// FAQ 삭제
+	@Override
+	public int deleteFAQ(String fno) {
+		return dao.deleteFAQ(sst, fno);
+	}
 
 	
 
