@@ -189,12 +189,12 @@
     grid-template-rows: 50px 550px;
   }
   
-  .invite-modalBox button {
+  .invite-closeBtn {
     display: block;
-    margin: 0 auto;
     border: none;
     background-color: #ffce31;
     cursor: pointer;
+    margin: 0 auto;
   }
   
   .hidden {
@@ -230,7 +230,7 @@
       align-items: end;
   }
   
-  .search-list > input{
+  .search-list input{
       width: 390px;
       height: 50px;
       margin-top: 20px;
@@ -242,7 +242,7 @@
       border-radius: 10px 0 0 0 ;
   }
   
-  .search-list > .searchBtn {
+  .searchBtn {
       width: 90px;
       height: 50px;
       background-color: #ffce31;
@@ -281,7 +281,7 @@
       background-color: #4A321F;
   }
   
-  .friend-list > div {
+  .friend-list div {
       display: flex;
       align-items: center;
       height: 70px;
@@ -290,13 +290,34 @@
       font-family: 'Noto Sans KR';
   }
   
-  .friend-list > div > img {
+ .memberPic {
       margin-top: 10px;
       margin-left: 30px;
       margin-right: 20px;
       width: 70px;
       height: 70px;
       border-radius: 70%;
+  }
+
+  input[type="checkbox"] {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid #ffce31;
+    appearance: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  input[type="checkbox"]:checked {
+    background: #ffce31;
+    border: none;
+  }
+
+  .checkArea {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
   }
   
   #inviteBtn {

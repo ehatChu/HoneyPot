@@ -14,9 +14,12 @@
 	
 	
 	<select id="selectDetailByNo" resultType="com.hp.app.chat.vo.ChatRoomVo">
-		SELECT CR.NO
+		SELECT 
+		CR.NO
 		,CR.NAME
 		,CR.IMG
+		,CR.MASTER_NO
+		,M.NO AS MEMBER_NO
 		, M.NAME AS MEMBER_NAME
 		, M.PROFILE AS MEMBER_PROFILE
 		FROM CHATTING_ROOM CR
@@ -25,6 +28,20 @@
 		JOIN MEMBER M
 		ON CML.MEMBER_NO = M.NO
 		WHERE CR.NO = #{no}
+	</select>
+	
+	<select id="friendListByNo" resultType="com.hp.app.chat.vo.ChatFriendVo">
+		SELECT 
+		M.NAME AS FRIEND_NAME
+		,M.NO AS FRIEND_NO
+		,M.PROFILE AS FRIEND_PROFILE
+		FROM FRIEND F
+		JOIN MEMBER M
+		ON F.FRIEND_NO = M.NO
+		WHERE F.MEMBER_NO = #{memberNo}
+		<if test="searchValue != null and searchValue != ''">
+			AND M.NAME LIKE '%${searchValue}%'
+		</if>
 	</select>
 	
 
