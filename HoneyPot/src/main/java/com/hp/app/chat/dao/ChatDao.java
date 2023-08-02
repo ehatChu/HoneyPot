@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.chat.vo.ChatFriendVo;
+import com.hp.app.chat.vo.ChatMessageVo;
 import com.hp.app.chat.vo.ChatRoomVo;
 
 public interface ChatDao {
@@ -18,5 +19,16 @@ public interface ChatDao {
 
 	// 채팅방 친구 목록
 	List<ChatFriendVo> friendList(SqlSessionTemplate sst, Map<String, String> paramMap);
+
+	// 1:1 채팅방 생성
+	int addChatRoom(SqlSessionTemplate sst, Map<String, String> roomMap);
+
+	// 생성한 채팅방 번호 가져오기
+	ChatRoomVo selectRoomNo(SqlSessionTemplate sst, Map<String, String> roomMap);
+
+	int insertChatMember(SqlSessionTemplate sst, Map<String, String> roomMap);
+
+	// 
+	List<ChatMessageVo> chatMsg(SqlSessionTemplate sst, ChatRoomVo vo);
 
 }
