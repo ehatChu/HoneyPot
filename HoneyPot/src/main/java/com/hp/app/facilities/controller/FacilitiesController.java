@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hp.app.innerFac.service.InnerFacService;
+import com.hp.app.innerFac.vo.InnerFacImgVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
 import com.hp.app.member.vo.MemberVo;
@@ -214,10 +215,14 @@ public class FacilitiesController {
 	
 	//도서관 시설소개 (화면)
 	@GetMapping("innerFac/info")
-	public String innerFacInfo(int no) {
+	public String innerFacInfo(int no,Model model) {
 		//넘버에따라 시설정보를 조회해서 모델에 정보를 담고 return을 달리하기
+		InnerFacVo fvo = service.getInnerFacInfo(no);
+		List<String> fimgList = service.getInnerFacImg(no);
 		
 		
+		model.addAttribute("fvo",fvo);
+		model.addAttribute("fimgList",fimgList);
 		
 		switch(no) {
 			case 1 : return "innerFacilities/showLibraryInfo";

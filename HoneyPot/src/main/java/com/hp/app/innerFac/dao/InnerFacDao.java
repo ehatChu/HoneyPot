@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.hp.app.innerFac.vo.InnerFacImgVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
 
@@ -19,4 +20,6 @@ public interface InnerFacDao {
 	int getMaxPeopleCnt(SqlSessionTemplate sst ,String amenityNo);
 //	int updateCancelStatus(SqlSessionTemplate sst, InnerFacRsVo rsVo);
 	int delete(SqlSessionTemplate sst, InnerFacRsVo rsVo);
+	InnerFacVo getInnerFacInfo(SqlSessionTemplate sst, int no);
+	List<String> getInnerFacImg(SqlSessionTemplate sst, int no);
 }

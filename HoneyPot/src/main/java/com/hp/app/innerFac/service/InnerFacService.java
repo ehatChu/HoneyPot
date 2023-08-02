@@ -3,6 +3,7 @@ package com.hp.app.innerFac.service;
 import java.util.List;
 import java.util.Map;
 
+import com.hp.app.innerFac.vo.InnerFacImgVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
 
@@ -13,4 +14,6 @@ public interface InnerFacService {
 	int getReservedPeopleCntByTime(Map<String, String> map);
 //	int updateCancelStatus(InnerFacRsVo rsVo);
 	int delete(InnerFacRsVo rsVo);
+	InnerFacVo getInnerFacInfo(int no);
+	List<String> getInnerFacImg(int no);
 }
