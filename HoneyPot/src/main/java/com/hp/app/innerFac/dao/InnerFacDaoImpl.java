@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.hp.app.innerFac.vo.InnerFacImgVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
 
@@ -57,6 +58,17 @@ public class InnerFacDaoImpl implements InnerFacDao {
 	@Override
 	public int delete(SqlSessionTemplate sst, InnerFacRsVo rsVo) {
 		return sst.delete("innerFac.delete",rsVo);
+	}
+	
+	//시설정보조회
+	@Override
+	public InnerFacVo getInnerFacInfo(SqlSessionTemplate sst, int no) {
+		return sst.selectOne("innerFac.getInnerFacInfo",no);
+	}
+	//시설이지미 조회
+	@Override
+	public List<String> getInnerFacImg(SqlSessionTemplate sst, int no) {
+		return sst.selectList("innerFac.getInnerFacImg",no);
 	}
 
 }

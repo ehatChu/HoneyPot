@@ -53,4 +53,15 @@
 		DELETE AMENITY_RESERVATION 
 		WHERE AMENITY_NO=#{amenityNo} AND RESERVE_TIME =#{reserveTime} AND MEMBER_NO=#{memberNo}	
 	</delete>
+	
+	
+	<!-- 시설정보칼럼 반환 -->
+	<select id="getInnerFacInfo" resultType="com.hp.app.innerFac.vo.InnerFacVo">
+		SELECT * FROM AMENITY WHERE NO = #{no}
+	</select>
+	
+	<!-- 시설이미지 반환 -->
+	<select id="getInnerFacImg" resultType="String">
+		SELECT ORIGIN_NAME FROM AMENITY_IMG WHERE AMENITY_NO = #{no}
+	</select>
 </mapper>

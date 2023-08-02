@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hp.app.innerFac.dao.InnerFacDao;
+import com.hp.app.innerFac.vo.InnerFacImgVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
 
@@ -77,6 +78,18 @@ public class InnerFacServiceImpl implements InnerFacService {
 	@Override
 	public int delete(InnerFacRsVo rsVo) {
 		return dao.delete(sst,rsVo);
+	}
+	
+	//시설정보
+	@Override
+	public InnerFacVo getInnerFacInfo(int no) {
+		return dao.getInnerFacInfo(sst,no);
+	}
+	
+	//시설이미지조회
+	@Override
+	public List<String> getInnerFacImg(int no) {
+		return dao.getInnerFacImg(sst,no);
 	}
 	
 
