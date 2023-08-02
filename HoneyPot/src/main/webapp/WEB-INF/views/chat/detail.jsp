@@ -59,6 +59,7 @@
 								</div>
 							</div>
 							<div class="room-list-area">
+								<input id="loginNo" type="hidden" value="${loginMember.name}">
 								<div class="room-name">
 									<img src="${root}/resources/img/chat/${cvoList[0].img}" alt="프로필사진">
 									<span>${cvoList[0].name}</span>
@@ -71,6 +72,7 @@
 										</button>
 									</div>
 									<!-- 로그인 멤버 제외한 나머지 멤버들만 조회  -->
+									<input id="roomNo" hidden value="${cvoList[0].no}">
 									<c:forEach items="${cvoList}" var="cvoList">
 										<c:if test="${cvoList.masterNo ne cvoList.memberNo}">
 											<div class="kick-out">
@@ -100,7 +102,10 @@
                             <div><span>${cvoList[0].name}</span><button class="openBtn"><i class="fa-solid fa-pen fa-sm" style="color: #000000;"></i></button></div>
                             <div><button class="quitBtn"><span>나가기</span><i class="fa-solid fa-arrow-right-from-bracket fa-lg" style="color: #000000;"></i></button></div>
                         </div>
-						<div id="chatArea"><div id="chatMessageArea"></div></div>
+						<div id="chatArea">
+							<div id="chatMessageArea">
+							</div>
+						</div>
                         <div class="input-area">
                             <textarea name="" id="message" placeholder="내용을 입력하세요."></textarea>
 							<button id="sendBtn">보내기</button>
@@ -323,7 +328,7 @@
 
 			// 총 메시지 영역의 높이를 계산하여 chatMessageArea의 높이 설정
 			var totalMessageHeight = 0;
-			chatMessageArea.find('.nameAndMessage').each(function() {
+			chatMessageArea.find('.messageBox').each(function() {
 				totalMessageHeight += $(this).outerHeight(true);
 			});
 
@@ -352,6 +357,7 @@
 			hours = hours < 10 ? "0" + hours : hours;
 			minutes = minutes < 10 ? "0" + minutes : minutes;
 
+			var messageBox = $('<div class="messageBox"></div>');
 			var messageElement = $('<div class="message"></div>');
 			var profileElement = $('<div class="memberProfile"></div>');
 			var nameElement = $('<div class="memberName"></div>');
@@ -361,8 +367,6 @@
 
 			profileElement.append(profileImg);
 
-			
-
 			nameElement.text(name );
 			messageElement.text(msg);
 			timeElement.text(amOrPm + ' ' + hours + ':' + minutes);
@@ -371,15 +375,18 @@
 			nameAndMessageDiv.append(nameElement);
 			nameAndMessageDiv.append(messageElement);
 
-			if (name === "${cvoList[0].memberName}") {
-				messageElement.addClass("my-message");
+			const loginNo = document.querySelector("#loginNo").value;
+			if (name === loginNo) {
+				messageBox.addClass("my-message");
 			} else {
-				messageElement.addClass("other-message");
+				messageBox.addClass("other-message");
 			}
 
-			$("#chatMessageArea").append(profileElement);
-  			$("#chatMessageArea").append(nameAndMessageDiv);
-			$("#chatMessageArea").append(timeElement);
+			$(".messageBox").append(profileElement);
+  			$(".messageBox").append(nameAndMessageDiv);
+			$(".messageBox").append(timeElement);
+
+			$("#chatMessageArea").append(messageBox);
 
 			var chatArea = $("#chatArea");
 			chatArea.scrollTop(chatArea.prop("scrollHeight"));
@@ -415,6 +422,10 @@
 			$('.quitBtn').click(function() { disconnect(); });
 		});
 
+
+		
+
+		
 
 
 

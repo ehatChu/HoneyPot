@@ -70,18 +70,17 @@
 								</div>
 							</form>
 							<div class="friend-list">
-								<form action="/app/chat/add" method="post">
 								<c:forEach items="${fvoList}" var="list">
 									<div id="friend">
-										<input type="hidden" value="${list.friendNo }">
 										<img src="/app/resources/img/chat/${list.friendProfile}" alt="프로필사진" class="memberPic">
 										<span class="memberName">${list.friendName }</span>
-										<label for="addMember" class="checkArea"><input type="checkbox" name="checkMember"></label>
+										<label for="addMember" class="checkArea">
+											<input type="checkbox" name="friendNo" value="${list.friendNo}">
+										</label>
 									</div>
 								</c:forEach>
 							</div>
-							<div id="inviteBtn"><button>채팅 시작하기</button></div>
-						</form>
+							<div id="inviteBtn"><button type="submit">채팅 시작하기</button></div>
 						</div>
 					</div>
 				</div>
@@ -160,21 +159,39 @@
 	openBtn.addEventListener("click", function(){
 		console.log(memberNo);
 		// 채팅방 초대 모달 열기
-		
 		document.querySelector(".invite-modal").classList.remove("hidden");
-		// $.ajax({
-		// 	type: "GET",
-		// 	url: "/app/chat/friend",
-		// 	data: {memberNo : memberNo},
-		// 	success: function(data) {
-		// 		console.log(data);
-		// 	},
-		// 	error: function(error) {
-		// 		console.log(error);
-		// 	}
-		// });
+		
+		var updatedCategoryName = $("#E_feeCno").val();
+        var updatedPaymentDate = $("#E_paymentDate").val();
+        var updatedContent = $("#E_detailContent").val();
+        console.log(updatedContent);
+        var updatedPrice = $("#E_price").val();
+        var no = $("#E_no").val();
 
+        var data = new FormData();
+        data.append("feeCno", updatedCategoryName);
+        data.append("paymentDate", updatedPaymentDate);
+        data.append("content", updatedContent);
+        data.append("price", updatedPrice);
+        data.append("no", no);
+		
+		$.ajax({
+			type: "POST",
+			url: "/app/chat/add",
+			data: {no : rno},
+			success: function(response) {
+				console.log(response);
+				location.href="/app/chat/detail?no=" + rno;
+			},
+			error: function(error) {
+				console.log(error);
+			}
 		});
+		
+	});
+	
+
+	
 	
 	
 

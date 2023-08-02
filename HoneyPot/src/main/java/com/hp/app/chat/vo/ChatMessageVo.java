@@ -10,5 +10,7 @@ public class ChatMessageVo {
 	private String memberNo;
 	private String sendTime;
 	private String content;
+	private String memberName;
+	private String memberProfile;
 
 }
