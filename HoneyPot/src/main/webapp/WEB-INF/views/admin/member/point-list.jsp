@@ -20,14 +20,14 @@
                 <div class="point-search-area">
                     <div class="point-search">
                         <div class="point-search-box-area">
-                            <select name="" id="" class="point-search-category">
-                                <option value="">이름</option>
-                                <option value="">사유</option>
+                            <select name="searchType" id="" class="point-search-category">
+                                <option value="NAME">이름</option>
+                                <option value="TITLE">사유</option>
                             </select>
-                            <input type="text" class="point-serach-input">
+                            <input type="text" name="searchValue" class="point-serach-input">
                         </div>
                         <div class="point-search-btn-area">
-                            <button type="button">검색</button>
+                            <button type="submit">검색</button>
                         </div>
                     </div>
                 </div>
@@ -318,8 +318,8 @@
                 const contentStr = data.content;
                 clickNo = data.no;
 
-                score.innerHTML = score;
-                content.innerHTML = content;
+                score.innerHTML = scoreStr;
+                content.innerHTML = contentStr;
 
                 showPoint();
 

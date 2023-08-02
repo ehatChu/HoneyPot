@@ -9,6 +9,11 @@ import com.hp.app.point.vo.PointVo;
 public interface PointService {
 
 	// 회원
+	// 상벌점 전체 리스트 조회(점수용)
+	List<PointVo> getMyPointListScore(String no);
+	
+	// 상벌점 전체 리스트 조회(검색용)
+	List<PointVo> getMyPointList(Map<String,String> searchMap);
 	
 	// 관리자
 	// 상벌점 전체 갯수

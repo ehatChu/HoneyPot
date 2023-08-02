@@ -1,5 +1,6 @@
 package com.hp.app.point.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +23,40 @@ public class PointController {
 	
 	private final PointService service;
 
+	// 회원
+	// 상벌점내역 (화면)
 	@GetMapping("mypage/act/point")
-	public String myPoint() {
+	public String myPoint(Model model, @RequestParam Map<String,String> searchMap) {
+		
+		String no = "1";
+		
+		searchMap.put("no", no);
+		List<PointVo> sList = service.getMyPointListScore(no);
+		List<PointVo> pList = service.getMyPointList(searchMap);
+		
+		int sumPoint = 0;
+		int plusPoint = 0;
+		int minusPoint = 0;
+		
+		for(PointVo vo : sList) {
+			int score = Integer.parseInt(vo.getScore());
+			if(score > 0) {
+				plusPoint += score;
+			}else {
+				minusPoint += score;
+			}
+		}
+		
+		sumPoint = plusPoint + minusPoint;
+		Map<String, String> listCnt = new HashMap<String, String>();
+		
+		listCnt.put("sumPoint", Integer.toString(sumPoint));
+		listCnt.put("plusPoint", Integer.toString(plusPoint));
+		listCnt.put("minusPoint", Integer.toString(minusPoint));
+		
+		model.addAttribute("listCnt", listCnt);
+		model.addAttribute("pList", pList);
+		
 		return "mypage/point";
 	}
 	
@@ -77,7 +110,10 @@ public class PointController {
 	
 	// 상벌점 내역 수정
 	@PostMapping("admin/member/point-list/edit")
+	@ResponseBody
 	public PointVo editPoint(PointVo vo) throws Exception {
+		
+		vo.setAdminNo("1");
 		
 		PointVo changeVo = service.editPoint(vo);
 		

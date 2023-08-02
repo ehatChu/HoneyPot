@@ -22,39 +22,37 @@
                     <div class="point-showboard">
                         <div class="point-textbox">
                             <div class="point-showboard-text bold">상점</div>
-                            <div class="point-showboard-num bold">0</div>
+                            <div class="point-showboard-num bold">${listCnt.plusPoint}</div>
                         </div>
                     </div>
                     <div class="point-showboard">
                         <div class="point-textbox">
                             <div class="point-showboard-text bold">벌점</div>
-                            <div class="point-showboard-num bold">0</div>
+                            <div class="point-showboard-num bold">${listCnt.minusPoint}</div>
                         </div>
                     </div>
                     <div class="point-showboard">
                         <div class="point-textbox">
                             <div class="point-showboard-text bold">총 점수</div>
-                            <div class="point-showboard-num bold">0</div>
+                            <div class="point-showboard-num bold">${listCnt.sumPoint}</div>
                         </div>
                     </div>
 
                 </div>
                 <form action="${root}/customer/order-list" method="post">
                     <div class="point-form-area">
-                        <select class="point-selectbox bold" name="orderStatus">
-                            <option value="" disabled selected hidden>전체상태</option>
-                            <option value="완료">상점</option>
-                            <option value="중지">벌점</option>
-                        </select>
-                        <input type="date">
+                        <input type="date" name="startDate">
                         <div class="point-deco bold">~</div>
-                        <input type="date">
-                        <input class="point-searchbtn bold" type="submit" value="검색">
+                        <input type="date" name="endDate">
+                        <input class="point-search-btn bold" type="submit" value="검색">
                     </div>
                 </form>
 
                 <div class="point-list-area">
-
+                	<div>${pList}</div>
+                    <c:forEach items="${pList}" var="vo">
+                    	
+                    </c:forEach>
                 </div>
 
             </div>

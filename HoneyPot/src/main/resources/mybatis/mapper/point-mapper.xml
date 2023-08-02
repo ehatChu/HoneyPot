@@ -2,529 +2,100 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="csc">
+<mapper namespace="point">
 
-	<!-- FAQ -->
-
-	<select id="getFAQCatList" resultType="com.hp.app.csc.vo.FAQCategoryVo">
-		SELECT
-			NO
-			, NAME
-		FROM FAQ_CATEGORY
-	</select>
-	
-	<select id="getFAQList" resultType="com.hp.app.csc.vo.FAQVo">
-		SELECT
-		    F.NO AS NO
-		    , C.NAME AS FAQ_CNAME
-		    , F.QUESTION AS QUESTION
-		    , A.NAME AS WRITER_NAME
-		    , TO_CHAR(F.ENROLL_DATE, 'YY.MM.DD HH24:MI') AS ENROLL_DATE
-		    , F.HIT AS HIT
-		FROM FAQ F
-		JOIN FAQ_CATEGORY C ON F.FAQ_CNO = C.NO
-		JOIN ADMIN A ON A.NO = F.WRITER_NO
-		WHERE STATUS = 'N'
-		<if test="searchType != '' and searchType != null">
-			AND C.NO = #{searchType}
-		</if>
-		<if test="searchValue != '' and searchValue != null">
-			AND F.QUESTION LIKE '%${searchValue}%'
-		</if>
-		ORDER BY F.ENROLL_DATE DESC
-	</select>
-	
-	<select id="getFAQByNo" resultType="com.hp.app.csc.vo.FAQVo">
-		SELECT
-			NO
-			, QUESTION
-			, ANSWER
-		FROM FAQ
-		WHERE NO = #{fno}
-		AND STATUS = 'N'
-	</select>
-	
-	<select id="getFAQCnt" resultType="int">
-		SELECT COUNT(NO)
-		FROM FAQ
-		WHERE STATUS = 'N'
-		<if test="searchType != '' and searchType != null">
-			AND FAQ_CNO = #{searchType}
-		</if>
-		<if test="searchValue != '' and searchValue != null">
-			AND QUESTION LIKE '%${searchValue}%'
-		</if>
-	</select>
-	
-	<update id="increaseHit">
-		UPDATE FAQ
-		SET HIT = HIT + 1
-		WHERE NO = #{fno}
-	</update>
-	
-	<!-- 문의 -->
-	
-	<!-- 문의 카테고리 조회 -->
-	<select id="getQNACatList" resultType="com.hp.app.csc.vo.QNACategoryVo">
+	<!-- 회원 -->
+	<!-- 상벌점 전체 리스트 조회(점수용) -->
+	<select id="getMyPointListScore" resultType="com.hp.app.point.vo.PointVo">
 		SELECT 
-			NO
-			, NAME
-		FROM QNA_CATEGORY
+		    P.SCORE
+		FROM POINT P
+		JOIN MEMBER M ON P.MEMBER_NO = M.NO
+		WHERE M.NO = #{no}
 	</select>
 	
-	<!-- 문의 목록 (화면) -->
-	<select id="getMyQNAList" resultType="com.hp.app.csc.vo.QNAVo">
-		SELECT
-		    Q.NO AS NO
-		    , Q.TITLE AS TITLE
-            , C.NAME AS QNA_CNAME
-		    , TO_CHAR(Q.ENROLL_DATE, 'YY.MM.DD HH24:MI') AS ENROLL_DATE
-            , Q.ANSWER_YN
-		FROM QNA Q
-		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
-		ORDER BY Q.ENROLL_DATE DESC
-	
-	</select>
-	
-	<!-- 문의 상세 조회 (화면) -->
-	<select id="getMyQNAByNo" resultType="com.hp.app.csc.vo.QNAVo">
+	<!-- 상벌점 전체 리스트 조회(검색용) -->
+	<select id="getMyPointList" resultType="com.hp.app.point.vo.PointVo">
 		SELECT 
-			Q.NO,
-            Q.TITLE,
-            Q.CONTENT,
-            Q.ANSWER
-        FROM QNA Q
-        JOIN MEMBER M ON Q.MEMBER_NO = M.NO
-        WHERE Q.NO = #{no}
-        AND M.NO = #{memberNo}
+		    P.SCORE
+		    , P.CONTENT
+		    , TO_CHAR(P.POINT_DATE, 'YY.MM.DD HH24:MI') AS POINT_DATE
+		FROM POINT P
+		JOIN MEMBER M ON P.MEMBER_NO = M.NO
+		WHERE M.NO = #{no}
 	</select>
-	
-	<!-- 문의 등록 -->
-	<insert id="insertInquiry">
-		INSERT INTO QNA
-		(
-			NO
-			, QNA_CNO
-			, MEMBER_NO
-			, TITLE
-			, CONTENT
-		) VALUES(
-			SEQ_QNA_NO.NEXTVAL
-			, #{qnaCno}
-			, #{memberNo}
-			, #{title}
-			, #{content}
-		)
-	</insert>
-	
-	<!-- 문의 내역 삭제 -->
-	 <delete id="deleteMyInquiry">
-	 	DELETE FROM QNA
-	 	WHERE NO = #{no}
-	 	AND MEMBER_NO = #{memberNo}
-	 </delete>
-	
-	
-	<!-- 신고 -->
-	
-	<!-- 신고 카테고리 조회 -->
-	<select id="getReportCatList" resultType="com.hp.app.csc.vo.ReportCategoryVo">
-		SELECT 
-			NO
-			, NAME
-		FROM REPORT_CATEGORY
-	</select>
-	
-	<!-- 신고 대상 회원 List 조회 -->
-	<select id="getMemberList" resultType="com.hp.app.member.vo.MemberVo">
-		SELECT
-		     NO
-		     , NAME
-		     , DONG_NUM
-		     , HO_NUM
-		     , PROFILE
-		FROM MEMBER
-		WHERE STATUS = 'Y'
-		<if test="searchType != null">
-		AND ${searchType} = #{searchValue}
-		</if>
-	</select>
-	
-	<!-- 신고 대상 회원 조회 -->
-	<select id="getMemberByNo" resultType="com.hp.app.member.vo.MemberVo">
-		SELECT
-			NO
-			, NAME
-			, PROFILE
-		FROM MEMBER
-		WHERE STATUS = 'Y'
-		AND NO = #{mno}
-	</select>
-	
-	<!-- 신고 등록 -->
-	<insert id="insertReport">
-		INSERT INTO REPORT 
-		(
-	        NO
-	        ,REPORT_CNO
-	        ,REPORTER
-	        ,RESPONDENT
-	        ,TITLE
-	        ,CONTENT
-    	) VALUES (
-	        SEQ_REPORT_NO.NEXTVAL
-	        , #{reportCno}
-	        , #{reporter}
-	        , #{respondent}
-	        , #{title}
-	        , #{content}
-		)
-	</insert>
-	
-	<!-- 신고 List 조회 -->
-	<select id="getMyReportList" resultType="com.hp.app.csc.vo.ReportVo">
-		SELECT
-		    R.NO
-		    , R.TITLE
-		    , TO_CHAR(R.ENROLL_DATE, 'YY.MM.DD HH24:MI') AS ENROLL_DATE
-		    , C.NAME AS REPORT_CNAME
-		    , R.ANSWER_DATE
-		FROM REPORT R
-		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
-		WHERE R.REPORTER = #{no}
-		ORDER BY R.ENROLL_DATE DESC
-	</select>
-	
-	<!-- 신고 상세 조회 -->
-	<select id="getMyReportByNo" resultType="com.hp.app.csc.vo.ReportVo">
-		SELECT
-		    R.NO
-		    ,R.TITLE
-		    ,R.CONTENT
-		    ,R.ANSWER_DATE
-		    ,M.NAME AS MEMBER_NAME
-		    ,M.PROFILE AS MEMBER_PROFILE
-		FROM REPORT R
-		JOIN MEMBER M ON R.RESPONDENT = M.NO
-		WHERE R.NO = #{no}
-		AND R.REPORTER = #{reporter}
-	</select>
-	
-	<!-- 신고 내역 삭제 -->
-	<delete id="deleteMyReport">
-		DELETE FROM REPORT
-		WHERE NO = #{no}
-		AND REPORTER = #{reporter}
-	</delete>
-	
-	<!-- ********************************************************************************************************* -->
 	
 	<!-- 관리자 -->
-	
-	<!-- 문의 List 검색 갯수 -->
-	<select id="getQNACnt" resultType="int">
-		SELECT COUNT(Q.NO)
-		FROM QNA Q
-		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
-		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
+	<!-- 상벌점 전체 갯수 -->
+	<select id="getPointCntAdmin" resultType="int">
+		SELECT COUNT(P.NO)
+		FROM POINT P
+		JOIN MEMBER M ON P.MEMBER_NO = M.NO
 		<where>
-			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
-				AND Q.TITLE LIKE '%${searchValue}%'
-			</if>
 			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
-				AND M.NAME LIKE '%${searchValue}%'
+				AND M.NAME LIKE '%${searchValue}%'			
 			</if>
-			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-				AND Q.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
-			</if>
-			<if test="answerYn != null and answerYn != ''">
-				AND Q.ANSWER_YN = #{answerYn} 
-			</if>
-			<if test="qnaCno != null and qnaCno != ''">
-				AND Q.QNA_CNO = #{qnaCno}
+			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
+				AND P.CONTENT LIKE '%${searchValue}%'			
 			</if>
 		</where>
 	</select>
 	
-	<!-- 문의 List 검색 조회 -->
-	<select id="getQNAAllList" resultType="com.hp.app.csc.vo.QNAVo">
+	<!-- 상벌점 List 조회 -->
+	<select id="getPointListAdmin" resultType="com.hp.app.point.vo.PointVo">
 		SELECT 
-			Q.ANSWER_YN
-		FROM QNA Q
-		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
-		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
+	        P.NO
+	        , P.SCORE
+	        , P.CONTENT
+	        , TO_CHAR(P.POINT_DATE, 'YY.MM.DD HH24:MI') AS POINT_DATE
+	        , M.NO AS MEMBER_NO
+	        , M.NAME AS MEMBER_NAME 
+	        , M.PROFILE AS MEMBER_PROFILE
+	        , A.NO AS ADMIN_NO
+	        , A.NAME AS ADMIN_NAME
+		FROM POINT P
+		JOIN MEMBER M ON P.MEMBER_NO = M.NO
+		JOIN ADMIN A ON P.ADMIN_NO = A.NO
 		<where>
-			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
-				AND Q.TITLE LIKE '%${searchValue}%'
-			</if>
 			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
-				AND M.NAME LIKE '%${searchValue}%'
+				AND M.NAME LIKE '%${searchValue}%'			
 			</if>
-			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-				AND Q.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
-			</if>
-			<if test="qnaCno != null and qnaCno != ''">
-				AND Q.QNA_CNO = #{qnaCno}
+			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
+				AND P.CONTENT LIKE '%${searchValue}%'			
 			</if>
 		</where>
+		ORDER BY POINT_DATE DESC
 	</select>
 	
-	<!-- 문의 List 검색 조회(페이징) -->
-	<select id="getQNAList" resultType="com.hp.app.csc.vo.QNAVo">
+	<!-- 상벌점 상세조회 -->
+	<select id="getPointByNo" resultType="com.hp.app.point.vo.PointVo">
 		SELECT 
-		    Q.NO
-		    , C.NAME AS QNACNAME
-		    , Q.TITLE
-		    , M.NAME AS MEMBERNAME
-		    , TO_CHAR(Q.ENROLL_DATE, 'YY.MM.DD HH24:MI') AS ENROLL_DATE
-		    , TO_CHAR(Q.ANSWER_DATE, 'YY.MM.DD HH24:MI') AS ANSWER_DATE
-		    , Q.ANSWER_YN
-		FROM QNA Q
-		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
-		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
-		<where>
-			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
-				AND Q.TITLE LIKE '%${searchValue}%'
-			</if>
-			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
-				AND M.NAME LIKE '%${searchValue}%'
-			</if>
-			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-				AND Q.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
-			</if>
-			<if test="answerYn != null and answerYn != ''">
-				AND Q.ANSWER_YN = #{answerYn} 
-			</if>
-			<if test="qnaCno != null and qnaCno != ''">
-				AND Q.QNA_CNO = #{qnaCno}
-			</if>
-		</where>
-		ORDER BY Q.ENROLL_DATE DESC
+	        P.NO
+	        , P.SCORE
+	        , P.CONTENT
+	        , M.NO AS MEMBER_NO
+	        , M.NAME AS MEMBER_NAME 
+	        , M.PROFILE AS MEMBER_PROFILE
+		FROM POINT P
+		JOIN MEMBER M ON P.MEMBER_NO = M.NO
+		JOIN ADMIN A ON P.ADMIN_NO = A.NO
+		WHERE P.NO = #{pno}
 	</select>
 	
-	<!-- 문의내역 상세조회 -->
-	<select id="getQNAByNo" resultType="com.hp.app.csc.vo.QNAVo">
-		SELECT 
-		    Q.NO
-		    , Q.TITLE
-		    , Q.CONTENT
-		    , Q.ANSWER
-		    , Q.ANSWER_YN
-		    , M.NO AS MEMBER_NO
-		    , M.NAME AS MEMBER_NAME
-		    , M.PROFILE AS MEMBER_PROFILE
-		FROM QNA Q
-		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
-		WHERE Q.NO = #{qno}
-	</select>
-	
-	<!-- 문의내역 삭제 -->
-	<delete id="deleteInquiry">
-		DELETE FROM QNA
-		WHERE NO = #{qno}
+	<!-- 상벌점 삭제 -->
+	<delete id="deletePoint">
+		DELETE FROM POINT
+		WHERE NO = #{pno}
 	</delete>
 	
-	<!-- 문의내역 답변 -->
-	<update id="answerInquiry">
-		UPDATE QNA SET
-		    ANSWER_DATE = SYSDATE
-		    , ANSWER_YN = 'Y'
-		    , ANSWER = #{answer}
-		WHERE NO = #{no}
+	<!-- 상벌점 수정 -->
+	<update id="editPoint">
+		UPDATE POINT
+    		SET POINT_DATE = SYSDATE
+        	, SCORE = #{score}
+        	, CONTENT = #{content}
+        	, ADMIN_NO = #{adminNo}
+    	WHERE NO = #{no}
 	</update>
-	
-	<!-- 신고 -->
-	
-	<!-- 신고 List 검색 갯수 -->
-	<select id="getReportCnt" resultType="int">
-		SELECT COUNT(R.NO)
-		FROM REPORT R
-		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
-		JOIN MEMBER M ON R.REPORTER = M.NO
-		<where>
-			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
-				AND R.TITLE LIKE '%${searchValue}%'
-			</if>
-			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
-				AND M.NAME LIKE '%${searchValue}%'
-			</if>
-			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-				AND R.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
-			</if>
-			<if test="answerYn != null and answerYn != ''">
-				AND R.ANSWER_YN = #{answerYn} 
-			</if>
-			<if test="reportCno != null and reportCno != ''">
-				AND R.REPORT_CNO = #{reportCno}
-			</if>
-		</where>
-	</select>
-	
-	<!--신고 List 검색 조회 -->
-	<select id="getReportAllList" resultType="com.hp.app.csc.vo.ReportVo">
-		SELECT 
-			R.ANSWER_YN
-		FROM REPORT R
-		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
-		JOIN MEMBER M ON R.REPORTER = M.NO
-		<where>
-			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
-				AND R.TITLE LIKE '%${searchValue}%'
-			</if>
-			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
-				AND M.NAME LIKE '%${searchValue}%'
-			</if>
-			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-				AND R.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
-			</if>
-			<if test="reportCno != null and reportCno != ''">
-				AND R.REPORT_CNO = #{reportCno}
-			</if>
-		</where>
-	</select>
-	
-	<!-- 신고 List 검색 조회(페이징) -->
-	<select id="getReportList" resultType="com.hp.app.csc.vo.ReportVo">
-		SELECT 
-		    R.NO
-		    , C.NAME AS REPORTCNAME
-		    , R.TITLE
-		    , M.NAME AS REPORTER
-		    , TO_CHAR(R.ENROLL_DATE, 'YY.MM.DD HH24:MI') AS ENROLL_DATE
-		    , TO_CHAR(R.ANSWER_DATE, 'YY.MM.DD HH24:MI') AS ANSWER_DATE
-		    , R.ANSWER_YN
-		FROM REPORT R
-		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
-		JOIN MEMBER M ON R.REPORTER = M.NO
-		<where>
-			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
-				AND R.TITLE LIKE '%${searchValue}%'
-			</if>
-			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
-				AND M.NAME LIKE '%${searchValue}%'
-			</if>
-			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-				AND R.ENROLL_DATE BETWEEN '${startDate}' AND '${endDate}'
-			</if>
-			<if test="answerYn != null and answerYn != ''">
-				AND R.ANSWER_YN = #{answerYn} 
-			</if>
-			<if test="reportCno != null and reportCno != ''">
-				AND R.REPORT_CNO = #{reportCno}
-			</if>
-		</where>
-		ORDER BY R.ENROLL_DATE DESC
-	</select>
-	
-	<!-- 신고내역 상세조회 -->
-	<select id="getReportByNo" resultType="com.hp.app.csc.vo.ReportVo">
-		SELECT 
-		    R.NO
-		    , R.TITLE
-		    , R.CONTENT
-		    , R.ANSWER_YN
-		    , M.NO AS RESPONDENT
-		    , M.NAME AS RESPONDENT_NAME
-		    , M.PROFILE AS RESPONDENT_PROFILE
-		FROM REPORT R
-		JOIN MEMBER M ON R.RESPONDENT = M.NO
-		WHERE R.NO = #{rno}
-	</select>
-	
-	<!-- 신고 내역 삭제 -->
-	<delete id="deleteReport">
-		DELETE FROM REPORT
-		WHERE NO = #{rno}
-	</delete>
-	
-	<!-- 신고내역 처리 -->
-  	<update id="completeReport">
-  		UPDATE REPORT
-		SET 
-		    ANSWER_YN = 'Y'
-		    , ANSWER_DATE = SYSDATE
-		WHERE NO = #{rno}
-  	</update>
-  	
-  	<!-- FAQ -->
-  	
-  	<!-- FAQ List 검색 조회 -->
-  	<select id="getFAQListAdmin" resultType="com.hp.app.csc.vo.FAQVo">
-		SELECT
-		    F.NO AS NO
-		    , C.NAME AS FAQ_CNAME
-		    , F.QUESTION AS QUESTION
-		    , A.NAME AS WRITER_NAME
-		    , TO_CHAR(F.ENROLL_DATE, 'YY.MM.DD HH24:MI') AS ENROLL_DATE
-		    , F.HIT AS HIT
-		FROM FAQ F
-		JOIN FAQ_CATEGORY C ON F.FAQ_CNO = C.NO
-		JOIN ADMIN A ON A.NO = F.WRITER_NO
-		WHERE STATUS = 'N'
-		<if test="faqCno != '' and faqCno != null">
-			AND F.FAQ_CNO = ${faqCno}
-		</if>
-		<if test="searchType != '' and searchType != null and searchValue != '' and searchValue != null">
-			AND F.QUESTION LIKE '%${searchValue}%'
-		</if>
-		ORDER BY F.ENROLL_DATE DESC
-	</select>
-	
-	<!-- FAQ LIST 검색 조회(페이징) -->
-	<select id="getFAQCntAdmin" resultType="int">
-		SELECT COUNT(NO)
-		FROM FAQ
-		WHERE STATUS = 'N'
-		<if test="faqCno != '' and faqCno != null">
-			AND FAQ_CNO = ${faqCno}
-		</if>
-		<if test="searchType != '' and searchType != null and searchValue != '' and searchValue != null">
-			AND QUESTION LIKE '%${searchValue}%'
-		</if>
-	</select>
-	
-	<!-- FAQ 카테고리 별 갯수 조회 -->
-	<select id="getFAQCatListAdmin" resultType="com.hp.app.csc.vo.FAQCategoryVo">
-		SELECT C.NAME
-		    , NVL(COUNT(F.NO),0) AS CATEGORY_SUM
-		FROM FAQ F
-		RIGHT JOIN FAQ_CATEGORY C ON F.FAQ_CNO = C.NO
-		GROUP BY C.NAME
-	</select>
-	
-	<!-- FAQ 삭제 -->
-	<update id="deleteFAQ">
-		UPDATE FAQ
-			SET STATUS ='Y'
-		WHERE NO = #{fno}
-	</update>
-	
-	<!-- FAQ 수정 -->
-	<update id="editFAQ">
-		UPDATE FAQ
-		    SET QUESTION = #{question}
-		        , ANSWER = #{answer}
-		        , MODIFY_DATE = SYSDATE
-		WHERE NO = #{fno}
-		AND STATUS = 'N'	
-	</update>
-	
-	<!-- FAQ 작성 -->
-	<insert id="writeFAQ">
-		INSERT INTO FAQ
-		(
-		    NO
-		    , WRITER_NO
-		    , FAQ_CNO
-		    , QUESTION
-		    , ANSWER
-		) VALUES(
-		    SEQ_FAQ_NO.NEXTVAL
-		    , #{writerNo}
-		    , #{faqCno}
-		    , #{question}
-		    , #{answer}
-		)
-	</insert>
   
 </mapper>
