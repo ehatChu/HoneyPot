@@ -14,6 +14,17 @@ import com.hp.app.point.vo.PointVo;
 public class PointDaoImpl implements PointDao{
 
 	// 회원
+	// 상벌점 전체 리스트 조회(점수용)
+	@Override
+	public List<PointVo> getMyPointListScore(SqlSessionTemplate sst, String no) {
+		return sst.selectList("point.getMyPointListScore", no);
+	}
+
+	// 상벌점 전체 리스트 조회(검색용)
+	@Override
+	public List<PointVo> getMyPointList(SqlSessionTemplate sst, Map<String, String> searchMap) {
+		return sst.selectList("point.getMyPointList", searchMap);
+	}
 	
 	// 관리자
 	// 상벌점 전체 갯수
@@ -46,6 +57,8 @@ public class PointDaoImpl implements PointDao{
 	public int editPoint(SqlSessionTemplate sst, PointVo vo) {
 		return sst.update("point.editPoint", vo);
 	}
+
+
 
 
 }

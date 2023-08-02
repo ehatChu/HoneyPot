@@ -22,6 +22,17 @@ public class PointServiceImpl implements PointService{
 	private final SqlSessionTemplate sst;
 
 	// 회원
+	// 상벌점 전체 리스트 조회(점수용)
+	@Override
+	public List<PointVo> getMyPointListScore(String no) {
+		return dao.getMyPointListScore(sst, no);
+	}
+
+	// 상벌점 전체 리스트 조회(검색용)
+	@Override
+	public List<PointVo> getMyPointList(Map<String, String> searchMap) {
+		return dao.getMyPointList(sst, searchMap);
+	}
 	
 	// 관리자
 	// 상벌점 전체 갯수
@@ -62,6 +73,8 @@ public class PointServiceImpl implements PointService{
 		
 		return changeVo;
 	}
+
+
 	
 
 }

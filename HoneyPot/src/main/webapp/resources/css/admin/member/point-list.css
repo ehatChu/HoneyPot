@@ -62,6 +62,7 @@
     font-weight: bold;
     font-family: 'Noto Sans KR';
     font-size: 20px;
+    cursor: pointer;
 }
 
 .point-list-area{
@@ -97,6 +98,7 @@
     flex-direction: row;
     align-items: center;
     height: 90px;
+    cursor: pointer;
 }
 
 .point-list-profile{
