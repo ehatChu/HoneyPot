@@ -44,43 +44,5 @@
 		</if>
 	</select>
 	
-	 <!-- 채팅방 정보를 INSERT 하는 쿼리 -->
-	<insert id="addChatRoom">
-	  INSERT INTO CHATTING_ROOM (NO, MASTER_NO)
-	  VALUES (SEQ_CHATTING_ROOM_NO.NEXTVAL, #{masterNo})
-	</insert>
-	
-	<select id="selectRoomNo" resultType="com.hp.app.chat.vo.ChatRoomVo">
-		SELECT *
-			FROM(
-			    SELECT NO
-			    FROM CHATTING_ROOM
-			    WHERE MASTER_NO = #{masterNo}
-			    ORDER BY NO DESC
-			    )
-			WHERE ROWNUM = 1
-	</select>
-	
-	<insert id="insertMemberInRoom">
-		INSERT INTO CHATTING_MEMBER_LIST
-		(CHATTING_ROOM_NO
-		,MEMBER_NO)
-		VALUES
-		(#{no}
-		,#{friendNo}) 
-	</insert>
-	
-	<select id="selectChatMsg" resultType="com.hp.app.chat.vo.ChatMessageVo">
-		SELECT CM.CONTENT
-			, CM.SEND_TIME
-			,M.NAME AS MEMBER_NAME
-			,M.PROFILE MEMBER_PROFILE
-			FROM CHATTING_MESSAGE CM
-			JOIN MEMBER M 
-			ON CM.MEMBER_NO = M.NO
-			WHERE CHATTING_ROOM_NO = #{no}
-			ORDER BY CM.SEND_TIME ASC
-	</select>
-	
 
 </mapper>

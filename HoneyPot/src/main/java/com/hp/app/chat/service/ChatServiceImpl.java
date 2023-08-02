@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.hp.app.chat.dao.ChatDao;
 import com.hp.app.chat.vo.ChatFriendVo;
-import com.hp.app.chat.vo.ChatMessageVo;
 import com.hp.app.chat.vo.ChatRoomVo;
 
 import lombok.RequiredArgsConstructor;
@@ -34,26 +33,6 @@ public class ChatServiceImpl implements ChatService{
 	@Override
 	public List<ChatFriendVo> friendList(Map<String, String> paramMap) {
 		return dao.friendList(sst, paramMap);
-	}
-
-	@Override
-	public int addChatRoom(Map<String, String> roomMap) {
-		 return dao.addChatRoom(sst, roomMap);
-	}
-
-	@Override
-	public ChatRoomVo selectRoomNo(Map<String, String> roomMap) {
-		return dao.selectRoomNo(sst,roomMap);
-	}
-
-	@Override
-	public int insertChatMember(Map<String, String> roomMap) {
-		return dao.insertChatMember(sst,roomMap);
-	}
-
-	@Override
-	public List<ChatMessageVo> chatMsg(ChatRoomVo vo) {
-		return dao.chatMsg(sst, vo);
 	}
 
 	
