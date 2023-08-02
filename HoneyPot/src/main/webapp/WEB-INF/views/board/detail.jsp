@@ -172,7 +172,7 @@
 		align-items: center;
 	}
 
-	#reply-write, #reply-edit {
+	#reply-write, .reply-edit {
 		border-radius: 10px;
 		width: 1000px;
 		height: 50px;
@@ -346,6 +346,28 @@
 	// });
 
 
+	//좋아요
+	function clickLove(){
+		const likeBtn = document.querySelector('#like-btn');
+
+		$.ajax({
+			url : '/app/love',
+			type : 'get',
+			data : {
+				boardNo : '${vo.no}',
+				// memberNo : '${loginMember.no}',
+				memberNo : '1',
+			},
+			success : function (loveCnt) {
+				console.log(loveCnt);
+				likeBtn.innerHTML = '<i class="fa-solid fa-heart"></i>&nbsp; ' + loveCnt;
+			},
+			error : function (error) {
+				console.log(error);
+			},
+		})
+	}
+
 	//댓글 작성
 	function writeReply(){
 		const replyWriteTag = document.querySelector('#reply-write');
@@ -364,7 +386,7 @@
 			type : 'post' ,
 			data : {
 				boardNo : '${vo.no}' ,
-				writerNo : '2' ,
+				writerNo : 2 ,
 				// writerNo : '${loginMember.no}' ,
 				content : replyWriteContent ,
 			} ,
@@ -419,7 +441,7 @@
 					
 					//댓글수정란
 					str += '<div class="reply-edit-area hidden" id="reply-edit-area' + replyList[i].no + '">';
-					str += '<textarea name="" id="reply-edit">';
+					str += '<textarea name="" class="reply-edit" id="reply-edit' + replyList[i].no + '">';
 					str += replyList[i].content;
 					str += '</textarea>';
 					str += '<button type="button" id="reply-insert-btn" onclick="editReply(' + replyList[i].no + ');">댓글수정</button>';
@@ -450,29 +472,6 @@
 	loadReply();
 
 
-	//좋아요
-	function clickLove(){
-		const likeBtn = document.querySelector('#like-btn');
-
-		$.ajax({
-			url : '/app/love',
-			type : 'get',
-			data : {
-				boardNo : '${vo.no}',
-				// memberNo : '${loginMember.no}',
-				memberNo : '1',
-			},
-			success : function (loveCnt) {
-				console.log(loveCnt);
-				likeBtn.innerHTML = '<i class="fa-solid fa-heart"></i>&nbsp; ' + loveCnt;
-			},
-			error : function (error) {
-				console.log(error);
-			},
-		})
-	}
-
-
 	//댓글 수정 버튼
 	function showEditInput(no) {
 		const replyContent = document.querySelector('#reply-content' + no);
@@ -484,7 +483,7 @@
 
 	//댓글 수정
 	function editReply(no){
-		const replyEditTag = document.querySelector('#reply-edit');
+		const replyEditTag = document.querySelector('#reply-edit' + no);
 		const replyEditContent = replyEditTag.value;
 		const replyEditContentTrim = replyEditContent.trim();
 		console.log(replyEditTag);
@@ -501,7 +500,7 @@
 			data : {
 				no : no,
 				boardNo : '${vo.no}' ,
-				writerNo : '2' ,
+				writerNo : 2 ,
 				// writerNo : '${loginMember.no}' ,
 				content : replyEditContent ,
 			} ,
@@ -512,7 +511,6 @@
 				if (result == 'success') {
 					alert("댓글이 수정되었습니다.");
 					location.reload();
-					replyEditContent = '';
 					loadReply();
 				}else{
 					alert("댓글 수정 실패...");
