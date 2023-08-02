@@ -228,7 +228,7 @@
 					</div>
 					<div id="box1" class="box bbox">
 						<div class="box2">
-							<img id="mealImg" src="/app/resources/main/rectangle_375.png">
+							<img id="mealImg" src="/app/resources/meal/${mealListTotal[0].img}">
 							<div id="d01">
 								<div id="e01">${mealListTotal[0].breakfastDate.substring(0, 11)}</div>
 								<div id="e011"></div>
@@ -240,7 +240,7 @@
 							영양소 : ${mealListTotal[0].nutrient}
 						</div>
 						<div id="e04">
-							<button id="f01" onclick="breakFastApply('${mealListTotal[0].no}');">조식 신청</button>
+							<button id="f01" onclick="breakFastApply('${mealListTotal[0].no}', '${mealListTotal[0].breakfastDate.substring(0, 11)}');">조식 신청</button>
 						</div>
 					</div>
 				</div>
@@ -249,7 +249,7 @@
 				<div id="floor1">
 					<table id="board-list">
 						<c:forEach items="${mealList}" var="vo">
-							<tr id="tr">
+							<tr id="tr" onclick="selectMeal('${vo.no}')">
 								<td id="tr1">${vo.breakfastDate.substring(0, 11)}</td>
 								<td id="tr2">${vo.menu}</td>
 							</tr>
@@ -285,6 +285,7 @@
 	<script>
 		basicSetting(); // 기본 셋팅
 		headerName('조식'); // 현재 페이지 이름
+		todayMenu();
 
 		const tr1Arr = document.querySelectorAll("#tr1");
 		for (let tr1 of tr1Arr) {
@@ -376,26 +377,28 @@
 				calendar.render();
 			});
 		})();
-		
+
 		// 오늘의 식단
-		let tempStr = "";
-		let arr = '${mealListTotal[0].menu}'.split(",");
-		const e011 = document.querySelector('#e011');
-		for (let x of arr) {
-			tempStr += '<div id="e02"><img id="starImg" src="/app/resources/main/star1.PNG">' + x + '</div>';
+		function todayMenu() {
+			let tempStr = "";
+			let arr = '${mealListTotal[0].menu}'.split(",");
+			const e011 = document.querySelector('#e011');
+			for (let x of arr) {
+				tempStr += '<div id="e02"><img id="starImg" src="/app/resources/main/star1.PNG">' + x + '</div>';
+			}
+			e011.innerHTML = tempStr;
 		}
-		e011.innerHTML = tempStr;
 
 		// 조식 신청
-		function breakFastApply(mealNo) {
-			let isConfirm = confirm("${mealListTotal[0].breakfastDate.substring(0, 11)}조식을 신청하시겠습니까?");
-			if(isConfirm) {
+		function breakFastApply(mealNo, mealDate) {
+			let isConfirm = confirm(mealDate + "조식을 신청하시겠습니까?");
+			if (isConfirm) {
 				$.ajax({
 					url: '/app/meal/breakFastApply',
 					type: 'get',
-					data: {"mealNo" : mealNo, "memberNo" : '${loginMember.no}'},
+					data: { "mealNo": mealNo, "memberNo": '${loginMember.no}' },
 					success: function (data) {
-						if(data == 'success') {
+						if (data == 'success') {
 							alert("조식 신청이 완료되었습니다");
 						} else {
 							alert("이미 신청한 날짜입니다");
@@ -406,5 +409,36 @@
 					}
 				});
 			}
+		}
+
+		// 목록 클릭이벤트
+		function selectMeal(no) {
+			const bbox = document.querySelector(".bbox");
+			let str = "";
+
+			$.ajax({
+				url: '/app/meal/selectMeal?no=' + no,
+				type: 'get',
+				success: function (data) {
+					str += '<div class="box2">'
+						+ '<img id="mealImg" src="/app/resources/meal/' + data.img +'">'
+						+ '<div id="d01">'
+						+ '<div id="e01">' + data.breakfastDate.substring(0, 11) + '</div>'
+						+ '<div id="e011"></div>'
+						+ '</div></div><br>'
+						+ '<div id="e03">'
+						+ '<img id="starImg" src="/app/resources/main/star2.PNG">'
+						+ '영양소 : ' + data.nutrient
+						+ '</div>'
+						+ '<div id="e04">'
+						+ '<button id="f01" onclick="breakFastApply(' + data.no + ',' + data.breakfastDate.substring(0, 11) + ');">조식 신청</button>'
+						+ '</div>'
+					bbox.innerHTML = str;
+					todayMenu();
+				},
+				error: function () {
+					alert("selectMeal error");
+				}
+			});
 		}
 	</script>

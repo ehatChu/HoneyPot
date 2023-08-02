@@ -23,4 +23,10 @@
 		INSERT INTO MEAL_RESERVATION
 		VALUES(SEQ_MEAL_RESERVATION_NO.NEXTVAL, #{mealNo}, #{memberNo}, 'Y')
 	</insert>
+	
+	<select id="selectMeal" resultType = "com.hp.app.meal.vo.MealVo">
+		SELECT * FROM BREAKFAST B
+		JOIN DIET D ON B.DIET_NO = D.NO
+		WHERE B.NO = #{no}
+	</select>
 </mapper>
