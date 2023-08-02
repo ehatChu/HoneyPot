@@ -41,7 +41,8 @@ public class FacilitiesController {
 	//no=1이면 도서관 관련
 	//이때에도 화면측으로 현재 날짜의 예약들을 보내주어야함.
 	@GetMapping("facilities/library/reserve")
-	public String reserve(int no,Model model,HttpSession session) throws Exception {
+	public String reserve(Model model,HttpSession session) throws Exception {
+		int no=1;
 		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
 		String MemberNo = loginMember.getNo();
 		
@@ -211,6 +212,20 @@ public class FacilitiesController {
 		return "admin/facilities/reserveList";
 	}
 	
+	//도서관 시설소개 (화면)
+	@GetMapping("innerFac/info")
+	public String innerFacInfo(int no) {
+		//넘버에따라 시설정보를 조회해서 모델에 정보를 담고 return을 달리하기
+		
+		
+		
+		switch(no) {
+			case 1 : return "innerFacilities/showLibraryInfo";
+			case 2 : return "innerFacilities/showPoolInfo";
+			case 3 : return "innerFacilities/showGymInfo";
+			default : return "error-Page";
+		}
+	}
 	
 }
 
