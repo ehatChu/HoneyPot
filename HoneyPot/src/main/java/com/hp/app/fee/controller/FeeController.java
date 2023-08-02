@@ -72,11 +72,11 @@ public class FeeController {
 	    LocalDate currentDate = LocalDate.now();
 
 	    // 1. 현재 달
-	    String currentMonth = currentDate.format(DateTimeFormatter.ofPattern("YYYY-MM"));
+	    String currentMonth = currentDate.minusMonths(1).format(DateTimeFormatter.ofPattern("YYYY-MM"));
 	    // 2. 현재 달 바로 이전 달
-	    String previousMonth = currentDate.minusMonths(1).format(DateTimeFormatter.ofPattern("YYYY-MM"));
+	    String previousMonth = currentDate.minusMonths(2).format(DateTimeFormatter.ofPattern("YYYY-MM"));
 	    // 3. 현재 달에서 1년을 뺀 달
-	    String oneYearAgo = currentDate.minusYears(1).format(DateTimeFormatter.ofPattern("YYYY-MM"));
+	    String oneYearAgo = currentDate.minusYears(1).minusMonths(1).format(DateTimeFormatter.ofPattern("YYYY-MM"));
 	    
 	    // 서비스 전달하고 int 값으로 받아와서 data set
 	    Map<String , String> dateVo = new HashMap<String, String>();
@@ -158,9 +158,9 @@ public class FeeController {
 	    LocalDate currentDate = LocalDate.now();
 
 	    // 1. 현재 달
-	    String currentMonth = currentDate.format(DateTimeFormatter.ofPattern("YYYY-MM"));
+	    String currentMonth = currentDate.minusMonths(1).format(DateTimeFormatter.ofPattern("YYYY-MM"));
 	    // 2. 현재 달 바로 이전 달
-	    String previousMonth = currentDate.minusMonths(1).format(DateTimeFormatter.ofPattern("YYYY-MM"));
+	    String previousMonth = currentDate.minusMonths(2).format(DateTimeFormatter.ofPattern("YYYY-MM"));
 	    
 	    // 서비스 전달하고 int 값으로 받아와서 data set
 	    Map<String , String> dateVo = new HashMap<String, String>();

@@ -283,7 +283,7 @@
 		var recentMonths = [];
 		for (var i = 0; i < 5; i++) {
 			var year = currentDate.getFullYear();
-			var month = currentDate.getMonth() + 1;
+			var month = currentDate.getMonth();
 			if (month < 10) {
 			month = "0" + month;
 			}

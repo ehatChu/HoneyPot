@@ -27,11 +27,10 @@ public class ChatSocketServer extends TextWebSocketHandler{
 	// 커넥션 이후 동작
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		// session에서 id를 가져와서 로그에 남긴다(없어도 되는 과정)
-        log(session.getId() + " 연결 됨");
+		MemberVo loginMember = (MemberVo)session.getAttributes().get("loginMember");
+		log.info(loginMember.toString());
 
         // 위에서 선언한 users라는 map에 user를 담는 과정(필수)
-        // map에 담는 이유는 메세지를 일괄적으로 뿌려주기 위해서이다
         users.put(session.getId(), session);
         
 	}
@@ -41,8 +40,6 @@ public class ChatSocketServer extends TextWebSocketHandler{
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		 	log(session.getId() + " 연결 종료됨");
 
-	        // map에서 세션에서 연결 종료된 유저를 없애는 이유는
-	        // 더 이상 메세지를 보낼 필요가 없기 때문에 목록에서 지우는 것이다
 	        users.remove(session.getId());
 	}
 	
