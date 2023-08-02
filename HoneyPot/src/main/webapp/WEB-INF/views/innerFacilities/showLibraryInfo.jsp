@@ -65,8 +65,8 @@
 							</c:if>
 							<c:if test="${loop.index != 0}">
 								<div class="carousel-item">
-							</c:if>
-								<img src="/app/resources/innerFac/${item}" class="d-block w-100" alt="${item}">
+							</c:if> 
+								<img src="/app/resources/innerFac/${item}" class="d-block w-100" style="height: 600px;" alt="${item}">
 							</div>
 						</c:forEach>
 					</div>
