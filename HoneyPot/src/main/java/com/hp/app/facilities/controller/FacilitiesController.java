@@ -220,9 +220,12 @@ public class FacilitiesController {
 		InnerFacVo fvo = service.getInnerFacInfo(no);
 		List<String> fimgList = service.getInnerFacImg(no);
 		
+		log.info("fimgList의 수 3이나와야함 : {} ",fimgList.size());
 		
 		model.addAttribute("fvo",fvo);
 		model.addAttribute("fimgList",fimgList);
+		//fimgList의 개수를 model에 담아야함.
+		model.addAttribute("endImgCount",fimgList.size());
 		
 		switch(no) {
 			case 1 : return "innerFacilities/showLibraryInfo";

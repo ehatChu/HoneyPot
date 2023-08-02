@@ -8,12 +8,20 @@
 <style>
 	#innerFacWrap {
 		padding: 30px;
+		display: flex;
+	}
+	#innerFac-img-area {
+		width: 998px;
+	}
+	#innerFacWrap > div {
+		border: 1px solid black;
+		box-sizing: border-box;
 	}
 	#info-content {
 		width: 500px;
 		background-color: #F5F5F5;
 		border: none;
-		font-size: 20px;
+		font-size: 18px;
 		outline: none;
 		resize: none;
 	}
@@ -22,7 +30,7 @@
 		font-weight: 600;
 	}
 	#innerFac-info-detail {
-		font-size: 20px;
+		font-size: 18px;
 	}
 </style>
 </head>
@@ -35,12 +43,18 @@
 
 	<main>
 		<div id="innerFacWrap">
-			<div id="big-title">푸리미엄 도서실</div>
-			<textarea id="info-content" readonly>${fvo.content}</textarea>
-			<div id="innerFac-info-detail">
-				수용가능인원 : <span>${fvo.maxNum}</span>명 <br>
-				오픈시간 : <span>${fvo.openTime}</span> <br>
-				마감시간 : <span>${fvo.closeTime}</span> <br>
+			<div id="innerFac-text-area">
+				<div id="big-title">푸리미엄 도서실</div>
+				<textarea id="info-content" readonly>${fvo.content}</textarea>
+				<div id="innerFac-info-detail">
+					수용가능인원 : <span>${fvo.maxNum}</span>명 <br>
+					오픈시간 : <span>${fvo.openTime}</span> <br>
+					마감시간 : <span>${fvo.closeTime}</span> <br>
+				</div>
+			</div>
+			<div id="innerFac-img-area">
+				<div>시설사진</div>
+				<div>${fimgList}</div>
 			</div>
 		</div>
 		
