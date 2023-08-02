@@ -20,5 +20,7 @@ public interface MealDao {
 
 	int getApplyCnt(SqlSessionTemplate sst, Map<String, String> paramMap);
 
+	MealVo selectMeal(SqlSessionTemplate sst, String no);
+
 
 }

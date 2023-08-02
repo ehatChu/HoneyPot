@@ -39,4 +39,9 @@ public class MealDaoImpl implements MealDao {
 		return sst.selectOne("meal.getApplyCnt", paramMap);
 	}
 
+	@Override
+	public MealVo selectMeal(SqlSessionTemplate sst, String no) {
+		return sst.selectOne("meal.selectMeal", no);
+	}
+
 }

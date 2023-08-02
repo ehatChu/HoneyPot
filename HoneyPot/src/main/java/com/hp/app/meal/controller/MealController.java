@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.meal.service.MealService;
 import com.hp.app.meal.vo.MealVo;
 import com.hp.app.member.vo.MemberVo;
@@ -42,9 +44,24 @@ public class MealController<V> {
 		model.addAttribute("pv", pv);
 		return "meal/mmeal";
 	}
-
+	
 	@GetMapping("ameal")
-	public String amain() {
+	public String amain(HttpSession session, Model model, @RequestParam(defaultValue = "1") int p) {
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		if (loginAdmin == null) {
+			return "redirect:/main/mmain";
+		}
+		
+		int listCount = ms.getMealCnt();
+		int currentPage = p;
+		int pageLimit = 5;
+		int boardLimit = 5;
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		List<MealVo> mealList = ms.getMealList(pv);
+		List<MealVo> mealListTotal = ms.getMealList();
+		model.addAttribute("mealList", mealList);
+		model.addAttribute("mealListTotal", mealListTotal);
+		model.addAttribute("pv", pv);
 		return "meal/ameal";
 	}
 
@@ -62,5 +79,12 @@ public class MealController<V> {
 			return "error";
 		}
 		return "success";
+	}
+	
+	@GetMapping("selectMeal")
+	@ResponseBody
+	public MealVo selectMeal(String no) {
+		MealVo selectMeal = ms.selectMeal(no);
+		return selectMeal;
 	}
 }

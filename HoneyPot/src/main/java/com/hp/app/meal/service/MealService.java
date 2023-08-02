@@ -16,4 +16,6 @@ public interface MealService {
 
 	int applyBreakFast(Map<String, String> paramMap);
 
+	MealVo selectMeal(String no);
+
 }

@@ -44,4 +44,9 @@ public class MealServiceImpl implements MealService{
 		return dao.applyBreakFast(sst, paramMap);
 	}
 
+	@Override
+	public MealVo selectMeal(String no) {
+		return dao.selectMeal(sst, no);
+	}
+
 }

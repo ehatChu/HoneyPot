@@ -556,9 +556,7 @@
                                             <img id="starImg" src="/app/resources/main/star2.PNG">
                                         </c:if>
 
-                                        <div id="scheTxt">${vo.startDate.substring(0, 11)}~
-                                            ${vo.endDate.substring(0,
-                                            11)}</div>
+                                        <div id="scheTxt">${vo.startDate.substring(0, 11)}~${vo.endDate.substring(0,11)}</div>
                                     </div>
                                     <div id="schedule">
                                         <div id="starImg"></div>
@@ -580,7 +578,7 @@
 
                                     if (currentYear != startYear || currentMonth != startMonth) {
                                         var scsc = document.getElementById("scsc${vo.no}");
-                                        scsc.remove();
+                                        // scsc.remove();
                                     }
                                 </script>
                             </c:forEach>
@@ -859,9 +857,9 @@
                             <c:forEach items="${noticeCalendarList}" var="vo">
                                 {
                                     title: '${vo.name}',
-                                start: '${vo.startDate}',
-                                end: '${vo.endDate}',
-                                backgroundColor: getRandomColor()
+                                    start: '${vo.startDate}',
+                                    end: '${vo.endDate}',
+                                    backgroundColor: getRandomColor()
 							    },
                             </c:forEach>
                         ]

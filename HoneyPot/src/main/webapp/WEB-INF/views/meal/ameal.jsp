@@ -102,6 +102,7 @@
 				display: flex;
 				align-items: center;
 				font-size: 22px;
+				margin-bottom: 5px;
 			}
 
 			#e03 {
@@ -201,10 +202,260 @@
 				background-color: #FAD355;
 				color: white;
 			}
+
+			.modal {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100vh;
+				background-color: rgba(0, 0, 0, 0.3);
+				z-index: -1;
+				opacity: 0;
+			}
+
+			.show {
+				opacity: 1;
+				z-index: 1000;
+				transition: all .5s;
+				/* display: block; */
+			}
+
+			.qna-popup {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-color: #f5f5f5;
+				box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+				border-radius: 10px;
+
+				/* 임시 지정 */
+				width: 700px;
+
+				/* 초기에 약간 아래에 배치 */
+				transform: translate(-50%, -40%);
+			}
+
+			.show .qna-popup {
+				transform: translate(-50%, -50%);
+				transition: all .5s;
+			}
+
+			.qna-model-header-area {
+				width: 700px;
+				height: 50px;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+				background-color: #FFCE31;
+			}
+
+			.qna-model-header {
+				margin-left: 20px;
+				width: 660px;
+				height: 50px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+
+			}
+
+			#qna-close {
+				font-size: 30px;
+				font-weight: 900;
+				cursor: pointer;
+
+			}
+
+			.qna-model-header-text {
+				font-size: 20px;
+				font-weight: 600;
+			}
+
+			.qna-model-body-area {
+				width: 600px;
+				margin: auto;
+				margin-top: 20px;
+			}
+
+			.qna-model-body-first {
+				width: 600px;
+				display: flex;
+				flex-direction: column;
+
+			}
+
+			.qna-model-title-area {
+				display: flex;
+				width: 580px;
+				justify-content: space-between;
+				align-items: center;
+
+			}
+
+			.qna-model-title-text {
+				font-size: 26px;
+				font-weight: bold;
+				/* color: gray; */
+				color: black;
+			}
+
+			.qna-model-member-area {
+				display: flex;
+				height: 100%;
+				align-items: center;
+			}
+
+			.qna-model-member-target {
+				font-size: 22px;
+				font-weight: 800;
+				margin-right: 20px;
+			}
+
+			.qna-model-member-name {
+				font-weight: 800;
+				margin-right: 10px;
+			}
+
+			.qna-model-member-profile {
+				width: 50px;
+				height: 50px;
+				border-radius: 70%;
+				border: 1px solid black;
+				overflow: hidden;
+			}
+
+			.qna-model-member-profile>img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+			.qna-model-question-area {
+				margin-left: 10px;
+				margin-top: 10px;
+				display: flex;
+				width: 550px;
+			}
+
+			.qna-model-question-title {
+				margin-left: 20px;
+				margin-top: 10px;
+				font-size: 24px;
+				font-weight: bold;
+			}
+
+			.qna-model-question-icon {
+				width: 50px;
+				height: 50px;
+				border-radius: 70%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: #FFCE31;
+				font-weight: 800;
+				font-size: 24px;
+
+			}
+
+			.qna-model-question-text {
+				margin-left: 10px;
+				border-radius: 6px;
+				padding: 15px;
+				width: 500px;
+				background-color: #fff5d6;
+				font-weight: bold;
+			}
+
+
+			.qna-model-answer-text-area {
+				margin-top: 20px;
+				width: 600px;
+				display: flex;
+			}
+
+			#qna-model-answer-icon {
+				font-weight: bold;
+				font-size: 24px;
+				color: #3183ff;
+			}
+
+			.qna-model-answer-text {
+				border-radius: 6px;
+				padding: 15px;
+				width: 500px;
+				background-color: #ffebda;
+				font-weight: bold;
+			}
+
+			.qna-model-answer-icon {
+				margin-left: 10px;
+				width: 50px;
+				height: 50px;
+				border-radius: 70%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: #885d3b;
+				font-weight: 800;
+				font-size: 24px;
+
+			}
+
+			.qna-model-btn-area {
+				margin-top: 30px;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				margin-bottom: 30px;
+			}
 		</style>
 	</head>
 
 	<body>
+		<div class="modal">
+			<div class="qna-popup">
+				<div class="qna-model-header-area">
+					<div class="qna-model-header">
+						<div class="qna-model-header-text">조식 편집</div>
+						<span class="material-symbols-outlined" id="qna-close">
+							close
+						</span>
+					</div>
+				</div>
+				<div class="qna-model-body-area">
+					<div class="qna-model-body-first">
+						<div class="qna-model-title-area">
+							<div class="qna-model-title-text"></div>
+							<div class="qna-model-member-area">
+								<div class="qna-model-member-target"></div>
+								<div class="qna-model-member-name" id="qna-model-member-name"></div>
+								<div class="qna-model-member-profile">
+									<img id="qna-model-member-profile" src="/app/resources/meal/menu1.PNG" alt="프로필 사진">
+								</div>
+							</div>
+						</div>
+						<div class="qna-model-question-title" id="qna-model-question">제목01</div>
+						<div class="qna-model-question-area">
+							<div class="qna-model-question-icon">Q</div>
+							<div class="qna-model-question-text" id="qna-model-question-content"></div>
+						</div>
+					</div>
+
+					<div class="qna-model-answer-text-area">
+						<div class="qna-model-question-area">
+							<div class="qna-model-answer-text" id="qna-model-answer"></div>
+							<div class="qna-model-answer-icon">A</div>
+						</div>
+					</div>
+
+					<div class="qna-model-btn-area">
+
+					</div>
+				</div>
+			</div>
+
+		</div>
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 			<nav>
 
@@ -220,52 +471,57 @@
 					</div>
 					<div id="box1" class="box bbox">
 						<div class="box2">
-							<img id="mealImg" src="/app/resources/main/rectangle_375.png">
+							<img id="mealImg" src="/app/resources/meal/${mealListTotal[0].img}">
 							<div id="d01">
-								<div id="e01">오늘의 조식</div>
-								<div id="e02"><img id="starImg" src="/app/resources/main/star1.PNG">떡볶이</div>
-								<div id="e02"><img id="starImg" src="/app/resources/main/star1.PNG">치킨</div>
-								<div id="e02"><img id="starImg" src="/app/resources/main/star1.PNG">감자탕</div>
-								<div id="e02"><img id="starImg" src="/app/resources/main/star1.PNG">핫도그</div>
-								<div id="e02"><img id="starImg" src="/app/resources/main/star1.PNG">어묵</div>
+								<div id="e01">${mealListTotal[0].breakfastDate.substring(0, 11)}</div>
+								<div id="e011"></div>
 							</div>
 						</div>
 						<br>
 						<div id="e03">
 							<img id="starImg" src="/app/resources/main/star2.PNG">
-							영양소 : 열량 642kcal, 당질 97g, 단백질 31g, 지질 13g
+							영양소 : ${mealListTotal[0].nutrient}
 						</div>
 						<div id="e04">
-							<button id="f01">식단 편집</button>
+							<button id="f01"
+								onclick="breakFastApply('${mealListTotal[0].no}');">조식
+								편집</button>
 						</div>
 					</div>
 				</div>
 
-				<div id="semiFloor">2020년 8월 식단</div>
+				<div id="semiFloor"></div>
 				<div id="floor1">
 					<table id="board-list">
-						<c:forEach begin="1" end="5">
-							<tr id="tr">
-								<td id="tr1">2020. 08. 01</td>
-								<td id="tr2">차조밥, 조개국, 불고기, 시금치나물, 배추김치</td>
+						<c:forEach items="${mealList}" var="vo">
+							<tr id="tr" onclick="selectMeal('${vo.no}')">
+								<td id="tr1">${vo.breakfastDate.substring(0, 11)}</td>
+								<td id="tr2">${vo.menu}</td>
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
 				<br>
 				<div class="page-area">
-					<button>
-						<</button>
-							<button>1</button>
-							<button>2</button>
-							<button>3</button>
-							<button>4</button>
-							<button>5</button>
-							<button>></button>
+					<c:if test="${pv.currentPage > 1}">
+						<button type="button" onclick="location.href='/app/meal/ameal?p=${pv.currentPage - 1}'">
+							< </button>
+					</c:if>
+					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+						<c:if test="${pv.currentPage != i}">
+							<button type="button" onclick="location.href='/app/meal/ameal?p=${i}'">${i}</button>
+						</c:if>
+						<c:if test="${pv.currentPage == i}">
+							<button type="button" id="current-page-btn">${i}</button>
+						</c:if>
+					</c:forEach>
+					<c:if test="${pv.currentPage < pv.maxPage}">
+						<button type="button" onclick="location.href='/app/meal/ameal?p=${pv.currentPage + 1}'"> >
+						</button>
+					</c:if>
 				</div>
 				<br><br><br>
 			</main>
-
 	</body>
 
 	</html>
@@ -273,14 +529,40 @@
 	<script>
 		basicSetting(); // 기본 셋팅
 		headerName('조식 관리'); // 현재 페이지 이름
+		todayMenu('${mealListTotal[0].menu}');
 
-		// 캘린더
+		const tr1Arr = document.querySelectorAll("#tr1");
+		for (let tr1 of tr1Arr) {
+			const originalDate = tr1.innerHTML.trim();
+			const datePart = originalDate.split(" ")[0];
+			tr1.innerHTML = datePart;
+		}
+
+		var semiFloor = document.querySelector('#semiFloor');
+		var currentDate = new Date();
+		var currentYear = currentDate.getFullYear();
+		var currentMonth = currentDate.getMonth() + 1;
+		semiFloor.innerHTML = currentYear + "년 " + currentMonth + "월 식단";
+
+
+		function getRandomColor() {
+			var letters = '0123456789ABCDEF';
+			var color = '#';
+			for (var i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * 16)];
+				if (color == '#ffffff') {
+					return color;
+				}
+			}
+			return color;
+		}
+
 		(function () {
 			$(function () {
 				var calendarEl = $('#calendar')[0];
 				// full-calendar 생성
 				var calendar = new FullCalendar.Calendar(calendarEl, {
-					height: '500px', // calendar 높이 설정
+					height: '450px', // calendar 높이 설정
 					expandRows: true, // 화면에 맞게 높이 재설정
 					// 해더에 표시할 툴바
 					headerToolbar: {
@@ -290,39 +572,109 @@
 					},
 					initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
 					navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+					editable: false,
 					selectable: true, // 달력 일자 드래그 설정가능
 					nowIndicator: true, // 현재 시간 마크
-					dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+					dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 					locale: 'ko',
 					eventAdd: function (obj) { // 이벤트가 추가되면 발생하는 이벤트
-						console.log(obj);
 					},
 					eventRemove: function (obj) { // 이벤트가 삭제되면 발생하는 이벤트
-						console.log(obj);
 					},
 					select: function (arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
-						var title = prompt('Event Title:');
-						if (title) {
-							calendar.addEvent({
-								title: title,
-								start: arg.start,
-								end: arg.end,
-								allDay: arg.allDay
-							})
-						}
-						calendar.unselect()
+						// var title = prompt('Event Title:');
+						// if (title) {
+						// 	calendar.addEvent({
+						// 		title: title,
+						// 		start: arg.start,
+						// 		end: arg.end,
+						// 		allDay: arg.allDay
+						// 	})
+						// }
+						// calendar.unselect()
 					},
 
 					// DB 받아와서 넣어주기
 					events: [
-						// {
-						// 	title: 'All Day Event',
-						// 	start: '2023-07-01',
-						// },
+
 					]
 				});
+
+				<c:forEach items="${mealListTotal}" var="vo">
+					var originalDateStr = "${vo.breakfastDate.substring(0, 11)}" + "09:00:00";
+					var originalDate = new Date(originalDateStr);
+					originalDate.setDate(originalDate.getDate() + 1);
+					var year = originalDate.getFullYear();
+					var month = String(originalDate.getMonth() + 1).padStart(2, "0");
+					var day = String(originalDate.getDate()).padStart(2, "0");
+					var newDateStr = year + "-" + month + "-" + day + " 01:00:00";
+
+					calendar.addEvent({
+						title: '${vo.menu}',
+						start: originalDateStr,
+						end: newDateStr,
+						backgroundColor: getRandomColor()
+					});
+				</c:forEach>
+
 				// 캘린더 랜더링
 				calendar.render();
 			});
 		})();
+
+		// 오늘의 식단
+		function todayMenu(menu) {
+			let tempStr = "";
+			let arr = menu.split(",");
+			const e011 = document.querySelector('#e011');
+			for (let x of arr) {
+				tempStr += '<div id="e02"><img id="starImg" src="/app/resources/main/star1.PNG">' + x + '</div>';
+			}
+			e011.innerHTML = tempStr;
+		}
+
+		// 목록 클릭이벤트
+		function selectMeal(no) {
+			const bbox = document.querySelector(".bbox");
+			let str = "";
+
+			$.ajax({
+				url: '/app/meal/selectMeal?no=' + no,
+				type: 'get',
+				success: function (data) {
+					str += '<div class="box2">'
+						+ '<img id="mealImg" src="/app/resources/meal/' + data.img + '">'
+						+ '<div id="d01">'
+						+ '<div id="e01">' + data.breakfastDate.substring(0, 11) + '</div>'
+						+ '<div id="e011"></div>'
+						+ '</div></div><br>'
+						+ '<div id="e03">'
+						+ '<img id="starImg" src="/app/resources/main/star2.PNG">'
+						+ '영양소 : ' + data.nutrient
+						+ '</div>'
+						+ '<div id="e04">'
+						+ '<button id="f01" onclick="breakFastApply(' + data.no +  ');">조식 편집</button>'
+						+ '</div>'
+					bbox.innerHTML = str;
+					todayMenu(data.menu);
+				},
+				error: function () {
+					alert("selectMeal error");
+				}
+			});
+		}
+
+		// 조식 편집
+		function breakFastApply(mealNo) {
+			const modal = document.querySelector(".modal");
+			modal.classList.add("show");
+			// ajax로 넘기기
+			// document.querySelector('.qna-model-title-text').innerHTML = mealDate;
+			// document.querySelector('.qna-model-member-profile').src = "/app/resources/meal/menu1.PNG";
+		}
+
+		document.querySelector("#qna-close").addEventListener('click', qnaclose);
+		function qnaclose() {
+			document.querySelector(".modal").className = "modal";
+		}
 	</script>
