@@ -131,7 +131,14 @@ public interface CSCDao {
 	// FAQ LIST 검색 조회(페이징)
 	List<FAQVo> getFAQListAdmin(SqlSessionTemplate sst, PageVo pvo, Map<String, String> searchVo);
 
+	// FAQ 수정
+	int editFAQ(SqlSessionTemplate sst, Map<String, String> editMap);
+	
 	// FAQ 삭제
 	int deleteFAQ(SqlSessionTemplate sst, String fno);
+	
+	// FAQ 작성
+	int writeFAQ(SqlSessionTemplate sst, FAQVo vo);
+	
 	
 }

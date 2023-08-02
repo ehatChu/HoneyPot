@@ -131,10 +131,17 @@ public interface CSCService {
 	List<FAQVo> getFAQListAdmin(PageVo pvo, Map<String, String> searchVo);
 
 	// FAQ 상세 조회
+	// FAQVo getFAQByNo(String fNo) 메소드 사용
 
 	// FAQ 작성
+	int writeFAQ(FAQVo vo);
+	
 	// FAQ 수정
+	FAQVo editFAQ(Map<String, String> editMap) throws Exception;
+	
 	// FAQ 삭제
 	int deleteFAQ(String fno);
+
+
 	
 }
