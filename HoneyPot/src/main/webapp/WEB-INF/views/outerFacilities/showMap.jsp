@@ -191,7 +191,7 @@
 		left: 360px;
 		z-index: 10000;
 	}
-	.option{
+	.search-area{
 		position: fixed;
 		top: 60px;
 		left: 370px;
@@ -213,20 +213,12 @@
 			<div id="map" style="width:1560px;height:892px;"></div>
 		</div>
 
-		<div id="menu_wrap" class="bg_white">
-			<div class="option">
-				키워드 : <input type="text" id="keyword" size="15"> 
-				<button type="submit" id="map-search-btn">검색하기</button> 
-			</div>
-			<hr>
-			<ul id="placesList"></ul>
-			<div id="pagination"></div>
-		</div>
+		
 		
 		<div class="search-area">
 				
 			<form onsubmit="searchPlaces(); return false;">
-				키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
+				키워드 : <input type="text" id="keyword" size="15"> 
 				<button type="submit">검색하기</button> 
 			</form>
 			
@@ -404,11 +396,10 @@
 	/*마커 생성하기*/
 	for (var i = 0; i < positions.length; i ++) {
 		// 마커를 생성합니다
-		var marker = new kakao.maps.Marker({
+		markerDB = new kakao.maps.Marker({
 			map: map, // 마커를 표시할 지도
 			position: positions[i].latlng // 마커의 위치
 		});
-
 		// 마커에 표시할 인포윈도우를 생성합니다 
 		var infowindow = new kakao.maps.InfoWindow({
 			content: positions[i].content // 인포윈도우에 표시할 내용
@@ -417,9 +408,14 @@
 		// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
 		// 이벤트 리스너로는 클로저를 만들어 등록합니다 
 		// for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-		kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-		kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+		kakao.maps.event.addListener(markerDB, 'mouseover', makeOverListener(map, markerDB, infowindow));
+		kakao.maps.event.addListener(markerDB, 'mouseout', makeOutListener(infowindow));
+		kakao.maps.event.addListener(markerDB, 'click', function() { 
+			console.log(markerDB);
+		});
+		
 	}
+	
 	
 	// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
 	function makeOverListener(map, marker, infowindow) {
@@ -434,23 +430,143 @@
 			infowindow.close();
 		};
 	}
+	//==================================================================
 
 	// //키워드로 검색하기
 	// // 장소 검색 객체를 생성합니다
-	// var ps = new kakao.maps.services.Places(); 
+	var ps = new kakao.maps.services.Places(); 
 
-	// // 키워드로 장소를 검색합니다
-	// ps.keywordSearch('이태원 맛집', placesSearchCB); 	
+	function searchPlaces() {
+
+		var keyword = document.getElementById('keyword').value;
+
+		if (!keyword.replace(/^\s+|\s+$/g, '')) {
+			alert('키워드를 입력해주세요!');
+			return false;
+		}
+
+		// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+		ps.keywordSearch('서울 청담'+keyword, placesSearchCB); 
+	}
+
+	// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+	function placesSearchCB(data, status, pagination) {
+		if (status === kakao.maps.services.Status.OK) {
+
+			// 정상적으로 검색이 완료됐으면
+			// 검색 목록과 마커를 표출합니다
+			displayPlaces(data);
+
 	
 
+		} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
 
+			alert('검색 결과가 존재하지 않습니다.');
+			return;
+
+		} else if (status === kakao.maps.services.Status.ERROR) {
+
+			alert('검색 결과 중 오류가 발생했습니다.');
+			return;
+
+		}
+	}
 	
 
+	// 검색 결과 목록과 마커를 표출하는 함수입니다
+	function displayPlaces(places) {
+		/*목록관련
+		var listEl = document.getElementById('placesList'), 
+		menuEl = document.getElementById('menu_wrap'),
+		fragment = document.createDocumentFragment(), 
+		bounds = new kakao.maps.LatLngBounds(), 
+		listStr = '';
+		*/
+		var sw = new kakao.maps.LatLng(37.52758144378935, 127.03822704748407),
+    		ne = new kakao.maps.LatLng(37.52227634988832 , 127.05623355819152);
+		bounds = new kakao.maps.LatLngBounds();
+		// 지도에 표시되고 있는 마커를 제거합니다
+		removeMarker();
+
+		for ( var i=0; i<places.length; i++ ) {
+
+			// 마커를 생성하고 지도에 표시합니다
+			var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
+				markerSearch = addMarker(placePosition, i);
+
+			// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+			
+
+			// 마커와 검색결과 항목에 mouseover 했을때
+			// 해당 장소에 인포윈도우에 장소명을 표시합니다
+			// mouseout 했을 때는 인포윈도우를 닫습니다
+			(function(markerSearch, title) {
+				
+				kakao.maps.event.addListener(markerSearch, 'mouseover', function() {
+					displayInfowindow(markerSearch, title);
+				})
+
+				kakao.maps.event.addListener(markerSearch, 'mouseout', function() {
+					infowindow.close();
+				});
+				
+			})(markerSearch, places[i].place_name);
+
+		}
+
+			
+	}
 	
+	// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+	function addMarker(position, idx, title) {
+		var imageSrc =  'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+			imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
+			
+			markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+			marker = new kakao.maps.Marker({
+				position: position, // 마커의 위치
+				image: markerImage 
+			});
 
-	
-	
+		marker.setMap(map); // 지도 위에 마커를 표출합니다
+		markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+
+		return marker;
+	}
 
 
+	// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+	function removeMarker() {
+		for ( var i = 0; i < markers.length; i++ ) {
+			markers[i].setMap(null);
+		}   
+		markers = [];
+	}
+	// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+	// 인포윈도우에 장소명을 표시합니다
+	function displayInfowindow(marker, title) {
+		var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
 
+		infowindow.setContent(content);
+		infowindow.open(map, marker);
+	}
+
+	//=====================================================//
+	//마커를 클릭하면 모달창 뜨게하기
+	//마커에 eventListner주기
+	// kakao.maps.event.addListener(map, 'rightclick', function(event) { 
+	// 	kakao.maps.event.addListener(marker, 'click', function() {       
+	// 	//원래 우클릭시 나오던 효과지우기
+	// 	//kakao.maps.event.preventMap();
+
+	// 	//모달같은거 띄우기
+	// 	const ctxMenu = document.querySelector('#dochi_context_menu');
+	// 	ctxMenu.style.display = 'block';
+
+	// 	//위에 것의 위치정하기
+	// 	ctxMenu.style.top = event.point.y+45+'px';
+	// 	ctxMenu.style.left = event.point.x+360+'px';
+	// 	});
+	// });
+		
 </script>
