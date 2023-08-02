@@ -84,8 +84,6 @@ public class BoardController {
 		
 		AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
 		
-		System.out.println(rvo);
-		
 		//댓글 null 검사
 		if (rvo.getContent() == null || rvo.getContent().trim().isEmpty()) {
 			return "empty";
@@ -93,19 +91,35 @@ public class BoardController {
 		
 		int result = service.writeReply(rvo);
 		
-		System.out.println(result);
-		System.out.println(rvo);
-		
 		if(result < 0) {
-//			resp.getWriter().write("fail");
 			return "fail";
 		}
 		
-//		resp.getWriter().write("success");
 		return "success";
 		
 	}
 	
+	//댓글 수정
+	@PostMapping("reply/edit")
+	@ResponseBody
+	public String editReply(HttpSession session, ReplyVo rvo) {
+		
+		AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
+		
+		//댓글 null 검사
+		if (rvo.getContent() == null || rvo.getContent().trim().isEmpty()) {
+			return "empty";
+		}
+		
+		int result = service.editReply(rvo);
+		
+		if(result < 0) {
+			return "fail";
+		}
+		
+		return "success";
+		
+	}
 	
 	//댓글 목록 조회
 	@GetMapping("reply/list")

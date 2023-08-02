@@ -148,6 +148,17 @@
 		)
 	</insert>
 	
+	<!-- 댓글 수정 -->
+	<update id="editReply">
+		UPDATE REPLY SET 
+			CONTENT = #{content}
+			, MODIFY_DATE = SYSDATE
+		WHERE 
+		    NO = #{no} 
+		    AND BOARD_NO = #{boardNo}
+		    AND WRITER_NO = #{writerNo}
+	</update>
+	
 	
 	<!-- 댓글목록 -->
 	<select id="getReplyList" resultType="com.hp.app.board.vo.ReplyVo">

@@ -113,5 +113,11 @@ public class BoardServiceImpl implements BoardService {
 		return dao.deleteLove(sst, lvo);
 	}
 
+	//댓글 수정
+	@Override
+	public int editReply(ReplyVo rvo) {
+		return dao.editReply(sst, rvo);
+	}
+
 
 }

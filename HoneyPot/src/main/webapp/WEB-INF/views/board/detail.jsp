@@ -93,7 +93,7 @@
 		padding: 0px 30px 20px;
 	}
 
-	#btn-box > button , #reply-insert-btn {
+	#btn-box > button , #reply-insert-btn, #reply-edit-insert-btn {
 		width: 100px;
 		height: 40px;
 		background-color: #FAD355;
@@ -107,7 +107,7 @@
 
 	#btn-box > button { margin-right: 20px; }
 
-	#reply-insert-btn { height: 50px; }
+	#reply-insert-btn, #reply-edit-insert-btn { height: 50px; }
 
 	#like-btn:hover, #btn-box > button:hover, #reply-insert-btn:hover {
 		color: white;
@@ -116,6 +116,10 @@
 
 
 	/* 댓글 */
+	.hidden {
+		display: none;
+	}
+
 	.reply-area { padding: 25px; }
 
 	.user-reply {
@@ -163,12 +167,12 @@
 		padding: 20px 35px;
 	}
 	
-	.reply-write-area {
+	.reply-write-area, .reply-edit-area {
 		display: flex;
 		align-items: center;
 	}
 
-	#reply-write {
+	#reply-write, #reply-edit {
 		border-radius: 10px;
 		width: 1000px;
 		height: 50px;
@@ -179,9 +183,11 @@
 		font-family: 'Noto Sans KR';
 	}
 
-	#reply-insert-btn { margin: 0px 25px; }
+	#reply-insert-btn, #reply-edit-insert-btn { margin: 0px 25px; }
 
 	#secret-check { font-size: 18px; }
+
+	/* div {border: 1px solid red;} */
 
 </style>
 </head>
@@ -244,46 +250,34 @@
 						<input type="hidden" name="replyNo" value="${rvo.no}">
 						<div id="profile">
 							<img src="/app/resources/profile/profile04cheese.jpg" alt="프로필사진">
-							<!-- <img src="/app/resources/profile/${loginMember.profile}" alt="프로필사진"> -->
 						</div>
 	
 						<div id="reply-body">
 							<div id="reply-writer">
 								댓쓴이
-								<!-- ${rvo.writerName} -->
 							</div>
 	
-							<div id="reply-content">
+							<div class="show" id="reply-content">
 								댓글내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-								<!-- ${rvo.content} -->
+							</div>
+
+							<div class="reply-edit-area hidden">
+								<textarea name="" id="reply-edit"></textarea>
+								<div><button type="button" id="reply-edit-insert-btn" onclick="editReply();">댓글수정</button></div>
 							</div>
 	
 							<div id="reply-footer">
 								<div id="reply-date">
 									2023.08.10 15:49
-									<!-- ${rvo.enrollDate} -->
 								</div>
 								<div id="re-reply-btn" onclick="">답글쓰기</div>
-								<div id="reply-edit-btn" onclick="">수정</div>
+								<div id="reply-edit-btn" onclick="showEditInput();">수정</div>
 								<div id="reply-del-btn" onclick="">삭제</div>
 								<div id="reply-report-btn" onclick="">신고</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
-								<!-- 댓글 작성란 -->
-								<!-- <div class="reply-submit-area">
-									<div class="reply-write-area">
-										<textarea name="" id="reply-write" placeholder="내용을 입력하세요."></textarea>
-									</div>
-				
-									<div><button type="button" id="reply-insert-btn" onclick="writeReply();">댓글쓰기</button></div>
-									
-									<div id="secret-check">
-										<label><input type="checkbox" id="secret" value="y">&nbsp;비밀댓글</label>
-									</div>
-								</div> -->
 
 				<!-- 대댓글 -->
 				<div class="user-re-reply">
@@ -398,8 +392,6 @@
 	function loadReply() {
 
 		console.log("댓글 불러옴");
-		// const userReply = document.querySelector('.user-reply');
-		// const replyBg = document.querySelector('.reply-bg');
 		const replyWrapper = document.querySelector('.reply-wrapper');
 
 		$.ajax({
@@ -409,8 +401,6 @@
 				boardNo : '${vo.no}',
 			},
 			success : function(replyList){
-				
-				// userReply.innerHTML = "";
 				replyWrapper.innerHTML = "";
 				let str = "";
 				for (let i=0 ; i < replyList.length ; i++) {
@@ -423,15 +413,26 @@
 					str += '<div id="reply-writer">';
 					str += replyList[i].writerName;
 					str += '</div>';
-					str += '<div id="reply-content">';
+					str += '<div class="reply-content" id="reply-content' + replyList[i].no + '">';
 					str += replyList[i].content;
 					str += '</div>';
+					
+					//댓글수정란
+					str += '<div class="reply-edit-area hidden" id="reply-edit-area' + replyList[i].no + '">';
+					str += '<textarea name="" id="reply-edit">';
+					str += replyList[i].content;
+					str += '</textarea>';
+					str += '<button type="button" id="reply-insert-btn" onclick="editReply(' + replyList[i].no + ');">댓글수정</button>';
+					str += '</div>';
+
 					str += '<div id="reply-footer">';
 					str += '<div id="reply-date">';
 					str += replyList[i].enrollDate;
 					str += '</div>';
 					str += '<div id="re-reply-btn" onclick="">답글쓰기</div>';
-					str += '<div id="reply-edit-btn" onclick="">수정</div>';
+					str += '<div id="reply-edit-btn" onclick="showEditInput(';
+					str += replyList[i].no;
+					str += ');">수정</div>';
 					str += '<div id="reply-del-btn" onclick="">삭제</div>';
 					str += '<div id="reply-report-btn" onclick="">신고</div>';
 					str += '</div>';
@@ -467,6 +468,58 @@
 			},
 			error : function (error) {
 				console.log(error);
+			},
+		})
+	}
+
+
+	//댓글 수정 버튼
+	function showEditInput(no) {
+		const replyContent = document.querySelector('#reply-content' + no);
+		const replyEditArea = document.querySelector('#reply-edit-area' + no);
+
+		replyContent.classList.toggle('hidden');
+		replyEditArea.classList.toggle('hidden');
+	}
+
+	//댓글 수정
+	function editReply(no){
+		const replyEditTag = document.querySelector('#reply-edit');
+		const replyEditContent = replyEditTag.value;
+		const replyEditContentTrim = replyEditContent.trim();
+		console.log(replyEditTag);
+		console.log(replyEditContent);
+		console.log(replyEditContentTrim);
+
+		if(!replyEditContentTrim) {
+			return;
+		}
+
+		$.ajax({
+			url : '/app/reply/edit' ,
+			type : 'post' ,
+			data : {
+				no : no,
+				boardNo : '${vo.no}' ,
+				writerNo : '2' ,
+				// writerNo : '${loginMember.no}' ,
+				content : replyEditContent ,
+			} ,
+			success :function(result) {
+
+				console.log(result);
+
+				if (result == 'success') {
+					alert("댓글이 수정되었습니다.");
+					location.reload();
+					replyEditContent = '';
+					loadReply();
+				}else{
+					alert("댓글 수정 실패...");
+				}
+			},
+			error : function(fail) {
+				console.log(fail);
 			},
 		})
 	}

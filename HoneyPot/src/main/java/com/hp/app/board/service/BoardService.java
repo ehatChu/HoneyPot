@@ -36,6 +36,9 @@ public interface BoardService {
 	//댓글 작성
 	public abstract int writeReply(ReplyVo rvo);
 	
+	//댓글수정
+	public abstract int editReply(ReplyVo rvo);
+	
 	//댓글 목록 조회
 	public abstract List<ReplyVo> getReplyList(String boardNo);
 	
@@ -53,7 +56,6 @@ public interface BoardService {
 	
 	//좋아요 삭제
 	public abstract int deleteLove(LoveVo lvo);
-	
-	
+		
 
 }

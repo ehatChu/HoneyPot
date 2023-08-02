@@ -496,18 +496,24 @@
         modal.style.height = initHeight + "px";
     };
 
+    //투표 모달 열기
     voteBtn.addEventListener('click', function() {
         modal.classList.remove('hidden');
     });
 
+    //투표 모달 닫기
     closeBtn.addEventListener('click', function() {
         modal.classList.add('hidden');
     });
 
-
     //투표 삽입
     const textarea = document.querySelector('#summernote');
-    textarea.innerHTML = '안녕하세요';
+    textarea.innerHTML = '';
+
+
+
+
+
 
 
 </script>
