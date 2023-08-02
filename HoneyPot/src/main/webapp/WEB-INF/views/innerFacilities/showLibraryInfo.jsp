@@ -5,6 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <style>
 	#innerFacWrap {
 		padding: 30px;
@@ -13,10 +17,7 @@
 	#innerFac-img-area {
 		width: 998px;
 	}
-	#innerFacWrap > div {
-		border: 1px solid black;
-		box-sizing: border-box;
-	}
+
 	#info-content {
 		width: 500px;
 		background-color: #F5F5F5;
@@ -53,8 +54,31 @@
 				</div>
 			</div>
 			<div id="innerFac-img-area">
-				<div>시설사진</div>
-				<div>${fimgList}</div>
+				<div id="big-title">시설사진</div>
+				<div id="carouselExampleControls" class="carousel slide">
+		
+					<div class="carousel-inner">
+						
+						<c:forEach items ="${fimgList}" var="item" varStatus ="loop"> 
+							<c:if test="${loop.index == 0}">
+								<div class="carousel-item active">
+							</c:if>
+							<c:if test="${loop.index != 0}">
+								<div class="carousel-item">
+							</c:if>
+								<img src="/app/resources/innerFac/${item}" class="d-block w-100" alt="${item}">
+							</div>
+						</c:forEach>
+					</div>
+					<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
 			</div>
 		</div>
 		
