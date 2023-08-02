@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="friend">
+	
+	<select id="memberList" resultType="com.hp.app.member.vo.MemberVo">
+		SELECT *
+		FROM MEMBER
+	</select>
+	
+	<select id="list" resultType="com.hp.app.friend.vo.FriendVo">
+		SELECT * 
+		FROM FRIEND
+		WHERE MEMBER_NO = #{loginNo}
+	</select>
+	
+	<delete id="del">
+		DELETE FRIEND
+		WHERE MEMBER_NO = #{memberNo}
+		AND FRIEND_NO = #{friendNo}
+	</delete>
+	
+	<insert id="addFriend">
+		INSERT INTO FRIEND
+		(NO, MEMBER_NO, FRIEND_NO)
+		VALUES(SEQ_FRIEND_NO.NEXTVAL, #{memberNo}, #{friendNo})
+	</insert>
+
+</mapper>

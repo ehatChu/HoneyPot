@@ -19,18 +19,18 @@
             <div class="inquiry-search-area">
                 <div class="model-search-area">
                     <div class="model-search-box-area">
-                        <select name="" id="" class="model-search-category">
-                            <option value="">전체</option>
-                            <option value="">카테고리1</option>
-                            <option value="">카테고리2</option>
-                            <option value="">카테고리3</option>
-                            <option value="">카테고리4</option>
-                        </select>
-                        <input type="text" class="model-serach-input">
-                    </div>
-                    <div class="search-btn-area">
-                        <button type="button">검색</button>
-                    </div>
+                            <select name="searchType" id="" class="model-search-category">
+                                <option value="">전체</option>
+                                <option value="">카테고리1</option>
+                                <option value="">카테고리2</option>
+                                <option value="">카테고리3</option>
+                                <option value="">카테고리4</option>
+                            </select>
+                            <input type="text" class="model-serach-input" name="searchValue">
+                        </div>
+                        <div class="search-btn-area">
+                            <button type="button">검색</button>
+                        </div>
 
                     
                 </div>
@@ -40,99 +40,25 @@
 
 
             <div class="member-area">
-
-                <div class="member-list-area">
-                    <div class="member-list">
+	                <div class="member-list-area" >
+				<c:forEach items="${mvoList }" var="mList">
+				<c:if test="${loginMember.name ne mList.name}">
+                    <div class="member-list" oncontextmenu="showFollowArea(event, '${mList.no}')">
                         <div class="member-list-img">
-                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
+                            <img src="/app/resources/profile/${mList.profile}" alt="프로필사진">
                         </div>
                         <div class="member-list-text">
-                            <span>김지연</span>
-                            <span>(102동 1111호)</span>
+                            <span>${mList.name }</span>
+                            <span>(${mList.dongNum}동 ${mList.hoNum}호)</span>
+                            <span id="memberNo" hidden>${mList.no}</span>
+                            <ul class="follow-area">
+                                <li><a href="#" id="follow-link-${mList.no}">팔로우</a></li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="member-list">
-                        <div class="member-list-img">
-                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
-                        </div>
-                        <div class="member-list-text">
-                            <span>김지연</span>
-                            <span>(102동 1111호)</span>
-                        </div>
-                    </div>
-                    <div class="member-list">
-                        <div class="member-list-img">
-                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
-                        </div>
-                        <div class="member-list-text">
-                            <span>김지연</span>
-                            <span>(102동 1111호)</span>
-                        </div>
-                    </div>
-                    <div class="member-list">
-                        <div class="member-list-img">
-                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
-                        </div>
-                        <div class="member-list-text">
-                            <span>김지연</span>
-                            <span>(102동 1111호)</span>
-                        </div>
-                    </div>
-                    <div class="member-list">
-                        <div class="member-list-img">
-                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
-                        </div>
-                        <div class="member-list-text">
-                            <span>김지연</span>
-                            <span>(102동 1111호)</span>
-                        </div>
-                    </div>
-                    <div class="member-list">
-                        <div class="member-list-img">
-                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
-                        </div>
-                        <div class="member-list-text">
-                            <span>김지연</span>
-                            <span>(102동 1111호)</span>
-                        </div>
-                    </div>
-                    <div class="member-list">
-                        <div class="member-list-img">
-                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
-                        </div>
-                        <div class="member-list-text">
-                            <span>김지연</span>
-                            <span>(102동 1111호)</span>
-                        </div>
-                    </div>
-                    <div class="member-list">
-                        <div class="member-list-img">
-                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
-                        </div>
-                        <div class="member-list-text">
-                            <span>김지연</span>
-                            <span>(102동 1111호)</span>
-                        </div>
-                    </div>
-                    <div class="member-list">
-                        <div class="member-list-img">
-                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
-                        </div>
-                        <div class="member-list-text">
-                            <span>김지연</span>
-                            <span>(102동 1111호)</span>
-                        </div>
-                    </div>
-                    <div class="member-list">
-                        <div class="member-list-img">
-                            <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
-                        </div>
-                        <div class="member-list-text">
-                            <span>김지연</span>
-                            <span>(102동 1111호)</span>
-                        </div>
-                    </div>
-                </div>
+				</c:if>
+				</c:forEach>
+	                </div>
                 <div class="member-detail-area">
                     <div class="member-detail-header">
                         <div class="member-deatail-img-area">
@@ -370,4 +296,94 @@
         { offset: Number.NEGATIVE_INFINITY },
     ).element;
     }
+
+
+
+
+
+    
+
+    //// 팔로우 우클릭 이벤트
+    function showFollowArea(event,memberNo) {
+        event.preventDefault();
+
+        const target = event.currentTarget;
+        const followArea = target.querySelector('.follow-area');
+
+        followArea.classList.add('show');
+
+        const offsetX = event.clientX;
+        const offsetY = event.clientY;
+        followArea.style.position = 'fixed';
+        followArea.style.left = offsetX + 'px';
+        followArea.style.top = offsetY + 'px';
+
+        $.ajax({
+            url: '/app/member/getFriendList', 
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                const followLink = document.getElementById('follow-link-' + memberNo);
+                const isFriend = data.find(item => item.friendNo === memberNo);
+                if (isFriend) {
+                    followLink.textContent = '팔로우 취소';
+                } else {
+                    followLink.textContent = '팔로우';
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error occurred while fetching friend list:', error);
+            }
+        });
+
+        document.addEventListener('click', hideFollowAreaOnClick);
+    }
+
+    function hideFollowArea() {
+        const followAreas = document.querySelectorAll('.follow-area');
+        followAreas.forEach(followArea => {
+            followArea.classList.remove('show');
+        });
+    }
+
+    function hideFollowAreaOnClick(event) {
+        const followAreas = document.querySelectorAll('.follow-area');
+        if (!followAreas[0].contains(event.target)) {
+            hideFollowArea();
+            document.removeEventListener('click', hideFollowAreaOnClick);
+        }
+    }
+
+    // 팔로우 버튼 클릭 이벤트
+    $(document).on('click', '.follow-area li a', function(event) {
+        event.preventDefault();
+
+        const followArea = this.closest('.follow-area');
+        const memberNo = followArea.parentElement.querySelector('#memberNo').textContent.trim();
+
+        $.ajax({
+            url: '/app/member/friend/follow', 
+            type: 'POST',
+            dataType: 'json',
+            data: { friendNo: memberNo }, 
+            success: function(data) {
+                if (data.success) {
+                    const followLink = document.getElementById('follow-link-' + memberNo);
+                    if (data.isFollowing) {
+                        followLink.textContent = '팔로우 취소';
+                    } else {
+                        followLink.textContent = '팔로우';
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error occurred while following/unfollowing:', error);
+            }
+        });
+        hideFollowArea();
+        document.removeEventListener('click', hideFollowAreaOnClick);
+    });
+
+
+
 </script>

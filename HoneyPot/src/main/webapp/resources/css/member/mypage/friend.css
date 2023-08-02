@@ -614,3 +614,36 @@
 .margin-r50{
     margin-right: 50px;
 }
+
+
+/* 팔로우 영역 */
+/* 우클릭 시 강퇴 버튼 */
+.follow-area {
+    position: relative;
+}
+
+.follow-area li {
+    display: none;
+    background-color: #ffffff;
+    border: 1px solid #545454;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    padding: 5px;
+    border-radius: 4px;
+    z-index: 1000; /* 팔로우 버튼이 다른 요소 위에 표시되도록 설정 */
+}
+
+.follow-area.show li {
+    display: block; /* .show 클래스가 있을 때만 팔로우 버튼을 보이도록 설정 */
+}
+
+.follow-area li a {
+    color: #000;
+    font-family: 'Noto Sans KR';
+    font-size: 18px;
+    text-decoration-line: none;
+}
+
+.follow-area li:hover {
+    background-color:#fdeaab;
+}
+
