@@ -132,13 +132,40 @@
                         </div>
 
                         <div class="faq-model-btn-area">
-                            <button class="faq-edit-btn">수정</button>
+                            <button class="faq-edit-btn" onclick="faqEditModelShow()">수정</button>
                             <button class="faq-delete-btn" onclick="deleteFaq()">삭제</button>
 
                         </div>
 
                     </div>
 
+                </div>
+            </div>
+            <!-- FAQ 수정 모달 -->
+            <div class="faq-edit-background">
+                <div class="faq-edit-window">
+                    <div class="faq-edit-popup" id="faq-edit-popup">
+                        <div class="faq-edit-model-header-area">
+                            <div class="faq-edit-model-header">
+                                <div class="faq-edit-model-header-text">FAQ 수정</div>
+                                <span class="material-symbols-outlined" id="faq-edit-close">
+                                    close
+                                </span>
+                            </div>
+                        </div>
+                        <div class="faq-edit-model-body-area">
+                            <div class="faq-edit-model-body-text">제목</div>
+                            <input type="text" id="faq-edit-model-title-box" class="faq-edit-model-title-box">
+                            <div class="faq-edit-model-body-text">내용</div>
+                            <textarea class="faq-edit-model-content" id="faq-edit-model-content"></textarea>
+
+                            <div class="faq-edit-model-btn-area">
+                                <button id="faq-edit-compelet-btn" class="faq-edit-model-check-btn" onclick="faqEdit();">수정완료</button>
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -155,30 +182,31 @@
                             </span>
                         </div>
                     </div>
-                    <div class="faq-write-model-body-area">
-                        <div class="faq-write-model-body-first">
-                            <div class="faq-write-model-sanction-date">
-                                <div class="faq-write-model-title-text">FAQ 질문</div>
-                                <div class="faq-write-model-question-text" id="faq-write-model-question"></div>
-                            </div>
-                        </div>
-                        <div class="faq-write-model-answer-text-area">
-                            <span class="material-symbols-outlined" id="faq-write-model-answer-icon">
-                                subdirectory_arrow_right
-                                </span>
-                            <div class="faq-write-model-answer-text" id="faq-write-model-answer"></div>
-                        </div>
+					<form action="/app/admin/csc/faq/write" method="post">
+						<div class="faq-write-model-body-area">
+	                        <div class="faq-write-model-body-text">카테고리</div>
+	                        <select class="faq-write-model-category-box" name="faqCno">
+								<c:forEach items="${cList}" var="vo">
+									<option value="${vo.no}">${vo.name}</option>
+								</c:forEach>
+	                        </select>
+	                        <div class="faq-write-model-body-text">제목</div>
+	                        <input type="text" name="question" id="faq-write-model-title-box" class="faq-write-model-title-box">
+	                        <div class="faq-write-model-body-text">내용</div>
+	                        <textarea name="answer" class="faq-write-model-content" id="faq-write-model-content"></textarea>
+	
+	                        <div class="faq-write-model-btn-area">
+	                            <button id="faq-write-compelet-btn" class="faq-write-model-check-btn" type="submit">작성완료</button>
+	                        </div>
 
-                        <div class="faq-write-model-btn-area">
-                            <button class="faq-edit-btn">수정</button>
-                            <button class="faq-delete-btn" onclick="deleteFaq()">삭제</button>
+	                    </div>
+					</form>
 
-                        </div>
-
-                    </div>
 
                 </div>
             </div>
+
+            
         </div>
 
         <script>
@@ -212,7 +240,7 @@
 </body>
 
 </html>
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     basicSetting(); // 기본 셋팅
     headerName('고객센터'); // 현재 페이지 이름
@@ -303,4 +331,89 @@
     
     document.querySelector("#faq-write-close").addEventListener('click', FAQWriteclose);
     // document.querySelector("#faq-write-check-btn").addEventListener('click', FAQWriteclose);
+
+    // FAQ 수정 모달 드래그 사용
+    $( function() {
+	  //draggable() 함수 	jquery-ul.js 스크립트 파일 안에 선언된 함수
+    $("#faq-edit-popup").draggable({
+        scroll : false,
+        containment : 'parent',
+        handle : '.faq-edit-model-header-area'
+    });
+    } );
+
+    // faq 수정 모달 사용
+    function faqEditShow() {
+        document.querySelector(".faq-edit-background").className = "faq-edit-background eshow";
+    }
+
+    function faqEditClose() { 
+        document.querySelector(".faq-edit-background").className = "faq-edit-background";
+    }
+
+    // faq 수정 모달 보여주기
+    function faqEditModelShow(){
+        const titleBox = document.querySelector("#faq-model-question");
+        const contentBox = document.querySelector("#faq-model-answer");
+
+        const editTitleBox = document.querySelector("#faq-edit-model-title-box");
+        const editcontentBox = document.querySelector("#faq-edit-model-content");
+
+        const titleStr = titleBox.innerHTML;
+        const contentStr = contentBox.innerHTML;
+
+        editTitleBox.value =  titleStr;
+        editcontentBox.value = contentStr;
+
+        faqEditShow();
+    }
+
+    // faq close시에 내용 비우기
+    document.querySelector("#faq-edit-close").addEventListener('click', function(){
+        const titleBox = document.querySelector("#faq-edit-model-title-box");
+        const contentBox = document.querySelector("#faq-edit-model-content");
+
+        faqEditClose();
+
+        titleBox.value = "";
+        contentBox.value = "";
+    });
+
+    // faq 수정 완료
+    function faqEdit(){
+        const questionValue = document.querySelector("#faq-edit-model-title-box").value;
+        const answerValue = document.querySelector("#faq-edit-model-content").value;
+        $.ajax({
+            url : "/app/admin/csc/faq/edit",
+            method : "POST",
+            data : {
+                "fno" : clickNo,
+                "question" : questionValue,
+                "answer" : answerValue
+            },
+            dataType : "json",
+            success : function(data) {
+                faqEditClose();
+                FAQclose();
+                const question = document.querySelector("#faq-model-question");
+                const answer = document.querySelector("#faq-model-answer");
+
+                question.innerHTML = "";
+                answer.innerHTML = "";
+
+                const questionStr = data.question;
+                const answerStr = data.answer;
+                clickNo = data.no;
+
+                question.innerHTML = questionStr;
+                answer.innerHTML = answerStr;
+
+                FAQshow();
+
+        },
+        error : function() {
+                alert("실패");
+            },
+        })
+    }
 </script>

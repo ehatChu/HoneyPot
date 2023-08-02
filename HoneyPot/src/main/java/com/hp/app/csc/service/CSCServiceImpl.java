@@ -254,6 +254,27 @@ public class CSCServiceImpl implements CSCService {
 		return dao.deleteFAQ(sst, fno);
 	}
 
+	// FAQ 수정
+	@Override
+	public FAQVo editFAQ(Map<String, String> editMap) throws Exception {
+		
+		int result = dao.editFAQ(sst, editMap);
+		
+		if(result != 1) {
+			throw new Exception("FAQ 수정 에러");
+		}
+		
+		FAQVo vo = dao.getFAQByNo(sst, editMap.get("fno"));
+		
+		return vo;
+	}
+
+	// FAQ 작성
+	@Override
+	public int writeFAQ(FAQVo vo) {
+		return dao.writeFAQ(sst, vo);
+	}
+
 	
 
 

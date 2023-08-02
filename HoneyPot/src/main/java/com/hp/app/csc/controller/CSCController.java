@@ -527,6 +527,32 @@ public class CSCController {
 		return "redirect:/admin/csc/faq";
 	}
 	
+	// FAQ 수정
+	@PostMapping("admin/csc/faq/edit")
+	@ResponseBody
+	public FAQVo editFAQ(@RequestParam Map<String,String> editMap) throws Exception {
+		
+		FAQVo vo = service.editFAQ(editMap);
+		
+		return vo;
+	}
+	
+	// FAQ 작성
+	@PostMapping("admin/csc/faq/write")
+	public String writeFAQ(FAQVo vo) throws Exception {
+		
+		// 나중에 수정
+		vo.setWriterNo("1");
+		
+		int result = service.writeFAQ(vo);
+		
+		if(result != 1) {
+			throw new Exception("FAQ 작성 에러");
+		}
+		
+		return "redirect:/admin/csc/faq";
+	}
+	
 	// 제제내역 (화면)
 	@GetMapping("admin/member/sanction-list")
 	public String sanctionList() {

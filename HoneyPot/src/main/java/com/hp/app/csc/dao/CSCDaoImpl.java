@@ -251,6 +251,18 @@ public class CSCDaoImpl implements CSCDao{
 	public int deleteFAQ(SqlSessionTemplate sst, String fno) {
 		return sst.update("csc.deleteFAQ", fno);
 	}
+
+	// FAQ 수정
+	@Override
+	public int editFAQ(SqlSessionTemplate sst, Map<String, String> editMap) {
+		return sst.update("csc.editFAQ", editMap);
+	}
+
+	// FAQ 작성
+	@Override
+	public int writeFAQ(SqlSessionTemplate sst, FAQVo vo) {
+		return sst.insert("csc.writeFAQ", vo);
+	}
 	
 	
 

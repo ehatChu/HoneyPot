@@ -1,4 +1,4 @@
-.inquiry-search-area{
+.point-search-area{
     width: 1560px;
     height: 100px;
     display: flex;
@@ -7,14 +7,14 @@
     
 }
 
-.model-search-area{
+.point-search{
     height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.model-search-box-area{
+.point-search-box-area{
     width: 900px;
     height: 60px;
     background-color: white;
@@ -23,7 +23,7 @@
     box-shadow: 3px 3px 5px rgb(145, 145, 145);
 }
 
-.model-search-category{
+.point-search-category{
     padding-left: 10px;
     width: 150px;
     height: 60px;
@@ -33,11 +33,11 @@
 }
 
 
-.model-serach-category:focus{
+.point-serach-category:focus{
     outline: none;
 }
 
-.model-serach-input{
+.point-serach-input{
     padding-left: 15px;
     font-size: 18px;
     width: 750px;
@@ -46,15 +46,15 @@
     font-family: 'Noto Sans KR';
 }
 
-.model-serach-input:focus{
+.point-serach-input:focus{
     outline: none;
 }
 
-.search-btn-area{
+.point-search-btn-area{
     margin-left: 40px;
 }
 
-.search-btn-area > button{
+.point-search-btn-area > button{
     width: 130px;
     height: 50px;
     border: none;
@@ -64,14 +64,14 @@
     font-size: 20px;
 }
 
-.sanction-list-area{
+.point-list-area{
     width: 1560px;
     height: 700px;
     display: flex;
     justify-content: center;
 }
 
-.sanction-list-table-area{
+.point-list-table-area{
     border-radius: 20px;
     width: 1500px;
     height: 670px;
@@ -82,7 +82,7 @@
     align-items: center;
 }
 
-.sanction-list-table{
+.point-list-table{
     width: 1400px;
     height: 560px;
     display: flex;
@@ -90,7 +90,7 @@
 }
 
 
-.sanction-list{
+.point-list{
     width: 1350px;
     border-bottom: 2px solid rgb(187, 187, 187);
     display: flex;
@@ -99,7 +99,7 @@
     height: 90px;
 }
 
-.sanction-list-profile{
+.point-list-profile{
     margin-left: 20px;
     height: 80px;
     display: flex;
@@ -107,14 +107,14 @@
     align-items: center;
 }
 
-.sanction-member-profile{
+.point-member-profile{
     width: 55px;
     height: 55px;
     border-radius: 70%;
     background-color: black;
 }
 
-.sanction-member-text{
+.point-member-text{
     width: 100px;
     margin-left: 10px;
     font-size: 12px;
@@ -124,34 +124,32 @@
     justify-content: space-between;
 }
 
-.sanction-list-content{
+.point-list-content{
     width: 850px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.sanction-list-admin{
+.point-list-admin{
     width: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.sanction-list-date{
+.point-list-date{
     width: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.page-area {
-    width: 1560px;
-    display: flex;
-    justify-content: center;
+.page-area{
+    margin-right: 10px;
 }
-
-.page-area button {
+    
+.page-area > a {
     display: inline-block;
     font-weight: bold;
     font-size: 18px;
@@ -160,15 +158,29 @@
     padding: 10px 20px;
     cursor: pointer;
     background-color: transparent;
+    text-decoration: none;
+    color: black;
 }
 
-.page-area button:hover{
-    background-color: #FAD355;
+.page-area > a:hover{
+    background-color: #3183ff;
     color: white;
+}
+
+#current-page{
+    color: #3183ff;
+}
+
+#current-page:hover{
+    color: #3183ff;
 }
 
 .category-color{
     color: #e7bf3a;
+}
+
+.blue{
+    color: #3183ff;
 }
 
 .yellow{
@@ -179,7 +191,8 @@
     color: #ff3131;
 }
 
-.background {
+/* 상벌점 상세 조회 모달 */
+.point-background {
     position: fixed;
     top: 0;
     left: 0;
@@ -193,19 +206,19 @@
     opacity: 0;
 }
 
-.show {
+.pshow {
     opacity: 1;
     z-index: 1000;
     transition: all .5s;
 }
 
-.window {
+.point-window {
     position: relative;
     width: 100%;
     height: 100%;
 }
 
-.popup {
+.point-popup {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -215,95 +228,91 @@
     border-radius: 10px;
     
     /* 임시 지정 */
-    width: 700px;
-    height: 600px;
+    width: 600px;
     
     /* 초기에 약간 아래에 배치 */
     transform: translate(-50%, -40%);
  }
 
-.show .popup {
+.pshow .point-popup {
     transform: translate(-50%, -50%);
     transition: all .5s;
 }
 
-.model-header-area{
-    width: 700px;
+.point-model-header-area{
+    width: 600px;
     height: 50px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background-color: #FFCE31;
 }
 
-.model-header{
+.point-model-header{
     margin-left: 20px;
-    width: 660px;
+    width: 560px;
     height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-#close{
+#point-close{
     font-size: 30px;
     font-weight: 900;
     color: red;
     cursor: pointer;
 }
 
-.model-header-text{
+.point-model-header-text{
     font-size: 20px;
     font-weight: 600;
 }
 
-.model-body-area{
-    width: 620px;
+.point-model-body-area{
+    width: 520px;
     margin: auto;
     margin-top: 20px;
 }
 
-.model-body-content{
-    margin-top: 5px;
+.point-model-body-content{
+    margin-top: 10px;
     margin-left: 3px;
-    height: 300px;
-    width: 600px;
+    padding: 10px;
+    width: 500px;
     resize: none;
-    border: 1px solid rgb(173, 173, 173);
     border-radius: 6px;
+    font-weight: 800;
+    font-size: 24px;
 }
 
-.model-body-first{
-    width: 660px;
+.point-model-body-first{
+    width: 560px;
     display: flex;
     justify-content: space-between;
 
 }
 
-.model-title-text{
+.point-model-title-text{
     font-size: 19px;
     font-weight: bold;
     color: gray;
 }
 
-.model-title-text1{
+.point-model-point-num{
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.point-model-title-text1{
     font-size: 19px;
     font-weight: bold;
     color: gray;
     margin-right: 5px;
 }
 
-.model-sanction-input{
-    padding-left: 10px;
-    margin-left: 3px;
-    margin-top: 5px;
-    margin-bottom: 20px;
-    width: 260px;
-    height: 50px;
-    border-radius: 6px;
-    border: 1px solid rgb(173, 173, 173);
-}
-
-.model-sanction-member{
+.point-model-point-member{
     margin-right: 60px;
     width: 150px;
     display: flex;
@@ -312,7 +321,7 @@
 }
 
 
-.model-member-info{
+.point-model-member-info{
     margin-top: 5px;
     height: 60px;
     display: flex;
@@ -320,7 +329,7 @@
     align-items: center;
 }
 
-.model-member-profile{
+.point-model-member-profile{
     margin-left: 10px;
     height: 60px;
     width: 60px;
@@ -329,14 +338,15 @@
 
 }
 
-.model-btn-area{
+.point-model-btn-area{
     margin-top: 20px;
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-bottom: 30px;
 }
 
-.model-btn{
+.point-model-edit-btn{
     width: 100px;
     height: 50px;
     background-color: #FFCE31;
@@ -346,8 +356,150 @@
     font-weight: bold;
     font-size: 18px;
     cursor: pointer;
+    margin-right: 50px;
 }
 
-.margin-r50{
-    margin-right: 50px;
+.point-model-delete-btn{
+    width: 100px;
+    height: 50px;
+    background-color: #ff3131;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Noto Sans KR';
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* 상벌점 수정 모달 */
+.point-edit-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+    /* display: none; */
+    
+    /* 숨기기 */
+    z-index: -1;
+    opacity: 0;
+}
+
+.eshow {
+    opacity: 1;
+    z-index: 1001;
+    transition: all .5s;
+    /* display: block; */
+}
+
+.point-edit-window {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.point-edit-popup {
+    position: absolute;
+    top: 26%;
+    left: 37%;
+    /* transform: translate(-50%, -50%); */
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    
+    /* 임시 지정 */
+    width: 500px;
+    
+    /* 초기에 약간 아래에 배치 */
+    /* transform: translate(-50%, -40%); */
+ }
+
+/* .ashow .qna-answer-popup {
+    transform: translate(-50%, -50%);
+    transition: all .5s;
+} */
+
+.point-edit-model-header-area{
+    width: 500px;
+    height: 50px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #FFCE31;
+}
+
+.point-edit-model-header{
+    margin-left: 20px;
+    width: 470px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+#point-edit-close{
+    font-size: 30px;
+    font-weight: 900;
+    cursor: pointer;
+    
+}
+
+.point-edit-model-header-text{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.point-edit-model-body-area{
+    width: 450px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.point-edit-model-body-text{
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.point-edit-model-score-box{
+    margin-top: 10px;
+    width: 450px;
+    height: 40px;
+    border: 1px solid rgb(209, 209, 209);
+    padding-left: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.point-edit-model-content{
+    margin-top: 10px;
+    width: 450px;
+    height: 200px;
+    border: 1px solid rgb(209, 209, 209);
+    resize: none;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+
+
+.point-edit-model-btn-area{
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.point-edit-model-check-btn{
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Noto Sans KR';
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #FFCE31;
 }
