@@ -104,6 +104,7 @@
                         </div>
 						<div id="chatArea">
 							<div id="chatMessageArea">
+								
 							</div>
 						</div>
                         <div class="input-area">
@@ -261,8 +262,6 @@
 		const cancelBtn = document.getElementById("cancel-btn");
 		cancelBtn.addEventListener("click", handleCancelClick);
 
-
-
 		// 채팅방 초대 모달 열기
         const openListModal = () => {
         document.querySelector(".invite-modal").classList.remove("hidden");
@@ -320,34 +319,52 @@
 			var msg = $("#message").val();
 			wsocket.send(msg );
 			$("#message").val("");
+
+			// $.ajax({
+			// 	method: "POST",
+			// 	url: "/app/chat/send",
+			// 	data: {no : rno},
+			// 	success: function(response) {
+			// 		console.log(response);
+			// 		location.href="/app/chat/detail?no=" + rno;
+			// 	},
+			// 	error: function(error) {
+			// 		console.log(error);
+			// 	}
+			// });
+
 		}
 
 		function adjustChatAreaHeight() {
 			var chatArea = $("#chatArea");
-			var chatMessageArea = $("#chatMessageArea");
+			var chatMessageArea = $("#wrapC");
 
 			// 총 메시지 영역의 높이를 계산하여 chatMessageArea의 높이 설정
 			var totalMessageHeight = 0;
-			chatMessageArea.find('.messageBox').each(function() {
+			chatArea.find('#wrapC').each(function() {
 				totalMessageHeight += $(this).outerHeight(true);
 			});
 
 			// chatArea의 높이와 총 메시지 영역의 높이 비교 후 설정
 			var chatAreaHeight = chatArea.height();
 			if (totalMessageHeight > chatAreaHeight) {
-				chatMessageArea.height(totalMessageHeight);
+				chatArea.height(totalMessageHeight);
 			} else {
-				chatMessageArea.height(chatAreaHeight);
+				chatArea.height(chatAreaHeight);
 			}
 		}
 
 		function appendMessage(data) {
+			const loginNo = document.querySelector("#loginNo").value;
+			
 			var name = data.name;
 			var msg = data.msg;
 			var time = data.time;
 			var profile = data.profile;
 			var date = new Date(time);
+			
 
+			
 			var hours = date.getHours();
 			var minutes = date.getMinutes();
 
@@ -357,36 +374,57 @@
 			hours = hours < 10 ? "0" + hours : hours;
 			minutes = minutes < 10 ? "0" + minutes : minutes;
 
-			var messageBox = $('<div class="messageBox"></div>');
-			var messageElement = $('<div class="message"></div>');
-			var profileElement = $('<div class="memberProfile"></div>');
-			var nameElement = $('<div class="memberName"></div>');
-			var timeElement = $('<p class="time"></p>');
-			var profileImg = $('<img>');
-			profileImg.attr('src', "/app/resources/img/chat/" + profile);
+			if(name != loginNo){
+				
 
-			profileElement.append(profileImg);
-
-			nameElement.text(name );
-			messageElement.text(msg);
-			timeElement.text(amOrPm + ' ' + hours + ':' + minutes);
-
-			var nameAndMessageDiv = $('<div class="nameAndMessage"></div>');
-			nameAndMessageDiv.append(nameElement);
-			nameAndMessageDiv.append(messageElement);
-
-			const loginNo = document.querySelector("#loginNo").value;
-			if (name === loginNo) {
-				messageBox.addClass("my-message");
-			} else {
-				messageBox.addClass("other-message");
+				var wrapElement = $('<div id="wrapC"></div>');
+				wrapElement.addClass("other-message");
+				// 메세지 길이에 따라 div 크기 크게 하기. width 값은 동일, height 값이 동적으로
+				var messageElement = $('<div class="message"></div>');
+				var profileElement = $('<div class="memberProfile"></div>');
+				var nameElement = $('<div class="memberName"></div>');
+				var timeElement = $('<p class="time"></p>');
+				var profileImg = $('<img>');
+				profileImg.attr('src', "/app/resources/img/chat/" + profile);
+	
+				profileElement.append(profileImg);
+	
+				nameElement.text(name );
+				messageElement.text(msg);
+				timeElement.text(amOrPm + ' ' + hours + ':' + minutes);
+	
+				var nameAndMessageDiv = $('<div class="nameAndMessage"></div>');
+				nameAndMessageDiv.append(nameElement);
+				nameAndMessageDiv.append(messageElement);
+	
+				
+	
+				wrapElement.append(profileElement);
+				wrapElement.append(nameAndMessageDiv);
+				wrapElement.append(timeElement);
+	
+				$("#chatMessageArea").append(wrapElement);
 			}
 
-			$(".messageBox").append(profileElement);
-  			$(".messageBox").append(nameAndMessageDiv);
-			$(".messageBox").append(timeElement);
-
-			$("#chatMessageArea").append(messageBox);
+			if(name == loginNo){
+				
+				var wrapElement = $('<div id="wrapC"></div>');
+				// 메세지 길이에 따라 div 크기 크게 하기. width 값은 동일, height 값이 동적으로
+				wrapElement.addClass("my-message");
+				var messageElement = $('<div class="message"></div>');
+				var timeElement = $('<p class="time"></p>');
+	
+				messageElement.text(msg);
+				timeElement.text(amOrPm + ' ' + hours + ':' + minutes);
+	
+				var nameAndMessageDiv = $('<div class="nameAndMessage"></div>');
+				nameAndMessageDiv.append(messageElement);
+	
+				wrapElement.append(nameAndMessageDiv);
+				wrapElement.append(timeElement);
+	
+				$("#chatMessageArea").append(wrapElement);
+			}
 
 			var chatArea = $("#chatArea");
 			chatArea.scrollTop(chatArea.prop("scrollHeight"));
@@ -407,16 +445,13 @@
         $('#message').keypress(function(event) {
 			var keycode = (event.keyCode ? event.keyCode : event.which);
 
-			// Prevent the default behavior of Enter key (keyCode 13)
 			if (keycode == 13) {
-			event.preventDefault(); // This prevents the newline from being added
-
+			event.preventDefault(); 
 			send();
 			}
 				
-				// 만일의 경우를 대비하여 이벤트 발생 범위를 한정
-		// http://ismydream.tistory.com/98 참고
-				event.stopPropagation();
+			// 만일의 경우를 대비하여 이벤트 발생 범위를 한정
+			event.stopPropagation();
 			});
 			$('#sendBtn').click(function() { send(); });
 			$('.quitBtn').click(function() { disconnect(); });

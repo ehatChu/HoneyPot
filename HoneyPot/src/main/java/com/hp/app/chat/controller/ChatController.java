@@ -42,7 +42,7 @@ public class ChatController {
 		
 	   //MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
        //String mno = loginMember.getNo();
-	   String mno = "5";
+	   String mno = "1";
        paramMap.put("memberNo", mno);
        List<ChatRoomVo> voList = service.selectRoom(mno);
        List<ChatFriendVo> fvoList = service.friendList(paramMap);

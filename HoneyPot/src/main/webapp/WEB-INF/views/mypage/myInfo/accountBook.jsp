@@ -636,7 +636,7 @@
 	$(document).ready(function() {
     $('.Dbtn-click').on('click', function() {
 		const row = $(this).closest('tr');
-
+		
 		const ano = row.find('td:nth-child(1)').text();
 
 		const detailModal = document.querySelector(".detail-modal");

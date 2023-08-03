@@ -52,27 +52,21 @@ public class ChatSocketServer extends TextWebSocketHandler{
 		
 		log(session.getId() + "로부터 메시지 수신: " + message.getPayload());
 		log.info(users.toString());
-        // 수신한 하나의 메세지를 users 맵에 있는 모든 유저(세션)들에게
-        // 맵을 반복으로 돌면서 일일이 보내주게 되도록 처리
 		MemberVo loginMember = (MemberVo) session.getAttributes().get("loginMember");
 		String name = loginMember.getName();
 		String profile = loginMember.getProfile();
 		log.info(profile);
 		Gson gson = new Gson(); 
 		
-		// 맵 만들어서 key : value 형태로 준비
-		// 발신 시각, 발신자 이름, 발신 메세지, 읽은 시간 체크 
 		HashMap<String, String> msgVo = new HashMap<String, String>();
 		msgVo.put("name", name);
 		msgVo.put("msg", message.getPayload());
 		msgVo.put("profile", profile);
 		
-		// 현재 시간을 "yyyy-MM-dd HH:mm" 형식으로 포맷팅하여 추가
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	    String currentTime = dateFormat.format(new Date());
 	    msgVo.put("time", currentTime);
 		
-		// 맵을 json 으로 변환
 		String jsonStr = gson.toJson(msgVo);
 		
 		for(WebSocketSession s : users.values()) {
