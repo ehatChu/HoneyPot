@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hp.app.friend.service.FriendService;
@@ -29,11 +30,27 @@ public class FriendController {
 	
 	// 회원 목록 조회
 	@GetMapping("/member/friends")
-	public String friend(Model model) {
-		List<MemberVo> mvoList = service.memberList();
+	public String friend(Model model,@RequestParam Map<String,String> searchMap) {
+		
+		int memberCnt = service.getMemberCnt();
+		List<MemberVo> mvoList = service.memberList(searchMap);
+		
+		model.addAttribute("memberCnt", memberCnt);
 		model.addAttribute("mvoList", mvoList);
 		
 		return "member/friend";
+	}
+	
+	// 회원 상세 조회
+	@PostMapping("/member/friends/detail")
+	@ResponseBody
+	public MemberVo getMemberByNo(String mno) throws Exception {
+		 MemberVo vo = service.getMemberByNo(mno);
+		 if(vo == null) {
+			 throw new Exception("회원 상세조회 실패");
+		 }
+		 
+		 return vo;
 	}
 	
 	// 친구 목록 조회
