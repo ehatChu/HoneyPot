@@ -207,7 +207,14 @@
 					<table id="detail-title">
 						<tr>
 							<td id="title">${vo.title}</td>
-							<td id="writer">${vo.writerName}</td>
+							<c:choose>
+								<c:when test="${vo.boardCno == 3}">
+									<td id="writer">익명</td>
+								</c:when>
+								<c:otherwise>
+									<td id="writer">${vo.writerName}</td>
+								</c:otherwise>
+							</c:choose>
 							<td>${vo.enrollDate}</td>
 							<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>
 						</tr>
@@ -232,7 +239,7 @@
 		<!-- 버튼 -->
 		<div class="btn-area">
 			<div id="btn-box">
-				<button type="button" id="post-report-btn" onclick="location.href=''">신고</button>
+				<!-- <button type="button" id="post-report-btn" onclick="location.href=''">신고</button> -->
 				<button type="button" id="post-edit-btn" onclick="location.href='/app/board/edit?no=${vo.no}'">수정</button>
 				<button type="button" id="post-del-btn" onclick="location.href='/app/board/delete?no=${vo.no}'">삭제</button>
 			</div>
@@ -242,9 +249,9 @@
 			<div class="reply-bg">
 				
 				<!-- 댓글 -->
-				<!-- <div class="reply-wrapper">
+				<div class="reply-wrapper">
 
-					<div class="user-reply">
+					<!-- <div class="user-reply">
 						<input type="hidden" name="boardNo" value="${vo.no}">
 	
 						<input type="hidden" name="replyNo" value="${rvo.no}">
@@ -276,8 +283,8 @@
 								<div id="reply-report-btn" onclick="">신고</div>
 							</div>
 						</div>
-					</div>
-				</div> -->
+					</div> -->
+				</div>
 
 				<!-- 대댓글 -->
 				<!-- <div class="user-re-reply">
@@ -428,7 +435,7 @@
 				replyWrapper.innerHTML = "";
 				let str = "";
 				for (let i=0 ; i < replyList.length ; i++) {
-					str += '<div class="user-reply">';
+					str += '<div class="user-reply" id="user-reply' + replyList[i].no + '">';
 					str += '<input type="hidden" name="replyNo" value="' + replyList[i].no + '">';
 					str += '<div id="profile">';
 					str += '<img src="/app/resources/profile/${loginMember.profile}" alt="프사">';
@@ -457,8 +464,8 @@
 					str += '<div id="reply-edit-btn" onclick="showEditInput(';
 					str += replyList[i].no;
 					str += ');">수정</div>';
-					str += '<div id="reply-del-btn" onclick="">삭제</div>';
-					str += '<div id="reply-report-btn" onclick="">신고</div>';
+					str += '<div id="reply-del-btn" onclick="deleteReply(' + replyList[i].no + ');">삭제</div>';
+					// str += '<div id="reply-report-btn" onclick="">신고</div>';
 					str += '</div>';
 					str += '</div>';
 					str += '</div>';
@@ -470,8 +477,6 @@
 			},
 		})
 	}
-
-	loadReply();
 
 
 	//댓글 수정 버튼
@@ -523,6 +528,59 @@
 			},
 		})
 	}
+
+
+	//댓글 삭제
+	function deleteReply(no){
+		const userRelpy = document.querySelector('#user-reply' + no);
+
+		$.ajax({
+			url : '/app/reply/delete' ,
+			type : 'post' ,
+			data : {
+				no : no,
+				boardNo : '${vo.no}' ,
+				writerNo : 2 ,
+				// writerNo : '${loginMember.no}' ,
+			} ,
+			success :function(result) {
+
+				console.log(result);
+
+				if (result == 'success') {
+					alert("댓글이 삭제되었습니다.");
+					location.reload();
+					loadReply();
+				}else{
+					alert("댓글 삭제 실패...");
+				}
+			},
+			error : function(fail) {
+				console.log(fail);
+			},
+		})
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	loadReply();
 
 
 

@@ -70,18 +70,6 @@ public class BoardServiceImpl implements BoardService {
 		return dao.getCategory(sst);
 	}
 
-	//댓글 작성
-	@Override
-	public int writeReply(ReplyVo rvo) {
-		return dao.writeReply(sst, rvo);
-	}
-	
-	//댓글 목록 조회
-	@Override
-	public List<ReplyVo> getReplyList(String boardNo) {
-		return dao.getReplyList(sst, boardNo);
-	}
-
 	//사진 목록 조회
 	@Override
 	public List<BoardImgVo> getImgList(String no) {
@@ -111,12 +99,39 @@ public class BoardServiceImpl implements BoardService {
 	public int deleteLove(LoveVo lvo) {
 		return dao.deleteLove(sst, lvo);
 	}
+	
+	//댓글 작성
+	@Override
+	public int writeReply(ReplyVo rvo) {
+		return dao.writeReply(sst, rvo);
+	}
 
 	//댓글 수정
 	@Override
 	public int editReply(ReplyVo rvo) {
 		return dao.editReply(sst, rvo);
 	}
+	
+	//댓글 삭제
+	@Override
+	public int deleteReply(ReplyVo rvo) {
+		return dao.deleteReply(sst, rvo);
+	}
+	
+	//댓글 목록 조회
+	@Override
+	public List<ReplyVo> getReplyList(String boardNo) {
+		return dao.getReplyList(sst, boardNo);
+	}
+
+	//DB에 사진 저장
+	@Override
+	public int insertImgToDb(BoardImgVo ivo) {
+		return dao.insertImgToDb(sst, ivo);
+		
+	}
+
+
 
 
 }

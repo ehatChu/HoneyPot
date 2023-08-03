@@ -103,7 +103,7 @@
 		grid-template-columns: 1fr 1fr 1fr 1fr;
 	}
 
-	#product {
+	.product {
 		height: 300px;
 		width: 270px;
 		margin: 20px;
@@ -132,7 +132,7 @@
 
 	.fa-heart { color: red; }
 
-	img:hover, #title:hover, #like:hover { cursor: pointer; }
+	.product:hover { cursor: pointer; }
 
 	/* 글쓰기 버튼 */
 	.btn-area {
@@ -224,89 +224,44 @@
 				</div>
 
 				<div class="gallery-area">
-					<c:forEach begin="1" end="2">
-						<div id="product">
-							<div id="product-img">
-								<img src="/app/resources/board/brick.jpg" alt="상품사진">
-							</div>
-							<div id="title">
-								[판매] 닌텐도 스위치
-							</div>
-							<div id="like">
-								<i class="fa-solid fa-heart"></i>
-								좋아요
-							</div>
-						</div>
-
-						<div id="product">
-							<div id="product-img">
-								<img src="/app/resources/main/honeyPot.png" alt="상품사진">
-							</div>
-							<div id="title">
-								[판매] 푸리미엄 꿀단지
-							</div>
-							<div id="like">
-								<i class="fa-solid fa-heart"></i>
-								좋아요
-							</div>
-						</div>
-	
-						<div id="product">
-							<div id="product-img">
-								<img src="/app/resources/main/logo.png" alt="상품사진">
-							</div>
-							<div id="title">
-								[판매] 벌집 로고
-							</div>
-							<div id="like">
-								<i class="fa-solid fa-heart"></i>
-								좋아요
-							</div>
-						</div>
-	
-						<div id="product">
-							<div id="product-img">
-								<img src="/app/resources/profile/exam_profile.png" alt="상품사진">
-							</div>
-							<div id="title">
-								[판매] 아름다움씨 사진 팝니다
-							</div>
-							<div id="like">
-								<i class="fa-solid fa-heart"></i>
-								좋아요
-							</div>
+					<c:forEach items="${voList}" var="vo">
+						<div class="product" id="${vo.no}">
+							<div id="product-img"><img src="/app/resources/main/logo.png" alt="상품사진"></div>
+							<div id="title">${vo.title}</div>
+							<div id="like"><i class="fa-solid fa-heart"></i> &nbsp; ${vo.loveCnt}</div>
 						</div>
 					</c:forEach>
 				</div>
 		
 				<div class="btn-area">
 					<div id="btn-box">
-						<button type="button" id="write-btn" onclick="">글쓰기</button>
+						<button type="button" id="write-btn" onclick="location.href='/app/board/write'">글쓰기</button>
 					</div>
 				</div>
 		
 				<div class="page-area">
-					<button><</button>
+					<!-- <button><</button>
 					<button>1</button>
 					<button>2</button>
 					<button>3</button>
 					<button>4</button>
 					<button>5</button>
-					<button>></button>
-					<!-- <c:if test="${pv.currentPage > 1}">
-						<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
+					<button>></button> -->
+
+					<c:if test="${pv.currentPage > 1}">
+						<button type="button" onclick="location.href='/app/board/market?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> < </button>
 					</c:if>
-						<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
-							<c:if test="${pv.currentPage != i}">
-								<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
-							</c:if>
-							<c:if test="${pv.currentPage == i}">
-								<a class="btn btn-primary btn-sm">${i}</a>
-							</c:if>
-						</c:forEach>
+					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+						<c:if test="${pv.currentPage != i}">
+							<button type="button" onclick="location.href='/app/board/market?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'">${i}</button>
+						</c:if>
+						<c:if test="${pv.currentPage == i}">
+							<button type="button" id="current-page-btn">${i}</button>
+						</c:if>
+					</c:forEach>
 					<c:if test="${pv.currentPage < pv.maxPage}">
-						<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
-					</c:if> -->
+						<button type="button" onclick="location.href='/app/board/market?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> > </button>
+					</c:if>
 				</div>
 	
 			</div>
@@ -326,4 +281,44 @@
 	headerName('게시판'); // 현재 페이지 이름
 	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판'], '장터 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 	firstNavLink(['/app/notice/list', '/app/board/free', '/app/board/market', '/app/board/noname', '/app/board/praise',]);
+
+	//검색타입 및 검색어
+	const searchType = '${searchVo.searchType}';
+	const searchValue = '${searchVo.searchValue}';
+	const sortType = '${searchVo.sortType}';
+
+	if(searchType.length > 1){
+        initSearchType();
+    }
+
+	if(sortType.length > 1){
+		initSortType();
+	}
+
+    //검색 후 검색타입 유지되도록
+    function initSearchType(){
+        const x = document.querySelector('select[name=searchType] > option[value="' + searchType + '"]');
+	    x.selected = true;
+    }
+
+	//정렬 후 정렬타입 유지되도록
+	function initSortType(){
+		const y = document.querySelector('select[name=sortType] > option[value="' + sortType + '"]');
+		y.selected = true;
+	}
+   
+
+   	// 목록 클릭하여 글번호 얻기
+	const productArray = document.querySelectorAll(".product");
+	productArray.forEach(getNo);
+	
+	function getNo(div) {
+		div.addEventListener('click', function() {
+			const no = div.getAttribute('id');
+			location.href = '/app/board/detail?no=' + no;
+		});
+	};
+
+
+
 </script>

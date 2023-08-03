@@ -204,7 +204,6 @@
 					<select name="searchType">
 						<option value="title">제목</option>
 						<option value="content">내용</option>
-						<option value="writer">글쓴이</option>
 					</select>
 				</div>
 
@@ -232,7 +231,7 @@
 							<c:forEach items="${voList}" var="vo">
 								<tr id="${vo.no}">
 									<td id="title">${vo.title}</td>
-									<td id="writer">${vo.writerName}</td>
+									<td id="writer">익명</td>
 									<td>${vo.enrollDate}</td>
 									<td><i class="fa-solid fa-heart"></i> &nbsp; ${vo.loveCnt}</td>
 									<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>
@@ -285,7 +284,7 @@
 <script>
 	basicSetting(); // 기본 셋팅
 	headerName('게시판'); // 현재 페이지 이름
-	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판'], '자유 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판'], '익명 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 	firstNavLink(['/app/notice/list', '/app/board/free', '/app/board/market', '/app/board/noname', '/app/board/praise',]);
 
 	//검색타입 및 검색어

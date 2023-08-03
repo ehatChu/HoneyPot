@@ -41,8 +41,11 @@ public interface BoardDao {
 	//댓글 작성
 	public abstract int writeReply(SqlSessionTemplate sst, ReplyVo rvo);
 	
-	//댓글수정
+	//댓글 수정
 	public abstract int editReply(SqlSessionTemplate sst, ReplyVo rvo);
+
+	//댓글 삭제
+	public abstract int deleteReply(SqlSessionTemplate sst, ReplyVo rvo);
 	
 	//댓글 목록 조회
 	public abstract List<ReplyVo> getReplyList(SqlSessionTemplate sst, String boardNo);
@@ -61,6 +64,9 @@ public interface BoardDao {
 	
 	//좋아요 삭제
 	public abstract int deleteLove(SqlSessionTemplate sst, LoveVo lvo);
+
+	//DB에 사진 저장
+	public abstract int insertImgToDb(SqlSessionTemplate sst, BoardImgVo ivo);
 
 
 }

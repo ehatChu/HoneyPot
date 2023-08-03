@@ -178,7 +178,7 @@ public class NoticeController {
 		
 		try {
 			
-//			vo.setWriterNo("2");
+			vo.setWriterNo("2");
 			int result = service.edit(vo);
 			if(result != 1) {
 				session.setAttribute("alertMsg", "게시글 수정 실패...");
