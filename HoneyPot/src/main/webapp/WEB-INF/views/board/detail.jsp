@@ -207,7 +207,14 @@
 					<table id="detail-title">
 						<tr>
 							<td id="title">${vo.title}</td>
-							<td id="writer">${vo.writerName}</td>
+							<c:choose>
+								<c:when test="${vo.boardCno == 3}">
+									<td id="writer">익명</td>
+								</c:when>
+								<c:otherwise>
+									<td id="writer">${vo.writerName}</td>
+								</c:otherwise>
+							</c:choose>
 							<td>${vo.enrollDate}</td>
 							<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>
 						</tr>
@@ -232,7 +239,7 @@
 		<!-- 버튼 -->
 		<div class="btn-area">
 			<div id="btn-box">
-				<button type="button" id="post-report-btn" onclick="location.href=''">신고</button>
+				<!-- <button type="button" id="post-report-btn" onclick="location.href=''">신고</button> -->
 				<button type="button" id="post-edit-btn" onclick="location.href='/app/board/edit?no=${vo.no}'">수정</button>
 				<button type="button" id="post-del-btn" onclick="location.href='/app/board/delete?no=${vo.no}'">삭제</button>
 			</div>
@@ -453,12 +460,12 @@
 					str += '<div id="reply-date">';
 					str += replyList[i].enrollDate;
 					str += '</div>';
-					str += '<div id="re-reply-btn" onclick="">답글쓰기</div>';
+					// str += '<div id="re-reply-btn" onclick="">답글쓰기</div>';
 					str += '<div id="reply-edit-btn" onclick="showEditInput(';
 					str += replyList[i].no;
 					str += ');">수정</div>';
 					str += '<div id="reply-del-btn" onclick="">삭제</div>';
-					str += '<div id="reply-report-btn" onclick="">신고</div>';
+					// str += '<div id="reply-report-btn" onclick="">신고</div>';
 					str += '</div>';
 					str += '</div>';
 					str += '</div>';

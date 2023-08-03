@@ -204,7 +204,6 @@
 					<select name="searchType">
 						<option value="title">제목</option>
 						<option value="content">내용</option>
-						<option value="writer">글쓴이</option>
 					</select>
 				</div>
 
@@ -232,7 +231,7 @@
 							<c:forEach items="${voList}" var="vo">
 								<tr id="${vo.no}">
 									<td id="title">${vo.title}</td>
-									<td id="writer">${vo.writerName}</td>
+									<td id="writer">익명</td>
 									<td>${vo.enrollDate}</td>
 									<td><i class="fa-solid fa-heart"></i> &nbsp; ${vo.loveCnt}</td>
 									<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>
