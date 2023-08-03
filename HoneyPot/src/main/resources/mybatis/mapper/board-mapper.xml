@@ -175,6 +175,7 @@
 		FROM REPLY R JOIN MEMBER M ON R.WRITER_NO = M.NO
 		WHERE R.STATUS = 'Y'
 		AND BOARD_NO = #{boardNo}
+		ORDER BY NO
 	</select>
 	
 	
