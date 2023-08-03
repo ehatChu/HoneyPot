@@ -235,32 +235,33 @@
 		
 				<div class="btn-area">
 					<div id="btn-box">
-						<button type="button" id="write-btn" onclick="">글쓰기</button>
+						<button type="button" id="write-btn" onclick="location.href='/app/board/write'">글쓰기</button>
 					</div>
 				</div>
 		
 				<div class="page-area">
-					<button><</button>
+					<!-- <button><</button>
 					<button>1</button>
 					<button>2</button>
 					<button>3</button>
 					<button>4</button>
 					<button>5</button>
-					<button>></button>
-					<!-- <c:if test="${pv.currentPage > 1}">
-						<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
+					<button>></button> -->
+
+					<c:if test="${pv.currentPage > 1}">
+						<button type="button" onclick="location.href='/app/board/market?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> < </button>
 					</c:if>
-						<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
-							<c:if test="${pv.currentPage != i}">
-								<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
-							</c:if>
-							<c:if test="${pv.currentPage == i}">
-								<a class="btn btn-primary btn-sm">${i}</a>
-							</c:if>
-						</c:forEach>
+					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+						<c:if test="${pv.currentPage != i}">
+							<button type="button" onclick="location.href='/app/board/market?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'">${i}</button>
+						</c:if>
+						<c:if test="${pv.currentPage == i}">
+							<button type="button" id="current-page-btn">${i}</button>
+						</c:if>
+					</c:forEach>
 					<c:if test="${pv.currentPage < pv.maxPage}">
-						<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
-					</c:if> -->
+						<button type="button" onclick="location.href='/app/board/market?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> > </button>
+					</c:if>
 				</div>
 	
 			</div>

@@ -249,9 +249,9 @@
 			<div class="reply-bg">
 				
 				<!-- 댓글 -->
-				<!-- <div class="reply-wrapper">
+				<div class="reply-wrapper">
 
-					<div class="user-reply">
+					<!-- <div class="user-reply">
 						<input type="hidden" name="boardNo" value="${vo.no}">
 	
 						<input type="hidden" name="replyNo" value="${rvo.no}">
@@ -283,8 +283,8 @@
 								<div id="reply-report-btn" onclick="">신고</div>
 							</div>
 						</div>
-					</div>
-				</div> -->
+					</div> -->
+				</div>
 
 				<!-- 대댓글 -->
 				<!-- <div class="user-re-reply">
@@ -460,7 +460,7 @@
 					str += '<div id="reply-date">';
 					str += replyList[i].enrollDate;
 					str += '</div>';
-					// str += '<div id="re-reply-btn" onclick="">답글쓰기</div>';
+					str += '<div id="re-reply-btn" onclick="">답글쓰기</div>';
 					str += '<div id="reply-edit-btn" onclick="showEditInput(';
 					str += replyList[i].no;
 					str += ');">수정</div>';
@@ -477,8 +477,6 @@
 			},
 		})
 	}
-
-	loadReply();
 
 
 	//댓글 수정 버튼
@@ -530,6 +528,8 @@
 			},
 		})
 	}
+
+	loadReply();
 
 
 
