@@ -303,7 +303,10 @@
             </div>
 
             <div id="mine-modal-box">
-                ${mineVoList.get(0)}
+                <input type="hidden" id="modal-ddd" >
+
+                ${mineVoList.get(3).name}
+                
             </div>
         </main>
 
@@ -324,5 +327,7 @@
         const modalBox = document.querySelector("#mine-modal-box");
         modalBox.style.display = "block";
         console.log(bno);
+        const ddd = document.querySelector("#modal-ddd");
+        ddd.value = bno;
     });   
 </script>
