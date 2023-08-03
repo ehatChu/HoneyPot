@@ -38,7 +38,7 @@ public class BoardController {
 
 	// 자유 게시판 목록 조회
 	@GetMapping("board/free")
-	public String getFreeList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model) {
+	public String getFreeList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model, HttpSession session) {
 		
 		try {
 			
@@ -65,7 +65,7 @@ public class BoardController {
 	
 	// 장터 게시판 목록 조회
 	@GetMapping("board/market")
-	public String getMarketList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model) {
+	public String getMarketList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model, HttpSession session) {
 		
 		try {
 			
@@ -92,7 +92,7 @@ public class BoardController {
 	
 	// 익명 게시판 목록 조회
 	@GetMapping("board/noname")
-	public String getNonameList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model) {
+	public String getNonameList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model, HttpSession session) {
 		
 		try {
 			
@@ -119,7 +119,7 @@ public class BoardController {
 	
 	// 칭찬 게시판 목록 조회
 	@GetMapping("board/praise")
-	public String getPraiseList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model) {
+	public String getPraiseList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model, HttpSession session) {
 		
 		try {
 			
