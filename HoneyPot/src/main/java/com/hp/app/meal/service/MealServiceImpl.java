@@ -49,4 +49,24 @@ public class MealServiceImpl implements MealService{
 		return dao.selectMeal(sst, no);
 	}
 
+	@Override
+	public int editMeal(Map<String, String> paramMap) {
+		return dao.editMeal(sst, paramMap);
+	}
+
+	@Override
+	public List<MealVo> getDietList() {
+		return dao.getDietList(sst);
+	}
+
+	@Override
+	public List<MealVo> getApplyList(String no, PageVo pv) {
+		return dao.getApplyList(sst, no, pv);
+	}
+
+	@Override
+	public int cancelApply(String no) {
+		return dao.cancelApply(sst, no);
+	}
+
 }

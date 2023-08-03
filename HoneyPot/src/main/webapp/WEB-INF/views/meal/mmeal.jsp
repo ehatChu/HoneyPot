@@ -431,7 +431,7 @@
 						+ '영양소 : ' + data.nutrient
 						+ '</div>'
 						+ '<div id="e04">'
-						+ '<button id="f01" onclick="breakFastApply(' + data.no + ',' + data.breakfastDate.substring(0, 11) + ');">조식 신청</button>'
+						+ '<button id="f01" onclick="breakFastApply(' + data.no + ', \'' + data.breakfastDate.substring(0, 11) + '\');">조식 신청</button>'
 						+ '</div>'
 					bbox.innerHTML = str;
 					todayMenu();

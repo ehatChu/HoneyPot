@@ -59,14 +59,30 @@ public class MealController<V> {
 		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
 		List<MealVo> mealList = ms.getMealList(pv);
 		List<MealVo> mealListTotal = ms.getMealList();
+		List<MealVo> dietList = ms.getDietList();
 		model.addAttribute("mealList", mealList);
+		model.addAttribute("dietList", dietList);
 		model.addAttribute("mealListTotal", mealListTotal);
 		model.addAttribute("pv", pv);
 		return "meal/ameal";
 	}
 
 	@GetMapping("mypage")
-	public String mypage() {
+	public String mypage(HttpSession session, Model model, @RequestParam(defaultValue = "1") int p) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if (loginMember == null) {
+			return "redirect:/main/mmain";
+		}
+		
+		int listCount = ms.getMealCnt();
+		int currentPage = p;
+		int pageLimit = 5;
+		int boardLimit = 5;
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+		List<MealVo> applyList = ms.getApplyList(loginMember.getNo(), pv);
+		model.addAttribute("applyList", applyList);
+		model.addAttribute("pv", pv);
 		return "meal/mypage";
 	}
 	
@@ -74,6 +90,28 @@ public class MealController<V> {
 	@ResponseBody
 	public String applyBreakFast(@RequestParam Map<String, String> paramMap) {
 		int result = ms.applyBreakFast(paramMap);
+		log.info("result : {}", result);
+		if (result == 0) {
+			return "error";
+		}
+		return "success";
+	}
+	
+	@GetMapping("editMeal")
+	@ResponseBody
+	public String editMeal(@RequestParam Map<String, String> paramMap) {
+		int result = ms.editMeal(paramMap);
+		log.info("result : {}", result);
+		if (result == 0) {
+			return "error";
+		}
+		return "success";
+	}
+	
+	@GetMapping("cancelApply")
+	@ResponseBody
+	public String cancelApply(String no) {
+		int result = ms.cancelApply(no);
 		log.info("result : {}", result);
 		if (result == 0) {
 			return "error";
