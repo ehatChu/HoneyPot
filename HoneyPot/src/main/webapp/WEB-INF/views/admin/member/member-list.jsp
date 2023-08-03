@@ -16,44 +16,35 @@
         </nav>
 
         <main>
-            <div class="inquiry-search-area">
-                <div class="model-search-area">
-                    <div class="model-search-box-area">
-                        <select name="" id="" class="model-search-category">
-                            <option value="">전체</option>
-                            <option value="">카테고리1</option>
-                            <option value="">카테고리2</option>
-                            <option value="">카테고리3</option>
-                            <option value="">카테고리4</option>
-                        </select>
-                        <input type="text" class="model-serach-input">
+            <form action="/app/member/friends" method="GET">
+                <div class="inquiry-search-area">
+                    <div class="model-search-area">
+                        <div class="model-search-box-area">
+                                <select name="searchType" id="" class="model-search-category">
+                                    <option value="NAME">이름</option>
+                                    <option value="DONG">동</option>
+                                    <option value="HO">호수</option>
+                                    <option value="PHONE">연락처</option>
+                                </select>
+                                <input type="text" class="model-serach-input" name="searchValue">
+                            </div>
+                            <div class="search-btn-area">
+                                <button type="submit">검색</button>
+                            </div>
                     </div>
-                    <div class="search-btn-area">
-                        <button type="button">검색</button>
-                    </div>
-
-                    
                 </div>
-            </div>
+            </form>
 
             <div class="member-category-area">
                 <div class="member-category c-focus">
-                    <div>전체</div>
-                    <div>3</div>
-                </div>
-                <div class="member-category">
                     <div>회원</div>
                     <div>3</div>
                 </div>
-                <div class="member-category">
-                    <div>관리자</div>
-                    <div>3</div>
-                </div>
+
                 <div class="member-category border-r-solid">
                     <div>신규회원</div>
                     <div>3</div>
                 </div>
-
             </div>
 
             <div class="member-area">
@@ -105,39 +96,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="member-detail-area">
-                    <div class="member-detail-header">
-                        <div class="member-deatail-img-area">
-                            <div class="member-deatail-img">
-                                <img src="/app/resources/profile/exam_profile.png" alt="프로필사진">
-                            </div>
-                        </div>
-                        <div class="member-detail-text">
-                            <div class="member-detail-name">김지연</div>
-                            <div class="member-deatil-content">
-                                <div>
-                                    <div class="member-detail-address">102동 1111호</div>
-                                    <div class="member-deatil-email">kh@koreakh.cok.kr</div>
-                                </div>
-                                <div class="member-deatil-btn-area">
-                                    <button id="temp-btn1">상벌점</button>
-                                    <button id="temp-btn">정지</button>
-                                    <button>회원등록</button>
-                                </div>
-                            </div>
-                        </div>
+                <div class="member-detail-area" id="member-detail-area">
+                    <div class="member-detail-guide-area">
+                        <div><span class="material-symbols-outlined" id="member-detail-guide-img">
+                            badge
+                            </span></div>
+                        <div class="member-detail-guide-text">상세보기를 원하시면 클릭을 하세요</div>
                     </div>
                 </div>
 
             </div>
             
-
-
-            <!-- <button id="temp-btn">정지 모달바 생성</button>
-            <button id="temp-btn1">상벌점 모달바 생성</button> -->
-            
         </main>
         
+        <!-- 상벌점 모달 -->
         <div class="background1">
             <div class="window1">
                 <div class="popup1">
@@ -225,6 +197,60 @@
             </div>
         </div>
 
+        <script>
+            function showMemberDetail(e){
+                    const mno = e.firstElementChild.innerText;
+                    $.ajax({
+                        url : "/app/member/friends/detail",
+                        method : "POST",
+                        data : {
+                            "mno" : mno
+                        },
+                        dataType : "json",
+                        success : function(data) {
+                            const detailArea = document.querySelector("#member-detail-area");
+                            detailArea.innerHTML = "";
+
+                            let str =  `<div class="member-detail-header">
+                                    <div class="member-detail-img">
+                                        <img src="\${data.profile}" alt="">
+                                    </div>
+                                </div>
+                                <div class="member-detail-body-area">
+                                    <div class="member-detail-body">
+                                        <div class="member-detail-body-title">상세보기</div>
+                                        <div class="member-detail-name">
+                                            \${data.name}
+                                        </div>
+                                        <div class="member-detail-content-box">
+                                            <span>동호수</span>
+                                            <span class="member-detail-content">\${data.dongNum}동 \${data.hoNum}호</span>
+                                        </div>
+                                        <div class="member-detail-content-box">
+                                            <span>생년월일</span>
+                                            <span class="member-detail-content">\${data.birth}</span>
+                                        </div>
+                                        <div class="member-detail-content-box">
+                                            <span>이메일</span>
+                                            <span class="member-detail-content">\${data.email}</span>
+                                        </div>
+                                        <div class="member-detail-content-box">
+                                            <span>연락처</span>
+                                            <span class="member-detail-content">\${data.phone}</span>
+                                        </div>
+                                    </div>
+                                </div>`
+                            detailArea.innerHTML = str;
+                        },
+                        error : function() {
+                                alert("실패");
+                            },
+                    })
+        
+                }
+
+        </script>
+
 </body>
 
 </html>
@@ -232,7 +258,7 @@
 <script>
     basicSetting(); // 기본 셋팅
     headerName('회원관리'); // 현재 페이지 이름
-    firstNav(['회원조회', '제재내역', '상벌점내역', '사유물내역'], '회원조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+    firstNav(['회원조회','관리자조회', '제재내역', '상벌점내역', '사유물내역'], '회원조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
     // secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 
     // 모달 사용

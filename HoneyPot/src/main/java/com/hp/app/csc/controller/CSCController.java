@@ -559,11 +559,7 @@ public class CSCController {
 		return "admin/member/sanction-list";
 	}
 	
-	// 회원조회 (화면)
-	@GetMapping("admin/member/member-list")
-	public String memberList() {
-		return "admin/member/member-list";
-	}
+
 	
 
 }
