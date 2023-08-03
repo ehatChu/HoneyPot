@@ -160,56 +160,88 @@
     background-color: aliceblue;
 }
 
-.member-detail-header{
-    border-bottom: 1px solid black;
-    width: 100%;
-    height: 220px;
+.member-detail-guide-area{
     display: flex;
+    flex-direction: column;
+    width: 560px;
+    height: 100%;
+    justify-content: center;
     align-items: center;
 }
 
-.member-deatail-img-area{
-    margin-left: 30px;
+#member-detail-guide-img{
+    font-size: 120px;
+    color: rgb(124, 124, 124);
 }
 
-.member-deatail-img{
-    width: 120px;
-    height: 120px;
-    border-radius: 70%;
+.member-detail-guide-text{
+    margin-top: 20px;
+    font-size: 20px;
+    color: rgb(124, 124, 124);
+    font-weight: 800;
+}
+
+.member-detail-header{
+    width: 100%;
+    height: 410px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.member-detail-img{
+    width: 380px;
+    height: 380px;
+    border-radius: 16px;
     overflow: hidden;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+
 }
 
-.member-deatail-img > img{
+.member-detail-img > img{
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.member-detail-text{
+.member-detail-body-area{
+    margin-top: 10px;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
     display: flex;
+    width: 500px;
+    height: 290px;
     margin-left: 30px;
     flex-direction: column;
+    background-color: white;
+    border-radius: 14px;
+}
+.member-detail-body{
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.member-detail-body-title{
+    font-size: 30px;
+    font-weight: 800;
 }
 
 .member-detail-name{
-    font-size: 27px;
+    margin-left: 10px;
+    margin-top: 20px;
+    font-size: 24px;
     font-weight: 800;
 }
 
-.member-deatil-content{
-    margin-top: 10px;
-    display: flex;
-
-}
-
-.member-detail-address{
+.member-detail-content-box{
+    margin-top: 15px;
+    margin-left: 20px;
+    font-size: 16px;
     font-weight: 800;
-    font-size: 20px;
 }
 
-.member-deatil-email{
-    font-size: 14px;
-    color: gray
+.member-detail-content{
+    margin-left: 40px;
+    color: #969696;
 }
 
 .member-deatil-btn-area{
