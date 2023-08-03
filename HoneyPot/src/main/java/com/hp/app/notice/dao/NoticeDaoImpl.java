@@ -45,7 +45,7 @@ public class NoticeDaoImpl implements NoticeDao {
 		return sst.delete("notice.delete", noMap);
 	}
 
-	//공지사항 상세조회 (+ 조회수 증가)
+	//공지사항 상세조회
 	@Override
 	public NoticeVo viewDetail(SqlSessionTemplate sst, String no) {
 		return sst.selectOne("notice.viewDetail", no);

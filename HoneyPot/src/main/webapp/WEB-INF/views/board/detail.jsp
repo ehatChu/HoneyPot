@@ -368,6 +368,7 @@
 		})
 	}
 
+	
 	//댓글 작성
 	function writeReply(){
 		const replyWriteTag = document.querySelector('#reply-write');

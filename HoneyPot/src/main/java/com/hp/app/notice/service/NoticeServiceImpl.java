@@ -52,7 +52,7 @@ public class NoticeServiceImpl implements NoticeService {
 		return dao.delete(sst, noMap);
 	}
 
-	//공지사항 상세조회
+	//공지사항 상세조회 (+ 조회수 증가)
 	@Override
 	public NoticeVo viewDetail(String no) {
 		dao.plusHit(sst, no);
