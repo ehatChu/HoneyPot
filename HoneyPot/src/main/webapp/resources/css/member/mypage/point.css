@@ -98,9 +98,49 @@ input[type=date]{
 .point-list-area{
     margin-top: 20px;
     width: 1300px;
-    height: 500px;
     /* border: 1px solid #B6B6B6; */
     border-radius: 10px;
     background-color: white;
 }
 
+.point-list{
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 1300px;
+    height: 50px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.point-list-score{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    background-color: #F8C925;
+    font-size: 20px;
+    border-radius: 18px;
+    font-weight: 800;
+}
+
+.point-list-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.point-list-pointDate{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.red{
+    background-color: #ff3131;
+}

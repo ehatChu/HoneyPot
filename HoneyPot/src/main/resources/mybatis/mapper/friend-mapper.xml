@@ -7,6 +7,19 @@
 	<select id="memberList" resultType="com.hp.app.member.vo.MemberVo">
 		SELECT *
 		FROM MEMBER
+		WHERE STATUS = 'Y'
+		<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
+			AND NAME LIKE '%${searchValue}%'
+		</if>
+		<if test="searchType == 'DONG' and searchValue != '' and searchValue != null">
+			AND DONG_NUM LIKE '%${searchValue}%'
+		</if>
+		<if test="searchType == 'HO' and searchValue != '' and searchValue != null">
+			AND HO_NUM LIKE '%${searchValue}%'
+		</if>
+		<if test="searchType == 'PHONE' and searchValue != '' and searchValue != null">
+			AND PHONE LIKE '%${searchValue}%'
+		</if>
 	</select>
 	
 	<select id="list" resultType="com.hp.app.friend.vo.FriendVo">
@@ -26,5 +39,19 @@
 		(NO, MEMBER_NO, FRIEND_NO)
 		VALUES(SEQ_FRIEND_NO.NEXTVAL, #{memberNo}, #{friendNo})
 	</insert>
+	
+	<!-- 회원 상세조회 -->
+	<select id="getMemberByNo" resultType="com.hp.app.member.vo.MemberVo">
+		SELECT *
+		FROM MEMBER
+		WHERE NO = #{mno}
+	</select>
+	
+	<!--  -->
+	<select id="getMemberCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE STATUS = 'Y'
+	</select>
 
 </mapper>

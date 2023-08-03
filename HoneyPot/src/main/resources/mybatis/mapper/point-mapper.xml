@@ -23,6 +23,9 @@
 		FROM POINT P
 		JOIN MEMBER M ON P.MEMBER_NO = M.NO
 		WHERE M.NO = #{no}
+		<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+			AND P.POINT_DATE BETWEEN '${startDate}' AND '${endDate}'
+		</if>
 	</select>
 	
 	<!-- 관리자 -->

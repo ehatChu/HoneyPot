@@ -1,9 +1,11 @@
 package com.hp.app.friend.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hp.app.friend.dao.FriendDao;
 import com.hp.app.friend.vo.FriendVo;
@@ -15,14 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class FriendServiceImpl implements FriendService{
 	
 	private final FriendDao dao;
 	private final SqlSessionTemplate sst;
 	
 	@Override
-	public List<MemberVo> memberList() {
-		return dao.memberList(sst);
+	public List<MemberVo> memberList(Map<String, String> searchMap) {
+		return dao.memberList(sst, searchMap);
 	}
 
 	@Override
@@ -49,6 +52,18 @@ public class FriendServiceImpl implements FriendService{
 	@Override
 	public int addFriend(FriendVo vo) {
 		return dao.addFriend(sst,vo);
+	}
+
+	// 회원 상세조회
+	@Override
+	public MemberVo getMemberByNo(String mno) {
+		return dao.getMemberByNo(sst,mno);
+	}
+
+	// 전체 회원 갯수
+	@Override
+	public int getMemberCnt() {
+		return dao.getMemberCnt(sst);
 	}
 
 }

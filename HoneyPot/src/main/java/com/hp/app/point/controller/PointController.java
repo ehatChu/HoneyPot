@@ -25,13 +25,14 @@ public class PointController {
 
 	// 회원
 	// 상벌점내역 (화면)
-	@GetMapping("mypage/act/point")
+	@GetMapping("mypage/act/point-list")
 	public String myPoint(Model model, @RequestParam Map<String,String> searchMap) {
 		
 		String no = "1";
 		
 		searchMap.put("no", no);
 		List<PointVo> sList = service.getMyPointListScore(no);
+		
 		List<PointVo> pList = service.getMyPointList(searchMap);
 		
 		int sumPoint = 0;

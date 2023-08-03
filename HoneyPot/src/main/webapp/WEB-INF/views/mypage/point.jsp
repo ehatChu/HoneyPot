@@ -39,7 +39,7 @@
                     </div>
 
                 </div>
-                <form action="${root}/customer/order-list" method="post">
+                <form action="/app/mypage/act/point-list" method="get">
                     <div class="point-form-area">
                         <input type="date" name="startDate">
                         <div class="point-deco bold">~</div>
@@ -49,9 +49,17 @@
                 </form>
 
                 <div class="point-list-area">
-                	<div>${pList}</div>
                     <c:forEach items="${pList}" var="vo">
-                    	
+                    	<div class="point-list">
+                    	<c:if test="${vo.score gt 0}">
+                            <div class="point-list-score">상점 ${vo.score}</div>
+                    	</c:if>
+                    	<c:if test="${vo.score lt 0}">
+                    		<div class="point-list-score red">벌점 ${vo.score}</div>
+                    	</c:if>
+                            <div class="point-list-content">${vo.content}</div>
+                            <div class="point-list-pointDate">${vo.pointDate}</div>
+                        </div>
                     </c:forEach>
                 </div>
 
