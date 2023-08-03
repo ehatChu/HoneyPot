@@ -32,20 +32,8 @@
 	        			GROUP BY BOARD_NO
 	        		) A ON A.BOARD_NO = B.NO
 		WHERE S.NO != 5
-		
-		<if test="category == '1'">
-			AND C.NO = 1
-		</if>
-		<if test="category == '2'">
-			AND C.NO = 2
-		</if>
-		<if test="category == '3'">
-			AND C.NO = 3
-		</if>
-		<if test="category == '4'">
-			AND C.NO = 4
-		</if>
-		
+			AND C.NO = #{cno}
+
  		<if test="searchType == 'title' and searchValue != null and searchValue != ''">
 			AND TITLE LIKE ('%${searchValue}%')
 		</if>
@@ -82,7 +70,7 @@
 		    JOIN BOARD_CATEGORY C ON B.BOARD_CNO = C.NO
 		    JOIN BOARD_STATUS S ON B.BOARD_STATUS_NO = S.NO
    		WHERE S.NO != 5
-   		<!-- AND C.NO = 4 -->
+			AND C.NO = #{cno}
    		
    		<if test="searchType == 'title' and searchValue != null and searchValue != ''">
 			AND TITLE LIKE ('%${searchValue}%')

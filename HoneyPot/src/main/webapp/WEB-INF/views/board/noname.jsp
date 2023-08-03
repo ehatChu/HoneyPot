@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지 게시판</title>
+<title>익명게시판</title>
 <style>
 
 	/* 검색바 */
@@ -110,28 +110,30 @@
 		align-items: center;
 	}
 
-	#important-list td, #board-list td {
+	#board-list td {
 		padding: 12px 50px;
 		margin-bottom: 20px;
 		border-bottom: 3px solid #FAD355;
 		text-align: left;
 	}
 
-	#important-list td, #board-list td[id=title] {
-		width: 700px;
-		max-width: 700px;
+	#board-list td[id=title] {
+		width: 575px;
+		max-width: 575px;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
 
-	#important-list td:not(:first-of-type), #board-list td:not(:first-of-type) { padding-right: 20px; }
+	#board-list td:not(:first-of-type) { padding-right: 20px; }
 
-	#important-list tr:hover, #board-list tr:hover {
+	#board-list tr:hover {
 		background-color: #fdeaab;
 		transition: 0.3s;
 		cursor: pointer;
 	}
+
+	.fa-heart { color: red; }
 
 	/* 글쓰기 버튼 */
 	.btn-area {
@@ -195,7 +197,7 @@
 	</nav>
 
 	<main>
-		<form action="/app/notice/list" method="get">
+		<form action="/app/board/noname" method="get">
 
 			<div class="board-search-area">
 				<div id="search-type">
@@ -220,33 +222,20 @@
 							<select name="sortType" onchange="this.form.submit()">
 								<option value="date">최신순</option>
 								<option value="hit">조회순</option>
+								<option value="love">인기순</option>
 							</select>
 						</div>
 					</div>
-
-
-					<!-- <table id="important-list">
-						<c:forEach items="${voList}" var="vo">
-							<c:if test="${vo.importantYn == 'Y'}">
-								<tr>
-									<td id="important-title">${vo.fullName}</td>
-									<td id="important-writer">${vo.writerName}</td>
-									<td>${vo.enrollDate}</td>
-									<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
-								</tr>
-							</c:if>
-						</c:forEach>
-					</table> -->
-					
 
 					<div class="board-list-area">
 						<table id="board-list">
 							<c:forEach items="${voList}" var="vo">
 								<tr id="${vo.no}">
-									<td id="title">${vo.fullName}</td>
+									<td id="title">${vo.title}</td>
 									<td id="writer">${vo.writerName}</td>
 									<td>${vo.enrollDate}</td>
-									<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
+									<td><i class="fa-solid fa-heart"></i> &nbsp; ${vo.loveCnt}</td>
+									<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -254,7 +243,7 @@
 			
 					<div class="btn-area">
 						<div id="btn-box">
-							<button type="button" id="write-btn" onclick="location.href='/app/notice/write'">글쓰기</button>
+							<button type="button" id="write-btn" onclick="location.href='/app/board/write'">글쓰기</button>
 						</div>
 					</div>
 			
@@ -268,18 +257,18 @@
 						<button>></button> -->
 
 						<c:if test="${pv.currentPage > 1}">
-							<button type="button" onclick="location.href='/app/notice/list?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> < </button>
+							<button type="button" onclick="location.href='/app/board/noname?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> < </button>
 						</c:if>
 						<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
 							<c:if test="${pv.currentPage != i}">
-								<button type="button" onclick="location.href='/app/notice/list?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'">${i}</button>
+								<button type="button" onclick="location.href='/app/board/noname?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'">${i}</button>
 							</c:if>
 							<c:if test="${pv.currentPage == i}">
 								<button type="button" id="current-page-btn">${i}</button>
 							</c:if>
 						</c:forEach>
 						<c:if test="${pv.currentPage < pv.maxPage}">
-							<button type="button" onclick="location.href='/app/notice/list?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> > </button>
+							<button type="button" onclick="location.href='/app/board/noname?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> > </button>
 						</c:if>
 					</div>
 		
@@ -296,9 +285,8 @@
 <script>
 	basicSetting(); // 기본 셋팅
 	headerName('게시판'); // 현재 페이지 이름
-	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판'], '공지 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판'], '자유 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 	firstNavLink(['/app/notice/list', '/app/board/free', '/app/board/market', '/app/board/noname', '/app/board/praise',]);
-
 
 	//검색타입 및 검색어
 	const searchType = '${searchVo.searchType}';
@@ -317,24 +305,23 @@
     function initSearchType(){
         const x = document.querySelector('select[name=searchType] > option[value="' + searchType + '"]');
 	    x.selected = true;
-    };
+    }
 
 	//정렬 후 정렬타입 유지되도록
 	function initSortType(){
 		const y = document.querySelector('select[name=sortType] > option[value="' + sortType + '"]');
 		y.selected = true;
-	};
+	}
+   
 
-
-	// 목록 클릭하여 글번호 얻기
+   	// 목록 클릭하여 글번호 얻기
 	const trArray = document.querySelectorAll("tr");
 	trArray.forEach(getNo);
 	
 	function getNo(tr) {
 		tr.addEventListener('click', function() {
 			const no = tr.getAttribute('id');
-			location.href = '/app/notice/detail?no=' + no;
+			location.href = '/app/board/detail?no=' + no;
 		});
 	};
-   
 </script>

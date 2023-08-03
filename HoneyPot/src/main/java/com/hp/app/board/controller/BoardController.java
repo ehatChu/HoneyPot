@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,11 +36,13 @@ public class BoardController {
 
 	private final BoardService service;
 
-	// 게시글 목록 조회
-	@GetMapping("board/list")
-	public String list(@RequestParam(defaultValue="1") String p, Model model, String category, @RequestParam Map<String, String> searchVo) {
+	// 자유 게시판 목록 조회
+	@GetMapping("board/free")
+	public String getFreeList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model) {
 		
 		try {
+			
+			searchVo.put("cno", "1");
 			
 			int listCount = service.countBoard(searchVo);
 			int currentPage = Integer.parseInt(p);
@@ -59,7 +60,88 @@ public class BoardController {
 			e.printStackTrace();
 		}
 
-		return "board/list";
+		return "board/free";
+	}
+	
+	// 장터 게시판 목록 조회
+	@GetMapping("board/market")
+	public String getMarketList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model) {
+		
+		try {
+			
+			searchVo.put("cno", "2");
+
+			int listCount = service.countBoard(searchVo);
+			int currentPage = Integer.parseInt(p);
+			int pageLimit = 5;
+			int boardLimit = 8;
+			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+			List<BoardVo> voList = service.getList(pv, searchVo);
+			
+			model.addAttribute("voList", voList);
+			model.addAttribute("pv", pv);
+			model.addAttribute("searchVo", searchVo);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "board/market";
+	}
+	
+	// 익명 게시판 목록 조회
+	@GetMapping("board/noname")
+	public String getNonameList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model) {
+		
+		try {
+			
+			searchVo.put("cno", "3");
+
+			int listCount = service.countBoard(searchVo);
+			int currentPage = Integer.parseInt(p);
+			int pageLimit = 5;
+			int boardLimit = 8;
+			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+			List<BoardVo> voList = service.getList(pv, searchVo);
+			
+			model.addAttribute("voList", voList);
+			model.addAttribute("pv", pv);
+			model.addAttribute("searchVo", searchVo);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "board/noname";
+	}
+	
+	// 칭찬 게시판 목록 조회
+	@GetMapping("board/praise")
+	public String getPraiseList(@RequestParam(defaultValue="1") String p, @RequestParam Map<String, String> searchVo, Model model) {
+		
+		try {
+			
+			searchVo.put("cno", "4");
+
+			int listCount = service.countBoard(searchVo);
+			int currentPage = Integer.parseInt(p);
+			int pageLimit = 5;
+			int boardLimit = 8;
+			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+			List<BoardVo> voList = service.getList(pv, searchVo);
+			
+			model.addAttribute("voList", voList);
+			model.addAttribute("pv", pv);
+			model.addAttribute("searchVo", searchVo);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "board/praise";
 	}
 
 	
@@ -237,31 +319,5 @@ public class BoardController {
 		
 	}
 	
-	
-	
-
-	// 자유게시판 (화면)
-	@GetMapping("board/free")
-	public String free() {
-		return "board/free";
-	}
-
-	// 장터 게시판 (화면)
-	@GetMapping("board/market")
-	public String market() {
-		return "board/market";
-	}
-
-	// 익명게시판 (화면)
-	@GetMapping("board/noname")
-	public String noname() {
-		return "board/noname";
-	}
-
-	// 칭찬게시판 (화면)
-	@GetMapping("board/praise")
-	public String praise() {
-		return "board/praise";
-	}
 
 }

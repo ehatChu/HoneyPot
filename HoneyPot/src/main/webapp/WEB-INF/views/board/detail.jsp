@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판</title>
+<title>${vo.title}</title>
 <style>
 
 	/* 배경 구역 */
@@ -242,7 +242,7 @@
 			<div class="reply-bg">
 				
 				<!-- 댓글 -->
-				<div class="reply-wrapper">
+				<!-- <div class="reply-wrapper">
 
 					<div class="user-reply">
 						<input type="hidden" name="boardNo" value="${vo.no}">
@@ -277,10 +277,10 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<!-- 대댓글 -->
-				<div class="user-re-reply">
+				<!-- <div class="user-re-reply">
 					<div id="profile">
 						<img src="/app/resources/profile/profile04cheese.jpg" alt="프로필사진">
 					</div>
@@ -304,7 +304,7 @@
 							<div id="reply-report-btn">신고</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<!-- 댓글 작성란 -->
 				<div class="reply-submit-area">
@@ -330,7 +330,8 @@
 <script>
 	basicSetting(); // 기본 셋팅
 	headerName('게시판'); // 현재 페이지 이름
-	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판', '관리자 게시판'], '자유 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판'], '자유 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	firstNavLink(['/app/notice/list', '/app/board/free', '/app/board/market', '/app/board/noname', '/app/board/praise',]);
 
 	// textarea 높이 자동 조절
 	window.addEventListener('DOMContentLoaded', function() {
