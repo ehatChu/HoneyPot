@@ -84,21 +84,22 @@ public class NoticeController {
 		
 		try {
 			
-			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+//			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
 //			if(loginAdmin == null) {
 //				return "redirect:/"
 //			}
 //			vo.setWriterNo(loginAdmin.getNo());
-			
-//			List<NoticeCategoryVo> cvo = service.getCategory();
-//			model.addAttribute("cvo", cvo);
-			
+						
 			vo.setWriterNo("2"); // 임시 작성자번호
 			int result = service.write(vo);
 			if(result != 1) {
 				session.setAttribute("alert", "게시글 작성 실패...");
 				return "redirect:/notice/list";
 			}
+			
+//			System.out.println(imgList.get(i));
+//			imgVo.setName(imgList.get(i));
+//			imgVo.setNoticeNo();
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -110,26 +111,30 @@ public class NoticeController {
 	
 	
 	//서머노트 사진 업로드
-    @PostMapping("/upload")
-    @ResponseBody
-    public List<String> handleFileUpload(@RequestParam("f") List<MultipartFile> flist, HttpServletRequest req) throws Exception {
-        
-    	NoticeImgVo imgVo = new NoticeImgVo();
-    	List<NoticeImgVo> imgVoList = new ArrayList();
-    	
-		String path = req.getServletContext().getRealPath("/resources/notice/");
-		List<String> imgList =  FileUploader.saveFile(path, flist);
-		for (int j = 0 ; j < imgList.size() ; j++) {
-			String filePath = path + imgList.get(j);
-			File destinationFile = new File(filePath);
-			flist.get(j).transferTo(destinationFile);
-			
-			System.out.println(imgList);
-		}
-		
-		return imgList;
-
-    }
+//    @PostMapping("/upload")
+//    @ResponseBody
+//    public List<String> handleFileUpload(@RequestParam("f") List<MultipartFile> flist, HttpServletRequest req) throws Exception {
+//        
+//    	NoticeImgVo imgVo = new NoticeImgVo();
+//    	List<NoticeImgVo> imgVoList = new ArrayList();
+//    	
+//    	//이미지 리스트
+//		String path = req.getServletContext().getRealPath("/resources/notice/");
+//		List<String> imgList =  FileUploader.saveFile(path, flist);
+//		
+//		System.out.println(imgList);
+//		
+//		//이미지 리스트 폴더에 저장
+//		for (int i = 0 ; i < imgList.size() ; i++) {
+//			String filePath = path + imgList.get(i);
+//			File destinationFile = new File(filePath);
+//			flist.get(i).transferTo(destinationFile);
+//			
+//		}
+//		
+//		return imgList;
+//
+//    }
 
 	// 공지사항 상세조회
 	@GetMapping("notice/detail")

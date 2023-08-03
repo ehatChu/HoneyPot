@@ -286,7 +286,7 @@
 
             <div class="form-area">
                 <form action="/app/notice/write" method="post" enctype="multipart/form-data">
-
+                    <input type="text" style="display: none;" name="imgList">
                     <div class="title-area">
                         <span id="article">제목</span>
 
@@ -423,9 +423,6 @@
         maxHeight: 300,
         minHeight: 300,
         width: 1200,
-        callbacks : {
-          onImageUpload : f01
-        },
         toolbar: [
             ['style', ['style']],
             ['font', ['bold', 'underline', 'clear']],
@@ -438,30 +435,32 @@
     });
 
     //파일업로드 발생 시 동작하는 콜백함수
-    function f01(fileList){
-        const fd = new FormData();
-        for(let file of fileList){
-            fd.append("f" , file);
-        }
+    // function f01(fileList){
+    //     const fd = new FormData();
+    //     for(let file of fileList){
+    //         fd.append("f" , file);
+    //     }
 
-        $.ajax({
-            url : '/app/upload' ,
-            type : 'post' ,
-            data : fd ,
-            processData : false ,
-            contentType : false ,
-            dataType : 'json' ,
-            success : function(changeNameList){
-                console.log(changeNameList);
-                for(let changeName of changeNameList){
-                $('#summernote').summernote('insertImage' , '/app/resources/notice/' + changeName);
-                }
-            } ,
-            error : function(error){
-                console.log(error);
-            } ,
-        });
-    }
+    //     $.ajax({
+    //         url : '/app/upload' ,
+    //         type : 'post' ,
+    //         data : fd ,
+    //         processData : false ,
+    //         contentType : false ,
+    //         dataType : 'json' ,
+    //         success : function(changeNameList){
+    //             console.log(changeNameList);
+    //             const imgList = document.querySelector('input[name=imgList]');
+    //             imgList.value = changeNameList;
+    //             for(let changeName of changeNameList){
+    //             $('#summernote').summernote('insertImage' , '/app/resources/notice/' + changeName);
+    //             }
+    //         } ,
+    //         error : function(error){
+    //             console.log(error);
+    //         } ,
+    //     });
+    // }
 
 
     //모달
@@ -509,11 +508,5 @@
     //투표 삽입
     const textarea = document.querySelector('#summernote');
     textarea.innerHTML = '';
-
-
-
-
-
-
 
 </script>

@@ -33,7 +33,7 @@ public class BoardDaoImpl implements BoardDao {
 	//게시글 작성
 	@Override
 	public int write(SqlSessionTemplate sst, BoardVo vo) {
-		return 0;
+		return sst.insert("board.write", vo);
 	}
 
 	//게시글 수정
@@ -63,7 +63,7 @@ public class BoardDaoImpl implements BoardDao {
 	//게시글 카테고리 조회
 	@Override
 	public List<BoardCategoryVo> getCategory(SqlSessionTemplate sst) {
-		return null;
+		return sst.selectList("board.getCategory");
 	}
 
 	//댓글 작성

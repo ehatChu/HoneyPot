@@ -1,27 +1,33 @@
 package com.hp.app.board.controller;
 
-import java.beans.Encoder;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.board.service.BoardService;
+import com.hp.app.board.vo.BoardCategoryVo;
+import com.hp.app.board.vo.BoardImgVo;
 import com.hp.app.board.vo.BoardVo;
 import com.hp.app.board.vo.LoveVo;
 import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
+import com.hp.app.util.file.FileUploader;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +39,7 @@ public class BoardController {
 
 	// 게시글 목록 조회
 	@GetMapping("board/list")
-	public String list(@RequestParam(defaultValue="1") String p, Model model, @RequestParam Map<String, String> searchVo) {
+	public String list(@RequestParam(defaultValue="1") String p, Model model, String category, @RequestParam Map<String, String> searchVo) {
 		
 		try {
 			
@@ -56,13 +62,78 @@ public class BoardController {
 		return "board/list";
 	}
 
-
+	
 	// 게시글 작성 (화면)
 	@GetMapping("board/write")
-	public String write() {
+	public String write(Model model) {
+		List<BoardCategoryVo> cvo = service.getCategory();
+		model.addAttribute("cvo", cvo);
 		return "board/write";
 	}
+	
+	// 게시글 작성
+	@PostMapping("board/write")
+	public String write(HttpSession session, BoardVo vo, String imgList) {
+		String[] arr = imgList.split(",");
+		for (String s : arr) {
+			System.out.println(s);
+		}
+		System.out.println(vo);
+		
+		try {
+			
+//			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+//			if(loginAdmin == null) {
+//				return "redirect:/"
+//			}
+//			vo.setWriterNo(loginAdmin.getNo());
+			
+			vo.setWriterNo("2"); // 임시 작성자번호
+			int result = service.write(vo);
+			if(result != 1) {
+				session.setAttribute("alert", "게시글 작성 실패...");
+				return "redirect:/board/list";
+			}
+			
+//			System.out.println(imgList.get(i));
+//			imgVo.setName(imgList.get(i));
+//			imgVo.setBoardNo();
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		session.setAttribute("alert", "게시글 작성 성공!");
+		return "redirect:/board/list";
+	}
+	
+	
+	//서머노트 사진 업로드
+    @PostMapping("/upload")
+    @ResponseBody
+    public List<String> handleFileUpload(@RequestParam("f") List<MultipartFile> flist, HttpServletRequest req) throws Exception {
+        
+    	BoardImgVo imgVo = new BoardImgVo();
+    	List<BoardImgVo> imgVoList = new ArrayList();
+    	
+    	//이미지 리스트
+		String path = req.getServletContext().getRealPath("/resources/board/");
+		List<String> imgList =  FileUploader.saveFile(path, flist);
+		
+		System.out.println(imgList);
+		
+		//이미지 리스트 폴더에 저장
+		for (int i = 0 ; i < imgList.size() ; i++) {
+			String filePath = path + imgList.get(i);
+			File destinationFile = new File(filePath);
+			flist.get(i).transferTo(destinationFile);
+			
+		}
+		
+		return imgList;
 
+    }
+	
 	// 게시글 상세 조회
 	@GetMapping("board/detail")
 	public String viewDetail(Model model, String no) {

@@ -32,7 +32,19 @@
 	        			GROUP BY BOARD_NO
 	        		) A ON A.BOARD_NO = B.NO
 		WHERE S.NO != 5
-		<!-- AND C.NO = 4 -->
+		
+		<if test="category == '1'">
+			AND C.NO = 1
+		</if>
+		<if test="category == '2'">
+			AND C.NO = 2
+		</if>
+		<if test="category == '3'">
+			AND C.NO = 3
+		</if>
+		<if test="category == '4'">
+			AND C.NO = 4
+		</if>
 		
  		<if test="searchType == 'title' and searchValue != null and searchValue != ''">
 			AND TITLE LIKE ('%${searchValue}%')
@@ -202,5 +214,33 @@
 	<delete id="deleteLove">
 		DELETE FROM LOVE WHERE MEMBER_NO = #{memberNo} AND BOARD_NO = #{boardNo}
 	</delete>
+	
+	
+	<!-- 카테고리 조회 -->
+	<select id="getCategory" resultType="com.hp.app.board.vo.BoardCategoryVo">
+		SELECT NO, NAME
+		FROM BOARD_CATEGORY
+	</select>
+	
+	<!-- 글 작성 -->
+ 	<insert id="write">
+		INSERT INTO BOARD (
+			NO
+		    ,WRITER_NO
+		    ,BOARD_CNO
+		    ,TITLE
+		    ,CONTENT
+		    ,BOARD_STATUS_NO
+		    )
+		VALUES (
+		    SEQ_NOTICE_NO.NEXTVAL
+		    ,#{writerNo}
+		    ,#{boardCno}
+		    ,#{title}
+		    ,#{content}
+		    ,1
+		    )
+	</insert>
+	
 	
 </mapper>

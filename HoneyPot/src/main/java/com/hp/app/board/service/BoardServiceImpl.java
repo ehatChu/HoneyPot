@@ -40,8 +40,7 @@ public class BoardServiceImpl implements BoardService {
 	//게시글 작성
 	@Override
 	public int write(BoardVo vo) {
-//		return dao.write(sst, vo);
-		return 0;
+		return dao.write(sst, vo);
 	}
 
 	//게시글 수정
@@ -68,7 +67,7 @@ public class BoardServiceImpl implements BoardService {
 	//게시글 카테고리 조회
 	@Override
 	public List<BoardCategoryVo> getCategory() {
-		return null;
+		return dao.getCategory(sst);
 	}
 
 	//댓글 작성
