@@ -435,7 +435,7 @@
 				replyWrapper.innerHTML = "";
 				let str = "";
 				for (let i=0 ; i < replyList.length ; i++) {
-					str += '<div class="user-reply">';
+					str += '<div class="user-reply" id="user-reply' + replyList[i].no + '">';
 					str += '<input type="hidden" name="replyNo" value="' + replyList[i].no + '">';
 					str += '<div id="profile">';
 					str += '<img src="/app/resources/profile/${loginMember.profile}" alt="프사">';
@@ -464,7 +464,7 @@
 					str += '<div id="reply-edit-btn" onclick="showEditInput(';
 					str += replyList[i].no;
 					str += ');">수정</div>';
-					str += '<div id="reply-del-btn" onclick="">삭제</div>';
+					str += '<div id="reply-del-btn" onclick="deleteReply(' + replyList[i].no + ');">삭제</div>';
 					// str += '<div id="reply-report-btn" onclick="">신고</div>';
 					str += '</div>';
 					str += '</div>';
@@ -528,6 +528,57 @@
 			},
 		})
 	}
+
+
+	//댓글 삭제
+	function deleteReply(no){
+		const userRelpy = document.querySelector('#user-reply' + no);
+
+		$.ajax({
+			url : '/app/reply/delete' ,
+			type : 'post' ,
+			data : {
+				no : no,
+				boardNo : '${vo.no}' ,
+				writerNo : 2 ,
+				// writerNo : '${loginMember.no}' ,
+			} ,
+			success :function(result) {
+
+				console.log(result);
+
+				if (result == 'success') {
+					alert("댓글이 삭제되었습니다.");
+					location.reload();
+					loadReply();
+				}else{
+					alert("댓글 삭제 실패...");
+				}
+			},
+			error : function(fail) {
+				console.log(fail);
+			},
+		})
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	loadReply();
 

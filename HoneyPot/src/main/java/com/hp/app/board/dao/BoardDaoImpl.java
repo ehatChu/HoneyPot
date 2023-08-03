@@ -78,6 +78,12 @@ public class BoardDaoImpl implements BoardDao {
 		return sst.update("board.editReply", rvo);
 	}
 	
+	//댓글 삭제
+	@Override
+	public int deleteReply(SqlSessionTemplate sst, ReplyVo rvo) {
+		return sst.update("board.deleteReply", rvo);
+	}
+	
 	//댓글 목록 조회
 	@Override
 	public List<ReplyVo> getReplyList(SqlSessionTemplate sst, String boardNo) {

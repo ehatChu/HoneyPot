@@ -273,6 +273,29 @@ public class BoardController {
 		
 	}
 	
+	//댓글 삭제
+	@PostMapping("reply/delete")
+	@ResponseBody
+	public String deleteReply(HttpSession session, ReplyVo rvo) {
+		
+		try {
+			
+			AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
+			
+			int result = service.deleteReply(rvo);
+			
+			if(result < 0) {
+				return "fail";
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "success";
+		
+	}
+	
 	//댓글 목록 조회
 	@GetMapping("reply/list")
 	@ResponseBody
