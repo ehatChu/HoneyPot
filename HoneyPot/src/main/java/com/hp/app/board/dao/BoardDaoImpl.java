@@ -113,6 +113,12 @@ public class BoardDaoImpl implements BoardDao {
 	public int deleteLove(SqlSessionTemplate sst, LoveVo lvo) {
 		return sst.delete("board.deleteLove", lvo);
 	}
+
+	//DB에 사진 저장
+	@Override
+	public int insertImgToDb(SqlSessionTemplate sst, BoardImgVo ivo) {
+		return sst.insert("board.insertImgToDb", ivo);
+	}
 	
 
 }

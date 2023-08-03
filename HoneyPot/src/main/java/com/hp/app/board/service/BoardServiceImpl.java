@@ -118,5 +118,12 @@ public class BoardServiceImpl implements BoardService {
 		return dao.editReply(sst, rvo);
 	}
 
+	//DB에 사진 저장
+	@Override
+	public int insertImgToDb(BoardImgVo ivo) {
+		return dao.insertImgToDb(sst, ivo);
+		
+	}
+
 
 }

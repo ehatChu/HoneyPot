@@ -231,4 +231,19 @@
 	</insert>
 	
 	
+	<!-- DB에 사진 삽입 -->
+	<insert id="insertImgToDb">
+		INSERT INTO BOARD_IMG (
+		    NO
+		    ,BOARD_NO
+		    ,NAME
+		    )
+		VALUES (
+		    SEQ_BOARD_IMG_NO.NEXTVAL
+		    ,SEQ_BOARD_NO.CURRVAL
+		    ,#{imgName}
+		)
+	</insert>
+	
+	
 </mapper>

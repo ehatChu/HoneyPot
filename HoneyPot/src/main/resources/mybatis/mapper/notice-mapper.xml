@@ -111,7 +111,6 @@
 		    ,WRITER_NO
 		    ,TITLE
 		    ,CONTENT
-		    <!-- ,IMPORTANT_YN -->
 		    )
 		VALUES (
 		    SEQ_NOTICE_NO.NEXTVAL
@@ -119,14 +118,6 @@
 		    ,#{writerNo}
 		    ,#{title}
 		    ,#{content}
-<!-- 		    <choose>
-				<when test="importantYn != null">
-					,#{importantYn}
-				</when>
-				<when test="importantYn == null">
-					,'N'
-				</when>
-			</choose> -->
 		    )
 	</insert>
 	

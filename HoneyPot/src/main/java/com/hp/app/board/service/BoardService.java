@@ -56,6 +56,9 @@ public interface BoardService {
 	
 	//좋아요 삭제
 	public abstract int deleteLove(LoveVo lvo);
+
+	//DB에 사진 저장
+	public abstract int insertImgToDb(BoardImgVo ivo);
 		
 
 }

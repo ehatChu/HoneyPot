@@ -62,5 +62,8 @@ public interface BoardDao {
 	//좋아요 삭제
 	public abstract int deleteLove(SqlSessionTemplate sst, LoveVo lvo);
 
+	//DB에 사진 저장
+	public abstract int insertImgToDb(SqlSessionTemplate sst, BoardImgVo ivo);
+
 
 }

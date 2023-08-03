@@ -156,12 +156,7 @@ public class BoardController {
 	// 게시글 작성
 	@PostMapping("board/write")
 	public String write(HttpSession session, BoardVo vo, String imgList) {
-		String[] arr = imgList.split(",");
-		for (String s : arr) {
-			System.out.println(s);
-		}
-		System.out.println(vo);
-		
+				
 		try {
 			
 //			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
@@ -177,9 +172,16 @@ public class BoardController {
 				return "redirect:/board/list";
 			}
 			
-//			System.out.println(imgList.get(i));
-//			imgVo.setName(imgList.get(i));
-//			imgVo.setBoardNo();
+			
+			//이미지 db 저장
+//			BoardImgVo ivo = new BoardImgVo();
+//			System.out.println(imgList);
+//			String[] arr = imgList.split(",");
+//			for (String imgName : arr) {
+//				System.out.println("배열에 담은 사진 : " + imgName);
+//				ivo.setName(imgName);
+//				service.insertImgToDb(ivo);
+//			}
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -194,15 +196,12 @@ public class BoardController {
     @PostMapping("/upload")
     @ResponseBody
     public List<String> handleFileUpload(@RequestParam("f") List<MultipartFile> flist, HttpServletRequest req) throws Exception {
-        
-    	BoardImgVo imgVo = new BoardImgVo();
-    	List<BoardImgVo> imgVoList = new ArrayList();
     	
     	//이미지 리스트
 		String path = req.getServletContext().getRealPath("/resources/board/");
 		List<String> imgList =  FileUploader.saveFile(path, flist);
 		
-		System.out.println(imgList);
+		System.out.println("추가한사진 : " + imgList);
 		
 		//이미지 리스트 폴더에 저장
 		for (int i = 0 ; i < imgList.size() ; i++) {
