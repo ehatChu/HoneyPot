@@ -3,13 +3,15 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mine">
+	<!-- 차등록 -->
 	<insert id="registerCar">
 		INSERT INTO CAR (NO,MEMBER_NO,UNIQUE_NUM,NAME,IMG)
-		VALUES (SEQ_CAR_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
+		VALUES (SEQ_MINE_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
 	</insert>
+	<!-- 자전거등록 -->
 	<insert id="registerBicycle">
 		INSERT INTO BICYCLE (NO,MEMBER_NO,UNIQUE_NUM,NAME,IMG)
-		VALUES (SEQ_CAR_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
+		VALUES (SEQ_MINE_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
 	</insert>
 	
 	<!-- 개인의 목록을 조회하려하니 문제가 발생..  -->

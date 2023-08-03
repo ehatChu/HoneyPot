@@ -173,6 +173,15 @@
        height: 20px;
        
     }
+    #mine-modal-box {
+        width: 800px;
+        height: 400px;
+        background-color: white;
+        position: fixed;
+        top: 200px;
+        left: 600px;
+        display: none;
+    }
 </style>
 </head>
 
@@ -188,8 +197,7 @@
                 <div class="model-search-area">
                     <div class="model-search-box-area">
                         <select name="" id="" class="model-search-category">
-                            <option value="">이름</option>
-                            <option value="">호수</option>
+                            <option value="">사유물번호</option>
                         </select>
                         <input type="text" class="model-serach-input">
                     </div>
@@ -250,7 +258,7 @@
                        <tbody>
                            <c:forEach var="mineVo" items="${mineVoList}">
                                <tr class="table-line">
-                                   <td><input type="checkbox"></td>
+                                   <td><input type="checkbox"><input type="hidden" value="${mineVo.no}"></td>
                                    <td>${mineVo.name}</td>
                                    <td>${mineVo.memberName}</td>
                                    <td>${mineVo.phone}</td>
@@ -293,6 +301,10 @@
                     
                 </c:if>
             </div>
+
+            <div id="mine-modal-box">
+                ${mineVoList.get(0)}
+            </div>
         </main>
 
 </body>
@@ -305,4 +317,12 @@
     firstNav(['회원조회', '제재내역', '상벌점내역', '사유물내역'], '사유물내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
     // secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 
+    // 해당 줄을 누르면 상세정보가 담긴 modal띄우기
+    const tbody = document.querySelector('tbody');
+    tbody.addEventListener("click",(event)=>{
+        const bno = event.target.parentNode.children[0].querySelector("input[type=hidden]").value;
+        const modalBox = document.querySelector("#mine-modal-box");
+        modalBox.style.display = "block";
+        console.log(bno);
+    });   
 </script>
