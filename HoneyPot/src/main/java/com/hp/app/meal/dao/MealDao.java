@@ -22,5 +22,13 @@ public interface MealDao {
 
 	MealVo selectMeal(SqlSessionTemplate sst, String no);
 
+	int editMeal(SqlSessionTemplate sst, Map<String, String> paramMap);
+
+	List<MealVo> getDietList(SqlSessionTemplate sst);
+
+	List<MealVo> getApplyList(SqlSessionTemplate sst, String no, PageVo pv);
+
+	int cancelApply(SqlSessionTemplate sst, String no);
+
 
 }

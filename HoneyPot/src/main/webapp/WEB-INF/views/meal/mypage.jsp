@@ -88,10 +88,10 @@
 				margin-top: 15px;
 			}
 
-			.page-area button {
+			.page-area>button {
 				display: inline-block;
 				font-weight: bold;
-				font-size: 18px;
+				font-size: 20px;
 				border: none;
 				border-radius: 5px;
 				padding: 10px 20px;
@@ -99,11 +99,17 @@
 				background-color: transparent;
 			}
 
-			.page-area button:hover {
+			.page-area button:hover,
+			#current-page-btn {
 				background-color: #FAD355;
 				color: white;
 			}
 
+			#current-page-btn:hover {
+				background-color: #FAD355;
+				color: white;
+				cursor: default;
+			}
 		</style>
 	</head>
 
@@ -123,11 +129,11 @@
 							<th id="tr2" class="tr">메뉴</th>
 							<th id="tr3" class="tr">취소</th>
 						</tr>
-						<c:forEach begin="1" end="10">
+						<c:forEach items="${applyList}" var="vo">
 							<tr id="tr">
-								<td id="tr1" class="tr">2020. 08. 01</td>
-								<td id="tr2" class="tr">차조밥, 조개국, 불고기, 시금치나물, 배추김치</td>
-								<td id="tr3" class="tr"><button>신청취소</button></td>
+								<td id="tr1" class="tr">${vo.breakfastDate.substring(0,10)}</td>
+								<td id="tr2" class="tr">${vo.menu}</td>
+								<td id="tr3" class="tr"><button onclick="cancelApply('${vo.no}')">신청취소</button></td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -135,14 +141,22 @@
 
 				<br>
 				<div class="page-area">
-					<button>
-						<</button>
-							<button>1</button>
-							<button>2</button>
-							<button>3</button>
-							<button>4</button>
-							<button>5</button>
-							<button>></button>
+					<c:if test="${pv.currentPage > 1}">
+						<button type="button" onclick="location.href='/app/meal/mypage?p=${pv.currentPage - 1}'">
+							< </button>
+					</c:if>
+					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+						<c:if test="${pv.currentPage != i}">
+							<button type="button" onclick="location.href='/app/meal/mypage?p=${i}'">${i}</button>
+						</c:if>
+						<c:if test="${pv.currentPage == i}">
+							<button type="button" id="current-page-btn">${i}</button>
+						</c:if>
+					</c:forEach>
+					<c:if test="${pv.currentPage < pv.maxPage}">
+						<button type="button" onclick="location.href='/app/meal/mypage?p=${pv.currentPage + 1}'"> >
+						</button>
+					</c:if>
 				</div>
 				<br><br><br>
 			</main>
@@ -158,4 +172,18 @@
 		secondNav(['조식예약', '편의시설예약'], '조식예약');
 		firstNavLink(['/app/','/app/','/app/meal/mypage','/app/']);
 		secondNavLink(['/app/','/app/']);
+
+		function cancelApply(no) {
+			$.ajax({
+				url: '/app/meal/cancelApply?no=' + no,
+				type: 'get',
+				success: function (data) {
+					alert("신청이 취소되었습니다");
+					location.reload();
+				},
+				error: function () {
+					alert("editMeal error");
+				}
+			});
+		}
 	</script>

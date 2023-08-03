@@ -18,4 +18,12 @@ public interface MealService {
 
 	MealVo selectMeal(String no);
 
+	int editMeal(Map<String, String> paramMap);
+
+	List<MealVo> getDietList();
+
+	List<MealVo> getApplyList(String no, PageVo pv);
+
+	int cancelApply(String no);
+
 }

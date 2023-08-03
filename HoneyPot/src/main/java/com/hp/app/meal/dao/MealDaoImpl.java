@@ -44,4 +44,25 @@ public class MealDaoImpl implements MealDao {
 		return sst.selectOne("meal.selectMeal", no);
 	}
 
+	@Override
+	public int editMeal(SqlSessionTemplate sst, Map<String, String> paramMap) {
+		return sst.update("meal.editMeal", paramMap);
+	}
+
+	@Override
+	public List<MealVo> getDietList(SqlSessionTemplate sst) {
+		return sst.selectList("meal.getDietList");
+	}
+
+	@Override
+	public List<MealVo> getApplyList(SqlSessionTemplate sst, String no, PageVo pv) {
+		RowBounds rb = new RowBounds(pv.getOffset() , pv.getBoardLimit());
+		return sst.selectList("meal.getApplyList", no);
+	}
+
+	@Override
+	public int cancelApply(SqlSessionTemplate sst, String no) {
+		return sst.update("meal.cancelApply", no);
+	}
+
 }

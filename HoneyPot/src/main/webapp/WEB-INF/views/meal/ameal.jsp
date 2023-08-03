@@ -287,7 +287,7 @@
 
 			.qna-model-title-area {
 				display: flex;
-				width: 580px;
+				width: 560px;
 				justify-content: space-between;
 				align-items: center;
 
@@ -320,7 +320,7 @@
 			.qna-model-member-profile {
 				width: 50px;
 				height: 50px;
-				border-radius: 70%;
+				border-radius: 5px;
 				border: 1px solid black;
 				overflow: hidden;
 			}
@@ -354,7 +354,7 @@
 				align-items: center;
 				background-color: #FFCE31;
 				font-weight: 800;
-				font-size: 24px;
+				font-size: 14px;
 
 			}
 
@@ -374,22 +374,16 @@
 				display: flex;
 			}
 
-			#qna-model-answer-icon {
-				font-weight: bold;
-				font-size: 24px;
-				color: #3183ff;
-			}
-
 			.qna-model-answer-text {
+				margin-left: 10px;
 				border-radius: 6px;
 				padding: 15px;
 				width: 500px;
-				background-color: #ffebda;
+				background-color: #fff5d6;
 				font-weight: bold;
 			}
 
 			.qna-model-answer-icon {
-				margin-left: 10px;
 				width: 50px;
 				height: 50px;
 				border-radius: 70%;
@@ -398,8 +392,7 @@
 				align-items: center;
 				background-color: #885d3b;
 				font-weight: 800;
-				font-size: 24px;
-
+				font-size: 14px;
 			}
 
 			.qna-model-btn-area {
@@ -414,6 +407,7 @@
 
 	<body>
 		<div class="modal">
+			<input type="text" name="no" style="display: none;">
 			<div class="qna-popup">
 				<div class="qna-model-header-area">
 					<div class="qna-model-header">
@@ -428,24 +422,25 @@
 						<div class="qna-model-title-area">
 							<div class="qna-model-title-text"></div>
 							<div class="qna-model-member-area">
-								<div class="qna-model-member-target"></div>
-								<div class="qna-model-member-name" id="qna-model-member-name"></div>
 								<div class="qna-model-member-profile">
-									<img id="qna-model-member-profile" src="/app/resources/meal/menu1.PNG" alt="프로필 사진">
+									<img id="qna-model-member-profile" src="" alt="식단 사진">
 								</div>
 							</div>
 						</div>
-						<div class="qna-model-question-title" id="qna-model-question">제목01</div>
+						<div class="qna-model-question-title" id="qna-model-question"></div>
 						<div class="qna-model-question-area">
-							<div class="qna-model-question-icon">Q</div>
-							<div class="qna-model-question-text" id="qna-model-question-content"></div>
+							<div class="qna-model-question-icon">메뉴</div>
+							<select name="menu" onchange="handleOptionChange()" class="qna-model-question-text"
+								id="qna-model-question-content">
+
+							</select>
 						</div>
 					</div>
 
 					<div class="qna-model-answer-text-area">
 						<div class="qna-model-question-area">
-							<div class="qna-model-answer-text" id="qna-model-answer"></div>
-							<div class="qna-model-answer-icon">A</div>
+							<div class="qna-model-answer-icon">영양소</div>
+							<input class="qna-model-answer-text" id="qna-model-answer" readonly>
 						</div>
 					</div>
 
@@ -454,8 +449,8 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
+
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 			<nav>
 
@@ -483,8 +478,7 @@
 							영양소 : ${mealListTotal[0].nutrient}
 						</div>
 						<div id="e04">
-							<button id="f01"
-								onclick="breakFastApply('${mealListTotal[0].no}');">조식
+							<button id="f01" onclick="breakFastApply('${mealListTotal[0].no}');">조식
 								편집</button>
 						</div>
 					</div>
@@ -653,7 +647,7 @@
 						+ '영양소 : ' + data.nutrient
 						+ '</div>'
 						+ '<div id="e04">'
-						+ '<button id="f01" onclick="breakFastApply(' + data.no +  ');">조식 편집</button>'
+						+ '<button id="f01" onclick="breakFastApply(' + data.no + ');">조식 편집</button>'
 						+ '</div>'
 					bbox.innerHTML = str;
 					todayMenu(data.menu);
@@ -664,17 +658,65 @@
 			});
 		}
 
-		// 조식 편집
-		function breakFastApply(mealNo) {
-			const modal = document.querySelector(".modal");
-			modal.classList.add("show");
-			// ajax로 넘기기
-			// document.querySelector('.qna-model-title-text').innerHTML = mealDate;
-			// document.querySelector('.qna-model-member-profile').src = "/app/resources/meal/menu1.PNG";
+		// 조식 편집(모달창 띄우기)
+		function breakFastApply(no) {
+			$.ajax({
+				url: '/app/meal/selectMeal?no=' + no,
+				type: 'get',
+				success: function (data) {
+					const modal = document.querySelector(".modal");
+					const menu = document.querySelector('#qna-model-question-content');
+
+					modal.classList.add("show");
+					document.querySelector('input[name=no]').value = data.no;
+					document.querySelector('#qna-model-member-profile').src = "/app/resources/meal/" + data.img;
+					document.querySelector('.qna-model-title-text').innerHTML = data.breakfastDate.substring(0, 11);
+					document.querySelector('#qna-model-answer').value = data.nutrient;
+
+					tempMenu = "<option img-name='" + data.img + "' data-name='" + data.nutrient + "' value='" + data.no + "'>" + data.menu + "</option>";
+					<c:forEach items="${dietList}" var="vo">
+						if(data.no != '${vo.no}') {
+							tempMenu += '<option img-name="${vo.img}" data-name="${vo.nutrient}" value="${vo.no}">${vo.menu}</option>';
+						}
+					</c:forEach>
+					menu.innerHTML = tempMenu;
+				},
+				error: function () {
+					alert("selectMeal error");
+					return;
+				}
+			});
 		}
 
+		// 셀렉트바
+		function handleOptionChange() {
+			const selectElement = document.querySelector(".qna-model-question-text");
+			const selectedOption = selectElement.options[selectElement.selectedIndex];
+			document.querySelector('#qna-model-answer').value = selectedOption.getAttribute("data-name");
+			document.querySelector('#qna-model-member-profile').src = "/app/resources/meal/" + selectedOption.getAttribute("img-name");
+		}
+
+
+		// close버튼 후 반영
 		document.querySelector("#qna-close").addEventListener('click', qnaclose);
 		function qnaclose() {
+			const selectElement = document.querySelector(".qna-model-question-text");
+			const selectedOption = selectElement.options[selectElement.selectedIndex];
+			let breakFastNo = document.querySelector('input[name=no]').value;
+			let dietNo = selectedOption.value;
+
+			$.ajax({
+				url: '/app/meal/editMeal',
+				type: 'get',
+				data: { "no": breakFastNo, "dietNo" : dietNo },
+				success: function (data) {
+					location.reload();
+				},
+				error: function () {
+					alert("editMeal error");
+				}
+			});
+
 			document.querySelector(".modal").className = "modal";
 		}
 	</script>

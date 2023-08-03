@@ -23,10 +23,36 @@
 		INSERT INTO MEAL_RESERVATION
 		VALUES(SEQ_MEAL_RESERVATION_NO.NEXTVAL, #{mealNo}, #{memberNo}, 'Y')
 	</insert>
-	
-	<select id="selectMeal" resultType = "com.hp.app.meal.vo.MealVo">
+
+	<select id="selectMeal" resultType="com.hp.app.meal.vo.MealVo">
 		SELECT * FROM BREAKFAST B
 		JOIN DIET D ON B.DIET_NO = D.NO
 		WHERE B.NO = #{no}
 	</select>
+
+	<update id="editMeal">
+		UPDATE BREAKFAST SET DIET_NO = #{dietNo}
+		WHERE NO =
+		#{no}
+	</update>
+
+	<select id="getDietList" resultType="com.hp.app.meal.vo.MealVo">
+		SELECT * FROM DIET
+	</select>
+
+	<select id="getApplyList" resultType="com.hp.app.meal.vo.MealVo">
+		SELECT * FROM
+		MEAL_RESERVATION M
+		JOIN BREAKFAST B ON M.MEAL_NO = B.NO
+		JOIN DIET D ON
+		B.DIET_NO = D.NO
+		WHERE MEMBER_NO = #{no} AND STATUS = 'Y'
+		ORDER BY
+		BREAKFAST_DATE
+	</select>
+
+	<update id="cancelApply">
+		UPDATE MEAL_RESERVATION SET STATUS = 'X'
+		WHERE NO = #{no}
+	</update>
 </mapper>
