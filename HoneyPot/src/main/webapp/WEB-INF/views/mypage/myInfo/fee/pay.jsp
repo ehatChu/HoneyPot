@@ -85,7 +85,7 @@
         const currentDateElement = document.getElementById("currentDate");
         const currentDate = new Date();
         const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1; 
+        const month = currentDate.getMonth() ; 
         const formattedDate = year + "년 " + month + "월분";
         currentDateElement.textContent = formattedDate;
     });

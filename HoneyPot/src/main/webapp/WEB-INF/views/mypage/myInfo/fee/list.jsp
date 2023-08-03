@@ -25,7 +25,7 @@
 						<div class="total-area">
 							<div class="select-area">
 								<form id="memberFeeForm" action="/app/fee/member" method="GET">
-									<select id="paymentDate" name="searchValue"> 
+									<select id="paymentDate" name="searchValue" id="searchValue"> 
 										<option value="" selected></option>
 										<option value=""></option>
 										<option value=""></option>
@@ -277,9 +277,11 @@
 	document.getElementById('display_category_name').innerText = categoryName;
 	}
 
-		// 이번 달부터 5개의 달 생성
-		function makeCurrentMonths() {
+		// 이전 달부터 5개의 달 생성
+		function makeRecentMonths() {
 		var currentDate = new Date();
+		// 현재 날짜를 6월로 설정 (0부터 시작하는 인덱스로 6은 7월을 의미합니다.)
+		currentDate.setMonth(5);
 		var recentMonths = [];
 		for (var i = 0; i < 5; i++) {
 			var year = currentDate.getFullYear();
@@ -290,30 +292,62 @@
 			var formattedDate = year + "-" + month;
 			recentMonths.push(formattedDate);
 
+			// 이전 달로 설정
 			currentDate.setMonth(currentDate.getMonth() - 1);
 		}
 
-		return recentMonths;
+		return recentMonths.reverse(); // 배열을 역순으로 반환합니다.
 		}
 
 		// 날짜 검색란에 옵션 추가 함수
 		function addOptionsToAccountDateSelect() {
 		var accountDateSelect = document.querySelector("#paymentDate");
-		var recentMonths = makeCurrentMonths();
+		var recentMonths = makeRecentMonths();
 		var optionsHTML = "";
 
 		for (var i = 0; i < recentMonths.length; i++) {
-			optionsHTML += '<option value="' + recentMonths[i] + '">' + recentMonths[i].replace("-", "년 ") + '월</option>';
+			// 글자는 2023-06부터 보이도록 하고, value 값으로는 한 달씩 늦은 값으로 설정
+			var year = parseInt(recentMonths[i].substring(0, 4));
+			var month = parseInt(recentMonths[i].substring(5, 7));
+			if (month < 12) {
+			month += 1;
+			} else {
+			year += 1;
+			month = 1;
+			}
+			var nextMonth = year + "-" + (month < 10 ? "0" + month : month);
+			optionsHTML +=
+			'<option value="' +
+			nextMonth +
+			'">' +
+			recentMonths[i].replace("-", "년 ") +
+			"월</option>";
 		}
 
 		accountDateSelect.innerHTML = optionsHTML;
 
-		// 가장 최신 날짜를 기본 선택으로 설정
-		accountDateSelect.value = recentMonths[0];
+		// 처음 접속 시 value가 2023-07인 option을 selected로 설정
+		var defaultSelectedValue = "2023-07";
+  		accountDateSelect.value = defaultSelectedValue;
 		}
 
 		// 날짜 검색 푸쉬 함수 호출
 		addOptionsToAccountDateSelect();
+
+		// 검색 후 검색타입과 검색value 유지되도록
+		const searchValueTagArr = document.querySelectorAll("#searchValue > option");
+		const urlParams = new URLSearchParams(window.location.search);
+		const searchValueParam = urlParams.get("searchValue");
+
+		if (searchValueParam) {
+		for (let i = 0; i < searchValueTagArr.length; i++) {
+			if (searchValueTagArr[i].value === searchValueParam) {
+			searchValueTagArr[i].selected = true;
+			break;
+			}
+		}
+		}
+
 
 
 		

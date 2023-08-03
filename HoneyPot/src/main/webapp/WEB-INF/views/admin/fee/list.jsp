@@ -154,7 +154,7 @@
                             </div>
                         </div>
                         <div>
-                            <table class="A_detail">
+                            <table class="Ad_detail">
                                 <thead>
                                     <tr class="line">
                                         <th>항목</th>

@@ -16,6 +16,9 @@
 		<if test="searchValue != null and searchValue != ''">
 			AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') LIKE '%${searchValue}%'
 		</if>
+		<if test="searchValue == null or searchValue == ''">
+			AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') LIKE '%2023-07%'
+		</if>
 	</select>
 	
 	<select id="memberTotalPrice" resultType="int">
@@ -27,6 +30,9 @@
 		WHERE MF.MEMBER_NO = #{no}
 		<if test="searchValue != null and searchValue != ''">
 			AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') LIKE '%${searchValue}%'
+		</if>
+		<if test="searchValue == null or searchValue == ''">
+			AND TO_CHAR(MF.PAYMENT_DATE, 'YYYY-MM') LIKE '%2023-07%'
 		</if>
 	</select>
 	
