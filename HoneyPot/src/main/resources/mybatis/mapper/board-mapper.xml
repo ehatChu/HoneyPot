@@ -20,6 +20,7 @@
 		    ,B.MODIFY_DATE AS MODIFY_DATE
 		    ,HIT
 		    ,COALESCE(A.LOVE_CNT, 0) AS LOVE_CNT
+		    ,I.BOARD_IMG_NAME AS BOARD_IMG_NAME
 		FROM
 		    BOARD B
 		    JOIN BOARD_CATEGORY C ON B.BOARD_CNO = C.NO
@@ -31,6 +32,11 @@
 	        			FROM LOVE
 	        			GROUP BY BOARD_NO
 	        		) A ON A.BOARD_NO = B.NO
+            LEFT JOIN
+		            (
+		                SELECT B.NO AS TEMP_NO, I.NAME AS BOARD_IMG_NAME
+		                FROM BOARD B JOIN BOARD_IMG I ON B.NO = I.BOARD_NO
+		            ) I ON B.NO = TEMP_NO
 		WHERE S.NO != 5
 			AND C.NO = #{cno}
 
@@ -114,7 +120,6 @@
 	        		) A ON A.BOARD_NO = B.NO
 		WHERE S.NO != 5
 		AND B.NO = #{no}
-		<!-- AND C.NO = 4 -->
 	</select>
 	
 	<!-- 조회수 증가 -->

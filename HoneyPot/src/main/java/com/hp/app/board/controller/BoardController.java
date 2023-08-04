@@ -137,6 +137,9 @@ public class BoardController {
 			model.addAttribute("pv", pv);
 			model.addAttribute("searchVo", searchVo);
 			
+			
+			
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -173,15 +176,20 @@ public class BoardController {
 			}
 			
 			
-			//이미지 db 저장
+			//이미지 db 저장 후 가져오기
 			BoardImgVo ivo = new BoardImgVo();
 			System.out.println(imgList);
 			String[] arr = imgList.split(",");
-			for (String s : arr) {
-				System.out.println("배열에 담은 사진 : " + s);
-				ivo.setName(s);
-				service.insertImgToDb(ivo);
-			}
+			
+			ivo.setName(arr[0]);
+			int imgResult = service.insertImgToDb(ivo);
+			System.out.println("이미지 저장 결과 : " + imgResult);
+					
+//			for (String s : arr) {
+//				System.out.println("배열에 담은 사진 : " + s);
+//				ivo.setName(s);
+//				service.insertImgToDb(ivo);
+//			}
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -222,11 +230,9 @@ public class BoardController {
 			String filePath = path + imgList.get(i);
 			File destinationFile = new File(filePath);
 			flist.get(i).transferTo(destinationFile);
-			
 		}
 		
 		return imgList;
-
     }
 	
 	// 게시글 상세 조회
