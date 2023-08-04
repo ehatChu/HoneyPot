@@ -282,14 +282,7 @@
                     <div class="flex-blank"></div>
                     <div id="thing-owner">사유물소지인 <input type="text" name="mineOwner" class="margin-left input-box"></div>
                     <div id="blank999"></div>
-                    <div id="car-or-bicycle">
-                        분류
-                        <select name="carOrBicycle" class="margin-left input-box">
-                            <option value="0">전체</option>
-                            <option value="10">자동차</option>
-                            <option value="20">자전거</option>
-                        </select>
-                    </div>
+                   
                     <div class="flex-blank"></div>
                 </div>
                 <div id="third-line">
@@ -299,14 +292,14 @@
 
             <div id="fourth-line">
                 <div id="all-list" class="flex-line now-focus-white">
-                    <div><input type="hidden" value=""> 전체</div><div id="all-value" class="now-focus-red">1920</div>
+                    <div><input type="hidden" name="all" value="">전체</div><div id="all-value" class="now-focus-red">1920</div>
                 </div>
                 <div id="ok-confirm" class="flex-line">
-                    <div>승인완료</div>
+                    <div><input type="hidden" name="ok" value="O">승인완료</div>
                     <div id="ok-value">132</div>
                 </div>
                 <div id="no-confirm" class="flex-line">
-                    <div>미처리</div>
+                    <div><input type="hidden" name="none" value="R">미처리</div>
                     <div id="no-value">12</div>
                 </div>
             </div>
@@ -357,18 +350,18 @@
            
             <div id="page-area">
                 <c:if test="${pv.currentPage > 1}">
-                    <span class="page-box"><a href="/app/property-list?p=${pv.currentPage-1}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
+                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage-1}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
                 </c:if>
                 <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
                     <c:if test="${pv.currentPage != i}">
-                        <span class="page-box num"><a href="/app/property-list?p=${i}">${i}</a></span>
+                        <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}">${i}</a></span>
                     </c:if>
                     <c:if test="${pv.currentPage == i}">
                         <span class="page-box num">${i}</span>
                     </c:if>
                 </c:forEach>
                 <c:if test="${pv.currentPage < pv.maxPage}">
-                    <span class="page-box"><a href="/app/property-list?p=${pv.currentPage+1}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
+                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage+1}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
                     
                 </c:if>
             </div>

@@ -65,36 +65,31 @@
 	<!-- 검색 AllTable version -->
 	<select id="searchAllList" resultType="com.hp.app.mine.vo.MineVo">
 		SELECT 
-		    CB.NO
-		    ,CB.ENROLL_DATE
-		    ,CB.CONFIRM_DATE
-		    ,CB.UNIQUE_NUM
-		    ,CB.IMG
-		    ,CB.NAME
-		    ,CB.STATUS
+		    C.NO
+		    ,C.ENROLL_DATE
+		    ,C.CONFIRM_DATE
+		    ,C.UNIQUE_NUM
+		    ,C.IMG
+		    ,C.NAME
+		    ,C.STATUS
 		    ,M.NAME AS MEMBER_NAME
 		    ,M.PHONE AS PHONE
 		    ,A.NAME AS ADMIN_NAME
-		FROM 
-		(
-		    SELECT * FROM CAR C
-		    UNION 
-		    SELECT * FROM BICYCLE B
-		) CB 
-		JOIN MEMBER M ON(M.NO = CB.MEMBER_NO)
-		LEFT JOIN ADMIN A ON(A.NO = CB.ADMIN_NO) 
+		FROM CAR C 
+		JOIN MEMBER M ON(M.NO = C.MEMBER_NO)
+		LEFT JOIN ADMIN A ON(A.NO = C.ADMIN_NO) 
 		<where>
 		    <if test="uniqueNum != null and uniqueNum !='' ">
-		    AND CB.UNIQUE_NUM LIKE #{uniqueNum}
+		    AND C.UNIQUE_NUM LIKE #{uniqueNum}
 		    </if>
 		    <if test="mineOwner != null and mineOwner !=''" >
 		    AND M.NAME LIKE '%${mineOwner}%'
 		    </if>
-		    <!-- status가  -->
 		    <if test="proceedingStatus != null and proceedingStatus !='' " >
-		    AND CB.STATUS = 'R'
+		    AND C.STATUS =#{proceedingStatus} 
 		    </if>
 		</where>
+		
 	</select>
 	
 	<delete id="deleteProperty">
