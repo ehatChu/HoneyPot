@@ -173,6 +173,11 @@
        height: 20px;
        
     }
+    .color-brown {
+        background-color: #4A321F;
+        color: white;
+    }
+    /* 모달관련 */
     #mine-modal-box {
         width: 800px;
         height: 400px;
@@ -181,6 +186,64 @@
         top: 200px;
         left: 600px;
         display: none;
+        border-radius: 30px 30px 0px 0px;
+    }
+
+    #modal-top-area {
+        width: 800px;
+        height: 50px;
+        background-color: #FFCE31;
+        border-radius: 20px 20px 0px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    #modal-img-area {
+        width: 350px;
+        height: 300px;
+        border: 1px solid black;
+    }
+    #modal-info-area {
+        width: 350px;
+        height: 300px;
+        border: 1px solid black;
+    }   
+    #modal-main-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 350px;
+    }
+    #blank01 {
+        width: 32px;
+    }
+    #modal-info-text-area {
+        padding-top: 30px;
+        display: grid;
+        grid-template-columns: 1.2fr 3fr;
+        height: 100px;
+    }
+    #modal-btn-area {
+        display: flex;
+        justify-content: center;
+        height: 180px;
+        align-items: end;
+    }
+    /* 공용클래스 */
+    .margin-left-20 {
+        margin-left: 20px;
+    }
+    .margin-right-20 {
+        margin-right: 20px;
+    }
+    .text-bold {
+        font-weight: 700;
+    }
+    .text-size-18 {
+        font-size: 18px;
+    }
+    .text-size-22 {
+        font-size: 22px;
     }
 </style>
 </head>
@@ -303,10 +366,31 @@
             </div>
 
             <div id="mine-modal-box">
-                <input type="hidden" id="modal-ddd" >
-
-                ${mineVoList.get(3).name}
+                <div id="modal-top-area">
+					<span class="margin-left-20 text-bold text-size-18">사유물상세정보</span><span><i class="fa-solid fa-xmark fa-2xl margin-right-20 quit-btn" style="color: #000000;"></i></span>
+				</div>
                 
+                <div id="modal-main-area">
+                    <div id="modal-img-area">
+                        <!-- ajax로 json형식의 vo를 받아오면 img src 채워넣기... -->
+                        <img id="modal-mine-img">
+                    </div>
+                    <div id="blank01"></div>
+                    <div id="modal-info-area">
+                        <div id="modal-info-text-area">
+                            <!-- 사유물 이름 -->
+                            <div class="text-size-18">차량이름</div>
+                            <div id="modal-mine-name">메르세데스클래식, 블랙</div>
+                            <div class="text-size-18">번호판</div>
+                            <div id="modal-mine-number">가132142나</div>
+                        </div>
+                        <div id="modal-btn-area">
+                            <!-- c:if 승인취소 추가해야함 -->
+                            <button class="design-btn color-brown">승인반려</button>
+                        </div>
+                    </div>
+                   
+                </div>
             </div>
         </main>
 
@@ -327,7 +411,20 @@
         const modalBox = document.querySelector("#mine-modal-box");
         modalBox.style.display = "block";
         console.log(bno);
-        const ddd = document.querySelector("#modal-ddd");
-        ddd.value = bno;
-    });   
+        $.ajax({
+                url : "/app/property-detail",
+                type : "get",
+                data : {
+                    no : bno,
+                },
+                dataType : "json",
+                success : function(dataJson){
+                    console.log(dataJson);
+                } ,
+                error : function(e){
+                    console.log(e);
+                } ,
+        });
+
+     });   
 </script>
