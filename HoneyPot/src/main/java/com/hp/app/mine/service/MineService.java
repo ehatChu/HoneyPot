@@ -11,10 +11,15 @@ import com.hp.app.page.vo.PageVo;
 
 public interface MineService {
 	int register(MineVo mvo,int mineCno);
-	List<MineVo> getAllList(MemberVo loginMember);
-	List<MineVo> getAllList(PageVo pv);
 	
-	int getAllCnt();
-	MineVo getDetailAdmin(int no);
+	//개인 사윺물 조회
+	List<MineVo> getCarList(MemberVo loginMember);
+	//관리자 사유물 조회
+	List<MineVo> getCarList(PageVo pv);
+	
+	int getCarCnt();
+	MineVo getDetailAdmin(Map<String, String> map);
 	List<MineVo> searchAllList(Map<String, String> searchValueMap);
+
+	int deleteProperty(Map<String, String> map);
 }

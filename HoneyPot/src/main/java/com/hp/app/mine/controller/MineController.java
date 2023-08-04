@@ -37,22 +37,23 @@ import retrofit2.http.GET;
 @Slf4j
 public class MineController {
 	private final MineService service;
-	//사유물 목록보기(화면)
-	@GetMapping("regi/mine/mypage")
+	//사유물 목록보기(화면)본인
+	@GetMapping("car-list")
 	public String regiMine(HttpSession session,Model model) {
 		MemberVo loginMember =(MemberVo)session.getAttribute("loginMember");
 		//리스트 DB에서 조회하기
-		List<MineVo> mvoList = service.getAllList(loginMember);
+		List<MineVo> carList = service.getCarList(loginMember);
 		
 		
-		model.addAttribute("mineVoList",mvoList);
+		model.addAttribute("mineVoList",carList);
 
 		
-		return "mypage/myInfo/mine/registration";
+		return "mypage/myInfo/mine/registration-car";
 	}
 	
 	//사유물 등록
-	@PostMapping("mypage/register")
+	//mineCno는 mine의 종류
+	@PostMapping("regi-mine")
 	public String regiMine(HttpServletRequest req,MineVo mvo,int mineCno, List<MultipartFile> fList) throws Exception{
 		MultipartFile f =fList.get(0);
 		if(f.getOriginalFilename()==null) {
@@ -79,22 +80,23 @@ public class MineController {
 		HttpSession session = req.getSession();
 		MemberVo loginMember =(MemberVo)session.getAttribute("loginMember");
 		mvo.setMemberNo(loginMember.getNo());
+		log.info("mineCno : {}",mineCno);
 		int result =service.register(mvo,mineCno);
-		//int result = service.register(mvo);
+		
 		if(result!=1) {    
 			throw new RuntimeException("서비스인서트실행중에러");
 		}
-		return "redirect:/regi/mine/mypage";
+		return "redirect:/car-list";
 	
 	}
 	
 	// 사유물내역 (화면)
-	@GetMapping("property-list")
+	@GetMapping("admin/property-list/car")
 	public String propertyList(int p,Model model){
 		//getCnt로 가져오기
 		//car와 자전거까지 다 세기
 		//도대체 이게 왜안되는지 모르겠다.
-		int listCount = service.getAllCnt(); 		
+		int listCount = service.getCarCnt(); 		
 		int currentPage = p;
 		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
 		int boardLimit =9; //한페이지에 list는 7개만 들어가게
@@ -104,26 +106,36 @@ public class MineController {
 		
 		//리스트를 가져올때 페이지vo를 넘기면서 가져오기		
 		//전체조회시 pv만 들어가게 조회
-		List<MineVo> mvoList = service.getAllList(pv);
+		List<MineVo> mvoList = service.getCarList(pv);
 		
 		model.addAttribute("pv",pv);
 		model.addAttribute("mineVoList",mvoList);
 
 		
-		return "admin/member/property-list";
+		return "admin/member/car-list";
 	}
+	
+	//모달창에서 관리자 사유물 승인반려 누르면
+	//넘버와 사유물의 종류
+	@GetMapping("admin/property-delete")
+	public String propertyDelete(@RequestParam Map<String,String> map) {
+		log.info("map : {}",map);
+		int result = service.deleteProperty(map);
+		//db삭제는 되었는데//// 
+		return "redirect:/admin/property-list/car?p=1";
+	}
+	
+	
 	
 	//ajax 상세보기모달
 	@GetMapping(produces ="application/json; charset=UTF-8",value = "property-detail")
 	@ResponseBody
-	public String propertyDetail(int no) throws Exception {
-		log.info("디테일 받은 넘버 no : {}",no);
+	public String propertyDetail(@RequestParam Map<String,String> map) throws Exception {
 		
 		ObjectMapper om = new ObjectMapper();
-		MineVo mvo = service.getDetailAdmin(no);
+		MineVo mvo = service.getDetailAdmin(map);
 		// Map or List Object 를 JSON 문자열로 변환
 		String jsonStr = om.writeValueAsString(mvo);
-		log.info(jsonStr);
 		return jsonStr;
 	}
 	
@@ -131,7 +143,6 @@ public class MineController {
 	@GetMapping("property-list/search")
 	public String propertyListSearch(@RequestParam Map<String,String> searchValueMap,Model model) {
 		//일단 값이 잘 넘어왔는지 살피기
-		log.info("searchValueMap : {}",searchValueMap);
 		
 		List<MineVo> mvoList =null;
 		//분류가 전체일때...
@@ -139,7 +150,6 @@ public class MineController {
 			//search-mapper1과 연결
 			mvoList = service.searchAllList(searchValueMap);
 		}else {
-			log.info("QododooQodo빼애앵");
 		}
 		
 		
@@ -156,7 +166,7 @@ public class MineController {
 	
 	@PostMapping("property-refuse")
 	public String propertyRefuse(String detailNo,String detailKinda) {
-		int result = service.refuse(detailNo)
+		//int result = service.refuse(detailNo);
 		
 		return "redirect:/property-list?p=1";
 	}
