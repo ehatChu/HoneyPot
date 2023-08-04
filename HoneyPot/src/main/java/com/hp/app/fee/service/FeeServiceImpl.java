@@ -31,6 +31,26 @@ public class FeeServiceImpl implements FeeService{
 	public int totalMemberFee(Map<String, String> paramMap) {
 		return dao.totalMemberFee(sst, paramMap);
 	}
+	
+	@Override
+	public List<MemberFeeVo> thisMonth(Map<String, String> dateVo) {
+		return dao.thisMonth(sst,dateVo);
+	}
+
+	@Override
+	public List<MemberFeeVo> prevMonth(Map<String, String> dateVo) {
+		return dao.prevMonth(sst, dateVo);
+	}
+
+	@Override
+	public List<MemberFeeVo> oneYearFee(Map<String, String> dateVo) {
+		return dao.oneYearFee(sst, dateVo);
+	}
+
+	@Override
+	public int changePayStatus(String memberName) {
+		return dao.changePayStatus(sst, memberName);
+	}
 
 	@Override
 	public int adminListCnt(Map<String, String> paramMap) {
@@ -73,23 +93,23 @@ public class FeeServiceImpl implements FeeService{
 	}
 
 	@Override
-	public List<MemberFeeVo> thisMonth(Map<String, String> dateVo) {
-		return dao.thisMonth(sst,dateVo);
+	public List<AdminFeeVo> getAllFee(Map<String, String> monthMap) {
+		return dao.getAllFee(sst, monthMap);
 	}
 
 	@Override
-	public List<MemberFeeVo> prevMonth(Map<String, String> dateVo) {
-		return dao.prevMonth(sst, dateVo);
+	public String getCategoryNo(String categoryName) {
+		return dao.getCategoryNo(sst, categoryName);
 	}
 
 	@Override
-	public List<MemberFeeVo> oneYearFee(Map<String, String> dateVo) {
-		return dao.oneYearFee(sst, dateVo);
+	public int insertMemberFee(MemberFeeVo feeVo) {
+		return dao.insertMemberFee(sst, feeVo);
 	}
 
 	@Override
-	public int changePayStatus(String memberName) {
-		return dao.changePayStatus(sst, memberName);
+	public String getMemberNo(Map<String, String> dongHo) {
+		return dao.getMemberNo(sst, dongHo);
 	}
 
 	

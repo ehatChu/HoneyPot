@@ -24,6 +24,18 @@ public interface FeeService {
 	// 회원 관리비 전 년 총 금액
 	int yearAgoFee(Map<String , String> dateVo);
 	
+	// 회원 관리비 당월 카테고리 조회
+	List<MemberFeeVo> thisMonth(Map<String, String> dateVo);
+
+	// 회원 관리비 전월 카테고리 조회
+	List<MemberFeeVo> prevMonth(Map<String, String> dateVo);
+
+	// 회원 관리비 카테고리 라인 차트
+	List<MemberFeeVo> oneYearFee(Map<String, String> dateVo);
+
+	// 회원 관리비 납부 완료 시 여부
+	int changePayStatus(String memberName);
+	
 	// 관리자 관리비 목록 개수 조회
 	int adminListCnt(Map<String, String> paramMap);
 	
@@ -39,17 +51,17 @@ public interface FeeService {
 	// 관리자 관리비 삭제
 	int delete(String no);
 
-	// 회원 관리비 당월 카테고리 조회
-	List<MemberFeeVo> thisMonth(Map<String, String> dateVo);
+	// 관리자 관리비 월별 조회
+	List<AdminFeeVo> getAllFee(Map<String, String> monthMap);
 
-	// 회원 관리비 전월 카테고리 조회
-	List<MemberFeeVo> prevMonth(Map<String, String> dateVo);
+	// 카테고리로 번호 가져오기
+	String getCategoryNo(String categoryName);
 
-	// 회원 관리비 카테고리 라인 차트
-	List<MemberFeeVo> oneYearFee(Map<String, String> dateVo);
+	// 세대 별
+	int insertMemberFee(MemberFeeVo feeVo);
 
-	// 회원 관리비 납부 완료 시 여부
-	int changePayStatus(String memberName);
+	// 동호로 멤버 데려오기
+	String getMemberNo(Map<String, String> dongHo);
 
 	
 	

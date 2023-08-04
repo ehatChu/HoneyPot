@@ -11,7 +11,7 @@
 		<!-- CSS -->
 		<link rel="stylesheet" href="/app/resources/css/member/mypage/fee/list.css">
 	</head>
-
+	
 	<body>
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 			<nav>
@@ -78,7 +78,7 @@
 	</html>
 
 	<script>
-		
+
 		// 헤더 함수 실행
 		basicSetting();
 		firstNav(['내정보', '나의활동', '신청내역', '관리비'],'관리비');

@@ -41,12 +41,12 @@
 	                <div class="member-list-area" >
 				<c:forEach items="${mvoList }" var="mList">
 				<c:if test="${loginMember.name ne mList.name}">
-                    <div class="member-list" oncontextmenu="showFollowArea(event, '${mList.no}')" onclick="showMemberDetail(this)">
+                    <div class="member-list" onclick="showMemberDetail(this)">
                         <div hidden>${mList.no}</div>
                         <div class="member-list-img">
                             <img src="/app/resources/profile/${mList.profile}" alt="프로필사진">
                         </div>
-                        <div class="member-list-text">
+                        <div class="member-list-text" oncontextmenu="showFollowArea(event, '${mList.no}')">
                             <span>${mList.name }</span>
                             <span>(${mList.dongNum}동 ${mList.hoNum}호)</span>
                             <span id="memberNo" hidden>${mList.no}</span>

@@ -86,6 +86,26 @@ public class FeeDaoImpl implements FeeDao{
 		return sst.update("fee.changePayYN",memberName);
 	}
 
+	@Override
+	public List<AdminFeeVo> getAllFee(SqlSessionTemplate sst, Map<String, String> monthMap) {
+		return sst.selectList("fee.AdminFeeList", monthMap);
+	}
+
+	@Override
+	public String getCategoryNo(SqlSessionTemplate sst, String categoryName) {
+		return sst.selectOne("fee.getCategoryNo", categoryName);
+	}
+
+	@Override
+	public String getMemberNo(SqlSessionTemplate sst, Map<String, String> dongHo) {
+		return sst.selectOne("fee.getMemberNo", dongHo);
+	}
+
+	@Override
+	public int insertMemberFee(SqlSessionTemplate sst, MemberFeeVo feeVo) {
+		return sst.insert("fee.insertMemberFee", feeVo);
+	}
+
 
 
 }
