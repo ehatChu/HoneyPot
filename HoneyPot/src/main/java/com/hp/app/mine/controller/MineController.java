@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +30,7 @@ import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import retrofit2.http.GET;
 
 @Controller
 @RequiredArgsConstructor
@@ -110,20 +113,51 @@ public class MineController {
 		return "admin/member/property-list";
 	}
 	
+	//ajax 상세보기모달
 	@GetMapping(produces ="application/json; charset=UTF-8",value = "property-detail")
 	@ResponseBody
 	public String propertyDetail(int no) throws Exception {
 		log.info("디테일 받은 넘버 no : {}",no);
 		
 		ObjectMapper om = new ObjectMapper();
-		 
+		MineVo mvo = service.getDetailAdmin(no);
 		// Map or List Object 를 JSON 문자열로 변환
-		List<String> temp = new ArrayList<String>();
-		temp.add("안녕");
-		temp.add("바이");
-		
-		String jsonStr = om.writeValueAsString(temp);
+		String jsonStr = om.writeValueAsString(mvo);
 		log.info(jsonStr);
 		return jsonStr;
+	}
+	
+	//사유물리스트-검색
+	@GetMapping("property-list/search")
+	public String propertyListSearch(@RequestParam Map<String,String> searchValueMap,Model model) {
+		//일단 값이 잘 넘어왔는지 살피기
+		log.info("searchValueMap : {}",searchValueMap);
+		
+		List<MineVo> mvoList =null;
+		//분류가 전체일때...
+		if(searchValueMap.get("carOrBicycle").equals("0")) {
+			//search-mapper1과 연결
+			mvoList = service.searchAllList(searchValueMap);
+		}else {
+			log.info("QododooQodo빼애앵");
+		}
+		
+		
+		//아닐때
+		log.info("mvoList : {}",mvoList);
+		
+		
+		//분류에 선택값이 들어왔을 때...
+		//model에 minVoList로 넘기자
+		model.addAttribute("mineVoList",mvoList);
+		
+		return "admin/member/property-list";
+	}
+	
+	@PostMapping("property-refuse")
+	public String propertyRefuse(String detailNo,String detailKinda) {
+		int result = service.refuse(detailNo)
+		
+		return "redirect:/property-list?p=1";
 	}
 }

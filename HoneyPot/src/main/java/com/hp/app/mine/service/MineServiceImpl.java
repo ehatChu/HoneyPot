@@ -2,6 +2,7 @@ package com.hp.app.mine.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,17 @@ public class MineServiceImpl implements MineService{
 	@Override
 	public int getAllCnt() {
 		return dao.getAllCnt(sst);
+	}
+	//관리자 사유물 상세조회
+	@Override
+	public MineVo getDetailAdmin(int no) {
+		return dao.getDetailAdmin(sst,no);
+	}
+	
+	//전체검색
+	@Override
+	public List<MineVo> searchAllList(Map<String, String> searchValueMap) {
+		return dao.searchAllList(sst,searchValueMap);
 	}
 
 }

@@ -55,7 +55,7 @@
     #second-line {
         height: 50px;
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
         align-items: center;
         border-bottom: 1px solid black;
     }
@@ -76,7 +76,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 50px;
+        height: 59px;
         align-items: center;
         border-bottom: 1px solid black;
         
@@ -118,11 +118,8 @@
     .flex-line > div:last-child {
         margin-right: 5px;
     }
-    .flex-line:first-child {
-        background-color: white;
-        border: 1px solid black;
-    }
-   .now-focus {
+  
+   .now-focus-red {
     color: red;
     font-weight: 800;
    }
@@ -203,6 +200,12 @@
         height: 300px;
         border: 1px solid black;
     }
+
+    #modal-mine-img {
+        object-fit: fill;
+        width: 350px;
+        height: 300px;
+    }
     #modal-info-area {
         width: 350px;
         height: 300px;
@@ -245,6 +248,13 @@
     .text-size-22 {
         font-size: 22px;
     }
+    .now-focus-white {
+        background-color: white;
+        border: 1px solid black;
+    }
+    #blank999 {
+        width: 30px;
+    }
 </style>
 </head>
 
@@ -256,54 +266,52 @@
         </nav>
 
         <main>
-            <div class="inquiry-search-area">
-                <div class="model-search-area">
-                    <div class="model-search-box-area">
-                        <select name="" id="" class="model-search-category">
-                            <option value="">사유물번호</option>
-                        </select>
-                        <input type="text" class="model-serach-input">
+            <form action="/app/property-list/search" method="get">
+                <div class="inquiry-search-area">
+                    <div class="model-search-area">
+                        <div class="model-search-box-area">
+                            <select class="model-search-category">
+                                <option value="">사유물번호</option>
+                            </select>
+                            <input type="text" name="uniqueNum" class="model-serach-input">
+                        </div>
+                        
                     </div>
-                    
                 </div>
-            </div>
-            <div id="second-line">
-                <div class="flex-blank"></div>
-                <div id="thing-owner">사유물소지인 <input type="text" class="margin-left input-box"></div>
-                <div id="proceeding-status">
-                    처리유무
-                    <select name="proceeding-status" class="margin-left input-box">
-                        <option value="0">전체</option>
-                        <option value="10">처리완료</option>
-                        <option value="20">처리중</option>
-                    </select>
+                <div id="second-line">
+                    <div class="flex-blank"></div>
+                    <div id="thing-owner">사유물소지인 <input type="text" name="mineOwner" class="margin-left input-box"></div>
+                    <div id="blank999"></div>
+                    <div id="car-or-bicycle">
+                        분류
+                        <select name="carOrBicycle" class="margin-left input-box">
+                            <option value="0">전체</option>
+                            <option value="10">자동차</option>
+                            <option value="20">자전거</option>
+                        </select>
+                    </div>
+                    <div class="flex-blank"></div>
                 </div>
-                <div id="car-or-bicycle">
-                    분류
-                    <select name="car-or-bicycle" class="margin-left input-box">
-                        <option value="0">전체</option>
-                        <option value="10">자동차</option>
-                        <option value="20">자전거</option>
-                    </select>
+                <div id="third-line">
+                    <input type="submit" value="검색" class="design-btn color-main"> <input type="reset" value="초기화" class="design-btn btn-reset">
                 </div>
-                <div class="flex-blank"></div>
-            </div>
-            <div id="third-line">
-                <input type="button" value="검색" class="design-btn color-main"> <input type="reset" value="초기화" class="design-btn btn-reset">
-            </div>
+            
+
             <div id="fourth-line">
-                <div class="flex-line">
-                    <div>전체</div><div class="now-focus">1920</div>
+                <div id="all-list" class="flex-line now-focus-white">
+                    <div><input type="hidden" value=""> 전체</div><div id="all-value" class="now-focus-red">1920</div>
                 </div>
-                <div class="flex-line">
+                <div id="ok-confirm" class="flex-line">
                     <div>승인완료</div>
-                    <div>132</div>
+                    <div id="ok-value">132</div>
                 </div>
-                <div class="flex-line">
+                <div id="no-confirm" class="flex-line">
                     <div>미처리</div>
-                    <div>12</div>
+                    <div id="no-value">12</div>
                 </div>
             </div>
+        </form>
+           
             <form action="${root}/admin/confirm/property">
                 <div id="main-mine-line">
                     <table class="main-table" border="1">
@@ -369,28 +377,32 @@
                 <div id="modal-top-area">
 					<span class="margin-left-20 text-bold text-size-18">사유물상세정보</span><span><i class="fa-solid fa-xmark fa-2xl margin-right-20 quit-btn" style="color: #000000;"></i></span>
 				</div>
-                
-                <div id="modal-main-area">
-                    <div id="modal-img-area">
-                        <!-- ajax로 json형식의 vo를 받아오면 img src 채워넣기... -->
-                        <img id="modal-mine-img">
+                <form action="/app/property-refuse" method="post">
+                    <div id="modal-main-area">
+                        
+                            <div id="modal-img-area">
+                                <!-- ajax로 json형식의 vo를 받아오면 img src 채워넣기... -->
+                                <img id="modal-mine-img">
+                            </div>
+                            <div id="blank01"></div>
+                            <div id="modal-info-area">
+                                <div id="modal-info-text-area">
+                                    <!-- 사유물 이름 -->
+                                    <input type="hidden" name="detailNo">
+                                    <input type="hidden" name="detailKinda">
+                                    <div class="text-size-18">사유물이름</div>
+                                    <div id="modal-mine-name"></div>
+                                    <div class="text-size-18">번호판</div>
+                                    <div id="modal-mine-number"></div>
+                                </div>
+                                <div id="modal-btn-area">
+                                
+                                    <!-- c:if 승인취소 추가해야함 -->
+                                    <input type="submit" class="design-btn color-brown" value="승인반려">
+                                </div>
+                            </div>
                     </div>
-                    <div id="blank01"></div>
-                    <div id="modal-info-area">
-                        <div id="modal-info-text-area">
-                            <!-- 사유물 이름 -->
-                            <div class="text-size-18">차량이름</div>
-                            <div id="modal-mine-name">메르세데스클래식, 블랙</div>
-                            <div class="text-size-18">번호판</div>
-                            <div id="modal-mine-number">가132142나</div>
-                        </div>
-                        <div id="modal-btn-area">
-                            <!-- c:if 승인취소 추가해야함 -->
-                            <button class="design-btn color-brown">승인반려</button>
-                        </div>
-                    </div>
-                   
-                </div>
+                </form>
             </div>
         </main>
 
@@ -406,9 +418,15 @@
 
     // 해당 줄을 누르면 상세정보가 담긴 modal띄우기
     const tbody = document.querySelector('tbody');
+    const modalBox = document.querySelector("#mine-modal-box");
     tbody.addEventListener("click",(event)=>{
         const bno = event.target.parentNode.children[0].querySelector("input[type=hidden]").value;
-        const modalBox = document.querySelector("#mine-modal-box");
+       
+        const name = document.querySelector("#modal-mine-name");
+        const uniqueNum = document.querySelector("#modal-mine-number");
+        const img = document.querySelector("#modal-mine-img");
+        const detailNo = document.querySelector("input[name=detailNo]");
+        const detailKinda = document.querySelector("input[name=detailKinda]");
         modalBox.style.display = "block";
         console.log(bno);
         $.ajax({
@@ -419,7 +437,16 @@
                 },
                 dataType : "json",
                 success : function(dataJson){
-                    console.log(dataJson);
+                    console.log(dataJson.name);
+                    console.log(dataJson.uniqueNum);
+                    console.log(dataJson.kinda);
+                    name.innerHTML = dataJson.name;
+                    uniqueNum.innerHTML =dataJson.uniqueNum;
+                    img.src = "/app/resources/member/mine/"+dataJson.img;
+                    detailNo.value = bno;
+                    detailKinda.value = dataJson.kinda;
+                    //종류도 받아와서 ajax로 받아서 input의 value로 넣기
+
                 } ,
                 error : function(e){
                     console.log(e);
@@ -427,4 +454,25 @@
         });
 
      });   
+
+    //quit-btn누르면 모달창 다운시키기
+    const quitBtn = document.querySelector(".quit-btn");
+    quitBtn.addEventListener("click",function(){
+        modalBox.style.display = "none";
+    });
+
+    //승인완누르면 완료된 것만 뜨게 ajax...
+    const okConfirm = document.querySelector("#ok-confirm");
+    const okValue = document.querySelector("#ok-value");
+    const allList = document.querySelector("#all-list");
+    const allValue = document.querySelector("#all-value");
+    okConfirm.addEventListener("click",function(){
+        //모든요소에 클래스떼주기
+        allList.classList.remove("now-focus-white");
+        allValue.classList.remove("now-focus-red");
+
+        //클래스 붙여주기 now-focus
+        okConfirm.classList.add("now-focus-white");
+        okValue.classList.add("now-focus-red");
+    })
 </script>

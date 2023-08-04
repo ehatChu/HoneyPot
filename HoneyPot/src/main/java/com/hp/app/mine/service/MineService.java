@@ -1,6 +1,7 @@
 package com.hp.app.mine.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -14,4 +15,6 @@ public interface MineService {
 	List<MineVo> getAllList(PageVo pv);
 	
 	int getAllCnt();
+	MineVo getDetailAdmin(int no);
+	List<MineVo> searchAllList(Map<String, String> searchValueMap);
 }
