@@ -199,7 +199,7 @@
 					font-weight: bold;
 				}
 
-				.header-chatting-icon>i>div {
+				.header-chatting-icon>i>div:first-of-type {
 					position: absolute;
 					top: -15px;
 					left: 17px;
@@ -215,10 +215,11 @@
 
 				/* 채팅 알림 모달 레이아웃 */
 				.chat_modal_wrap {
-					position: fixed;
-					width: 300px;
-					height: 230px;
-					right: 5px;
+					position: absolute;
+					top: 20px;
+					left: -255px;
+					width: 280px;
+					right: 300px;
 					border-radius: 10px 10px 0 0;
 					display: grid;
 					grid-template-rows: 200px 30px;
@@ -228,7 +229,6 @@
 
 				.chat_modalBox {
 					position: relative;
-					right: 5px;
 					background-color: #fff;
 					height: 200px;
 					max-height: 250px;
@@ -270,8 +270,11 @@
 					border-radius: 10px;
 					background: rgba(255, 255, 255, 0.7);
 					display: grid;
-					grid-template-columns: 50px 200px 50px;
+					grid-template-columns: 50px 180px 70px;
 					cursor: pointer;
+					position: relative;
+					justify-content: center;
+					align-items: center;
 				}
 
 				.latest-chat:hover {
@@ -284,18 +287,22 @@
 					align-items: center;
 				}
 
-				.contentSpan>span:first-child {
-					font-weight: 570;
-					font-size: 17px;
+				.latest-chat > .contentSpan {
+					font-size: 15px;
+					color: #2e2e2e;
+					display: grid;
+					grid-template-rows: 24px 24px;
+					justify-content: center;
+					align-items: center;
 				}
 
-				.contentSpan>span:nth-child(2) {
-					font-size: 15px;
+				.latest-chat > div:last-of-type{
+					font-size: 12px;
+					color: #2e2e2e;
 				}
 
 				.chat-detail-Btn {
 					position: relative;
-					right: 5px;
 					background-color: #FFCE31;
 					height: 30px;
 					width: 300px;
@@ -477,30 +484,29 @@
 							<div class="header-chatting-icon">
 								<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
 									<div style="font-size: 7px; font-weight: 800;">4</div>
+									<!-- 채팅 알림 모달 -->
+									<div class="chat_modal_wrap hidden">
+										<div class="chat_modalBox">
+											<c:forEach begin="1" end="5">
+												<div class="latest-chat">
+													<div class="contentCon"><i class="fa-regular fa-envelope fa-2x"
+															style="color: #ffce31;"></i></div>
+													<div class="contentSpan">
+														<span>101동 골프모임</span>
+														<span>이거봐봐 완전 웃김</span>
+													</div>
+													<div>pm 6:30</div>
+												</div>
+											</c:forEach>
+										</div>
+										<div>
+											<button class="chat-detail-Btn">
+												상세보기
+											</button>
+										</div>
+									</div>
 								</i>
 							</div>
-						</div>
-					</div>
-					<!-- 채팅 알림 모달 -->
-					<div class="chat_modal_wrap hidden">
-						<div class="chat_modalBox">
-							<c:forEach begin="1" end="5">
-								<div class="latest-chat">
-									<div class="contentCon"><i class="fa-regular fa-envelope fa-2x"
-											style="color: #ffce31;"></i></div>
-									<div class="contentSpan">
-										<span>101동 골프모임</span>
-										<br>
-										<span>이거봐봐 완전 웃김</span>
-									</div>
-									<div>pm 6:30</div>
-								</div>
-							</c:forEach>
-						</div>
-						<div>
-							<button class="chat-detail-Btn">
-								상세보기
-							</button>
 						</div>
 					</div>
 					<div id="nav-area"></div>
