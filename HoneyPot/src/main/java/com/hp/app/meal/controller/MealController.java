@@ -37,8 +37,10 @@ public class MealController<V> {
 		int pageLimit = 5;
 		int boardLimit = 5;
 		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
 		List<MealVo> mealList = ms.getMealList(pv);
 		List<MealVo> mealListTotal = ms.getMealList();
+		
 		model.addAttribute("mealList", mealList);
 		model.addAttribute("mealListTotal", mealListTotal);
 		model.addAttribute("pv", pv);

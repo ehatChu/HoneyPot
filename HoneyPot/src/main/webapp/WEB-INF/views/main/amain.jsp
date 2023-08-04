@@ -578,7 +578,7 @@
 
                                     if (currentYear != startYear || currentMonth != startMonth) {
                                         var scsc = document.getElementById("scsc${vo.no}");
-                                        // scsc.remove();
+                                        scsc.remove();
                                     }
                                 </script>
                             </c:forEach>
@@ -756,9 +756,9 @@
                         for (let vo of noticeList) {
                             str += '<div id="boardTxt">'
                                 + '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
-                                + '<div>' + vo.writerName + '</div>'
-                                + '<div>' + vo.enrollDate + '</div>'
-                                + '<div>' + vo.hit + '</div>'
+                                + '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.writerName + '</div>'
+                                + '<div style="width: 200px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.enrollDate + '</div>'
+                                + '<div style="width: 50px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.hit + '</div>'
                                 + '</div> <hr>'
                         }
                         boxff2.innerHTML = str;
@@ -784,9 +784,9 @@
                         for (let vo of popularList) {
                             str += '<div id="boardTxt">'
                                 + '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
-                                + '<div>' + vo.writerNo + '</div>'
-                                + '<div>' + vo.enrollDate + '</div>'
-                                + '<div>' + vo.hit + '</div>'
+                                + '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.writerName + '</div>'
+                                + '<div style="width: 200px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.enrollDate + '</div>'
+                                + '<div style="width: 50px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.hit + '</div>'
                                 + '</div> <hr>'
                         }
                         boxff2.innerHTML = str;

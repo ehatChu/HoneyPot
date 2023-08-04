@@ -497,10 +497,10 @@
 						</div>
 
 						<div id="box3" class="box">
-							<img id="mealImg" src="/app/resources/main/rectangle_375.png">
+							<img id="mealImg" src="/app/resources/meal/${mealListTotal[0].img}">
 							<div id="d01">
 								<div id="e01">오늘의 조식</div>
-								<div id="e02">떡볶이, 치킨, 감자탕, 핫도그, 어묵</div>
+								<div id="e02">${mealListTotal[0].menu}</div>
 								<div id="e03">
 									<button id="f01" onclick="location.href='/app/meal/mmeal'">조식
 										신청</button>
@@ -624,9 +624,9 @@
 					for (let vo of noticeList) {
 						str += '<div id="boardTxt">'
 							+ '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
-							+ '<div>' + vo.writerName + '</div>'
-							+ '<div>' + vo.enrollDate + '</div>'
-							+ '<div>' + vo.hit + '</div>'
+							+ '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.writerName + '</div>'
+							+ '<div style="width: 200px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.enrollDate + '</div>'
+							+ '<div style="width: 50px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.hit + '</div>'
 							+ '</div> <hr>'
 					}
 					boxff2.innerHTML = str;
@@ -652,9 +652,9 @@
 					for (let vo of popularList) {
 						str += '<div id="boardTxt">'
 							+ '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
-							+ '<div>' + vo.writerNo + '</div>'
-							+ '<div>' + vo.enrollDate + '</div>'
-							+ '<div>' + vo.hit + '</div>'
+							+ '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.writerName + '</div>'
+							+ '<div style="width: 200px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.enrollDate + '</div>'
+							+ '<div style="width: 50px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.hit + '</div>'
 							+ '</div> <hr>'
 					}
 					boxff2.innerHTML = str;
@@ -730,7 +730,7 @@
 				switch (category) {
 					case "SKY":
 						switch (fcstValue) {
-							case "1": sky = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-regular fa-sun fa-4x" style="color: #fe5739;"></i>'; break;
+							case "1": sky = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-solid fa-sun fa-4x" style="color: #ffa238;"></i>'; break;
 							default: sky = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-solid fa-cloud fa-4x" style="color: #838fa5;"></i>';
 						}
 						break;

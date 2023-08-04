@@ -84,4 +84,9 @@
 		SELECT PWD FROM MEMBER WHERE
 		EMAIL = #{email} AND ID = #{id}
 	</select>
+	
+	<update id="emailChangePwd">
+		UPDATE MEMBER SET PWD = #{pwd}
+		WHERE ID = #{id}
+	</update>
 </mapper>
