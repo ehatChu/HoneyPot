@@ -12,5 +12,8 @@ public class AdminFeeVo {
 	private String price;
 	private String paymentDate;
 	private String categoryName;
+	private String totalPrice;
+	
+	
 	
 }

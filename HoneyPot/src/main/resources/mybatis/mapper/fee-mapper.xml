@@ -195,6 +195,62 @@
 		WHERE NO= #{no}
 	</update>
 	
+	<!-- 관리자 총괄 월 별 조회 -->
+	<select id="AdminFeeList" resultType="com.hp.app.fee.vo.AdminFeeVo">
+		SELECT 
+		ADMIN_FEE.NO
+		,ADMIN_FEE.CONTENT
+		,ADMIN_FEE.PRICE
+		,ADMIN_FEE.PAYMENT_DATE
+		,ADMIN_FEE_CATEGORY.NAME AS CATEGORY_NAME
+		FROM ADMIN_FEE
+		JOIN ADMIN_FEE_CATEGORY
+		ON ADMIN_FEE.FEE_CNO = ADMIN_FEE_CATEGORY.NO
+		WHERE TO_CHAR(PAYMENT_DATE, 'YYYY-MM') = #{paymentDate}
+		ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<select id="getCategoryNo" resultType="String">
+		SELECT *
+		FROM 
+			(SELECT 
+			MFC.NO
+			FROM MEMBER_FEE_CATEGORY MFC
+			JOIN MEMBER_FEE MF
+			ON MF.FEE_CNO = MFC.NO
+			WHERE MFC.NAME = #{categoryName})
+        WHERE ROWNUM = 1
+	</select>
+	
+	<select id="getMemberNo" resultType="String">
+		SELECT *
+		FROM 
+			(SELECT 
+			M.NO
+			FROM MEMBER M
+			JOIN MEMBER_FEE MF
+			ON MF.MEMBER_NO = M.NO
+			WHERE M.DONG_NUM = #{dongNum}
+            AND M.HO_NUM = #{hoNum})
+        WHERE ROWNUM = 1
+	</select>
+	
+	<insert id="insertMemberFee">
+		INSERT INTO MEMBER_FEE
+		(
+		    NO
+		    ,MEMBER_NO
+		    ,FEE_CNO
+		    ,PRICE
+		)
+		VALUES
+		(
+		    SEQ_MEMBER_FEE_NO.NEXTVAL
+		    ,#{memberNo}
+		    ,#{feeCno}
+		    ,#{price}
+		)
+	</insert>
 	
 
 </mapper>

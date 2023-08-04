@@ -8,18 +8,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +39,7 @@ import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import retrofit2.http.GET;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,15 +49,16 @@ public class FeeController {
 	private final FeeService service;
 	
 	@GetMapping("fee/member")
-    public String memberList(Model model,HttpSession session,@RequestParam Map<String, String> paramMap) throws Exception {
+    public String memberList(RedirectAttributes redirectAttributes,Model model,HttpSession session,@RequestParam Map<String, String> paramMap) throws Exception {
        
-//            MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-//            String memberGrade = loginMember.getGrade();
-//            if (memberGrade == null || !memberGrade.equals("Y")) {
-//                throw new Exception("세대주가 아님");
-//            }
+            MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+            String memberGrade = loginMember.getGrade();
+            if (memberGrade == null || !memberGrade.equals("Y")) {
+            	redirectAttributes.addFlashAttribute("alertMsg", "세대주만 조회가 가능합니다.");
+                return "redirect:/main/mmain";
+            }
             //log.info(memberGrade);
-			String no = "1";
+			String no = loginMember.getNo();
 			paramMap.put("no", no);
 		    //mfMap.put("paymentDate", paymentDate);
 			log.info(paramMap.toString());
@@ -148,8 +157,6 @@ public class FeeController {
 		} 
 	
 	
-	
-	
 	//회원 납부 조회
 	// 회원 번호랑 월 데이터로 셀렉트(카테고리 이름, 가격)
 	@GetMapping("fee/member/pay")
@@ -196,15 +203,12 @@ public class FeeController {
 		return "/mypage/myInfo/fee/pay";
 	}
 	
-	// 회원 납부
-	
 		
 	// 관리자 조회
 	@GetMapping("fee/admin")
 	public String AdminList(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
 		
 		int listCount = service.adminListCnt(paramMap);
-		log.info("{listCount :,}", listCount);
 		int CurrentPage = p;
 		int pageLimit = 5;
 		int boardLimit = 10;
@@ -213,7 +217,6 @@ public class FeeController {
 		// 로그인한 회원 번호로 가계부 목록 조회
 		List<AdminFeeVo> avoList = service.adminList(pv, paramMap);
 		
-		log.info(avoList.toString());
 		if(!avoList.isEmpty()) {
 			model.addAttribute("pv", pv);
 		}
@@ -230,7 +233,7 @@ public class FeeController {
 		//vo.setAdminNo(loginMember.getNo());
 		vo.setAdminNo("1");
 		int result = service.add(vo);
-		
+		log.info(vo.toString());
 		if(result != 1) {
 			throw new RuntimeException();
 		}
@@ -241,9 +244,7 @@ public class FeeController {
 	@PostMapping(path="fee/admin/edit")
 	@ResponseBody
 	public String edit(AdminFeeVo vo) {
-		log.info(vo.toString());
 		int result = service.edit(vo);
-		log.info("result : {}", result);
 		if(result != 1) {
 			throw new RuntimeException();
 		}
@@ -253,7 +254,6 @@ public class FeeController {
 	// 관리자 관리비 삭제
 	@PostMapping("fee/admin/del")
 	public String del(String no) {
-		log.info(no);
 		int result = service.delete(no);
 		if(result != 1) {
 			throw new RuntimeException();
@@ -261,6 +261,114 @@ public class FeeController {
 		return "redirect:/fee/admin?p=1";
 	}
 	
+	// 관리자 월 별 총괄 조회
+	@GetMapping("fee/admin/getAllVoList")
+	@ResponseBody
+	public List<AdminFeeVo> getAllFee(@RequestParam String paymentDate) {
+
+		Map<String, String> monthMap = new HashMap<>();
+	    monthMap.put("paymentDate", paymentDate);
+
+	    List<AdminFeeVo> fvoList = service.getAllFee(monthMap);
+
+	    return fvoList;
+	}
+	
+	// 엑셀 다운도르
+	@RequestMapping("/fee/excelDown")
+	public void excelDownload(HttpServletResponse response, String paymentDate) throws Exception{
+		XSSFWorkbook wb=null;
+		Sheet sheet=null;
+		Row row=null;
+		Cell cell=null; 
+		wb = new XSSFWorkbook();
+		sheet = wb.createSheet("TotalFeeList");
+		
+		Map<String, String> monthMap = new HashMap<>();
+	    monthMap.put("paymentDate", paymentDate);
+		List<AdminFeeVo> totalFeeList =service.getAllFee(monthMap);
+		
+		//첫 행 열 이름 표기 
+		int cellCount=0;
+		row = sheet.createRow(0); 
+		cell=row.createCell(cellCount++);
+		cell.setCellValue("항목");
+		cell=row.createCell(cellCount++);
+		cell.setCellValue("비고");
+		cell=row.createCell(cellCount++);
+		cell.setCellValue("당월 금액");
+		cell=row.createCell(cellCount++);
+		cell.setCellValue("처리일자");
+		
+	
+		for(int i=0; i < totalFeeList.size() ; i++  ) {
+			row=sheet.createRow(i+1);  // '열 이름 표기'로 0번째 행 만들었으니까 1번째행부터
+			cellCount=0; //열 번호 초기화
+			cell=row.createCell(cellCount++);
+			cell.setCellValue(totalFeeList.get(i).getCategoryName());
+			cell=row.createCell(cellCount++);
+			cell.setCellValue(totalFeeList.get(i).getContent());
+			cell=row.createCell(cellCount++);
+			cell.setCellValue(totalFeeList.get(i).getPrice());
+			cell=row.createCell(cellCount++);
+			cell.setCellValue(totalFeeList.get(i).getPaymentDate());
+			
+		}
+
+		// 컨텐츠 타입과 파일명 지정
+		response.setContentType("ms-vnd/excel");
+		response.setHeader("Content-Disposition", "attachment;filename=month_total_FeeList.xlsx");  //파일이름지정.
+		//response OutputStream에 엑셀 작성
+		wb.write(response.getOutputStream());
+	}
+	
+	// 관리자 -> 회원 관리비 고지
+	// 고지하기 제출 누르면 회원 관리비로 인서트.
+	@PostMapping("fee/admin/toMember")
+	public String feeToMember(
+	    @RequestParam("dong") String dong,
+	    @RequestParam("ho") String ho,
+	    @RequestParam("categoryName") List<String> categoryNames,
+	    @RequestParam("price") List<String> prices,
+	    HttpSession session
+	) {
+	    
+	    List<MemberFeeVo> memberFeeVos = new ArrayList<>();
+	    for (int i = 0; i < categoryNames.size(); i++) {
+	        MemberFeeVo feeVo = new MemberFeeVo();
+	        feeVo.setDong(dong);
+	        feeVo.setHo(ho);
+	        feeVo.setCategoryName(categoryNames.get(i));
+	        feeVo.setPrice(prices.get(i));
+	        
+	        String categoryNo = service.getCategoryNo(categoryNames.get(i));
+	        if (categoryNo == null) {
+	            log.error("CategoryNo not found for categoryName: " + categoryNames.get(i));
+	            continue;
+	        }
+
+	        feeVo.setFeeCno(categoryNo);
+	        memberFeeVos.add(feeVo);
+	        log.info(feeVo.toString());
+	    }
+	    // Perform the insertion logic here using the memberFeeVos list.
+	    for (MemberFeeVo feeVo : memberFeeVos) {
+	         Map<String, String> dongHo = new HashMap<String, String>();
+	         dongHo.put("dongNum", feeVo.getDong());
+	         dongHo.put("hoNum", feeVo.getHo());
+	         String memberNo = service.getMemberNo(dongHo);
+	         log.info(memberNo);
+	         feeVo.setMemberNo(memberNo);
+	         log.info(feeVo.toString());
+	         int result = service.insertMemberFee(feeVo);
+	         System.out.println(result);
+	         if(result == 1) {
+	        	 System.out.println("인서트 성공");
+	         }
+	    }
+	    session.setAttribute("alertMsg", "고지 완료되었습니다.");
+	    return "redirect:/fee/admin";
+	}
 	
 	
 	

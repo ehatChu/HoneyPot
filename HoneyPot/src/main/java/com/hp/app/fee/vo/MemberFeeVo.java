@@ -1,6 +1,8 @@
 package com.hp.app.fee.vo;
 
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data

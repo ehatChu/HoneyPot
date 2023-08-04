@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<!DOCTYPE html>
 	<html>
@@ -62,7 +63,7 @@
                                             <td>${vo.paymentDate }</td>
                                             <td class="detailBtn Dbtn-click">${vo.content }</td>
                                             <td><button id="editBtn" class="editBtn Ebtn-click"><i class="fa-solid fa-pen"></i></button></td>
-                                            <td><button id="delBtn"><i class="fa-solid fa-xmark fa-lg"></i></button></td>
+                                            <td><button class="delBtn"><i class="fa-solid fa-xmark fa-lg"></i></button></td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -109,12 +110,15 @@
                                                         <select id="A_afee_category" name="feeCno">
                                                             <option value="1">시설 유지보수</option>
                                                             <option value="2">소독 및 청소</option>
-                                                            <option value="3">경비원 비용</option>
-                                                            <option value="4">정원 가꾸기</option>
-                                                            <option value="5">보험</option>
+                                                            <option value="3">경비용역비</option>
+                                                            <option value="4">승강기유지비</option>
+                                                            <option value="5">보험료</option>
                                                             <option value="6">공공 요금</option>
                                                             <option value="7">일반 관리비</option>
-                                                            <option value="8">기타</option>
+                                                            <option value="8">입주자대표운영비</option>
+                                                            <option value="9">위탁관리수수료</option>
+                                                            <option value="10">장기수선충당금</option>
+                                                            <option value="11">기타</option>
                                                           </select>
                                                     </div>
                                                 </div>
@@ -141,53 +145,187 @@
                         <div id="title-area">
                             <div>
                                 <select name="" id="date-box">
-									<option value="2023-02">02월</option>
 									<option value="2023-03">03월</option>
 									<option value="2023-04">04월</option>
 									<option value="2023-05">05월</option>
-									<option value="2023-06" selected>06월</option>
+									<option value="2023-06">06월</option>
+									<option value="2023-07" selected>07월</option>
 								</select>
                                <div>관리비 총괄표</div>                            
                             </div>
+                            <div class="toMember">
+                                <button class="sendBtn">관리비 고지</button>
+                            </div>
                             <div class="excel">
-                                <img src="/app/resources/temp/excel.png" alt="" width="40" height="40">
+                                <a href="<c:url value='/fee/excelDown' />" class="btn  btn-sm btn-default" target="_blank" id="excelDown"><img src="/app/resources/temp/excel.png" alt="" width="40" height="40"></a>
+                            </div>
+                            <script>
+                                $(document).ready(function() {
+                                    $("#excelDown").click(function() {
+                                        event.preventDefault();
+        
+                                        // select 엘리먼트에서 name 속성이 "paymentDate"인 값을 가져옵니다.
+                                        const selectedMonth = $("#date-box").val();
+                                        console.log(selectedMonth);
+
+                                        const newURL = $(this).attr("href") + `?paymentDate=` + selectedMonth;
+                                        console.log(newURL);
+
+                                        window.location.href = newURL;
+                                    });
+                                });
+                            </script>
+                        </div>
+
+                        <!-- 관리비 고지 모달 -->
+                        <div class="send-modal hidden">
+                            <div class="bg"></div>
+                            <div class="s_modalBox">
+                                <div class="upper-bar">
+                                    <span>관리비 고지</span>
+                                    <button class="EcloseBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+                                </div>
+                                <div class="s_content-modal">
+                                    <div class="s_first-area">
+                                        <div>
+                                            <div class="memberText">고지 대상</div>
+                                            <br>
+                                            <form action="/app/fee/admin/toMember" method="POST">
+                                                <select id="dong-num" name="dong">
+                                                    <option value="101">101</option>
+                                                    <option value="102">102</option>
+                                                    <option value="103">103</option>
+                                                    <option value="201">201</option>
+                                                    <option value="202">202</option>
+                                                    <option value="203">203</option>
+                                                    <option value="301">301</option>
+                                                    <option value="302">302</option>
+                                                    <option value="303">303</option>
+                                                </select>
+                                                동
+                                                 <input type="text" name="ho" id="ho-num" dir="rtl">
+                                                호
+                                            </div>
+                                        </div>
+                                        <div class="s_second-area">
+                                            <div class="priceText">고지 금액 <div>세대 수 기준(단, 공공요금 제외)</div></div> 
+                                            <br>
+                                            <div id="price-content">
+                                                <div class="left">
+                                                    <div><input type="text" value="시설유지보수" name="categoryName" id="categoryName" readonly> <input type="text" id="price" name="price" value="15000"></div>
+                                                    <br/>
+                                                    <div><input type="text" value="소독 및 청소"name="categoryName" id="categoryName" readonly>  <input type="text" id="price" name="price" value="20000"></div>
+                                                    <br/>
+                                                    <div><input type="text" value="경비용역비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="250000"></div>
+                                                    <br/>
+                                                    <div><input type="text" value="승강기유지비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="30000"></div>
+                                                    <br/>
+                                                    <div><input type="text" value="기타"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="1000"></div>
+                                                    <br/>
+                                                    <div><input type="text" value="전기료"name="categoryName" id="categoryName" readonly>  <input type="text" id="price" name="price"></div>
+                                                    <br/>
+                                                    <div><input type="text" value="난방비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price" name="price"></div>
+                                                </div>
+                                                <div class="right">
+                                                    <div><input type="text" value="보험료"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="25020"></div>
+                                                    <br/>
+                                                    <div><input type="text" value="일반 관리비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="147000"></div>
+                                                    <br/>
+                                                    <div><input type="text" value="입주자대표운영비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="3000"></div>
+                                                    <br/>
+                                                    <div><input type="text" value="위탁관리수수료"name="categoryName" id="categoryName" readonly>  <input type="text" id="price" name="price"value="2010"></div>
+                                                    <br/>
+                                                    <div><input type="text" value="장기수선충당금"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="14200"></div>
+                                                    <br/>
+                                                    <div><input type="text" value="수도 및 온수비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" ></div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div id="submitBtn"><button id="submitBtn" type="submit">고지하기</button></div>
+                                        </form>
+                                </div>
                             </div>
                         </div>
+                        <script>
+                            $(document).ready(function() {
+                                $(".sendBtn").on("click", function() {
+                                
+                                $(".send-modal").removeClass("hidden");
+                                });
+
+                                $(".EcloseBtn").on("click", function() {
+                                $(".send-modal").addClass("hidden");
+                                });
+
+                                $("submitBtn").on("click", function() {
+
+                                $(".edit-modal").addClass("hidden");
+                                });
+                            });
+
+                        </script>
+
                         <div>
                             <table class="Ad_detail">
                                 <thead>
                                     <tr class="line">
                                         <th>항목</th>
-                                        <th>당월 발생금액</th>
-                                        <th>전월 발생금액</th>
                                         <th>비고</th>
+                                        <th>당월 발생금액</th>
+                                        <th>처리 일자</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <!-- <c:forEach begin="1" end="5"> -->
-                                        <tr class="line" id="test">
-                                            <td>일반관리비</td>
-                                            <td>21,750,840</td>
-                                            <td>21,640,330</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="line" id="test">
-                                            <td>감가상각비</td>
-                                            <td>490,000</td>
-                                            <td>490,000</td>
-                                            <td>일반관리비에서 분리</td>
-                                        </tr>
-                                        <tr class="line" id="subTotal">
-                                            <td>소계</td>
-                                            <td>55,740,840</td>
-                                            <td>55,740,840</td>
-                                            <td></td>
-                                        </tr>
-                                    <!--</c:forEach>-->
+                                <tbody id="table-body">
+                                   
                                 </tbody>
                             </table>
                         </div>
                         </div>
+
+                        <!-- 총괄 조회 ajax  -->
+                        <script>
+                           $().ready(function () {
+                            const defaultDate = "2023-07";
+                            getDataFromServer(defaultDate);
+
+                            $("#date-box").on("change", function () {
+                                const selectedDate = $(this).val();
+                                getDataFromServer(selectedDate);
+                            });
+                        });
+
+                        function getDataFromServer(date) {
+
+                            
+                            $.ajax({
+                                url: '/app/fee/admin/getAllVoList',
+                                type: 'GET',
+                                data: { paymentDate: date },
+                                dataType: 'json',
+                                success: function (data) {
+                                    const tbody = $("#table-body");
+        
+                                    tbody.empty();
+                                    data.forEach(item => {
+                                        const tr = $("<tr>").addClass("line");
+                                        tr.append($("<td>").text(item.categoryName)); 
+                                        tr.append($("<td>").text(item.content)); 
+                                        const formattedPrice = parseInt(item.price).toLocaleString(); 
+                                        tr.append($("<td>").text(formattedPrice));
+                                        const paymentDate = item.paymentDate.substring(0, 10);
+                                        tr.append($("<td>").text(paymentDate));
+
+                                        tbody.append(tr);                                 
+                                })
+                            },
+                                error: function (xhr, status, error) {
+                                    console.error('AJAX 요청 실패:', error);
+                                }
+                            });
+                        }
+
+                        </script>
 
                         <!-- 수정 모달 영역 -->
                         <div class="edit-modal hidden">
@@ -208,15 +346,18 @@
                                         <div>
                                             <span>카테고리</span>
                                             <br>
-                                            <select class="E_afee_category" name="feeCno" id="E_feeCno">
+                                            <select class="E_afee_category" name="feeCno" id="E_categoryName">
                                                 <option value="1">시설 유지보수</option>
                                                 <option value="2">소독 및 청소</option>
-                                                <option value="3">경비원 비용</option>
-                                                <option value="4">정원 가꾸기</option>
-                                                <option value="5">보험</option>
+                                                <option value="3">경비용역비</option>
+                                                <option value="4">승강기유지비</option>
+                                                <option value="5">보험료</option>
                                                 <option value="6">공공 요금</option>
                                                 <option value="7">일반 관리비</option>
-                                                <option value="8">기타</option>
+                                                <option value="8">입주자대표운영비</option>
+                                                <option value="9">위탁관리수수료</option>
+                                                <option value="10">장기수선충당금</option>
+                                                <option value="11">기타</option>
                                               </select>
                                         </div>
                                     </div>
@@ -253,15 +394,18 @@
                                             <div>
                                                 <span>카테고리</span>
                                                 <br>
-                                                <select class="D_afee_category" name="feeCno" id="D_feeCno">
+                                                <select class="D_afee_category" name="categoryName" id="D_categoryName">
                                                     <option value="1">시설 유지보수</option>
                                                     <option value="2">소독 및 청소</option>
-                                                    <option value="3">경비원 비용</option>
-                                                    <option value="4">정원 가꾸기</option>
-                                                    <option value="5">보험</option>
+                                                    <option value="3">경비용역비</option>
+                                                    <option value="4">승강기유지비</option>
+                                                    <option value="5">보험료</option>
                                                     <option value="6">공공 요금</option>
                                                     <option value="7">일반 관리비</option>
-                                                    <option value="8">기타</option>
+                                                    <option value="8">입주자대표운영비</option>
+                                                    <option value="9">위탁관리수수료</option>
+                                                    <option value="10">장기수선충당금</option>
+                                                    <option value="11">기타</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -293,6 +437,7 @@
 		firstNav(['회원관리', '상담센터', '게시판', '단지관리', '캘린더'],'단지관리');
 		secondNav(['관리비', '비품관리', '편의시설관리', '리뷰관리'],'관리비');
     	headerName('관리자');
+        secondNavLink(['/app/fee/admin','', '','']);
 
         $(document).ready(function() {
             function inputVisibility() {
@@ -404,11 +549,7 @@
 
 	const x = "${paramMap.searchType}"; 
 
-	if(x === 'content'){
-		searchTypeTagArr[0].selected = true;
-	}else if(x === 'paymentDate'){
-		searchTypeTagArr[1].selected = true;
-	}
+
 
     // form 제출할 때 값 보내주기 
     $("#adminFeeForm").submit(function (e) {
@@ -451,7 +592,7 @@
         $(document).ready(function() {
         $(".editBtn").on("click", function() {
         var no = $(this).closest("tr").find("td:nth-child(1)").text().trim();
-        var categoryName = $(this).closest("tr").find("td:nth-child(2)").text().trim();
+        var categoryNo = $(this).closest("tr").find("td:nth-child(2)").val();
         var paymentDate = $(this).closest("tr").find("td:nth-child(4)").text().trim();
         var content = $(this).closest("tr").find("td:nth-child(5)").text().trim();
         var price = $(this).closest("tr").find("td:nth-child(3)").text().trim();
@@ -463,8 +604,8 @@
         $("#E_price").val(numericPrice || 0);
         $("#E_no").val(no);
         // 카테고리 선택된 값 가져오기
-        $("#E_feeCno option").filter(function() {
-            return $(this).text() === categoryName;
+        $("#E_categoryName option").filter(function() {
+            return $(this).val() === categoryNo;
         }).prop('selected', true);
 
         $(".edit-modal").removeClass("hidden");
@@ -476,7 +617,7 @@
 
         $("#E_submitBtn").on("click", function() {
 
-        var updatedCategoryName = $("#E_feeCno").val();
+        var updatedCategoryName = $("#E_categoryName").val();
         var updatedPaymentDate = $("#E_paymentDate").val();
         var updatedContent = $("#E_detailContent").val();
         console.log(updatedContent);
@@ -525,7 +666,7 @@
         $("#D_detailContent").text(content);
         $("#D_price").val(numericPrice || 0);
         // 카테고리 선택된 값 가져오기
-        $("#D_feeCno option").filter(function() {
+        $("#D_categoryName option").filter(function() {
             return $(this).text() === categoryName;
         }).prop('selected', true);
 
@@ -553,9 +694,8 @@
             obj.value = comma(uncomma(obj.value));
         }
 
-        // 삭제 모달
-        $().ready(function () {
-        $("#delBtn").click(function () { 
+        // 삭제 버튼 클릭 이벤트 처리
+        $(".delBtn").click(function () {
             const row = $(this).closest('tr');
             const ano = row.find('td:nth-child(1)').text();
             Swal.fire({
@@ -574,7 +714,7 @@
                         url: '/app/fee/admin/del',  
                         data: { no: ano }, 
                         success: function (response) {
-                                location.reload();
+                            location.reload();
                         },
                         error: function (error) {
                             console.error('AJAX 요청 실패:', error);
@@ -583,6 +723,7 @@
                 }
             });
         });
-    });
+
+
 		
 	</script>

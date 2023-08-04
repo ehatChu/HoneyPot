@@ -53,5 +53,17 @@ public interface FeeDao {
 	// 납부 완료 시 여부 전환
 	int changePayStatus(SqlSessionTemplate sst, String memberName);
 
+	//관리자 관리비 총괄 조회(월별)
+	List<AdminFeeVo> getAllFee(SqlSessionTemplate sst, Map<String, String> monthMap);
+
+	// 카테고리 번호 조회
+	String getCategoryNo(SqlSessionTemplate sst, String categoryName);
+
+	// 동호로 회원 번호
+	String getMemberNo(SqlSessionTemplate sst, Map<String, String> dongHo);
+
+	// 회원 관리비 고지
+	int insertMemberFee(SqlSessionTemplate sst, MemberFeeVo feeVo);
+
 	
 }
