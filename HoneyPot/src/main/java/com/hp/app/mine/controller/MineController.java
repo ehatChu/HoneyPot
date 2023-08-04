@@ -143,15 +143,10 @@ public class MineController {
 	@GetMapping("property-list/search")
 	public String propertyListSearch(@RequestParam Map<String,String> searchValueMap,Model model) {
 		//일단 값이 잘 넘어왔는지 살피기
-		
+		log.info("map : {}",searchValueMap);
 		List<MineVo> mvoList =null;
-		//분류가 전체일때...
-		if(searchValueMap.get("carOrBicycle").equals("0")) {
-			//search-mapper1과 연결
-			mvoList = service.searchAllList(searchValueMap);
-		}else {
-		}
 		
+		mvoList = service.searchAllList(searchValueMap);
 		
 		//아닐때
 		log.info("mvoList : {}",mvoList);
@@ -161,7 +156,7 @@ public class MineController {
 		//model에 minVoList로 넘기자
 		model.addAttribute("mineVoList",mvoList);
 		
-		return "admin/member/property-list";
+		return "admin/member/car-list";
 	}
 	
 	@PostMapping("property-refuse")
