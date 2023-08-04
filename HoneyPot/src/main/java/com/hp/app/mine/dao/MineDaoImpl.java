@@ -19,26 +19,32 @@ public class MineDaoImpl implements MineDao {
 
 	@Override
 	public int registerCar(SqlSessionTemplate sst,MineVo mvo) {
-		return sst.insert("mine.registerCar",mvo);
+		int result =0;
+		try {
+			result = sst.insert("mine.registerCar",mvo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 
 	@Override
-	public List<MineVo> getAllList(SqlSessionTemplate sst, PageVo pv) {
+	public List<MineVo> getCarList(SqlSessionTemplate sst, PageVo pv) {
 		RowBounds rb = new RowBounds(pv.getOffset(),pv.getBoardLimit());
-		return sst.selectList("mine.getAllListAdmin",null,rb);
+		return sst.selectList("mine.getCarListAdmin",null,rb);
 	}
 	
 	/*페이징 처리를 안한, pvo를 안받는, 개인조회를 위해 이름만 같은 오버로딩을 사용 pvo를 없애줌*/
 	@Override
-	public List<MineVo> getAllList(SqlSessionTemplate sst, MemberVo loginMember) {
-		return sst.selectList("mine.getAllListMember",loginMember);
+	public List<MineVo> getCarList(SqlSessionTemplate sst, MemberVo loginMember) {
+		return sst.selectList("mine.getCarListMember",loginMember);
 	}
 	
 
 	@Override
-	public int getAllCnt(SqlSessionTemplate sst) {
-		return sst.selectOne("mine.getAllCnt");
+	public int getCarCnt(SqlSessionTemplate sst) {
+		return sst.selectOne("mine.getCarCnt");
 	}
 
 
@@ -49,10 +55,10 @@ public class MineDaoImpl implements MineDao {
 
 	//관리자 사유물 상세조회
 	@Override
-	public MineVo getDetailAdmin(SqlSessionTemplate sst, int no) {
+	public MineVo getDetailAdmin(SqlSessionTemplate sst,Map<String, String> map) {
 		MineVo mvo = null;
 		try {
-			mvo  = sst.selectOne("mine.getDetailAdmin",no);
+			mvo  = sst.selectOne("mine.getDetailAdmin",map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -70,6 +76,12 @@ public class MineDaoImpl implements MineDao {
 			e.printStackTrace();
 		}
 		return mvoList;
+	}
+
+	//관리자 권한 사유물 삭제
+	@Override
+	public int deleteProperty(SqlSessionTemplate sst,Map<String, String> map) {
+		return sst.delete("mine.deleteProperty",map);
 	}
 	 
 	

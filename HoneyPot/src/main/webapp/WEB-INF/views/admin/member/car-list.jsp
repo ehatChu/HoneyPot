@@ -377,7 +377,7 @@
                 <div id="modal-top-area">
 					<span class="margin-left-20 text-bold text-size-18">사유물상세정보</span><span><i class="fa-solid fa-xmark fa-2xl margin-right-20 quit-btn" style="color: #000000;"></i></span>
 				</div>
-                <form action="/app/property-refuse" method="post">
+                <form action="/app/admin/property-delete" method="get">
                     <div id="modal-main-area">
                         
                             <div id="modal-img-area">
@@ -434,19 +434,19 @@
                 type : "get",
                 data : {
                     no : bno,
+                    kinda : "CAR",
                 },
                 dataType : "json",
                 success : function(dataJson){
                     console.log(dataJson.name);
                     console.log(dataJson.uniqueNum);
-                    console.log(dataJson.kinda);
+
                     name.innerHTML = dataJson.name;
                     uniqueNum.innerHTML =dataJson.uniqueNum;
                     img.src = "/app/resources/member/mine/"+dataJson.img;
                     detailNo.value = bno;
-                    detailKinda.value = dataJson.kinda;
                     //종류도 받아와서 ajax로 받아서 input의 value로 넣기
-
+                    detailKinda.value = "CAR";
                 } ,
                 error : function(e){
                     console.log(e);
