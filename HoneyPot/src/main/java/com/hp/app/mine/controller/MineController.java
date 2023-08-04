@@ -15,8 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hp.app.exception.YerinException;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.mine.service.MineService;
@@ -84,7 +87,7 @@ public class MineController {
 	
 	// 사유물내역 (화면)
 	@GetMapping("property-list")
-	public String propertyList(int p,Model model) {
+	public String propertyList(int p,Model model){
 		//getCnt로 가져오기
 		//car와 자전거까지 다 세기
 		//도대체 이게 왜안되는지 모르겠다.
@@ -99,10 +102,28 @@ public class MineController {
 		//리스트를 가져올때 페이지vo를 넘기면서 가져오기		
 		//전체조회시 pv만 들어가게 조회
 		List<MineVo> mvoList = service.getAllList(pv);
+		
 		model.addAttribute("pv",pv);
 		model.addAttribute("mineVoList",mvoList);
+
 		
 		return "admin/member/property-list";
 	}
+	
+	@GetMapping(produces ="application/json; charset=UTF-8",value = "property-detail")
+	@ResponseBody
+	public String propertyDetail(int no) throws Exception {
+		log.info("디테일 받은 넘버 no : {}",no);
 		
+		ObjectMapper om = new ObjectMapper();
+		 
+		// Map or List Object 를 JSON 문자열로 변환
+		List<String> temp = new ArrayList<String>();
+		temp.add("안녕");
+		temp.add("바이");
+		
+		String jsonStr = om.writeValueAsString(temp);
+		log.info(jsonStr);
+		return jsonStr;
+	}
 }
