@@ -28,7 +28,7 @@ public class MailSendService {
 	// 이메일 보낼 양식!
 	public String joinEmail(String email) throws MessagingException {
 		makeRandomNumber();
-		String setFrom = "j10345678@gmail.com"; // email-config에 설정한 자신의 이메일 주소를 입력
+		String setFrom = "꿀단지 <j10345678@gmail.com>"; // email-config에 설정한 자신의 이메일 주소를 입력
 		String toMail = email;
 		String title = "[인증번호] 푸리미엄 꿀단지 본인 인증"; // 이메일 제목
 		String content = "푸리미엄 꿀단지 홈페이지를 방문해주셔서 감사합니다." + // html 형식으로 작성 !

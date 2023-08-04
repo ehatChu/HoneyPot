@@ -35,6 +35,7 @@
                 },
                 error: function () {
                     alert("getWeatherInfo error");
+                    location.reload();
                 }
             });
         }
@@ -53,6 +54,7 @@
                 },
                 error: function () {
                     alert("getNanoDustInfo error");
+                    location.reload();
                 }
             });
         }

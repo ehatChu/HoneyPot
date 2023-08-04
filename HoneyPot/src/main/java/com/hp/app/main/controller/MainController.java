@@ -13,6 +13,8 @@ import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.calendar.vo.NoticeCalendarVo;
 import com.hp.app.calendar.vo.MemberCalendarVo;
 import com.hp.app.main.service.MainService;
+import com.hp.app.meal.service.MealService;
+import com.hp.app.meal.vo.MealVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
@@ -24,13 +26,14 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("main")
 public class MainController {
 	private final MainService ms;
+	private final MealService mealService;
 
 	@GetMapping("mmain")
 	public String mmain(HttpSession session, Model model) {
 		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		if (loginMember == null) {
 			session.setAttribute("alertMsg", "로그인이 필요한 서비스입니다");
-			return "member/mlogin";
+			return "redirect:/member/mlogin";
 		}
 		AdminVo captain = ms.getCaptain(loginMember.getDongNum() + "동대표");
 		session.setAttribute("captain", captain);
@@ -38,11 +41,12 @@ public class MainController {
 		List<MemberCalendarVo> memberCalendarList = ms.getMemberCalendarList(loginMember.getNo());
 		List<MemberVo> memberPointList = ms.getMemberPointList();
 		List<MemberVo> dongPointList = ms.getDongPointList();
-
+		List<MealVo> mealListTotal = mealService.getMealList();
+		
 		model.addAttribute("memberPointList", memberPointList);
 		model.addAttribute("memberCalendarList", memberCalendarList);
 		model.addAttribute("dongPointList", dongPointList);
-
+		model.addAttribute("mealListTotal", mealListTotal);
 		return "main/mmain";
 	}
 

@@ -358,7 +358,7 @@
 							<div id="blank01"></div>
 							<div id="profile-area">
 								<div id="profile-img" onclick="location.href='/app/member/medit';">
-									<img src="/app/resources/profile/exam_profile.png" height="230px">
+									<img src="/app/resources/member/profile/${loginMember.profile}" height="230px">
 									<div id="setting-icon-area">
 										<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
 									</div>
@@ -420,7 +420,7 @@
 							<div id="blank01"></div>
 							<div id="profile-area">
 								<div id="profile-img" onclick="location.href='/app/member/aedit';">
-									<img src="/app/resources/profile/exam_profile.png" height="230px">
+									<img src="/app/resources/member/profile/${loginAdmin.profile}" height="230px">
 									<div id="setting-icon-area">
 										<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
 									</div>

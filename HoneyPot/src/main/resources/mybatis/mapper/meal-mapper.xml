@@ -51,8 +51,8 @@
 		BREAKFAST_DATE
 	</select>
 
-	<update id="cancelApply">
-		UPDATE MEAL_RESERVATION SET STATUS = 'X'
+	<delete id="cancelApply">
+		DELETE MEAL_RESERVATION
 		WHERE NO = #{no}
-	</update>
+	</delete>
 </mapper>

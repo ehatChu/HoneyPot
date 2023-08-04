@@ -71,9 +71,8 @@
 	<body>
 		<div id="floor">
 			<div id="login-area">
-				<form id="loginForm" action="/app/member/findPwd" method="post" onsubmit="return validateForm()">
+				<form id="loginForm" action="/app/member/findPwdEmail" method="post" onsubmit="return validateForm()">
 					<input hidden type="text" class="box" name="id" value="${id}">
-					<input hidden type="text" class="box" name="email" value="${email}">
 					<div></div>
 					<div class="logo" onclick="location.href = '/app/member/mlogin';">
 						<img id="logo" src="/app/resources/main/honeyPot.png">
@@ -81,7 +80,7 @@
 					<div></div>
 					<div id="tit">인증번호</div>
 					<input style="padding-left: 30px;" type="text" class="box" name="emailCheck">
-					<div></div>
+					<div id="timer"></div>
 					<div></div>
 					<input type="submit" class="box box2" value="확인">
 					<div></div>
@@ -93,6 +92,42 @@
 	</html>
 
 	<script>
+		// 인증 종료 시간
+		let timerInterval;
+		let remainingTime = 10;
+		startTimer();
+
+		function startTimer() {
+			if (timerInterval) {
+				return;
+			}
+			timerInterval = setInterval(updateTimer, 1000);
+		}
+
+		function stopTimer() {
+			clearInterval(timerInterval);
+			timerInterval = null;
+			remainingTime = 300;
+			updateTimer();
+		}
+
+		function updateTimer() {
+			const minutes = Math.floor(remainingTime / 60);
+			const seconds = remainingTime % 60;
+			const formattedMinutes = String(minutes).padStart(2, '0');
+			const formattedSeconds = String(seconds).padStart(2, '0');
+
+			document.getElementById('timer').innerText = formattedMinutes + " : " + formattedSeconds;
+
+			if (remainingTime === 0) {
+				stopTimer();
+				alert("인증 시간이 완료되었습니다");
+				location.href = "/app/member/mlogin"
+			} else {
+				remainingTime--;
+			}
+		}
+
 		function validateForm() {
 			const emailCheck = document.querySelector("input[name=emailCheck]")
 			if (emailCheck.value.trim() != '${emailCheck}') {

@@ -11,7 +11,7 @@
                 width: 100px;
                 display: flex;
                 justify-content: space-evenly;
-                align-items: center;
+                align-items: top;
                 font-size: 15px;
                 margin-left: 10px;
                 margin-bottom: 5px;
@@ -48,7 +48,7 @@
                 switch (category) {
                     case "SKY":
                         switch (fcstValue) {
-                            case "1": sky = '<i class="fa-regular fa-sun fa-2x" style="color: #fe5739;"></i>'; break;
+                            case "1": sky = '<i class="fa-solid fa-sun fa-2x" style="color: #ffa238;"></i>'; break;
                             default: sky = '<i class="fa-solid fa-cloud fa-2x" style="color: #838fa5;"></i>';
                         }
                         break;

@@ -34,7 +34,7 @@ public class MemberServiceImpl implements MemberService{
 				throw new Exception();
 			}
 		} catch (Exception e) {
-			throw new RuntimeException();
+			return null;
 		}
 		
 		return loginMember;
@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberService{
 				throw new Exception();
 			}
 		} catch (Exception e) {
-			throw new RuntimeException();
+			return null;
 		}
 		
 		return loginAdmin;
@@ -108,5 +108,12 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public String findPwd(MemberVo vo) {
 		return dao.findPwd(sst, vo);
+	}
+
+	@Override
+	public int emailChangePwd(MemberVo vo) {
+		String pwd = vo.getPwd();
+		vo.setPwd(pwdEncoder.encode(pwd));
+		return dao.emailChangePwd(sst, vo);
 	}
 }

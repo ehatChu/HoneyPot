@@ -29,4 +29,6 @@ public interface MemberDao {
 
 	String findPwd(SqlSessionTemplate sst, MemberVo vo);
 
+	int emailChangePwd(SqlSessionTemplate sst, MemberVo vo);
+
 }

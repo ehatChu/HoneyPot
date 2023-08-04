@@ -57,12 +57,12 @@ public class MealDaoImpl implements MealDao {
 	@Override
 	public List<MealVo> getApplyList(SqlSessionTemplate sst, String no, PageVo pv) {
 		RowBounds rb = new RowBounds(pv.getOffset() , pv.getBoardLimit());
-		return sst.selectList("meal.getApplyList", no);
+		return sst.selectList("meal.getApplyList", no, rb);
 	}
 
 	@Override
 	public int cancelApply(SqlSessionTemplate sst, String no) {
-		return sst.update("meal.cancelApply", no);
+		return sst.delete("meal.cancelApply", no);
 	}
 
 }

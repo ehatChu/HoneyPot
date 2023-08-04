@@ -286,18 +286,29 @@ public class MemberController {
 		return "member/emailCheckPwd";
 	}
 
-	@PostMapping("findId")
+	@PostMapping("findIdEmail")
 	public String findId(String email, Model model) {
 		String id = ms.findId(email);
 		model.addAttribute("id", id);
 		return "member/emailResult";
 	}
 
-	@PostMapping("findPwd")
+	@PostMapping("findPwdEmail")
 	public String findPwd(MemberVo vo, Model model) {
-		String pwd = ms.findPwd(vo);
-		model.addAttribute("pwd", pwd);
-		return "member/emailResult";
+		model.addAttribute("id", vo.getId());
+		return "member/emailChangePwd";
+	}
+
+	@PostMapping("emailChangePwd")
+	public String emailChangePwd(MemberVo vo, HttpSession session) {
+		int result = ms.emailChangePwd(vo);
+		log.info("result : {}", result);
+		if (result != 1) {
+			session.setAttribute("alertMsg", "비밀번호 재설정을 실패하였습니다");
+		} else {
+			session.setAttribute("alertMsg", "비밀번호 재설정을 완료하였습니다");
+		}
+		return "redirect:/member/mlogin";
 	}
 
 	@PostMapping("changePwd")

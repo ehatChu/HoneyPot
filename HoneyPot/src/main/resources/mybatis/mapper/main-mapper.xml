@@ -74,7 +74,21 @@
 
 	<select id="getPopularList"
 		resultType="com.hp.app.board.vo.BoardVo">
-		SELECT * FROM BOARD
+		SELECT
+		B.NO AS NO
+		,B.WRITER_NO AS WRITER_NO
+		,M.NAME AS WRITER_NAME
+		,B.BOARD_CNO AS BOARD_CNO
+		,C.NAME AS BOARD_CNAME
+		,TITLE
+		,B.CONTENT AS CONTENT
+		,B.ENROLL_DATE AS ENROLL_DATE
+		,B.MODIFY_DATE AS MODIFY_DATE
+		,HIT
+		FROM
+		BOARD B
+		JOIN BOARD_CATEGORY C ON B.BOARD_CNO = C.NO
+		JOIN MEMBER M ON B.WRITER_NO = M.NO
 		ORDER BY HIT DESC
 	</select>
 
@@ -122,19 +136,22 @@
 		SELECT COUNT(*) FROM REPORT
 		WHERE ANSWER_DATE IS NULL
 	</select>
-	
+
 	<select id="getQnaCnt" resultType="int">
 		SELECT COUNT(*) FROM QNA
-		WHERE ANSWER_DATE IS NULL
+		WHERE
+		ANSWER_DATE IS NULL
 	</select>
-	
+
 	<select id="getNormalMemberCnt" resultType="int">
-		SELECT COUNT(*) FROM MEMBER
+		SELECT COUNT(*) FROM
+		MEMBER
 		WHERE STATUS = 'Y'
 	</select>
-	
+
 	<select id="getWaitMemberCnt" resultType="int">
-		SELECT COUNT(*) FROM MEMBER 
+		SELECT COUNT(*) FROM
+		MEMBER
 		WHERE STATUS = 'W'
 	</select>
 </mapper>
