@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.hp.app.member.vo.MemberVo;
+import com.hp.app.point.vo.PointVo;
+import com.hp.app.restriction.vo.RestrictionVo;
 
 @Repository
 public class MemberManagementDaoImpl implements MemberManagementDao{
@@ -33,13 +35,31 @@ public class MemberManagementDaoImpl implements MemberManagementDao{
 	// 일반 회원 삭제
 	@Override
 	public int deleteMember(SqlSessionTemplate sst, String mno) {
-		return 0;
+		return sst.update("memberManagement.deleteMember", mno);
 	}
 	
 	// 일반 회원 상벌점 주기
 	@Override
-	public int insertPointMember(SqlSessionTemplate sst, String mno) {
-		return 0;
+	public int insertPointMember(SqlSessionTemplate sst, PointVo vo) {
+		return sst.insert("memberManagement.insertPointMember", vo);
+	}
+
+	// 정규 회원 등록
+	@Override
+	public int regularMember(SqlSessionTemplate sst, String mno) {
+		return sst.update("memberManagement.regularMember", mno);
+	}
+
+	// 일반 회원 정지 시키기
+	@Override
+	public int stopMember(SqlSessionTemplate sst, RestrictionVo vo) {
+		return sst.insert("memberManagement.stopMember", vo);
+	}
+
+	// 일반 회원 정지 상태로 바꾸기
+	@Override
+	public int updateMemberStatus(SqlSessionTemplate sst, String memberNo) {
+		return sst.update("memberManagement.updateMemberStatus", memberNo);
 	}
 
 }

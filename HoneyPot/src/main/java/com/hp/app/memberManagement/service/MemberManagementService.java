@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.hp.app.member.vo.MemberVo;
+import com.hp.app.point.vo.PointVo;
+import com.hp.app.restriction.vo.RestrictionVo;
 
 public interface MemberManagementService {
 
@@ -22,9 +24,13 @@ public interface MemberManagementService {
 	int deleteMember(String mno);
 	
 	// 일반 회원 상벌점 주기
-	int insertPointMember(String mno);
-	
+	int insertPointMember(PointVo vo);
+
+	// 정규 회원 등록
+	int regularMember(String mno);
+
 	// 일반 회원 정지 시키기
+	int stopMember(RestrictionVo vo)  throws Exception;
 
 	// 관리자
 	// 관리자 조회
