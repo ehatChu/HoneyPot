@@ -41,9 +41,13 @@
                     <div>${memberCntMap.sum}</div>
                 </a>
 
-                <a href="/app/admin/member/member-list?searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}&status=N" class="member-category border-r-solid" id="memberN">
+                <a href="/app/admin/member/member-list?searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}&status=N" class="member-category" id="memberN">
                     <div>신규회원</div>
-                    <div>${memberCntMap.statusNum}</div>
+                    <div>${memberCntMap.statusN}</div>
+                </a>
+                <a href="/app/admin/member/member-list?searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}&status=S" class="member-category border-r-solid" id="memberS">
+                    <div>정지회원</div>
+                    <div>${memberCntMap.statusS}</div>
                 </a>
             </div>
 
@@ -51,16 +55,42 @@
 
                 <div class="member-list-area">
                 	<c:forEach items="${mList}" var="vo">
-	                    <div class="member-list" onclick="showMemberDetail(this);">
-                            <div hidden>${vo.no}</div>
-	                        <div class="member-list-img">
-	                            <img src="${vo.profile}" alt="프로필사진">
-	                        </div>
-	                        <div class="member-list-text">
-	                            <span>${vo.name}</span>
-	                            <span>(${vo.dongNum}동 ${vo.hoNum}호)</span>
-	                        </div>
-	                    </div>
+                		<c:if test="${vo.status eq 'Y'}">
+		                    <div class="member-list" onclick="showMemberDetail(this);">
+	                            <div hidden>${vo.no}</div>
+		                        <div class="member-list-img">
+		                            <img src="${vo.profile}" alt="프로필사진">
+		                        </div>
+		                        <div class="member-list-text">
+		                            <span>${vo.name}</span>
+		                            <span>(${vo.dongNum}동 ${vo.hoNum}호)</span>
+		                        </div>
+		                    </div>
+                		</c:if>
+                		<c:if test="${vo.status eq 'N'}">
+		                    <div class="member-list new-member" onclick="showMemberDetail(this);">
+	                            <div hidden>${vo.no}</div>
+		                        <div class="member-list-img">
+		                            <img src="${vo.profile}" alt="프로필사진">
+		                        </div>
+		                        <div class="member-list-text">
+		                            <span>${vo.name}</span>
+		                            <span>(${vo.dongNum}동 ${vo.hoNum}호)</span>
+		                        </div>
+		                    </div>
+                		</c:if>
+                        <c:if test="${vo.status eq 'S'}">
+		                    <div class="member-list stop-member" onclick="showMemberDetail(this);">
+	                            <div hidden>${vo.no}</div>
+		                        <div class="member-list-img">
+		                            <img src="${vo.profile}" alt="프로필사진">
+		                        </div>
+		                        <div class="member-list-text">
+		                            <span>${vo.name}</span>
+		                            <span>(${vo.dongNum}동 ${vo.hoNum}호)</span>
+		                        </div>
+		                    </div>
+                		</c:if>
                 	</c:forEach>
                 </div>
                 <div class="member-detail-area" id="member-detail-area">
@@ -92,7 +122,7 @@
                         <div class="point-model-body-first">
                             <div class="point-model-sanction-date">
                                 <div class="point-model-title-text">상벌점 점수</div>
-                                <div><input class="point-model-sanction-input" type="number"></div>
+                                <div><input class="point-model-sanction-input" id="point-model-point-input" type="number"></div>
                             </div>
                             <div class="point-model-sanction-member">
                                 <div class="point-model-title-text1">대상자</div>
@@ -106,11 +136,11 @@
                         </div>
                         <div>
                             <div class="point-model-title-text">내용</div>
-                            <textarea name="" id="" class="point-model-body-content" cols="30" rows="10"></textarea>
+                            <textarea name="" id="point-model-body-content" class="point-model-body-content" cols="30" rows="10"></textarea>
                         </div>
 
                         <div class="point-model-btn-area">
-                            <button id="point-check-btn" class="point-model-btn b-yellow">점수주기</button>
+                            <button id="point-check-btn" class="point-model-btn b-yellow" onclick="setMemberPoint()">점수주기</button>
 
                         </div>
 
@@ -136,7 +166,7 @@
                         <div class="stop-model-body-first">
                             <div class="stop-model-sanction-date">
                                 <div class="stop-model-title-text">정지 일수</div>
-                                <div><input class="stop-model-sanction-input" type="number"></div>
+                                <div><input class="stop-model-sanction-input" id="stop-model-sanction-input" type="number"></div>
                             </div>
                             <div class="stop-model-sanction-member">
                                 <div class="stop-model-title-text1">정지자</div>
@@ -150,11 +180,11 @@
                         </div>
                         <div>
                             <div class="stop-model-title-text">내용</div>
-                            <textarea name="" id="" class="stop-model-body-content" cols="30" rows="10"></textarea>
+                            <textarea name="" id="stop-model-body-content" class="stop-model-body-content" cols="30" rows="10"></textarea>
                         </div>
 
                         <div class="stop-model-btn-area">
-                            <button id="stop-check-btn" class="stop-model-btn b-red">정지하기</button>
+                            <button id="stop-check-btn" class="stop-model-btn b-red" onclick="setMemberStop();">정지하기</button>
 
                         </div>
 
@@ -172,7 +202,7 @@
 </body>
 
 </html>
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     basicSetting(); // 기본 셋팅
     headerName('회원관리'); // 현재 페이지 이름
@@ -185,6 +215,7 @@
         const statusCheck = '${searchMap.status}'
         const statusAll = document.querySelector("#memberAll");
         const statusN = document.querySelector("#memberN");
+        const statusS = document.querySelector("#memberS");
 
         if(statusCheck == '' || statusCheck == null || statusCheck == undefined){
             statusAll.classList.add("c-focus");
@@ -192,13 +223,15 @@
         }else if(statusCheck == 'N'){
             statusN.classList.add("c-focus");
             // answerN.lastElementChild.classList.add("yellow");
+        }else if(statusCheck == 'S'){
+            statusS.classList.add("c-focus");
         }
 
     }
 
     // 미답변 여부 확인
     function memberNCheck(){
-        const noMemberNum = '${memberCntMap.statusNum}'
+        const noMemberNum = '${memberCntMap.statusN}'
         const memberN = document.querySelector("#memberN");
         if(noMemberNum > 0){
             memberN.lastElementChild.classList.add("blinking");
@@ -233,6 +266,7 @@
                             <div class="member-detail-btn-area">
                                 <button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>
                                 <button class="member-detail-stop-btn" onclick="showStopModel();">정지</button>
+                                <button class="member-detail-delete-btn" onclick="deleteMember();">삭제</button>
                             </div>
                         </div>
                         <div class="member-detail-body-area">
@@ -259,13 +293,48 @@
                                 </div>
                             </div>
                         </div>`
-                }else{
+                }else if(data.status == 'N'){
                     str =  `<div class="member-detail-header">
                             <div class="member-detail-img">
                                 <img src="\${data.profile}" alt="">
                             </div>
                             <div class="member-detail-btn-area">
-                                <button class="member-detail-member-btn">회원등록</button>
+                                <button class="member-detail-member-btn" onclick="regularMember();">회원등록</button>
+                                <button class="member-detail-delete-btn" onclick="deleteMember();">삭제</button>
+                            </div>
+                        </div>
+                        <div class="member-detail-body-area">
+                            <div class="member-detail-body">
+                                <div class="member-detail-body-title">상세보기</div>
+                                <div class="member-detail-name">
+                                    \${data.name}
+                                </div>
+                                <div class="member-detail-content-box">
+                                    <span>동호수</span>
+                                    <span class="member-detail-content">\${data.dongNum}동 \${data.hoNum}호</span>
+                                </div>
+                                <div class="member-detail-content-box">
+                                    <span>생년월일</span>
+                                    <span class="member-detail-content">\${data.birth}</span>
+                                </div>
+                                <div class="member-detail-content-box">
+                                    <span>이메일</span>
+                                    <span class="member-detail-content">\${data.email}</span>
+                                </div>
+                                <div class="member-detail-content-box">
+                                    <span>연락처</span>
+                                    <span class="member-detail-content">\${data.phone}</span>
+                                </div>
+                            </div>
+                        </div>`
+                }else if(data.status == 'S'){
+                    str =  `<div class="member-detail-header">
+                            <div class="member-detail-img">
+                                <img src="\${data.profile}" alt="">
+                            </div>
+                            <div class="member-detail-btn-area">
+                                <button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>
+                                <button class="member-detail-delete-btn" onclick="deleteMember();">삭제</button>
                             </div>
                         </div>
                         <div class="member-detail-body-area">
@@ -350,6 +419,38 @@
         })
     }
 
+    // 정지 하기
+    function setMemberStop(){
+        
+        const mno = clickNo;
+        const stopDateValue = document.querySelector("#stop-model-sanction-input").value;
+        const contentValue = document.querySelector("#stop-model-body-content").value;
+        $.ajax({
+            url : "/app/admin/member/member-list/stop",
+            method : "POST",
+            data : {
+                "memberNo" : mno,
+                "stopDate" : stopDateValue,
+                "content" : contentValue
+            },
+            success : function() {
+
+                const stopNum = document.querySelector("#stop-model-sanction-input");
+                const content = document.querySelector("#stop-model-body-content");
+
+                stopNum.value = "";
+                content.value = "";
+
+                closeStop();
+                alert("회원 정지 성공");
+                location.href="/app/admin/member/member-list";
+            },
+            error : function() {
+                    alert("실패");
+                },
+        })
+    }
+
     // 상벌점 모달 사용
     function showPoint () {
         document.querySelector(".point-background").className = "point-background pshow";
@@ -392,6 +493,113 @@
                 },
         })
     }
+
+    // 상벌점 주기
+    function setMemberPoint(){
+        
+        const mno = clickNo;
+        const scoreValue = document.querySelector("#point-model-point-input").value;
+        const contentValue = document.querySelector("#point-model-body-content").value;
+        $.ajax({
+            url : "/app/admin/member/member-list/point",
+            method : "POST",
+            data : {
+                "memberNo" : mno,
+                "score" : scoreValue,
+                "content" : contentValue
+            },
+            success : function() {
+
+                const score = document.querySelector("#point-model-point-input");
+                const content = document.querySelector("#point-model-body-content");
+
+                score.value = "";
+                content.value = "";
+
+                closePoint();
+
+                alert("완료");
+            },
+            error : function() {
+                    alert("실패");
+                },
+        })
+    }
+
+    // 회원 삭제
+    function deleteMember(){
+        Swal.fire({
+            title: '정말로 삭제 하시겠습니까?',
+            text: '다시 되돌릴 수 없습니다. 신중하세요.',
+            icon: 'warning',
+            
+            showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+            confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+            cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+            
+            // reverseButtons: true, // 버튼 순서 거꾸로
+            
+            }).then(result => {
+            // 만약 Promise리턴을 받으면,
+            if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+                const mno = clickNo;
+                $.ajax({
+                url : "/app/admin/member/member-list/delete",
+                method : "POST",
+                data : {
+                    "mno" : mno,
+                },
+                success : function() {
+                    alert("회원 삭제 성공");
+                    location.href="/app/admin/member/member-list";
+                },
+                error : function() {
+                        alert("실패");
+                    },
+                })
+            }
+        });
+    }
+
+    // 정규 회원 등록
+    function regularMember(){
+        Swal.fire({
+            title: '정규 회원으로 바꾸시겠습니까?',
+            icon: 'question',
+            
+            showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+            confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+            cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+            
+            // reverseButtons: true, // 버튼 순서 거꾸로
+            
+            }).then(result => {
+            // 만약 Promise리턴을 받으면,
+            if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+                const mno = clickNo;
+                $.ajax({
+                url : "/app/admin/member/member-list/regular",
+                method : "POST",
+                data : {
+                    "mno" : mno,
+                },
+                success : function() {
+                    alert("정규 회원 등록 성공");
+                    location.href="/app/admin/member/member-list";
+                },
+                error : function() {
+                        alert("실패");
+                    },
+                })
+            }
+        });
+    }
+
+   
 
     
 </script>
