@@ -231,7 +231,7 @@
 		    ,BOARD_STATUS_NO
 		    )
 		VALUES (
-		    SEQ_NOTICE_NO.NEXTVAL
+		    SEQ_BOARD_NO.NEXTVAL
 		    ,#{writerNo}
 		    ,#{boardCno}
 		    ,#{title}

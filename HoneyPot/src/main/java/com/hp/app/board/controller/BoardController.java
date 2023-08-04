@@ -169,7 +169,7 @@ public class BoardController {
 			int result = service.write(vo);
 			if(result != 1) {
 				session.setAttribute("alert", "게시글 작성 실패...");
-				return "redirect:/board/list";
+				return "redirect:/board/free";
 			}
 			
 			
@@ -187,8 +187,22 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		
+		
+		System.out.println("vo세팅");
+		System.out.println(vo.getBoardCno());
+		
 		session.setAttribute("alert", "게시글 작성 성공!");
-		return "redirect:/board/list";
+		
+		if ("2".equals( vo.getBoardCno() )) {
+			return "redirect:/board/market";
+		}else if ("3".equals( vo.getBoardCno() )) {
+			return "redirect:/board/noname";
+		}else if ("4".equals( vo.getBoardCno() )) {
+			return "redirect:/board/praise";
+		}else {
+			return "redirect:/board/free";
+		}
+		
 	}
 	
 	
