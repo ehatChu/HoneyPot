@@ -174,14 +174,14 @@ public class BoardController {
 			
 			
 			//이미지 db 저장
-//			BoardImgVo ivo = new BoardImgVo();
-//			System.out.println(imgList);
-//			String[] arr = imgList.split(",");
-//			for (String imgName : arr) {
-//				System.out.println("배열에 담은 사진 : " + imgName);
-//				ivo.setName(imgName);
-//				service.insertImgToDb(ivo);
-//			}
+			BoardImgVo ivo = new BoardImgVo();
+			System.out.println(imgList);
+			String[] arr = imgList.split(",");
+			for (String s : arr) {
+				System.out.println("배열에 담은 사진 : " + s);
+				ivo.setName(s);
+				service.insertImgToDb(ivo);
+			}
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -207,7 +207,7 @@ public class BoardController {
 	
 	
 	//서머노트 사진 업로드
-    @PostMapping("/upload")
+    @PostMapping("board/upload")
     @ResponseBody
     public List<String> handleFileUpload(@RequestParam("f") List<MultipartFile> flist, HttpServletRequest req) throws Exception {
     	

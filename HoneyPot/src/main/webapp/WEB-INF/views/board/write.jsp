@@ -164,6 +164,7 @@
     });
 
     //파일업로드 발생 시 동작하는 콜백함수
+    let totalImgList = [];
     function f01(fileList){
         const fd = new FormData();
         for(let file of fileList){
@@ -171,16 +172,22 @@
         }
 
         $.ajax({
-            url : '/app/upload' ,
+            url : '/app/board/upload' ,
             type : 'post' ,
             data : fd ,
             processData : false ,
             contentType : false ,
             dataType : 'json' ,
             success : function(changeNameList){
+                console.log(totalImgList);
                 console.log(changeNameList);
+
+                for (let c of changeNameList) {
+                    totalImgList.push(c);
+                }
+
                 const imgList = document.querySelector('input[name=imgList]');
-                imgList.value = changeNameList;
+                imgList.value = totalImgList;
                 for(let changeName of changeNameList){
                 $('#summernote').summernote('insertImage' , '/app/resources/board/' + changeName);
                 }

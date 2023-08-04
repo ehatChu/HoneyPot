@@ -251,7 +251,7 @@
 		VALUES (
 		    SEQ_BOARD_IMG_NO.NEXTVAL
 		    ,SEQ_BOARD_NO.CURRVAL
-		    ,#{imgName}
+		    ,#{name}
 		)
 	</insert>
 	
