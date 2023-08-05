@@ -258,15 +258,7 @@
     secondNav(['캘린더', '가계부','사유물'], '캘린더'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 </script>
 <script> 
-    //input의 벨류를 가져와서...checked상태이면 바뀌게
-    //한개가아닌여러개인데 어떻게 처리하려고?
-    //let checkBox = document.querySelectorAll("input[type='checkbox']")
-    //checkBox[0].checked = true;
-
-    // for(let i=0; i<checkBox.length();i++){
-    //     alert(checkBox[i]);
-    // }
-   
+    
     //누르면 onclick되게
     let starList = document.querySelectorAll("#star");
     for(let star of starList){
@@ -276,12 +268,7 @@
     }
     
     
-    // let star1 = document.querySelector("#star1");
-    // star1.addEventListener("click",function(){
-    //     star1.classList.toggle('color-gray');
-    //     console.log(star1);
-    // });
-
+  
  
     //기본값으로 오늘 날짜가 들어가게
     let today = new Date();
@@ -305,20 +292,37 @@
         return dayOFWeek;
     }
 
+    
+    
+    
     //FULL CALENDAR
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var clickDate = document.querySelector("#clickDate");
+
         var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth'
-        ,selectable: true
-        ,selecMirro : true
-        ,dateClick : function(info) {
-            alert(info.dateStr);
-            clickDate.innerHTML=dateFormat(new Date(info.dateStr));
-        }
+            Plugin : ['interaction','dayGrid']
+            ,editable : true
+            ,initialView: 'dayGridMonth'
+            ,selectable: true
+            ,selecMirro : true
+            ,dateClick : function(info) {
+                alert(info.dateStr);
+                clickDate.innerHTML=dateFormat(new Date(info.dateStr));
+            }
+            ,events : [
+                {
+                    title : '안녕',
+                    start : '2023-08-05',
+                    end : '2023-08-10'
+                }
+            ]
+
         });
         calendar.render();
+
+
+
     });
 
     //버튼 누르면 모달창 띄우기
