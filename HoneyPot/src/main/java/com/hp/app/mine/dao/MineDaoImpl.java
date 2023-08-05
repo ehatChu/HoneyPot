@@ -51,8 +51,15 @@ public class MineDaoImpl implements MineDao {
 	
 
 	@Override
-	public int getCarCnt(SqlSessionTemplate sst) {
-		return sst.selectOne("mine.getCarCnt");
+	public int getCarCnt(SqlSessionTemplate sst,Map<String, String> map) {
+		int result=0;
+		try {
+			result =sst.selectOne("mine.getCarCnt",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 

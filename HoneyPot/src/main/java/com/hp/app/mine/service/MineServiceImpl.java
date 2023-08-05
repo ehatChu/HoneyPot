@@ -54,8 +54,8 @@ public class MineServiceImpl implements MineService{
 	}
 	
 	@Override
-	public int getCarCnt() {
-		return dao.getCarCnt(sst);
+	public int getCarCnt(Map<String, String> map) {
+		return dao.getCarCnt(sst,map);
 	}
 	//관리자 사유물 상세조회
 	@Override

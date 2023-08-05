@@ -17,7 +17,7 @@ public interface MineService {
 	//관리자 사유물 조회
 	List<MineVo> getCarList(PageVo pv);
 	
-	int getCarCnt();
+	int getCarCnt(Map<String, String> map);
 	MineVo getDetailAdmin(Map<String, String> map);
 	List<MineVo> searchAllList(Map<String, String> searchValueMap);
 
