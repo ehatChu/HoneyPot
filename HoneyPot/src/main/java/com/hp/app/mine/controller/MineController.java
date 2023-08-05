@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -96,7 +97,10 @@ public class MineController {
 		//getCnt로 가져오기
 		//car와 자전거까지 다 세기
 		//도대체 이게 왜안되는지 모르겠다.
-		int listCount = service.getCarCnt(); 		
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("kinda", "CAR");
+		
+		int listCount = service.getCarCnt(map); 		
 		int currentPage = p;
 		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
 		int boardLimit =9; //한페이지에 list는 7개만 들어가게
@@ -143,7 +147,7 @@ public class MineController {
 	@GetMapping("property-list/search")
 	public String propertyListSearch(@RequestParam Map<String,String> searchValueMap,Model model) {
 		//일단 값이 잘 넘어왔는지 살피기
-		log.info("map : {}",searchValueMap);
+		log.info("proceedingStatus값 확인 map : {} ",searchValueMap);
 		List<MineVo> mvoList =null;
 		
 		mvoList = service.searchAllList(searchValueMap);
@@ -158,6 +162,31 @@ public class MineController {
 		
 		return "admin/member/car-list";
 	}
+	
+	//사유물 검색 ajax 승인, 미처리
+	@GetMapping(produces ="application/json; charset=UTF-8",value = "property-list/search/ok")
+	@ResponseBody
+	public String propertyListSearchAjax(int p,@RequestParam Map<String,String> searchValueMap,Model model) throws Exception {
+		int listCount = service.getCarCnt(searchValueMap); 		
+		int currentPage = p;
+		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
+		int boardLimit =9; //한페이지에 list는 7개만 들어가게
+		
+		PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
+		
+		
+		log.info("searchValueMap : {}",searchValueMap);
+		ObjectMapper om = new ObjectMapper();
+		List<MineVo> mvoList = service.searchAllList(searchValueMap);
+		String jsonStr = om.writeValueAsString(mvoList);
+
+		log.info(jsonStr);
+
+	
+		return jsonStr;
+		
+	}
+	
 	
 	@PostMapping("property-refuse")
 	public String propertyRefuse(String detailNo,String detailKinda) {

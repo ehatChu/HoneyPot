@@ -266,6 +266,9 @@
         </nav>
 
         <main>
+            <div>
+                ${test}
+            </div>
             <form action="/app/property-list/search" method="get">
                 <div class="inquiry-search-area">
                     <div class="model-search-area">
@@ -292,14 +295,14 @@
 
             <div id="fourth-line">
                 <div id="all-list" class="flex-line now-focus-white">
-                    <div><input type="hidden" name="all" value="">전체</div><div id="all-value" class="now-focus-red">1920</div>
+                    <div>전체</div><div id="all-value" class="now-focus-red">1920</div>
                 </div>
                 <div id="ok-confirm" class="flex-line">
-                    <div><input type="hidden" name="ok" value="O">승인완료</div>
+                    <div>승인완료</div>
                     <div id="ok-value">132</div>
                 </div>
                 <div id="no-confirm" class="flex-line">
-                    <div><input type="hidden" name="none" value="R">미처리</div>
+                    <div>미처리</div>
                     <div id="no-value">12</div>
                 </div>
             </div>
@@ -397,6 +400,7 @@
                     </div>
                 </form>
             </div>
+            
         </main>
 
 </body>
@@ -455,17 +459,45 @@
     });
 
     //승인완누르면 완료된 것만 뜨게 ajax...
-    const okConfirm = document.querySelector("#ok-confirm");
+   
     const okValue = document.querySelector("#ok-value");
     const allList = document.querySelector("#all-list");
     const allValue = document.querySelector("#all-value");
+    const noConfirm = document.querySelector("#no-confirm");
+    const uniqueNum = document.querySelector("input[name=uniqueNum]").value;
+    const mineOwner = document.querySelector("input[name=mineOwner]").value
+
+    //승인완료
+    const okConfirm = document.querySelector("#ok-confirm");
     okConfirm.addEventListener("click",function(){
         //모든요소에 클래스떼주기
         allList.classList.remove("now-focus-white");
         allValue.classList.remove("now-focus-red");
+        noConfirm.classList.remove("now-focus-white");
+        noConfirm.classList.remove("now-focus-red");
 
         //클래스 붙여주기 now-focus
         okConfirm.classList.add("now-focus-white");
         okValue.classList.add("now-focus-red");
+
+       //AJAX
+       $.ajax({
+            url : "/app/property-list/search/ok",
+            type : "get" ,
+            data : {
+                uniqueNum : uniqueNum,
+                mineOwner : mineOwner,
+                kinda : "CAR",
+                status : "O",
+
+            },
+            dataType : 'json' , 
+            success : function(data){
+                console.log(data);
+            },
+            error : function(error){
+                console.log("승인완료 통싱실패");
+            },
+       });
     })
 </script>

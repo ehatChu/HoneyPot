@@ -28,11 +28,19 @@ public class MineDaoImpl implements MineDao {
 		return result;
 	}
 
-
+	//관리자 자동차 전체 조회
 	@Override
 	public List<MineVo> getCarList(SqlSessionTemplate sst, PageVo pv) {
 		RowBounds rb = new RowBounds(pv.getOffset(),pv.getBoardLimit());
-		return sst.selectList("mine.getCarListAdmin",null,rb);
+		
+		List<MineVo> mvoList = null;
+		try {
+			mvoList = sst.selectList("mine.getCarListAdmin",null,rb);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return mvoList;
 	}
 	
 	/*페이징 처리를 안한, pvo를 안받는, 개인조회를 위해 이름만 같은 오버로딩을 사용 pvo를 없애줌*/
@@ -43,8 +51,15 @@ public class MineDaoImpl implements MineDao {
 	
 
 	@Override
-	public int getCarCnt(SqlSessionTemplate sst) {
-		return sst.selectOne("mine.getCarCnt");
+	public int getCarCnt(SqlSessionTemplate sst,Map<String, String> map) {
+		int result=0;
+		try {
+			result =sst.selectOne("mine.getCarCnt",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 
