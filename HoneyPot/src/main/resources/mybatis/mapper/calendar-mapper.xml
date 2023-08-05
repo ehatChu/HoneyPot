@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="calendar">
+	<insert id="regiMemberSchedule">
+		INSERT INTO MEMBER_CALENDAR (NO,WRITER_NO,NAME,START_DATE,END_DATE) 
+		VALUES (SEQ_MEMBER_CALENDAR_NO.NEXTVAL, ${writerNo}, #{scheduleName}, #{startDate} ,#{endDate})
+	</insert>
+
+</mapper>
