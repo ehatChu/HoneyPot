@@ -46,15 +46,13 @@ public class BoardServiceImpl implements BoardService {
 	//게시글 수정
 	@Override
 	public int edit(BoardVo vo) {
-//		return dao.edit(sst, vo);
-		return 0;
+		return dao.edit(sst, vo);
 	}
 
 	//게시글 삭제
 	@Override
 	public int delete(Map<String, String> noMap) {
-//		return dao.delete(sst, noMap);
-		return 0;
+		return dao.delete(sst, noMap);
 	}
 
 	//게시글 상세조회

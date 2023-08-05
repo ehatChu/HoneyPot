@@ -226,7 +226,14 @@
 				<div class="gallery-area">
 					<c:forEach items="${voList}" var="vo">
 						<div class="product" id="${vo.no}">
-							<div id="product-img"><img src="/app/resources/main/logo.png" alt="상품사진"></div>
+							<c:choose>
+								<c:when test="${vo.boardImgName != null}">
+									<div id="product-img"><img src="/app/resources/board/${vo.boardImgName}" alt="상품사진"></div>
+								</c:when>
+								<c:otherwise>
+									<div id="product-img"><img src="/app/resources/main/logo.png" alt="상품사진"></div>
+								</c:otherwise>
+							</c:choose>
 							<div id="title">${vo.title}</div>
 							<div id="like"><i class="fa-solid fa-heart"></i> &nbsp; ${vo.loveCnt}</div>
 						</div>

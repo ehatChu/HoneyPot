@@ -139,7 +139,7 @@
 					</when>
 				</choose> -->
 			    
-			WHERE NO = #{no} AND WRITER_NO = #{writerNo}
+			WHERE NO = #{no} AND WRITER_NO = #{writerNo} AND STATUS = 'Y'
 	</update>
 	
 	
@@ -154,8 +154,7 @@
 	<delete id="delete">
 		UPDATE NOTICE 
 			SET STATUS = 'N'
-		WHERE NO = #{no}
-		AND WRITER_NO = #{writerNo}
+		WHERE NO = #{no} AND WRITER_NO = #{writerNo} AND STATUS = 'Y'
 	</delete>
 
 </mapper>

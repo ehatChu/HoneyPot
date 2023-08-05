@@ -47,7 +47,7 @@
 			AND B.CONTENT LIKE ('%${searchValue}%')
 		</if>
 		<if test="searchType == 'writer' and searchValue != null and searchValue != ''">
-			AND M.NAME LIKE ('%${searchValue}%')
+			AND M.WRITER_NAME LIKE ('%${searchValue}%')
 		</if>
 		
 		<choose>
@@ -85,7 +85,7 @@
 			AND B.CONTENT LIKE ('%${searchValue}%')
 		</if>
 		<if test="searchType == 'writer' and searchValue != null and searchValue != ''">
-			AND M.NAME LIKE ('%${searchValue}%')
+			AND M.WRITER_NAME LIKE ('%${searchValue}%')
 		</if>
 		
 	</select>
@@ -132,7 +132,7 @@
 		SET HIT = HIT +1
         WHERE NO = #{no}
 	</update>
-	
+		
 	
 	<!-- 댓글 작성 -->
 	<insert id="writeReply">
@@ -259,6 +259,27 @@
 		    ,#{name}
 		)
 	</insert>
+	
+	<!-- 글 수정 -->
+	<update id="edit">
+		UPDATE BOARD
+			SET
+			    TITLE = #{title}
+			    ,CONTENT = #{content}
+			    ,MODIFY_DATE = SYSDATE
+			WHERE NO = #{no} 
+			AND WRITER_NO = #{writerNo} 
+			AND BOARD_STATUS_NO != 5
+	</update>
+	
+	<!-- 글 삭제 -->
+	<delete id="delete">
+		UPDATE BOARD 
+			SET BOARD_STATUS_NO = 5
+		WHERE NO = #{no} 
+		AND WRITER_NO = #{writerNo} 
+		AND BOARD_STATUS_NO != 5
+	</delete>
 	
 	
 </mapper>

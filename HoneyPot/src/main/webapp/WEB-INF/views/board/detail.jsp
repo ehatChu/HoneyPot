@@ -185,7 +185,7 @@
 
 	#reply-insert-btn, #reply-edit-insert-btn { margin: 0px 25px; }
 
-	#secret-check { font-size: 18px; }
+	/* #secret-check { font-size: 18px; } */
 
 	/* div {border: 1px solid red;} */
 
@@ -239,7 +239,7 @@
 		<!-- 버튼 -->
 		<div class="btn-area">
 			<div id="btn-box">
-				<!-- <button type="button" id="post-report-btn" onclick="location.href=''">신고</button> -->
+				<button type="button" id="post-report-btn" onclick="window.history.back()">목록으로</button>
 				<button type="button" id="post-edit-btn" onclick="location.href='/app/board/edit?no=${vo.no}'">수정</button>
 				<button type="button" id="post-del-btn" onclick="location.href='/app/board/delete?no=${vo.no}'">삭제</button>
 			</div>
@@ -264,8 +264,8 @@
 								댓쓴이
 							</div>
 	
-							<div class="show" id="reply-content">
-								댓글내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+							<div id="reply-content">
+								댓글내용ㅇㅇㅇㅇㅇㅇㅇ
 							</div>
 
 							<div class="reply-edit-area hidden">
@@ -284,6 +284,7 @@
 							</div>
 						</div>
 					</div> -->
+
 				</div>
 
 				<!-- 대댓글 -->
@@ -298,7 +299,7 @@
 						</div>
 
 						<div id="reply-content">
-							댓글내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+							댓글내용ㅇㅇㅇㅇㅇㅇㅇ
 						</div>
 
 						<div id="reply-footer">
@@ -321,9 +322,9 @@
 
 					<div><button type="button" id="reply-insert-btn" onclick="writeReply();">댓글쓰기</button></div>
 					
-					<div id="secret-check">
+					<!-- <div id="secret-check">
                         <label><input type="checkbox" id="secret" value="y">&nbsp;비밀댓글</label>
-					</div>
+					</div> -->
 				</div>
 				
 			</div>
@@ -339,19 +340,6 @@
 	headerName('게시판'); // 현재 페이지 이름
 	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판'], ''); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 	firstNavLink(['/app/notice/list', '/app/board/free', '/app/board/market', '/app/board/noname', '/app/board/praise',]);
-
-	// textarea 높이 자동 조절
-	window.addEventListener('DOMContentLoaded', function() {
-		const textarea = document.querySelector('#detail-content');
-		textarea.style.height = textarea.scrollHeight + 'px';
-	});
-
-	// 입력에 맞게 textarea 높이 자동 조절
-	// const textarea = document.querySelector('#detail-content');
-	// textarea.addEventListener('input', function() {
-	// 	this.style.height = 'auto'; // Reset the height to auto
-	// 	this.style.height = this.scrollHeight + 'px'; // Set the height to match the content
-	// });
 
 
 	//좋아요
@@ -442,10 +430,10 @@
 					str += '</div>';
 					str += '<div id="reply-body">';
 					str += '<div id="reply-writer">';
-					str += replyList[i].writerName;
+					str += '<c:choose><c:when test="${vo.boardCno == 3}">익명</c:when><c:otherwise>' + replyList[i].writerName + '</c:otherwise></c:choose>';
 					str += '</div>';
 					str += '<div class="reply-content" id="reply-content' + replyList[i].no + '">';
-					str += replyList[i].content;
+					str += '<pre>' + replyList[i].content + '</pre>';
 					str += '</div>';
 					
 					//댓글수정란
@@ -460,7 +448,7 @@
 					str += '<div id="reply-date">';
 					str += replyList[i].enrollDate;
 					str += '</div>';
-					str += '<div id="re-reply-btn" onclick="">답글쓰기</div>';
+					// str += '<div id="re-reply-btn" onclick="">답글쓰기</div>';
 					str += '<div id="reply-edit-btn" onclick="showEditInput(';
 					str += replyList[i].no;
 					str += ');">수정</div>';
@@ -560,24 +548,6 @@
 			},
 		})
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	loadReply();
