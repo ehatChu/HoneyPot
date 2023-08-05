@@ -302,7 +302,7 @@
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             Plugin : ['interaction','dayGrid']
-            ,editable : true
+            ,editable : false
             ,initialView: 'dayGridMonth'
             ,selectable: true
             ,selecMirro : true
