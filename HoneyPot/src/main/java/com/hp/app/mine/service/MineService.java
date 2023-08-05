@@ -19,7 +19,7 @@ public interface MineService {
 	
 	int getCarCnt(Map<String, String> map);
 	MineVo getDetailAdmin(Map<String, String> map);
-	List<MineVo> searchAllList(Map<String, String> searchValueMap);
+	List<MineVo> searchAllList(Map<String, String> searchValueMap, PageVo pv);
 
 	int deleteProperty(Map<String, String> map);
 }

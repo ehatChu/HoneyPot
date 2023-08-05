@@ -82,8 +82,7 @@
         
     }
     .design-btn {
-        width: 100px;
-        height: 40px;
+        padding: 8px 20px;
         border: none;
         font-size: 18px;
         font-weight: 600;
@@ -266,24 +265,31 @@
         </nav>
 
         <main>
-            <div>
-                ${test}
-            </div>
-            <form action="/app/property-list/search" method="get">
+            <form action="/app/admin/property-list/car" method="get" >
                 <div class="inquiry-search-area">
                     <div class="model-search-area">
                         <div class="model-search-box-area">
                             <select class="model-search-category">
                                 <option value="">사유물번호</option>
                             </select>
-                            <input type="text" name="uniqueNum" class="model-serach-input">
+                            <c:if test="${empty searchUniqueNum}">
+                                <input type="text" name="uniqueNum" class="model-serach-input">
+                            </c:if>
+                            <c:if test="${not empty searchUniqueNum}">
+                                <input type="text" name="uniqueNum" class="model-serach-input" value="${searchUniqueNum}">
+                            </c:if>
                         </div>
                         
                     </div>
                 </div>
                 <div id="second-line">
                     <div class="flex-blank"></div>
-                    <div id="thing-owner">사유물소지인 <input type="text" name="mineOwner" class="margin-left input-box"></div>
+                    <c:if test="${empty searchMineOwner}">
+                        <div id="thing-owner">사유물소지인 <input type="text" name="mineOwner" class="margin-left input-box"></div>
+                    </c:if>
+                    <c:if test="${not empty searchMineOwner}">
+                        <div id="thing-owner">사유물소지인 <input type="text" name="mineOwner" class="margin-left input-box" value="${searchMineOwner}"></div>
+                    </c:if>
                     <div id="blank999"></div>
                    
                     <div class="flex-blank"></div>
@@ -294,17 +300,24 @@
             
 
             <div id="fourth-line">
-                <div id="all-list" class="flex-line now-focus-white">
-                    <div>전체</div><div id="all-value" class="now-focus-red">1920</div>
-                </div>
-                <div id="ok-confirm" class="flex-line">
-                    <div>승인완료</div>
-                    <div id="ok-value">132</div>
-                </div>
-                <div id="no-confirm" class="flex-line">
-                    <div>미처리</div>
-                    <div id="no-value">12</div>
-                </div>
+                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}">
+                    <div id="all-list" class="flex-line now-focus-white">
+                        <div>전체</div>
+                        <div id="all-value" class="now-focus-red">${cntAll}</div>
+                    </div>
+                </a>
+                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=O">
+                    <div id="ok-confirm" class="flex-line">
+                        <div>승인완료</div>
+                        <div id="ok-value">${cntOk}</div>
+                    </div>
+                </a>
+                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=R">
+                    <div id="no-confirm" class="flex-line">
+                        <div>미처리</div>
+                        <div id="no-value">${cntNone}</div>
+                    </div>
+                </a>
             </div>
         </form>
            
@@ -353,7 +366,7 @@
            
             <div id="page-area">
                 <c:if test="${pv.currentPage > 1}">
-                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage-1}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
+                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage-1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${originStatus}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
                 </c:if>
                 <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
                     <c:if test="${pv.currentPage != i}">
@@ -364,7 +377,7 @@
                     </c:if>
                 </c:forEach>
                 <c:if test="${pv.currentPage < pv.maxPage}">
-                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage+1}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
+                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage+1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${originStatus}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
                     
                 </c:if>
             </div>
@@ -394,7 +407,7 @@
                                 <div id="modal-btn-area">
                                 
                                     <!-- c:if 승인취소 추가해야함 -->
-                                    <input type="submit" class="design-btn color-brown" value="승인반려">
+                                    <input type="submit" class="design-btn color-brown" value="승인반려 및 쉬소">
                                 </div>
                             </div>
                     </div>
@@ -479,25 +492,5 @@
         //클래스 붙여주기 now-focus
         okConfirm.classList.add("now-focus-white");
         okValue.classList.add("now-focus-red");
-
-       //AJAX
-       $.ajax({
-            url : "/app/property-list/search/ok",
-            type : "get" ,
-            data : {
-                uniqueNum : uniqueNum,
-                mineOwner : mineOwner,
-                kinda : "CAR",
-                status : "O",
-
-            },
-            dataType : 'json' , 
-            success : function(data){
-                console.log(data);
-            },
-            error : function(error){
-                console.log("승인완료 통싱실패");
-            },
-       });
     })
 </script>

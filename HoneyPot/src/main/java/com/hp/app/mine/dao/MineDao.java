@@ -16,6 +16,6 @@ public interface MineDao {
 	List<MineVo> getCarList(SqlSessionTemplate sst, MemberVo loginMember);
 	int getCarCnt(SqlSessionTemplate sst,Map<String, String> map);
 	MineVo getDetailAdmin(SqlSessionTemplate sst, Map<String, String> map);
-	List<MineVo> searchAllList(SqlSessionTemplate sst, Map<String, String> searchValueMap);
+	List<MineVo> searchAllList(SqlSessionTemplate sst, Map<String, String> searchValueMap, PageVo pv);
 	int deleteProperty(SqlSessionTemplate sst,Map<String, String> map);
 }

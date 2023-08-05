@@ -65,8 +65,8 @@ public class MineServiceImpl implements MineService{
 	
 	//전체검색
 	@Override
-	public List<MineVo> searchAllList(Map<String, String> searchValueMap) {
-		return dao.searchAllList(sst,searchValueMap);
+	public List<MineVo> searchAllList(Map<String, String> searchValueMap,PageVo pv) {
+		return dao.searchAllList(sst,searchValueMap,pv);
 	}
 	
 	//관리자 사유물 삭제
