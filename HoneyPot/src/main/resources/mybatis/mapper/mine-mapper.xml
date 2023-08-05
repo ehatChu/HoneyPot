@@ -28,7 +28,7 @@
 		FROM CAR C
 		WHERE MEMBER_NO = #{no}
 	</select>
-	<!-- 관리자 전체목록조회 -->
+	<!-- 관리자 자동차전체목록조회 -->
 	<select id="getCarListAdmin" resultType="com.hp.app.mine.vo.MineVo" >
 		SELECT 
 		    C.NO
@@ -46,18 +46,20 @@
 		JOIN MEMBER M ON(M.NO = C.MEMBER_NO)
 		LEFT JOIN ADMIN A ON(A.NO = C.ADMIN_NO)
 	</select>	
+	
 	<!-- 차조회시 개수 -->
 	<select id="getCarCnt" resultType="int">
-		SELECT COUNT(*) FROM ${kinda}
+		SELECT COUNT(*) FROM ${kinda} C
+		JOIN MEMBER M ON(M.NO = C.MEMBER_NO)
 		<where>
 		<if test = "uniqueNum != null and uniqueNum != '' ">
-		and unique_num = '%${uniqueNum}%';
+		and C.UNIQUE_NUM LIKE '%${uniqueNum}%'
 		</if>
 		<if test = "mineOwner != null and mineOwner != '' ">
-		and mineOwner like '%${mineOwner}%';
+		and M.NAME like '%${mineOwner}%'
 		</if>
 		<if test = "status != null and status != '' ">
-		and status = #{status}
+		and C.STATUS = '${status}'
 		</if>
 		</where>
 		
@@ -92,16 +94,16 @@
 		LEFT JOIN ADMIN A ON(A.NO = C.ADMIN_NO) 
 		<where>
 		    <if test="uniqueNum != null and uniqueNum !='' ">
-		    AND C.UNIQUE_NUM LIKE #{uniqueNum}
+		    AND C.UNIQUE_NUM LIKE '%${uniqueNum}%'
 		    </if>
 		    <if test="mineOwner != null and mineOwner !=''" >
 		    AND M.NAME LIKE '%${mineOwner}%'
 		    </if>
 		    <if test="status != null and status !='' " >
-		    AND C.STATUS =#{status} 
+		    AND C.STATUS ='${status}' 
 		    </if>
 		</where>
-			
+		
 	</select>
 	
 	<delete id="deleteProperty">

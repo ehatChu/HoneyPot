@@ -93,28 +93,55 @@ public class MineController {
 	
 	// 사유물내역 (화면)
 	@GetMapping("admin/property-list/car")
-	public String propertyList(int p,Model model){
+	public String propertyList(@RequestParam(defaultValue = "1") int p,Model model,@RequestParam(required = false) Map<String,String> searchValueMap){
 		//getCnt로 가져오기
 		//car와 자전거까지 다 세기
 		//도대체 이게 왜안되는지 모르겠다.
-		Map<String,String> map = new HashMap<String, String>();
-		map.put("kinda", "CAR");
+		searchValueMap.put("kinda", "CAR");
 		
-		int listCount = service.getCarCnt(map); 		
+		String originStatus = searchValueMap.get("status");
+		
+		int listCount = service.getCarCnt(searchValueMap); 		
 		int currentPage = p;
 		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
 		int boardLimit =9; //한페이지에 list는 7개만 들어가게
-		
+		log.info("listCount: {},",listCount);
 		PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
+		
+		
+		
+		
 				
+		List<MineVo> mvoList = service.searchAllList(searchValueMap,pv);
+		
+		//R일때 개수
+		searchValueMap.put("status", "R");
+		int cntNone = service.getCarCnt(searchValueMap);
+		
+		//O일때 갯수
+		searchValueMap.put("status", "O");
+		int cntOk = service.getCarCnt(searchValueMap);
+		
+		//전체일때 개수
+		searchValueMap.put("status", "");
+		int cntAll = service.getCarCnt(searchValueMap);
 		
 		//리스트를 가져올때 페이지vo를 넘기면서 가져오기		
 		//전체조회시 pv만 들어가게 조회
-		List<MineVo> mvoList = service.getCarList(pv);
+		
 		
 		model.addAttribute("pv",pv);
 		model.addAttribute("mineVoList",mvoList);
-
+		//수세기
+		model.addAttribute("cntAll",cntAll);
+		model.addAttribute("cntOk",cntOk);
+		model.addAttribute("cntNone",cntNone);
+		//스테이터스 반환하기
+		model.addAttribute("status",originStatus);
+		log.info("mvoList : {}",mvoList);
+		//검색값 유지하게
+		model.addAttribute("searchUniqueNum",searchValueMap.get("uniqueNum"));
+		model.addAttribute("searchMineOwner",searchValueMap.get("mineOwner"));
 		
 		return "admin/member/car-list";
 	}
@@ -143,49 +170,6 @@ public class MineController {
 		return jsonStr;
 	}
 	
-	//사유물리스트-검색
-	@GetMapping("property-list/search")
-	public String propertyListSearch(@RequestParam Map<String,String> searchValueMap,Model model) {
-		//일단 값이 잘 넘어왔는지 살피기
-		log.info("proceedingStatus값 확인 map : {} ",searchValueMap);
-		List<MineVo> mvoList =null;
-		
-		mvoList = service.searchAllList(searchValueMap);
-		
-		//아닐때
-		log.info("mvoList : {}",mvoList);
-		
-		
-		//분류에 선택값이 들어왔을 때...
-		//model에 minVoList로 넘기자
-		model.addAttribute("mineVoList",mvoList);
-		
-		return "admin/member/car-list";
-	}
-	
-	//사유물 검색 ajax 승인, 미처리
-	@GetMapping(produces ="application/json; charset=UTF-8",value = "property-list/search/ok")
-	@ResponseBody
-	public String propertyListSearchAjax(int p,@RequestParam Map<String,String> searchValueMap,Model model) throws Exception {
-		int listCount = service.getCarCnt(searchValueMap); 		
-		int currentPage = p;
-		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
-		int boardLimit =9; //한페이지에 list는 7개만 들어가게
-		
-		PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
-		
-		
-		log.info("searchValueMap : {}",searchValueMap);
-		ObjectMapper om = new ObjectMapper();
-		List<MineVo> mvoList = service.searchAllList(searchValueMap);
-		String jsonStr = om.writeValueAsString(mvoList);
-
-		log.info(jsonStr);
-
-	
-		return jsonStr;
-		
-	}
 	
 	
 	@PostMapping("property-refuse")

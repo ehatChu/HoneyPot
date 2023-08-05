@@ -83,10 +83,11 @@ public class MineDaoImpl implements MineDao {
 
 	//전체검색
 	@Override
-	public List<MineVo> searchAllList(SqlSessionTemplate sst, Map<String, String> searchValueMap) {
+	public List<MineVo> searchAllList(SqlSessionTemplate sst, Map<String, String> searchValueMap,PageVo pv) {
 		List<MineVo> mvoList =null;
 		try {
-			mvoList = sst.selectList("mine.searchAllList",searchValueMap);
+			RowBounds rb = new RowBounds(pv.getOffset(),pv.getBoardLimit());
+			mvoList = sst.selectList("mine.searchAllList",searchValueMap,rb);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
