@@ -6,6 +6,7 @@ import java.util.Map;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.calendar.vo.MemberCalendarVo;
 import com.hp.app.calendar.vo.NoticeCalendarVo;
+import com.hp.app.fee.vo.AdminFeeVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
@@ -39,4 +40,6 @@ public interface MainService {
 	List<NoticeCalendarVo> getNoticeCalendarList();
 
 	int[] getParamCntArr();
+
+	List<AdminFeeVo> getAdminFeeList();
 }

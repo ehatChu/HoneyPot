@@ -1,16 +1,22 @@
 package com.hp.app.main.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.calendar.vo.NoticeCalendarVo;
+import com.hp.app.fee.vo.AdminFeeVo;
 import com.hp.app.calendar.vo.MemberCalendarVo;
 import com.hp.app.main.service.MainService;
 import com.hp.app.meal.service.MealService;
@@ -125,6 +131,29 @@ public class MainController {
 		}
 
 		return result;
+	}
+	
+	@GetMapping(path = "adminFee/chart", produces= "application/json")
+	@ResponseBody
+	public ResponseEntity<Map<String,Object>> getChart() {
+		List<AdminFeeVo> adminFeeVoList = ms.getAdminFeeList();
+		List<String> labels = new ArrayList<>();
+	    List<Integer> data = new ArrayList<>();
+
+	    for (AdminFeeVo vo : adminFeeVoList) {
+	        String categoryName = vo.getCategoryName();
+	        int price = Integer.parseInt(vo.getPrice());
+
+	        labels.add(categoryName);
+	        data.add(price);
+	    }
+
+	    Map<String, Object> chartData = new HashMap<>();
+	    chartData.put("labels", labels);
+	    chartData.put("data", data);
+	    chartData.put("backgroundColor", Arrays.asList("#FF7EAD", "#C0FFFB", "#A1FFA5", "#E7FFB5", "#FFC397", "#47C4EC","#FB92E4","#5F9961"));
+  
+	    return ResponseEntity.ok(chartData);
 	}
 
 }
