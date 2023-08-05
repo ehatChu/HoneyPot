@@ -101,7 +101,7 @@
 			#e02 {
 				display: flex;
 				align-items: center;
-				font-size: 22px;
+				font-size: 18px;
 				margin-bottom: 5px;
 			}
 
@@ -187,10 +187,10 @@
 				margin-top: 15px;
 			}
 
-			.page-area button {
+			.page-area>button {
 				display: inline-block;
 				font-weight: bold;
-				font-size: 18px;
+				font-size: 20px;
 				border: none;
 				border-radius: 5px;
 				padding: 10px 20px;
@@ -198,9 +198,16 @@
 				background-color: transparent;
 			}
 
-			.page-area button:hover {
+			.page-area button:hover,
+			#current-page-btn {
 				background-color: #FAD355;
 				color: white;
+			}
+
+			#current-page-btn:hover {
+				background-color: #FAD355;
+				color: white;
+				cursor: default;
 			}
 
 			.modal {
@@ -411,7 +418,7 @@
 			<div class="qna-popup">
 				<div class="qna-model-header-area">
 					<div class="qna-model-header">
-						<div class="qna-model-header-text">조식 편집</div>
+						<div class="qna-model-header-text">조식 수정</div>
 						<span class="material-symbols-outlined" id="qna-close">
 							close
 						</span>
@@ -479,7 +486,7 @@
 						</div>
 						<div id="e04">
 							<button id="f01" onclick="breakFastApply('${mealListTotal[0].no}');">조식
-								편집</button>
+								수정</button>
 						</div>
 					</div>
 				</div>
@@ -569,6 +576,7 @@
 					editable: false,
 					selectable: true, // 달력 일자 드래그 설정가능
 					nowIndicator: true, // 현재 시간 마크
+					displayEventTime: false, // 이벤트 시간 안보이게
 					dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 					locale: 'ko',
 					eventAdd: function (obj) { // 이벤트가 추가되면 발생하는 이벤트
@@ -590,26 +598,16 @@
 
 					// DB 받아와서 넣어주기
 					events: [
-
+						<c:forEach items="${mealListTotal}" var="vo">
+							{
+								title: '${vo.menu}',
+								start: '${vo.breakfastDate.substring(0, 11)}' + '00:00:00',
+								end: '${vo.breakfastDate.substring(0, 11)}' + '24:00:00',
+								backgroundColor: getRandomColor()
+							},
+						</c:forEach>
 					]
 				});
-
-				<c:forEach items="${mealListTotal}" var="vo">
-					var originalDateStr = "${vo.breakfastDate.substring(0, 11)}" + "09:00:00";
-					var originalDate = new Date(originalDateStr);
-					originalDate.setDate(originalDate.getDate() + 1);
-					var year = originalDate.getFullYear();
-					var month = String(originalDate.getMonth() + 1).padStart(2, "0");
-					var day = String(originalDate.getDate()).padStart(2, "0");
-					var newDateStr = year + "-" + month + "-" + day + " 01:00:00";
-
-					calendar.addEvent({
-						title: '${vo.menu}',
-						start: originalDateStr,
-						end: newDateStr,
-						backgroundColor: getRandomColor()
-					});
-				</c:forEach>
 
 				// 캘린더 랜더링
 				calendar.render();
@@ -647,7 +645,7 @@
 						+ '영양소 : ' + data.nutrient
 						+ '</div>'
 						+ '<div id="e04">'
-						+ '<button id="f01" onclick="breakFastApply(' + data.no + ');">조식 편집</button>'
+						+ '<button id="f01" onclick="breakFastApply(' + data.no + ');">조식 수정</button>'
 						+ '</div>'
 					bbox.innerHTML = str;
 					todayMenu(data.menu);
@@ -710,6 +708,7 @@
 				type: 'get',
 				data: { "no": breakFastNo, "dietNo" : dietNo },
 				success: function (data) {
+					alert("조식 수정이 완료되었습니다");
 					location.reload();
 				},
 				error: function () {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.calendar.vo.MemberCalendarVo;
 import com.hp.app.calendar.vo.NoticeCalendarVo;
+import com.hp.app.fee.vo.AdminFeeVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.page.vo.PageVo;
@@ -104,5 +105,10 @@ public class MainDaoImpl implements MainDao {
 	@Override
 	public int getWaitMemberCnt(SqlSessionTemplate sst) {
 		return sst.selectOne("main.getWaitMemberCnt");
+	}
+
+	@Override
+	public List<AdminFeeVo> getAdminFeeList(SqlSessionTemplate sst) {
+		return sst.selectList("main.getAdminFeeList");
 	}
 }

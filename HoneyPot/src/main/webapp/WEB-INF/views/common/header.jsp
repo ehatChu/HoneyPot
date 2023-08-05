@@ -87,12 +87,6 @@
 					height: 20px;
 				}
 
-				#profile-img>img {
-					width: 230px;
-					object-fit: cover;
-					border-radius: 70%;
-				}
-
 				#all-center {
 					text-align: center;
 				}
@@ -342,6 +336,12 @@
 					width: 400px;
 					grid-template-columns: 1fr 1fr;
 				}
+
+				#headerProfileImg {
+					width: 230px;
+					object-fit: cover;
+					border-radius: 70%;
+				}
 			</style>
 		</head>
 
@@ -358,7 +358,7 @@
 							<div id="blank01"></div>
 							<div id="profile-area">
 								<div id="profile-img" onclick="location.href='/app/member/medit';">
-									<img src="/app/resources/member/profile/${loginMember.profile}" height="230px">
+									<img id="headerProfileImg" src="/app/resources/member/profile/${loginMember.profile}" height="230px">
 									<div id="setting-icon-area">
 										<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
 									</div>

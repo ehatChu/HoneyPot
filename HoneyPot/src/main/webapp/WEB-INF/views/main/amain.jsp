@@ -556,7 +556,8 @@
                                             <img id="starImg" src="/app/resources/main/star2.PNG">
                                         </c:if>
 
-                                        <div id="scheTxt">${vo.startDate.substring(0, 11)}~${vo.endDate.substring(0,11)}</div>
+                                        <div id="scheTxt">${vo.startDate.substring(0, 11)}~${vo.endDate.substring(0,11)}
+                                        </div>
                                     </div>
                                     <div id="schedule">
                                         <div id="starImg"></div>
@@ -708,10 +709,11 @@
             // DB 에서 정보 가져오기
             function loadChartData() {
                 $.ajax({
-                    url: '/app/account/chart',
+                    url: '/app/main/adminFee/chart',
                     method: 'GET',
                     dataType: 'json',
                     success: function (data) {
+                        console.log(data);
                         drawChart(data);
                         var legendElement = $("#legend");
                         legendElement.empty(); // 기존 내용 초기화
@@ -831,6 +833,7 @@
                         editable: false,
                         selectable: true, // 달력 일자 드래그 설정가능
                         nowIndicator: true, // 현재 시간 마크
+                        displayEventTime: false, // 이벤트 시간 안보이게
                         dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
                         locale: 'ko',
                         eventAdd: function (obj) { // 이벤트가 추가되면 발생하는 이벤트
@@ -857,8 +860,8 @@
                             <c:forEach items="${noticeCalendarList}" var="vo">
                                 {
                                     title: '${vo.name}',
-                                    start: '${vo.startDate}',
-                                    end: '${vo.endDate}',
+                                    start: '${vo.startDate.substring(0, 11)}' + '00:00:00',
+                                    end: '${vo.endDate.substring(0, 11)}' + '24:00:00',
                                     backgroundColor: getRandomColor()
 							    },
                             </c:forEach>

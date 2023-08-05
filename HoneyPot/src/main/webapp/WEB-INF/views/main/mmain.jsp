@@ -53,7 +53,6 @@
 
 		#zzz02 {
 			height: 200px;
-			background-color: #EAEAEA;
 		}
 
 		#box1 {
@@ -136,12 +135,12 @@
 
 		.bar11 {
 			background-color: #BDBDBD;
-			height: 70px;
+			height: 75px;
 		}
 
 		.bar22 {
 			background-color: #FFC300;
-			height: 90px;
+			height: 100px;
 		}
 
 		.bar33 {
@@ -203,10 +202,13 @@
 		#rankImg1 {
 			width: 65px;
 			height: 70px;
+			border-radius: 90%;
 		}
 
 		#rankImg2 {
-			width: 140px;
+			width: 120px;
+			height: 120px;
+			border-radius: 90%;
 		}
 
 		.bee {
@@ -529,18 +531,18 @@
 
 								<div class="rank">
 									<div class="rankBar bar1">
-										<img id="rankImg1" src="/app/resources/profile/exam_profile.png">
-										<div class="rankFont">101동 심원용</div>
+										<img id="rankImg1" src="/app/resources/member/profile/${memberPointList[1].profile}">
+										<div class="rankFont">${memberPointList[1].dongNum}동 ${memberPointList[1].name}</div>
 										<div class="bar11 bar">2</div>
 									</div>
 									<div class="rankBar bar2">
-										<img id="rankImg1" src="/app/resources/profile/exam_profile.png">
+										<img id="rankImg1" src="/app/resources/member/profile/${memberPointList[0].profile}">
 										<div class="rankFont">${memberPointList[0].dongNum}동 ${memberPointList[0].name}</div>
 										<div class="bar22 bar">1</div>
 									</div>
 									<div class="rankBar bar3">
-										<img id="rankImg1" src="/app/resources/profile/exam_profile.png">
-										<div class="rankFont">103동 심원용</div>
+										<img id="rankImg1" src="/app/resources/member/profile/${memberPointList[2].profile}">
+										<div class="rankFont">${memberPointList[2].dongNum}동 ${memberPointList[2].name}</div>
 										<div class="bar33 bar">3</div>
 									</div>
 								</div>
@@ -548,7 +550,7 @@
 							<div id="box4" class="box">
 								<div id="tit1">동대표</div>
 								<div class="imgBox">
-									<img id="rankImg2" src="/app/resources/profile/exam_profile.png">
+									<img id="rankImg2" src="/app/resources/member/profile/${captain.profile}">
 									<div id="rankFont2">${captain.name}</div>
 								</div>
 								<div class="like">
@@ -607,8 +609,44 @@
 		headerName('홈'); // 현재 페이지 이름
 		getNoticeList();
 		getCaptainLove();
+		getWeatherInfo();
+		getNanoDustInfo();
 		applyWeatherInfo(JSON.parse(sessionStorage.getItem("weather")));
 		applyNanoDustInfo();
+
+		function getWeatherInfo() {
+            $.ajax({
+                url: '/app/kmsData/weather',
+                type: 'get',
+                dataType: 'text',
+                success: function (data) {
+                    var jsonObject = JSON.parse(data);
+                    var weather = jsonObject.response.body.items.item;
+                    sessionStorage.setItem("weather", JSON.stringify(weather));
+                },
+                error: function () {
+                    location.reload();
+                }
+            });
+        }
+
+        function getNanoDustInfo() {
+            $.ajax({
+                url: '/app/kmsData/nanoDust',
+                type: 'get',
+                dataType: 'text',
+                success: function (data) {
+                    var jsonObject = JSON.parse(data);
+                    var nanoDust = jsonObject.response.body.items;
+                    sessionStorage.setItem("nanoDust", JSON.stringify(nanoDust));
+                },
+                error: function () {
+                    location.reload();
+                }
+            });
+        }
+
+
 
 		// 게시판 선택 1
 		function getNoticeList() {
@@ -632,7 +670,7 @@
 					boxff2.innerHTML = str;
 				},
 				error: function () {
-					alert("getNoticeList error");
+					location.reload();
 				}
 			});
 		}
@@ -660,7 +698,7 @@
 					boxff2.innerHTML = str;
 				},
 				error: function () {
-					alert("에러");
+					location.reload();
 				}
 			});
 		}
@@ -691,7 +729,7 @@
 					hate.innerHTML = (hateCnt / total * 100).toFixed(0) + "%";
 				},
 				error: function () {
-					alert("getCaptainLove error");
+					location.reload();
 				}
 			});
 		}
@@ -707,7 +745,7 @@
 					getCaptainLove();
 				},
 				error: function () {
-					alert("voteCaptainLove error");
+					location.reload();
 				}
 			});
 		}
@@ -765,6 +803,7 @@
 			const weatherTxt1 = document.querySelector('#weatherTxt1');
 			const weatherTxt2 = document.querySelector('#weatherTxt2');
 			var nanoDust = JSON.parse(sessionStorage.getItem("nanoDust"));
+			console.log("nanoDust : " + nanoDust);
 
 			if (nanoDust[0].pm10Value < 15) {
 				weatherTxt1.innerHTML = '<div class="green" id="bar"></div><div class="gray" id="bar"></div><div class="gray" id="bar"></div>';
@@ -820,6 +859,7 @@
 					editable: false,
 					selectable: true, // 달력 일자 드래그 설정가능
 					nowIndicator: true, // 현재 시간 마크
+					displayEventTime: false, // 이벤트 시간 안보이게
 					dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 					locale: 'ko',
 					eventAdd: function (obj) { // 이벤트가 추가되면 발생하는 이벤트
@@ -846,8 +886,8 @@
 						<c:forEach items="${memberCalendarList}" var="vo">
 							{
 								title: '${vo.name}',
-								start: '${vo.startDate}',
-								end: '${vo.endDate}',
+								start: '${vo.startDate.substring(0, 11)}' + '00:00:00',
+								end: '${vo.endDate.substring(0, 11)}' + '24:00:00',
 								backgroundColor: getRandomColor()
 							},
 						</c:forEach>

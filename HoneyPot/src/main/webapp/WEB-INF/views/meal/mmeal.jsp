@@ -240,7 +240,9 @@
 							영양소 : ${mealListTotal[0].nutrient}
 						</div>
 						<div id="e04">
-							<button id="f01" onclick="breakFastApply('${mealListTotal[0].no}', '${mealListTotal[0].breakfastDate.substring(0, 11)}');">조식 신청</button>
+							<button id="f01"
+								onclick="breakFastApply('${mealListTotal[0].no}', '${mealListTotal[0].breakfastDate.substring(0, 11)}');">조식
+								신청</button>
 						</div>
 					</div>
 				</div>
@@ -331,6 +333,7 @@
 					editable: false,
 					selectable: true, // 달력 일자 드래그 설정가능
 					nowIndicator: true, // 현재 시간 마크
+					displayEventTime: false, // 이벤트 시간 안보이게
 					dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 					locale: 'ko',
 					eventAdd: function (obj) { // 이벤트가 추가되면 발생하는 이벤트
@@ -352,26 +355,16 @@
 
 					// DB 받아와서 넣어주기
 					events: [
-
+						<c:forEach items="${mealListTotal}" var="vo">
+							{
+								title: '${vo.menu}',
+								start: '${vo.breakfastDate.substring(0, 11)}' + '00:00:00',
+								end: '${vo.breakfastDate.substring(0, 11)}' + '24:00:00',
+								backgroundColor: getRandomColor()
+							},
+						</c:forEach>
 					]
 				});
-
-				<c:forEach items="${mealListTotal}" var="vo">
-					var originalDateStr = "${vo.breakfastDate.substring(0, 11)}" + "09:00:00";
-					var originalDate = new Date(originalDateStr);
-					originalDate.setDate(originalDate.getDate() + 1);
-					var year = originalDate.getFullYear();
-					var month = String(originalDate.getMonth() + 1).padStart(2, "0");
-					var day = String(originalDate.getDate()).padStart(2, "0");
-					var newDateStr = year + "-" + month + "-" + day + " 01:00:00";
-
-					calendar.addEvent({
-						title: '${vo.menu}',
-						start: originalDateStr,
-						end: newDateStr,
-						backgroundColor: getRandomColor()
-					});
-				</c:forEach>
 
 				// 캘린더 랜더링
 				calendar.render();
@@ -421,7 +414,7 @@
 				type: 'get',
 				success: function (data) {
 					str += '<div class="box2">'
-						+ '<img id="mealImg" src="/app/resources/meal/' + data.img +'">'
+						+ '<img id="mealImg" src="/app/resources/meal/' + data.img + '">'
 						+ '<div id="d01">'
 						+ '<div id="e01">' + data.breakfastDate.substring(0, 11) + '</div>'
 						+ '<div id="e011"></div>'
