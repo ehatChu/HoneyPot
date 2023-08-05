@@ -1,5 +1,6 @@
 package com.hp.app.calendar.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.Session;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.calendar.service.CalendarService;
 import com.hp.app.member.vo.MemberVo;
+import com.hp.app.yerin.functions.YerinFunctions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CalendarController {
 	private final CalendarService service;
-	
+	private final YerinFunctions y;
 	//캘린더화면조회
 	@GetMapping("calendar/schedule-list")
-	public String viewCalendar() {
+	public String viewCalendar() throws Exception {
+		//일반회원은 본인이 속한 동대표가 작성한 일정과 관리소장의 일정을 아파트일정으로 볼 수 있다.
+		List<String> middleDays = y.getMiddleDays("2023-08-31", "2023-09-01");
+		log.info("middleDays :{}",middleDays);
+		
 		return "mypage/myInfo/calendar/view";
 	}
 	//주민 캘린더 등록
