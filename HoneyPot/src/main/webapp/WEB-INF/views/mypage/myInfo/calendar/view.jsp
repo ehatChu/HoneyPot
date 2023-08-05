@@ -222,22 +222,22 @@
                     <div id="modal-top">
                         <span id="modal-header">일정만들기</span><span><i class="fa-solid fa-xmark fa-2xl margin-right quit-btn" style="color: #000000;"></i></span>
                     </div>
-                    <form action="">
+                    <form action="/app/calendar/regi-schedule" method="post">
                         <div id="modal-area">
                             <div id="modal-content">
                                 <div>
                                     <div class="font-size-bold">시작날짜</div>
-                                    <div><input class="input input-date" type="date"></div>
+                                    <div><input class="input input-date" type="date" name="startDate"></div>
                                 </div>
                                 <div>
                                     <div class="font-size-bold">끝날짜</div>
-                                    <div><input class="input input-date" type="date"></div>
+                                    <div><input class="input input-date" type="date" name="endDate"></div>
                                 </div>
                                 <div>
                                     <div class="font-size-bold">일정이름</div>
-                                    <div><input class="input input-text" type="text" placeholder="10글자 이내로 작성해주세요."></div>
+                                    <div><input class="input input-text" type="text" placeholder="10글자 이내로 작성해주세요." name="scheduleName"></div>
                                 </div>
-                                <div><button id="schedule-btn">일정짜기</button></div>
+                                <div><input type="submit" id="schedule-btn" value="일정짜기"></div>
                     
                             </div>
                         </div>
