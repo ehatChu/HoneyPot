@@ -11,17 +11,17 @@ public interface MyboardService {
 	//내 게시글 조회
 	public abstract List<BoardVo> getMyPost(PageVo pv, String writerNo);
 	
-	//내 댓글 조회
-	public abstract List<ReplyVo> getMyReply(PageVo pv, String writerNo);
-	
-	//내 좋아요 조회
-	public abstract List<BoardVo> getMyLove(PageVo pv, String memberNo);
-	
 	//게시글 수 세기
 	public abstract int countMyPost(String writerNo);
 	
+	//내 댓글 조회
+	public abstract List<ReplyVo> getMyReply(PageVo pv, String writerNo);
+	
 	//댓글 수 세기
 	public abstract int countMyReply(String writerNo);
+	
+	//내 좋아요 조회
+	public abstract List<BoardVo> getMyLove(PageVo pv, String memberNo);
 	
 	//좋아요 글 수 세기
 	public abstract int countMyLove(String memberNo);
