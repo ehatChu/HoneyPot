@@ -313,6 +313,7 @@
                     type : "post",
                     data : {
                         selectedDate : dateFormat(new Date(info.dateStr)),
+                        isAdmin : false,
                     },
                     dataType : 'json',
                     success : function(data){
