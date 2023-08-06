@@ -9,7 +9,7 @@
 <style>
     #main-wrapper {
         display: grid;
-        grid-template-columns: 0.8fr 1fr;
+        grid-template-columns: 1.2fr 1fr;
         height: 700px;
     }
 
@@ -60,9 +60,6 @@
     }
     #schedule-area2 {
         margin: 10px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
         padding: 10px;
         background-color: white;
         border-radius: 10px;

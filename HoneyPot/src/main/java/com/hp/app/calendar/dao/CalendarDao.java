@@ -23,5 +23,8 @@ public interface CalendarDao {
 	List<AllCalendarVo> getPersonalCal(SqlSessionTemplate sst, Map<String, String> infoMap);
 
 	int deletePersonal(SqlSessionTemplate sst, String sNum);
+
+	//관리자모든일정표시
+	List<AllCalendarVo> getAllNoticeCal(SqlSessionTemplate sst, String dongName);
 	
 }

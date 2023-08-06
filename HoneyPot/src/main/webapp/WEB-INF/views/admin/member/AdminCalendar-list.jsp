@@ -169,6 +169,13 @@
     #modal-content > div:nth-child(2){
         margin-left: 13.53px;
     }
+
+    .small-text-size {
+        font-size: 15px;
+    }
+    .cal-margin-right {
+        margin-right: 10px;
+    }
 </style>
 </head>
 <body>
@@ -190,12 +197,6 @@
                 <h1><span id="clickDate"></span>의 일정 <button id="scheduler-btn">일정짜기</button></h1>
                 <div class="calendar-text-bold">아파트일정</div>
                 <div id="schedule-area1">
-                    <c:forEach var="i" begin="1" end="4">
-                        <div>
-                            <span id="star" class="star-font-size color-gold cursor">⭐</span>   
-                            <span class="middle-text-size">아파트 리모델링 예정</span>
-                        </div>
-                    </c:forEach> 
                 </div>
             </div>
             <div id="modal-box" style="display: none;">
@@ -274,7 +275,7 @@
     function dateFormat(date) {
         let dateFormat2 = date.getFullYear() +
             '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
-            '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) )
+            '-' + ( (date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()) )
             +'('+getDayOfWeek(date)+')';
         return dateFormat2;
     }	
@@ -291,14 +292,174 @@
         var calendarEl = document.getElementById('calendar');
         var clickDate = document.querySelector("#clickDate");
         var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth'
-        ,selectable: true
-        ,selecMirro : true
-        ,dateClick : function(info) {
-            alert(info.dateStr);
-            clickDate.innerHTML=dateFormat(new Date(info.dateStr));
-        }
-        });
+            initialView: 'dayGridMonth'
+            ,selectable: true
+            ,selecMirro : true
+            ,dateClick : function(info) {
+                clickDate.innerHTML=dateFormat(new Date(info.dateStr));
+                //클릭하면 ajax로 서버와 통신하여 json형식의 data받아오기
+                //일단 ajax가 잘되는지 부터 보자
+                $.ajax({
+                    url : "/app/calendar/apart-schedule",
+                    type : "post",
+                    data : {
+                        selectedDate : dateFormat(new Date(info.dateStr)),
+                    },
+                    dataType : 'json',
+                    success : function(data){
+
+                        
+                        console.log(data);
+                        const AdminArea = document.querySelector("#schedule-area1");
+                        let str ="";
+                       for(let i=0;i<data.length;i++){
+                            str+="<div>";
+                            str+="<span class='middle-text-size cal-margin-right'>"+data[i].name+"</span>";
+                            str+="<span class='small-text-size cal-margin-right'>";
+                            //시작날짜와 끝날짜가 같으면 
+                            if(data[i].startDate==data[i].endDate){
+                                str+=data[i].startDate;
+                            }else {
+                                str+=data[i].startDate+"~"+data[i].endDate;
+                            }
+                            str+="</span>"
+                            str+="<span class='small-text-size cal-margin-right'>"+data[i].writerName+"</span>";
+                            str+="</div>"
+                       }
+                       AdminArea.innerHTML=str;
+                        //여기서버튼을 가져오면 될듯
+                        //딜리트버튼 누르면 DB에서 삭제하기
+                        const deleteBtn = document.querySelectorAll(".delete-btn");
+                        console.log(deleteBtn);
+ 
+                    },
+                    error : function(e){
+                        console.log("이잉에러");
+                    },
+                });
+            }
+            ,events : function(info, successCallback,failureCallback) {
+                $.ajax({
+                    type : 'post'
+                    ,cache : false
+                    ,url : '/app/calendar/represent-apart'
+                    ,dataType : 'json'
+                    ,contentType : "application/x-www-form-urlencoded; charset=UTF-8"
+                    ,success : function(param){
+                        var events = [];
+                        $.each(param,function (intdex, data) {
+                            if(data.writerName == '관리소장'){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#B70404'
+                                });
+                            }else if(data.writerName =="101동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#4A321F'
+                                });
+                            }else if(data.writerName == "102동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#FFCE31'
+                                });
+                            }else if(data.writerName == "103동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#FFCE31'
+                                });
+                            }else if(data.writerName == "104동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#FFCE31'
+                                });
+                            }else if(data.writerName == "201동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#FFCE31'
+                                });
+                            }else if(data.writerName == "202동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#FFCE31'
+                                });
+                            }else if(data.writerName == "203동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#FFCE31'
+                                });
+                            }else if(data.writerName == "204동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#FFCE31'
+                                });
+                            }else if(data.writerName == "301동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#FFCE31'
+                                });
+                            }else if(data.writerName == "302동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#FFCE31'
+                                });
+                            }else if(data.writerName == "303동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#FFCE31'
+                                });
+                            }else if(data.writerName == "304동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : '#FFCE31'
+                                });
+                            }else {
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : 'red'
+                                });
+                            }
+                            
+                        })
+                        successCallback(events);
+                       
+                    }
+                    ,error : function(e){
+                        console.log(e);
+                    }
+
+
+                });                
+            }
+         });
         calendar.render();
     });
 

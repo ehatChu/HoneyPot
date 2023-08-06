@@ -75,6 +75,12 @@ public class CalendarServiceImpl implements CalendarService {
 		return dao.deletePersonal(sst,sNum);
 	}
 	
+	//관리자모든일정표시
+	@Override
+	public List<AllCalendarVo> getAllNoticeCal(String dongName) {
+		return dao.getAllNoticeCal(sst,dongName);
+	}
+	
 	
 
 	//관리자일정조회

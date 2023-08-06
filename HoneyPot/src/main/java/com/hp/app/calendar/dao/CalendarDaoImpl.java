@@ -157,6 +157,38 @@ public class CalendarDaoImpl implements CalendarDao {
 		
 		return result;
 	}
+
+	//관리자모든일정표시
+	@Override
+	public List<AllCalendarVo> getAllNoticeCal(SqlSessionTemplate sst, String dongName) {
+		List<AllCalendarVo> allList= null;
+		try {
+			allList=sst.selectList("calendar.getAllNoticeCal",dongName);
+			//풀캘린더 하루더 추가하기위한 코드
+			for(int i =0; i<allList.size();i++){
+				//문자를 날짜로 변경 
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				Date d1 = df.parse(allList.get(i).getEndDate());
+				
+				
+				Calendar c1 = Calendar.getInstance();
+				c1.setTime(d1);
+				
+				c1.add(Calendar.DATE, 1);
+				
+				//날짜를 문자로 변경
+				Date d2 = c1.getTime();
+				String finalDate = df.format(d2);
+				
+				//변경한 문자로 list의 값 바꾸기
+				allList.get(i).setEndDate(finalDate);
+				
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return allList; 
+	}
 	
 	
 	//관리자 일정조회
