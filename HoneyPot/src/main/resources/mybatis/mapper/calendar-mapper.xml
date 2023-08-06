@@ -72,4 +72,21 @@
 		WHERE NO = #{sNum}
 	</delete>
 	
+	
+	<!-- 어드민일정 표시 -->
+	<select id="getAllNoticeCal" resultType="com.hp.app.calendar.vo.AllCalendarVo">
+		SELECT
+			A.NAME AS WRITER_NAME
+		    ,N.START_DATE
+		    ,N.END_DATE
+		    ,N.NAME
+		FROM NOTICE_CALENDAR N 
+		JOIN ADMIN A ON (N.WRITER_NO = A.NO)
+		<if test="dongName !='관리소장'">
+			WHERE A.NAME = '관리소장' OR A.NAME= #{dongName}
+		</if>
+	</select>
+	
+	
+	
 </mapper>

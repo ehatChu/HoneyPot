@@ -188,5 +188,26 @@ public class CalendarController {
 		return "redirect:/admin/calendar/schedule-list";
 	}
 	
+	//달력에 모든 스케줄 보여주기 (개인)
+	@PostMapping("calendar/represent-apart")
+	@ResponseBody
+	public String representApart(Model model,HttpSession session) throws Exception {
+		log.info("캘린더통싯성공");
+		//로그인멤버에서 dong추출해서 +"동대표"한 String 넘기기
+		AdminVo loginAdmin = (AdminVo)session.getAttribute("loginAdmin");
+		String dongName = loginAdmin.getName();
+	
+		
+		
+		List<AllCalendarVo> noticeList = service.getAllNoticeCal(dongName);
+		
+		
+		ObjectMapper om = new ObjectMapper();
+		String all = om.writeValueAsString(noticeList);
+		
+		
+		return all;
+	}
+	
 	
 }
