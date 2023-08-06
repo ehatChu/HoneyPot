@@ -553,13 +553,5 @@ public class CSCController {
 		return "redirect:/admin/csc/faq";
 	}
 	
-	// 제제내역 (화면)
-	@GetMapping("admin/member/sanction-list")
-	public String sanctionList() {
-		return "admin/member/sanction-list";
-	}
-	
-
-	
 
 }
