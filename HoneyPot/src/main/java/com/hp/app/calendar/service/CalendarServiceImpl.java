@@ -62,6 +62,12 @@ public class CalendarServiceImpl implements CalendarService {
 		return dao.getAllMemberCalByPerson(sst,memberNo);
 	}
 	
+	//목록용, 개인 일정조회
+	@Override
+	public List<AllCalendarVo> getPersonalCal(Map<String, String> infoMap) {
+		return dao.getPersonalCal(sst,infoMap);
+	}
+	
 	
 
 	//관리자일정조회

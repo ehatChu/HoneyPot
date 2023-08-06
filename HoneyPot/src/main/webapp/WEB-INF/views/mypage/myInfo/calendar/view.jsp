@@ -61,7 +61,7 @@
     #schedule-area2 {
         margin: 10px;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         grid-template-rows: auto;
         padding: 10px;
         background-color: white;
@@ -213,12 +213,12 @@
                 </div>
                 <div class="calendar-text-bold">개인일정</div>
                 <div id="schedule-area2">
-                    <c:forEach var="i" begin="1" end="10">
+                    <!-- <c:forEach var="i" begin="1" end="10">
                         <div>
                             <span id="star" class="star-font-size color-gold cursor">⭐</span>   
                             <span class="middle-text-size">아파트 리모델링 예정</span>
                         </div>
-                    </c:forEach>
+                    </c:forEach> -->
                 </div>
             </div>
             <div id="modal-box" style="display: none;">
@@ -322,6 +322,8 @@
                     },
                     dataType : 'json',
                     success : function(data){
+
+                        
                         console.log(data);
                         const AdminArea = document.querySelector("#schedule-area1");
                         let str ="";
@@ -336,7 +338,7 @@
                                 str+=data[i].startDate+"~"+data[i].endDate;
                             }
                             str+="</span>"
-                            str+="<span class='small-text-size cal-margin-right'>"+data[i].writerName+"<span>";
+                            str+="<span class='small-text-size cal-margin-right'>"+data[i].writerName+"</span>";
                             str+="</div>"
                        }
                        AdminArea.innerHTML=str;
@@ -346,7 +348,37 @@
                         console.log("이잉에러");
                     },
                 });
-
+                $.ajax({
+                    url : "/app/calendar/personal-schedule",
+                    type : "post",
+                    data : {
+                        selectedDate : dateFormat(new Date(info.dateStr)),
+                    },
+                    dataType : 'json',
+                    success : function(data){
+                        // console.log("같은걸 클릭했는데 2개의 ajax가 발동한다구? 이게가능해?");
+                        console.log(data);
+                        const AdminArea2= document.querySelector("#schedule-area2");
+                        let str ="";
+                       for(let i=0;i<data.length;i++){
+                            str+="<div><span id='star' class='star-font-size color-gold cursor'>⭐</span>";
+                            str+="<span class='middle-text-size cal-margin-right'>"+data[i].name+"</span>";
+                            str+="<span class='small-text-size cal-margin-right'>";
+                            //시작날짜와 끝날짜가 같으면 
+                            if(data[i].startDate==data[i].endDate){
+                                str+=data[i].startDate;
+                            }else {
+                                str+=data[i].startDate+"~"+data[i].endDate;
+                            }
+                            str+="</span>"
+                            str+="</div>"
+                       }
+                       AdminArea2.innerHTML=str;
+                    },
+                    error : function(e){
+                        console.log("같은 클릭에 ajax가 2개이상 됨.");
+                    },
+                });
             }
             ,events : function(info, successCallback,failureCallback) {
                 $.ajax({

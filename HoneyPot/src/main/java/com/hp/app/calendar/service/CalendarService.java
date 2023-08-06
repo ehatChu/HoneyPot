@@ -22,6 +22,9 @@ public interface CalendarService {
 	//개인일정, 모든일정
 	List<AllCalendarVo> getAllMemberCalByPerson(String memberNo);
 	
+	//목록용, 개인 일정조회
+	List<AllCalendarVo> getPersonalCal(Map<String, String> infoMap);
+	
 	
 	//관리자일정조회
 	

@@ -12,7 +12,7 @@
 		VALUES (SEQ_NOTICE_CALENDAR_NO.NEXTVAL, #{writerNo}, #{scheduleName}, #{startDate} ,#{endDate})
 	</insert>
 	
-	<!-- 해당날짜의 노티스 스케줄 조회 -->
+	<!-- 해당날짜의 노티스 스케줄 조회 목록용 -->
 	<select id="getNoticeCal" resultType="com.hp.app.calendar.vo.NoticeCalendarVo">
 		SELECT * FROM 
 		(
@@ -42,7 +42,7 @@
 		WHERE A.NAME = '관리소장' OR A.NAME= #{dongName}
 	</select>
 	
-	<!-- 멤버개인모든일정 -->
+	<!-- 멤버개인모든일정표시용 -->
 	<select id="getAllMemberCalByPerson" resultType="com.hp.app.calendar.vo.AllCalendarVo">
 		SELECT
 			M.NAME AS WRITER_NAME
@@ -53,4 +53,16 @@
 		JOIN MEMBER M ON(N.WRITER_NO = M.NO)
 		WHERE WRITER_NO =#{memberNo}
 	</select>
+	
+	<!-- 멤버 개인일정 목록용-->
+	<select id="getPersonalCal" resultType="com.hp.app.calendar.vo.AllCalendarVo">
+		SELECT 
+		    START_DATE
+		    ,END_DATE
+		    ,NAME
+		FROM MEMBER_CALENDAR
+		WHERE to_date(#{selectedDate},'YYYY-MM-DD') BETWEEN TO_DATE(START_DATE,'YYYY-MM-DD') AND TO_DATE(END_DATE,'YYYY-MM-DD')
+		AND WRITER_NO = #{memberNo}
+	</select>
+	
 </mapper>

@@ -19,5 +19,7 @@ public interface CalendarDao {
 	List<AllCalendarVo> getAllNoticeCalByDong(SqlSessionTemplate sst, String dongName);
 
 	List<AllCalendarVo> getAllMemberCalByPerson(SqlSessionTemplate sst, String memberNo);
+
+	List<AllCalendarVo> getPersonalCal(SqlSessionTemplate sst, Map<String, String> infoMap);
 	
 }

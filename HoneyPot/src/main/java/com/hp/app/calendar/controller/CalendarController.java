@@ -91,6 +91,31 @@ public class CalendarController {
 		return noticeJsonStr;
 		
 	}
+	
+	//ajax로 개인일정 추가하기 문자표시
+	@PostMapping(produces ="application/json; charset=UTF-8",value = "calendar/personal-schedule")
+	@ResponseBody
+	public String getPersonalCal(String selectedDate,HttpSession session) throws IOException {
+		//데이터 보내기 selectedDate, memberNo
+		Map<String,String> infoMap = new HashMap<String, String>();
+		selectedDate = selectedDate.substring(0, 10);
+		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		String memberNo =loginMember.getNo();
+		
+		infoMap.put("selectedDate", selectedDate);
+		infoMap.put("memberNo", memberNo);
+		
+		//서비스호출
+		List<AllCalendarVo> personalList= service.getPersonalCal(infoMap);
+		
+		ObjectMapper om = new ObjectMapper();
+		
+		String personalJsonStr = om.writeValueAsString(personalList);
+		
+		return personalJsonStr;
+		
+	}
+	
 	//달력에 모든 스케줄 보여주기 (개인)
 	@PostMapping("calendar/represent-schedule")
 	@ResponseBody

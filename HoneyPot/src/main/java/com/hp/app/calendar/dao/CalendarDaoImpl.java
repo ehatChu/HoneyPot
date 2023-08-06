@@ -133,6 +133,18 @@ public class CalendarDaoImpl implements CalendarDao {
 		return memberList;
 	}
 	
+	//목록용, 개인 일정조회
+	@Override
+	public List<AllCalendarVo> getPersonalCal(SqlSessionTemplate sst, Map<String, String> infoMap) {
+		List<AllCalendarVo> personalList = null;
+		try {
+			personalList = sst.selectList("calendar.getPersonalCal",infoMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return personalList;
+	}
+	
 	//멤버일정조회
 	
 	//관리자 일정조회
