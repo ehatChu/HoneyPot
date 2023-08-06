@@ -60,9 +60,16 @@
 		    START_DATE
 		    ,END_DATE
 		    ,NAME
+		    ,NO
 		FROM MEMBER_CALENDAR
 		WHERE to_date(#{selectedDate},'YYYY-MM-DD') BETWEEN TO_DATE(START_DATE,'YYYY-MM-DD') AND TO_DATE(END_DATE,'YYYY-MM-DD')
 		AND WRITER_NO = #{memberNo}
 	</select>
+	
+	<!-- 개인일정삭제 -->
+	<delete id="deletePersonal">
+		DELETE FROM MEMBER_CALENDAR 
+		WHERE NO = #{sNum}
+	</delete>
 	
 </mapper>

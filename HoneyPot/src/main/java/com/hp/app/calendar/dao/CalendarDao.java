@@ -21,5 +21,7 @@ public interface CalendarDao {
 	List<AllCalendarVo> getAllMemberCalByPerson(SqlSessionTemplate sst, String memberNo);
 
 	List<AllCalendarVo> getPersonalCal(SqlSessionTemplate sst, Map<String, String> infoMap);
+
+	int deletePersonal(SqlSessionTemplate sst, String sNum);
 	
 }

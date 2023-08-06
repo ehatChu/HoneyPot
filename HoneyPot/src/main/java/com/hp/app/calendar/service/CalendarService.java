@@ -24,6 +24,9 @@ public interface CalendarService {
 	
 	//목록용, 개인 일정조회
 	List<AllCalendarVo> getPersonalCal(Map<String, String> infoMap);
+
+	//개인일정삭제
+	int deletePersonal(String sNum);
 	
 	
 	//관리자일정조회
