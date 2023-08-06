@@ -629,9 +629,6 @@
 
 /* 팔로우 영역 */
 /* 우클릭 시 강퇴 버튼 */
-.follow-area {
-    position: relative;
-}
 
 .follow-area li {
     display: none;
@@ -641,6 +638,7 @@
     padding: 5px;
     border-radius: 4px;
     z-index: 1000; /* 팔로우 버튼이 다른 요소 위에 표시되도록 설정 */
+    position: relative;
 }
 
 .follow-area.show li {

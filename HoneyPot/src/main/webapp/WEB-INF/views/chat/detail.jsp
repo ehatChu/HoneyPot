@@ -16,83 +16,63 @@
 			</nav>
 
 			<main>
-				<!-- 채팅방 친구 초대 모달 영역 -->
-				<div class="invite-modal hidden">
-					<div class="bg"></div>
-					<div class="invite-modalBox">
-						<div class="upper-bar">
-							<span>친구 초대</span>
-							<button class="invite-closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
-						</div>
-						<div class="invite-first-area">
-							<div class="search-list">
-								<input type="text" id="name">
-								<button class="searchBtn">검색</button>
-							</div>
-							<form action="/app/chat/invite" method="post">
-								<div class="friend-list">
-									<c:forEach begin="1" end="10">
-										<div>
-											<img src="/app/resources/profile/profile03sponge.jpg" alt="프로필사진">
-											<span>이정민</span>
-											<label for="addMember"><input type="checkbox" name="checkMember"></label>
-										</div>
-									</c:forEach>
-								</div>
-							</form>
-								<div id="inviteBtn"><button>초대</button></div>
-							</div>
-					</div>
-				</div>
 				<div id="wrap">
                     <!-- 채팅방 목록 영역 -->
 					<div id="left-area">
 						<div class="upper-area">
-							<span>채팅방 상세</span>
+							<span>채팅방 목록</span>
+							<input type="hidden" value="${rList[0].memberNo}" id="loginMember">
 						</div>
 						<div class="content-area">
 							<div class="icon-area">
 								<div class="icon-wrap">
-									<button class="moveFollowerList"><i class="fa-solid fa-user-group fa-2x" style="color: #858181;"></i></button>
-									<button class="moveChatList"><i class="fa-solid fa-comment fa-2x" ></i></button>
-                                    
+									<button><i class="fa-solid fa-user-group fa-2x"></i></button>
+									<button class="moveChatList"><i class="fa-solid fa-comment fa-2x" style="color: #858181;"></i></button>
 								</div>
 							</div>
 							<div class="room-list-area">
-								<input id="loginNo" type="hidden" value="${loginMember.name}">
-								<div class="room-name">
-									<img src="${root}/resources/img/chat/${cvoList[0].img}" alt="프로필사진">
-									<span>${cvoList[0].name}</span>
-								</div>
-								<div class="room-member-list">
-									<div>
-										<button class="inviteMember">
-											<div class="invite-area"><i class="fa-solid fa-plus fa-2x"></i></div>
-											<span>대화상대 초대</span>
-										</button>
-									</div>
-									<!-- 로그인 멤버 제외한 나머지 멤버들만 조회  -->
-									<input id="roomNo" hidden value="${cvoList[0].no}">
-									<c:forEach items="${cvoList}" var="cvoList">
-										<c:if test="${cvoList.masterNo ne cvoList.memberNo}">
-											<div class="kick-out">
-												<img src="${root}/resources/img/chat/${cvoList.memberProfile}" alt="프로필사진">
-												<span>${cvoList.memberName}</span>
-												<ul class="kick-area">
-													<li><a href="#">강퇴</a></li>
-												</ul>
-											</div>
-										</c:if>
+								<div id="roomArea">
+									<c:forEach items="${rList}" var="rList">
+										<div class="room-name" id="detailBtn">
+											<div id="roomNo" hidden>${rList.no}</div>
+											<img src="${root}/resources/member/profile/${rList.img}" alt="채팅방사진">
+											<span id="roomName">${rList.name}</span>
+										</div>
 									</c:forEach>
-									<!-- 강퇴 모달 -->
-									<div id="kick-modal" style="display: none;">
-										<p>이 유저를 강퇴하시겠습니까?</p>
-										<div>
-											<button id="confirm-btn">확인</button>
-											<button id="cancel-btn">취소</button>
+								</div>
+								<!-- 채팅 만들기 버튼 함수 추가~~ -->
+								<button class="openChat"> + 새로운 채팅</button>
+							</div>
+						</div>
+					</div>
+					<!-- 채팅방 친구 초대 모달 영역 -->
+					<div class="invite-modal hidden">
+						<div class="bg"></div>
+						<div class="invite-modalBox">
+							<div class="upper-bar">
+								<span>채팅방 생성</span>
+								<button class="invite-closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
+							</div>
+							<div class="invite-first-area">
+								<div class="search-list">
+										<input type="text" class="searchValue" name="searchValue">
+										<button type="button" class="searchBtn">검색</button>
+									</div>
+									<div class="friend-list">
+										<c:forEach items="${fvoList}" var="list">
+											<div class="friend">
+											<img src="/app/resources/member/profile/${list.friendProfile}" alt="프로필사진" class="memberPic">
+											<span class="memberName">${list.friendName }</span>
+											<input type="radio" name="friendNo" value="${list.friendNo}" id="addMember${list.friendNo}" class="styled-radio">
+											<label for="addMember${list.friendNo}" class="checkArea">
+											</label>
+										</div>
+										</c:forEach>
+										<div id="none">
+										<span>검색 결과가 없습니다.</span>
 										</div>
 									</div>
-								</div>
+								<div id="inviteBtn"><button type="button" class="startBtn">채팅 시작하기</button></div>
 							</div>
 						</div>
 					</div>
@@ -135,8 +115,6 @@
 							</form>
 						</div>
 					</div>
-					<!--ff-->
-
 				</div>
 			</main>
 
@@ -146,15 +124,10 @@
 
 	<script>
 		
+		
 		// 헤더 함수 실행
 		basicSetting();
     	headerName('채팅');
-
-		// 채팅 아이콘 클릭 시 이동
-		const followIcon = document.querySelector(".moveFollowerList");
-		followIcon.addEventListener("click", function(){
-			location.href="/app/chat/list";
-		})
 
 		// 채팅방 수정 모달 열기
         const openModal = () => {
@@ -166,8 +139,8 @@
         document.querySelector(".modal").classList.add("hidden");
         };
 
-        const openBtn = document.querySelector(".openBtn");
-        openBtn.addEventListener("click", openModal);
+        const openCBtn = document.querySelector(".openBtn");
+        openCBtn.addEventListener("click", openModal);
 
         // 모달 닫기 버튼에 이벤트 추가
         document.querySelector(".closeBtn").addEventListener("click", closeModal);
@@ -176,112 +149,162 @@
         document.querySelector(".bg").addEventListener("click", closeModal);
 
 
-		// 채팅멤버 우클릭 시 강퇴 실행 함수
-		// 우클릭 이벤트 핸들러
-		function handleRightClick(event) {
-			// 기본 우클릭 메뉴 방지
-			event.preventDefault(); 
+		// 채팅방 눌렀을 시, detail 로 이동
+		$(document).ready(function() {
+			const detailBtns = document.querySelectorAll("#detailBtn");
+			detailBtns.forEach((btn) => {
+			btn.addEventListener("click", function() {
+			var rno = $(this).closest("div").find("#roomNo").text().trim();
+			console.log(rno);
 
-			// 해당 kick-out div의 위치 가져오기
-			const div = this;
-			const rect = div.getBoundingClientRect();
-			const divTop = rect.top + window.pageYOffset;
-			const divLeft = rect.left + window.pageXOffset;
-
-			// 해당 kick-out div에 속한 kick-area 요소 가져오기
-			const kickArea = div.querySelector(".kick-area");
-
-			// span 요소의 위치 가져오기
-			const span = div.querySelector("span");
-			const spanRect = span.getBoundingClientRect();
-			const spanTop = spanRect.top + window.pageYOffset;
-			const spanRight = spanRect.right + window.pageXOffset;
-
-			// kick-area 요소의 위치 설정
-			kickArea.style.top = spanTop + span.offsetHeight + "px";
-			kickArea.style.left = spanRight + "px";
-
-			// kick-area 요소 표시
-			kickArea.style.display = "block";
-
-			// 배경 클릭 시 삭제 이벤트 
-			document.addEventListener("click", handleBackgroundClick);
-		}
-
-		// 배경 클릭 이벤트 
-		function handleBackgroundClick(event) {
-			// kick-area 숨기기
-			const kickAreas = document.querySelectorAll(".kick-area");
-			kickAreas.forEach(function (kickArea) {
-				kickArea.style.display = "none";
+		$.ajax({
+				type: "GET",
+				url: "/app/chat/detail/content",
+				data: {no : rno},
+				success: function(response) {
+					console.log(response);
+					location.href="/app/chat/detail?no=" + rno;
+				},
+				error: function(error) {
+					console.log(error);
+				}
 			});
+		})
+			});
+	});
 
-			// 배경 클릭 이벤트 제거
-			document.removeEventListener("click", handleBackgroundClick);
-		}
-
-		// 강퇴 버튼 클릭 이벤트 
-		function handleKickOutClick() {
-			// 모달 표시
-			const kickModal = document.getElementById("kick-modal");
-			kickModal.style.display = "block";
-		}
-
-		// 확인 버튼 클릭 이벤트
-		function handleConfirmClick() {
-			// 강퇴 함수 추가 예정
-			alert("강퇴되었습니다.");
-
-			const kickModal = document.getElementById("kick-modal");
-			kickModal.style.display = "none";
-		}
-
-		// 취소 버튼 클릭 이벤트
-		function handleCancelClick() {
-			// 모달 닫기
-			const kickModal = document.getElementById("kick-modal");
-			kickModal.style.display = "none";
-		}
-
-		// 우클릭 이벤트를 모든 kick-out에 추가
-		const kickOutDivs = document.querySelectorAll(".kick-out");
-		kickOutDivs.forEach(function (div) {
-			div.addEventListener("contextmenu", handleRightClick);
-
-			// kick-area 요소의 클릭 이벤트 추가
-			const kickArea = div.querySelector(".kick-area");
-			const kickButton = kickArea.querySelector("a");
-			kickButton.addEventListener("click", handleKickOutClick);
-		});
-
-		// 확인 버튼 클릭 이벤트 추가
-		const confirmBtn = document.getElementById("confirm-btn");
-		confirmBtn.addEventListener("click", handleConfirmClick);
-
-		// 취소 버튼 클릭 이벤트 추가
-		const cancelBtn = document.getElementById("cancel-btn");
-		cancelBtn.addEventListener("click", handleCancelClick);
-
+	// 친구 목록 조회, 검색 결과 조회
+	var openBtn = document.querySelector(".openChat");
+	var searchBtn = document.querySelector(".searchBtn");
+	
+	var memberNo = $("#loginMember").val();
+	openBtn.addEventListener("click", function(){
+		console.log(memberNo);
 		// 채팅방 초대 모달 열기
-        const openListModal = () => {
-        document.querySelector(".invite-modal").classList.remove("hidden");
-        };
+		document.querySelector(".invite-modal").classList.remove("hidden");
+		searchBtn.addEventListener("click", function(){
+			const searchValueText = document.querySelector('.searchValue').value;
+			console.log(searchValueText);
+			$.ajax({
+			type: "GET",
+			url: "/app/chat/search",
+			data: {searchValue: searchValueText },
+			success: function(response) {
+				var friendsArray = Array.isArray(response) ? response : [response]; // 배열로 변환
+				updateFriendList(friendsArray);
 
-        // 채팅방 초대 모달 닫기
-        const closeListModal = () => {
-        document.querySelector(".invite-modal").classList.add("hidden");
-        };
+				// 검색 결과가 있는 경우
+				if (friendsArray.length > 0) {
+				$('.styled-radio').each(function() {
+					$(this).css({
+					'width': '30px',
+					'height': '30px',
+					'border-radius': '50%',
+					'border': '3px solid #ffce31',
+					'-webkit-appearance': 'none',
+					'-moz-appearance': 'none',
+					'appearance': 'none',
+					'cursor': 'pointer',
+					'transition': 'background 0.2s'
+					});
+					
+					$(this).on('change', function() {
+					if ($(this).is(':checked')) {
+						$(this).css({
+						'background': '#ffce31',
+						'border': 'none'
+						});
+					} else {
+						$(this).css({
+						'background': 'none',
+						'border': '3px solid #ffce31'
+						});
+					}
+					});
+				});
+				}
+			},
+			error: function(error) {
+				console.log(error);
+			}
+			});
+					})
+				});
 
-		// 모달 닫기 버튼에 이벤트 추가
-		document.querySelector(".invite-closeBtn").addEventListener("click", closeListModal);
+	function updateFriendList(friendsArray) {
+		var friendList = document.querySelector(".friend-list");
+		var noResult = document.getElementById("none");
 
-		// 모달 배경 클릭 시 모달 닫기
-		document.querySelector(".bg").addEventListener("click", closeListModal);
+		friendList.innerHTML = "";
+		friendList.appendChild(noResult);
+
+		if (friendsArray.length === 0) {
+			noResult.style.display = "block";
+		} else {
+			noResult.style.display = "none";
+		}
+			friendsArray.forEach(function (friend) {
+			var friendElement = document.createElement("div");
+			friendElement.classList.add("friend");
+
+			var imgElement = document.createElement("img");
+			imgElement.src = "/app/resources/member/profile/" + friend.friendProfile;
+			imgElement.alt = "프로필사진";
+			imgElement.classList.add("memberPic");
+
+			var spanElement = document.createElement("span");
+			spanElement.classList.add("memberName");
+			spanElement.textContent = friend.friendName;
+
+			var inputElement = document.createElement("input");
+			inputElement.type = "radio";
+			inputElement.name = "friendNo";
+			inputElement.value = friend.friendNo;
+			inputElement.id = "addMember" + friend.friendNo;
+			
+			var labelElement = document.createElement("label");
+			labelElement.setAttribute("for", inputElement.id); // 라디오 버튼의 id 값을 for 속성값으로 지정
 
 
-		// 친구 초대 클릭 이벤트 추가
-		const inviteBtn = document.querySelector(".inviteMember");
-		inviteBtn.addEventListener("click", openListModal);
+			labelElement.appendChild(inputElement);
+			friendElement.appendChild(imgElement);
+			friendElement.appendChild(spanElement);
+			friendElement.appendChild(labelElement);
+
+			friendList.appendChild(friendElement);
+			});
+		}
+
+		$(document).ready(function () {
+		$(".startBtn").click(function () {
+			var checkedFriendNo = $("input[type='radio'][name='friendNo']:checked").val();
+			
+			if (!checkedFriendNo) {
+			alert("친구를 선택해 주세요.");
+			} else {
+			
+			$.ajax({
+				url: "/app/chat/add",
+				type: "POST",
+				data: {friendNo : checkedFriendNo},
+				success: function (response) {
+				if (response === "success") {
+					// 성공 시 실행할 코드 작성
+					location.reload(); 
+				} else {
+					// 실패 시 오류 메시지 출력
+					alert("채팅방 생성 중 문제 발생: " + response.message);
+				}
+				},
+				error: function (xhr, status, error) {
+				console.error("Error:", error);
+				alert("채팅방 생성 중 오류 발생");
+				},
+			});
+			}
+		});
+		});
+	
 
 
 		// 웹소켓 만들기
@@ -290,10 +313,28 @@
 		wsocket.onclose = funcClose;
 		wsocket.onerror = funcError;
 		wsocket.onmessage = funcMessage;
-		
-		function funcOpen() {
-			console.log("소켓 연결");
+		function funcOpen(event) {
+			var memberNo = $("#loginMember").val();
+			var rno = document.querySelector("#roomNo").value;
+			var loadMessagesRequest = JSON.stringify({
+				action: "loadMessages",
+				roomNo: rno
+			});
+			wsocket.send(loadMessagesRequest);
+
+			// 소켓 들어올 때, read-time을 업데이트
+			var updateReadTime = JSON.stringify({
+				action: "updateReadTime",
+				roomNo: rno,
+				memberId: memberNo
+			});
+			wsocket.send(updateReadTime);
+
+			setInterval(function() {
+				wsocket.send(updateReadTime);
+			}, 5000);
 		}
+
 
 		function funcClose() {
 			console.log("소켓 닫힘");
@@ -303,36 +344,37 @@
 			console.log("소켓 에러");
 		}
 
-		function funcMessage(x) {
+		function funcMessage(event) {
+			
 			console.log("메세지 받음");
-			var data = JSON.parse(x.data);
-			appendMessage(data)
-			console.log(data);;
-		}
+			var data = JSON.parse(event.data);
 
-		// 나가기 버튼 클릭시 작동 함수
-		function disconnect() {
-			wsocket.close();
+			if(data.action === "loadMessages" && data.messages) {
+			data.messages.forEach(function (message) {
+				appendMessage(message);
+			});
+			} else {
+				appendMessage(data);
+			}
+			console.log(data);
 		}
 
 		function send() {
+			var rno = document.querySelector("#roomNo").value;
 			var msg = $("#message").val();
-			wsocket.send(msg );
+			var senderMemberNo = document.querySelector("#loginMember").value;
+
+			// 메시지 및 방 번호를 JSON 형식으로 변환
+			var messageJson = JSON.stringify({
+				action: "sendMessage",
+				roomNo: rno,
+				message: msg,
+				memberNo: senderMemberNo
+			});
+
+			// 웹소켓으로 메시지 보내기
+			wsocket.send(messageJson);
 			$("#message").val("");
-
-			// $.ajax({
-			// 	method: "POST",
-			// 	url: "/app/chat/send",
-			// 	data: {no : rno},
-			// 	success: function(response) {
-			// 		console.log(response);
-			// 		location.href="/app/chat/detail?no=" + rno;
-			// 	},
-			// 	error: function(error) {
-			// 		console.log(error);
-			// 	}
-			// });
-
 		}
 
 		function adjustChatAreaHeight() {
@@ -354,17 +396,16 @@
 			}
 		}
 
+		// 받은 데이터 넣어주는 함수
 		function appendMessage(data) {
-			const loginNo = document.querySelector("#loginNo").value;
-			
+			const loginNo = document.querySelector("#loginMember").value;
+			console.log(data);
 			var name = data.name;
 			var msg = data.msg;
 			var time = data.time;
 			var profile = data.profile;
 			var date = new Date(time);
-			
 
-			
 			var hours = date.getHours();
 			var minutes = date.getMinutes();
 
@@ -374,57 +415,54 @@
 			hours = hours < 10 ? "0" + hours : hours;
 			minutes = minutes < 10 ? "0" + minutes : minutes;
 
-			if(name != loginNo){
-				
-
+			// 상대가 보낸 메세지 일 때
+			if (name != loginNo) {
 				var wrapElement = $('<div id="wrapC"></div>');
 				wrapElement.addClass("other-message");
-				// 메세지 길이에 따라 div 크기 크게 하기. width 값은 동일, height 값이 동적으로
 				var messageElement = $('<div class="message"></div>');
 				var profileElement = $('<div class="memberProfile"></div>');
 				var nameElement = $('<div class="memberName"></div>');
 				var timeElement = $('<p class="time"></p>');
 				var profileImg = $('<img>');
-				profileImg.attr('src', "/app/resources/img/chat/" + profile);
-	
+				profileImg.attr('src', "/app/resources/member/profile/" + profile);
+
 				profileElement.append(profileImg);
-	
-				nameElement.text(name );
+
+				nameElement.text(name);
 				messageElement.text(msg);
 				timeElement.text(amOrPm + ' ' + hours + ':' + minutes);
-	
+
 				var nameAndMessageDiv = $('<div class="nameAndMessage"></div>');
 				nameAndMessageDiv.append(nameElement);
 				nameAndMessageDiv.append(messageElement);
-	
-				
-	
+
 				wrapElement.append(profileElement);
 				wrapElement.append(nameAndMessageDiv);
 				wrapElement.append(timeElement);
-	
+
 				$("#chatMessageArea").append(wrapElement);
 			}
 
-			if(name == loginNo){
-				
+			// 내가 보낸 메세지 일 때
+			if (name == loginNo) {
 				var wrapElement = $('<div id="wrapC"></div>');
-				// 메세지 길이에 따라 div 크기 크게 하기. width 값은 동일, height 값이 동적으로
 				wrapElement.addClass("my-message");
+
 				var messageElement = $('<div class="message"></div>');
 				var timeElement = $('<p class="time"></p>');
-	
+
 				messageElement.text(msg);
 				timeElement.text(amOrPm + ' ' + hours + ':' + minutes);
-	
+
 				var nameAndMessageDiv = $('<div class="nameAndMessage"></div>');
 				nameAndMessageDiv.append(messageElement);
-	
+
 				wrapElement.append(nameAndMessageDiv);
 				wrapElement.append(timeElement);
-	
+
 				$("#chatMessageArea").append(wrapElement);
 			}
+		
 
 			var chatArea = $("#chatArea");
 			chatArea.scrollTop(chatArea.prop("scrollHeight"));
@@ -433,35 +471,82 @@
   			adjustChatAreaHeight();
 		}
 
-		// 윈도우 리사이즈 이벤트에 대해 chatArea의 높이 다시 조정
+		// chatArea의 높이 다시 조정
 		$(window).resize(function() {
 			adjustChatAreaHeight();
 		});
 
-	$(document).ready(function() {
+		$(document).ready(function() {
         
-        // 메세지 입력창에 keypress 이벤트가 발생했을때 발동 함수
-        // 키 하나하나 입력 하면 그때마다 발동된다
-        $('#message').keypress(function(event) {
+		// 메세지 입력창에 keypress 함수
+		$('#message').keypress(function(event) {
 			var keycode = (event.keyCode ? event.keyCode : event.which);
-
+	
 			if (keycode == 13) {
-			event.preventDefault(); 
-			send();
+				event.preventDefault();
+
+				// 공백이면 send 발동 안함
+				if ($.trim($('#message').val()) != "") {
+					send();
+				}
 			}
-				
-			// 만일의 경우를 대비하여 이벤트 발생 범위를 한정
+			
 			event.stopPropagation();
-			});
-			$('#sendBtn').click(function() { send(); });
-			$('.quitBtn').click(function() { disconnect(); });
 		});
+	
+		$('#sendBtn').click(function() {
+			if ($.trim($('#message').val()) != "") {
+				send();
+			}
+		});
+	
+	});
 
+	
 
-		
+	$(".quitBtn").on("click", function () {
+    Swal.fire({
+        title: '삭제하시겠습니까?',
+        text: "이전 대화 내용이 삭제됩니다.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ffce31',
+        cancelButtonColor: '#ffce31',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+			var rno = document.querySelector("#roomNo").value;
+            $.ajax({
+                type: "POST",
+                url: "/app/chat/delete",
+				data: {roomNo : rno},
+                success: function (response) {
+                    console.log(response);
+                    if (response === 'success') {
+                        location.href = "/app/chat/list";
+                    } else {
+                        Swal.fire({
+                            title: '삭제 실패',
+                            text: '다시 시도해주십시오.',
+                            icon: 'error',
+                            confirmButtonColor: '#ffce31',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        title: '에러',
+                        text: '서버와의 통신에 문제가 발생하였습니다.',
+                        icon: 'error',
+                        confirmButtonColor: '#ffce31',
+                    });
+                }
+            });
+            // 소켓 연결 끊기
+            wsocket.close();
+        }
+    });
+});
 
-		
-
-
-
-	</script>
+</script>

@@ -185,18 +185,17 @@
 					justify-content: center;
 				}
 
-				.header-chatting-icon>i {
+				/* 채팅 아이콘 스타일 */
+				.header-chatting-icon {
 					position: relative;
 				}
 
-				.text-bold {
-					font-weight: bold;
+				.header-chatting-icon>i {
+					font-size: 25px; /* 아이콘 크기 조정 */
+					color: #ffffff;
 				}
 
-				.header-chatting-icon>i>div:first-of-type {
-					position: absolute;
-					top: -15px;
-					left: 17px;
+
 					height: 15px;
 					width: 15px;
 					background-color: rgb(255, 58, 58);
@@ -205,22 +204,19 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
+					z-index: 2;
 				}
 
 				/* 채팅 알림 모달 레이아웃 */
 				.chat_modal_wrap {
 					position: absolute;
-					top: 20px;
-					left: -255px;
-					width: 280px;
-					right: 300px;
+
 					border-radius: 10px 10px 0 0;
 					display: grid;
 					grid-template-rows: 200px 30px;
 					align-items: center;
-					z-index: 9999;
+					z-index: 1;
 				}
-
 				.chat_modalBox {
 					position: relative;
 					background-color: #fff;
@@ -305,6 +301,7 @@
 					font-size: 18px;
 					cursor: pointer;
 				}
+
 
 				/* 헤더 아래에 초이스 구역 */
 				.title-elem {
@@ -606,6 +603,7 @@
 				document.querySelector(".chat_modal_wrap").classList.add("hidden");
 			};
 
+			
 
 			// 채팅 아이콘 클릭 이벤트 추가
 			const chatCon = document.querySelector('.header-chatting-icon');

@@ -73,18 +73,18 @@
                         <div id="page-area">
                             <div class="paging">
                                 <c:if test="${pv.currentPage > 1}">
-                            <button id="pbtn" onclick="location.href='/app/fee/admin?p=${pv.currentPage - 1}'"> < </button>
+                            <button id="pbtn" onclick="location.href='/app/fee/admin?p=${pv.currentPage - 1}&searchType=${paramMap.searchType}&searchValue=${paramMap.searchValue}'"> < </button>
                         </c:if>
                         <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
                             <c:if test="${pv.currentPage != i}">
-                                <button id="pbtn" onclick="location.href='/app/fee/admin?p=${i}'">${i}</button>
+                                <button id="pbtn" onclick="location.href='/app/fee/admin?p=${i}&searchType=${paramMap.searchType}&searchValue=${paramMap.searchValue}'">${i}</button>
                             </c:if>
                             <c:if test="${pv.currentPage == i}">
                                 <button id="current-page-btn">${i}</button>
                             </c:if>
                         </c:forEach>
                         <c:if test="${pv.currentPage < pv.maxPage}">
-                            <button id="pbtn" onclick="location.href='/app/fee/admin?p=${pv.currentPage + 1}'"> > </button>
+                            <button id="pbtn" onclick="location.href='/app/fee/admin?p=${pv.currentPage + 1}&searchType=${paramMap.searchType}&searchValue=${paramMap.searchValue}'"> > </button>
                         </c:if>
                         </div>
                             <button id="openBtn" class="openBtn">등록</button>
@@ -212,7 +212,7 @@
                                             <br>
                                             <div id="price-content">
                                                 <div class="left">
-                                                    <div><input type="text" value="시설유지보수" name="categoryName" id="categoryName" readonly> <input type="text" id="price" name="price" value="15000"></div>
+                                                    <div><input type="text" value="시설 유지보수" name="categoryName" id="categoryName" readonly> <input type="text" id="price" name="price" value="15000"></div>
                                                     <br/>
                                                     <div><input type="text" value="소독 및 청소"name="categoryName" id="categoryName" readonly>  <input type="text" id="price" name="price" value="20000"></div>
                                                     <br/>
@@ -439,24 +439,7 @@
     	headerName('관리자');
         secondNavLink(['/app/fee/admin','', '','']);
 
-        $(document).ready(function() {
-            function inputVisibility() {
-            var selectedOption = $("#searchType").val();
-            if (selectedOption === "content") {
-                $("select[name='paymentDate']").hide();
-                $("input[name='searchValue']").show();
-            } else if (selectedOption === "accountDate") {
-                $("input[name='searchValue']").hide();
-                $("select[name='paymentDate']").show();
-            }
-            }
-
-            inputVisibility();
-
-            $("#searchType").on("change", function() {
-                inputVisibility();
-            });
-        });
+        
 
         // 숫자를 3자리마다 쉼표가 있는 문자열로 변환하는 함수
 		function addCommasToNumberInElement(element) {
@@ -475,49 +458,49 @@
 		});
 	};
 
-    // 이번 달부터 5개의 달 생성
-	function makeCurrentMonths() {
-		var currentDate = new Date();
-		var recentMonths = [];
+    function makeCurrentMonths() {
+        var currentDate = new Date();
+        var recentMonths = [];
 
-		for (var i = 0; i < 5; i++) {
-			var year = currentDate.getFullYear();
-			var month = currentDate.getMonth() + 1;
-			if (month < 10) {
-				month = "0" + month;
-			}
-			var formattedDate = year + "-" + month;
-			recentMonths.push(formattedDate);
+        for (var i = 0; i < 5; i++) {
+            var year = currentDate.getFullYear();
+            var month = currentDate.getMonth() + 1;
+            if (month < 10) {
+            month = "0" + month;
+            }
+            var formattedDate = year + "-" + month;
+            recentMonths.push(formattedDate);
 
-			currentDate.setMonth(currentDate.getMonth() - 1);
-		}
+            currentDate.setMonth(currentDate.getMonth() - 1);
+        }
 
-		return recentMonths;
-	}
+        return recentMonths;
+    }
 
-	// 날짜 검색란에 옵션 추가 함수
-	function addOptionsToAccountDateSelect() {
-		var accountDateSelect = document.querySelector("#paymentDate");
-		var recentMonths = makeCurrentMonths();
-		var optionsHTML = "";
 
-		for (var i = 0; i < recentMonths.length; i++) {
-			optionsHTML += '<option value="' + recentMonths[i] + '">' + recentMonths[i].replace("-", "년 ") + '월</option>';
-		}
+        // 날짜 검색란에 옵션 추가 함수
+        function addOptionsToAccountDateSelect() {
+            var accountDateSelect = document.querySelector("#paymentDate");
+            var recentMonths = makeCurrentMonths();
+            var optionsHTML = "";
 
-		accountDateSelect.innerHTML = optionsHTML;
+            for (var i = 0; i < recentMonths.length; i++) {
+                var formattedDate = recentMonths[i].replace("-", "년 ") + "월";
+                optionsHTML += '<option value="' + recentMonths[i] + '">' + formattedDate + '</option>';
+            }
 
-    
-}
+            accountDateSelect.innerHTML = optionsHTML;
+        }
+        
+        // 날짜 검색 푸쉬 함수 호출
+        addOptionsToAccountDateSelect();
 
-	// 날짜 검색 푸쉬 함수 호출
-	addOptionsToAccountDateSelect();
+        // #accountDate의 change 이벤트에 대한 처리
+        var accountDateSelect = document.querySelector("#paymentDate");
+        accountDateSelect.addEventListener("change", function () {
+            var selectedDate = accountDateSelect.value;
+        });
 
-	// #accountDate의 change 이벤트에 대한 처리
-	var accountDateSelect = document.querySelector("#paymentDate");
-	accountDateSelect.addEventListener("change", function () {
-		var selectedDate = accountDateSelect.value;
-	});
 
 
     /////// 검색 카테고리 선택 시 input 영역 변경
@@ -544,12 +527,20 @@
 	const contentValue = document.querySelector("input[name=searchValue]");
 	const dateSelect = document.querySelectorAll("#paymentDate > option");
   	const searchValue = '${paramMap.searchValue}';
-	
 	contentValue.value = '${paramMap.searchValue}';
+    dateSelect.value = '${paramMap.searchValue}';
+	const searchType = "${paramMap.searchType}"; 
 
-	const x = "${paramMap.searchType}"; 
+    //검색타입 및 검색어
+	if(searchType.length > 1){
+        initSearchType();
+    }
 
-
+    //검색 후 검색타입 유지되도록
+    function initSearchType(){
+        const x = document.querySelector('select[name=searchType] > option[value="' + searchType + '"]');
+	    x.selected = true;
+    }
 
     // form 제출할 때 값 보내주기 
     $("#adminFeeForm").submit(function (e) {

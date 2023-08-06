@@ -1,5 +1,7 @@
 package com.hp.app.chat.service;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.hp.app.chat.dao.ChatDao;
 import com.hp.app.chat.vo.ChatFriendVo;
+import com.hp.app.chat.vo.ChatMemberVo;
 import com.hp.app.chat.vo.ChatMessageVo;
 import com.hp.app.chat.vo.ChatRoomVo;
 
@@ -48,12 +51,56 @@ public class ChatServiceImpl implements ChatService{
 
 	@Override
 	public int insertChatMember(Map<String, String> roomMap) {
-		return dao.insertChatMember(sst,roomMap);
+	    // 이 메서드는 두 회원을 채팅방에 추가합니다.
+	    int result = 0;
+
+	    // masterNo를 채팅방에 추가
+	    result += dao.insertChatMember(sst, roomMap.get("no"), roomMap.get("masterNo"));
+
+	    // friendNo를 채팅방에 추가
+	    result += dao.insertChatMember(sst, roomMap.get("no"), roomMap.get("friendNo"));
+
+	    return result;
 	}
 
 	@Override
 	public List<ChatMessageVo> chatMsg(ChatRoomVo vo) {
 		return dao.chatMsg(sst, vo);
+	}
+
+	@Override
+	public String getFriendName(String fno) {
+		return dao.getFriendName(sst, fno);
+	}
+
+	@Override
+	public int saveMessage(Map<String, String> msgVo) {
+		return dao.saveMessage(sst, msgVo);
+	}
+
+	@Override
+	public List<ChatMessageVo> getMsg(String roomId) {
+		return dao.getMsg(sst, roomId);
+	}
+
+	@Override
+	public int quit(Map<String , String> roomMap) {
+		return dao.quit(sst,roomMap);
+	}
+
+	@Override
+	public int updateReadTime(ChatMemberVo mvo) {
+		return dao.updateReadTime(sst, mvo);
+	}
+
+	@Override
+	public String getLastReadTime(Map<String, String> msgVo) {
+		return dao.getLastReadTime(sst,msgVo);
+	}
+
+	@Override
+	public List<ChatMessageVo> getAllSendTimesInRoom(Map<String, String> msgVo) {
+		return dao.getAllsendTime(sst, msgVo);
 	}
 
 	
