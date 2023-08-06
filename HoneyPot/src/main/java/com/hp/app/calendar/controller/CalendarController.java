@@ -116,6 +116,8 @@ public class CalendarController {
 		
 	}
 	
+	
+	
 	//달력에 모든 스케줄 보여주기 (개인)
 	@PostMapping("calendar/represent-schedule")
 	@ResponseBody
@@ -141,6 +143,16 @@ public class CalendarController {
 		
 		return all;
 	}
+	
+	//개인스케줄 삭제
+	@GetMapping("calendar/delete-personal")
+	public String deletePersonal(String sNum) {
+		//sNum삭제
+		int result = service.deletePersonal(sNum);
+		
+		return "redirect:/calendar/schedule-list";
+	}
+	
 	
 	//이하 어드민================================
 	

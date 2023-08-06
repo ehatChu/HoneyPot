@@ -145,8 +145,21 @@ public class CalendarDaoImpl implements CalendarDao {
 		return personalList;
 	}
 	
-	//멤버일정조회
+	//개인일정삭제
+	@Override
+	public int deletePersonal(SqlSessionTemplate sst, String sNum) {
+		int result =0;
+		try {
+			result = sst.delete("calendar.deletePersonal",sNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 	
 	//관리자 일정조회
 
+	//관리자일정삭제
 }

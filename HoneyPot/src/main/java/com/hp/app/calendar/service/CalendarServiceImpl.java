@@ -69,6 +69,13 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 	
 	
+	//개인일정삭제
+	@Override
+	public int deletePersonal(String sNum) {
+		return dao.deletePersonal(sst,sNum);
+	}
+	
+	
 
 	//관리자일정조회
 	

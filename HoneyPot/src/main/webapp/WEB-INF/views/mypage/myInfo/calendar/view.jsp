@@ -202,24 +202,21 @@
             </div>
             <div id="schedule-area">
                 <h1><span id="clickDate"></span>의 일정 <button id="scheduler-btn">일정짜기</button></h1>
-                <div class="calendar-text-bold">아파트일정</div>
-                <div id="schedule-area1">
-                    <!-- <c:forEach var="i" begin="1" end="4">
-                        <div>
-                            <span id="star" class="star-font-size color-gold cursor">⭐</span>   
-                            <span class="middle-text-size">아파트 리모델링 예정</span>
-                        </div>
-                    </c:forEach>  -->
-                </div>
-                <div class="calendar-text-bold">개인일정</div>
-                <div id="schedule-area2">
-                    <!-- <c:forEach var="i" begin="1" end="10">
-                        <div>
-                            <span id="star" class="star-font-size color-gold cursor">⭐</span>   
-                            <span class="middle-text-size">아파트 리모델링 예정</span>
-                        </div>
-                    </c:forEach> -->
-                </div>
+                    <div class="calendar-text-bold">아파트일정</div>
+                    <div id="schedule-area1">
+                     
+                    </div>
+                <form action="/app/calendar/personal-delete">
+                    <div class="calendar-text-bold">개인일정</div>
+                    <div id="schedule-area2">
+                        <!-- <c:forEach var="i" begin="1" end="10">
+                            <div>
+                                <span id="star" class="star-font-size color-gold cursor">⭐</span>   
+                                <span class="middle-text-size">아파트 리모델링 예정</span>
+                            </div>
+                        </c:forEach> -->
+                    </div>
+                </form>
             </div>
             <div id="modal-box" style="display: none;">
                 <div id="scheduler">
@@ -328,7 +325,7 @@
                         const AdminArea = document.querySelector("#schedule-area1");
                         let str ="";
                        for(let i=0;i<data.length;i++){
-                            str+="<div><span id='star' class='star-font-size color-gold cursor'>⭐</span>";
+                            str+="<div>";
                             str+="<span class='middle-text-size cal-margin-right'>"+data[i].name+"</span>";
                             str+="<span class='small-text-size cal-margin-right'>";
                             //시작날짜와 끝날짜가 같으면 
@@ -342,7 +339,11 @@
                             str+="</div>"
                        }
                        AdminArea.innerHTML=str;
-
+                        //여기서버튼을 가져오면 될듯
+                        //딜리트버튼 누르면 DB에서 삭제하기
+                        const deleteBtn = document.querySelectorAll(".delete-btn");
+                        console.log(deleteBtn);
+ 
                     },
                     error : function(e){
                         console.log("이잉에러");
@@ -361,7 +362,7 @@
                         const AdminArea2= document.querySelector("#schedule-area2");
                         let str ="";
                        for(let i=0;i<data.length;i++){
-                            str+="<div><span id='star' class='star-font-size color-gold cursor'>⭐</span>";
+                            str+="<div>";
                             str+="<span class='middle-text-size cal-margin-right'>"+data[i].name+"</span>";
                             str+="<span class='small-text-size cal-margin-right'>";
                             //시작날짜와 끝날짜가 같으면 
@@ -371,6 +372,8 @@
                                 str+=data[i].startDate+"~"+data[i].endDate;
                             }
                             str+="</span>"
+                            str+="<span class='cal-margin-right'><a href='/app/calendar/delete-personal?sNum="+data[i].no+"'>"
+                            str+="<i class='fa-solid fa-xmark fa-xl margin-right delete-btn' style='color: #000000;''></i></a></span>";
                             str+="</div>"
                        }
                        AdminArea2.innerHTML=str;
@@ -395,21 +398,21 @@
                                     title : data.name,
                                     start : data.startDate,
                                     end : data.endDate,
-                                    color : 'red'
+                                    color : '#B70404'
                                 });
                             }else if(data.writerName =="동대표"){
                                 events.push({
                                     title : data.name,
                                     start : data.startDate,
                                     end : data.endDate,
-                                    color : 'pink'
+                                    color : '#4A321F'
                                 });
                             }else {
                                 events.push({
                                     title : data.name,
                                     start : data.startDate,
                                     end : data.endDate,
-                                    color : 'blue'
+                                    color : '#FFCE31'
                                 });
                             }
                         })
@@ -429,10 +432,11 @@
         });
         calendar.render();
 
-
-
+    
     });
 
+    
+   
     //버튼 누르면 모달창 띄우기
     //일정만들기 버튼
     let schedulerBtn = document.querySelector("#scheduler-btn");
@@ -453,5 +457,7 @@
         modal.style.display="none";
         main.classList.remove("modal-background");
     });
+
+    
 </script>
 
