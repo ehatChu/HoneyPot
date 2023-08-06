@@ -1,5 +1,7 @@
 package com.hp.app.chat.vo;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data

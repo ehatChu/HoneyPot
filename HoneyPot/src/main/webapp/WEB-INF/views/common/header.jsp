@@ -191,18 +191,20 @@
 					justify-content: center;
 				}
 
-				.header-chatting-icon>i {
+				/* 채팅 아이콘 스타일 */
+				.header-chatting-icon {
 					position: relative;
 				}
 
-				.text-bold {
-					font-weight: bold;
+				.header-chatting-icon>i {
+					font-size: 25px; /* 아이콘 크기 조정 */
+					color: #ffffff;
 				}
 
 				.header-chatting-icon>i>div {
-					position: absolute;
-					top: -15px;
-					left: 17px;
+					bottom: -15px; /* 아이콘 아래로 이동 */
+					left: 50%;
+					transform: translateX(-50%); /* 가로 가운데 정렬 */
 					height: 15px;
 					width: 15px;
 					background-color: rgb(255, 58, 58);
@@ -211,21 +213,22 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
+					z-index: 2;
 				}
 
 				/* 채팅 알림 모달 레이아웃 */
 				.chat_modal_wrap {
-					position: fixed;
+					position: absolute;
 					width: 300px;
 					height: 230px;
-					right: 5px;
+					right: 1px;
+					top: 35px;
 					border-radius: 10px 10px 0 0;
 					display: grid;
 					grid-template-rows: 200px 30px;
 					align-items: center;
-					z-index: 9999;
+					z-index: 1;
 				}
-
 				.chat_modalBox {
 					position: relative;
 					right: 5px;
@@ -304,6 +307,7 @@
 					font-size: 18px;
 					cursor: pointer;
 				}
+
 
 				/* 헤더 아래에 초이스 구역 */
 				.title-elem {
@@ -478,29 +482,18 @@
 								<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
 									<div style="font-size: 7px; font-weight: 800;">4</div>
 								</i>
-							</div>
-						</div>
-					</div>
-					<!-- 채팅 알림 모달 -->
-					<div class="chat_modal_wrap hidden">
-						<div class="chat_modalBox">
-							<c:forEach begin="1" end="5">
-								<div class="latest-chat">
-									<div class="contentCon"><i class="fa-regular fa-envelope fa-2x"
-											style="color: #ffce31;"></i></div>
-									<div class="contentSpan">
-										<span>101동 골프모임</span>
-										<br>
-										<span>이거봐봐 완전 웃김</span>
+								<!-- 채팅 알림 모달 -->
+								<div class="chat_modal_wrap hidden">
+									<div class="chat_modalBox">
+										
 									</div>
-									<div>pm 6:30</div>
+									<div>
+										<button class="chat-detail-Btn">
+											상세보기
+										</button>
+									</div>
 								</div>
-							</c:forEach>
-						</div>
-						<div>
-							<button class="chat-detail-Btn">
-								상세보기
-							</button>
+							</div>
 						</div>
 					</div>
 					<div id="nav-area"></div>
@@ -600,6 +593,7 @@
 				document.querySelector(".chat_modal_wrap").classList.add("hidden");
 			};
 
+			
 
 			// 채팅 아이콘 클릭 이벤트 추가
 			const chatCon = document.querySelector('.header-chatting-icon');

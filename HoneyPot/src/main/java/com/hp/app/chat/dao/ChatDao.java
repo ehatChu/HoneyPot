@@ -1,11 +1,14 @@
 package com.hp.app.chat.dao;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.chat.vo.ChatFriendVo;
+import com.hp.app.chat.vo.ChatMemberVo;
 import com.hp.app.chat.vo.ChatMessageVo;
 import com.hp.app.chat.vo.ChatRoomVo;
 
@@ -26,9 +29,30 @@ public interface ChatDao {
 	// 생성한 채팅방 번호 가져오기
 	ChatRoomVo selectRoomNo(SqlSessionTemplate sst, Map<String, String> roomMap);
 
-	int insertChatMember(SqlSessionTemplate sst, Map<String, String> roomMap);
-
 	// 
 	List<ChatMessageVo> chatMsg(SqlSessionTemplate sst, ChatRoomVo vo);
+
+	int insertChatMember(SqlSessionTemplate sst, String roomNo, String memberNo);
+
+	// 친구 이름
+	String getFriendName(SqlSessionTemplate sst, String fno);
+
+	// 메세지 저장
+	int saveMessage(SqlSessionTemplate sst, Map<String, String> msgVo);
+
+	// 메세지 불러오기
+	List<ChatMessageVo> getMsg(SqlSessionTemplate sst, String roomId);
+
+	// 채팅방 나가기
+	int quit(SqlSessionTemplate sst, Map<String, String> roomMap);
+
+	// 읽은 시간 업데이트
+	int updateReadTime(SqlSessionTemplate sst, ChatMemberVo mvo);
+
+	// 채팅방 가장 최신 읽은 시간 조회
+	String getLastReadTime(SqlSessionTemplate sst, Map<String, String> msgVo);
+
+	// 채팅방 모든 보낸 시간 조회
+	List<ChatMessageVo> getAllsendTime(SqlSessionTemplate sst, Map<String, String> msgVo);
 
 }

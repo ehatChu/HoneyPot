@@ -49,8 +49,8 @@
 /* 채팅방 상세 */
 .room-list-area{
     display: grid;
-    grid-template-rows: 110px 700px;
     justify-content: center;
+    grid-template-rows: 730px 80px;
 }
 
 .room-list-area img {
@@ -59,42 +59,43 @@
     border-radius: 70%;
 }
 
-.inviteMember {
-    border: none;
-    outline: none;
-    background-color: transparent;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
+#roomArea {
+	height:730px;
+	overflow-y: auto; 
 }
 
-.invite-area {
-    width: 60px;
-    height: 60px;
-    border-radius: 70%;
-    background-color: #d9d9d9ce;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#roomArea::-webkit-scrollbar {
+    width: 10px; 
 }
 
-.inviteMember > span {
-    margin-left: 30px;
-    font-size: 18px;
-    font-family: 'Noto Sans KR';
+#roomArea::-webkit-scrollbar-track {
+    background-color: #e0e0e0; 
+}
+
+#roomArea::-webkit-scrollbar-thumb {
+    background-color: #4A321F; 
 }
 
 .room-name {
-    display: flex;
+    display: grid;
+    grid-template-columns:100px 175px;
     justify-content: center;
     border-bottom: 1px solid #7e7e7e;
     width: 300px;
     align-items: center;
+    height: 100px;
+    cursor: pointer;
 }
 
-.room-list-area > div > span {
+.room-name:hover {
+    background-color: #FEFFD0;
+}
+
+.room-name> img {
+	margin-left:30px;
+}
+
+.room-name > span {
     font-size: 20px;
     font-weight: 510;
     margin-left: 20px;
@@ -102,33 +103,19 @@
     align-items: center;
 }
 
-.room-list-area > div > span >.memberCnt {
+.memberCnt {
     color: #7e7e7e;
     margin-left: 10px;
 }
 
-.room-member-list {
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    font-size: 18px;
-}
-
-.room-member-list > div {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    margin-left: 40px;
-}
-
-.room-member-list > div > span {
-    margin-left: 30px;
-}
-
-#chat-area {
-    display: grid;
-    grid-template-rows: 80px 730px 80px;
+.openChat {
+	background-color:#ffce31;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	font-size:22px;
+	border:none;
+	cursor:pointer;
 }
 
 /* 채팅 상단 영역 */
@@ -201,10 +188,9 @@
 /* 채팅 내용 영역 */
 
 #chatArea {
-    width: 1158px; 
+    width: 1160px; 
     height: 730px;
     overflow-y: auto;
-    border: 1px solid black;
 }
 
 #chatArea::-webkit-scrollbar {
@@ -237,8 +223,39 @@
 
 .other-message > .nameAndMessage {
     display: grid;
-    grid-template-rows: 20px 50px;
     align-items: center;
+   
+}
+
+.other-message {
+    display: grid;
+    grid-template-columns: 60px 200px 80px;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.other-message >.nameAndMessage >.message {
+    width: 200px;
+    border: 2px solid #7e7e7e;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.326);;
+    border-radius: 10px 10px 10px 10px ;
+    background-color: #FFFFFF;
+    padding-left: 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding: 5px 10px;
+}
+
+.other-message > .time {
+    margin-left: 10px;
+    font-size: 12px;
+    margin-top: 40px;
+}
+
+.other-message > .memberName {
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .my-message {
@@ -250,42 +267,19 @@
 
 .my-message > .nameAndMessage {
     width: 230px;
-    height: 40px;
     border: 2px solid #7e7e7e;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.326);;
-    border-radius: 10px 10px 10px 10px ;
+    border-radius: 10px;
     margin-left: 10px;
     background-color: #FFFFFF;
-    padding-left: 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding: 5px 10px;
 }
 
 .my-message > .time {
     font-size: 12px;
 }
-
-.other-message {
-    display: grid;
-    grid-template-columns: 60px 200px 80px;
-    justify-content: start;
-    align-items: center;
-}
-
-.other-message >.nameAndMessage >.message {
-    width: 200px;
-    height: 40px;
-    border: 2px solid #7e7e7e;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.326);;
-    border-radius: 10px 10px 10px 10px ;
-    background-color: #FFFFFF;
-    padding-left: 10px;
-}
-
-.other-message > .time {
-    margin-left: 10px;
-    font-size: 12px;
-    margin-top: 40px;
-}
-
   
   /* message 스타일 설정 */
   

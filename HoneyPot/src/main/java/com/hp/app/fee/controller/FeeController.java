@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.fee.service.FeeService;
 import com.hp.app.fee.vo.AdminFeeVo;
 import com.hp.app.fee.vo.MemberFeeVo;
@@ -51,15 +52,16 @@ public class FeeController {
 	@GetMapping("fee/member")
     public String memberList(RedirectAttributes redirectAttributes,Model model,HttpSession session,@RequestParam Map<String, String> paramMap) throws Exception {
        
-            MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-            String memberGrade = loginMember.getGrade();
-            if (memberGrade == null || !memberGrade.equals("Y")) {
-            	redirectAttributes.addFlashAttribute("alertMsg", "세대주만 조회가 가능합니다.");
-                return "redirect:/main/mmain";
-            }
+//            MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+//            String memberGrade = loginMember.getGrade();
+//            if (memberGrade == null || !memberGrade.equals("Y")) {
+//            	redirectAttributes.addFlashAttribute("alertMsg", "세대주만 조회가 가능합니다.");
+//                return "redirect:/main/mmain";
+//            }
             //log.info(memberGrade);
-			String no = loginMember.getNo();
-			paramMap.put("no", no);
+//			String no = loginMember.getNo();
+		
+			paramMap.put("no", "1");
 		    //mfMap.put("paymentDate", paymentDate);
 			log.info(paramMap.toString());
 		    List<MemberFeeVo> mfvoList = service.memberFeeList(paramMap);
@@ -80,7 +82,6 @@ public class FeeController {
 		
 		// 현재 날짜
 	    LocalDate currentDate = LocalDate.now();
-
 	    // 1. 현재 달
 	    String currentMonth = currentDate.minusMonths(1).format(DateTimeFormatter.ofPattern("YYYY-MM"));
 	    // 2. 현재 달 바로 이전 달
@@ -204,17 +205,24 @@ public class FeeController {
 	}
 	
 		
-	// 관리자 조회
+	// 관리자 관리비 조회
 	@GetMapping("fee/admin")
-	public String AdminList(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
+	public String AdminList(RedirectAttributes redirectAttributes,@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
 		
+//		AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
+//        String adminGrade = loginMember.getGrade();
+//        if (adminGrade == null || !adminGrade.equals("M")) {
+//        	redirectAttributes.addFlashAttribute("alertMsg", "관리소장만 접근이 가능합니다.");
+//            return "redirect:/main/amain";
+//        }
+        
 		int listCount = service.adminListCnt(paramMap);
 		int CurrentPage = p;
 		int pageLimit = 5;
 		int boardLimit = 10;
 		PageVo pv = new PageVo(listCount, CurrentPage, pageLimit, boardLimit);
 		
-		// 로그인한 회원 번호로 가계부 목록 조회
+		// 관리비 조회
 		List<AdminFeeVo> avoList = service.adminList(pv, paramMap);
 		
 		if(!avoList.isEmpty()) {
@@ -229,8 +237,8 @@ public class FeeController {
 	// 관리자 관리비 등록
 	@PostMapping("fee/admin/add")
 	public String addFee(AdminFeeVo vo, HttpSession session) {
-		//MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
-		//vo.setAdminNo(loginMember.getNo());
+//		AdminVo loginMember = (AdminVo)session.getAttribute("loginMember");
+//		vo.setAdminNo(loginMember.getNo());
 		vo.setAdminNo("1");
 		int result = service.add(vo);
 		log.info(vo.toString());
@@ -351,7 +359,6 @@ public class FeeController {
 	        memberFeeVos.add(feeVo);
 	        log.info(feeVo.toString());
 	    }
-	    // Perform the insertion logic here using the memberFeeVos list.
 	    for (MemberFeeVo feeVo : memberFeeVos) {
 	         Map<String, String> dongHo = new HashMap<String, String>();
 	         dongHo.put("dongNum", feeVo.getDong());

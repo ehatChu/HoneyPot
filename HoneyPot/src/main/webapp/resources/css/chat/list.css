@@ -118,19 +118,49 @@
 	cursor:pointer;
 }
 
-/* 채팅 영역 */
-#chat-area {
-	height:890px;
-    display: grid;
-    grid-template-rows: 810px 80px;
+/* 채팅 상단 영역 */
+#chat-area > .room-name-area {
+    display: flex;
+    background-color: rgba(255, 207, 49, 0.482);
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.326);
 }
 
-#chatArea {
-    width: 1160px; 
-    height: 810px;
-    overflow-y: auto; 
-    border: 1px solid black;
+.room-name-area > div:first-child{
+    font-size: 20px;
+    font-weight: 500;
+    margin-left: 40px;
 }
+
+.room-name-area > div:first-child > .openBtn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.room-name-area > div:first-child > span {
+    margin-right: 10px;
+}
+
+.quitBtn {
+    margin-right: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+}
+
+.quitBtn > span {
+    margin-right: 10px;
+}
+
+/* 채팅 영역 */
+#chat-area {
+    display: grid;
+    grid-template-rows: 80px 730px 80px;
+}
+
 
 #chat-area > .input-area{
     border-top: 1px solid black;
@@ -161,6 +191,102 @@
     border: none;
 }
 
+/* 채팅 내용 영역 */
+
+#chatArea {
+    width: 1160px; 
+    height: 730px;
+    overflow-y: auto;
+}
+
+#chatArea::-webkit-scrollbar {
+    width: 10px; 
+}
+
+#chatArea::-webkit-scrollbar-track {
+    background-color: #e0e0e0; 
+}
+
+#chatArea::-webkit-scrollbar-thumb {
+    background-color: #4A321F;
+}
+
+#chatMessageArea {
+    width: 1110px;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.memberProfile > img {
+    width: 60px;
+    height: 60px;
+    border-radius: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.other-message > .nameAndMessage {
+    display: grid;
+    align-items: center;
+   
+}
+
+.other-message {
+    display: grid;
+    grid-template-columns: 60px 200px 80px;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.other-message >.nameAndMessage >.message {
+    width: 200px;
+    border: 2px solid #7e7e7e;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.326);;
+    border-radius: 10px 10px 10px 10px ;
+    background-color: #FFFFFF;
+    padding-left: 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding: 5px 10px;
+}
+
+.other-message > .time {
+    margin-left: 10px;
+    font-size: 12px;
+    margin-top: 40px;
+}
+
+.other-message > .memberName {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.my-message {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    margin-bottom: 30px;
+}
+
+.my-message > .nameAndMessage {
+    width: 230px;
+    border: 2px solid #7e7e7e;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.326);;
+    border-radius: 10px;
+    margin-left: 10px;
+    background-color: #FFFFFF;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding: 5px 10px;
+}
+
+.my-message > .time {
+    font-size: 12px;
+}
+  
 /* 친구 초대 모달 */
 .invite-modal {
     position: fixed;
@@ -199,6 +325,19 @@
   
   .hidden {
     display: none;
+  }
+
+  #none {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    font-weight: 650;
+    font-family: 'Noto Sans KR';
+    color: #7e7e7e;
+    height: 100%;
+    margin: auto;
+    margin-top: 40%;
   }
   
   /* 모달 디자인 영역 */
@@ -281,7 +420,7 @@
       background-color: #4A321F;
   }
   
-  .friend-list div {
+  .friend {
       display: flex;
       align-items: center;
       height: 70px;
@@ -299,7 +438,13 @@
       border-radius: 70%;
   }
 
-  input[type="checkbox"] {
+    .checkArea {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  input[type="radio"] {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -309,16 +454,12 @@
     transition: background 0.2s;
   }
 
-  input[type="checkbox"]:checked {
+  input[type="radio"]:checked {
     background: #ffce31;
     border: none;
   }
 
-  .checkArea {
-    margin-left: 10px;
-    display: flex;
-    align-items: center;
-  }
+
   
   #inviteBtn {
       display: flex;
