@@ -1,4 +1,4 @@
-package com.hp.app.kmsData.captcha;
+package com.hp.app.data.captcha;
 
 import java.awt.Color;
 import java.awt.Font;

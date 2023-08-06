@@ -137,6 +137,9 @@ public class BoardController {
 			model.addAttribute("pv", pv);
 			model.addAttribute("searchVo", searchVo);
 			
+			
+			
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -169,17 +172,22 @@ public class BoardController {
 			int result = service.write(vo);
 			if(result != 1) {
 				session.setAttribute("alert", "게시글 작성 실패...");
-				return "redirect:/board/list";
+				return "redirect:/board/free";
 			}
 			
 			
-			//이미지 db 저장
-//			BoardImgVo ivo = new BoardImgVo();
-//			System.out.println(imgList);
-//			String[] arr = imgList.split(",");
-//			for (String imgName : arr) {
-//				System.out.println("배열에 담은 사진 : " + imgName);
-//				ivo.setName(imgName);
+			//이미지 db 저장 후 가져오기
+			BoardImgVo ivo = new BoardImgVo();
+			System.out.println(imgList);
+			String[] arr = imgList.split(",");
+			
+			ivo.setName(arr[0]);
+			int imgResult = service.insertImgToDb(ivo);
+			System.out.println("이미지 저장 결과 : " + imgResult);
+					
+//			for (String s : arr) {
+//				System.out.println("배열에 담은 사진 : " + s);
+//				ivo.setName(s);
 //				service.insertImgToDb(ivo);
 //			}
 			
@@ -187,13 +195,27 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		
+		
+		System.out.println("vo세팅");
+		System.out.println(vo.getBoardCno());
+		
 		session.setAttribute("alert", "게시글 작성 성공!");
-		return "redirect:/board/list";
+		
+		if ("2".equals( vo.getBoardCno() )) {
+			return "redirect:/board/market";
+		}else if ("3".equals( vo.getBoardCno() )) {
+			return "redirect:/board/noname";
+		}else if ("4".equals( vo.getBoardCno() )) {
+			return "redirect:/board/praise";
+		}else {
+			return "redirect:/board/free";
+		}
+		
 	}
 	
 	
 	//서머노트 사진 업로드
-    @PostMapping("/upload")
+    @PostMapping("board/upload")
     @ResponseBody
     public List<String> handleFileUpload(@RequestParam("f") List<MultipartFile> flist, HttpServletRequest req) throws Exception {
     	
@@ -208,11 +230,9 @@ public class BoardController {
 			String filePath = path + imgList.get(i);
 			File destinationFile = new File(filePath);
 			flist.get(i).transferTo(destinationFile);
-			
 		}
 		
 		return imgList;
-
     }
 	
 	// 게시글 상세 조회

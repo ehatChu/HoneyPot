@@ -87,12 +87,6 @@
 					height: 20px;
 				}
 
-				#profile-img>img {
-					width: 230px;
-					object-fit: cover;
-					border-radius: 70%;
-				}
-
 				#all-center {
 					text-align: center;
 				}
@@ -201,10 +195,7 @@
 					color: #ffffff;
 				}
 
-				.header-chatting-icon>i>div {
-					bottom: -15px; /* 아이콘 아래로 이동 */
-					left: 50%;
-					transform: translateX(-50%); /* 가로 가운데 정렬 */
+
 					height: 15px;
 					width: 15px;
 					background-color: rgb(255, 58, 58);
@@ -219,10 +210,7 @@
 				/* 채팅 알림 모달 레이아웃 */
 				.chat_modal_wrap {
 					position: absolute;
-					width: 300px;
-					height: 230px;
-					right: 1px;
-					top: 35px;
+
 					border-radius: 10px 10px 0 0;
 					display: grid;
 					grid-template-rows: 200px 30px;
@@ -231,7 +219,6 @@
 				}
 				.chat_modalBox {
 					position: relative;
-					right: 5px;
 					background-color: #fff;
 					height: 200px;
 					max-height: 250px;
@@ -273,8 +260,11 @@
 					border-radius: 10px;
 					background: rgba(255, 255, 255, 0.7);
 					display: grid;
-					grid-template-columns: 50px 200px 50px;
+					grid-template-columns: 50px 180px 70px;
 					cursor: pointer;
+					position: relative;
+					justify-content: center;
+					align-items: center;
 				}
 
 				.latest-chat:hover {
@@ -287,18 +277,22 @@
 					align-items: center;
 				}
 
-				.contentSpan>span:first-child {
-					font-weight: 570;
-					font-size: 17px;
+				.latest-chat > .contentSpan {
+					font-size: 15px;
+					color: #2e2e2e;
+					display: grid;
+					grid-template-rows: 24px 24px;
+					justify-content: center;
+					align-items: center;
 				}
 
-				.contentSpan>span:nth-child(2) {
-					font-size: 15px;
+				.latest-chat > div:last-of-type{
+					font-size: 12px;
+					color: #2e2e2e;
 				}
 
 				.chat-detail-Btn {
 					position: relative;
-					right: 5px;
 					background-color: #FFCE31;
 					height: 30px;
 					width: 300px;
@@ -339,6 +333,12 @@
 					width: 400px;
 					grid-template-columns: 1fr 1fr;
 				}
+
+				#headerProfileImg {
+					width: 230px;
+					object-fit: cover;
+					border-radius: 70%;
+				}
 			</style>
 		</head>
 
@@ -355,7 +355,7 @@
 							<div id="blank01"></div>
 							<div id="profile-area">
 								<div id="profile-img" onclick="location.href='/app/member/medit';">
-									<img src="/app/resources/profile/exam_profile.png" height="230px">
+									<img id="headerProfileImg" src="/app/resources/member/profile/${loginMember.profile}" height="230px">
 									<div id="setting-icon-area">
 										<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
 									</div>
@@ -417,7 +417,7 @@
 							<div id="blank01"></div>
 							<div id="profile-area">
 								<div id="profile-img" onclick="location.href='/app/member/aedit';">
-									<img src="/app/resources/profile/exam_profile.png" height="230px">
+									<img src="/app/resources/member/profile/${loginAdmin.profile}" height="230px">
 									<div id="setting-icon-area">
 										<i class="fa-solid fa-gear fa-2xl" style="color: #d9d9d9;"></i>
 									</div>
@@ -481,18 +481,28 @@
 							<div class="header-chatting-icon">
 								<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
 									<div style="font-size: 7px; font-weight: 800;">4</div>
+									<!-- 채팅 알림 모달 -->
+									<div class="chat_modal_wrap hidden">
+										<div class="chat_modalBox">
+											<c:forEach begin="1" end="5">
+												<div class="latest-chat">
+													<div class="contentCon"><i class="fa-regular fa-envelope fa-2x"
+															style="color: #ffce31;"></i></div>
+													<div class="contentSpan">
+														<span>101동 골프모임</span>
+														<span>이거봐봐 완전 웃김</span>
+													</div>
+													<div>pm 6:30</div>
+												</div>
+											</c:forEach>
+										</div>
+										<div>
+											<button class="chat-detail-Btn">
+												상세보기
+											</button>
+										</div>
+									</div>
 								</i>
-								<!-- 채팅 알림 모달 -->
-								<div class="chat_modal_wrap hidden">
-									<div class="chat_modalBox">
-										
-									</div>
-									<div>
-										<button class="chat-detail-Btn">
-											상세보기
-										</button>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>

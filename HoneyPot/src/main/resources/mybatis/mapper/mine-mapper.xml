@@ -6,7 +6,7 @@
 	<!-- 차등록 -->
 	<insert id="registerCar">
 		INSERT INTO CAR (NO,MEMBER_NO,UNIQUE_NUM,NAME,IMG)
-		VALUES (SEQ_MINE_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
+		VALUES (SEQ_CAR_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
 	</insert>
 	<!-- 자전거등록 -->
 	<insert id="registerBicycle">
@@ -14,50 +14,101 @@
 		VALUES (SEQ_MINE_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
 	</insert>
 	
-	<!-- 개인의 목록을 조회하려하니 문제가 발생..  -->
-	<select id="getAllListMember" resultType="com.hp.app.mine.vo.MineVo">
+	<!-- 개인의 목록을 조회는 유니온이 맞을듯 -->
+	<select id="getCarListMember" resultType="com.hp.app.mine.vo.MineVo">
 		SELECT 
-		    CB.NO
-		    ,CB.ADMIN_NO
-		    ,CB.MEMBER_NO
-		    ,CB.ENROLL_DATE
-		    ,CB.CONFIRM_DATE
-		    ,CB.UNIQUE_NUM
-		    ,CB.IMG
-		    ,CB.NAME
-		FROM 
-		(
-		    SELECT * FROM CAR C
-		    UNION 
-		    SELECT * FROM BICYCLE B
-		) CB WHERE MEMBER_NO = ${no}
-	
+		    C.NO
+		    ,C.ADMIN_NO
+		    ,C.MEMBER_NO
+		    ,C.ENROLL_DATE
+		    ,C.CONFIRM_DATE
+		    ,C.UNIQUE_NUM
+		    ,C.IMG
+		    ,C.NAME
+		FROM CAR C
+		WHERE MEMBER_NO = #{no}
 	</select>
-	
-	<select id="getAllListAdmin" resultType="com.hp.app.mine.vo.MineVo" >
+	<!-- 관리자 자동차전체목록조회 -->
+	<select id="getCarListAdmin" resultType="com.hp.app.mine.vo.MineVo" >
 		SELECT 
-		    CB.NO
-		    ,CB.ADMIN_NO
-		    ,CB.MEMBER_NO
-		    ,CB.ENROLL_DATE
-		    ,CB.CONFIRM_DATE
-		    ,CB.UNIQUE_NUM
-		    ,CB.IMG
-		    ,CB.NAME
+		    C.NO
+		    ,C.ADMIN_NO
+		    ,C.MEMBER_NO
+		    ,C.ENROLL_DATE
+		    ,C.CONFIRM_DATE
+		    ,C.UNIQUE_NUM
+		    ,C.IMG
+		    ,C.NAME
 		    ,M.NAME AS MEMBER_NAME
 		    ,M.PHONE AS PHONE
 		    ,A.NAME AS ADMIN_NAME
-		FROM 
-		(
-		    SELECT * FROM CAR C
-		    UNION 
-		    SELECT * FROM BICYCLE B
-		) CB 
-		JOIN MEMBER M ON(M.NO = CB.MEMBER_NO)
-		LEFT JOIN ADMIN A ON(A.NO = CB.ADMIN_NO)
+		FROM CAR C
+		JOIN MEMBER M ON(M.NO = C.MEMBER_NO)
+		LEFT JOIN ADMIN A ON(A.NO = C.ADMIN_NO)
+	</select>	
+	
+	<!-- 차조회시 개수 -->
+	<select id="getCarCnt" resultType="int">
+		SELECT COUNT(*) FROM ${kinda} C
+		JOIN MEMBER M ON(M.NO = C.MEMBER_NO)
+		<where>
+		<if test = "uniqueNum != null and uniqueNum != '' ">
+		and C.UNIQUE_NUM LIKE '%${uniqueNum}%'
+		</if>
+		<if test = "mineOwner != null and mineOwner != '' ">
+		and M.NAME like '%${mineOwner}%'
+		</if>
+		<if test = "status != null and status != '' ">
+		and C.STATUS = '${status}'
+		</if>
+		</where>
+		
 	</select>
-	<select id="getAllCnt" resultType="int">
-		SELECT
-    	(SELECT COUNT(*) FROM CAR) + (SELECT COUNT(*) FROM BICYCLE) AS total_count FROM DUAL
+	
+	<!-- 디테일조회 ajax-->
+	<select id="getDetailAdmin" resultType="com.hp.app.mine.vo.MineVo">
+		SELECT 
+		    C.UNIQUE_NUM
+		    ,C.IMG
+		    ,C.NAME
+		    ,C.NO
+		FROM ${kinda} C
+		WHERE C.NO=#{no}
 	</select>
+	
+	<!-- 검색 AllTable version -->
+	<select id="searchAllList" resultType="com.hp.app.mine.vo.MineVo">
+		SELECT 
+		    C.NO
+		    ,C.ENROLL_DATE
+		    ,C.CONFIRM_DATE
+		    ,C.UNIQUE_NUM
+		    ,C.IMG
+		    ,C.NAME
+		    ,C.STATUS
+		    ,M.NAME AS MEMBER_NAME
+		    ,M.PHONE AS PHONE
+		    ,A.NAME AS ADMIN_NAME
+		FROM ${kinda} C 
+		JOIN MEMBER M ON(M.NO = C.MEMBER_NO)
+		LEFT JOIN ADMIN A ON(A.NO = C.ADMIN_NO) 
+		<where>
+		    <if test="uniqueNum != null and uniqueNum !='' ">
+		    AND C.UNIQUE_NUM LIKE '%${uniqueNum}%'
+		    </if>
+		    <if test="mineOwner != null and mineOwner !=''" >
+		    AND M.NAME LIKE '%${mineOwner}%'
+		    </if>
+		    <if test="status != null and status !='' " >
+		    AND C.STATUS ='${status}' 
+		    </if>
+		</where>
+		
+	</select>
+	
+	<delete id="deleteProperty">
+		DELETE FROM ${detailKinda}
+		WHERE NO = #{detailNo}
+	</delete>
+	
 </mapper>

@@ -10,4 +10,5 @@ public class NoticeCalendarVo {
 	private String startDate;
 	private String endDate;
 	private String love;
+	private String writerName;
 }

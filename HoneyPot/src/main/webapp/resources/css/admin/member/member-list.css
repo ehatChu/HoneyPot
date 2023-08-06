@@ -275,6 +275,19 @@
     margin-top: 20px;
     width: 100px;
     height: 50px;
+    background-color: #FFCE31;
+    border: none;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: 800;
+    font-family: 'Noto Sans KR';
+    cursor: pointer;
+}
+
+.member-detail-delete-btn{
+    margin-top: 20px;
+    width: 100px;
+    height: 50px;
     background-color: #ff3131;
     border: none;
     border-radius: 6px;
@@ -331,6 +344,14 @@
 
 .red{
     color: #ff3131;
+}
+
+.new-member{
+    background-color: #ffffe6;
+}
+
+.stop-member{
+    background-color: #dedede;
 }
 
 /* 상벌점 모달 */
@@ -425,6 +446,7 @@
     resize: none;
     border: 1px solid rgb(173, 173, 173);
     border-radius: 6px;
+    padding: 10px;
 }
 
 .point-model-body-first{
@@ -594,6 +616,7 @@
     resize: none;
     border: 1px solid rgb(173, 173, 173);
     border-radius: 6px;
+    padding: 10px;
 }
 
 .stop-model-body-first{

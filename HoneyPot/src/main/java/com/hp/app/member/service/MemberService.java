@@ -26,4 +26,6 @@ public interface MemberService {
 
 	String findPwd(MemberVo vo);
 
+	int emailChangePwd(MemberVo vo);
+
 }

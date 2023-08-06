@@ -53,7 +53,6 @@
 
 		#zzz02 {
 			height: 200px;
-			background-color: #EAEAEA;
 		}
 
 		#box1 {
@@ -136,12 +135,12 @@
 
 		.bar11 {
 			background-color: #BDBDBD;
-			height: 70px;
+			height: 75px;
 		}
 
 		.bar22 {
 			background-color: #FFC300;
-			height: 90px;
+			height: 100px;
 		}
 
 		.bar33 {
@@ -203,10 +202,13 @@
 		#rankImg1 {
 			width: 65px;
 			height: 70px;
+			border-radius: 90%;
 		}
 
 		#rankImg2 {
-			width: 140px;
+			width: 120px;
+			height: 120px;
+			border-radius: 90%;
 		}
 
 		.bee {
@@ -452,9 +454,8 @@
 										<img id="starImg" src="/app/resources/main/star2.PNG">
 									</c:if>
 
-									<div id="scheTxt">${vo.startDate.substring(0, 11)}~
-										${vo.endDate.substring(0,
-										11)}</div>
+									<div id="scheTxt">${vo.startDate.substring(0, 10)}~
+										${vo.endDate.substring(0,10)}</div>
 								</div>
 								<div id="schedule">
 									<div id="starImg"></div>
@@ -467,7 +468,7 @@
 								var currentDate = new Date();
 								var currentYear = currentDate.getFullYear();
 								var currentMonth = currentDate.getMonth() + 1;
-								var startDateStr = "${vo.startDate.substring(0, 11)}";
+								var startDateStr = "${vo.startDate.substring(0, 10)}";
 								var startDate = new Date(startDateStr);
 								var startYear = startDate.getFullYear();
 								var startMonth = startDate.getMonth() + 1;
@@ -497,10 +498,10 @@
 						</div>
 
 						<div id="box3" class="box">
-							<img id="mealImg" src="/app/resources/main/rectangle_375.png">
+							<img id="mealImg" src="/app/resources/meal/${mealListTotal[0].img}">
 							<div id="d01">
 								<div id="e01">오늘의 조식</div>
-								<div id="e02">떡볶이, 치킨, 감자탕, 핫도그, 어묵</div>
+								<div id="e02">${mealListTotal[0].menu}</div>
 								<div id="e03">
 									<button id="f01" onclick="location.href='/app/meal/mmeal'">조식
 										신청</button>
@@ -529,18 +530,24 @@
 
 								<div class="rank">
 									<div class="rankBar bar1">
-										<img id="rankImg1" src="/app/resources/profile/exam_profile.png">
-										<div class="rankFont">101동 심원용</div>
+										<img id="rankImg1"
+											src="/app/resources/member/profile/${memberPointList[1].profile}">
+										<div class="rankFont">${memberPointList[1].dongNum}동 ${memberPointList[1].name}
+										</div>
 										<div class="bar11 bar">2</div>
 									</div>
 									<div class="rankBar bar2">
-										<img id="rankImg1" src="/app/resources/profile/exam_profile.png">
-										<div class="rankFont">${memberPointList[0].dongNum}동 ${memberPointList[0].name}</div>
+										<img id="rankImg1"
+											src="/app/resources/member/profile/${memberPointList[0].profile}">
+										<div class="rankFont">${memberPointList[0].dongNum}동 ${memberPointList[0].name}
+										</div>
 										<div class="bar22 bar">1</div>
 									</div>
 									<div class="rankBar bar3">
-										<img id="rankImg1" src="/app/resources/profile/exam_profile.png">
-										<div class="rankFont">103동 심원용</div>
+										<img id="rankImg1"
+											src="/app/resources/member/profile/${memberPointList[2].profile}">
+										<div class="rankFont">${memberPointList[2].dongNum}동 ${memberPointList[2].name}
+										</div>
 										<div class="bar33 bar">3</div>
 									</div>
 								</div>
@@ -548,7 +555,7 @@
 							<div id="box4" class="box">
 								<div id="tit1">동대표</div>
 								<div class="imgBox">
-									<img id="rankImg2" src="/app/resources/profile/exam_profile.png">
+									<img id="rankImg2" src="/app/resources/member/profile/${captain.profile}">
 									<div id="rankFont2">${captain.name}</div>
 								</div>
 								<div class="like">
@@ -607,8 +614,42 @@
 		headerName('홈'); // 현재 페이지 이름
 		getNoticeList();
 		getCaptainLove();
+		getWeatherInfo();
+		getNanoDustInfo();
 		applyWeatherInfo(JSON.parse(sessionStorage.getItem("weather")));
 		applyNanoDustInfo();
+
+		function getWeatherInfo() {
+			$.ajax({
+				url: '/app/kmsData/weather',
+				type: 'get',
+				dataType: 'text',
+				success: function (data) {
+					var jsonObject = JSON.parse(data);
+					var weather = jsonObject.response.body.items.item;
+					sessionStorage.setItem("weather", JSON.stringify(weather));
+				},
+				error: function () {
+					location.reload();
+				}
+			});
+		}
+
+		function getNanoDustInfo() {
+			$.ajax({
+				url: '/app/kmsData/nanoDust',
+				type: 'get',
+				dataType: 'text',
+				success: function (data) {
+					var jsonObject = JSON.parse(data);
+					var nanoDust = jsonObject.response.body.items;
+					sessionStorage.setItem("nanoDust", JSON.stringify(nanoDust));
+				},
+				error: function () {
+					location.reload();
+				}
+			});
+		}
 
 		// 게시판 선택 1
 		function getNoticeList() {
@@ -624,15 +665,15 @@
 					for (let vo of noticeList) {
 						str += '<div id="boardTxt">'
 							+ '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
-							+ '<div>' + vo.writerName + '</div>'
-							+ '<div>' + vo.enrollDate + '</div>'
-							+ '<div>' + vo.hit + '</div>'
+							+ '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.writerName + '</div>'
+							+ '<div style="width: 200px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.enrollDate + '</div>'
+							+ '<div style="width: 50px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.hit + '</div>'
 							+ '</div> <hr>'
 					}
 					boxff2.innerHTML = str;
 				},
 				error: function () {
-					alert("getNoticeList error");
+					location.reload();
 				}
 			});
 		}
@@ -652,15 +693,15 @@
 					for (let vo of popularList) {
 						str += '<div id="boardTxt">'
 							+ '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
-							+ '<div>' + vo.writerNo + '</div>'
-							+ '<div>' + vo.enrollDate + '</div>'
-							+ '<div>' + vo.hit + '</div>'
+							+ '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.writerName + '</div>'
+							+ '<div style="width: 200px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.enrollDate + '</div>'
+							+ '<div style="width: 50px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.hit + '</div>'
 							+ '</div> <hr>'
 					}
 					boxff2.innerHTML = str;
 				},
 				error: function () {
-					alert("에러");
+					location.reload();
 				}
 			});
 		}
@@ -691,7 +732,7 @@
 					hate.innerHTML = (hateCnt / total * 100).toFixed(0) + "%";
 				},
 				error: function () {
-					alert("getCaptainLove error");
+					location.reload();
 				}
 			});
 		}
@@ -707,7 +748,7 @@
 					getCaptainLove();
 				},
 				error: function () {
-					alert("voteCaptainLove error");
+					location.reload();
 				}
 			});
 		}
@@ -730,7 +771,7 @@
 				switch (category) {
 					case "SKY":
 						switch (fcstValue) {
-							case "1": sky = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-regular fa-sun fa-4x" style="color: #fe5739;"></i>'; break;
+							case "1": sky = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-solid fa-sun fa-4x" style="color: #ffa238;"></i>'; break;
 							default: sky = '<div style="height: 100px; display: flex; flex-direction: column; justify-content:space-between; align-items:center;"><i class="fa-solid fa-cloud fa-4x" style="color: #838fa5;"></i>';
 						}
 						break;
@@ -765,6 +806,9 @@
 			const weatherTxt1 = document.querySelector('#weatherTxt1');
 			const weatherTxt2 = document.querySelector('#weatherTxt2');
 			var nanoDust = JSON.parse(sessionStorage.getItem("nanoDust"));
+			if (!nanoDust[0]) {
+				return;
+			}
 
 			if (nanoDust[0].pm10Value < 15) {
 				weatherTxt1.innerHTML = '<div class="green" id="bar"></div><div class="gray" id="bar"></div><div class="gray" id="bar"></div>';
@@ -800,7 +844,6 @@
 			return color;
 		}
 
-
 		// 캘린더
 		(function () {
 			$(function () {
@@ -820,6 +863,7 @@
 					editable: false,
 					selectable: true, // 달력 일자 드래그 설정가능
 					nowIndicator: true, // 현재 시간 마크
+					displayEventTime: false, // 이벤트 시간 안보이게
 					dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 					locale: 'ko',
 					eventAdd: function (obj) { // 이벤트가 추가되면 발생하는 이벤트
@@ -846,8 +890,8 @@
 						<c:forEach items="${memberCalendarList}" var="vo">
 							{
 								title: '${vo.name}',
-								start: '${vo.startDate}',
-								end: '${vo.endDate}',
+								start: '${vo.startDate.substring(0, 10)}' + ' 00:00:00',
+								end: '${vo.endDate.substring(0, 10)}' + ' 24:00:00',
 								backgroundColor: getRandomColor()
 							},
 						</c:forEach>

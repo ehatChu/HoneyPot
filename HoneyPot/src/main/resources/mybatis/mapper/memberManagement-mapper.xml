@@ -8,7 +8,7 @@
 	<select id="getMemberListCnt" resultType="com.hp.app.member.vo.MemberVo">
 		SELECT STATUS
 		FROM MEMBER
-		<where>
+		WHERE STATUS IN ('Y','N','S')
 			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
 				AND NAME LIKE '%${searchValue}%'
 			</if>
@@ -21,7 +21,6 @@
 			<if test="searchType == 'PHONE' and searchValue != '' and searchValue != null">
 				AND PHONE LIKE '%${searchValue}%'
 			</if>
-		</where>
 	</select>
 
 	<!-- 일반 회원 조회 -->
@@ -29,6 +28,15 @@
 		SELECT *
 		FROM MEMBER
 		<where>
+			<if test="status == null or status == ''">
+				AND STATUS IN ('Y','N','S')
+			</if>
+			<if test='status == "N"'>
+				AND STATUS = #{status}
+			</if>
+			<if test='status == "S"'>
+				AND STATUS = #{status}
+			</if>
 			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
 				AND NAME LIKE '%${searchValue}%'
 			</if>
@@ -41,10 +49,8 @@
 			<if test="searchType == 'PHONE' and searchValue != '' and searchValue != null">
 				AND PHONE LIKE '%${searchValue}%'
 			</if>
-			<if test='status == "N"'>
-				AND STATUS = #{status}
-			</if>
 		</where>
+		ORDER BY ENROLL_DATE DESC
 	</select>
 	
 	<!-- 회원 상세조회 -->
@@ -54,6 +60,61 @@
 		WHERE NO = #{mno}
 	</select>
 	
+	<!-- 회원 상벌점 부여 -->
+	<insert id="insertPointMember">
+		INSERT INTO POINT 
+        (
+            NO
+            ,MEMBER_NO
+            ,ADMIN_NO
+            ,SCORE
+            ,CONTENT
+        ) VALUES(
+        SEQ_POINT_NO.NEXTVAL
+        , #{memberNo}
+        , #{adminNo}
+        , #{score}
+        , #{content}
+        )
+	</insert>
+	
+	<!-- 회원 삭제 -->
+	<update id="deleteMember">
+		UPDATE MEMBER
+		SET STATUS = 'D'
+		WHERE NO = #{mno}
+	</update>
+	
+	<!-- 정규 회원 등록 -->
+	<update id="regularMember">
+		UPDATE MEMBER
+		SET STATUS = 'Y'
+		WHERE NO = #{mno}
+	</update>
 
+	<!-- 일반 회원 정지 시키기 -->
+	<insert id="stopMember">
+		INSERT INTO RESTRICTION 
+		(
+		    NO
+		    ,ADMIN_NO
+		    ,MEMBER_NO
+		    ,CONTENT
+		    ,STOP_DATE
+		) VALUES (
+		    SEQ_RESTRICTION_NO.NEXTVAL
+		    , #{adminNo}
+		    , #{memberNo}
+		    , #{content}
+		    , (SYSDATE + #{stopDate})
+		)
+	</insert>
+	
+	<!-- 일반 회원 -> 정지 회원 -->
+	<update id="updateMemberStatus">
+		UPDATE MEMBER
+		SET STATUS = 'S'
+		WHERE NO = #{memberNo}
+	</update>
   
 </mapper>

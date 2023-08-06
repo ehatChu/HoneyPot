@@ -207,6 +207,7 @@
 				alert('아이디는 영어/숫자 조합 4~12자리여야 합니다');
 				id.style.backgroundColor = 'white';
 				id.style.color = 'black';
+				id.focus();
 				idChecked = false;
 			} else {
 				$.ajax({
@@ -275,6 +276,7 @@
 				alert("아이디 중복검사를 해주세요");
 				id.style.backgroundColor = 'white';
 				id.style.color = 'black';
+				id.focus();
 				return false;
 			} else {
 				id.style.backgroundColor = '#4A321F';
@@ -286,6 +288,7 @@
 				alert('영어/숫자/특수문자 조합 8~15자리로 비밀번호를 구성해주세요');
 				pwd.style.backgroundColor = 'white';
 				pwd.style.color = 'black';
+				pwd.focus();
 				return false;
 			} else {
 				pwd.style.backgroundColor = '#4A321F';
@@ -297,6 +300,7 @@
 				alert("비밀번호 일치여부를 확인해주세요.");
 				pwdCheck.style.backgroundColor = 'white';
 				pwdCheck.style.color = 'black';
+				pwdCheck.focus();
 				return false;
 			} else {
 				pwdCheck.style.backgroundColor = '#4A321F';
@@ -308,6 +312,7 @@
 				alert("이름을 입력해주세요");
 				name.style.backgroundColor = 'white';
 				name.style.color = 'black';
+				name.focus();
 				return false;
 			} else {
 				name.style.backgroundColor = '#4A321F';
@@ -319,6 +324,7 @@
 				alert("생년월일 8자리를 입력해주세요");
 				birth.style.backgroundColor = 'white';
 				birth.style.color = 'black';
+				birth.focus();
 				return false;
 			} else {
 				birth.style.backgroundColor = '#4A321F';
@@ -330,6 +336,7 @@
 				alert("휴대폰 번호 11자리를 입력해주세요");
 				phone.style.backgroundColor = 'white';
 				phone.style.color = 'black';
+				phone.focus();
 				return false;
 			} else {
 				phone.style.backgroundColor = '#4A321F';
@@ -341,6 +348,7 @@
 				alert("동번호 3자리를 입력해주세요");
 				dongNum.style.backgroundColor = 'white';
 				dongNum.style.color = 'black';
+				dongNum.focus();
 				return false;
 			} else {
 				dongNum.style.backgroundColor = '#4A321F';
@@ -352,6 +360,7 @@
 				alert("호수 번호 3~4자리를 입력해주세요");
 				hoNum.style.backgroundColor = 'white';
 				hoNum.style.color = 'black';
+				hoNum.focus();
 				return false;
 			} else {
 				hoNum.style.backgroundColor = '#4A321F';
@@ -363,6 +372,7 @@
 				alert("이메일 형식을 맞춰 입력해주세요");
 				email.style.backgroundColor = 'white';
 				email.style.color = 'black';
+				email.focus();
 				return false;
 			} else {
 				email.style.backgroundColor = '#4A321F';

@@ -6,11 +6,14 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
 		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd">
+	
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing 
 		infrastructure -->
@@ -92,5 +95,11 @@
 				class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
+	
+	<!-- 스케쥴러 파일이 존재하는 패키지 -->
+	<context:component-scan base-package="com.hp.app.scheduler"/>
+	<!-- 크론탭 설정에 -->
+	<task:scheduler id="jobScheduler" pool-size="10"/>
+	<task:annotation-driven scheduler="jobScheduler"/>
 
 </beans:beans>

@@ -6,6 +6,8 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.member.vo.MemberVo;
+import com.hp.app.point.vo.PointVo;
+import com.hp.app.restriction.vo.RestrictionVo;
 
 public interface MemberManagementDao {
 
@@ -23,6 +25,15 @@ public interface MemberManagementDao {
 	int deleteMember(SqlSessionTemplate sst, String mno);
 	
 	// 일반 회원 상벌점 주기
-	int insertPointMember(SqlSessionTemplate sst, String mno);
+	int insertPointMember(SqlSessionTemplate sst, PointVo vo);
+
+	// 정규 회원 등록
+	int regularMember(SqlSessionTemplate sst, String mno);
+
+	// 일반 회원 정지 시키기
+	int stopMember(SqlSessionTemplate sst, RestrictionVo vo);
+
+	// 일반 회원 정지 상태로 바꾸기
+	int updateMemberStatus(SqlSessionTemplate sst, String memberNo);
 	
 }

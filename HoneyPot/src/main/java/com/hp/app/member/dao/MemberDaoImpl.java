@@ -64,5 +64,11 @@ public class MemberDaoImpl implements MemberDao {
 		return sst.selectOne("member.findPwd", vo);
 	}
 
+	@Override
+	public int emailChangePwd(SqlSessionTemplate sst, MemberVo vo) {
+		System.out.println(vo);
+		return sst.update("member.emailChangePwd", vo);
+	}
+
 	
 }

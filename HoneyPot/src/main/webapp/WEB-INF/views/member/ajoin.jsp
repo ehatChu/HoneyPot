@@ -222,6 +222,7 @@
 				alert('아이디는 영어/숫자 조합 4~12자리여야 합니다');
 				id.style.backgroundColor = 'white';
 				id.style.color = 'black';
+				id.focus();
 				idChecked = false;
 			} else {
 				$.ajax({
@@ -287,6 +288,7 @@
 				alert("아이디 중복검사를 해주세요");
 				id.style.backgroundColor = 'white';
 				id.style.color = 'black';
+				id.focus();
 				return false;
 			} else {
 				id.style.backgroundColor = '#4A321F';
@@ -298,6 +300,7 @@
 				alert('영어/숫자/특수문자 조합 8~15자리로 비밀번호를 구성해주세요');
 				pwd.style.backgroundColor = 'white';
 				pwd.style.color = 'black';
+				pwd.focus();
 				return false;
 			} else {
 				pwd.style.backgroundColor = '#4A321F';
@@ -309,6 +312,7 @@
 				alert("비밀번호 일치여부를 확인해주세요.");
 				pwdCheck.style.backgroundColor = 'white';
 				pwdCheck.style.color = 'black';
+				pwdCheck.focus();
 				return false;
 			} else {
 				pwdCheck.style.backgroundColor = '#4A321F';
@@ -320,6 +324,7 @@
 				alert("동번호 3자리를 입력해주세요");
 				name.style.backgroundColor = 'white';
 				name.style.color = 'black';
+				name.focus();
 				return false;
 			} else {
 				name.style.backgroundColor = '#4A321F';
@@ -328,6 +333,7 @@
 
 			if (!radio1.checked && !radio2.checked) {
 				alert("직위를 선택해주세요");
+				radio1.focus();
 				return false;
 			} else if (radio1.checked) {
 				name.value += "동대표";

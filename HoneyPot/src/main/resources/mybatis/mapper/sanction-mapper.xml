@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sanction">
+
+
+	<!-- 제재내역 전체 갯수 조회 -->
+	<select id="getSanctionListCnt" resultType="int">
+		SELECT COUNT(R.NO)
+		FROM RESTRICTION R
+		JOIN MEMBER M ON M.NO = R.MEMBER_NO
+		<where>
+			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
+				AND M.NAME LIKE '%${searchValue}%'			
+			</if>
+			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
+				AND R.CONTENT LIKE '%${searchValue}%'			
+			</if>
+		</where> 
+	</select>
+	
+	<!-- 제재내역 List 조회 -->
+	<select id="getSanctionList" resultType="com.hp.app.sanction.vo.SanctionVo">
+		SELECT
+		    R.NO
+		    , M.NAME AS MEMBER_NAME
+		    , M.PROFILE AS MEMBER_PROFILE
+		    , A.NAME AS ADMIN_NAME
+		    , R.CONTENT
+		    , TO_CHAR(R.ENROLL_DATE, 'YY.MM.DD HH24:MI') AS ENROLL_DATE
+		    , TO_CHAR(R.STOP_DATE, 'YY.MM.DD') AS STOP_DATE
+		FROM RESTRICTION R
+		JOIN MEMBER M ON M.NO = R.MEMBER_NO
+		JOIN ADMIN A ON A.NO = R.ADMIN_NO
+		<where>
+			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
+				AND M.NAME LIKE '%${searchValue}%'			
+			</if>
+			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
+				AND R.CONTENT LIKE '%${searchValue}%'			
+			</if>
+		</where>
+	</select>
+	
+	<!-- 제재내역 상세조회 -->
+	<select id="getSanctionByNo" resultType="com.hp.app.sanction.vo.SanctionVo">
+		SELECT
+			R.NO
+			, TO_CHAR(R.STOP_DATE, 'YY.MM.DD') AS STOP_DATE
+			, R.CONTENT
+			, M.NO AS MEMBER_NO
+			, M.NAME AS MEMBER_NAME
+			, M.PROFILE AS MEMBER_PROFILE
+		FROM RESTRICTION R
+		JOIN MEMBER M ON M.NO = R.MEMBER_NO
+		WHERE R.NO = #{sno}
+	</select>
+  
+  	<!-- 제재내역 삭제 -->
+  	<delete id="deleteSanction">
+  		DELETE FROM RESTRICTION
+  		WHERE NO = #{sno}
+  	</delete>
+  	
+  	<!-- 제재 자동으로 정지 풀어주기 -->
+  	<update id="releaseMember">
+  	 <![CDATA[
+  	 	UPDATE MEMBER
+		    SET STATUS = 'Y'
+		WHERE NO IN (
+		    SELECT
+		        M.NO
+		    FROM RESTRICTION R
+		    JOIN MEMBER M ON M.NO = R.MEMBER_NO
+		    WHERE R.STOP_DATE < SYSDATE
+		    AND R.STATUS = 'Y'
+		)
+  	 ]]> 
+  		
+  	</update>
+  	
+  	<!-- 제재 자동으로 정지 풀어주기 -->
+  	<update id="releaseSanction">
+  	 <![CDATA[
+  	 	UPDATE RESTRICTION
+		    SET STATUS = 'N'
+		WHERE NO IN (
+		    SELECT
+		        R.NO
+		    FROM RESTRICTION R
+		    WHERE R.STOP_DATE < SYSDATE
+		)
+  	 ]]> 
+  		
+  	</update>
+  
+</mapper>

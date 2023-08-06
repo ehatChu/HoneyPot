@@ -1,9 +1,13 @@
 package com.hp.app.yerin.functions;
 
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -42,6 +46,35 @@ public class YerinFunctions {
 		
 		return stringDate;
 	}
-
+	//8월 2일부터 4일까지면
+	//0803,0804가 list에 담김.
+	public List<String> getMiddleDays(String s1,String s2) throws Exception {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Date d1 = df.parse(s1);
+		Date d2 = df.parse(s2);
+		
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		
+		c1.setTime(d1);
+		c2.setTime(d2);
+		
+		List<String> middleDays = new ArrayList<String>();
+		
+		while(c1.compareTo(c2)!=1) {
+			//형식에 맞춰 저장
+			Date originDate = c1.getTime();
+			String formattingDate = df.format(originDate);
+					
+			//List에 저장
+			middleDays.add(formattingDate);
+			
+			//c1을 하루추가
+			c1.add(Calendar.DATE, 1);
+		}
+		
+		return middleDays;
+	}
 	
 }

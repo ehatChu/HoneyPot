@@ -200,7 +200,7 @@
 	<main>
 		<div class="margin">
 			<div>
-				<span class="big-text">사유물목록</span><button class="small-btn color-gray">삭제하기</button><button class="small-btn color-main" id="regi-btn">등록하기</button>
+				<span class="big-text">차목록</span><button class="small-btn color-gray">삭제하기</button><button class="small-btn color-main" id="regi-btn">등록하기</button>
 			</div>
 			
 			<div id="list-area">
@@ -231,9 +231,9 @@
 		<div id="modal-box">
 			<div id="registration" style="display: none;">
 				<div id="modal-top">
-					<span id="mine-header">사유물등록</span><span><i class="fa-solid fa-xmark fa-2xl margin-right quit-btn" style="color: #000000;"></i></span>
+					<span id="mine-header">차등록</span><span><i class="fa-solid fa-xmark fa-2xl margin-right quit-btn" style="color: #000000;"></i></span>
 				</div>
-				<form action="/app/mypage/register" method="post" enctype="multipart/form-data" onsubmit="return checkIMG();">
+				<form action="/app/regi-mine" method="post" enctype="multipart/form-data" onsubmit="return checkIMG();">
 					<div id="img-area">
 						<!-- <div id="img" class="margin15"></div> -->
 						<div id="Thum-parent">
@@ -248,15 +248,7 @@
 
 
 						<div id="regi-content" class="margin15">
-		
-							<div class="big-mine-text">사유물등록</div>
-							<div class="bold-text">사유물 종류</div> 
-							<div>
-								<select name="mineCno" id="cno" class="input-area">
-									<option value="10">자동차</option>
-									<option value="20">자전거</option>
-								</select>
-							</div>
+							<div class="big-mine-text"><input type="hidden" name="mineCno" value="10">차등록</div>
 							<div class="bold-text">사유물 이름</div> <div><input type="text" name="name" placeholder="예시)2023메르세데스-벤츠 GLC클래스" class="input-area"></div>
 							<div class="bold-text">사유물 번호판</div> <div><input type="text" name="uniqueNum" placeholder="예시)20호 2391" class="input-area"></div>
 							<div><input type="submit" class="big-btn color-main" value="등록"></div>					
@@ -277,7 +269,7 @@
 	basicSetting(); // 기본 셋팅
 	headerName('사유물 등록 및 변경'); // 현재 페이지 이름
 	firstNav(['내정보', '나의활동', '신청내역','관리비'], '내정보'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-	secondNav(['캘린더', '가계부','사유물 등록 및 변경'], '사유물 등록 및 변경'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+	secondNav(['캘린더', '가계부','자동차','자전거'], '자동차'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 </script>
 <script>
 	//등록누르면 모달창 띄우기

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="calendar">
+	<insert id="regiMemberSchedule">
+		INSERT INTO MEMBER_CALENDAR (NO,WRITER_NO,NAME,START_DATE,END_DATE) 
+		VALUES (SEQ_MEMBER_CALENDAR_NO.NEXTVAL, ${writerNo}, #{scheduleName}, #{startDate} ,#{endDate})
+	</insert>
+	<insert id="regiAdminSchedule">
+		INSERT INTO NOTICE_CALENDAR (NO,WRITER_NO,NAME,START_DATE,END_DATE) 
+		VALUES (SEQ_NOTICE_CALENDAR_NO.NEXTVAL, #{writerNo}, #{scheduleName}, #{startDate} ,#{endDate})
+	</insert>
+	
+	<!-- 해당날짜의 노티스 스케줄 조회 목록용 -->
+	<select id="getNoticeCal" resultType="com.hp.app.calendar.vo.NoticeCalendarVo">
+		SELECT * FROM 
+		(
+		    SELECT
+		    A.NAME AS WRITER_NAME
+		        ,N.START_DATE
+		        ,N.END_DATE
+		        ,N.NAME
+		        ,N.LOVE
+		        ,N.NO
+		    from NOTICE_CALENDAR N
+		    JOIN ADMIN A ON (N.WRITER_NO = A.NO)
+		    WHERE to_date('${selectedDate}','YYYY-MM-DD') BETWEEN TO_DATE(N.START_DATE,'YYYY-MM-DD') AND TO_DATE(N.END_DATE,'YYYY-MM-DD')
+		)R
+		WHERE R.WRITER_NAME = '관리소장' OR R.WRITER_NAME= #{dongNum}
+	</select>
+	
+	<!-- 노티스캘린더모든일정 -->
+	<select id="getAllNoticeCalByDong" resultType="com.hp.app.calendar.vo.AllCalendarVo">
+		SELECT
+			A.NAME AS WRITER_NAME
+		    ,N.START_DATE
+		    ,N.END_DATE
+		    ,N.NAME
+		FROM NOTICE_CALENDAR N 
+		JOIN ADMIN A ON (N.WRITER_NO = A.NO)
+		WHERE A.NAME = '관리소장' OR A.NAME= #{dongName}
+	</select>
+	
+	<!-- 멤버개인모든일정표시용 -->
+	<select id="getAllMemberCalByPerson" resultType="com.hp.app.calendar.vo.AllCalendarVo">
+		SELECT
+			M.NAME AS WRITER_NAME
+		    ,N.START_DATE
+		    ,N.END_DATE
+		    ,N.NAME
+		FROM MEMBER_CALENDAR N
+		JOIN MEMBER M ON(N.WRITER_NO = M.NO)
+		WHERE WRITER_NO =#{memberNo}
+	</select>
+	
+	<!-- 멤버 개인일정 목록용-->
+	<select id="getPersonalCal" resultType="com.hp.app.calendar.vo.AllCalendarVo">
+		SELECT 
+		    START_DATE
+		    ,END_DATE
+		    ,NAME
+		    ,NO
+		FROM MEMBER_CALENDAR
+		WHERE to_date(#{selectedDate},'YYYY-MM-DD') BETWEEN TO_DATE(START_DATE,'YYYY-MM-DD') AND TO_DATE(END_DATE,'YYYY-MM-DD')
+		AND WRITER_NO = #{memberNo}
+	</select>
+	
+	<!-- 개인일정삭제 -->
+	<delete id="deletePersonal">
+		DELETE FROM MEMBER_CALENDAR 
+		WHERE NO = #{sNum}
+	</delete>
+	
+</mapper>

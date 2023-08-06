@@ -556,7 +556,8 @@
                                             <img id="starImg" src="/app/resources/main/star2.PNG">
                                         </c:if>
 
-                                        <div id="scheTxt">${vo.startDate.substring(0, 11)}~${vo.endDate.substring(0,11)}</div>
+                                        <div id="scheTxt">${vo.startDate.substring(0, 10)}~${vo.endDate.substring(0,10)}
+                                        </div>
                                     </div>
                                     <div id="schedule">
                                         <div id="starImg"></div>
@@ -569,7 +570,7 @@
                                     var currentDate = new Date();
                                     var currentYear = currentDate.getFullYear();
                                     var currentMonth = currentDate.getMonth() + 1;
-                                    var startDateStr = "${vo.startDate.substring(0, 11)}";
+                                    var startDateStr = "${vo.startDate.substring(0, 10)}";
                                     var startDate = new Date(startDateStr);
                                     var startYear = startDate.getFullYear();
                                     var startMonth = startDate.getMonth() + 1;
@@ -578,7 +579,7 @@
 
                                     if (currentYear != startYear || currentMonth != startMonth) {
                                         var scsc = document.getElementById("scsc${vo.no}");
-                                        // scsc.remove();
+                                        scsc.remove();
                                     }
                                 </script>
                             </c:forEach>
@@ -708,10 +709,11 @@
             // DB 에서 정보 가져오기
             function loadChartData() {
                 $.ajax({
-                    url: '/app/account/chart',
+                    url: '/app/main/adminFee/chart',
                     method: 'GET',
                     dataType: 'json',
                     success: function (data) {
+                        console.log(data);
                         drawChart(data);
                         var legendElement = $("#legend");
                         legendElement.empty(); // 기존 내용 초기화
@@ -756,9 +758,9 @@
                         for (let vo of noticeList) {
                             str += '<div id="boardTxt">'
                                 + '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
-                                + '<div>' + vo.writerName + '</div>'
-                                + '<div>' + vo.enrollDate + '</div>'
-                                + '<div>' + vo.hit + '</div>'
+                                + '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.writerName + '</div>'
+                                + '<div style="width: 200px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.enrollDate + '</div>'
+                                + '<div style="width: 50px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.hit + '</div>'
                                 + '</div> <hr>'
                         }
                         boxff2.innerHTML = str;
@@ -784,9 +786,9 @@
                         for (let vo of popularList) {
                             str += '<div id="boardTxt">'
                                 + '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
-                                + '<div>' + vo.writerNo + '</div>'
-                                + '<div>' + vo.enrollDate + '</div>'
-                                + '<div>' + vo.hit + '</div>'
+                                + '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.writerName + '</div>'
+                                + '<div style="width: 200px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.enrollDate + '</div>'
+                                + '<div style="width: 50px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.hit + '</div>'
                                 + '</div> <hr>'
                         }
                         boxff2.innerHTML = str;
@@ -811,7 +813,6 @@
                 return color;
             }
 
-
             // 캘린더
             (function () {
                 $(function () {
@@ -831,6 +832,7 @@
                         editable: false,
                         selectable: true, // 달력 일자 드래그 설정가능
                         nowIndicator: true, // 현재 시간 마크
+                        displayEventTime: false, // 이벤트 시간 안보이게
                         dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
                         locale: 'ko',
                         eventAdd: function (obj) { // 이벤트가 추가되면 발생하는 이벤트
@@ -857,8 +859,8 @@
                             <c:forEach items="${noticeCalendarList}" var="vo">
                                 {
                                     title: '${vo.name}',
-                                    start: '${vo.startDate}',
-                                    end: '${vo.endDate}',
+                                    start: '${vo.startDate.substring(0, 10)}' + ' 00:00:00',
+                                    end: '${vo.endDate.substring(0, 10)}' + ' 24:00:00',
                                     backgroundColor: getRandomColor()
 							    },
                             </c:forEach>

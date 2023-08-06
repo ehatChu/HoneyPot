@@ -18,5 +18,6 @@ public class BoardVo {
 	private String modifyDate;
 	private String hit;
 	private String loveCnt;
+	private String boardImgName;
 
 }
