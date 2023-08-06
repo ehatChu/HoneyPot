@@ -98,7 +98,7 @@
 				<div class="detail-title-area">
 					<table id="detail-title">
 						<tr>
-							<td id="title">${vo.fullName}</td>
+							<td id="title">${vo.fullname}</td>
 							<td id="writer">${vo.writerName}</td>
 							<td>${vo.enrollDate}</td>
 							<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>

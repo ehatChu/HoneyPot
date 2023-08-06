@@ -8,7 +8,7 @@ public class NoticeVo {
 	private String no;
 	private String noticeCno;
 	private String noticeCname;
-	private String fullName;
+	private String fullname;
 	private String writerNo;
 	private String writerName;
 	private String title;

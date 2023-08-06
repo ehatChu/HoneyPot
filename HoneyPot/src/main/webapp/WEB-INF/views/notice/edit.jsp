@@ -295,12 +295,12 @@
                         <span id="importantYn">
                             <c:choose>
                                 <c:when test="${vo.importantYn eq 'Y'}">
-                                    <input type="checkbox" name="importantYn" value="Y" checked> 중요
+                                    <input type="checkbox" name="importantYn" value="Y" checked> 상단고정
                                     <!-- <input type="hidden" name="importantYn" value="N" id="hiddenImportantYn"> -->
                                 </c:when>
-                                <c:when test="${vo.importantYn eq 'N' || empty vo.importantYn}">
-                                    <input type="checkbox" name="importantYn" value="Y"> 중요
-                                </c:when>
+                                <c:otherwise>
+                                    <input type="checkbox" name="importantYn" value="Y"> 상단고정
+                                </c:otherwise>
                             </c:choose>
                         </span>
                         
@@ -495,5 +495,18 @@
 
     //투표 삽입
 
+
+    //상단고정 여부 값 전달
+    const form = document.querySelector("form");
+    form.addEventListener("submit",function(){
+        const importantYn = document.querySelector("input[name=importantYn]");
+        if (importantYn.checked) {
+            importantYn.value = 'Y';
+            console.log(importantYn.value);
+        }else {
+            importantYn.value = 'N';
+            console.log(importantYn.value);
+        }
+    })
 
 </script>
