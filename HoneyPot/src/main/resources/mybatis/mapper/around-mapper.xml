@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="around">
+	<insert id="write">
+		INSERT INTO AROUND_EVALUATION
+		VALUES(SEQ_AROUND_EVALUATION_NO.NEXTVAL, (SELECT NO FROM AROUND WHERE
+		ADDRESS_NAME = #{addressName}), #{writerNo},
+		#{content}, #{score},
+		SYSDATE, 'Y')
+	</insert>
+
+	<insert id="enroll">
+		INSERT INTO AROUND VALUES(SEQ_AROUND_NO.NEXTVAL,
+		#{placeName}, #{addressName}, #{roadAddressName},
+		#{categoryGroupName}, #{phone})
+	</insert>
+
+	<select id="getEvaluationList"
+		resultType="com.hp.app.around.vo.AroundEvaluationVo">
+		SELECT * FROM AROUND_EVALUATION AE
+		JOIN AROUND A ON A.NO =
+		AE.AROUND_NO
+		JOIN MEMBER M ON M.NO = AE.WRITER_NO
+	</select>
+
+	<select id="getAroundList"
+		resultType="com.hp.app.around.vo.AroundEvaluationVo">
+		SELECT DiSTINCT A.NO, PLACE_NAME, ADDRESS_NAME,
+		ROAD_ADDRESS_NAME, CATEGORY_GROUP_NAME, PHONE
+		FROM AROUND A
+		JOIN
+		AROUND_EVALUATION AE ON A.NO = AE.AROUND_NO
+	</select>
+</mapper>

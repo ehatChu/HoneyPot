@@ -556,7 +556,7 @@
                                             <img id="starImg" src="/app/resources/main/star2.PNG">
                                         </c:if>
 
-                                        <div id="scheTxt">${vo.startDate.substring(0, 11)}~${vo.endDate.substring(0,11)}
+                                        <div id="scheTxt">${vo.startDate.substring(0, 10)}~${vo.endDate.substring(0,10)}
                                         </div>
                                     </div>
                                     <div id="schedule">
@@ -570,7 +570,7 @@
                                     var currentDate = new Date();
                                     var currentYear = currentDate.getFullYear();
                                     var currentMonth = currentDate.getMonth() + 1;
-                                    var startDateStr = "${vo.startDate.substring(0, 11)}";
+                                    var startDateStr = "${vo.startDate.substring(0, 10)}";
                                     var startDate = new Date(startDateStr);
                                     var startYear = startDate.getFullYear();
                                     var startMonth = startDate.getMonth() + 1;
@@ -813,7 +813,6 @@
                 return color;
             }
 
-
             // 캘린더
             (function () {
                 $(function () {
@@ -860,8 +859,8 @@
                             <c:forEach items="${noticeCalendarList}" var="vo">
                                 {
                                     title: '${vo.name}',
-                                    start: '${vo.startDate.substring(0, 11)}' + '00:00:00',
-                                    end: '${vo.endDate.substring(0, 11)}' + '24:00:00',
+                                    start: '${vo.startDate.substring(0, 10)}' + ' 00:00:00',
+                                    end: '${vo.endDate.substring(0, 10)}' + ' 24:00:00',
                                     backgroundColor: getRandomColor()
 							    },
                             </c:forEach>
