@@ -27,7 +27,9 @@
 		    JOIN ADMIN A ON (N.WRITER_NO = A.NO)
 		    WHERE to_date('${selectedDate}','YYYY-MM-DD') BETWEEN TO_DATE(N.START_DATE,'YYYY-MM-DD') AND TO_DATE(N.END_DATE,'YYYY-MM-DD')
 		)R
+		<if test="dongNum !='관리소장'">
 		WHERE R.WRITER_NAME = '관리소장' OR R.WRITER_NAME= #{dongNum}
+		</if>
 	</select>
 	
 	<!-- 노티스캘린더모든일정 -->
@@ -73,7 +75,7 @@
 	</delete>
 	
 	
-	<!-- 어드민일정 표시 -->
+	<!-- 어드민모든일정 표시 -->
 	<select id="getAllNoticeCal" resultType="com.hp.app.calendar.vo.AllCalendarVo">
 		SELECT
 			A.NAME AS WRITER_NAME
@@ -83,7 +85,7 @@
 		FROM NOTICE_CALENDAR N 
 		JOIN ADMIN A ON (N.WRITER_NO = A.NO)
 		<if test="dongName !='관리소장'">
-			WHERE A.NAME = '관리소장' OR A.NAME= #{dongName}
+		WHERE A.NAME = '관리소장' OR A.NAME= #{dongName}
 		</if>
 	</select>
 	

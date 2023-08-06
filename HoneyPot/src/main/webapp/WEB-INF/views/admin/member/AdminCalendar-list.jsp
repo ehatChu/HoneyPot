@@ -304,11 +304,10 @@
                     type : "post",
                     data : {
                         selectedDate : dateFormat(new Date(info.dateStr)),
+                        isAdmin : true,
                     },
                     dataType : 'json',
                     success : function(data){
-
-                        
                         console.log(data);
                         const AdminArea = document.querySelector("#schedule-area1");
                         let str ="";
@@ -328,10 +327,7 @@
                        }
                        AdminArea.innerHTML=str;
                         //여기서버튼을 가져오면 될듯
-                        //딜리트버튼 누르면 DB에서 삭제하기
-                        const deleteBtn = document.querySelectorAll(".delete-btn");
-                        console.log(deleteBtn);
- 
+                      
                     },
                     error : function(e){
                         console.log("이잉에러");

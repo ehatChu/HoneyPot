@@ -61,17 +61,28 @@ public class CalendarController {
 	//ajax아파트 일정 조회 json형식으로..일단 문자만이라도보이게 
 	@PostMapping(produces ="application/json; charset=UTF-8",value = "calendar/apart-schedule")
 	@ResponseBody
-	public String getNoticeCal(String selectedDate,HttpSession session) throws IOException {
+	public String getNoticeCal(boolean isAdmin,String selectedDate,HttpSession session) throws IOException {
 		//날짜가공 뒤에 (목)짜르기
 		selectedDate = selectedDate.substring(0, 10);
 		
 		log.info("selectedDate : {}",selectedDate);
 		//로그인멤버의 호수 
-		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
-		String dongNum = loginMember.getDongNum();
+		//어드민일때에는 값을 달리 넣어야함. 같은테이블을 조회하니 괜찮긴한듯
 		
-		//101 -> 101동대표
-		dongNum = dongNum+"동대표";
+		String dongNum = "";
+		if(isAdmin) {
+			AdminVo loginAdmin = (AdminVo)session.getAttribute("loginAdmin");
+			dongNum = loginAdmin.getName();
+		}else {
+			MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+			dongNum = loginMember.getDongNum();
+			//101 -> 101동대표
+			dongNum = dongNum+"동대표";
+			
+		}
+		
+		
+		
 		
 		//맵생성
 		Map<String,String> infoMap = new HashMap<String, String>();
