@@ -1,8 +1,7 @@
-package com.hp.app.kmsData.controller;
+package com.hp.app.data.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -13,16 +12,13 @@ import java.time.LocalTime;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hp.app.diet.vo.DietVo;
-import com.hp.app.kmsData.captcha.CaptchaUtil;
+import com.hp.app.data.captcha.CaptchaUtil;
 import nl.captcha.Captcha;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("kmsData")

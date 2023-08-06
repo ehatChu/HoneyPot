@@ -48,9 +48,9 @@ public class MainController {
 		List<MemberVo> memberPointList = ms.getMemberPointList();
 		List<MemberVo> dongPointList = ms.getDongPointList();
 		List<MealVo> mealListTotal = mealService.getMealList();
-		
-		model.addAttribute("memberPointList", memberPointList);
+
 		model.addAttribute("memberCalendarList", memberCalendarList);
+		model.addAttribute("memberPointList", memberPointList);
 		model.addAttribute("dongPointList", dongPointList);
 		model.addAttribute("mealListTotal", mealListTotal);
 		return "main/mmain";

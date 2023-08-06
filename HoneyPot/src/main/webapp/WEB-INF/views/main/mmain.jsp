@@ -454,9 +454,8 @@
 										<img id="starImg" src="/app/resources/main/star2.PNG">
 									</c:if>
 
-									<div id="scheTxt">${vo.startDate.substring(0, 11)}~
-										${vo.endDate.substring(0,
-										11)}</div>
+									<div id="scheTxt">${vo.startDate.substring(0, 10)}~
+										${vo.endDate.substring(0,10)}</div>
 								</div>
 								<div id="schedule">
 									<div id="starImg"></div>
@@ -469,7 +468,7 @@
 								var currentDate = new Date();
 								var currentYear = currentDate.getFullYear();
 								var currentMonth = currentDate.getMonth() + 1;
-								var startDateStr = "${vo.startDate.substring(0, 11)}";
+								var startDateStr = "${vo.startDate.substring(0, 10)}";
 								var startDate = new Date(startDateStr);
 								var startYear = startDate.getFullYear();
 								var startMonth = startDate.getMonth() + 1;
@@ -531,18 +530,24 @@
 
 								<div class="rank">
 									<div class="rankBar bar1">
-										<img id="rankImg1" src="/app/resources/member/profile/${memberPointList[1].profile}">
-										<div class="rankFont">${memberPointList[1].dongNum}동 ${memberPointList[1].name}</div>
+										<img id="rankImg1"
+											src="/app/resources/member/profile/${memberPointList[1].profile}">
+										<div class="rankFont">${memberPointList[1].dongNum}동 ${memberPointList[1].name}
+										</div>
 										<div class="bar11 bar">2</div>
 									</div>
 									<div class="rankBar bar2">
-										<img id="rankImg1" src="/app/resources/member/profile/${memberPointList[0].profile}">
-										<div class="rankFont">${memberPointList[0].dongNum}동 ${memberPointList[0].name}</div>
+										<img id="rankImg1"
+											src="/app/resources/member/profile/${memberPointList[0].profile}">
+										<div class="rankFont">${memberPointList[0].dongNum}동 ${memberPointList[0].name}
+										</div>
 										<div class="bar22 bar">1</div>
 									</div>
 									<div class="rankBar bar3">
-										<img id="rankImg1" src="/app/resources/member/profile/${memberPointList[2].profile}">
-										<div class="rankFont">${memberPointList[2].dongNum}동 ${memberPointList[2].name}</div>
+										<img id="rankImg1"
+											src="/app/resources/member/profile/${memberPointList[2].profile}">
+										<div class="rankFont">${memberPointList[2].dongNum}동 ${memberPointList[2].name}
+										</div>
 										<div class="bar33 bar">3</div>
 									</div>
 								</div>
@@ -615,38 +620,36 @@
 		applyNanoDustInfo();
 
 		function getWeatherInfo() {
-            $.ajax({
-                url: '/app/kmsData/weather',
-                type: 'get',
-                dataType: 'text',
-                success: function (data) {
-                    var jsonObject = JSON.parse(data);
-                    var weather = jsonObject.response.body.items.item;
-                    sessionStorage.setItem("weather", JSON.stringify(weather));
-                },
-                error: function () {
-                    location.reload();
-                }
-            });
-        }
+			$.ajax({
+				url: '/app/kmsData/weather',
+				type: 'get',
+				dataType: 'text',
+				success: function (data) {
+					var jsonObject = JSON.parse(data);
+					var weather = jsonObject.response.body.items.item;
+					sessionStorage.setItem("weather", JSON.stringify(weather));
+				},
+				error: function () {
+					location.reload();
+				}
+			});
+		}
 
-        function getNanoDustInfo() {
-            $.ajax({
-                url: '/app/kmsData/nanoDust',
-                type: 'get',
-                dataType: 'text',
-                success: function (data) {
-                    var jsonObject = JSON.parse(data);
-                    var nanoDust = jsonObject.response.body.items;
-                    sessionStorage.setItem("nanoDust", JSON.stringify(nanoDust));
-                },
-                error: function () {
-                    location.reload();
-                }
-            });
-        }
-
-
+		function getNanoDustInfo() {
+			$.ajax({
+				url: '/app/kmsData/nanoDust',
+				type: 'get',
+				dataType: 'text',
+				success: function (data) {
+					var jsonObject = JSON.parse(data);
+					var nanoDust = jsonObject.response.body.items;
+					sessionStorage.setItem("nanoDust", JSON.stringify(nanoDust));
+				},
+				error: function () {
+					location.reload();
+				}
+			});
+		}
 
 		// 게시판 선택 1
 		function getNoticeList() {
@@ -803,7 +806,9 @@
 			const weatherTxt1 = document.querySelector('#weatherTxt1');
 			const weatherTxt2 = document.querySelector('#weatherTxt2');
 			var nanoDust = JSON.parse(sessionStorage.getItem("nanoDust"));
-			console.log("nanoDust : " + nanoDust);
+			if (!nanoDust[0]) {
+				return;
+			}
 
 			if (nanoDust[0].pm10Value < 15) {
 				weatherTxt1.innerHTML = '<div class="green" id="bar"></div><div class="gray" id="bar"></div><div class="gray" id="bar"></div>';
@@ -838,7 +843,6 @@
 			}
 			return color;
 		}
-
 
 		// 캘린더
 		(function () {
@@ -886,8 +890,8 @@
 						<c:forEach items="${memberCalendarList}" var="vo">
 							{
 								title: '${vo.name}',
-								start: '${vo.startDate.substring(0, 11)}' + '00:00:00',
-								end: '${vo.endDate.substring(0, 11)}' + '24:00:00',
+								start: '${vo.startDate.substring(0, 10)}' + ' 00:00:00',
+								end: '${vo.endDate.substring(0, 10)}' + ' 24:00:00',
 								backgroundColor: getRandomColor()
 							},
 						</c:forEach>
