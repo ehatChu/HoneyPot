@@ -47,12 +47,12 @@
 			AND B.CONTENT LIKE ('%${searchValue}%')
 		</if>
 		<if test="searchType == 'writer' and searchValue != null and searchValue != ''">
-			AND M.WRITER_NAME LIKE ('%${searchValue}%')
+			AND M.NAME LIKE ('%${searchValue}%')
 		</if>
 		
 		<choose>
 			<when test="sortType == 'date'">
-				ORDER BY B.ENROLL_DATE DESC
+				ORDER BY B.ENROLL_DATE DESC, B.NO DESC
 			</when>
 			<when test="sortType == 'hit'">
 				ORDER BY HIT DESC, B.NO DESC
@@ -64,7 +64,6 @@
 				ORDER BY B.NO DESC
 			</otherwise>
 		</choose>
-
 	</select>	
 
 
@@ -75,6 +74,7 @@
 		    BOARD B
 		    JOIN BOARD_CATEGORY C ON B.BOARD_CNO = C.NO
 		    JOIN BOARD_STATUS S ON B.BOARD_STATUS_NO = S.NO
+		    JOIN MEMBER M ON B.WRITER_NO = M.NO
    		WHERE S.NO != 5
 			AND C.NO = #{cno}
    		
@@ -85,7 +85,7 @@
 			AND B.CONTENT LIKE ('%${searchValue}%')
 		</if>
 		<if test="searchType == 'writer' and searchValue != null and searchValue != ''">
-			AND M.WRITER_NAME LIKE ('%${searchValue}%')
+			AND M.NAME LIKE ('%${searchValue}%')
 		</if>
 		
 	</select>

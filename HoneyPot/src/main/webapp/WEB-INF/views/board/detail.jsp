@@ -239,7 +239,7 @@
 		<!-- 버튼 -->
 		<div class="btn-area">
 			<div id="btn-box">
-				<button type="button" id="post-report-btn" onclick="window.history.back()">목록으로</button>
+				<!-- <button type="button" id="post-report-btn" onclick="window.history.back()">목록으로</button> -->
 				<button type="button" id="post-edit-btn" onclick="location.href='/app/board/edit?no=${vo.no}'">수정</button>
 				<button type="button" id="post-del-btn" onclick="location.href='/app/board/delete?no=${vo.no}'">삭제</button>
 			</div>
@@ -352,7 +352,7 @@
 			data : {
 				boardNo : '${vo.no}',
 				// memberNo : '${loginMember.no}',
-				memberNo : '1',
+				memberNo : '2',
 			},
 			success : function (loveCnt) {
 				console.log(loveCnt);

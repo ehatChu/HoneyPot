@@ -20,7 +20,7 @@
 
 	/* 목록 */
 	table {
-		margin: 30px;
+		margin: 45px 30px 30px;
 		border-collapse: collapse;
 		font-size: 18px;
 		width: 1350px;

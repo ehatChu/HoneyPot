@@ -45,7 +45,7 @@
 		margin-right: 30px;
 	}
 
-	input[name=boardSearch] {
+	input[name=searchValue] {
 		margin-left: 12px;
 		border: none;
 		width: 330px;
@@ -53,7 +53,7 @@
 		font-size: 18px;
 	}
 
-	input[name=boardSearch]:focus {outline:none;}
+	input[name=searchValue]:focus {outline:none;}
 
 	#search-btn {
 		margin-left: 10px;
@@ -177,12 +177,16 @@
 		background-color: transparent;
 	}
 
-	.page-area button:hover{
+	.page-area button:hover, #current-page-btn {
 		background-color: #FAD355;
 		color: white;
 	}
 
-	/* div { border: 1px solid red; } */
+	#current-page-btn:hover {
+		background-color: #FAD355;
+		color: white;
+		cursor: default;
+	}
 
 </style>
 </head>
@@ -193,91 +197,88 @@
 	</nav>
 
 	<main>
+		<form action="/app/board/market" method="get">
 
-		<div class="board-search-area">
-			<div id="search-type">
-				<select name="searchType">
-					<option value="title">제목</option>
-					<option value="content">내용</option>
-					<option value="writer">글쓴이</option>
-				</select>
-			</div>
-
-			<div id="board-search">
-				<input type="search" name="boardSearch">
-				<span><button type="button" id="search-btn"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button></span>
-			</div>
-		</div>
-
-		<div class="list-content-area">
-			<div class="list-bg">
-
-				<div class="sort-type-area">
-					<div id="sort-type">
-						<select name="sortType">
-							<option value="date">최신순</option>
-							<option value="like">인기순</option>
-							<option value="hit">조회순</option>
-
-						</select>
-					</div>
-				</div>
-
-				<div class="gallery-area">
-					<c:forEach items="${voList}" var="vo">
-						<div class="product" id="${vo.no}">
-							<c:choose>
-								<c:when test="${vo.boardImgName != null}">
-									<div id="product-img"><img src="/app/resources/board/${vo.boardImgName}" alt="상품사진"></div>
-								</c:when>
-								<c:otherwise>
-									<div id="product-img"><img src="/app/resources/main/logo.png" alt="상품사진"></div>
-								</c:otherwise>
-							</c:choose>
-							<div id="title">${vo.title}</div>
-							<div id="like"><i class="fa-solid fa-heart"></i> &nbsp; ${vo.loveCnt}</div>
-						</div>
-					</c:forEach>
-				</div>
-		
-				<div class="btn-area">
-					<div id="btn-box">
-						<button type="button" id="write-btn" onclick="location.href='/app/board/write'">글쓰기</button>
-					</div>
-				</div>
-		
-				<div class="page-area">
-					<!-- <button><</button>
-					<button>1</button>
-					<button>2</button>
-					<button>3</button>
-					<button>4</button>
-					<button>5</button>
-					<button>></button> -->
-
-					<c:if test="${pv.currentPage > 1}">
-						<button type="button" onclick="location.href='/app/board/market?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> < </button>
-					</c:if>
-					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
-						<c:if test="${pv.currentPage != i}">
-							<button type="button" onclick="location.href='/app/board/market?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'">${i}</button>
-						</c:if>
-						<c:if test="${pv.currentPage == i}">
-							<button type="button" id="current-page-btn">${i}</button>
-						</c:if>
-					</c:forEach>
-					<c:if test="${pv.currentPage < pv.maxPage}">
-						<button type="button" onclick="location.href='/app/board/market?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> > </button>
-					</c:if>
+			<div class="board-search-area">
+				<div id="search-type">
+					<select name="searchType">
+						<option value="title">제목</option>
+						<option value="content">내용</option>
+						<option value="writer">글쓴이</option>
+					</select>
 				</div>
 	
+				<div id="board-search">
+					<input type="search" name="searchValue" value="${searchVo.searchValue}">
+					<span><button type="button" id="search-btn"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button></span>
+				</div>
 			</div>
-		</div>
+	
+			<div class="list-content-area">
+				<div class="list-bg">
+	
+					<div class="sort-type-area">
+						<div id="sort-type">
+							<select name="sortType" onchange="this.form.submit()">
+								<option value="date">최신순</option>
+								<option value="like">인기순</option>
+								<option value="hit">조회순</option>
+							</select>
+						</div>
+					</div>
+	
+					<div class="gallery-area">
+						<c:forEach items="${voList}" var="vo">
+							<div class="product" id="${vo.no}">
+								<c:choose>
+									<c:when test="${vo.boardImgName != null}">
+										<div id="product-img"><img src="/app/resources/board/${vo.boardImgName}" alt="상품사진"></div>
+									</c:when>
+									<c:otherwise>
+										<div id="product-img"><img src="/app/resources/main/logo.png" alt="상품사진"></div>
+									</c:otherwise>
+								</c:choose>
+								<div id="title">${vo.title}</div>
+								<div id="like"><i class="fa-solid fa-heart"></i> &nbsp; ${vo.loveCnt}</div>
+							</div>
+						</c:forEach>
+					</div>
+			
+					<div class="btn-area">
+						<div id="btn-box">
+							<button type="button" id="write-btn" onclick="location.href='/app/board/write'">글쓰기</button>
+						</div>
+					</div>
+			
+					<div class="page-area">
+						<!-- <button><</button>
+						<button>1</button>
+						<button>2</button>
+						<button>3</button>
+						<button>4</button>
+						<button>5</button>
+						<button>></button> -->
+	
+						<c:if test="${pv.currentPage > 1}">
+							<button type="button" onclick="location.href='/app/board/market?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> < </button>
+						</c:if>
+						<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+							<c:if test="${pv.currentPage != i}">
+								<button type="button" onclick="location.href='/app/board/market?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'">${i}</button>
+							</c:if>
+							<c:if test="${pv.currentPage == i}">
+								<button type="button" id="current-page-btn">${i}</button>
+							</c:if>
+						</c:forEach>
+						<c:if test="${pv.currentPage < pv.maxPage}">
+							<button type="button" onclick="location.href='/app/board/market?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> > </button>
+						</c:if>
+					</div>
+		
+				</div>
+			</div>
 
-
-
-
-
+		</form>
 	</main>
 
 </body>
@@ -325,7 +326,4 @@
 			location.href = '/app/board/detail?no=' + no;
 		});
 	};
-
-
-
 </script>

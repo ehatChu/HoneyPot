@@ -422,7 +422,7 @@ public class BoardController {
 	@GetMapping("love")
 	@ResponseBody
 	public int clickLove(LoveVo lvo) {
-
+		
 		//좋아요 여부
 		int loveYn = service.checkLoveYn(lvo);
 		

@@ -36,29 +36,25 @@ public class MyboardServiceImpl implements MyboardService {
 	//내 댓글 조회
 	@Override
 	public List<ReplyVo> getMyReply(PageVo pv, String writerNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getMyReply(sst, pv, writerNo);
 	}
 	
 	//댓글 수 세기
 	@Override
 	public int countMyReply(String writerNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.countMyReply(sst, writerNo);
 	}
 
 	//내 좋아요 조회
 	@Override
 	public List<BoardVo> getMyLove(PageVo pv, String memberNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getMyLove(sst, pv, memberNo);
 	}
 
 	//좋아요 글 수 세기
 	@Override
 	public int countMyLove(String memberNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.countMyLove(sst, memberNo);
 	}
 
 }
