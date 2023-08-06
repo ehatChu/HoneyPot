@@ -11,4 +11,46 @@
 		INSERT INTO NOTICE_CALENDAR (NO,WRITER_NO,NAME,START_DATE,END_DATE) 
 		VALUES (SEQ_NOTICE_CALENDAR_NO.NEXTVAL, #{writerNo}, #{scheduleName}, #{startDate} ,#{endDate})
 	</insert>
+	
+	<!-- 해당날짜의 노티스 스케줄 조회 -->
+	<select id="getNoticeCal" resultType="com.hp.app.calendar.vo.NoticeCalendarVo">
+		SELECT * FROM 
+		(
+		    SELECT
+		    A.NAME AS WRITER_NAME
+		        ,N.START_DATE
+		        ,N.END_DATE
+		        ,N.NAME
+		        ,N.LOVE
+		        ,N.NO
+		    from NOTICE_CALENDAR N
+		    JOIN ADMIN A ON (N.WRITER_NO = A.NO)
+		    WHERE to_date('${selectedDate}','YYYY-MM-DD') BETWEEN TO_DATE(N.START_DATE,'YYYY-MM-DD') AND TO_DATE(N.END_DATE,'YYYY-MM-DD')
+		)R
+		WHERE R.WRITER_NAME = '관리소장' OR R.WRITER_NAME= #{dongNum}
+	</select>
+	
+	<!-- 노티스캘린더모든일정 -->
+	<select id="getAllNoticeCalByDong" resultType="com.hp.app.calendar.vo.AllCalendarVo">
+		SELECT
+			A.NAME AS WRITER_NAME
+		    ,N.START_DATE
+		    ,N.END_DATE
+		    ,N.NAME
+		FROM NOTICE_CALENDAR N 
+		JOIN ADMIN A ON (N.WRITER_NO = A.NO)
+		WHERE A.NAME = '관리소장' OR A.NAME= #{dongName}
+	</select>
+	
+	<!-- 멤버개인모든일정 -->
+	<select id="getAllMemberCalByPerson" resultType="com.hp.app.calendar.vo.AllCalendarVo">
+		SELECT
+			M.NAME AS WRITER_NAME
+		    ,N.START_DATE
+		    ,N.END_DATE
+		    ,N.NAME
+		FROM MEMBER_CALENDAR N
+		JOIN MEMBER M ON(N.WRITER_NO = M.NO)
+		WHERE WRITER_NO =#{memberNo}
+	</select>
 </mapper>

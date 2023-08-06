@@ -45,16 +45,14 @@
          
     }
     .middle-text-size {
-        font-size: 17px;
+        font-size: 19px;
+        font-weight: 600;
     }
     .cursor {
         cursor: pointer;
     }
     #schedule-area1 {
         margin: 10px;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: auto;
         padding: 10px;
         background-color: white;
         border-radius: 10px;
@@ -179,6 +177,12 @@
     #modal-content > div:nth-child(2){
         margin-left: 13.53px;
     }
+    .small-text-size {
+        font-size: 15px;
+    }
+    .cal-margin-right {
+        margin-right: 10px;
+    }
 </style>
 </head>
 <body>
@@ -200,12 +204,12 @@
                 <h1><span id="clickDate"></span>의 일정 <button id="scheduler-btn">일정짜기</button></h1>
                 <div class="calendar-text-bold">아파트일정</div>
                 <div id="schedule-area1">
-                    <c:forEach var="i" begin="1" end="4">
+                    <!-- <c:forEach var="i" begin="1" end="4">
                         <div>
                             <span id="star" class="star-font-size color-gold cursor">⭐</span>   
                             <span class="middle-text-size">아파트 리모델링 예정</span>
                         </div>
-                    </c:forEach> 
+                    </c:forEach>  -->
                 </div>
                 <div class="calendar-text-bold">개인일정</div>
                 <div id="schedule-area2">
@@ -280,7 +284,7 @@
     function dateFormat(date) {
         let dateFormat2 = date.getFullYear() +
             '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
-            '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) )
+            '-' + ( (date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()) )
             +'('+getDayOfWeek(date)+')';
         return dateFormat2;
     }	
@@ -307,16 +311,88 @@
             ,selectable: true
             ,selecMirro : true
             ,dateClick : function(info) {
-                alert(info.dateStr);
                 clickDate.innerHTML=dateFormat(new Date(info.dateStr));
+                //클릭하면 ajax로 서버와 통신하여 json형식의 data받아오기
+                //일단 ajax가 잘되는지 부터 보자
+                $.ajax({
+                    url : "/app/calendar/apart-schedule",
+                    type : "post",
+                    data : {
+                        selectedDate : dateFormat(new Date(info.dateStr)),
+                    },
+                    dataType : 'json',
+                    success : function(data){
+                        console.log(data);
+                        const AdminArea = document.querySelector("#schedule-area1");
+                        let str ="";
+                       for(let i=0;i<data.length;i++){
+                            str+="<div><span id='star' class='star-font-size color-gold cursor'>⭐</span>";
+                            str+="<span class='middle-text-size cal-margin-right'>"+data[i].name+"</span>";
+                            str+="<span class='small-text-size cal-margin-right'>";
+                            //시작날짜와 끝날짜가 같으면 
+                            if(data[i].startDate==data[i].endDate){
+                                str+=data[i].startDate;
+                            }else {
+                                str+=data[i].startDate+"~"+data[i].endDate;
+                            }
+                            str+="</span>"
+                            str+="<span class='small-text-size cal-margin-right'>"+data[i].writerName+"<span>";
+                            str+="</div>"
+                       }
+                       AdminArea.innerHTML=str;
+
+                    },
+                    error : function(e){
+                        console.log("이잉에러");
+                    },
+                });
+
             }
-            ,events : [
-                {
-                    title : '안녕',
-                    start : '2023-08-05',
-                    end : '2023-08-10'
-                }
-            ]
+            ,events : function(info, successCallback,failureCallback) {
+                $.ajax({
+                    type : 'post'
+                    ,cache : false
+                    ,url : '/app/calendar/represent-schedule'
+                    ,dataType : 'json'
+                    ,contentType : "application/x-www-form-urlencoded; charset=UTF-8"
+                    ,success : function(param){
+                        var events = [];
+                        $.each(param,function (intdex, data) {
+                            if(data.writerName == '관리소장'){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : 'red'
+                                });
+                            }else if(data.writerName =="동대표"){
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : 'pink'
+                                });
+                            }else {
+                                events.push({
+                                    title : data.name,
+                                    start : data.startDate,
+                                    end : data.endDate,
+                                    color : 'blue'
+                                });
+                            }
+                        })
+                        successCallback(events);
+                       
+                    }
+                    ,error : function(e){
+                        console.log(e);
+                    }
+
+
+                });                
+            }
+            
+
 
         });
         calendar.render();
@@ -335,11 +411,12 @@
     //X아이콘
     let quitBtn = document.querySelector(".quit-btn");
 
+    //모달창 
     schedulerBtn.addEventListener("click",function(){
         modal.style.display = "block";
         main.classList.add("modal-background");
     });
-
+    //모달 닫기
     quitBtn.addEventListener("click",function(){
         modal.style.display="none";
         main.classList.remove("modal-background");
