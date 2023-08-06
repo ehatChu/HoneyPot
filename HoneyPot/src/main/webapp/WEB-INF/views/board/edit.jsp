@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 작성</title>
+<title>게시글 수정</title>
 <style>
     .write-area {
         width: 1440px;
@@ -25,7 +25,7 @@
 
     .title-area { margin-bottom: 20px; }
 
-    #category {
+    /* #category {
         margin-top: 10px;
         width: 150px;
 		height: 50px;
@@ -35,7 +35,7 @@
         outline: none;
         font-size: 18px;
 		font-family: 'Noto Sans KR';
-    }
+    } */
 
     #title {
         margin-top: 10px;
@@ -91,28 +91,33 @@
 
         <!-- 게시글 작성란 -->
         <div class="write-area">
-            <div id="page-title">게시글 작성</div>
+            <div id="page-title">게시글 수정</div>
 
             <br>
 
             <div class="form-area">
-                <form action="/app/board/write" method="post" enctype="multipart/form-data">
-                    
+                <form action="/app/board/edit?no=${vo.no}" method="post" enctype="multipart/form-data">
+
                     <input type="text" style="display: none;" name="imgList" value="">
-                    
+
                     <div class="title-area">
                         <span id="article">제목</span>
                         
                         <div>
                             <!-- 카테고리 -->
-                            <select id="category" name="boardCno">
+                            <!-- <select id="category" name="boardCno">
                                 <option value="" selected>--카테고리--</option>
                                 <c:forEach items="${cvo}" var="cvo">
-                                    <option value="${cvo.no}">${cvo.name}</option>
+                                    <c:if test="${vo.boardCno == cvo.no}">
+                                        <option value="${cvo.no}" selected>${cvo.name}</option>
+                                    </c:if>
+                                    <c:if test="${vo.boardCno != cvo.no}">
+                                        <option value="${cvo.no}">${cvo.name}</option>
+                                    </c:if>
                                 </c:forEach>
-                            </select>
+                            </select> -->
     
-                            <input type="text" id="title" name="title" placeholder="제목을 입력해주세요.">
+                            <input type="text" id="title" name="title" placeholder="${vo.title}">
                         </div>
                     </div>
 
@@ -123,7 +128,7 @@
                         <div class="write-content"><textarea id="summernote" name="content"></textarea></div>
                     </div>
 
-                    <div class="write-submit-area"><input class="write-submit" type="submit" value="글쓰기"></div>
+                    <div class="write-submit-area"><input class="write-submit" type="submit" value="수정하기"></div>
 
                 </form>
             </div>
@@ -145,15 +150,15 @@
 
     //서머노트
     $('#summernote').summernote({
-        placeholder: '내용을 입력해주세요.',
+        // placeholder: '내용을 입력해주세요.',
         tabsize: 2,
         height: 300,
         maxHeight: 300,
         minHeight: 300,
         width: 1200,
-        callbacks : {
-          onImageUpload : f01
-        },
+        // callbacks : {
+        //   onImageUpload : f01
+        // },
         toolbar: [
             ['style', ['style']],
             ['font', ['bold', 'underline', 'clear']],
@@ -165,40 +170,43 @@
         ]
     });
 
+    // 서머노트에 글 내용 추가
+    $("#summernote").summernote('code', '${vo.content}');
+
     //파일업로드 발생 시 동작하는 콜백함수
-    let totalImgList = [];
-    function f01(fileList){
-        const fd = new FormData();
-        for(let file of fileList){
-            fd.append("f" , file);
-        }
+    // let totalImgList = [];
+    // function f01(fileList){
+    //     const fd = new FormData();
+    //     for(let file of fileList){
+    //         fd.append("f" , file);
+    //     }
 
-        $.ajax({
-            url : '/app/board/upload' ,
-            type : 'post' ,
-            data : fd ,
-            processData : false ,
-            contentType : false ,
-            dataType : 'json' ,
-            success : function(changeNameList){
-                console.log(totalImgList);
-                console.log(changeNameList);
+    //     $.ajax({
+    //         url : '/app/board/upload' ,
+    //         type : 'post' ,
+    //         data : fd ,
+    //         processData : false ,
+    //         contentType : false ,
+    //         dataType : 'json' ,
+    //         success : function(changeNameList){
+    //             console.log(totalImgList);
+    //             console.log(changeNameList);
 
-                for (let c of changeNameList) {
-                    totalImgList.push(c);
-                }
+    //             for (let c of changeNameList) {
+    //                 totalImgList.push(c);
+    //             }
 
-                const imgList = document.querySelector('input[name=imgList]');
-                imgList.value = totalImgList;
-                for(let changeName of changeNameList){
-                $('#summernote').summernote('insertImage' , '/app/resources/board/' + changeName);
-                }
-            } ,
-            error : function(error){
-                console.log(error);
-            } ,
-        });
-    }
+    //             const imgList = document.querySelector('input[name=imgList]');
+    //             imgList.value = totalImgList;
+    //             for(let changeName of changeNameList){
+    //             $('#summernote').summernote('insertImage' , '/app/resources/board/' + changeName);
+    //             }
+    //         } ,
+    //         error : function(error){
+    //             console.log(error);
+    //         } ,
+    //     });
+    // }
 
 
 </script>

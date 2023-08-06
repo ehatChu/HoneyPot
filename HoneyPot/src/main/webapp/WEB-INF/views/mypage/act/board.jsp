@@ -18,26 +18,9 @@
 		border-radius: 20px;
 	}
 
-	/* 정렬타입 */
-	.sort-type-area {
-		align-items: center;
-		justify-content: center;
-		text-align: right;
-		font-weight: bold;
-	}
-
-	select[name=sortType]{
-		border: none;
-		outline: none;
-		margin-top: 25px;
-		margin-right: 30px;
-		font-size: 18px;
-		font-weight: bold;
-	}
-
 	/* 목록 */
 	table {
-		margin: 30px;
+		margin: 45px 30px 30px;
 		border-collapse: collapse;
 		font-size: 18px;
 		width: 1350px;
@@ -57,8 +40,8 @@
 	}
 
 	#board-list td[id=title] {
-		width: 700px;
-		max-width: 700px;
+		width: 650px;
+		max-width: 650px;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -91,9 +74,15 @@
 		background-color: transparent;
 	}
 
-	.page-area button:hover{
+	.page-area button:hover, #current-page-btn {
 		background-color: #FAD355;
 		color: white;
+	}
+
+	#current-page-btn:hover {
+		background-color: #FAD355;
+		color: white;
+		cursor: default;
 	}
 
 </style>
@@ -112,47 +101,45 @@
 
 				<div class="board-list-area">
 					<table id="board-list">
-						<c:forEach begin="1" end="10">
-							<tr>
-								<td id="title">제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ</td>
-								<td>2023.01.01 15:49</td>
-								<td><i class="fa-solid fa-heart"></i>좋아요</td>
-								<td><i class="fa-solid fa-eye"></i>조회수</td>
+						<c:forEach items="${voList}" var="vo">
+							<tr id="${vo.no}">
+								<td id="title">${vo.title}</td>
+								<td>${vo.boardCname}</td>
+								<td>${vo.enrollDate}</td>
+								<td><i class="fa-solid fa-heart"></i> &nbsp; ${vo.loveCnt}</td>
+								<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
 		
 				<div class="page-area">
-					<button><</button>
+					<!-- <button><</button>
 					<button>1</button>
 					<button>2</button>
 					<button>3</button>
 					<button>4</button>
 					<button>5</button>
-					<button>></button>
-					<!-- <c:if test="${pv.currentPage > 1}">
-						<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">이전</a>
+					<button>></button> -->
+
+					<c:if test="${pv.currentPage > 1}">
+						<button type="button" onclick="location.href='/app/mypage/act/board?p=${pv.currentPage - 1}'"> < </button>
 					</c:if>
-						<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
-							<c:if test="${pv.currentPage != i}">
-								<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">${i}</a>
-							</c:if>
-							<c:if test="${pv.currentPage == i}">
-								<a class="btn btn-primary btn-sm">${i}</a>
-							</c:if>
-						</c:forEach>
+					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+						<c:if test="${pv.currentPage != i}">
+							<button type="button" onclick="location.href='/app/mypage/act/board?p=${i}'">${i}</button>
+						</c:if>
+						<c:if test="${pv.currentPage == i}">
+							<button type="button" id="current-page-btn">${i}</button>
+						</c:if>
+					</c:forEach>
 					<c:if test="${pv.currentPage < pv.maxPage}">
-						<a class="btn btn-primary btn-sm" href="${root}/board/list?page=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}">다음</a>
-					</c:if> -->
+						<button type="button" onclick="location.href='/app/mypage/act/board?p=${pv.currentPage + 1}'"> > </button>
+					</c:if>
 				</div>
 	
 			</div>
 		</div>
-
-
-
-
 
 	</main>
 
@@ -163,5 +150,19 @@
     basicSetting(); // 기본 셋팅
     headerName('마이페이지'); // 현재 페이지 이름
     firstNav(['내정보', '나의활동', '신청내역','관리비'], '나의활동'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	firstNavLink(['', '/app/mypage/act/board', '', '/app/fee/member']);
     secondNav(['내게시글', '내댓글', '좋아요', '상벌점내역'], '내게시글'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+	secondNavLink(['/app/mypage/act/board', '/app/mypage/act/reply', '/app/mypage/act/like', '']);
+
+
+   	// 목록 클릭하여 글번호 얻기
+	const trArray = document.querySelectorAll("tr");
+	trArray.forEach(getNo);
+	
+	function getNo(tr) {
+		tr.addEventListener('click', function() {
+			const no = tr.getAttribute('id');
+			location.href = '/app/board/detail?no=' + no;
+		});
+	};
 </script>

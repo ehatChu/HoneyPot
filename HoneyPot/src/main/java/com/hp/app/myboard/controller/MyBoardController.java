@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hp.app.board.vo.BoardVo;
+import com.hp.app.board.vo.ReplyVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.myboard.service.MyboardService;
 import com.hp.app.page.vo.PageVo;
@@ -35,8 +36,6 @@ public class MyBoardController {
 //				return "redirect:/"
 //			}
 //			String writerNo = loginMember.getNo();
-			
-			
 			String writerNo = "2"; //임시
 			
 			int listCount = service.countMyPost(writerNo);
@@ -59,14 +58,65 @@ public class MyBoardController {
 	
 	//내 댓글
 	@GetMapping("mypage/act/reply")
-	public String getMyReply() {
+	public String getMyReply(@RequestParam(defaultValue="1") String p, Model model, HttpSession session) {
+		
+		try {
+			
+//			MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+//			if(loginAdmin == null) {
+//				return "redirect:/"
+//			}
+//			String writerNo = loginMember.getNo();
+			String writerNo = "2"; //임시
+			
+			int listCount = service.countMyReply(writerNo);
+			int currentPage = Integer.parseInt(p);
+			int pageLimit = 5;
+			int boardLimit = 8;
+			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+			List<ReplyVo> voList = service.getMyReply(pv, writerNo);
+			
+			model.addAttribute("voList", voList);
+			model.addAttribute("pv", pv);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "mypage/act/reply";
 	}
 	
 	//좋아요한 글
 	@GetMapping("mypage/act/like")
-	public String getMyLove() {
+	public String getMyLove(@RequestParam(defaultValue="1") String p, Model model, HttpSession session) {
+		
+		try {
+			
+			
+//			MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+//			if(loginAdmin == null) {
+//				return "redirect:/"
+//			}
+//			String writerNo = loginMember.getNo();
+			String memberNo = "2"; //임시
+			
+			int listCount = service.countMyLove(memberNo);
+			int currentPage = Integer.parseInt(p);
+			int pageLimit = 5;
+			int boardLimit = 8;
+			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+			List<BoardVo> voList = service.getMyLove(pv, memberNo);
+			
+			model.addAttribute("voList", voList);
+			model.addAttribute("pv", pv);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return "mypage/act/like";
 	}
+	
 
 }

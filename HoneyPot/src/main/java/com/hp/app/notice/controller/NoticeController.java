@@ -140,7 +140,7 @@ public class NoticeController {
 
 	// 공지사항 상세조회
 	@GetMapping("notice/detail")
-	public String viewDetail(Model model, String no) {
+	public String viewDetail(@RequestParam(defaultValue="1")String no, Model model) {
 		
 		try {
 			

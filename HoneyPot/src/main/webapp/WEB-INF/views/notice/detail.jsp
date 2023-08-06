@@ -46,19 +46,8 @@
 		text-align: left;
 	}
 
-
 	#detail-title td:not(:first-of-type) { text-align: right;}
 
-
-	/* 본문 */
-	/* #detail-content {
-		width: 100%;
-		resize: none;
-		padding: 50px;
-		border: none;
-		outline: none;
-		overflow-y: hidden;
-	} */
 	#detail-content {
 		margin: 100px;
 		padding-bottom: 100px;
@@ -109,7 +98,7 @@
 				<div class="detail-title-area">
 					<table id="detail-title">
 						<tr>
-							<td id="title">${vo.fullName}</td>
+							<td id="title">${vo.fullname}</td>
 							<td id="writer">${vo.writerName}</td>
 							<td>${vo.enrollDate}</td>
 							<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>
@@ -132,7 +121,7 @@
 		<!-- 버튼 -->
 		<div class="btn-area">
 			<div id="btn-box">
-				<button type="button" id="post-report-btn" onclick="location.href=''">신고</button>
+				<!-- <button type="button" id="post-report-btn" onclick="window.history.back()">목록으로</button> -->
 				<button type="button" id="post-edit-btn" onclick="location.href='/app/notice/edit?no=${vo.no}'">수정</button>
 				<button type="button" id="post-del-btn" onclick="location.href='/app/notice/delete?no=${vo.no}'">삭제</button>
 			</div>
@@ -148,11 +137,5 @@
 	headerName('게시판'); // 현재 페이지 이름
 	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판'], '공지 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 	firstNavLink(['/app/notice/list', '/app/board/free', '/app/board/market', '/app/board/noname', '/app/board/praise',]);
-
-	// textarea 높이 자동 조절
-	// window.addEventListener('DOMContentLoaded', function() {
-	// 	const textarea = document.querySelector('#detail-content');
-	// 	textarea.style.height = textarea.scrollHeight + 'px';
-	// });
 
 </script>

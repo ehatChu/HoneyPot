@@ -52,7 +52,7 @@
 		
 		<choose>
 			<when test="sortType == 'date'">
-				ORDER BY B.ENROLL_DATE DESC
+				ORDER BY B.ENROLL_DATE DESC, B.NO DESC
 			</when>
 			<when test="sortType == 'hit'">
 				ORDER BY HIT DESC, B.NO DESC
@@ -64,7 +64,6 @@
 				ORDER BY B.NO DESC
 			</otherwise>
 		</choose>
-
 	</select>	
 
 
@@ -75,6 +74,7 @@
 		    BOARD B
 		    JOIN BOARD_CATEGORY C ON B.BOARD_CNO = C.NO
 		    JOIN BOARD_STATUS S ON B.BOARD_STATUS_NO = S.NO
+		    JOIN MEMBER M ON B.WRITER_NO = M.NO
    		WHERE S.NO != 5
 			AND C.NO = #{cno}
    		
@@ -132,7 +132,7 @@
 		SET HIT = HIT +1
         WHERE NO = #{no}
 	</update>
-	
+		
 	
 	<!-- 댓글 작성 -->
 	<insert id="writeReply">
@@ -259,6 +259,27 @@
 		    ,#{name}
 		)
 	</insert>
+	
+	<!-- 글 수정 -->
+	<update id="edit">
+		UPDATE BOARD
+			SET
+			    TITLE = #{title}
+			    ,CONTENT = #{content}
+			    ,MODIFY_DATE = SYSDATE
+			WHERE NO = #{no} 
+			AND WRITER_NO = #{writerNo} 
+			AND BOARD_STATUS_NO != 5
+	</update>
+	
+	<!-- 글 삭제 -->
+	<delete id="delete">
+		UPDATE BOARD 
+			SET BOARD_STATUS_NO = 5
+		WHERE NO = #{no} 
+		AND WRITER_NO = #{writerNo} 
+		AND BOARD_STATUS_NO != 5
+	</delete>
 	
 	
 </mapper>

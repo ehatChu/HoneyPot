@@ -110,14 +110,19 @@
 		align-items: center;
 	}
 
-	#important-list td, #board-list td {
+	.important {
+		background-color: #ffae00;
+		font-weight: bold;
+	}
+
+	#board-list td {
 		padding: 12px 50px;
 		margin-bottom: 20px;
 		border-bottom: 3px solid #FAD355;
 		text-align: left;
 	}
 
-	#important-list td, #board-list td[id=title] {
+	#board-list td[id=title] {
 		width: 700px;
 		max-width: 700px;
 		white-space: nowrap;
@@ -125,9 +130,9 @@
 		text-overflow: ellipsis;
 	}
 
-	#important-list td:not(:first-of-type), #board-list td:not(:first-of-type) { padding-right: 20px; }
+	#board-list td:not(:first-of-type) { padding-right: 20px; }
 
-	#important-list tr:hover, #board-list tr:hover {
+	#board-list tr:hover {
 		background-color: #fdeaab;
 		transition: 0.3s;
 		cursor: pointer;
@@ -229,7 +234,7 @@
 						<c:forEach items="${voList}" var="vo">
 							<c:if test="${vo.importantYn == 'Y'}">
 								<tr>
-									<td id="important-title">${vo.fullName}</td>
+									<td id="important-title">${vo.fullname}</td>
 									<td id="important-writer">${vo.writerName}</td>
 									<td>${vo.enrollDate}</td>
 									<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
@@ -242,12 +247,24 @@
 					<div class="board-list-area">
 						<table id="board-list">
 							<c:forEach items="${voList}" var="vo">
-								<tr id="${vo.no}">
-									<td id="title">${vo.fullName}</td>
+
+								<c:choose>
+									<c:when test="${vo.importantYn == 'Y'}">
+										<tr class="important" id="${vo.no}">
+											<td id="title">[중요] ${vo.fullname}</td>
+									</c:when>
+
+									<c:otherwise>
+										<tr id="${vo.no}">
+											<td id="title">${vo.fullname}</td>
+									</c:otherwise>
+								</c:choose>
+
 									<td id="writer">${vo.writerName}</td>
 									<td>${vo.enrollDate}</td>
 									<td><i class="fa-solid fa-eye"></i>&nbsp;${vo.hit}</td>
 								</tr>
+
 							</c:forEach>
 						</table>
 					</div>

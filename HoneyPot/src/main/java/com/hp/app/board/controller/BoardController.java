@@ -2,6 +2,7 @@ package com.hp.app.board.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -137,9 +138,6 @@ public class BoardController {
 			model.addAttribute("pv", pv);
 			model.addAttribute("searchVo", searchVo);
 			
-			
-			
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -176,14 +174,16 @@ public class BoardController {
 			}
 			
 			
-			//이미지 db 저장 후 가져오기
-			BoardImgVo ivo = new BoardImgVo();
+			//썸네일 db 저장
 			System.out.println(imgList);
-			String[] arr = imgList.split(",");
+			BoardImgVo ivo = new BoardImgVo();
 			
-			ivo.setName(arr[0]);
-			int imgResult = service.insertImgToDb(ivo);
-			System.out.println("이미지 저장 결과 : " + imgResult);
+			if (imgList != null && !"".equals(imgList)) {
+				String[] arr = imgList.split(",");
+				ivo.setName(arr[0]);
+				int imgResult = service.insertImgToDb(ivo);
+				System.out.println("이미지 저장 결과 : " + imgResult);
+			}
 					
 //			for (String s : arr) {
 //				System.out.println("배열에 담은 사진 : " + s);
@@ -194,10 +194,6 @@ public class BoardController {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		System.out.println("vo세팅");
-		System.out.println(vo.getBoardCno());
 		
 		session.setAttribute("alert", "게시글 작성 성공!");
 		
@@ -234,10 +230,94 @@ public class BoardController {
 		
 		return imgList;
     }
+    
+    
+    //게시글 수정(화면)
+    @GetMapping("board/edit")
+    public String edit(HttpSession session, Model model, String no) {
+    	
+		List<BoardCategoryVo> cvo = service.getCategory();
+		BoardVo vo = service.viewDetail(no);
+		model.addAttribute("cvo", cvo);
+		model.addAttribute("vo", vo);
+		if(no == null || "".equals(no) || "0".equals(no)) {
+			session.setAttribute("alert", "잘못된 접근입니다.");
+			return "redirect:/board/free";
+		}
+    	
+    	return "board/edit";
+    }
+    
+	//게시글 수정
+	@PostMapping("board/edit")
+	public String edit(HttpSession session, BoardVo vo) {
+		
+		try {
+			
+			vo.setWriterNo("2");
+			int result = service.edit(vo);
+			if(result != 1) {
+				session.setAttribute("alertMsg", "게시글 수정 실패...");
+				return "redirect:/board/detail?no=" + vo.getNo();
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		session.setAttribute("alertMsg", "게시글 수정 성공!");
+		return "redirect:/board/detail?no=" + vo.getNo();
+	}
+	
+	//게시글 삭제
+	@GetMapping("board/delete")
+	public String delete(HttpSession session, String no) {
+		
+		//리턴값 카테고리 위해 vo 생성
+		BoardVo vo = service.viewDetail(no);
+		
+		try {
+			
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+//			if (loginAdmin == null) {
+//				session.setAttribute("alertMsg", "게시글 삭제 실패...");
+//				return "redirect:/main/amain";
+//			}
+			
+			//String writerNo = loginAdmin.getNo();
+			String writerNo = "2";
+			
+			Map<String, String> noMap = new HashMap<>();
+			noMap.put("writerNo", writerNo);
+			noMap.put("no", no);
+			
+			int result = service.delete(noMap);
+			if(result != 1) {
+				session.setAttribute("alertMsg", "게시글 삭제 실패...");
+				return "redirect:/board/detail?no=" + no;
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		session.setAttribute("alertMsg", "게시글 삭제 성공 !");
+		
+		if ("2".equals( vo.getBoardCno() )) {
+			return "redirect:/board/market";
+		}else if ("3".equals( vo.getBoardCno() )) {
+			return "redirect:/board/noname";
+		}else if ("4".equals( vo.getBoardCno() )) {
+			return "redirect:/board/praise";
+		}else {
+			return "redirect:/board/free";
+		}
+		
+	}
+  
 	
 	// 게시글 상세 조회
 	@GetMapping("board/detail")
-	public String viewDetail(Model model, String no) {
+	public String viewDetail(@RequestParam(defaultValue="1")String no, Model model) {
 		
 		try {
 			BoardVo vo = service.viewDetail(no);
@@ -249,6 +329,7 @@ public class BoardController {
 		return "board/detail";
 	}
 	
+
 	//댓글 작성
 	@PostMapping("reply/write")
 	@ResponseBody
@@ -263,7 +344,7 @@ public class BoardController {
 		
 		int result = service.writeReply(rvo);
 		
-		if(result < 0) {
+		if(result <= 0) {
 			return "fail";
 		}
 		
@@ -285,7 +366,7 @@ public class BoardController {
 		
 		int result = service.editReply(rvo);
 		
-		if(result < 0) {
+		if(result <= 0) {
 			return "fail";
 		}
 		
@@ -304,7 +385,7 @@ public class BoardController {
 			
 			int result = service.deleteReply(rvo);
 			
-			if(result < 0) {
+			if(result <= 0) {
 				return "fail";
 			}
 			
@@ -325,8 +406,6 @@ public class BoardController {
 		
 		List<ReplyVo> rvoList = service.getReplyList(boardNo);
 		
-		System.out.println(rvoList);
-		
 //		if(rvoList == null) {
 //			return "fail";
 //		}
@@ -343,7 +422,7 @@ public class BoardController {
 	@GetMapping("love")
 	@ResponseBody
 	public int clickLove(LoveVo lvo) {
-
+		
 		//좋아요 여부
 		int loveYn = service.checkLoveYn(lvo);
 		

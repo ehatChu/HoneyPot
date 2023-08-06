@@ -292,9 +292,9 @@
 
                         <!-- 중요여부 체크박스 -->
                         <span id="importantYn">
-                            <input type="checkbox" name="importantYn" value="Y"> 중요
-                            <!-- <input type="hidden" name="importantYn" value="N" id="hiddenImportantYn"> -->
+                            <input type="checkbox" name="importantYn" value="Y"> 상단고정
                         </span>
+                        <!-- <input type="hidden" name="importantYn" value="N" id="hiddenImportantYn"> -->
                         
                         <div>
                             <!-- 카테고리 -->
@@ -511,5 +511,19 @@
     //투표 삽입
     const textarea = document.querySelector('#summernote');
     textarea.innerHTML = '';
+
+
+    //상단고정 여부 값 전달
+    const form = document.querySelector("form");
+    form.addEventListener("submit",function(){
+        const importantYn = document.querySelector("input[name=importantYn]");
+        if (importantYn.checked) {
+            importantYn.value = 'Y';
+            console.log(importantYn.value);
+        }else {
+            importantYn.value = 'N';
+            console.log(importantYn.value);
+        }
+    })
 
 </script>
