@@ -29,12 +29,6 @@
 				padding: 5px;
 			}
 
-			#centerAddr {
-				display: block;
-				margin-top: 2px;
-				font-weight: normal;
-			}
-
 			.bAddr {
 				padding: 5px;
 				text-overflow: ellipsis;
@@ -115,6 +109,140 @@
 				font-size: 11px;
 				margin-top: 0;
 			}
+
+			
+			#modal {
+				z-index: 10000;
+				height: 666px;
+				width: 1200px;
+				background-color: white;
+				border-radius: 10px;
+			}
+
+			.visible {
+				display: block;
+			}
+
+			.hidden {
+				display: none;
+			}
+
+			.main-box {
+				position: fixed;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				background-color: rgba(172, 172, 172, 0.491);
+			}
+
+			/* 오른쪽에 나가기버튼 */
+			.quit-btn {
+				float: right;
+			}
+
+			.content {
+				display: grid;
+				grid-template-columns: 0.7fr 1fr;
+			}
+
+			#store-name {
+				font-size: 25px;
+				font-weight: 600;
+			}
+
+			#total-star {
+				font-size: 35px;
+				font-weight: 600;
+			}
+
+			/* 리뷰남기기버튼 */
+			.right-btn {
+				float: right;
+				background-color: #FFD601;
+				border-radius: 5px;
+				border: none;
+				padding: 10px;
+				margin-right: 10px;
+			}
+
+			#store-kind {
+				margin-top: 5px;
+			}
+
+			#facility-info-area {
+				padding: 10px;
+			}
+
+			.review-profile-area {
+				display: flex;
+				justify-content: center;
+			}
+
+			.review-profile-area>div {
+				margin-right: 3px;
+				margin-top: 5px;
+				width: 50px;
+				height: 50px;
+				border-radius: 70%;
+				background-color: lightgray;
+			}
+
+			.review {
+				margin-top: 20px;
+				display: grid;
+				grid-template-columns: 1fr 9fr;
+			}
+
+			.font-color-gray {
+				color: #7D7D7D;
+				font-weight: 300;
+			}
+
+			#review-box {
+				margin-top: 20px;
+				overflow: auto;
+				height: 500px;
+			}
+
+			.star-big-size {
+				font-size: 50px;
+			}
+
+			#facility-img-area {
+				margin-top: 40px;
+				font-size: 20px;
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+
+			.font-bold {
+				font-weight: 800;
+			}
+
+			#review-text {
+				margin-top: 10px;
+				resize: none;
+				font-size: 20px;
+				background-color: #ECECEC;
+				border: none;
+				padding: 28px;
+				border-radius: 20px;
+				outline: none;
+				height: 400px;
+			}
+
+			.review-content {
+				outline: none;
+				box-sizing: border-box;
+				resize: none;
+				width: 400px;
+				height: 70px;
+				font-family: 'Noto Sans KR';
+				font-size: 16px;
+				border: none;
+				font-weight: 300;
+			}
 		</style>
 	</head>
 
@@ -127,10 +255,6 @@
 			<main>
 				<div class="map_wrap">
 					<div id="map" style="width:1560px;height:892px;"></div>
-					<div class="hAddr">
-						<span class="title">지도중심기준 행정동 주소정보</span>
-						<span id="centerAddr"></span>
-					</div>
 				</div>
 			</main>
 
@@ -186,8 +310,6 @@
 			}
 		}
 
-		// 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
-		var infowindow = new kakao.maps.InfoWindow({ zindex: 1 });
 
 		// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
 		kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
@@ -209,30 +331,6 @@
 			}
 		}
 
-		// 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
-		function displayPlaceInfo(place) {
-			var content = '<div class="placeinfo">' +
-				'<a class="title" target="_blank" title="' + place.place_name + '">' + place.place_name + '</a>';
-			if (place.road_address_name) {
-				content += '<span title="' + place.road_address_name + '">' + place.road_address_name + '</span>' +
-					'<span class="jibun" title="' + place.address_name + '">(지번 : ' + place.address_name + ')</span>';
-			} else {
-				content += '<span title="' + place.address_name + '">' + place.address_name + '</span>';
-			}
-			content += '<span class="tel">' + place.phone + '&nbsp;&nbsp;&nbsp; <button onclick="writeReview(\'' + place.address_name +'\');">리뷰 작성</button></span></span>'
-				+ '</div>'
-				+ '<div class="after"></div>';
-			contentNode.innerHTML = content;
-			placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
-			placeOverlay.setMap(map);
-			enrollFacility(place);
-		}
-
-		// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-		kakao.maps.event.addListener(map, 'idle', function () {
-			searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-		});
-
 		function searchAddrFromCoords(coords, callback) {
 			// 좌표로 행정동 주소 정보를 요청합니다
 			geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
@@ -243,37 +341,22 @@
 			geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
 		}
 
-		// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
-		function displayCenterInfo(result, status) {
-			if (status === kakao.maps.services.Status.OK) {
-				var infoDiv = document.getElementById('centerAddr');
-
-				for (var i = 0; i < result.length; i++) {
-					// 행정동의 region_type 값은 'H' 이므로
-					if (result[i].region_type === 'H') {
-						infoDiv.innerHTML = result[i].address_name;
-						break;
-					}
-				}
-			}
-		}
-
 		// 리뷰 작성
 		function writeReview(addressName) {
-			console.log(addressName);
-			const content = prompt('리뷰를 작성해주세요');
-			const score = prompt('점수를 작성해주세요(1~5)');
+			const content = document.querySelector("textarea[name=review-content]");
+
 			$.ajax({
 				url: '/app/around/write',
 				type: 'get',
 				data: {
 					"addressName": addressName,
-					"content": content,
-					"score": score
+					"content": content.value,
+					"score": submitScore
 				},
 				success: function (data) {
 					if (data == 'success') {
 						console.log("시설 등록 완료");
+						location.reload();
 					} else {
 						console.log("시설 등록 실패");
 					}
@@ -308,8 +391,86 @@
 				}
 			});
 		}
+
+		// 모달 닫기
+		function closeModal() {
+			const modal = document.querySelector("#modal");
+			modal.classList.add("hidden");
+			map.setZoomable(true);
+		}
+
+		// scoreStar
+		let submitScore = 5;
+		function scoreStar(score) {
+			submitScore = score;
+			for (let i = 1; i <= score; i++) {
+				const scoreStar = document.querySelector("#scoreStar" + (i));
+				scoreStar.innerHTML = '<i class="fa-solid fa-star" style="color: #ffc800;"></i>';
+			}
+
+			for (let i = score; i < 5; i++) {
+				const scoreStar = document.querySelector("#scoreStar" + (i + 1));
+				scoreStar.innerHTML = '<i class="fa-solid fa-star" style="color: #ababab;"></i>';
+			}
+		}
+
+
+		// 클릭한데 마커 생성
+		function displayPlaceInfo(place) {
+			// var content = '<div class="placeinfo">' +
+			// 	'<a class="title" target="_blank" title="' + place.place_name + '">' + place.place_name + '</a>';
+			// if (place.road_address_name) {
+			// 	content += '<span title="' + place.road_address_name + '">' + place.road_address_name + '</span>' +
+			// 		'<span class="jibun" title="' + place.address_name + '">(지번 : ' + place.address_name + ')</span>';
+			// } else {
+				// content += '<span title="' + place.address_name + '">' + place.address_name + '</span>';
+			// }
+			// content += '<span class="tel">' + place.phone + '&nbsp;&nbsp;&nbsp; <button onclick="writeReview(\'' + place.address_name + '\');">리뷰 작성</button></span></span>'
+			// 	+ '</div>'
+			// 	+ '<div class="after"></div>';
+
+			var coords = new kakao.maps.LatLng(place.y, place.x);
+			// 결과값으로 받은 위치를 마커로 표시합니다
+			var marker = new kakao.maps.Marker({
+				map: map,
+				position: coords,
+				clickable: true
+			});
+
+			// 인포윈도우를 생성합니다
+			var infowindow = new kakao.maps.InfoWindow({
+				position: coords,
+				content: place.place_name
+			});
+			infowindow.open(map, marker);
+
+			kakao.maps.event.addListener(marker, 'click', function () {
+			var content = '<div id="modal" class="modal-overlay"><div class="content">'
+							+ '<div id="facility-img-area">아직 리뷰를 남기지 않으셨네요. <br>'
+							+ '<span class="font-bold">뮈향</span>에 대한 평점과 내용을 솔직하게 남겨주세요.'
+							+ '<div class="star-big-size">⭐⭐⭐⭐⭐</div>'
+							+ '<textarea name="review-content" id="review-text" cols="50" rows="20"></textarea>'
+							+ '<button onclick="writeReview(\'' + place.address_name + '\');" class="right-btn">리뷰 남기기</button></div>'
+							+ '<div id="facility-info-area"><div id="store-info-area">'
+							+ '<span id="store-name">뮈향</span> <span id="total-star">⭐⭐⭐⭐⭐</span><i onclick="closeModal();" class="fa-solid fa-xmark fa-3x quit-btn" style="color: #000000;"></i></div>'
+							+ '<div id="store-kind">시설소개 : <span>분식집</span></div>' 
+							+ '<div id="map-btn-area"><span>연락처 : <span id="phone-num">010-2311-2341</span></span></div>'
+							+ '<div id = "review-box"><c:forEach var="i" begin="1" end="5">'
+							+ '<div class="review"><div class="review-profile-area"><div></div></div>'
+							+ '<div class="review-area"><div class="total-star">⭐⭐⭐⭐⭐</div>'
+							+ '<div class="id-date-report font-color-gray"><span class="review-id">ehatchu0527</span> | <span class="review-date">20.07.12</span><span class="review-report">신고</span> | <span class="review-modify">수정</span> | <span class="review-delete">삭제</span></div>'
+							+ '<textarea class="review-content">리뷰이벤트한다고 했는데 왜 어째서 제게 마약콘치즈를 주시지 않으신건지 해명부탁드립니다. 저번에 리뷰이벤트해서 리뷰잘적은거 같은데 혹시 제가 리뷰한다해놓고 안적었나요?</textarea></div></div></c:forEach></div></div></div></div>';
+				contentNode.innerHTML = content;
+				placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
+				placeOverlay.setMap(map);
+				map.setZoomable(false);
+				map.setLevel(3);
+				enrollFacility(place);
+			});
+		}
 	</script>
 
+	<!-- 디비 데이터 조회 -->
 	<c:forEach items="${aroundList}" var="vo">
 		<script>
 			geocoder.addressSearch('${vo.addressName}', function (result, status) {
@@ -323,28 +484,43 @@
 						clickable: true
 					});
 
+					// 인포윈도우를 생성합니다
+					var infowindow = new kakao.maps.InfoWindow({
+						position: coords,
+						content: '${vo.placeName}'
+					});
+					infowindow.open(map, marker);
+
 					kakao.maps.event.addListener(marker, 'click', function () {
-						var content = '<div class="placeinfo">' +
-							'<a class="title" target="_blank" title="${vo.placeName}">${vo.placeName}</a>';
-						if (true) {
-							content += '<span title="${vo.roadAddressName}">${vo.roadAddressName}</span>' +
-								'<span class="jibun" title="${vo.addressName}">(지번 : ${vo.addressName})</span>';
-						} else {
-							content += '<span title="${vo.addressName}">${vo.addressName}</span>';
-						}
-						content += '<span class="tel">${vo.phone}&nbsp;&nbsp;&nbsp; <button onclick="writeReview(\'${vo.addressName}\');">리뷰 작성</button></span>';
+						var content = '<div id="modal" class="modal-overlay"><div class="content">'
+							+ '<div id="facility-img-area">아직 리뷰를 남기지 않으셨네요. <br>'
+							+ '<span class="font-bold">${vo.placeName}</span>에 대한 평점과 내용을 솔직하게 남겨주세요.'
+							+ '<div class="star-big-size"><span id="scoreStar1" onclick="scoreStar(1)"><i class="fa-solid fa-star" style="color: #ffc800;"></i></span><span id="scoreStar2" onclick="scoreStar(2)"><i class="fa-solid fa-star" style="color: #ffc800;"></i></span><span id="scoreStar3" onclick="scoreStar(3)"><i class="fa-solid fa-star" style="color: #ffc800;"></i></span><span id="scoreStar4" onclick="scoreStar(4)"><i class="fa-solid fa-star" style="color: #ffc800;"></i></span><span id="scoreStar5" onclick="scoreStar(5)"><i class="fa-solid fa-star" style="color: #ffc800;"></i></span></div>'
+							+ '<textarea name="review-content" id="review-text" cols="50" rows="20"></textarea>'
+							+ '<button onclick="writeReview(\'${vo.addressName}\');" class="right-btn">리뷰 남기기</button></div>'
+							+ '<div id="facility-info-area"><div id="store-info-area">'
+							+ '<span id="store-name">${vo.placeName}</span> <span id="total-star">⭐⭐⭐⭐⭐</span><i onclick="closeModal();" class="fa-solid fa-xmark fa-3x quit-btn" style="color: #000000;"></i></div>'
+							+ '<div id="store-kind">주소 : ${vo.roadAddressName} &nbsp;(${vo.addressName})</div>'
+							+ '<div id="map-btn-area"><span>연락처 : <span id="phone-num">${vo.phone}</span></span></div>'
+							+ '<div id="review-box">';
 
 						<c:forEach items="${evaluationList}" var="evalVo">
 							if('${vo.addressName == evalVo.addressName}' == 'true') {
-								content += '<span>${evalVo.name.substring(0, 1)}** : ${evalVo.content} (${evalVo.score}점)</span>';
+								content	+= '<div class="review"><div class="review-profile-area"><div></div></div>'
+									+ '<div class="review-area"><div class="total-star">${"⭐".repeat(evalVo.score)}</div>'
+									+ '<div class="id-date-report font-color-gray"><span class="review-id">${evalVo.name.substring(0, 1)}**</span> | <span class="review-date"></span><span class="review-report">신고</span> | <span class="review-modify">수정</span> | <span class="review-delete">삭제</span></div>'
+									+ '<textarea class="review-content">${evalVo.content}</textarea></div></div>'
 							}
 						</c:forEach>
-
-						content += '</div>'
-							+ '<div class="after"></div>';
+						
+						content += '</div></div></div></div>';
 						contentNode.innerHTML = content;
 						placeOverlay.setPosition(new kakao.maps.LatLng(result[0].y, result[0].x));
 						placeOverlay.setMap(map);
+						map.setZoomable(false);
+						map.setLevel(3);
+						var newCoords = new kakao.maps.LatLng(coords.Ma + 0.0033, coords.La + 0.005);
+    					map.panTo(newCoords);
 					});
 				}
 			});
