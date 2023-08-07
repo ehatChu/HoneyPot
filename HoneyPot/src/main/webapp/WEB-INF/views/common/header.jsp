@@ -331,9 +331,9 @@
 				}
 
 				.alarm-list-time{
-					margin-top: 2px;
-					margin-left: 20px;
-					font-size: 8px;
+					width: 70px;
+					margin-left: 10px;
+					font-size: 6px;
 					font-weight: 800;
 					color: rgb(150, 150, 150);
 				}
@@ -430,6 +430,11 @@
 					width: 230px;
 					object-fit: cover;
 					border-radius: 70%;
+				}
+
+				#admin-delivery-icon{
+					font-size: 30px;
+					cursor: pointer;
 				}
 
 				/* 알람 */
@@ -961,57 +966,28 @@
 							<div id="header-weather">
 								<%@ include file="/WEB-INF/views/data/headerWeather.jsp" %>
 							</div>
+
+							<!-- 회원 배달 아이콘 -->
 							<c:if test="${not empty loginMember}">
 								<div class="header-calling" onclick="showTopAlarm()">
 									<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;" id="alarm-btn">
-										<div style="font-size: 7px; font-weight: 800;">15</div>
+										<div id="alarm-count-area" style="font-size: 7px; font-weight: 800;"></div>
 										<div class="alarm-area ahidden" id="alarm-area">
-											<div class="alarm-list">
-												<div class="alarm-img">
-													<img src="/app/resources/bee/parcel.png" alt="">
-												</div>
-												<div class="alarm-list-content">
-													<div class="alarm-list-text">귀하의 택배가 왔습니다.</div>
-													<div class="alarm-list-time">50분전</div>
-													<span class="material-symbols-outlined" id="close2">
-														close
-													</span>
-												</div>
-											</div>
-											<div class="alarm-list">
-												<div class="alarm-img">
-													<img src="/app/resources/bee/delivery.png" alt="">
-												</div>
-												<div class="alarm-list-content">
-													<div class="alarm-list-text">귀하의 택배가 왔습니다.</div>
-													<div class="alarm-list-time">50분전</div>
-													<span class="material-symbols-outlined" id="close2">
-														close
-													</span>
-												</div>
-											</div>
-											<div class="alarm-list">
-												<div class="alarm-img">
-													<img src="/app/resources/bee/delivery.png" alt="">
-												</div>
-												<div class="alarm-list-content">
-													<div class="alarm-list-text">귀하의 택배가 왔습니다.</div>
-													<div class="alarm-list-time">50분전</div>
-													<span class="material-symbols-outlined" id="close2">
-														close
-													</span>
-												</div>
-											</div>
 	
 										</div>
 									</i>
 								</div>
 
 							</c:if>
-							<c:if test="${not empty loginAdmin}">
-								<button onclick="getMemberList()">배달</button>
 
+							<!-- 관리자 배달 아이콘 -->
+							<c:if test="${not empty loginAdmin}">
+								<span class="material-symbols-outlined" id="admin-delivery-icon" onclick="getMemberList()">
+									local_post_office
+									</span>
 							</c:if>
+
+
 							<div class="header-chatting-icon">
 								<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
 									<div style="font-size: 7px; font-weight: 800;">4</div>
@@ -1044,12 +1020,12 @@
                     </div>
                     <div class="alarm-body-area">
                         <div class="model-alarm-img">
-                            <img src="/app/resources/bee/delivery.png" alt="배달">
+                            <img src="" alt="벌사진" id="alarm-model-img">
                         </div>
                         <div class="model-alarm-content">
-                            <div class="model-alarm-text">홍길동님 배달이 왔습니다.</div>
+                            <div class="model-alarm-text" id="alarm-model-name"></div>
                             <div class="model-alarm-text">경비실에서 찾아가세요</div>
-                            <div class="model-alarm-date">2023-07-04 13시 50분</div>
+                            <div class="model-alarm-date" id="alarm-model-date"></div>
                         </div>
                         <div class="model-alarm-btn">
                             <button id="check-btn">확인</button>
@@ -1087,8 +1063,8 @@
                                 <div class="delivery-content-header">
                                     <div class="delivery-model-title-text">회원목록</div>
                                     <div class="delivery-model-search-box">
-                                        <input type="text">
-                                        <button>검색</button>
+                                        <input type="text" id="delivery-model-input">
+                                        <button onclick="searchMemberList();">검색</button>
                                     </div>
                                 </div>
                             </div>
@@ -1117,9 +1093,6 @@
                     </div>
                 </div>
             </div>
-
-			<button onclick="showBottomAlarm()">알림창 모달바 생성</button>
-
 
 		</body>
 
@@ -1238,16 +1211,17 @@
 			console.log("loginMember : ${loginMember}");
 			console.log("loginAdmin : ${loginAdmin}");
 
+
+
+
 			// 배달 알림 모달 사용
 			const alarmBox = document.querySelector('#alarm-area');
 			// const alarmBtn = document.querySelector('#alarm-btn');
 
-			
-
 			function showTopAlarm(){
 				alarmBox.classList.toggle('ahidden');
 			}
-
+			
 			// 하단 배달 알람 모달 사용
 			function alarmShow () {
 				document.querySelector(".s-alarm-window").className = "s-alarm-window show";
@@ -1260,8 +1234,8 @@
 			document.querySelector("#s-alarm-close").addEventListener('click', alarmClose);
 			document.querySelector("#check-btn").addEventListener('click', alarmClose);
 
-			// 배달 알람 받는 웹소켓 만들기
-			let dsocket = new WebSocket("ws://127.0.0.1:8080/app/delivery");
+			// 하단 배달 알람 받는 웹소켓 만들기
+			let dsocket = new WebSocket("ws://127.0.0.1:8888/app/delivery");
 				dsocket.onopen = deliveryOpen; 
 				dsocket.onclose = deliveryClose;
 				dsocket.onerror = deliveryError;
@@ -1279,11 +1253,140 @@
 				console.log("소켓 닫힘");
 			}
 
-			function deliveryMessage(){
-				console.log("소켓 메세지 보냄");
+			function deliveryMessage(e){
+				const memberNo = "${loginMember.no}";
+				
+				const obj = JSON.parse(e.data);
+				
+				// 날짜
+				let today = new Date();
+				let year = today.getFullYear();
+				let month = ('0' + (today.getMonth() + 1)).slice(-2);
+				let day = ('0' + today.getDate()).slice(-2);
+				let hours = ('0' + today.getHours()).slice(-2); 
+				let minutes = ('0' + today.getMinutes()).slice(-2);
+				let dateString = year + '-' + month  + '-' + day + ' ' + hours + '시 ' + minutes + '분 ';
+				const dateArea = document.querySelector("#alarm-model-date");
+				dateArea.innerHTML = "";
+				dateArea.innerHTML = dateString;
+				
+				// 이름 바꾸기
+				const alarmModelName = document.querySelector("#alarm-model-name");
+				alarmModelName.innerHTML = ""
+				const alarmImg = document.querySelector("#alarm-model-img")
+				if(obj[0].sendType === "DELIVERY"){
+					alarmModelName.innerHTML = "${loginMember.name}님 배달이 왔습니다.";
+					alarmImg.src = "/app/resources/bee/delivery.png";
+				}else if(obj[0].sendType === "PARCEL"){
+					alarmModelName.innerHTML = "${loginMember.name}님 택배가 왔습니다.";
+					alarmImg.src = "/app/resources/bee/parcel.png";
+				}
+				for(let vo of obj){
+					if(memberNo == vo.memberNo){
+						alarmShow();
+					}
+				}
 			}
 
-			// 관리자 배달 모달 완료
+			// 알람 받기
+			function receiveAlarm(){
+				const memberNo = "${loginMember.no}";
+				$.ajax({
+					url : "/app/parcel-list",
+					method : "POST",
+					data : {
+						"memberNo" : memberNo
+					},
+					dataType : "json",
+					success : function(data) {
+						const alarmArea = document.querySelector("#alarm-area");
+						const alarmCount = document.querySelector("#alarm-count-area");
+						let str = "";
+						let num = 0;
+						alarmArea.innerHTML = "";
+						alarmCount.innerHTML = "0";
+						
+						for(let vo of data){
+							num++;
+							
+							str += `<div class="alarm-list">
+												<div class="alarm-img">
+													<img src="/app/resources/bee/parcel.png" alt="">
+												</div>
+												<div class="alarm-list-content">
+													<div class="alarm-list-text">귀하의 택배가 왔습니다.</div>
+													<div class="alarm-list-time">\${vo.arriveDate}</div>
+													<div hidden>\${vo.no}</div><span class="material-symbols-outlined" onclick="deleteAlarm(this);" id="close2">
+														close
+													</span>
+												</div>
+											</div>`
+						}
+
+						alarmArea.innerHTML = str;
+						alarmCount.innerHTML= num;
+
+
+
+					},
+					error : function() {
+							alert("실패");
+						},
+					})
+			}
+
+			receiveAlarm();
+
+			// 택배 배달 알림 삭제
+			function deleteAlarm(e){
+				const pno = e.previousSibling.innerHTML;
+				const memberNo = "${loginMember.no}";
+				$.ajax({
+					url : "/app/parcel-list/delete",
+					method : "POST",
+					data : {
+						"memberNo" : memberNo,
+						"pno" : pno
+					},
+					dataType : "json",
+					success : function(data) {
+						const alarmArea = document.querySelector("#alarm-area");
+						const alarmCount = document.querySelector("#alarm-count-area");
+						let str = "";
+						let num = 0;
+						alarmArea.innerHTML = "";
+						alarmCount.innerHTML = "0";
+						
+						for(let vo of data){
+							num++;
+							
+							str += `<div class="alarm-list">
+												<div class="alarm-img">
+													<img src="/app/resources/bee/parcel.png" alt="">
+												</div>
+												<div class="alarm-list-content">
+													<div class="alarm-list-text">귀하의 택배가 왔습니다.</div>
+													<div class="alarm-list-time">\${vo.arriveDate}</div>
+													<div hidden>\${vo.no}</div><span class="material-symbols-outlined" onclick="deleteAlarm(this);" id="close2">
+														close
+													</span>
+												</div>
+											</div>`
+						}
+
+						alarmArea.innerHTML = str;
+						alarmCount.innerHTML= num;
+
+						showTopAlarm();
+					},
+					error : function() {
+							alert("실패");
+						},
+					})
+			}
+
+
+			// 관리자 배달 모달 보내기
 			function sendDelivery (){
 				const sendmemberList = document.querySelectorAll("#member-list-send-area > .delivery-member-list");
 				let noArr = [];
@@ -1300,7 +1403,6 @@
 				dsocket.send(sendJson);
 				noArr = [];
 				deliveryClose();
-				alarmShow();
 			}
 
 			// 관리자 배달 모달 사용
@@ -1314,7 +1416,7 @@
 				document.querySelector(".delivery-background").className = "delivery-background";
 			}
 
-		    // 모든 회원 찾기
+		    // 관리자 배달 모달 모든 회원 찾기
 			function getMemberList() {
 				$.ajax({
 				url : "/app/csc/report/memberList",
@@ -1390,6 +1492,7 @@
 						{ offset: Number.NEGATIVE_INFINITY },
 					).element;
 					}
+
 					deliveryShow();
 				},
 				error : function() {
@@ -1398,6 +1501,91 @@
 			})	
 
 
+			}
+
+			// 검색한 회원 찾기
+			function searchMemberList() {
+				const searchValue = document.querySelector("#delivery-model-input").value;
+				$.ajax({
+					url : "/app/csc/report/memberList",
+					method : "POST",
+					data : {
+						"searchType" : "NAME",
+						"searchValue" : searchValue
+					},
+					dataType : "json",
+					success : function(data) {
+						console.log(data);
+
+						const area = document.querySelector("#member-list-area");
+						area.innerHTML = "";
+						let str = "";
+						for (let member of data) {
+							str += `<div class="delivery-member-list" draggable="true">
+										<div hidden>\${member.no}</div>
+                                        <div class="delivery-member-list-img">
+                                            <img src="/app/resources/member/profile/\${member.profile}" alt="프로필사진">
+                                        </div>
+                                        <div class="delivery-member-list-text">
+                                            <span>\${member.name}</span>
+                                            <span>\${member.dongNum}동 \${member.hoNum}</span>
+                                        </div>
+                                    </div>`
+						}
+
+						area.innerHTML = str;
+
+						// 드래그앤 드랍
+						const draggables = document.querySelectorAll(".delivery-member-list");
+						const containers = document.querySelectorAll(".delivery-member-list-area");
+
+						draggables.forEach(draggable => {
+						draggable.addEventListener("dragstart", () => {
+							draggable.classList.add("dragging");
+						});
+
+						draggable.addEventListener("dragend", () => {
+							draggable.classList.remove("dragging");
+						});
+						});
+
+						containers.forEach(container => {
+						container.addEventListener("dragover", e => {
+							e.preventDefault();
+							const afterElement = getDragAfterElement(container, e.clientX);
+							const draggable = document.querySelector(".dragging");
+							if (afterElement === undefined) {
+							container.appendChild(draggable);
+							} else {
+							container.insertBefore(draggable, afterElement);
+							}
+						});
+						});
+
+						function getDragAfterElement(container, x) {
+						const draggableElements = [
+							...container.querySelectorAll(".draggable:not(.dragging)"),
+						];
+
+						return draggableElements.reduce(
+							(closest, child) => {
+							const box = child.getBoundingClientRect();
+							const offset = x - box.left - box.width / 2;
+							// console.log(offset);
+							if (offset < 0 && offset > closest.offset) {
+								return { offset: offset, element: child };
+							} else {
+								return closest;
+							}
+							},
+							{ offset: Number.NEGATIVE_INFINITY },
+						).element;
+						}
+					},
+					error : function() {
+						alert("실패");
+					},
+				})
 			}
 			
 			
