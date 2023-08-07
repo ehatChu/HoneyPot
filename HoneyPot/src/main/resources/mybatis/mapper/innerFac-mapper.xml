@@ -60,7 +60,7 @@
 		SELECT * FROM AMENITY WHERE NO = #{no}
 	</select>
 	
-	<!-- 시설이미지 반환 -->
+	<!-- 시설이미지 반환 회원시설사진조회시 사용-->
 	<select id="getInnerFacImg" resultType="String">
 		SELECT ORIGIN_NAME FROM AMENITY_IMG WHERE AMENITY_NO = #{no}
 	</select>
@@ -76,6 +76,15 @@
 			WHERE NO = #{facNo}
 	</update>
 
+	<!-- 시설에따른 이미지 list반환 관리자시설정보변경시 사용 -->
+	<select id="getInnerFacImgList" resultType="com.hp.app.innerFac.vo.InnerFacImgVo">
+		SELECT * FROM AMENITY_IMG 
+		WHERE AMENITY_NO = #{facNo}
+	</select>
 	
-	
+	<!-- 이미지 추가 -->
+	<insert id="addInnerFacImg">
+		INSERT INTO AMENITY_IMG (NO,AMENITY_NO,ORIGIN_NAME)
+		VALUES (SEQ_AMENITY_NO.NEXTVAL,#{facNo},#{originName})
+	</insert>
 </mapper>

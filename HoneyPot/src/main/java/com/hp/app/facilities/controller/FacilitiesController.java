@@ -1,11 +1,14 @@
 package com.hp.app.facilities.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -247,7 +251,49 @@ public class FacilitiesController {
 		
 	}
 	
+	//편의시설 공통 사진조회및 변경(화면)-사진DB에서 조회
+	@GetMapping("/admin/innerFac/editImg")
+	public String editInnerFacImg(String facNo,Model model) {
+		List<InnerFacImgVo> imgVoList = service.getInnerFacImgList(facNo);
+		
+		//시설번호에따라 다름 
+		model.addAttribute("imgVoList",imgVoList);
+		//facNo에 따라 다른곳으로 포워딩
+		switch (facNo) {
+		case "1" : return "admin/facilities/library-editIMG"; //1번은 도서관
+		case "2" : return "";//수영장;
+		case "3" : return "";//헬스장;
+		case "4" : return "";//골프장;
+		default: return "facilities/library-editIMG"; 
+		}
+	}
 	
+	//ajax로 받은 이미지 서버에 올리고 DB에 사진제목 올리기
+	@RequestMapping("/admin/innerFac/modifyImg")
+	public String modifyInnerFacImg(@RequestParam("file") MultipartFile multi,@RequestParam String facNo,Model model,HttpServletRequest req) throws Exception{
+		log.info("ajax로 받은 정보확인 facNo: {}",facNo);
+		String uploadpath =  req.getServletContext().getRealPath("/resources/innerFac/");
+		String originFilename = multi.getOriginalFilename();
+		log.info("파일 잘넘어왔는지 : {}",originFilename);	
+		
+		String path = uploadpath+originFilename;
+		
+		File target = new File(path);
+		
+		multi.transferTo(target);
+		
+		//db에 오리진네임 insert하는 과정...
+		//맵준비해서 dao까지 넘기기
+		Map<String,String> infoMap = new HashMap<String, String>();
+		infoMap.put("facNo", facNo);
+		infoMap.put("originName", originFilename);
+		
+		//db에 이미지명 추가
+		int result = service.addInnerFacImg(infoMap);
+
+		
+		return "redirect:/admin/innerFac/editImg?facNo="+facNo;
+	}
 	
 //	//관리자 편의시설 관리
 //	@GetMapping("facilities/admin/reserve-list")

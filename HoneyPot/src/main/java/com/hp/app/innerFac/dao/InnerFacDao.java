@@ -24,4 +24,8 @@ public interface InnerFacDao {
 	List<String> getInnerFacImg(SqlSessionTemplate sst, int no);
 	//정보변경
 	int updateInnerFacInfo(SqlSessionTemplate sst, Map<String, String> infoMap);
+	//관리자이미지목록조회
+	List<InnerFacImgVo> getInnerFacImgList(SqlSessionTemplate sst, String facNo);
+	//사진추가
+	int addInnerFacImg(SqlSessionTemplate sst, Map<String, String> infoMap);
 }

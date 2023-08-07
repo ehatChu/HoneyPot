@@ -82,5 +82,28 @@ public class InnerFacDaoImpl implements InnerFacDao {
 		
 		return result;
 	}
+	//관리자이미지목록조회
+	@Override
+	public List<InnerFacImgVo> getInnerFacImgList(SqlSessionTemplate sst, String facNo) {
+		List<InnerFacImgVo> imgVoList =null;
+		try {
+			imgVoList = sst.selectList("innerFac.getInnerFacImgList",facNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return imgVoList;
+	}
+
+	//사진추가
+	@Override
+	public int addInnerFacImg(SqlSessionTemplate sst, Map<String, String> infoMap) {
+		int result = 0;
+		try {
+			result = sst.insert("innerFac.addInnerFacImg",infoMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }
