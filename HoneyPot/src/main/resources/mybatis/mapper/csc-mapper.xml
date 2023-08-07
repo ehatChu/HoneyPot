@@ -145,8 +145,11 @@
 		     , PROFILE
 		FROM MEMBER
 		WHERE STATUS = 'Y'
-		<if test="searchType != null">
-		AND ${searchType} = #{searchValue}
+		<if test="searchType == 'NAME' and searchValue != null and searchValue != ''">
+		AND NAME LIKE '%${searchValue}%'
+		</if>
+		<if test="searchType == 'PHONE' and searchValue != null and searchValue != ''">
+		AND PHONE LIKE '%${searchValue}%'
 		</if>
 	</select>
 	

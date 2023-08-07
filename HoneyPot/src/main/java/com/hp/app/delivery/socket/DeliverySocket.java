@@ -1,6 +1,8 @@
 package com.hp.app.delivery.socket;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.delivery.service.DeliveryService;
+import com.hp.app.delivery.vo.DeliveryVo;
 import com.hp.app.member.vo.MemberVo;
 
 import lombok.RequiredArgsConstructor;
@@ -51,33 +54,28 @@ public class DeliverySocket extends TextWebSocketHandler{
 		ObjectMapper objectMapper = new ObjectMapper();
 	    JsonNode jsonNode = objectMapper.readTree(payload);
 	    
-		System.out.println(jsonNode.get("sendType").asText());
 		String sendType = jsonNode.get("sendType").asText();
-		String noArr = "";
-		for(int i = 0; i < jsonNode.get("noArr").size(); i++) {
-			if(i == jsonNode.get("noArr").size() - 1) {
-				noArr += jsonNode.get("noArr").get(i).asText();
-				break;
-			}
-			noArr += jsonNode.get("noArr").get(i).asText() + ",";
-		}
-		System.out.println(noArr);
+		System.out.println(sendType);
 		System.out.println(loginAdmin.getNo());
 		
-		Map<String, Object> msgVo = new HashMap<String, Object>();
+		List<DeliveryVo> receiveVo = new ArrayList<DeliveryVo>(); 
+		for(int i = 0; i < jsonNode.get("noArr").size(); i++) {
+			DeliveryVo vo = new DeliveryVo();
+			vo.setSendType(sendType);
+			vo.setMemberNo(jsonNode.get("noArr").get(i).asText());
+			vo.setAdminNo(loginAdmin.getNo());
+			
+			receiveVo.add(vo);
+		}
 		
-		msgVo.put("sendType", sendType);
-		msgVo.put("noArr", jsonNode.get("noArr"));
-		msgVo.put("adminNo", loginAdmin.getNo());
-		
-		if("DELIVERY".equals(jsonNode.get("sendType").asText())) {
-//			service.insertDelivery(msgVo);
-		}else if("PARCEL".equals(jsonNode.get("sendType").asText())) {
-//			service.insertParcel(msgVo);
+		if("DELIVERY".equals(sendType)) {
+			service.insertDelivery(receiveVo);
+		}else if("PARCEL".equals(sendType)) {
+			service.insertParcel(receiveVo);
 		}
 		
 		Gson gson = new Gson();
-		String jsonStr = gson.toJson(msgVo);
+		String jsonStr = gson.toJson(receiveVo);
 		
 		for (WebSocketSession s : users.values()) {
             s.sendMessage(new TextMessage(jsonStr));
