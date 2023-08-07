@@ -106,6 +106,11 @@ public class InnerFacServiceImpl implements InnerFacService {
 	public int addInnerFacImg(Map<String, String> infoMap) {
 		return dao.addInnerFacImg(sst,infoMap);
 	}
+	//사진삭제
+	@Override
+	public int deleteInnerFacImg(int[] no) {
+		return dao.deleteInnerFacImg(sst,no);
+	}
 	
 
 

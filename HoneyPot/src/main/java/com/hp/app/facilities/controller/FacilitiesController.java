@@ -3,10 +3,12 @@ package com.hp.app.facilities.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,11 +32,13 @@ import com.hp.app.innerFac.vo.InnerFacImgVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
 import com.hp.app.member.vo.MemberVo;
+import com.hp.app.util.file.FileUploader;
 import com.hp.app.yerin.functions.YerinFunctions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller 
 @RequiredArgsConstructor
@@ -268,32 +272,7 @@ public class FacilitiesController {
 		}
 	}
 	
-	//ajax로 받은 이미지 서버에 올리고 DB에 사진제목 올리기
-	@RequestMapping("/admin/innerFac/modifyImg")
-	public String modifyInnerFacImg(@RequestParam("file") MultipartFile multi,@RequestParam String facNo,Model model,HttpServletRequest req) throws Exception{
-		log.info("ajax로 받은 정보확인 facNo: {}",facNo);
-		String uploadpath =  req.getServletContext().getRealPath("/resources/innerFac/");
-		String originFilename = multi.getOriginalFilename();
-		log.info("파일 잘넘어왔는지 : {}",originFilename);	
-		
-		String path = uploadpath+originFilename;
-		
-		File target = new File(path);
-		
-		multi.transferTo(target);
-		
-		//db에 오리진네임 insert하는 과정...
-		//맵준비해서 dao까지 넘기기
-		Map<String,String> infoMap = new HashMap<String, String>();
-		infoMap.put("facNo", facNo);
-		infoMap.put("originName", originFilename);
-		
-		//db에 이미지명 추가
-		int result = service.addInnerFacImg(infoMap);
-
-		
-		return "redirect:/admin/innerFac/editImg?facNo="+facNo;
-	}
+	
 	
 //	//관리자 편의시설 관리
 //	@GetMapping("facilities/admin/reserve-list")
@@ -325,7 +304,74 @@ public class FacilitiesController {
 		}
 	}
 	
+	//이미지 등록 (모든시설이 공통적으로 사용)
+	@PostMapping("/admin/innerFac/regiImg")
+	public String InnerFacRegiImg(@RequestParam String facNo,List<MultipartFile> fList,HttpServletRequest req ) throws Exception {
+		log.info("이거도 못받으면 넌 유기다 : {}",facNo);
+		log.info("리스트사이즈 : {}",fList.size());
+		
+		if(fList.get(0).getOriginalFilename()==null) {
+			throw new RuntimeException("이미지없음에러");
+		}
+		
+		//몇개를 전달할지 어떻게 알고?
+		//Map에 facNo,changeName배열을 전달할까?#{changeName[i]}, 몇개까지있는지도 전달
+		
+		
+		int[] result = new int[fList.size()]; 
+		//서버에 파일올리기
+		//String savePath = "/resources/member/mine/";
+		String savePath =  req.getServletContext().getRealPath("/resources/innerFac/");
+		for(int i =0; i<fList.size();i++) {
+			//fList에서 f빼오기
+			MultipartFile f = fList.get(i);
+			
+			String randomName = UUID.randomUUID().toString();//체인지네임 얻기
+			String originName = f.getOriginalFilename();
+			String ext= originName.substring(originName.lastIndexOf("."));//확장자구하기
+			String changeName = randomName+ext;
+			String path = savePath+changeName;
+			File target = new File(path);
+			f.transferTo(target);
+			
+			//체인지네임을 DB에 저장해야함...
+			//map에 담아서 service를 여러번 호출하면 되는거 아닌가?
+			Map<String,String> infoMap = new HashMap<String, String>();
+			infoMap.put("changeName", changeName);
+			infoMap.put("originName", originName);
+			infoMap.put("facNo", facNo);
+			
+			
+			result[i] = service.addInnerFacImg(infoMap);
+			
+		}
+		
+		log.info("result배열의 결과 : {}",Arrays.toString(result));
+		
+		
+		
+		switch(facNo) {
+		case "1" : return "redirect:/admin/innerFac/editImg?facNo=1";
+		case "2" : return "";
+		case "3" : return "";
+		default : return "";
+		}
+	}
 	
+	//이미지삭제
+	@PostMapping("admin/innerFac/deleteImg")
+	public String deleteInnerFacImg(@RequestParam("no") int[] no,String facNo) {
+		int result = service.deleteInnerFacImg(no);
+		
+		log.info("result: {}",result);
+		
+		switch(facNo) {
+			case "1" : return "redirect:/admin/innerFac/editImg?facNo=1";
+			case "2" : return "";
+			case "3" : return "";
+			default : return "";
+		}
+	}
 	
 	
 }
