@@ -306,8 +306,11 @@ public class FacilitiesController {
 	public String innerFacInfo(int no,Model model) {
 		//넘버에따라 시설정보를 조회해서 모델에 정보를 담고 return을 달리하기
 		InnerFacVo fvo = service.getInnerFacInfo(no);
+		
+		//changeName을 담은... 
 		List<String> fimgList = service.getInnerFacImg(no);
 		
+		log.info("fimgList : {}",fimgList);
 		
 		model.addAttribute("fvo",fvo);
 		model.addAttribute("fimgList",fimgList);

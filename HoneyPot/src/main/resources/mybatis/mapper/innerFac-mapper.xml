@@ -62,7 +62,7 @@
 	
 	<!-- 시설이미지 반환 회원시설사진조회시 사용-->
 	<select id="getInnerFacImg" resultType="String">
-		SELECT ORIGIN_NAME FROM AMENITY_IMG WHERE AMENITY_NO = #{no}
+		SELECT CHANGE_NAME FROM AMENITY_IMG WHERE AMENITY_NO = #{no}
 	</select>
 	
 	<!-- 업데이트 편의시설 정보 -->

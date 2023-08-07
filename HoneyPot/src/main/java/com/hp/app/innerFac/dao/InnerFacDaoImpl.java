@@ -68,7 +68,13 @@ public class InnerFacDaoImpl implements InnerFacDao {
 	//시설이지미 조회
 	@Override
 	public List<String> getInnerFacImg(SqlSessionTemplate sst, int no) {
-		return sst.selectList("innerFac.getInnerFacImg",no);
+		List<String> imgList = null;
+		try {
+			imgList = sst.selectList("innerFac.getInnerFacImg",no);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return imgList;
 	}
 	//정보변경
 	@Override
