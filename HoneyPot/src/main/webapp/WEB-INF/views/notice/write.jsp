@@ -233,7 +233,7 @@
         margin: 10px 0px;
         padding: 10px;
         background: white;
-        width: 300px;
+        width: 350px;
         overflow-x: auto;
     }
 
@@ -353,12 +353,12 @@
                                         <i class="fa-solid fa-plus"></i> &nbsp; 항목 추가
                                     </div>
 
-                                    <div id="dup-checkbox">
+                                    <!-- <div id="dup-checkbox">
                                         <label for="dup">
                                             <input type="checkbox" id="dup" value="Y">
                                             중복 투표 허용
                                         </label>
-                                    </div>
+                                    </div> -->
 
                                     <div id="insert-btn-area">
                                         <button type="button" id="insert-btn" onclick="makeVote();">확인</button>
@@ -373,14 +373,16 @@
                         <!-- 투표 ui -->
                         <div class="vote-wrap hidden">
                             <div id="vote-header">
-                                <div id="vote-title" name="voteTitle">투표제목</div>
-                                <div id="vote-end-date" name="endDate">종료일 : 0000-00-00</div>
+                                <input type="hidden" id="vote-title-hidden" name="voteTitle" value="">
+                                <div id="vote-title">투표제목</div>
+                                <input type="hidden" id="vote-end-date-hidden" name="endDate" value="">
+                                <div id="vote-end-date">종료일 : 0000-00-00</div>
                                 <div id="vote-del-btn">&times;</div>
                             </div>
     
                             <div id="vote-body">
                                 <div>
-                                    <label><input class="vote-target" id="vote-target" type="radio" name="vote" value="1">&nbsp;1번</label>
+                                    <label><input class="vote-target" id="vote-target" type="radio" name="voteCandidateNo" value="1">&nbsp;<span name="voteCandidateName">1번</span></label>
                                 </div>
                             </div>
                         </div>
@@ -526,8 +528,14 @@
         
         //입력된 제목
         const voteTitle = document.querySelector("#vote-title");
+        //숨긴 제목
+        const voteTitleHidden = document.querySelector("#vote-title-hidden");
+        
         //입력된 종료일
         const voteEndDate = document.querySelector("#vote-end-date");
+        //숨긴 종료일
+        const voteEndDateHidden = document.querySelector("#vote-end-date-hidden");
+       
         //투표항목 구역
         const voteBody = document.querySelector("#vote-body");
         //투표항목
@@ -535,14 +543,23 @@
         
 
         voteTitle.innerHTML = modalTitleInput.value;
+        voteTitleHidden.value = modalTitleInput.value;
         voteEndDate.innerHTML = "종료일 : " + endDate.value;
-        voteBody.innerHTML = '';
+        voteEndDateHidden.value = endDate.value;
 
+        
+        voteBody.innerHTML = '';
         for (let i=1 ; i <= voteArticleArr.length ; i++){
-            voteBody.innerHTML += '<div><label><input class="vote-target" id="vote-target' + i + '" type="radio" name="vote" value="' + i + '">&nbsp;' + voteArticleArr[i-1].value +'</label></div>';
+            voteBody.innerHTML += '<div><label><input class="vote-target" id="vote-target' + i + '" type="radio" name="voteCandidateNo" value="' + i + '">&nbsp;<span name="voteCandidateName" value="' + voteArticleArr[i-1].value + '">' + voteArticleArr[i-1].value + '</span></label></div>';
         }
 
         console.log(dup.value);
+
+        // const voteTargetArr = document.querySelectorAll("#vote-target");
+        // console.log(voteTargetArr[1].value);
+        // const voteCandidateNameArr = document.querySelectorAll('span[name=voteCandidateName]');
+        // console.log(voteCandidateNameArr[1].value);
+
 
         //제출시, 모달 숨기고 투표 미리보기
         modal.classList.add('hidden');
