@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hp.app.notice.dao.NoticeDao;
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
@@ -63,6 +64,12 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public List<NoticeCategoryVo> getCategory() {
 		return dao.getCategory(sst);
+	}
+
+	//투표 생성
+	@Override
+	public int makeVote(VoteVo vvo) {
+		return dao.makeVote(sst, vvo);
 	}
 
 }

@@ -140,6 +140,11 @@
 
 	#reply-writer { font-weight: bold; }
 
+	/* .reply-content {
+		white-space: pre-wrap;
+    	word-break: break-word;
+	} */
+
 	#reply-footer { display: flex; }
 
 	#reply-footer > div:not(:last-of-type) { margin-right: 15px; }

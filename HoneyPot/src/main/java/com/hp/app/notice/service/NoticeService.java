@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
 
 public interface NoticeService {
@@ -29,5 +30,8 @@ public interface NoticeService {
 
 	//공지사항 카테고리 조회
 	public abstract List<NoticeCategoryVo> getCategory();
+
+	//투표 생성
+	public abstract int makeVote(VoteVo vvo);
 
 }

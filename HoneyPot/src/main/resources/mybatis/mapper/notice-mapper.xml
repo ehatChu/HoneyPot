@@ -226,5 +226,20 @@
 			SET STATUS = 'N'
 		WHERE NO = #{no} AND WRITER_NO = #{writerNo} AND STATUS = 'Y'
 	</delete>
+	
+	
+	<!-- 투표생성 -->
+	<insert id="makeVote">
+		INSERT INTO VOTE (
+			NOTICE_NO
+			,TITLE
+			,END_DATE
+			)
+		VALUES (
+			SEQ_NOTICE_NO.CURRVAL
+			,#{voteTitle}
+			,TO_TIMESTAMP(#{endDate}, 'YYYY-MM-DD')
+			)
+	</insert>
 
 </mapper>

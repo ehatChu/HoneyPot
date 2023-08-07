@@ -22,6 +22,7 @@ import com.hp.app.notice.service.NoticeService;
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeImgVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
 import com.hp.app.util.file.FileUploader;
 
@@ -80,7 +81,7 @@ public class NoticeController {
 	
 	// 공지사항 작성
 	@PostMapping("notice/write")
-	public String write(HttpSession session, NoticeVo vo) {
+	public String write(HttpSession session, NoticeVo vo, VoteVo vvo) {
 		
 		try {
 			
@@ -99,9 +100,10 @@ public class NoticeController {
 				return "redirect:/notice/list";
 			}
 			
-//			System.out.println(imgList.get(i));
-//			imgVo.setName(imgList.get(i));
-//			imgVo.setNoticeNo();
+			System.out.println(vvo);
+			//투표 정보 DB 삽입
+			int makeVoteResult = service.makeVote(vvo);
+			System.out.println("투표 생성 결과 : " + makeVoteResult);
 			
 		}catch (Exception e) {
 			e.printStackTrace();
