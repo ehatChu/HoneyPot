@@ -227,7 +227,7 @@
 
 
     /* 투표 UI */
-    #vote-wrap {
+    .vote-wrap {
         border: 3px solid #4A321F;
         border-radius: 20px;
         margin: 10px 0px;
@@ -240,6 +240,7 @@
     #vote-header {
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
 
     #vote-title {
@@ -248,10 +249,14 @@
     }
 
     #vote-end-date {
-        margin-left: 5px;
+        margin-right: 40px;
         font-size: 15px;
         color: #5F5F5F;
         color: rgb(156, 156, 156);;
+    }
+
+    #vote-del-btn {
+        cursor: pointer;
     }
 
     /* #vote-del-btn {
@@ -331,16 +336,16 @@
 
                                 <div id="modal-body">
                                     <div id="modal-article">제목</div>
-                                    <input type="text" id="modal-input" placeholder="투표 제목">
+                                    <div><input type="text" id="modal-title-input" placeholder="투표 제목"></div>
 
-                                    <div id="modal-article">기간</div>
-                                    <input type="date" id="start-date"> ~ <input type="date" id="end-date">
+                                    <div id="modal-article">종료일</div>
+                                    <div><input type="date" id="end-date"></div>
+                                    <!-- <input type="date" id="start-date"> ~ <input type="date" id="end-date"> -->
 
                                     <div id="vote-article-area">
                                         <div id="modal-article">투표항목</div>
                                         <div class="vote-article">
-                                            <input type="text" id="vote-article" placeholder="항목 입력"><span
-                                                onclick="del();">&times;</span>
+                                            <input type="text" id="vote-article" placeholder="항목 입력"><span onclick="del();">&times;</span>
                                         </div>
                                     </div>
 
@@ -350,13 +355,13 @@
 
                                     <div id="dup-checkbox">
                                         <label for="dup">
-                                            <input type="checkbox" id="dup" value="y">
+                                            <input type="checkbox" id="dup" value="Y">
                                             중복 투표 허용
                                         </label>
                                     </div>
 
                                     <div id="insert-btn-area">
-                                        <button type="button" id="insert-btn">확인</button>
+                                        <button type="button" id="insert-btn" onclick="makeVote();">확인</button>
                                     </div>
                                 </div>
                                 
@@ -366,23 +371,16 @@
 
                         
                         <!-- 투표 ui -->
-                        <div id="vote-wrap">
+                        <div class="vote-wrap hidden">
                             <div id="vote-header">
-                                <div id="vote-title">투표제목</div>
-                                <div id="vote-end-date">종료일 : 0000-00-00</div>
-
+                                <div id="vote-title" name="voteTitle">투표제목</div>
+                                <div id="vote-end-date" name="endDate">종료일 : 0000-00-00</div>
                                 <div id="vote-del-btn">&times;</div>
                             </div>
     
                             <div id="vote-body">
                                 <div>
-                                    <label><input id="vote-target" type="radio" name="vote" value="1">&nbsp;dddddddddddddddddddddddddddddddddddddddd</label>
-                                </div>
-                                <div>
-                                    <label><input id="vote-target" type="radio" name="vote" value="1">&nbsp;dddddddddddddddddddd</label>
-                                </div>
-                                <div>
-                                    <label><input id="vote-target" type="radio" name="vote" value="1">&nbsp;ddddddddddddd</label>
+                                    <label><input class="vote-target" id="vote-target" type="radio" name="vote" value="1">&nbsp;1번</label>
                                 </div>
                             </div>
                         </div>
@@ -473,20 +471,9 @@
     const plusArticle = document.querySelector(".plus-article");
     const voteArticleArea = document.querySelector('#vote-article-area');
 
-    // let initHeight = 500;
-    //항목 추가/삭제 시 모달 창 높이 변경
-    // function plusModalHeight() {
-    //     initHeight += 38;
-    // }
-    // function minusModalHeight() {
-    //     initHeight -= 38;
-    // }
-
     //투표 모달 항목 추가
     plusArticle.addEventListener('click', function () {
         voteArticleArea.innerHTML += '<div class="vote-article"><input type="text" id="vote-article" placeholder="항목 입력"><span onclick="del();">&times;</span></div>';
-        plusModalHeight();
-        modal.style.height = initHeight + "px";
     })
 
     //투표 모달 항목 삭제
@@ -494,7 +481,6 @@
         let xButton = event.target;
         xButton.previousSibling.remove();
         xButton.remove();
-        minusModalHeight();
         modal.style.height = initHeight + "px";
     };
 
@@ -525,5 +511,55 @@
             console.log(importantYn.value);
         }
     })
+
+    //투표 생성
+    function makeVote() {
+
+        //제목 입력창
+        const modalTitleInput = document.querySelector("#modal-title-input");
+        //종료일 입력창
+        const endDate = document.querySelector("#end-date");
+        //투표항목 입력창
+        const voteArticleArr = document.querySelectorAll("#vote-article");
+        //중복체크창
+        const dup = document.querySelector("#dup");
+        
+        //입력된 제목
+        const voteTitle = document.querySelector("#vote-title");
+        //입력된 종료일
+        const voteEndDate = document.querySelector("#vote-end-date");
+        //투표항목 구역
+        const voteBody = document.querySelector("#vote-body");
+        //투표항목
+        const voteTarget = document.querySelector("#vote-target");
+        
+
+        voteTitle.innerHTML = modalTitleInput.value;
+        voteEndDate.innerHTML = "종료일 : " + endDate.value;
+        voteBody.innerHTML = '';
+
+        for (let i=1 ; i <= voteArticleArr.length ; i++){
+            voteBody.innerHTML += '<div><label><input class="vote-target" id="vote-target' + i + '" type="radio" name="vote" value="' + i + '">&nbsp;' + voteArticleArr[i-1].value +'</label></div>';
+        }
+
+        console.log(dup.value);
+
+        //제출시, 모달 숨기고 투표 미리보기
+        modal.classList.add('hidden');
+        const voteWrap = document.querySelector(".vote-wrap");
+        const voteDelBtn = document.querySelector("#vote-del-btn");
+        voteWrap.classList.remove('hidden');
+
+    }
+
+
+    //투표 삭제
+    const voteWrap = document.querySelector(".vote-wrap");
+    const voteDelBtn = document.querySelector("#vote-del-btn");
+    voteDelBtn.addEventListener('click', function() {
+        voteWrap.classList.add('hidden');
+    });
+    
+
 
 </script>
