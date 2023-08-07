@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.memberManagement.service.MemberManagementService;
 import com.hp.app.point.vo.PointVo;
@@ -136,6 +137,45 @@ public class MemberManagementController {
 		
 		return "redirect:/admin/member/member-list";
 		
+	}
+	
+	// 관리자
+	
+	// 회원조회 (화면)
+	@GetMapping("admin/member/admin-list")
+	public String getadminList(Model model,@RequestParam Map<String,String> searchMap) {
+		
+		try {
+//			List<AdminVo> nList = service.getAdminListCnt(searchMap);
+//			List<AdminVo> mList = service.getAdminList(searchMap);
+//			
+//			int sum = 0;
+//			int statusN = 0;
+//			int statusS = 0;
+//			
+//			for(AdminVo vo : nList) {
+//				if("N".equals(vo.getGrade())) {
+//					statusN++;
+//				}else if("S".equals(vo.getGrade())) {
+//					statusS++;
+//				}
+//				sum++;
+//			}
+//			
+//			Map<String,String> memberCntMap = new HashMap<String, String>();
+//			
+//			memberCntMap.put("sum", Integer.toString(sum));
+//			memberCntMap.put("statusN", Integer.toString(statusN));
+//			memberCntMap.put("statusS", Integer.toString(statusS));
+//			
+//			model.addAttribute("searchMap", searchMap);
+//			model.addAttribute("memberCntMap", memberCntMap);
+//			model.addAttribute("mList",mList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "admin/member/admin-list";
 	}
 	
 }

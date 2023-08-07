@@ -3,6 +3,7 @@ package com.hp.app.memberManagement.service;
 import java.util.List;
 import java.util.Map;
 
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.point.vo.PointVo;
 import com.hp.app.restriction.vo.RestrictionVo;
@@ -33,7 +34,18 @@ public interface MemberManagementService {
 	int stopMember(RestrictionVo vo)  throws Exception;
 
 	// 관리자
+	// 관리자 전체 갯수
+	List<AdminVo> getAdminListCnt(Map<String, String> searchMap);
+	
 	// 관리자 조회
+	List<AdminVo> getAdminList(Map<String,String> searchMap);
 	
 	// 관리자 상세 조회
+	AdminVo getAdminByNo(String ano);
+	
+	// 관리자 회원 삭제
+	int deleteAdmin(String ano);
+	
+	// 관리자 정규 회원 등록
+	int regularAdmin(String ano);
 }
