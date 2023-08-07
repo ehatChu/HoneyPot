@@ -270,7 +270,7 @@
 					top: 13px;
 					left: -265px;
 					width: 280px;
-					max-height: 155px;
+					height: 150px;
 					background: rgba(255, 255, 255, 0.70);
 					border-radius: 6px;
 					box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.25);
