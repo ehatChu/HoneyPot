@@ -39,9 +39,9 @@ public class ChatController {
 	// 채팅방 목록 화면
 	@GetMapping("chat/list")
 	public String chatList(HttpSession session, Model model, String searchValue) {
-	   MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-       String mno = loginMember.getNo();
-//	   String mno = "1";
+//	   MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+//       String mno = loginMember.getNo();
+	   String mno = "1";
        List<ChatRoomVo> voList = service.selectRoom(mno);
 	   Map<String , String> paramMap = new HashMap<String, String>();
 	   paramMap.put("memberNo", mno);
