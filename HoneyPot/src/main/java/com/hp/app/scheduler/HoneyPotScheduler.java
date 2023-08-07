@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class HoneyPotScheduler {
 
 	private final SanctionService service;
-	@Scheduled(cron = "*/5 * * * * *")
+	@Scheduled(cron = "*/10 * * * * *")
 	public void start() {
 		
 //		System.out.println("정지 해제");
