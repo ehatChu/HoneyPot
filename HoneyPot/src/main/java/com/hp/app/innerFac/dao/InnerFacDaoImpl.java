@@ -111,5 +111,15 @@ public class InnerFacDaoImpl implements InnerFacDao {
 		}
 		return result;
 	}
-
+	//사진삭제
+	@Override
+	public int deleteInnerFacImg(SqlSessionTemplate sst, int[] no) {
+		int result = 0;
+		try {
+			result = sst.delete("innerFac.deleteInnerFacImg",no);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

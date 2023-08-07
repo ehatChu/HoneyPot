@@ -22,4 +22,6 @@ public interface InnerFacService {
 	List<InnerFacImgVo> getInnerFacImgList(String facNo);
 	//이미지 추가
 	int addInnerFacImg(Map<String, String> infoMap);
+	//이미지 삭제
+	int deleteInnerFacImg(int[] no);
 }

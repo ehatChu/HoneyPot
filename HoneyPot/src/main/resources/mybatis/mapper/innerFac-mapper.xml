@@ -82,9 +82,18 @@
 		WHERE AMENITY_NO = #{facNo}
 	</select>
 	
+	<!-- 각 시설 마다 다르게 changeName의 List개수만큼 돈다-->
 	<!-- 이미지 추가 -->
 	<insert id="addInnerFacImg">
-		INSERT INTO AMENITY_IMG (NO,AMENITY_NO,ORIGIN_NAME)
-		VALUES (SEQ_AMENITY_NO.NEXTVAL,#{facNo},#{originName})
+		INSERT INTO AMENITY_IMG (NO,AMENITY_NO,ORIGIN_NAME,CHANGE_NAME)
+		VALUES (SEQ_AMENITY_NO.NEXTVAL,#{facNo},#{originName},#{changeName})
 	</insert>
+	
+	<!-- 사진삭제 -->
+	<delete id="deleteInnerFacImg">
+		DELETE AMENITY_IMG WHERE NO IN 
+		<foreach collection="array" item="arr" open="(" close=")" separator=",">
+		#{arr}
+		</foreach>
+	</delete>
 </mapper>
