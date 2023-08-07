@@ -329,7 +329,7 @@
                        }
                        AdminArea.innerHTML=str;
                         //여기서버튼을 가져오면 될듯
-                      
+                       
                     },
                     error : function(e){
                         console.log("이잉에러");

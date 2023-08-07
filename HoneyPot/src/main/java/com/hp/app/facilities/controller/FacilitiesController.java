@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.innerFac.service.InnerFacService;
 import com.hp.app.innerFac.vo.InnerFacImgVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
@@ -189,29 +190,70 @@ public class FacilitiesController {
 		return "redirect:/facilities/library/reserve?no=1";
 	}
 	
-	//주변시설지도화면
-	@GetMapping("facilities/outerFacilities/map")
-	public String showMap() {
-		return "outerFacilities/showMap";
+//	//주변시설지도화면
+//	@GetMapping("facilities/outerFacilities/map")
+//	public String showMap() {
+//		return "outerFacilities/showMap";
+//	}
+	
+//	//본인이 남긴 리뷰화면
+//	@GetMapping("facilities/outer/review-list")
+//	public String reviewList() {
+//		return "mypage/act/reviewOuterFacilities";
+//	}
+	
+	//관리자 편의시설 정보변경(화면) //관리소장만 접근가능함
+	@GetMapping("/admin/innerFac/editInfo")
+	public String showEditInfoPage(int facNo,Model model,HttpSession session) {
+		AdminVo loginAdmin = (AdminVo)session.getAttribute("loginAdmin");
+		String adminName = loginAdmin.getName();
+		
+		if(!adminName.equals("관리소장")) {
+			throw new RuntimeException();
+		}
+		//조회니까 값을 받아와야함.
+		//이미있음
+		//List<InnerFacVo> facVoList = service.getAllFacInfo(facNo);
+		InnerFacVo fvo = service.getInnerFacInfo(facNo);
+
+		
+		model.addAttribute("facVo",fvo);
+		//facNo에 따라 다른곳으로 포워딩
+		switch (facNo) {
+		case 1 : return "admin/facilities/library-editInfo"; //1번은 도서관
+		case 2 : return "";//수영장;
+		case 3 : return "";//헬스장;
+		case 4 : return "";//골프장;
+		default: return "admin/facilities/library-editInfo";
+		}
 	}
 	
-	//본인이 남긴 리뷰화면
-	@GetMapping("facilities/outer/review-list")
-	public String reviewList() {
-		return "mypage/act/reviewOuterFacilities";
+	//정보변경 요청 form
+	@PostMapping("/admin/innerFac/modifyInfo")
+	public String editInfo(String facNo, @RequestParam Map<String,String> infoMap) {
+		
+		log.info("infoMap : {}",infoMap);
+		
+		int result = service.updateInnerFacInfo(infoMap) ;
+		
+		//facNo에 따라 다른곳으로 포워딩
+		switch (facNo) {
+		case "1" : return "redirect:/innerFac/info?no=1"; //1번은 도서관
+		case "2" : return "";//수영장;
+		case "3" : return "";//헬스장;
+		case "4" : return "";//골프장;
+		default: return "redirect:/innerFac/info?no=1"; 
+		}
+		
 	}
 	
-	//관리자 편의시설 정보변경
-	@GetMapping("facilities/admin/library/editInfo")
-	public String editInfo() {
-		return "admin/facilities/library-editInfo";
-	}
 	
-	//관리자 편의시설 관리
-	@GetMapping("facilities/admin/reserve-list")
-	public String manageReservation() {
-		return "admin/facilities/reserveList";
-	}
+	
+//	//관리자 편의시설 관리
+//	@GetMapping("facilities/admin/reserve-list")
+//	public String manageReservation() {
+//		return "admin/facilities/reserveList";
+//	}
 	
 	//도서관 시설소개 (화면)
 	@GetMapping("innerFac/info")
@@ -233,6 +275,9 @@ public class FacilitiesController {
 			default : return "error-Page";
 		}
 	}
+	
+	
+	
 	
 }
 

@@ -22,4 +22,6 @@ public interface InnerFacDao {
 	int delete(SqlSessionTemplate sst, InnerFacRsVo rsVo);
 	InnerFacVo getInnerFacInfo(SqlSessionTemplate sst, int no);
 	List<String> getInnerFacImg(SqlSessionTemplate sst, int no);
+	//정보변경
+	int updateInnerFacInfo(SqlSessionTemplate sst, Map<String, String> infoMap);
 }

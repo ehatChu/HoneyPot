@@ -118,37 +118,49 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<nav>
 		<%@ include file="/WEB-INF/views/common/first-nav.jsp" %>
+		<%@ include file="/WEB-INF/views/common/second-nav.jsp" %>
 	</nav>
 	<main>
-		<form action="/app/facilities/library/editInfo" method="post">
+		<form action="/app/admin/innerFac/modifyInfo?facNo=1" method="post">
 			<div id="main-wrapper">
 				<div id="first-area">
 					<div>
 						<h1>안내문구 변경</h1>
-						<textarea name="infoTextarea" id="" rows="10" placeholder="휴가나 리모델링으로 인해 사용이 불가능 한 경우 반드시 안내문구를 변경하여 주민들에게 공지해주세요." style="width: 800px; resize: none;""></textarea>
+						<textarea name="content" id="" rows="10" style="width: 800px; resize: none;">${facVo.content}</textarea>
 					</div>
 					
 					<div>
 						<h1>오픈/마감 시간 변경</h1>
-						<input type="time" name="startTime"> ~ <input type="time" name="endTime" placeholder="마감시간">
+						<input type="time" name="openTime" value="${facVo.openTime}"> ~ <input type="time" name="closeTime" value="${facVo.closeTime}">
+						<span id="info-span">
+							<span class="material-symbols-outlined">info</span>
+							시간변경시 이미 예약자가 존재할 수 있습니다. 에러페이지로 이동될 수 있습니다. 반드시 해당시간의 예약자 강제취소바람.
+						</span>					
 					</div>
-					<div>
+					<!-- <div>
 						<h1>이용불가 일시설정</h1>
 						<input type="datetime-local" name="startTime"> ~ <input type="datetime-local" name="endTime">
-
-					</div>
-					
-					<div>
-						<h1>최대 인원 수 변경</h1>
-						<input type="number" name="maxNum">명<br>
 						<span id="info-span">
 							<span class="material-symbols-outlined">info</span>
 							상태변경 시 해당일시에 예약한 사람들 모두 강제취소해주세요.
 						</span>
-					</div>
+					</div> -->
 					
+					<div>
+						<h1>최대 인원 수 변경</h1>
+						<input type="number" name="maxNum" value="${facVo.maxNum}">명<br>
+						<span id="info-span">
+							<span class="material-symbols-outlined">info</span>
+							감소시에는 이미 예약자가 보다 많을 수 있습니다. 에러페이지로 이동될 수 있습니다. 반드시 강제취소하여 수를 맞춰주세요.
+						</span>
+					</div>
+					<input type="submit" value="변경">
 				</div>
-				<div id="second-area">
+				
+			</div>
+			
+		</form>
+				<!-- <div id="second-area">
 					<div>
 						<h1>시설사진등록</h1>
 						<div>등록된 사진 목록</div>
@@ -171,11 +183,10 @@
 						</div>
 					</div>
 					<div>
-						<input type="submit" value="변경">
+						
 					</div>
-				</div>
-			</div>
-		</form>
+				</div> -->
+		
 				
 			
 			
@@ -186,7 +197,9 @@
 
 <script>
 	basicSetting(); // 기본 셋팅
-	headerName('편의시설 정보변경'); // 현재 페이지 이름
-	firstNav(['도서관', '수영장', '헬스장'], '도서관'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-	secondNav(['시설소개', '예약하기'], '예약하기'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+	headerName('편의시설 정보수정'); // 현재 페이지 이름
+	firstNav(['도서관', '수영장', '헬스장','골프장','예약자통합관리'], '도서관'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	secondNav(['정보수정', '이용불가','시설사진'], '정보수정'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+	// firstNavLink(['/app/facilities/library/reserve','/app/facilities/pool/reserve','/app/facilities/health/reserve']);
+	// secondNavLink(['/app/innerFac/info?no=1','/app/facilities/library/reserve'],);
 </script>

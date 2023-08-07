@@ -70,5 +70,17 @@ public class InnerFacDaoImpl implements InnerFacDao {
 	public List<String> getInnerFacImg(SqlSessionTemplate sst, int no) {
 		return sst.selectList("innerFac.getInnerFacImg",no);
 	}
+	//정보변경
+	@Override
+	public int updateInnerFacInfo(SqlSessionTemplate sst, Map<String, String> infoMap) {
+		int result =0;
+		try {
+			result = sst.update("innerFac.updateInnerFacInfo",infoMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 
 }

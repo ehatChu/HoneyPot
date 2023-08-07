@@ -91,6 +91,11 @@ public class InnerFacServiceImpl implements InnerFacService {
 	public List<String> getInnerFacImg(int no) {
 		return dao.getInnerFacImg(sst,no);
 	}
+	//정보변경
+	@Override
+	public int updateInnerFacInfo(Map<String, String> infoMap) {
+		return dao.updateInnerFacInfo(sst,infoMap);
+	}
 	
 
 

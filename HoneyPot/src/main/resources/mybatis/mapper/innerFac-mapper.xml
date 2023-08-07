@@ -64,4 +64,18 @@
 	<select id="getInnerFacImg" resultType="String">
 		SELECT ORIGIN_NAME FROM AMENITY_IMG WHERE AMENITY_NO = #{no}
 	</select>
+	
+	<!-- 업데이트 편의시설 정보 -->
+	<update id="updateInnerFacInfo">
+		UPDATE AMENITY 
+			SET 
+			CONTENT = #{content}
+			,OPEN_TIME = #{openTime}
+			,CLOSE_TIME = #{closeTime}
+			,MAX_NUM = #{maxNum}
+			WHERE NO = #{facNo}
+	</update>
+
+	
+	
 </mapper>

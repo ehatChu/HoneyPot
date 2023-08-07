@@ -16,4 +16,6 @@ public interface InnerFacService {
 	int delete(InnerFacRsVo rsVo);
 	InnerFacVo getInnerFacInfo(int no);
 	List<String> getInnerFacImg(int no);
+	//정보변경
+	int updateInnerFacInfo(Map<String, String> infoMap);
 }
