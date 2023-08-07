@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.memberManagement.dao.MemberManagementDao;
 import com.hp.app.point.vo.PointVo;
@@ -71,6 +72,42 @@ public class MemberManagementServiceImpl implements MemberManagementService{
 		}
 		
 		return dao.updateMemberStatus(sst, vo.getMemberNo()); 
+	}
+
+	// 관리자
+	// 관리자 전체 갯수
+	@Override
+	public List<AdminVo> getAdminListCnt(Map<String, String> searchMap) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	// 관리자 조회
+	@Override
+	public List<AdminVo> getAdminList(Map<String, String> searchMap) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// 관리자 상세 조회
+	@Override
+	public AdminVo getAdminByNo(String ano) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// 관리자 회원 삭제
+	@Override
+	public int deleteAdmin(String ano) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	// 관리자 정규 회원 등록
+	@Override
+	public int regularAdmin(String ano) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }
