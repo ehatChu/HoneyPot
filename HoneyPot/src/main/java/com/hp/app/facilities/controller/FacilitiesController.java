@@ -32,6 +32,7 @@ import com.hp.app.innerFac.vo.InnerFacImgVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
 import com.hp.app.member.vo.MemberVo;
+import com.hp.app.page.vo.PageVo;
 import com.hp.app.util.file.FileUploader;
 import com.hp.app.yerin.functions.YerinFunctions;
 
@@ -181,6 +182,8 @@ public class FacilitiesController {
 		String jsonStr = om.writeValueAsString(resultMap);
 		return jsonStr;
 	}
+	
+	//예약취소
 	@RequestMapping("innerFac/delete")
 	public String cancelReservation(String amenityNo, String date, String startTime,HttpSession session,Model model) {
 		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
@@ -373,6 +376,53 @@ public class FacilitiesController {
 		}
 	}
 	
-	
+	//본인예약조회(화면)-페이징 처리
+	@GetMapping("innerFac/personalReservation")
+	public String referPersonalReservation(int p,HttpSession session,Model model) {
+		//세션에 담긴 멤버넘버만있으면 조회가능
+		MemberVo loginMember =(MemberVo)session.getAttribute("loginMember");
+		String memberNo = loginMember.getNo(); //멤버넘버만 전달하면됨.
+		
+		
+		//페이징부터하자
+		int listCount = service.getPersonalCnt(memberNo); //검색없으니까 걍 불러... 		
+		int currentPage = p;
+		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
+		int boardLimit =9; //한페이지에 list는 9개만 들어가게
+				
+		PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
+		List<InnerFacRsVo> rsVoList = service.getAllPersonalReservation(memberNo,pv);
+
+		//여기서부터 reserveTime가공
+		//문자열잘라서 ArrayList값 변경해서 저장하기
+		//페이징 처리할때 애초에 Vo에서... 9개면 9개만 하면되잖아?
+		//reserveTime
+		
+		for(int i=0;i<rsVoList.size();i++) {
+
+			String reserveTime =  rsVoList.get(i).getReserveTime();
+			rsVoList.get(i).setReserveTime(reserveTime.substring(0,10));
+			
+			//스타트타임구하기
+			int startTime_int =Integer.parseInt(reserveTime.substring(11,13));
+			String endTime = "";
+			if(startTime_int==24) {
+				endTime= "01:00";
+			}else {
+				int endTime_int = startTime_int+1;
+				endTime = endTime_int+":00";
+			}
+			String startTime = startTime_int+":00";
+			//세터로 스타트타임 앤드타임 설정해주기
+			rsVoList.get(i).setStartTime(startTime);
+			rsVoList.get(i).setEndTime(endTime);
+		}
+		
+		
+		
+		model.addAttribute("rsVoList",rsVoList);
+		return "innerFacilities/personalReservation";
+		
+	}
 }
 

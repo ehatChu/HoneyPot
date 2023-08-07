@@ -6,6 +6,7 @@ import java.util.Map;
 import com.hp.app.innerFac.vo.InnerFacImgVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
+import com.hp.app.page.vo.PageVo;
 
 public interface InnerFacService {
 	InnerFacVo getOpenCloseTime(int no);
@@ -24,4 +25,9 @@ public interface InnerFacService {
 	int addInnerFacImg(Map<String, String> infoMap);
 	//이미지 삭제
 	int deleteInnerFacImg(int[] no);
+	//개인모든일정조회
+	List<InnerFacRsVo> getAllPersonalReservation(String memberNo, PageVo pv);
+	//개인조회갯수
+	int getPersonalCnt(String memberNo);
+
 }

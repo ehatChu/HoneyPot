@@ -13,6 +13,7 @@ import com.hp.app.innerFac.dao.InnerFacDao;
 import com.hp.app.innerFac.vo.InnerFacImgVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
+import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -111,6 +112,17 @@ public class InnerFacServiceImpl implements InnerFacService {
 	public int deleteInnerFacImg(int[] no) {
 		return dao.deleteInnerFacImg(sst,no);
 	}
+	//개인모든일정조회
+	@Override
+	public List<InnerFacRsVo> getAllPersonalReservation(String memberNo, PageVo pv) {
+		return dao.getAllPersonalReservation(sst,memberNo,pv);
+	}
+	//개인조회갯수
+	@Override
+	public int getPersonalCnt(String memberNo) {
+		return dao.getPersonalCnt(sst,memberNo);
+	}
+
 	
 
 

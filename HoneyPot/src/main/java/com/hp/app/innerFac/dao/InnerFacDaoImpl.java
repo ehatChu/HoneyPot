@@ -3,12 +3,14 @@ package com.hp.app.innerFac.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.hp.app.innerFac.vo.InnerFacImgVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
+import com.hp.app.page.vo.PageVo;
 
 @Repository
 public class InnerFacDaoImpl implements InnerFacDao {
@@ -120,6 +122,34 @@ public class InnerFacDaoImpl implements InnerFacDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return result;
+	}
+	//개인모든일정조회
+	@Override
+	public List<InnerFacRsVo> getAllPersonalReservation(SqlSessionTemplate sst, String memberNo, PageVo pv) {
+		List<InnerFacRsVo> personalList = null;
+		
+		RowBounds rb = new RowBounds(pv.getOffset(),pv.getBoardLimit());
+		try {
+			
+			personalList = sst.selectList("innerFac.getAllPersonalReservation",memberNo,rb);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+				
+		return personalList;
+	}
+	//개인조회갯수
+	@Override
+	public int getPersonalCnt(SqlSessionTemplate sst,String memberNo) {
+		int result =0;
+		
+		try {
+			result = sst.selectOne("innerFac.getPersonalCnt",memberNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return result;
 	}
 }

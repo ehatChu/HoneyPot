@@ -96,4 +96,23 @@
 		#{arr}
 		</foreach>
 	</delete>
+	
+	<!-- 개인모든예약조회 -->
+	<select id="getAllPersonalReservation" resultType="com.hp.app.innerFac.vo.InnerFacRsVo">
+	SELECT 
+	    AR.NO
+	    ,AR.AMENITY_NO
+	    ,AR.RESERVE_TIME
+	    ,A.NAME
+	FROM AMENITY_RESERVATION AR
+	JOIN AMENITY A ON (A.NO= AR.AMENITY_NO)
+	WHERE AR.MEMBER_NO =#{memberNo}
+	ORDER BY AR.RESERVE_TIME DESC
+	</select>
+	
+	<!-- 개인조회페이징총갯수세기 -->
+	<select id="getPersonalCnt" resultType="int">
+		SELECT COUNT(*) FROM AMENITY_RESERVATION
+		WHERE MEMBER_NO=#{memberNo}
+	</select>
 </mapper>

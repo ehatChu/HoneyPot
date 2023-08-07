@@ -103,6 +103,9 @@
 	input[type="radio"]:checked + label{
       background-color: red; /* 여기에 바꾸고자 하는 색상을 입력합니다. */
     }
+	input[type="radio"]{
+		display: none;
+	}
 </style>
 </head>
 <body>
@@ -154,8 +157,9 @@
 						<div id="span-area">
 							<!--  -->
 							<h1>2.시간선택</h1>
-						
-							<c:forEach var="i" begin="${openTime}" end="${closeTime}" step="1">
+							
+							<!-- closeTime의 -1을 해줘야 마감시간이 24시면 23시까지만 예약을 받을수있음. -->
+							<c:forEach var="i" begin="${openTime}" end="${closeTime-1}" step="1">
 								
 								<!-- small-box이용하면 label을 박스형태로 바꿀 수 있음. -->
 							
@@ -217,6 +221,7 @@
 	//openTime과 closeTime을 변수로 불러오기
 	const openTime = "${openTime}";
 	const closeTime = "${closeTime}";
+
 	//라벨 다 가져와서 for문 돌려보자
 	const label = document.querySelectorAll("label"); //다 가져와서 모든 요소에 값을 넣어주면 되는데...
 
@@ -227,7 +232,6 @@
 	//json타입받으면 문자열 받으면 int로 변환시켜주는 그인트를 가지고 lb의를 변경시켜주는
 	function dateStringToInt(dateValue){
 		var no = [];
-	
 		for(let i=0;i<dateValue.length;i++){
 			//12번째부터 13번째까지
 			no[i]= parseInt(dateValue[i].substring(11,13),10);
