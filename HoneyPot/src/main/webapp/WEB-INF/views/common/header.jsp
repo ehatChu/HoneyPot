@@ -167,11 +167,15 @@
 					align-items: center;
 				}
 
+				.header-calling{
+					cursor: pointer;
+				}
+
 				.header-calling>i {
 					position: relative;
 				}
 
-				.header-calling>i>div {
+				.header-calling>i>div:first-of-type {
 					position: absolute;
 					top: -15px;
 					left: 10px;
@@ -255,9 +259,96 @@
 					/* 스크롤바 썸의 배경색을 투명하게 설정 */
 				}
 
+
 				.hidden {
 					display: none;
 				}
+
+				/* 배달 알림창 */
+				.alarm-area{
+					position: absolute;
+					top: 13px;
+					left: -265px;
+					width: 280px;
+					max-height: 155px;
+					background: rgba(255, 255, 255, 0.70);
+					border-radius: 6px;
+					box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.25);
+					overflow-y: auto;
+					cursor: auto;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					border: 1px solid rgba(138, 138, 138, 0.70);
+				}
+
+				.ahidden {
+					display: none;
+				}
+
+				.alarm-area::-webkit-scrollbar {
+ 					 display: none;
+				}
+
+				.alarm-list{
+					margin-top: 5px;
+					width: 260px;
+					height: 60px;
+					background: rgba(255, 255, 255, 0.70);
+					border: 1px solid rgba(138, 138, 138, 0.70);
+					border-radius: 8px;
+					display: flex;
+					align-items: center;
+					position: relative;
+					box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.25);
+					margin-bottom: 5px;
+					
+				}
+
+				.alarm-img{
+					width: 50px;
+					height: 50px;
+					overflow: hidden;	
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+
+				.alarm-img > img{
+					height: 60px;
+					object-fit: cover;
+					padding-bottom: 5px;
+				}
+
+				.alarm-list-content{
+					display: flex;
+				}
+
+				.alarm-list-text{
+					font-size: 12px;
+					font-weight: 800;
+					color: black;
+				}
+
+				.alarm-list-time{
+					margin-top: 2px;
+					margin-left: 20px;
+					font-size: 8px;
+					font-weight: 800;
+					color: rgb(150, 150, 150);
+				}
+
+				#close2{
+					position: absolute;
+					color: #ff3131b6;
+					top: 3px;
+					right: 5px;
+					font-size: 14px;
+					font-weight: 800;
+					cursor: pointer;
+				}
+
+
 
 				/* 채팅 알림 내용 영역 */
 				.latest-chat {
@@ -340,6 +431,402 @@
 					object-fit: cover;
 					border-radius: 70%;
 				}
+
+				/* 알람 */
+				.s-alarm-window {
+					position: fixed;
+					top: 80%;
+					left: 87.5%;
+					/* position: relative; */
+					width: 100%;
+					height: 100vh;
+					/* width: 100%;
+					height: 100%; */
+					
+					
+					z-index: 1000;
+					
+					/* 숨기기 */
+					z-index: -1;
+					opacity: 0;
+				}
+				.show {
+					opacity: 1;
+					z-index: 1000;
+					transition: all .5s;
+					/* display: block; */
+				}
+
+				.s-alarm-popup {
+					position: absolute;
+					top: 0;
+					left: 0;
+					transform: translate(-50%, -50%);
+					background-color: #fff8be4c;
+					box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+					border-radius: 10px;
+					
+					/* 임시 지정 */
+					width: 450px;
+					height: 290px;
+					
+					/* 초기에 약간 아래에 배치 */
+					transform: translate(-50%, -40%);
+				}
+
+				.show .alarm-popup {
+					transform: translate(-50%, -50%);
+					transition: all .5s;
+				}
+
+				#s-alarm-close{
+					font-size: 25px;
+					font-weight: 900;
+					cursor: pointer;
+					color: #ff3131b6;
+					margin-right: 10px;
+					margin-top: 5px;
+				}
+
+				.alarm-header{
+					width: 100%;
+					display: flex;
+					justify-content: end;
+					align-items: center;
+					height: 30px;
+				}
+
+				.alarm-header-text{
+					font-size: 20px;
+					font-weight: 600;
+				}
+
+				.alamr-body-area{
+					width: 100%;
+
+				}
+
+				.model-alarm-content{
+					margin-left: 40px;
+				}
+
+				.model-alarm-img > img{
+					width: 110px;
+					height: 60px;
+				}
+
+				.model-alarm-text{
+					font-size: 18px;
+					font-weight: 800;
+				}
+
+				.model-alarm-date{
+					margin-top: 20px;
+					margin-bottom: 30px;
+					font-size: 12px;
+					color: rgb(144, 144, 144);
+				}
+
+
+				.model-alarm-btn{
+					display: flex;
+					justify-content: center;
+					width: 450px;
+					height: 60px;
+				}
+
+				.model-alarm-btn > button{
+					background-color: #fff06da1;
+					width: 390px;
+					height: 50px;
+					font-family: 'Noto Sans KR';
+					font-weight: 800;
+					font-size: 20px;
+					border-radius: 22px;
+					border: none;
+				}
+
+				.margin-r50{
+					margin-right: 50px;
+				}
+
+				#check-btn{
+					cursor: pointer;
+				}
+
+				#check-btn:hover{
+					background-color: #fff06dec;
+				}
+
+				/* 배달 알람 */
+				.delivery-background {
+					position: fixed;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100vh;
+					background-color: rgba(0, 0, 0, 0.3);
+					z-index: 1000;
+					
+					/* 숨기기 */
+					z-index: -1;
+					opacity: 0;
+				}
+
+				.show {
+					opacity: 1;
+					z-index: 1000;
+					transition: all .5s;
+				}
+
+				.delivery-window {
+					position: relative;
+					width: 100%;
+					height: 100%;
+				}
+
+				.delivery-popup {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					background-color: #f5f5f5;
+					box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+					border-radius: 10px;
+					
+					/* 임시 지정 */
+					width: 700px;
+					height: 700px;
+					
+					/* 초기에 약간 아래에 배치 */
+					transform: translate(-50%, -40%);
+				}
+
+				.show .delivery-popup {
+					transform: translate(-50%, -50%);
+					transition: all .5s;
+				}
+
+				.delivery-model-header-area{
+					width: 700px;
+					height: 50px;
+					border-top-left-radius: 10px;
+					border-top-right-radius: 10px;
+					background-color: #FFCE31;
+				}
+
+				.delivery-model-header{
+					margin-left: 20px;
+					width: 660px;
+					height: 50px;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+				}
+
+				#delivery-close{
+					font-size: 30px;
+					font-weight: 900;
+					color: red;
+					cursor: pointer;
+				}
+
+				.delivery-model-header-text{
+					font-size: 20px;
+					font-weight: 600;
+				}
+
+				.delivery-model-body-area{
+					width: 620px;
+					margin: auto;
+					margin-top: 20px;
+				}
+
+				.model-body-content{
+					margin-top: 5px;
+					margin-left: 3px;
+					height: 300px;
+					width: 600px;
+					resize: none;
+					border: 1px solid rgb(173, 173, 173);
+					border-radius: 6px;
+				}
+
+				.delivery-model-body-first{
+					width: 660px;
+					display: flex;
+					justify-content: space-between;
+
+				}
+
+				.delivery-model-title-text{
+					font-size: 19px;
+					font-weight: bold;
+					color: gray;
+				}
+
+				.delivery-content-header{
+					height: 50px;
+					display: flex;
+					align-items: center;
+				}
+
+				.delivery-model-search-box{
+					margin-left: 20px;
+					width: 250px;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					
+				}
+
+				.delivery-model-search-box > input{
+					width: 200px;
+					height: 35px;
+					border-radius: 15px;
+					padding-left: 10px;
+					border: 1px solid rgb(173, 173, 173);
+				}
+
+				.delivery-model-search-box > button{
+					width: 40px;
+					height: 30px;
+					border: none;
+					background-color: #FFCE31;
+					font-family: 'Noto Sans KR';
+					font-weight: 800;
+					cursor: pointer;
+					border-radius: 5px;
+				}
+
+				.delivery-model-category{
+					padding-left: 10px;
+					margin-left: 3px;
+					margin-top: 5px;
+					margin-bottom: 10px;
+					width: 260px;
+					height: 50px;
+					border-radius: 6px;
+					border: 1px solid rgb(173, 173, 173);
+				}
+
+				.delivery-content-body{
+					margin-top: 5px;
+					width: 600px;
+					height: 400px;
+					display: flex;
+				}
+
+				.delivery-member-list-area{
+					width: 260px;
+					background-color: white;
+					height: 100%;
+					border: 1px solid rgb(173, 173, 173);
+					border-radius: 12px;
+					overflow-y: scroll;
+				}
+
+				.delivery-member-list-area::-webkit-scrollbar {
+					display: none;
+				}
+
+				.delivery-member-list{
+					width: 100%;
+					height: 50px;
+					display: flex;
+					border-bottom: 1px solid rgb(187, 187, 187);
+					align-items: center;
+					
+				}
+
+				.delivery-member-list:hover{
+					background-color: #FEFFD0;
+				}
+
+				.delivery-member-list-img{
+					margin-left: 20px;
+					width: 30px;
+					height: 30px;
+					border-radius: 70%;
+					overflow: hidden;
+					
+				}
+
+				.delivery-member-list-img > img {
+					width: 100%;
+					height: 100%;
+					background-color: black;
+					object-fit: cover;
+				}
+
+				.delivery-member-list-text{
+					margin-left: 10px;
+				}
+
+				.delivery-member-list-text > span:first-of-type{
+					font-weight: 800;
+					font-size: 14px;
+				}
+
+				.delivery-member-list-text > span:last-of-type{
+					font-size: 12px;
+					color: rgb(86, 86, 86);
+				}
+
+				.delivery-model-btn{
+					width: 300px;
+					height: 50px;
+					background-color: #FFCE31;
+					border: none;
+					border-radius: 6px;
+					font-family: 'Noto Sans KR';
+					font-weight: bold;
+					font-size: 18px;
+					cursor: pointer;
+				}
+
+
+				.delivery-member-btn-area{
+					width: 80px;
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+				}
+
+
+				.member-move-btn{
+					width: 30px;
+					height: 30px;
+					border-radius: 70%;
+					border: none;
+					background-color: #FFCE31;
+					font-size: 20px;
+					color: white;
+				}
+
+				.delivery-model-btn-area{
+					margin-top: 10px;
+					width: 100%;
+					display: flex;
+					justify-content: center;
+				}
+
+				.delivery-member-btn-area > button:first-of-type{
+					margin-bottom: 30px;
+				}
+
+
+
+				.margin-r50{
+					margin-right: 50px;
+				}
+
+				.text-bold {
+					font-weight: bold;
+				}
+				
 			</style>
 		</head>
 
@@ -474,11 +961,57 @@
 							<div id="header-weather">
 								<%@ include file="/WEB-INF/views/data/headerWeather.jsp" %>
 							</div>
-							<div class="header-calling">
-								<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;">
-									<div style="font-size: 7px; font-weight: 800;">15</div>
-								</i>
-							</div>
+							<c:if test="${not empty loginMember}">
+								<div class="header-calling" onclick="showTopAlarm()">
+									<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;" id="alarm-btn">
+										<div style="font-size: 7px; font-weight: 800;">15</div>
+										<div class="alarm-area ahidden" id="alarm-area">
+											<div class="alarm-list">
+												<div class="alarm-img">
+													<img src="/app/resources/bee/parcel.png" alt="">
+												</div>
+												<div class="alarm-list-content">
+													<div class="alarm-list-text">귀하의 택배가 왔습니다.</div>
+													<div class="alarm-list-time">50분전</div>
+													<span class="material-symbols-outlined" id="close2">
+														close
+													</span>
+												</div>
+											</div>
+											<div class="alarm-list">
+												<div class="alarm-img">
+													<img src="/app/resources/bee/delivery.png" alt="">
+												</div>
+												<div class="alarm-list-content">
+													<div class="alarm-list-text">귀하의 택배가 왔습니다.</div>
+													<div class="alarm-list-time">50분전</div>
+													<span class="material-symbols-outlined" id="close2">
+														close
+													</span>
+												</div>
+											</div>
+											<div class="alarm-list">
+												<div class="alarm-img">
+													<img src="/app/resources/bee/delivery.png" alt="">
+												</div>
+												<div class="alarm-list-content">
+													<div class="alarm-list-text">귀하의 택배가 왔습니다.</div>
+													<div class="alarm-list-time">50분전</div>
+													<span class="material-symbols-outlined" id="close2">
+														close
+													</span>
+												</div>
+											</div>
+	
+										</div>
+									</i>
+								</div>
+
+							</c:if>
+							<c:if test="${not empty loginAdmin}">
+								<button onclick="getMemberList()">배달</button>
+
+							</c:if>
 							<div class="header-chatting-icon">
 								<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
 									<div style="font-size: 7px; font-weight: 800;">4</div>
@@ -501,6 +1034,93 @@
 					<div id="main-area"></div>
 				</div>
 			</div>
+
+			<div class="s-alarm-window">
+                <div class="s-alarm-popup">
+                    <div class="alarm-header">
+                        <span class="material-symbols-outlined" id="s-alarm-close">
+                            close
+                        </span>
+                    </div>
+                    <div class="alarm-body-area">
+                        <div class="model-alarm-img">
+                            <img src="/app/resources/bee/delivery.png" alt="배달">
+                        </div>
+                        <div class="model-alarm-content">
+                            <div class="model-alarm-text">홍길동님 배달이 왔습니다.</div>
+                            <div class="model-alarm-text">경비실에서 찾아가세요</div>
+                            <div class="model-alarm-date">2023-07-04 13시 50분</div>
+                        </div>
+                        <div class="model-alarm-btn">
+                            <button id="check-btn">확인</button>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+
+			<!-- 관리자 배달 모달 -->
+			<div class="delivery-background">
+                <div class="delivery-window">
+                    <div class="delivery-popup">
+                        <div class="delivery-model-header-area">
+                            <div class="delivery-model-header">
+                                <div class="delivery-model-header-text">배달 알림 보내기</div>
+                                <span class="material-symbols-outlined" id="delivery-close" onclick="deliveryClose()">
+                                    close
+                                </span>
+                            </div>
+                        </div>
+                        <div class="delivery-model-body-area">
+                            <div class="delivery-model-body-first">
+                                <div class="delivery-model-sanction-date">
+                                    <div class="delivery-model-title-text">알림 유형</div>
+                                    <div>
+                                        <select name="sendType" id="delivery-model-category" class="delivery-model-category">
+                                            <option value="DELIVERY">배달</option>
+                                    		<option value="PARCEL">택배</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="delivery-content-header">
+                                    <div class="delivery-model-title-text">회원목록</div>
+                                    <div class="delivery-model-search-box">
+                                        <input type="text">
+                                        <button>검색</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="delivery-content-body">
+                                <div class="delivery-member-list-area" id="member-list-area">
+                                
+                                    
+                                    
+
+                                </div>
+                                <div class="delivery-member-btn-area">
+                                    <button class="member-move-btn">></button>
+                                    <button class="member-move-btn"><</button>
+                                </div>
+                                <div class="delivery-member-list-area" id="member-list-send-area">
+
+                                </div>
+                            </div>
+
+                            <div class="delivery-model-btn-area">
+                                <button onclick="sendDelivery ()" class="delivery-model-btn" type="button">보내기</button>
+                            </div>
+
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+
+			<button onclick="showBottomAlarm()">알림창 모달바 생성</button>
+
+
 		</body>
 
 		</html>
@@ -617,4 +1237,168 @@
 			// 로그인 정보 출력
 			console.log("loginMember : ${loginMember}");
 			console.log("loginAdmin : ${loginAdmin}");
+
+			// 배달 알림 모달 사용
+			const alarmBox = document.querySelector('#alarm-area');
+			// const alarmBtn = document.querySelector('#alarm-btn');
+
+			
+
+			function showTopAlarm(){
+				alarmBox.classList.toggle('ahidden');
+			}
+
+			// 하단 배달 알람 모달 사용
+			function alarmShow () {
+				document.querySelector(".s-alarm-window").className = "s-alarm-window show";
+			}
+
+			function alarmClose () { 
+				document.querySelector(".s-alarm-window").className = "s-alarm-window";
+			}
+
+			document.querySelector("#s-alarm-close").addEventListener('click', alarmClose);
+			document.querySelector("#check-btn").addEventListener('click', alarmClose);
+
+			// 배달 알람 받는 웹소켓 만들기
+			let dsocket = new WebSocket("ws://127.0.0.1:8080/app/delivery");
+				dsocket.onopen = deliveryOpen; 
+				dsocket.onclose = deliveryClose;
+				dsocket.onerror = deliveryError;
+				dsocket.onmessage = deliveryMessage;
+
+			function deliveryOpen(){
+				console.log("연결 성공");
+			}
+
+			function deliveryClose(){
+				console.log("소켓 닫힘");
+			}
+
+			function deliveryError(){
+				console.log("소켓 닫힘");
+			}
+
+			function deliveryMessage(){
+				console.log("소켓 메세지 보냄");
+			}
+
+			// 관리자 배달 모달 완료
+			function sendDelivery (){
+				const sendmemberList = document.querySelectorAll("#member-list-send-area > .delivery-member-list");
+				let noArr = [];
+				const sendType = document.querySelector("#delivery-model-category");
+				for(let sendNo of sendmemberList){
+					noArr.push(sendNo.firstElementChild.innerText);
+				}
+
+				var sendJson = JSON.stringify({
+					sendType : sendType.value,
+					noArr : noArr,
+				})
+
+				dsocket.send(sendJson);
+				noArr = [];
+				deliveryClose();
+				alarmShow();
+			}
+
+			// 관리자 배달 모달 사용
+			function deliveryShow () {
+				document.querySelector(".delivery-background").className = "delivery-background show";
+			}
+
+			function deliveryClose () { 
+				const sendListArea = document.querySelector("#member-list-send-area");
+				sendListArea.innerHTML = "";
+				document.querySelector(".delivery-background").className = "delivery-background";
+			}
+
+		    // 모든 회원 찾기
+			function getMemberList() {
+				$.ajax({
+				url : "/app/csc/report/memberList",
+				method : "POST",
+				// data : {
+
+				// },
+				dataType : "json",
+				success : function(data) {
+					const area = document.querySelector("#member-list-area");
+					area.innerHTML = "";
+					let str = "";
+					for (let member of data) {
+						str += `<div class="delivery-member-list" draggable="true">
+										<div hidden>\${member.no}</div>
+                                        <div class="delivery-member-list-img">
+                                            <img src="/app/resources/member/profile/\${member.profile}" alt="프로필사진">
+                                        </div>
+                                        <div class="delivery-member-list-text">
+                                            <span>\${member.name}</span>
+                                            <span>\${member.dongNum}동 \${member.hoNum}</span>
+                                        </div>
+                                    </div>`
+
+										
+					}
+
+					area.innerHTML = str;
+
+					// 드래그앤 드랍
+					const draggables = document.querySelectorAll(".delivery-member-list");
+					const containers = document.querySelectorAll(".delivery-member-list-area");
+
+					draggables.forEach(draggable => {
+					draggable.addEventListener("dragstart", () => {
+						draggable.classList.add("dragging");
+					});
+
+					draggable.addEventListener("dragend", () => {
+						draggable.classList.remove("dragging");
+					});
+					});
+
+					containers.forEach(container => {
+					container.addEventListener("dragover", e => {
+						e.preventDefault();
+						const afterElement = getDragAfterElement(container, e.clientX);
+						const draggable = document.querySelector(".dragging");
+						if (afterElement === undefined) {
+						container.appendChild(draggable);
+						} else {
+						container.insertBefore(draggable, afterElement);
+						}
+					});
+					});
+
+					function getDragAfterElement(container, x) {
+					const draggableElements = [
+						...container.querySelectorAll(".draggable:not(.dragging)"),
+					];
+
+					return draggableElements.reduce(
+						(closest, child) => {
+						const box = child.getBoundingClientRect();
+						const offset = x - box.left - box.width / 2;
+						// console.log(offset);
+						if (offset < 0 && offset > closest.offset) {
+							return { offset: offset, element: child };
+						} else {
+							return closest;
+						}
+						},
+						{ offset: Number.NEGATIVE_INFINITY },
+					).element;
+					}
+					deliveryShow();
+				},
+				error : function() {
+					alert("실패");
+				},
+			})	
+
+
+			}
+			
+			
 		</script>

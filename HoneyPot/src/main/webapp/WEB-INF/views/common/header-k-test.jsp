@@ -405,7 +405,7 @@
 								</div>
 								<div class="header-calling">
 									<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;" id="alarm-btn">
-										<div style="font-size: 7px; font-weight: 800;">15</div>
+										<div style="font-size: 7px; font-weight: 800;">20</div>
 										<div class="alarm-area hidden" id="alarm-area">
 											<div class="alarm-list">
 												<div class="alarm-img">

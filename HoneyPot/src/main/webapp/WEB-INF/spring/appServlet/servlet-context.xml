@@ -96,6 +96,21 @@
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 	
+	<!-- 알람 웹소켓 bean 등록 -->
+	<beans:bean id="DeliveryHandler"
+		class="com.hp.app.delivery.socket.DeliverySocket"></beans:bean>
+
+	<!-- 알람 웹소켓 핸들러 맵핑 -->
+	<!-- 알람 웹소켓 만들 때 경로를 path 에 넣어주기 -->
+	<websocket:handlers>
+		<websocket:mapping handler="DeliveryHandler"
+			path="/delivery" />
+		<websocket:handshake-interceptors>
+			<beans:bean
+				class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
+	
 	<!-- 스케쥴러 파일이 존재하는 패키지 -->
 	<context:component-scan base-package="com.hp.app.scheduler"/>
 	<!-- 크론탭 설정에 -->

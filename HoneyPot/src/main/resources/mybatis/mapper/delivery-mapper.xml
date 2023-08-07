@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="delivery">
+
+	<insert id="insertDelivery">
+		INSERT INTO DELIVERY 
+       		(NO, MEMBER_NO, ADMIN_NO, col3)
+  		 VALUES
+       		<foreach item="item" index="index" collection="list" separator=",">
+           		(#{item.id}, #{item.col1}, #{item.col2}, #{item.col3})       
+       		</foreach>
+	</insert>
+	
+</mapper>
