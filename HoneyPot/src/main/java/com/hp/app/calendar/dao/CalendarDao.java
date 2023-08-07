@@ -27,4 +27,7 @@ public interface CalendarDao {
 	//관리자모든일정표시
 	List<AllCalendarVo> getAllNoticeCal(SqlSessionTemplate sst, String dongName);
 	
+	//관리자일정삭제
+	int deleteNotice(SqlSessionTemplate sst, String sNum);
+	
 }

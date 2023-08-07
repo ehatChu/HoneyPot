@@ -31,6 +31,9 @@ public interface CalendarService {
 	//관리자모든일정표시
 	List<AllCalendarVo> getAllNoticeCal(String dongName);
 	
+	//관리자일정삭제
+	int deleteNotice(String sNum);
+	
 	
 	//관리자일정조회
 	

@@ -89,6 +89,10 @@
 		</if>
 	</select>
 	
-	
+	<!-- 관리자일정삭제 -->
+	<delete id="deleteNotice">
+		DELETE FROM NOTICE_CALENDAR 
+		WHERE NO = #{sNum}
+	</delete>
 	
 </mapper>

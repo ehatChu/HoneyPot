@@ -189,6 +189,17 @@ public class CalendarDaoImpl implements CalendarDao {
 		}
 		return allList; 
 	}
+	//관리자일정삭제
+	@Override
+	public int deleteNotice(SqlSessionTemplate sst, String sNum) {
+		int result =0;
+		try {
+			result = sst.delete("calendar.deleteNotice",sNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 	
 	//관리자 일정조회

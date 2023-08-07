@@ -220,5 +220,12 @@ public class CalendarController {
 		return all;
 	}
 	
-	
+	//공지스케줄 삭제
+	@GetMapping("calendar/delete-notice")
+	public String deleteNotice(String sNum) {
+		//sNum삭제
+		int result = service.deleteNotice(sNum);
+		
+		return "redirect:/admin/calendar/schedule-list";
+	}
 }

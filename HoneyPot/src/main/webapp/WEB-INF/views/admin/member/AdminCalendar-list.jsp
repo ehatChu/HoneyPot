@@ -323,6 +323,8 @@
                             }
                             str+="</span>"
                             str+="<span class='small-text-size cal-margin-right'>"+data[i].writerName+"</span>";
+                            str+="<span class='cal-margin-right'><a href='/app/calendar/delete-notice?sNum="+data[i].no+"'>"
+                            str+="<i class='fa-solid fa-xmark fa-xl margin-right delete-btn' style='color: #000000;''></i></a></span>";               
                             str+="</div>"
                        }
                        AdminArea.innerHTML=str;
