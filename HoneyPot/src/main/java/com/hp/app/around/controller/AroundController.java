@@ -24,12 +24,18 @@ import lombok.extern.slf4j.Slf4j;
 public class AroundController {
 	private final AroundService as;
 	
+	@GetMapping("showMapBackUp")
+	public String showMap() {
+		return "outerFacilities/showMapBackUp";
+	}
+	
+	
 	@GetMapping("showMap")
 	public String showMap(Model model, HttpSession session) {
-		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-		if (loginMember == null) {
-			return "redirect:/main/mmain";
-		}
+//		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+//		if (loginMember == null) {
+//			return "redirect:/main/mmain";
+//		}
 		
 		List<AroundEvaluationVo> aroundList = as.getAroundList();
 		List<AroundEvaluationVo> evaluationList = as.getEvaluationList();
@@ -41,11 +47,12 @@ public class AroundController {
 	@GetMapping("write")
 	@ResponseBody
 	public String writeReview(AroundEvaluationVo vo, HttpSession session) {
-		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-		if (loginMember == null) {
-			return "redirect:/main/mmain";
-		}
-		vo.setWriterNo(loginMember.getNo());
+//		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+//		if (loginMember == null) {
+//			return "redirect:/main/mmain";
+//		}
+//		vo.setWriterNo(loginMember.getNo());
+		vo.setWriterNo("1");
 		
 		int result = as.write(vo);
 		log.info("result : {}", result);
@@ -58,10 +65,10 @@ public class AroundController {
 	@GetMapping("enroll")
 	@ResponseBody
 	public String enrollFacility(AroundEvaluationVo vo, HttpSession session) {
-		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-		if (loginMember == null) {
-			return "redirect:/main/mmain";
-		}
+//		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+//		if (loginMember == null) {
+//			return "redirect:/main/mmain";
+//		}
 
 		int result = as.enrollFacility(vo);
 		log.info("result : {}", result);
