@@ -16,4 +16,10 @@ public interface InnerFacService {
 	int delete(InnerFacRsVo rsVo);
 	InnerFacVo getInnerFacInfo(int no);
 	List<String> getInnerFacImg(int no);
+	//정보변경
+	int updateInnerFacInfo(Map<String, String> infoMap);
+	//관리자이미지목록조회
+	List<InnerFacImgVo> getInnerFacImgList(String facNo);
+	//이미지 추가
+	int addInnerFacImg(Map<String, String> infoMap);
 }
