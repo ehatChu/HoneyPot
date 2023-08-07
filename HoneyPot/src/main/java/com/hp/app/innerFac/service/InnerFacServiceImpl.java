@@ -122,6 +122,11 @@ public class InnerFacServiceImpl implements InnerFacService {
 	public int getPersonalCnt(String memberNo) {
 		return dao.getPersonalCnt(sst,memberNo);
 	}
+	////예약취소-버튼으로
+	@Override
+	public int deleteReservation(String no) {
+		return dao.deleteReservation(sst,no);
+	}
 
 	
 

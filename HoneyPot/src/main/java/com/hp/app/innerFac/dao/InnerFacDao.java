@@ -35,4 +35,6 @@ public interface InnerFacDao {
 	List<InnerFacRsVo> getAllPersonalReservation(SqlSessionTemplate sst, String memberNo, PageVo pv);
 	//개인조회갯수
 	int getPersonalCnt(SqlSessionTemplate sst, String memberNo);
+	//예약취소-버튼으로
+	int deleteReservation(SqlSessionTemplate sst, String no);
 }

@@ -424,5 +424,16 @@ public class FacilitiesController {
 		return "innerFacilities/personalReservation";
 		
 	}
+	
+	//찐막... 예약취소인데..
+	@GetMapping("innerFac/cancel-personal")
+	public String cancleReservation(String no) {
+		
+		//DB에서 삭제
+		int result = service.deleteReservation(no);
+		
+		return "redirect:/innerFac/personalReservation?p=1";
+	}
+	
 }
 

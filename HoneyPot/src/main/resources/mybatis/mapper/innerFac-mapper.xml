@@ -115,4 +115,10 @@
 		SELECT COUNT(*) FROM AMENITY_RESERVATION
 		WHERE MEMBER_NO=#{memberNo}
 	</select>
+	
+	<!-- 조회에서 삭제까지 -->
+	<delete id="deleteReservation">
+		DELETE AMENITY_RESERVATION 
+		WHERE NO=#{no} 
+	</delete>
 </mapper>

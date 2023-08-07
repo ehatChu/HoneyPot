@@ -59,7 +59,7 @@
 						<td>${vo.reserveTime}</td>
 						<td>${vo.startTime}~${vo.endTime}</td>
 						<td>${vo.name}</td>
-						<td><button>예약취소</button></td>
+						<td><button onclick="location.href='/app/innerFac/cancel-personal?no=${vo.no}'">예약취소</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>

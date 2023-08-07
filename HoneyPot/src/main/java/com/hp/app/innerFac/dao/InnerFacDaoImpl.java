@@ -152,4 +152,16 @@ public class InnerFacDaoImpl implements InnerFacDao {
 		
 		return result;
 	}
+	//예약취소-버튼으로
+	@Override
+	public int deleteReservation(SqlSessionTemplate sst, String no) {
+		int result = 0;
+		try {
+			result = sst.selectOne("innerFac.deleteReservation",no);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

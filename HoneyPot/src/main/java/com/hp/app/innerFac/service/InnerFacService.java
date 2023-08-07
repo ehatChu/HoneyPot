@@ -14,6 +14,7 @@ public interface InnerFacService {
 	List<String> getReservationTimeInfo(InnerFacRsVo rsVo);
 	int getReservedPeopleCntByTime(Map<String, String> map);
 //	int updateCancelStatus(InnerFacRsVo rsVo);
+	//예약취소-예약페이지에서
 	int delete(InnerFacRsVo rsVo);
 	InnerFacVo getInnerFacInfo(int no);
 	List<String> getInnerFacImg(int no);
@@ -29,5 +30,7 @@ public interface InnerFacService {
 	List<InnerFacRsVo> getAllPersonalReservation(String memberNo, PageVo pv);
 	//개인조회갯수
 	int getPersonalCnt(String memberNo);
+	//예약취소-버튼으로
+	int deleteReservation(String no);
 
 }
