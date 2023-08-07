@@ -40,31 +40,35 @@ public class AccountController {
 	
 	// 가계부 목록 조회 화면
 	@GetMapping("account/list")
-	public String list(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
+	public String list(@RequestParam(defaultValue="1") String p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
 		
-		/*
-		 * MemberVo loginMember = (MemberVo)session.getAttribute("loginMember"); String
-		 * mno = loginMember.getNo();
-		 */
-		String mno = "5";
-		//searchVo.put("yearMonth", yearMonth);
-		paramMap.put("no", mno);
-		log.info(paramMap.toString());
-		int listCount = service.listCnt(paramMap);
-		int CurrentPage = p;
-		int pageLimit = 5;
-		int boardLimit = 10;
-		PageVo pv = new PageVo(listCount, CurrentPage, pageLimit, boardLimit);
-		
-		// 로그인한 회원 번호로 가계부 목록 조회
-		List<AccountVo> avoList = service.list(pv, paramMap);
-		
-		if(!avoList.isEmpty()) {
+		try {
+			/*
+			 * MemberVo loginMember = (MemberVo)session.getAttribute("loginMember"); String
+			 * mno = loginMember.getNo();
+			 */
+			String mno = "5";
+			//searchVo.put("yearMonth", yearMonth);
+			paramMap.put("no", mno);
+			log.info(paramMap.toString());
+			int listCount = service.listCnt(paramMap);
+			System.out.println(listCount);
+			int currentPage = Integer.parseInt(p);
+			int pageLimit = 5;
+			int boardLimit = 10;
+			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+			
+			// 로그인한 회원 번호로 가계부 목록 조회
+			List<AccountVo> avoList = service.list(pv, paramMap);
+			log.info(avoList.toString());
+//			if(!avoList.isEmpty()) {
+//			}
 			model.addAttribute("pv", pv);
+			model.addAttribute("avoList", avoList);
+			model.addAttribute("paramMap", paramMap);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		model.addAttribute("avoList", avoList);
-		model.addAttribute("paramMap", paramMap);
-		
 		return "mypage/myInfo/accountBook";
 		
 	}

@@ -63,7 +63,7 @@ public class ChatSocketServer extends TextWebSocketHandler{
 		String payload = message.getPayload().toString();
     	ObjectMapper objectMapper = new ObjectMapper();
 	    JsonNode jsonNode = objectMapper.readTree(payload);
-
+	    log.info(jsonNode.toString());
 	    String action = jsonNode.get("action").asText();
 		MemberVo loginMember = (MemberVo) session.getAttributes().get("loginMember");
 		String mno = loginMember.getNo();
@@ -148,14 +148,15 @@ public class ChatSocketServer extends TextWebSocketHandler{
 	            
 	            ChatMemberVo mvo = new ChatMemberVo();
 	            mvo.setChattingRoomNo(roomId);
-	            mvo.setMemberName(memberId);
-	            if (loginMember.getName().equals(memberId)) {
+	            mvo.setMemberNo(memberId);
+	            log.info(mvo.toString());
+	            if (loginMember.getNo().equals(memberId)) {
 	                int result = service.updateReadTime(mvo);
 	            }
 		    }else if (action.equals("user_quit")) {
 		        // 클라이언트에서 채팅방에서 나간 이벤트를 받았을 때 처리
 		        String userName = jsonNode.get("userName").asText();
-		        String quitMsg = String.format("%s님이 채팅방을 나갔습니다.", userName);
+		        String quitMsg = String.format(userName + "님이 채팅방을 나갔습니다.");
 		        String roomNo = jsonNode.get("roomNo").asText();
 		        System.out.println("User quit event: " + jsonNode);
 

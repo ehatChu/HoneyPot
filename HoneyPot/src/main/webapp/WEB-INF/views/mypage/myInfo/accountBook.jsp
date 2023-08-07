@@ -62,7 +62,7 @@
 									<option value="accountCno">카테고리</option>
 									<option value="accountDate">월 별</option>
 								</select>
-								<input type="search" placeholder="검색 할 내용을 입력하세요." name="searchValue">
+								<input type="search" placeholder="검색 할 내용을 입력하세요." name="contentValue">
 								<select id="search_category" style="display: none;">
 										<option value="2">생활/마트</option>
 										<option value="3">의료/건강</option>
@@ -121,18 +121,18 @@
 					<div id="page-area">
 						<div class="paging">
 							<c:if test="${pv.currentPage > 1}">
-						<button id="pbtn" onclick="location.href='/app/account/list?p=${pv.currentPage - 1}'"> < </button>
+						<button id="pbtn" onclick="location.href='/app/account/list?p=${pv.currentPage - 1}&searchType=${paramMap.searchType}&searchValue=${paramMap.searchValue}'"> < </button>
 					</c:if>
 					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
 						<c:if test="${pv.currentPage != i}">
-							<button id="pbtn" onclick="location.href='/app/account/list?p=${i}'">${i}</button>
+							<button id="pbtn" onclick="location.href='/app/account/list?p=${i}&searchType=${searparamMapchVo.searchType}&searchValue=${paramMap.searchValue}'">${i}</button>
 						</c:if>
 						<c:if test="${pv.currentPage == i}">
 							<button id="current-page-btn">${i}</button>
 						</c:if>
 					</c:forEach>
 					<c:if test="${pv.currentPage < pv.maxPage}">
-						<button id="pbtn" onclick="location.href='/app/account/list?p=${pv.currentPage + 1}'"> > </button>
+						<button id="pbtn" onclick="location.href='/app/account/list?p=${pv.currentPage + 1}&searchType=${paramMap.searchType}&searchValue=${paramMap.searchValue}'"> > </button>
 					</c:if>
 							
 						</div>
@@ -430,13 +430,13 @@
       if (selectedOption === "content") {
         $("#search_category").hide();
         $("#accountDate").hide();
-        $("input[name='searchValue']").show();
+        $("input[name='contentValue']").show();
       } else if (selectedOption === "accountCno") {
-        $("input[name='searchValue']").hide();
+        $("input[name='contentValue']").hide();
         $("#accountDate").hide();
         $("#search_category").show();
       } else if (selectedOption === "accountDate") {
-        $("input[name='searchValue']").hide();
+        $("input[name='contentValue']").hide();
         $("#search_category").hide();
         $("#accountDate").show();
       }
@@ -458,9 +458,10 @@
         } else if (selectedOption === "accountDate") {
             var selectedDate = $("#accountDate").val();
             window.location.href = "/app/account/list?searchType=" + selectedOption + "&searchValue=" + selectedDate;
-        } else {
-            this.submit();
-        }
+        }else if (selectedOption === "content"){
+			var contentValue =  $("input[name='contentValue']").val();
+			window.location.href = "/app/account/list?searchType=" + selectedOption + "&searchValue=" + contentValue;
+		}
     });
   });
 
@@ -468,7 +469,7 @@
 
 	//검색 후 검색타입과 검색value 유지되도록
 	const searchTypeTagArr = document.querySelectorAll("#searchType > option");
-	const contentValue = document.querySelector("input[name=searchValue]");
+	const contentValue = document.querySelector("input[name=contentValue]");
 	const categorySelect = document.querySelectorAll("#search_category > option");
 	const dateSelect = document.querySelectorAll("#accountDate > option");
   	const searchValue = '${paramMap.searchValue}';
@@ -503,6 +504,18 @@
 		searchTypeTagArr[2].selected = true;
 	}
 
+	if(searchValue === '2023-08'){
+		dateSelect[0].selected = true;
+	}else if(searchValue === '2023-07'){
+		dateSelect[1].selected = true;
+	}else if(searchValue === '2023-06'){
+		dateSelect[2].selected = true;
+	}else if(searchValue === '2023-05'){
+		dateSelect[3].selected = true;
+	}else if(searchValue === '2023-04'){
+		dateSelect[4].selected = true;
+	}
+
 
 	// 이번 달부터 5개의 달 생성
 	function makeCurrentMonths() {
@@ -535,8 +548,6 @@
 		}
 
 		accountDateSelect.innerHTML = optionsHTML;
-
-   
 }
 
 	// 날짜 검색 푸쉬 함수 호출

@@ -129,7 +129,7 @@
 			AND c.MEMBER_NO = (
 			    SELECT M.NO
 			    FROM MEMBER M
-			    WHERE M.NAME = #{memberName}
+			    WHERE M.NO = #{memberNo}
 			)
 			AND EXISTS (
 			    SELECT 1

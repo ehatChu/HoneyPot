@@ -62,7 +62,6 @@ public class FeeController {
 //			String no = loginMember.getNo();
 		
 			paramMap.put("no", "1");
-		    //mfMap.put("paymentDate", paymentDate);
 			log.info(paramMap.toString());
 		    List<MemberFeeVo> mfvoList = service.memberFeeList(paramMap);
 		    int mTotalFee = service.totalMemberFee(paramMap);
@@ -78,8 +77,7 @@ public class FeeController {
 	public ResponseEntity<Map<String,Object>> getBarChart(MemberFeeVo vo) {
 		
 		String mno = "1";
-		//AccountVo voCurrent = service.getBarChart(mno);
-		
+
 		// 현재 날짜
 	    LocalDate currentDate = LocalDate.now();
 	    // 1. 현재 달
@@ -124,7 +122,6 @@ public class FeeController {
 		public ResponseEntity<Map<String,Object>> getLineChart(MemberFeeVo vo) {
 			
 			String mno = "1";
-			//AccountVo voCurrent = service.getBarChart(mno);
 			// 현재 날짜
 		    LocalDate currentDate = LocalDate.now();
 		    // 1. 현재 달
@@ -225,9 +222,7 @@ public class FeeController {
 		// 관리비 조회
 		List<AdminFeeVo> avoList = service.adminList(pv, paramMap);
 		
-		if(!avoList.isEmpty()) {
-			model.addAttribute("pv", pv);
-		}
+		model.addAttribute("pv", pv);
 		model.addAttribute("avoList", avoList);
 		model.addAttribute("paramMap", paramMap);
 		

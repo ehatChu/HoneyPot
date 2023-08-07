@@ -317,7 +317,18 @@
 									var rno = cvo.no;
 									
 									funcOpen(rno);
-									
+									// 소켓 들어올 때, read-time을 업데이트
+									var updateReadTime = JSON.stringify({
+										action: "updateReadTime",
+										roomNo: roomNo,
+										memberId: memberNo
+									});
+									wsocket.send(updateReadTime);
+
+									setInterval(function() {
+										wsocket.send(updateReadTime);
+									}, 30000);
+
 									const quitBtn = document.querySelector(".quitBtn");
 									quitBtn.addEventListener("click", function () {
 									Swal.fire({
@@ -393,17 +404,7 @@
 					});
 					wsocket.send(loadMessagesRequest);
 
-					// 소켓 들어올 때, read-time을 업데이트
-					var updateReadTime = JSON.stringify({
-						action: "updateReadTime",
-						roomNo: roomNo,
-						memberId: memberNo
-					});
-					wsocket.send(updateReadTime);
-
-					setInterval(function() {
-						wsocket.send(updateReadTime);
-					}, 10000);
+					
 				}
 				
 				

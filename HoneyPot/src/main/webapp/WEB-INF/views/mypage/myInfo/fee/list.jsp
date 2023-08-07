@@ -25,7 +25,7 @@
 						<div class="total-area">
 							<div class="select-area">
 								<form id="memberFeeForm" action="/app/fee/member" method="GET">
-									<select id="paymentDate" name="searchValue" id="searchValue"> 
+									<select name="searchValue" id="searchValue"> 
 										<option value="" selected></option>
 										<option value=""></option>
 										<option value=""></option>
@@ -280,7 +280,7 @@
 		// 이전 달부터 5개의 달 생성
 		function makeRecentMonths() {
 		var currentDate = new Date();
-		// 현재 날짜를 6월로 설정 (0부터 시작하는 인덱스로 6은 7월을 의미합니다.)
+		// 현재 날짜를 6월로 설정 
 		currentDate.setMonth(5);
 		var recentMonths = [];
 		for (var i = 0; i < 5; i++) {
@@ -301,7 +301,7 @@
 
 		// 날짜 검색란에 옵션 추가 함수
 		function addOptionsToAccountDateSelect() {
-		var accountDateSelect = document.querySelector("#paymentDate");
+		var accountDateSelect = document.querySelector("#searchValue");
 		var recentMonths = makeRecentMonths();
 		var optionsHTML = "";
 
@@ -336,17 +336,28 @@
 
 		// 검색 후 검색타입과 검색value 유지되도록
 		const searchValueTagArr = document.querySelectorAll("#searchValue > option");
-		const urlParams = new URLSearchParams(window.location.search);
-		const searchValueParam = urlParams.get("searchValue");
+		const searchValue = '${searchValue}';
+		console.log(searchValue);
 
-		if (searchValueParam) {
-		for (let i = 0; i < searchValueTagArr.length; i++) {
-			if (searchValueTagArr[i].value === searchValueParam) {
-			searchValueTagArr[i].selected = true;
-			break;
-			}
-		}
-		}
+		
+
+		//검색 후 검색타입 유지되도록
+		function initSearchType(){
+        const x = document.querySelector('select[name=searchValue] > option[value="' + searchValue + '"]');
+	    x.selected = true;
+    }
+
+		// if(searchValue === '2023-07'){
+		// 	searchValueTagArr[4].selected = true;
+		// }else if(searchValue === '2023-06'){
+		// 	searchValueTagArr[3].selected = true;
+		// }else if(searchValue === '2023-05'){
+		// 	searchValueTagArr[2].selected = true;
+		// }else if(searchValue === '2023-04'){
+		// 	searchValueTagArr[1].selected = true;
+		// }else if(searchValue === '2023-03'){
+		// 	searchValueTagArr[0].selected = true;
+		// }
 
 
 

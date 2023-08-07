@@ -9,18 +9,14 @@
 		FROM ACCOUNT A
 		WHERE A.WRITER_NO = ${no}
 		AND A.STATUS = 'Y'
-		<if test="searchType != null and searchType != '' and searchValue != null and searchValue != ''">
-			<choose>
-				<when test="searchType == 'content'">
+		<if test="searchType == 'content' and searchValue != null and searchValue != ''">
 					AND A.CONTENT LIKE '%${searchValue}%'
-				</when>
-				<when test="searchType == 'accountDate'">
+		</if>
+		<if test="searchType == 'accountDate' and searchValue != null and searchValue != ''">
 					AND TO_CHAR(A.ACCOUNT_DATE, 'YYYY-MM') LIKE '%${searchValue}%'
-				</when>
-				<when test="searchType == 'accountCno'">
+		</if>
+		<if test="searchType == 'accountCno' and searchValue != null and searchValue != ''">
 					AND ACCOUNT_CNO LIKE '%${searchValue}%'
-				</when>
-			</choose>
 		</if>
 	</select>
 	
@@ -39,18 +35,14 @@
 		ON A.WRITER_NO = M.NO
 		WHERE A.WRITER_NO = ${no}
 		AND A.STATUS = 'Y'
-		<if test="searchType != null and searchType != '' and searchValue != null and searchValue != ''">
-			<choose>
-				<when test="searchType == 'content'">
+		<if test="searchType == 'content' and searchValue != null and searchValue != ''">
 					AND A.CONTENT LIKE '%${searchValue}%'
-				</when>
-				<when test="searchType == 'accountDate'">
+		</if>
+		<if test="searchType == 'accountDate' and searchValue != null and searchValue != ''">
 					AND TO_CHAR(A.ACCOUNT_DATE, 'YYYY-MM') LIKE '%${searchValue}%'
-				</when>
-				<when test="searchType == 'accountCno'">
+		</if>
+		<if test="searchType == 'accountCno' and searchValue != null and searchValue != ''">
 					AND ACCOUNT_CNO LIKE '%${searchValue}%'
-				</when>
-			</choose>
 		</if>
 		ORDER BY A.ACCOUNT_DATE DESC
 	</select>
