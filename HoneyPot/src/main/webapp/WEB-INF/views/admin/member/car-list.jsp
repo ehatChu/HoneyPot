@@ -123,15 +123,15 @@
     font-weight: 800;
    }
    .main-header {
-        height: 50px;
+        height: 40px;
    }
    .main-table {
     border-collapse: collapse;
     width: 1560px;
-    height: 450px;
     box-sizing: border-box;
    }
    .table-line {
+    height: 40px;
     text-align:  center;
    }
    .confirm-btn {
@@ -254,6 +254,9 @@
     #blank999 {
         width: 30px;
     }
+    #main-mine-line{
+        height: 400px;
+    }
 </style>
 </head>
 
@@ -324,40 +327,43 @@
             <form action="/app/admin/accept/property-list" method="get">
                 <input type="hidden" name="kinda" value="CAR">
                 <div id="main-mine-line">
-                    <table class="main-table" border="1">
-                       <thead>
-                           <tr class="main-header">
-                               <th><input type="checkbox"></th>
-                               <th>사유물명</th>
-                               <th>소지인</th>
-                               <th>연락처</th>
-                               <th>작성일자</th>
-                               <th>처리일자</th>
-                               <th>처리자</th>
-                           </tr>
-                       </thead>
-                       <tbody>
-                           <c:forEach var="mineVo" items="${mineVoList}">
-                               <tr class="table-line">
-                                   <td><input type="checkbox" name="no" value="${mineVo.no}"><input type="hidden" value="${mineVo.no}"></td>
-                                   <td>${mineVo.name}</td>
-                                   <td>${mineVo.memberName}</td>
-                                   <td>${mineVo.phone}</td>
-                                   <td>${mineVo.enrollDate}</td>
-                                   <td>
-                                   <c:if test="${empty mineVo.confirmDate}">
-                                   -
-                                   </c:if>
-                                      <c:if test="${not empty mineVo.confirmDate}">
-                                   ${mineVo.confirmDate}                                                                
-                                   </c:if>
-                                   </td>
-                                   <td>${mineVo.adminName}</td>
-                               </tr>
-                           </c:forEach>
-                           
-                       </tbody>
-                   </table>
+                    <div>
+                        <table class="main-table" border="1">
+                            <thead>
+                                <tr class="main-header">
+                                    <th><input type="checkbox"></th>
+                                    <th>사유물명</th>
+                                    <th>소지인</th>
+                                    <th>연락처</th>
+                                    <th>작성일자</th>
+                                    <th>처리일자</th>
+                                    <th>처리자</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="mineVo" items="${mineVoList}">
+                                    <tr class="table-line">
+                                        <td><input type="checkbox" name="no" value="${mineVo.no}"><input type="hidden" value="${mineVo.no}"></td>
+                                        <td>${mineVo.name}</td>
+                                        <td>${mineVo.memberName}</td>
+                                        <td>${mineVo.phone}</td>
+                                        <td>${mineVo.enrollDate}</td>
+                                        <td>
+                                        <c:if test="${empty mineVo.confirmDate}">
+                                        -
+                                        </c:if>
+                                           <c:if test="${not empty mineVo.confirmDate}">
+                                        ${mineVo.confirmDate}                                                                
+                                        </c:if>
+                                        </td>
+                                        <td>${mineVo.adminName}</td>
+                                    </tr>
+                                </c:forEach>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                   
    
                </div>
                <div id="btn-area">

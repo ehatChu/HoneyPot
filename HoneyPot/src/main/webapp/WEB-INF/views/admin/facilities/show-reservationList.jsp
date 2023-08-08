@@ -124,16 +124,16 @@
     font-weight: 800;
    }
    .main-header {
-        height: 50px;
+        height: 40px;
    }
    .main-table {
     border-collapse: collapse;
     width: 1560px;
-    height: 450px;
     box-sizing: border-box;
    }
    .table-line {
     text-align:  center;
+    height: 40px;
    }
    .confirm-btn {
         width: 100px;
@@ -255,6 +255,9 @@
     #blank999 {
         width: 30px;
     }
+    #main-mine-line {
+        height: 400px;
+    }
 </style>
 </head>
 
@@ -323,25 +326,28 @@
         </form>
            
             <div id="main-mine-line">
-                <table class="main-table" border="1">
-                    <thead>
-                        <tr class="main-header">
-                            <th>예약자명</th>
-                            <th>시설명</th>
-                            <th>예약일시</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="vo" items="${facVoList}">
-                            <tr class="table-line">
-                                <td>${vo.memberName}</td>
-                                <td>${vo.amenityName}</td>
-                                <td>${vo.reserveTime}</td>
+                <div>
+                    <table class="main-table" border="1">
+                        <thead>
+                            <tr class="main-header">
+                                <th>예약자명</th>
+                                <th>시설명</th>
+                                <th>예약일시</th>
                             </tr>
-                        </c:forEach>
-                        
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="vo" items="${facVoList}">
+                                <tr class="table-line">
+                                    <td>${vo.memberName}</td>
+                                    <td>${vo.amenityName}</td>
+                                    <td>${vo.reserveTime}</td>
+                                </tr>
+                            </c:forEach>
+                            
+                        </tbody>
+                    </table>
+                </div>
+               
 
             </div>
             
