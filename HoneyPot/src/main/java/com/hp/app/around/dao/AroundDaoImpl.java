@@ -30,4 +30,9 @@ public class AroundDaoImpl implements AroundDao{
 		return sst.selectList("around.getAroundList");
 	}
 
+	@Override
+	public List<AroundEvaluationVo> getScoreList(SqlSessionTemplate sst) {
+		return sst.selectList("around.getScoreList");
+	}
+
 }

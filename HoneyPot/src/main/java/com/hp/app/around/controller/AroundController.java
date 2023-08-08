@@ -32,14 +32,16 @@ public class AroundController {
 	
 	@GetMapping("showMap")
 	public String showMap(Model model, HttpSession session) {
-//		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-//		if (loginMember == null) {
-//			return "redirect:/main/mmain";
-//		}
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if (loginMember == null) {
+			return "redirect:/main/mmain";
+		}
 		
 		List<AroundEvaluationVo> aroundList = as.getAroundList();
+		List<AroundEvaluationVo> scoreList = as.getScoreList();
 		List<AroundEvaluationVo> evaluationList = as.getEvaluationList();
 		model.addAttribute("aroundList", aroundList);
+		model.addAttribute("scoreList", scoreList);
 		model.addAttribute("evaluationList", evaluationList);		
 		return "outerFacilities/showMap";
 	}
@@ -47,12 +49,11 @@ public class AroundController {
 	@GetMapping("write")
 	@ResponseBody
 	public String writeReview(AroundEvaluationVo vo, HttpSession session) {
-//		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-//		if (loginMember == null) {
-//			return "redirect:/main/mmain";
-//		}
-//		vo.setWriterNo(loginMember.getNo());
-		vo.setWriterNo("1");
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if (loginMember == null) {
+			return "redirect:/main/mmain";
+		}
+		vo.setWriterNo(loginMember.getNo());
 		
 		int result = as.write(vo);
 		log.info("result : {}", result);
@@ -65,10 +66,10 @@ public class AroundController {
 	@GetMapping("enroll")
 	@ResponseBody
 	public String enrollFacility(AroundEvaluationVo vo, HttpSession session) {
-//		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-//		if (loginMember == null) {
-//			return "redirect:/main/mmain";
-//		}
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if (loginMember == null) {
+			return "redirect:/main/mmain";
+		}
 
 		int result = as.enrollFacility(vo);
 		log.info("result : {}", result);
