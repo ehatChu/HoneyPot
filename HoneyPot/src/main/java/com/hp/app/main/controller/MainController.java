@@ -65,10 +65,12 @@ public class MainController {
 		}
 
 		List<NoticeCalendarVo> noticeCalendarList = ms.getNoticeCalendarList();
+		int totalFee = ms.getTotalFee();
 		int[] paramCntArr = ms.getParamCntArr();
 
 		model.addAttribute("noticeCalendarList", noticeCalendarList);
 		model.addAttribute("paramCntArr", paramCntArr);
+		model.addAttribute("totalFee", totalFee);
 
 		return "main/amain";
 	}

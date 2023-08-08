@@ -695,13 +695,42 @@
                         legend: {
                             display: false
                         },
-                        center: {
-                            text: '540,000 won',
-                            color: 'black',
-                            fontStyle: 'Arial',
-                            sidePadding: 20
+                        plugins: {
+                            centerLabel: {
+                                display: true,
+                                text: '${totalFee} 원',
+                                color: 'black',
+                                fontStyle: 'Arial',
+                                minFontSize: 18,
+                                sidePadding: 20
+                            }
                         }
-                    }
+                    },
+                    plugins: [{
+                        beforeDraw: function(chart) {
+                            var width = chart.chart.width,
+                                height = chart.chart.height,
+                                ctx = chart.chart.ctx;
+
+                            var centerLabel = chart.config.options.plugins.centerLabel;
+                            if (centerLabel.display) {
+                                ctx.restore();
+                                var fontSize = Math.min(
+                                    centerLabel.minFontSize,
+                                    (height / 2).toFixed(2)
+                                );
+                                ctx.font = fontSize + "px " + centerLabel.fontStyle;
+                                ctx.textBaseline = "middle";
+                                var text = centerLabel.text,
+                                    textX = Math.round((width - ctx.measureText(text).width) / 2),
+                                    textY = height / 2;
+
+                                ctx.fillStyle = centerLabel.color;
+                                ctx.fillText(text, textX, textY);
+                                ctx.save();
+                            }
+                        }
+                    }]
                 });
             }
 

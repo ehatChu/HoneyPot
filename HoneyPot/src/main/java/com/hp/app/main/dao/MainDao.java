@@ -49,4 +49,6 @@ public interface MainDao {
 	int getWaitMemberCnt(SqlSessionTemplate sst);
 
 	List<AdminFeeVo> getAdminFeeList(SqlSessionTemplate sst);
+
+	int getTotalFee(SqlSessionTemplate sst);
 }
