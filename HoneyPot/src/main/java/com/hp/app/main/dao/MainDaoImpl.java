@@ -111,4 +111,9 @@ public class MainDaoImpl implements MainDao {
 	public List<AdminFeeVo> getAdminFeeList(SqlSessionTemplate sst) {
 		return sst.selectList("main.getAdminFeeList");
 	}
+
+	@Override
+	public int getTotalFee(SqlSessionTemplate sst) {
+		return sst.selectOne("main.getTotalFee");
+	}
 }

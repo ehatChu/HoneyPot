@@ -105,4 +105,9 @@ public class MainServiceImpl implements MainService {
 		return dao.getAdminFeeList(sst);
 	}
 
+	@Override
+	public int getTotalFee() {
+		return dao.getTotalFee(sst);
+	}
+
 }

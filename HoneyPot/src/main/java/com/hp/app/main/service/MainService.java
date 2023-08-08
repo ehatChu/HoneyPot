@@ -42,4 +42,6 @@ public interface MainService {
 	int[] getParamCntArr();
 
 	List<AdminFeeVo> getAdminFeeList();
+
+	int getTotalFee();
 }
