@@ -46,6 +46,9 @@ public interface MemberManagementService {
 	// 관리자 회원 삭제
 	int deleteAdmin(String ano);
 	
+	// 관리자 회원 정지
+	int stopAdmin(String ano);
+	
 	// 관리자 정규 회원 등록
 	int regularAdmin(String ano);
 }

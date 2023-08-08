@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.point.vo.PointVo;
 import com.hp.app.restriction.vo.RestrictionVo;
@@ -61,5 +62,43 @@ public class MemberManagementDaoImpl implements MemberManagementDao{
 	public int updateMemberStatus(SqlSessionTemplate sst, String memberNo) {
 		return sst.update("memberManagement.updateMemberStatus", memberNo);
 	}
+
+	// 관리자
+	// 관리자 전체 갯수
+	@Override
+	public List<AdminVo> getAdminListCnt(SqlSessionTemplate sst, Map<String, String> searchMap) {
+		return sst.selectList("memberManagement.getAdminListCnt", searchMap);
+	}
+
+	// 관리자 조회
+	@Override
+	public List<AdminVo> getAdminList(SqlSessionTemplate sst, Map<String, String> searchMap) {
+		return sst.selectList("memberManagement.getAdminList", searchMap);
+	}
+
+	// 관리자 상세 조회
+	@Override
+	public AdminVo getAdminByNo(SqlSessionTemplate sst, String ano) {
+		return sst.selectOne("memberManagement.getAdminByNo", ano);
+	}
+
+	// 관리자 회원 삭제
+	@Override
+	public int deleteAdmin(SqlSessionTemplate sst, String ano) {
+		return sst.update("memberManagement.deleteAdmin", ano);
+	}
+
+	// 관리자 회원 정지
+	@Override
+	public int stopAdmin(SqlSessionTemplate sst, String ano) {
+		return sst.update("memberManagement.stopAdmin", ano);
+	}
+	
+	// 관리자 정규 회원 등록
+	@Override
+	public int regularAdmin(SqlSessionTemplate sst, String ano) {
+		return sst.update("memberManagement.regularAdmin", ano);
+	}
+
 
 }

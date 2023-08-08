@@ -62,7 +62,7 @@
     width: 130px;
     height: 50px;
     border: none;
-    background-color: #FFCE31;
+    background-color: #3183ff;
     font-weight: bold;
     font-family: 'Noto Sans KR';
     font-size: 20px;
@@ -126,7 +126,7 @@
 }
 
 .admin-list:hover{
-    background-color: #FEFFD0;
+    background-color: #c0d9ff;
 }
 
 .admin-list-img{
@@ -272,10 +272,9 @@
 }
 
 .admin-detail-stop-btn{
-    margin-top: 20px;
     width: 100px;
     height: 50px;
-    background-color: #FFCE31;
+    background-color: #969696;
     border: none;
     border-radius: 6px;
     font-size: 20px;
@@ -338,6 +337,10 @@
     color: #FFCE31;
 }
 
+.blue{
+    color: #3183ff;
+}
+
 .b-yellow{
     background-color: #FFCE31;
 }
@@ -347,7 +350,7 @@
 }
 
 .new-admin{
-    background-color: #ffffe6;
+    background-color: #e3eeff;
 }
 
 .stop-admin{

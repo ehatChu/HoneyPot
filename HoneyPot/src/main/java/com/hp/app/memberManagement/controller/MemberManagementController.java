@@ -146,36 +146,72 @@ public class MemberManagementController {
 	public String getadminList(Model model,@RequestParam Map<String,String> searchMap) {
 		
 		try {
-//			List<AdminVo> nList = service.getAdminListCnt(searchMap);
-//			List<AdminVo> mList = service.getAdminList(searchMap);
-//			
-//			int sum = 0;
-//			int statusN = 0;
-//			int statusS = 0;
-//			
-//			for(AdminVo vo : nList) {
-//				if("N".equals(vo.getGrade())) {
-//					statusN++;
-//				}else if("S".equals(vo.getGrade())) {
-//					statusS++;
-//				}
-//				sum++;
-//			}
-//			
-//			Map<String,String> memberCntMap = new HashMap<String, String>();
-//			
-//			memberCntMap.put("sum", Integer.toString(sum));
-//			memberCntMap.put("statusN", Integer.toString(statusN));
-//			memberCntMap.put("statusS", Integer.toString(statusS));
-//			
-//			model.addAttribute("searchMap", searchMap);
-//			model.addAttribute("memberCntMap", memberCntMap);
-//			model.addAttribute("mList",mList);
+			List<AdminVo> nList = service.getAdminListCnt(searchMap);
+			List<AdminVo> aList = service.getAdminList(searchMap);
+			
+			int sum = 0;
+			int statusN = 0;
+			int statusS = 0;
+			int gradeD = 0;
+			int gradeS = 0;
+			
+			for(AdminVo vo : nList) {
+				if("N".equals(vo.getStatus())) {
+					statusN++;
+				}else if("S".equals(vo.getStatus())) {
+					statusS++;
+				}
+				
+				if("D".equals(vo.getGrade())) {
+					gradeD++;
+				}else if("S".equals(vo.getGrade())) {
+					gradeS++;
+				}
+				sum++;
+			}
+			
+			Map<String,String> adminCntMap = new HashMap<String, String>();
+			
+			adminCntMap.put("sum", Integer.toString(sum));
+			adminCntMap.put("statusN", Integer.toString(statusN));
+			adminCntMap.put("statusS", Integer.toString(statusS));
+			adminCntMap.put("gradeD", Integer.toString(gradeD));
+			adminCntMap.put("gradeS", Integer.toString(gradeS));
+			
+			model.addAttribute("searchMap", searchMap);
+			model.addAttribute("adminCntMap", adminCntMap);
+			model.addAttribute("aList",aList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return "admin/member/admin-list";
+	}
+	
+	// 관리자 상세 조회
+	@PostMapping("admin/member/admin-list/detail")
+	@ResponseBody
+	public AdminVo getAdminByNo(String ano) throws Exception {
+		AdminVo vo = service.getAdminByNo(ano);
+		
+		if(vo == null) {
+			throw new Exception("관리자 상세조회 에러");
+		}
+		
+		return vo;
+	}
+	
+	// 관리자 정규 등록
+	@PostMapping("admin/member/admin-list/regular")
+	public String regularAdmin(String ano) throws Exception {
+		int result = service.regularAdmin(ano);
+	
+		if(result != 1) {
+			throw new Exception("정규 관리자 등록 에러");
+		}
+		
+		return "redirect:/admin/member/member-list";
+		
 	}
 	
 }
