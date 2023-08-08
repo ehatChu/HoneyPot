@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.innerFac.service.InnerFacService;
 import com.hp.app.innerFac.vo.InnerFacImgVo;
+import com.hp.app.innerFac.vo.InnerFacInfoRsVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
 import com.hp.app.member.vo.MemberVo;
@@ -433,6 +434,29 @@ public class FacilitiesController {
 		int result = service.deleteReservation(no);
 		
 		return "redirect:/innerFac/personalReservation?p=1";
+	}
+	
+	
+	//어드민 전체예약조회(화면)
+	@GetMapping("admin/innerFac/reservation")
+	public String showAllReservation(@RequestParam(defaultValue = "1") int p ,@RequestParam(required = false) Map<String,String> searchValueMap,Model model) {
+		int listCount = service.getAllCnt(searchValueMap); 		
+		int currentPage = p;
+		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
+		int boardLimit =9; //한페이지에 list는 7개만 들어가게
+		PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
+		log.info("cnt : {}",listCount);
+		log.info("map : {}",searchValueMap);
+		List<InnerFacInfoRsVo> facVoList = service.searchAllReservation(searchValueMap,pv);
+		log.info("facVoList:{}",facVoList);
+		model.addAttribute("pv",pv);
+		
+		model.addAttribute("facVoList",facVoList);
+		model.addAttribute("searchStartDate",searchValueMap.get("startDate"));
+		model.addAttribute("searchEndDate",searchValueMap.get("endDate"));
+		model.addAttribute("searchStartTime",searchValueMap.get("startTime"));
+		model.addAttribute("searchName",searchValueMap.get("name"));
+		return  "/admin/facilities/show-reservationList";
 	}
 	
 }

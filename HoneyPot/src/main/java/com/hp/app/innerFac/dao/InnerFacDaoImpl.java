@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.hp.app.innerFac.vo.InnerFacImgVo;
+import com.hp.app.innerFac.vo.InnerFacInfoRsVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
 import com.hp.app.page.vo.PageVo;
@@ -163,5 +164,31 @@ public class InnerFacDaoImpl implements InnerFacDao {
 		}
 		
 		return result;
+	}
+	//관리자예약조회
+	@Override
+	public int getAllCnt(SqlSessionTemplate sst, Map<String, String> searchValueMap) {
+		int result = 0;
+	
+		try {
+			result = sst.selectOne("innerFac.getAllCnt",searchValueMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	//관리자예약조회
+	@Override
+	public List<InnerFacInfoRsVo> searchAllReservation(SqlSessionTemplate sst, Map<String, String> searchValueMap,
+			PageVo pv) {
+		List<InnerFacInfoRsVo> facList =null;
+		RowBounds rb = new RowBounds(pv.getOffset(),pv.getBoardLimit());
+		try {
+			facList = sst.selectList("innerFac.searchAllReservation",searchValueMap,rb);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return facList;
 	}
 }

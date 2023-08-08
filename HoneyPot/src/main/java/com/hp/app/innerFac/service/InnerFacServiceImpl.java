@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hp.app.innerFac.dao.InnerFacDao;
 import com.hp.app.innerFac.vo.InnerFacImgVo;
+import com.hp.app.innerFac.vo.InnerFacInfoRsVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
 import com.hp.app.page.vo.PageVo;
@@ -126,6 +127,16 @@ public class InnerFacServiceImpl implements InnerFacService {
 	@Override
 	public int deleteReservation(String no) {
 		return dao.deleteReservation(sst,no);
+	}
+	//관리자예약조회
+	@Override
+	public int getAllCnt(Map<String, String> searchValueMap) {
+		return dao.getAllCnt(sst,searchValueMap);
+	}
+	//관리자예약조회
+	@Override
+	public List<InnerFacInfoRsVo> searchAllReservation(Map<String, String> searchValueMap, PageVo pv) {
+		return dao.searchAllReservation(sst,searchValueMap,pv);
 	}
 
 	
