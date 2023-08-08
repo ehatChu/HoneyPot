@@ -331,6 +331,8 @@
                         <thead>
                             <tr class="main-header">
                                 <th>예약자명</th>
+                                <th>동</th>
+                                <th>호수</th>
                                 <th>시설명</th>
                                 <th>예약일시</th>
                             </tr>
@@ -339,6 +341,8 @@
                             <c:forEach var="vo" items="${facVoList}">
                                 <tr class="table-line">
                                     <td>${vo.memberName}</td>
+                                    <td>${vo.dongNum}</td>
+                                    <td>${vo.hoNum}</td>
                                     <td>${vo.amenityName}</td>
                                     <td>${vo.reserveTime}</td>
                                 </tr>

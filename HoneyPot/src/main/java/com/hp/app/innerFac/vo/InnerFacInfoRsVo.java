@@ -8,4 +8,6 @@ public class InnerFacInfoRsVo {
 	private String memberName;
 	private String amenityName;
 	private String reserveTime;
+	private String dongNum;
+	private String hoNum;
 }

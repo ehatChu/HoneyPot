@@ -453,15 +453,27 @@ public class FacilitiesController {
 		int boardLimit =9; //한페이지에 list는 7개만 들어가게
 		PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
 		log.info("cnt : {}",listCount);
-		log.info("map : {}",searchValueMap);
+		
+		String originTime = searchValueMap.get("startTime");
+		
+		if(searchValueMap.get("startTime")!=null) {
+			String startTime = searchValueMap.get("startTime").substring(0,2);
+			searchValueMap.put("startTime", startTime);
+			log.info("startTime : {}",startTime); //08:00 인데 앞에 두글자만 자르기
+		}
+		log.info("아브라카다브라다이루어져라 {}",searchValueMap);
+		
 		List<InnerFacInfoRsVo> facVoList = service.searchAllReservation(searchValueMap,pv);
 		log.info("facVoList:{}",facVoList);
+		
 		model.addAttribute("pv",pv);
 		
 		model.addAttribute("facVoList",facVoList);
 		model.addAttribute("searchStartDate",searchValueMap.get("startDate"));
 		model.addAttribute("searchEndDate",searchValueMap.get("endDate"));
-		model.addAttribute("searchStartTime",searchValueMap.get("startTime"));
+		
+		log.info("startTime : {}",searchValueMap.get("startTime"));
+		model.addAttribute("searchStartTime",originTime);
 		model.addAttribute("searchName",searchValueMap.get("name"));
 		return  "/admin/facilities/show-reservationList";
 	}
