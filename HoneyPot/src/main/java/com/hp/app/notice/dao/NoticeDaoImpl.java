@@ -77,4 +77,16 @@ public class NoticeDaoImpl implements NoticeDao {
 		return sst.insert("notice.insertVoteArticle", vcvoList);
 	}
 
+	//투표 불러오기
+	@Override
+	public VoteVo getVote(SqlSessionTemplate sst, String no) {
+		return sst.selectOne("notice.getVote", no);
+	}
+
+	//투표항목 불러오기
+	@Override
+	public List<VoteCandidateVo> getVoteCandidate(SqlSessionTemplate sst, String no) {
+		return sst.selectList("notice.getVoteCandidate",no);
+	}
+
 }

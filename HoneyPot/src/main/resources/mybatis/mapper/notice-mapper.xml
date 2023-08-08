@@ -263,5 +263,29 @@
 		SELECT * FROM DUAL
 	</insert>
 	
+	
+	<!-- 투표 불러오기 -->
+	<select id="getVote" resultType="com.hp.app.notice.vo.VoteVo">
+		SELECT
+			NOTICE_NO
+			,TITLE AS VOTE_TITLE
+			,END_DATE
+			,STATUS
+			,DUP_YN
+		FROM VOTE
+		WHERE STATUS = 'Y' AND NOTICE_NO = #{no}
+	</select>
+	
+	<!-- 투표항목 불러오기  -->
+	<select id="getVoteCandidate" resultType="com.hp.app.notice.vo.VoteCandidateVo">
+		SELECT
+			NO
+			,NOTICE_NO
+			,NAME
+		FROM VOTE_CANDIDATE
+		WHERE NOTICE_NO = #{no}
+		ORDER BY NO
+	</select>
+	
 
 </mapper>

@@ -259,19 +259,14 @@
         cursor: pointer;
     }
 
-    /* #vote-del-btn {
-        align-self: ;
-    } */
-
     #vote-body {
         display: grid;
         grid-template-columns: 1fr;
         overflow:auto;
         white-space: nowrap;
         /* text-overflow: ellipsis; */
+        margin-top: 10px;
     }
-
-    /* div { border: 1px solid red; } */
 
 </style>
 </head>
@@ -549,8 +544,8 @@
         voteBody.innerHTML = '';
         for (let i=1 ; i <= voteArticleArr.length ; i++){
             voteBody.innerHTML 
-                += '<input type="hidden" name="voteCandidateNo" value="' + i + '"><input type="hidden" name="voteCandidateName" value="' + voteArticleArr[i-1].value + '">'
-                + '<div><label><input class="vote-target" id="vote-target' + i + '" type="radio" name="voteCandidateNo">&nbsp;<span name="voteCandidateName">' + voteArticleArr[i-1].value + '</span></label></div>';
+                += '<div><label><input type="hidden" name="voteCandidateNo" value="' + i + '"><input type="hidden" name="voteCandidateName" value="' + voteArticleArr[i-1].value + '">'
+                + '<input class="vote-target" id="vote-target' + i + '" type="radio" name="voteCandidateNo" disabled>&nbsp;<span name="voteCandidateName">' + voteArticleArr[i-1].value + '</span></label></div>';
         }
         
         // const voteCandidateName = document.querySelector('input[name=voteCandidateName]');

@@ -190,8 +190,6 @@
 
 	#reply-insert-btn, #reply-edit-insert-btn { margin: 0px 25px; }
 
-	/* #secret-check { font-size: 18px; } */
-
 	/* div {border: 1px solid red;} */
 
 </style>

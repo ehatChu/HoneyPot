@@ -43,4 +43,10 @@ public interface NoticeDao {
 	//투표항목 삽입
 	public int insertVoteArticle(SqlSessionTemplate sst, List<VoteCandidateVo> vcvoList);
 
+	//투표 불러오기
+	public abstract VoteVo getVote(SqlSessionTemplate sst, String no);
+
+	//투표항목 불러오기
+	public abstract List<VoteCandidateVo> getVoteCandidate(SqlSessionTemplate sst, String no);
+
 }
