@@ -37,16 +37,23 @@
 
             <div class="admin-category-area">
                 <a href="/app/admin/member/admin-list?searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}" class="admin-category" id="adminAll">
-                    <div>회원</div>
+                    <div>전체</div>
                     <div>${adminCntMap.sum}</div>
                 </a>
-
-                <a href="/app/admin/member/admin-list?searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}&status=N" class="admin-category" id="adminN">
-                    <div>신규회원</div>
+                <a href="/app/admin/member/admin-list?searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}&grade=D" class="admin-category" id="adminGradeD">
+                    <div>동대표</div>
+                    <div>${adminCntMap.gradeD}</div>
+                </a>
+                <a href="/app/admin/member/admin-list?searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}&grade=S" class="admin-category" id="adminGradeS">
+                    <div>경비원</div>
+                    <div>${adminCntMap.gradeS}</div>
+                </a>
+                <a href="/app/admin/member/admin-list?searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}&status=N" class="admin-category" id="adminStatusN">
+                    <div>신규관리자</div>
                     <div>${adminCntMap.statusN}</div>
                 </a>
-                <a href="/app/admin/member/admin-list?searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}&status=S" class="admin-category border-r-solid" id="adminS">
-                    <div>정지회원</div>
+                <a href="/app/admin/member/admin-list?searchType=${searchMap.searchType}&searchValue=${searchMap.searchValue}&status=S" class="admin-category border-r-solid" id="adminStatusS">
+                    <div>정지관리자</div>
                     <div>${adminCntMap.statusS}</div>
                 </a>
             </div>
@@ -54,16 +61,15 @@
             <div class="admin-area">
 
                 <div class="admin-list-area">
-                	<c:forEach items="${mList}" var="vo">
+                	<c:forEach items="${aList}" var="vo">
                 		<c:if test="${vo.status eq 'Y'}">
 		                    <div class="admin-list" onclick="showadminDetail(this);">
 	                            <div hidden>${vo.no}</div>
 		                        <div class="admin-list-img">
-		                            <img src="${vo.profile}" alt="프로필사진">
+		                            <img src="/app/resources/member/profile/${vo.profile}" alt="프로필사진">
 		                        </div>
 		                        <div class="admin-list-text">
 		                            <span>${vo.name}</span>
-		                            <span>(${vo.dongNum}동 ${vo.hoNum}호)</span>
 		                        </div>
 		                    </div>
                 		</c:if>
@@ -71,11 +77,10 @@
 		                    <div class="admin-list new-admin" onclick="showadminDetail(this);">
 	                            <div hidden>${vo.no}</div>
 		                        <div class="admin-list-img">
-		                            <img src="${vo.profile}" alt="프로필사진">
+		                            <img src="/app/resources/member/profile/${vo.profile}" alt="프로필사진">
 		                        </div>
 		                        <div class="admin-list-text">
 		                            <span>${vo.name}</span>
-		                            <span>(${vo.dongNum}동 ${vo.hoNum}호)</span>
 		                        </div>
 		                    </div>
                 		</c:if>
@@ -83,11 +88,10 @@
 		                    <div class="admin-list stop-admin" onclick="showadminDetail(this);">
 	                            <div hidden>${vo.no}</div>
 		                        <div class="admin-list-img">
-		                            <img src="${vo.profile}" alt="프로필사진">
+		                            <img src="/app/resources/member/profile/${vo.profile}" alt="프로필사진">
 		                        </div>
 		                        <div class="admin-list-text">
 		                            <span>${vo.name}</span>
-		                            <span>(${vo.dongNum}동 ${vo.hoNum}호)</span>
 		                        </div>
 		                    </div>
                 		</c:if>
@@ -120,29 +124,37 @@
     // 회원 상태 카테고리 동적 css
     function adminStatusCheck(){
         const statusCheck = '${searchMap.status}'
+        const gradeCheck = '${searchMap.grade}'
         const statusAll = document.querySelector("#adminAll");
-        const statusN = document.querySelector("#adminN");
-        const statusS = document.querySelector("#adminS");
+        const gradeD = document.querySelector("#adminGradeD");
+        const gradeS = document.querySelector("#adminGradeS");
+        const statusN = document.querySelector("#adminStatusN");
+        const statusS = document.querySelector("#adminStatusS");
 
-        if(statusCheck == '' || statusCheck == null || statusCheck == undefined){
-            statusAll.classList.add("c-focus");
-            // answerAll.lastElementChild.classList.add("yellow");
-        }else if(statusCheck == 'N'){
+        
+        if(statusCheck == 'N'){
             statusN.classList.add("c-focus");
             // answerN.lastElementChild.classList.add("yellow");
         }else if(statusCheck == 'S'){
             statusS.classList.add("c-focus");
+        }else if(gradeCheck == 'D'){
+            gradeD.classList.add("c-focus");
+        }else if(gradeCheck == 'S'){
+            gradeS.classList.add("c-focus");
+        }else if(statusCheck == '' || statusCheck == null || statusCheck == undefined || gradeCheck == '' || gradeCheck == null || gradeCheck == undefined){
+            statusAll.classList.add("c-focus");
+            // answerAll.lastElementChild.classList.add("yellow")
         }
 
     }
 
-    // 미답변 여부 확인
+    // 신규 관리자 여부 확인
     function adminNCheck(){
         const noadminNum = '${adminCntMap.statusN}'
-        const adminN = document.querySelector("#adminN");
+        const adminN = document.querySelector("#adminStatusN");
         if(noadminNum > 0){
             adminN.lastElementChild.classList.add("blinking");
-            adminN.lastElementChild.classList.add("yellow");
+            adminN.lastElementChild.classList.add("blue");
         }
     }
 
@@ -151,12 +163,12 @@
 
     // 회원 상세 보기 ajax
     function showadminDetail(e){
-        const mno = e.firstElementChild.innerText;
+        const ano = e.firstElementChild.innerText;
         $.ajax({
-            url : "/app/admin/admin/admin-list/detail",
+            url : "/app/admin/member/admin-list/detail",
             method : "POST",
             data : {
-                "mno" : mno
+                "ano" : ano
             },
             dataType : "json",
             success : function(data) {
@@ -166,12 +178,11 @@
                 let str = "";
 
                 if(data.status == 'Y'){
-                    str =  `<div class="admin-detail-header">
+                    str +=  `<div class="admin-detail-header">
                             <div class="admin-detail-img">
-                                <img src="\${data.profile}" alt="">
+                                <img src="/app/resources/member/profile/\${data.profile}" alt="">
                             </div>
                             <div class="admin-detail-btn-area">
-                                <button class="admin-detail-point-btn" onclick="showPointModel();">상벌점</button>
                                 <button class="admin-detail-stop-btn" onclick="showStopModel();">정지</button>
                                 <button class="admin-detail-delete-btn" onclick="deleteadmin();">삭제</button>
                             </div>
@@ -183,30 +194,24 @@
                                     \${data.name}
                                 </div>
                                 <div class="admin-detail-content-box">
-                                    <span>동호수</span>
-                                    <span class="admin-detail-content">\${data.dongNum}동 \${data.hoNum}호</span>
-                                </div>
-                                <div class="admin-detail-content-box">
-                                    <span>생년월일</span>
-                                    <span class="admin-detail-content">\${data.birth}</span>
-                                </div>
-                                <div class="admin-detail-content-box">
-                                    <span>이메일</span>
-                                    <span class="admin-detail-content">\${data.email}</span>
-                                </div>
-                                <div class="admin-detail-content-box">
-                                    <span>연락처</span>
-                                    <span class="admin-detail-content">\${data.phone}</span>
+                                    <span>직급</span>
+                                    `;
+                                    if(data.grade == 'D'){
+                                        str += `<span class="admin-detail-content">동대표</span>`
+                                    }else if(data.grade == 'S'){
+                                        str += `<span class="admin-detail-content">경비원</span>`
+                                    }
+                                    str += `
                                 </div>
                             </div>
                         </div>`
                 }else if(data.status == 'N'){
                     str =  `<div class="admin-detail-header">
                             <div class="admin-detail-img">
-                                <img src="\${data.profile}" alt="">
+                                <img src="/app/resources/member/profile/\${data.profile}" alt="">
                             </div>
                             <div class="admin-detail-btn-area">
-                                <button class="admin-detail-admin-btn" onclick="regularadmin();">회원등록</button>
+                                <button class="admin-detail-admin-btn" onclick="regularAdmin();">승인</button>
                                 <button class="admin-detail-delete-btn" onclick="deleteadmin();">삭제</button>
                             </div>
                         </div>
@@ -217,30 +222,24 @@
                                     \${data.name}
                                 </div>
                                 <div class="admin-detail-content-box">
-                                    <span>동호수</span>
-                                    <span class="admin-detail-content">\${data.dongNum}동 \${data.hoNum}호</span>
-                                </div>
-                                <div class="admin-detail-content-box">
-                                    <span>생년월일</span>
-                                    <span class="admin-detail-content">\${data.birth}</span>
-                                </div>
-                                <div class="admin-detail-content-box">
-                                    <span>이메일</span>
-                                    <span class="admin-detail-content">\${data.email}</span>
-                                </div>
-                                <div class="admin-detail-content-box">
-                                    <span>연락처</span>
-                                    <span class="admin-detail-content">\${data.phone}</span>
+                                    <span>직급</span>
+                                    `;
+                                    if(data.grade == 'D'){
+                                        str += `<span class="admin-detail-content">동대표</span>`
+                                    }else if(data.grade == 'S'){
+                                        str += `<span class="admin-detail-content">경비원</span>`
+                                    }
+                                    str += `
                                 </div>
                             </div>
                         </div>`
                 }else if(data.status == 'S'){
                     str =  `<div class="admin-detail-header">
                             <div class="admin-detail-img">
-                                <img src="\${data.profile}" alt="">
+                                <img src="/app/resources/member/profile/\${data.profile}" alt="">
                             </div>
                             <div class="admin-detail-btn-area">
-                                <button class="admin-detail-point-btn" onclick="showPointModel();">상벌점</button>
+                                <button class="admin-detail-point-btn" onclick="regularAdmin();">정지해제</button>
                                 <button class="admin-detail-delete-btn" onclick="deleteadmin();">삭제</button>
                             </div>
                         </div>
@@ -251,26 +250,20 @@
                                     \${data.name}
                                 </div>
                                 <div class="admin-detail-content-box">
-                                    <span>동호수</span>
-                                    <span class="admin-detail-content">\${data.dongNum}동 \${data.hoNum}호</span>
-                                </div>
-                                <div class="admin-detail-content-box">
-                                    <span>생년월일</span>
-                                    <span class="admin-detail-content">\${data.birth}</span>
-                                </div>
-                                <div class="admin-detail-content-box">
-                                    <span>이메일</span>
-                                    <span class="admin-detail-content">\${data.email}</span>
-                                </div>
-                                <div class="admin-detail-content-box">
-                                    <span>연락처</span>
-                                    <span class="admin-detail-content">\${data.phone}</span>
+                                    <span>직급</span>
+                                    `;
+                                    if(data.grade == 'D'){
+                                        str += `<span class="admin-detail-content">동대표</span>`
+                                    }else if(data.grade == 'S'){
+                                        str += `<span class="admin-detail-content">경비원</span>`
+                                    }
+                                    str += `
                                 </div>
                             </div>
                         </div>`
                 }
 
-                clickNo = mno;
+                clickNo = ano;
                 
                 detailArea.innerHTML = str;
             },
@@ -279,158 +272,6 @@
                 },
         })
 
-    }
-
-
-
-    // 정지 모달 사용
-    function showStop () {
-        document.querySelector(".stop-background").className = "stop-background sshow";
-    }
-
-    function closeStop () { 
-        document.querySelector(".stop-background").className = "stop-background";
-    }
-
-
-    document.querySelector("#stop-close").addEventListener('click', closeStop);
-    document.querySelector("#stop-check-btn").addEventListener('click', closeStop);
-
-    // 정지 모달 상세보기
-    function showStopModel(){
-        const mno = clickNo;
-        $.ajax({
-            url : "/app/admin/admin/admin-list/detail",
-            method : "POST",
-            data : {
-                "mno" : mno
-            },
-            dataType : "json",
-            success : function(data) {
-                const nameArea = document.querySelector("#stop-model-admin-name");
-                const profileArea = document.querySelector("#stop-model-admin-profile");
-
-                nameArea.innerHTML = "";
-                profileArea.innerHTML = "";
-
-                nameArea.innerHTML = data.name;
-                profileArea.src = data.profile;
-
-                clickNo = mno;
-
-                showStop();
-            },
-            error : function() {
-                    alert("실패");
-                },
-        })
-    }
-
-    // 정지 하기
-    function setadminStop(){
-        
-        const mno = clickNo;
-        const stopDateValue = document.querySelector("#stop-model-sanction-input").value;
-        const contentValue = document.querySelector("#stop-model-body-content").value;
-        $.ajax({
-            url : "/app/admin/admin/admin-list/stop",
-            method : "POST",
-            data : {
-                "adminNo" : mno,
-                "stopDate" : stopDateValue,
-                "content" : contentValue
-            },
-            success : function() {
-
-                const stopNum = document.querySelector("#stop-model-sanction-input");
-                const content = document.querySelector("#stop-model-body-content");
-
-                stopNum.value = "";
-                content.value = "";
-
-                closeStop();
-                alert("회원 정지 성공");
-                location.href="/app/admin/admin/admin-list";
-            },
-            error : function() {
-                    alert("실패");
-                },
-        })
-    }
-
-    // 상벌점 모달 사용
-    function showPoint () {
-        document.querySelector(".point-background").className = "point-background pshow";
-    }
-
-    function closePoint () { 
-        document.querySelector(".point-background").className = "point-background";
-    }
-
-
-    document.querySelector("#point-close").addEventListener('click', closePoint);
-    document.querySelector("#point-check-btn").addEventListener('click', closePoint);
-
-    // 상벌점 모달 상세보기
-    function showPointModel(){
-        const mno = clickNo;
-        $.ajax({
-            url : "/app/admin/admin/admin-list/detail",
-            method : "POST",
-            data : {
-                "mno" : mno
-            },
-            dataType : "json",
-            success : function(data) {
-                const nameArea = document.querySelector("#point-model-admin-name");
-                const profileArea = document.querySelector("#point-model-admin-profile");
-
-                nameArea.innerHTML = "";
-                profileArea.innerHTML = "";
-
-                nameArea.innerHTML = data.name;
-                profileArea.src = data.profile;
-
-                clickNo = mno;
-
-                showPoint();
-            },
-            error : function() {
-                    alert("실패");
-                },
-        })
-    }
-
-    // 상벌점 주기
-    function setadminPoint(){
-        
-        const mno = clickNo;
-        const scoreValue = document.querySelector("#point-model-point-input").value;
-        const contentValue = document.querySelector("#point-model-body-content").value;
-        $.ajax({
-            url : "/app/admin/admin/admin-list/point",
-            method : "POST",
-            data : {
-                "adminNo" : mno,
-                "score" : scoreValue,
-                "content" : contentValue
-            },
-            success : function() {
-
-                const score = document.querySelector("#point-model-point-input");
-                const content = document.querySelector("#point-model-body-content");
-
-                score.value = "";
-                content.value = "";
-
-                closePoint();
-
-                alert("완료");
-            },
-            error : function() {
-                    alert("실패");
-                },
-        })
     }
 
     // 회원 삭제
@@ -451,12 +292,12 @@
             }).then(result => {
             // 만약 Promise리턴을 받으면,
             if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-                const mno = clickNo;
+                const ano = clickNo;
                 $.ajax({
                 url : "/app/admin/admin/admin-list/delete",
                 method : "POST",
                 data : {
-                    "mno" : mno,
+                    "ano" : ano,
                 },
                 success : function() {
                     alert("회원 삭제 성공");
@@ -470,10 +311,10 @@
         });
     }
 
-    // 정규 회원 등록
-    function regularadmin(){
+    // 관리자 승인
+    function regularAdmin(){
         Swal.fire({
-            title: '정규 회원으로 바꾸시겠습니까?',
+            title: '관리자 승인하시겠습니까?',
             icon: 'question',
             
             showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -487,16 +328,16 @@
             }).then(result => {
             // 만약 Promise리턴을 받으면,
             if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-                const mno = clickNo;
+                const ano = clickNo;
                 $.ajax({
-                url : "/app/admin/admin/admin-list/regular",
+                url : "/app/admin/member/admin-list/regular",
                 method : "POST",
                 data : {
-                    "mno" : mno,
+                    "ano" : ano,
                 },
                 success : function() {
-                    alert("정규 회원 등록 성공");
-                    location.href="/app/admin/admin/admin-list";
+                    alert("관리자 승인 성공");
+                    location.href="/app/admin/member/admin-list";
                 },
                 error : function() {
                         alert("실패");

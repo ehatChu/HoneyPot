@@ -78,36 +78,37 @@ public class MemberManagementServiceImpl implements MemberManagementService{
 	// 관리자 전체 갯수
 	@Override
 	public List<AdminVo> getAdminListCnt(Map<String, String> searchMap) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getAdminListCnt(sst, searchMap);
 	}
 	
 	// 관리자 조회
 	@Override
 	public List<AdminVo> getAdminList(Map<String, String> searchMap) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getAdminList(sst, searchMap);
 	}
 
 	// 관리자 상세 조회
 	@Override
 	public AdminVo getAdminByNo(String ano) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getAdminByNo(sst, ano);
 	}
 
 	// 관리자 회원 삭제
 	@Override
 	public int deleteAdmin(String ano) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.deleteAdmin(sst, ano);
+	}
+	
+	// 관리자 회원 정지
+	@Override
+	public int stopAdmin(String ano) {
+		return dao.stopAdmin(sst, ano);
 	}
 	
 	// 관리자 정규 회원 등록
 	@Override
 	public int regularAdmin(String ano) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.regularAdmin(sst, ano);
 	}
 	
 }

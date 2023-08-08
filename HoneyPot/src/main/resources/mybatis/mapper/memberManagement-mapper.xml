@@ -4,6 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberManagement">
 
+	<!-- 회원 -->
 	<!-- 일반 회원 전체 갯수 -->
 	<select id="getMemberListCnt" resultType="com.hp.app.member.vo.MemberVo">
 		SELECT STATUS
@@ -116,5 +117,68 @@
 		SET STATUS = 'S'
 		WHERE NO = #{memberNo}
 	</update>
+	
+	<!-- 관리자 -->
+	<!-- 관리자 전체 갯수 -->
+	<select id="getAdminListCnt" resultType="com.hp.app.admin.vo.AdminVo">
+		SELECT 
+			STATUS
+			, GRADE
+		FROM ADMIN
+		WHERE GRADE IN ('S','D')
+			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
+				AND NAME LIKE '%${searchValue}%'
+			</if>
+	</select>
+	
+	<!-- 관리자 전체 조회 -->
+	<select id="getAdminList" resultType="com.hp.app.admin.vo.AdminVo">
+		SELECT *
+		FROM ADMIN
+		<where>
+			<if test="status == null or status == ''">
+				AND STATUS IN ('Y','N','S')
+			</if>
+			<if test='status == "N"'>
+				AND STATUS = #{status}
+			</if>
+			<if test='status == "S"'>
+				AND STATUS = #{status}
+			</if>
+			<if test="grade == null or grade == ''">
+				AND GRADE IN ('D','S')
+			</if>
+			<if test='grade == "D"'>
+				AND GRADE = #{grade}
+			</if>
+			<if test='grade == "S"'>
+				AND GRADE = #{grade}
+			</if>
+			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
+				AND NAME LIKE '%${searchValue}%'
+			</if>
+		</where>
+		ORDER BY STATUS ASC
+	</select>
+	
+	<!-- 관리자 상세 조회 -->
+	<select id="getAdminByNo" resultType="com.hp.app.admin.vo.AdminVo">
+		SELECT *
+		FROM ADMIN
+		WHERE NO = #{ano}
+	</select>
+	
+	<!-- 관리자 삭제 -->
+	<update id="deleteAdmin">
+	
+	</update>
+	
+	<!-- 관리자 정규 회원 등록 -->
+	<update id="regularAdmin">
+		UPDATE ADMIN
+		SET STATUS = 'Y'
+		WHERE NO = #{ano}
+	</update>
+	
   
 </mapper>

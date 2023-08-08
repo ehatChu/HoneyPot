@@ -10,4 +10,5 @@ public class AdminVo {
 	private String name;
 	private String grade;
 	private String profile;
+	private String status;
 }
