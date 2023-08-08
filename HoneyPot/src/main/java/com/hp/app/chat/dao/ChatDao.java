@@ -11,6 +11,7 @@ import com.hp.app.chat.vo.ChatFriendVo;
 import com.hp.app.chat.vo.ChatMemberVo;
 import com.hp.app.chat.vo.ChatMessageVo;
 import com.hp.app.chat.vo.ChatRoomVo;
+import com.hp.app.member.vo.MemberVo;
 
 public interface ChatDao {
 
@@ -50,9 +51,24 @@ public interface ChatDao {
 	int updateReadTime(SqlSessionTemplate sst, ChatMemberVo mvo);
 
 	// 채팅방 가장 최신 읽은 시간 조회
-	String getLastReadTime(SqlSessionTemplate sst, Map<String, String> msgVo);
+	String getLastReadTime(SqlSessionTemplate sst, Map<String, String> memberAndRoom);
 
 	// 채팅방 모든 보낸 시간 조회
 	List<ChatMessageVo> getAllsendTime(SqlSessionTemplate sst, Map<String, String> msgVo);
+
+	// 채팅방의 마지막 메세지 조회
+	ChatMessageVo getLastMessage(SqlSessionTemplate sst, Map<String, String> memberAndRoom);
+
+	// 채팅방 멤버 목록 조회
+	ChatMemberVo getChatRoomMembers(SqlSessionTemplate sst, Map<String, String> memberAndRoom);
+
+	// 채팅방 읽은 멤버 조회
+	List<MemberVo> getMessageReadMembers(SqlSessionTemplate sst, String no);
+
+	// 채팅방 친구 최근 읽은 시간
+	String getFLastReadTime(SqlSessionTemplate sst, Map<String, String> memberAndRoom);
+
+	// 안읽은 메세지 
+	List<ChatMessageVo> getUnreadMsg(SqlSessionTemplate sst, Map<String, String> memberAndRoom);
 
 }

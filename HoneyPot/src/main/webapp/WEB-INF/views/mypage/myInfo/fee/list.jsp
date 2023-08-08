@@ -334,31 +334,13 @@
 		// 날짜 검색 푸쉬 함수 호출
 		addOptionsToAccountDateSelect();
 
-		// 검색 후 검색타입과 검색value 유지되도록
-		const searchValueTagArr = document.querySelectorAll("#searchValue > option");
-		const searchValue = '${searchValue}';
-		console.log(searchValue);
+		document.addEventListener("DOMContentLoaded", function () {
+    		const searchValue = new URLSearchParams(location.search).get("searchValue");
 
-		
-
-		//검색 후 검색타입 유지되도록
-		function initSearchType(){
-        const x = document.querySelector('select[name=searchValue] > option[value="' + searchValue + '"]');
-	    x.selected = true;
-    }
-
-		// if(searchValue === '2023-07'){
-		// 	searchValueTagArr[4].selected = true;
-		// }else if(searchValue === '2023-06'){
-		// 	searchValueTagArr[3].selected = true;
-		// }else if(searchValue === '2023-05'){
-		// 	searchValueTagArr[2].selected = true;
-		// }else if(searchValue === '2023-04'){
-		// 	searchValueTagArr[1].selected = true;
-		// }else if(searchValue === '2023-03'){
-		// 	searchValueTagArr[0].selected = true;
-		// }
-
+			if (searchValue) {
+				document.querySelector('select[name="searchValue"] > option[value="' + searchValue + '"]').selected = true;
+			}
+		});
 
 
 		

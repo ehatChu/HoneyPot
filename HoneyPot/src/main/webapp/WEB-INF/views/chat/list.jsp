@@ -285,15 +285,7 @@
 				});
 				});
 				
-				
-				// 웹소켓 만들기
-				let wsocket = new WebSocket("ws://127.0.0.1:8888/app/chat");
-				wsocket.onopen = funcOpen; 
-				wsocket.onclose = funcClose;
-				wsocket.onerror = funcError;
-				wsocket.onmessage = funcMessage;
-				var roomNo; // 전역 변수로 선언
-				
+				// 채팅 방 번호 눌렀을 때
 				$(document).ready(function() {
 					const detailBtns = document.querySelectorAll("#detailBtn");
 					detailBtns.forEach((btn) => {
@@ -382,9 +374,6 @@
 										}
 									});
 								});
-
-								
-								
 								},
 								error: function(error) {
 									console.log(error);
@@ -394,46 +383,7 @@
 					});
 				});
 
-				function funcOpen(roomNo) {
-					console.log("WebSocket 연결 성공");
-					$("#chatMessageArea").empty();
-					var memberNo = $("#loginMember").val();
-					var loadMessagesRequest = JSON.stringify({
-						action: "loadMessages",
-						roomNo: roomNo
-					});
-					wsocket.send(loadMessagesRequest);
-
-					
-				}
-				
-				
-				function funcClose() {
-					console.log("소켓 닫힘");
-				}
-
-				function funcError() {
-					console.log("소켓 에러");
-				}
-
-				function funcMessage(event) {
-					var data = JSON.parse(event.data);
-					console.log("메세지 받음");
-					
-					// 메시지 유형에 따라 처리
-					if (data.action === "user_quit") {
-						var quitMsg = data.userName + "님이 채팅방을 나갔습니다.";
-						// 채팅 화면에 메시지 출력
-						appendMessage(quitMsg);
-					} else if(data.action === "loadMessages" && data.messages){
-						data.messages.forEach(function (message) {
-						appendMessage(message);
-					});
-					} else {
-						appendMessage(data);
-					}
-					console.log(data);
-				}
+			
 
 				function send() {
 					var rno = document.querySelector("#rno").innerText;

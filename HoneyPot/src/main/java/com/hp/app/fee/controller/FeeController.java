@@ -62,7 +62,6 @@ public class FeeController {
 //			String no = loginMember.getNo();
 		
 			paramMap.put("no", "1");
-			log.info(paramMap.toString());
 		    List<MemberFeeVo> mfvoList = service.memberFeeList(paramMap);
 		    int mTotalFee = service.totalMemberFee(paramMap);
 
@@ -236,7 +235,6 @@ public class FeeController {
 //		vo.setAdminNo(loginMember.getNo());
 		vo.setAdminNo("1");
 		int result = service.add(vo);
-		log.info(vo.toString());
 		if(result != 1) {
 			throw new RuntimeException();
 		}
@@ -346,7 +344,6 @@ public class FeeController {
 	        
 	        String categoryNo = service.getCategoryNo(categoryNames.get(i));
 	        if (categoryNo == null) {
-	            log.error("CategoryNo not found for categoryName: " + categoryNames.get(i));
 	            continue;
 	        }
 
@@ -359,14 +356,8 @@ public class FeeController {
 	         dongHo.put("dongNum", feeVo.getDong());
 	         dongHo.put("hoNum", feeVo.getHo());
 	         String memberNo = service.getMemberNo(dongHo);
-	         log.info(memberNo);
 	         feeVo.setMemberNo(memberNo);
-	         log.info(feeVo.toString());
 	         int result = service.insertMemberFee(feeVo);
-	         System.out.println(result);
-	         if(result == 1) {
-	        	 System.out.println("인서트 성공");
-	         }
 	    }
 	    session.setAttribute("alertMsg", "고지 완료되었습니다.");
 	    return "redirect:/fee/admin";

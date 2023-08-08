@@ -452,6 +452,7 @@
     appearance: none;
     cursor: pointer;
     transition: background 0.2s;
+    margin-left: 20px;
   }
 
   input[type="radio"]:checked {

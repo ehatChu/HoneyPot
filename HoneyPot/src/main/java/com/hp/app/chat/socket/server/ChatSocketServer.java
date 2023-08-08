@@ -1,20 +1,14 @@
 package com.hp.app.chat.socket.server;
 
-import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
@@ -23,7 +17,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -35,9 +28,9 @@ import com.hp.app.member.vo.MemberVo;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class ChatSocketServer extends TextWebSocketHandler{
 	
-	private Set<WebSocketSession> sessionSet = new HashSet<WebSocketSession>();
 	private Map<String, WebSocketSession> users = new ConcurrentHashMap<>();
 	
 	@Autowired
@@ -100,20 +93,6 @@ public class ChatSocketServer extends TextWebSocketHandler{
 		            s.sendMessage(new TextMessage(jsonResponse));
 		        }
 		        
-//		        // 새로운 메시지 알림을 보내는 로직 추가
-//		        String lastReadTime = service.getLastReadTime(msgVo);
-//		        List<ChatMessageVo> sendTimeList = service.getAllSendTimesInRoom(msgVo);
-//
-//		        for (ChatMessageVo chatMsg : sendTimeList) {
-//		            String sendTimeStr = chatMsg.getSendTime();
-//		            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//		            Date sendTime = dateFormat.parse(sendTimeStr);
-//
-//		            if (lastReadTime != null && sendTime != null && sendTime.compareTo(dateFormat.parse(lastReadTime)) > 0) {
-//		                sendNewMessageAlert(msgVo);
-//		                break;
-//		            }
-//		        }
 		    }  else if (action.equals("sendMessage")) {
 		        // 클라이언트에서 새로운 메시지를 보냈을 때 처리
 		    	String senderMemberNo = jsonNode.get("memberNo").asText(); // senderMemberNo 추출
@@ -149,7 +128,6 @@ public class ChatSocketServer extends TextWebSocketHandler{
 	            ChatMemberVo mvo = new ChatMemberVo();
 	            mvo.setChattingRoomNo(roomId);
 	            mvo.setMemberNo(memberId);
-	            log.info(mvo.toString());
 	            if (loginMember.getNo().equals(memberId)) {
 	                int result = service.updateReadTime(mvo);
 	            }

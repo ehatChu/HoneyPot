@@ -96,7 +96,7 @@
                                             <span>관리비 등록</span>
                                             <button class="A_closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
                                         </div>
-                                        <form action="/app/fee/admin/add" method="post">
+                                        <form id="addFeeForm" action="/app/fee/admin/add" method="post">
                                         <div class="content-modal">
                                                 <div class="first-area">
                                                     <div>
@@ -137,6 +137,32 @@
                                         </form>
                                     </div>
                             </div>
+                            <script>
+                                // 폼 제출 전 유효성 검사
+                                function validateForm() {
+                                    const paymentDate = document.querySelector('input[name="paymentDate"]');
+                                    const price = document.querySelector('input[name="price"]');
+                                    
+                                    if (!paymentDate.value) {
+											alert("일자를 선택해주세요.");
+											return false;
+										}
+
+                                    if (!price.value) {
+                                        alert("금액을 입력해주세요.");
+                                        return false;
+                                    }
+
+                                    return true;
+                                }
+                                document.getElementById('addFeeForm').addEventListener('submit', function(e) {
+                                    if (!validateForm()) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                    }
+                                });
+
+                            </script>
 
                     </div>
 
@@ -502,59 +528,49 @@
         });
 
 
+        $(document).ready(function () {
+            function inputVisibility() {
+                var selectedOption = $("#searchType").val();
+                if (selectedOption === "content") {
+                    $("#paymentDate").hide();
+                    $("input[name='searchValue']").show();
+                } else if (selectedOption === "paymentDate") {
+                    $("input[name='searchValue']").hide();
+                    $("#paymentDate").show();
+                }
+            }
 
-    /////// 검색 카테고리 선택 시 input 영역 변경
-	$(document).ready(function () {
-    function inputVisibility() {
-        var selectedOption = $("#searchType").val();
-        if (selectedOption === "content") {
-            $("#paymentDate").hide();
-            $("input[name='searchValue']").show();
-        } else if (selectedOption === "paymentDate") {
-            $("input[name='searchValue']").hide();
-            $("#paymentDate").show();
-        }
-    }
+            // 검색타입 바뀔 때 value 영역 변경
+            $("#searchType").on("change", function () {
+                inputVisibility();
+            });
 
-    inputVisibility();
+            const initialSearchType = "${paramMap.searchType}";
+            const initialSearchValue = "${paramMap.searchValue}";
 
-    $("#searchType").on("change", function () {
-        inputVisibility();
-    });
+            $("#searchType").val(initialSearchType).change(); 
 
-    //검색 후 검색타입과 검색value 유지되도록
-	const searchTypeTagArr = document.querySelectorAll("#searchType > option");
-	const contentValue = document.querySelector("input[name=searchValue]");
-	const dateSelect = document.querySelectorAll("#paymentDate > option");
-  	const searchValue = '${paramMap.searchValue}';
-	contentValue.value = '${paramMap.searchValue}';
-    dateSelect.value = '${paramMap.searchValue}';
-	const searchType = "${paramMap.searchType}"; 
+            if (initialSearchType === "content") {
+                $("input[name='searchValue']").val(initialSearchValue);
+            } else if (initialSearchType === "paymentDate") {
+                $("#paymentDate option[value='" + initialSearchValue + "']").prop("selected", true);
+            }
+            
+            // 검색 제출
+            $("#adminFeeForm").submit(function (e) {
+                e.preventDefault();
 
-    //검색타입 및 검색어
-	if(searchType.length > 1){
-        initSearchType();
-    }
+                const selectedOption = $("#searchType").val();
+                const selectedValue = selectedOption === "paymentDate" ? $("#paymentDate").val() : $("input[name='searchValue']").val();
 
-    //검색 후 검색타입 유지되도록
-    function initSearchType(){
-        const x = document.querySelector('select[name=searchType] > option[value="' + searchType + '"]');
-	    x.selected = true;
-    }
+                let searchUrl = "/app/fee/admin?searchType=" + selectedOption;
+                if (selectedValue) {
+                    searchUrl += "&searchValue=" + selectedValue;
+                }
 
-    // form 제출할 때 값 보내주기 
-    $("#adminFeeForm").submit(function (e) {
-        e.preventDefault();
-
-        var selectedOption = $("#searchType").val();
-        if (selectedOption === "paymentDate") {
-            var selectedDate = $("#paymentDate").val();
-            window.location.href = "/app/fee/admin?searchType=" + selectedOption + "&searchValue=" + selectedDate;
-        } else {
-            this.submit();
-        }
-    });
-});
+                window.location.href = searchUrl;
+            });
+        });
 
         ////// 등록 모달
 

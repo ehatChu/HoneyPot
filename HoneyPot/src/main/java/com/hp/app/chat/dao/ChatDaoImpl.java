@@ -12,6 +12,7 @@ import com.hp.app.chat.vo.ChatFriendVo;
 import com.hp.app.chat.vo.ChatMemberVo;
 import com.hp.app.chat.vo.ChatMessageVo;
 import com.hp.app.chat.vo.ChatRoomVo;
+import com.hp.app.member.vo.MemberVo;
 
 @Repository
 public class ChatDaoImpl implements ChatDao{
@@ -82,13 +83,38 @@ public class ChatDaoImpl implements ChatDao{
 	}
 
 	@Override
-	public String getLastReadTime(SqlSessionTemplate sst, Map<String, String> msgVo) {
-		return sst.selectOne("chat.getLastReadTime", msgVo);
+	public String getLastReadTime(SqlSessionTemplate sst, Map<String, String> memberAndRoom) {
+		return sst.selectOne("chat.getLastReadTime", memberAndRoom);
 	}
 
 	@Override
 	public List<ChatMessageVo> getAllsendTime(SqlSessionTemplate sst, Map<String, String> msgVo) {
 		return sst.selectList("chat.getAllSendTime", msgVo);
+	}
+
+	@Override
+	public ChatMessageVo getLastMessage(SqlSessionTemplate sst, Map<String , String> memberAndRoom) {
+		return sst.selectOne("chat.lastMessage",memberAndRoom);
+	}
+
+	@Override
+	public ChatMemberVo getChatRoomMembers(SqlSessionTemplate sst,Map<String, String> memberAndRoom) {
+		return sst.selectOne( "chat.getChatRoomMembers",memberAndRoom);
+	}
+
+	@Override
+	public List<MemberVo> getMessageReadMembers(SqlSessionTemplate sst, String no) {
+		return sst.selectList("chat.getMessageReadMembers",no);
+	}
+
+	@Override
+	public String getFLastReadTime(SqlSessionTemplate sst, Map<String, String> memberAndRoom) {
+		return sst.selectOne("chat.getFLastReadTime", memberAndRoom);
+	}
+
+	@Override
+	public List<ChatMessageVo> getUnreadMsg(SqlSessionTemplate sst, Map<String, String> memberAndRoom) {
+		return sst.selectList("chat.getUnreadMsg", memberAndRoom);
 	}
 
 	
