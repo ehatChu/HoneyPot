@@ -26,4 +26,8 @@ public interface MealService {
 
 	int cancelApply(String no);
 
+	MealVo getTodayMeal();
+
+	int plusMeal(Map<String, String> paramMap);
+
 }

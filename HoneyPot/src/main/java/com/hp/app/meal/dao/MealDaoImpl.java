@@ -65,4 +65,14 @@ public class MealDaoImpl implements MealDao {
 		return sst.delete("meal.cancelApply", no);
 	}
 
+	@Override
+	public MealVo getTodayMeal(SqlSessionTemplate sst) {
+		return sst.selectOne("meal.getTodayMeal");
+	}
+
+	@Override
+	public int plusMeal(SqlSessionTemplate sst, Map<String, String> paramMap) {
+		return sst.insert("meal.plusMeal", paramMap);
+	}
+
 }

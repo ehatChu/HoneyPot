@@ -116,7 +116,7 @@
 				height: 35%;
 				display: flex;
 				align-items: center;
-				justify-content: center;
+				justify-content: space-between;
 			}
 
 			#d01 {
@@ -124,7 +124,7 @@
 			}
 
 			#f01 {
-				width: 70%;
+				width: 45%;
 				height: 50%;
 				border-radius: 20px;
 				border: none;
@@ -418,7 +418,7 @@
 			<div class="qna-popup">
 				<div class="qna-model-header-area">
 					<div class="qna-model-header">
-						<div class="qna-model-header-text">조식 수정</div>
+						<div class="qna-model-header-text"></div>
 						<span class="material-symbols-outlined" id="qna-close">
 							close
 						</span>
@@ -475,7 +475,7 @@
 						<div class="box2">
 							<img id="mealImg" src="/app/resources/meal/${mealListTotal[0].img}">
 							<div id="d01">
-								<div id="e01">${mealListTotal[0].breakfastDate.substring(0, 11)}</div>
+								<div id="e01">${mealListTotal[0].breakfastDate.substring(0, 10)}</div>
 								<div id="e011"></div>
 							</div>
 						</div>
@@ -487,6 +487,8 @@
 						<div id="e04">
 							<button id="f01" onclick="breakFastApply('${mealListTotal[0].no}');">조식
 								수정</button>
+							<button id="f01" onclick="breakFastPlus();">조식
+								추가</button>
 						</div>
 					</div>
 				</div>
@@ -496,7 +498,7 @@
 					<table id="board-list">
 						<c:forEach items="${mealList}" var="vo">
 							<tr id="tr" onclick="selectMeal('${vo.no}')">
-								<td id="tr1">${vo.breakfastDate.substring(0, 11)}</td>
+								<td id="tr1">${vo.breakfastDate.substring(0, 10)}</td>
 								<td id="tr2">${vo.menu}</td>
 							</tr>
 						</c:forEach>
@@ -601,8 +603,8 @@
 						<c:forEach items="${mealListTotal}" var="vo">
 							{
 								title: '${vo.menu}',
-								start: '${vo.breakfastDate.substring(0, 11)}' + '00:00:00',
-								end: '${vo.breakfastDate.substring(0, 11)}' + '24:00:00',
+								start: '${vo.breakfastDate.substring(0, 10)}' + ' 00:00:00',
+								end: '${vo.breakfastDate.substring(0, 10)}' + ' 24:00:00',
 								backgroundColor: getRandomColor()
 							},
 						</c:forEach>
@@ -637,7 +639,7 @@
 					str += '<div class="box2">'
 						+ '<img id="mealImg" src="/app/resources/meal/' + data.img + '">'
 						+ '<div id="d01">'
-						+ '<div id="e01">' + data.breakfastDate.substring(0, 11) + '</div>'
+						+ '<div id="e01">' + data.breakfastDate.substring(0, 10) + '</div>'
 						+ '<div id="e011"></div>'
 						+ '</div></div><br>'
 						+ '<div id="e03">'
@@ -646,6 +648,7 @@
 						+ '</div>'
 						+ '<div id="e04">'
 						+ '<button id="f01" onclick="breakFastApply(' + data.no + ');">조식 수정</button>'
+						+ '<button id="f01" onclick="breakFastPlus();">조식 추가</button>'
 						+ '</div>'
 					bbox.innerHTML = str;
 					todayMenu(data.menu);
@@ -656,7 +659,7 @@
 			});
 		}
 
-		// 조식 편집(모달창 띄우기)
+		// 조식 수정(모달창 띄우기)
 		function breakFastApply(no) {
 			$.ajax({
 				url: '/app/meal/selectMeal?no=' + no,
@@ -666,24 +669,45 @@
 					const menu = document.querySelector('#qna-model-question-content');
 
 					modal.classList.add("show");
+					document.querySelector('.qna-model-header-text').innerHTML = '조식 수정';
 					document.querySelector('input[name=no]').value = data.no;
 					document.querySelector('#qna-model-member-profile').src = "/app/resources/meal/" + data.img;
-					document.querySelector('.qna-model-title-text').innerHTML = data.breakfastDate.substring(0, 11);
+					document.querySelector('.qna-model-title-text').innerHTML = data.breakfastDate.substring(0, 10);
 					document.querySelector('#qna-model-answer').value = data.nutrient;
 
 					tempMenu = "<option img-name='" + data.img + "' data-name='" + data.nutrient + "' value='" + data.no + "'>" + data.menu + "</option>";
 					<c:forEach items="${dietList}" var="vo">
 						if(data.no != '${vo.no}') {
-							tempMenu += '<option img-name="${vo.img}" data-name="${vo.nutrient}" value="${vo.no}">${vo.menu}</option>';
+							tempMenu += '<option img-name="${vo.img}" data-name="${vo.nutrient}" value="${vo.no}">${vo.menu}</option>'
 						}
 					</c:forEach>
 					menu.innerHTML = tempMenu;
+					document.querySelector("#qna-close").addEventListener('click', qnaclose1);
 				},
 				error: function () {
 					alert("selectMeal error");
 					return;
 				}
 			});
+		}
+
+		// 조식 추가(모달창 띄우기)
+		function breakFastPlus() {
+			const modal = document.querySelector(".modal");
+			const menu = document.querySelector('#qna-model-question-content');
+			
+			modal.classList.add("show");
+			document.querySelector('.qna-model-header-text').innerHTML = '조식 추가';
+			document.querySelector('#qna-model-member-profile').src = "/app/resources/meal/" + 'menu1.PNG';
+			document.querySelector('.qna-model-title-text').innerHTML = '<input type="date" name="date">';
+			document.querySelector('#qna-model-answer').value = '${dietList[0].nutrient}';
+
+			tempMenu = "";
+			<c:forEach items="${dietList}" var="vo">
+				tempMenu += '<option img-name="${vo.img}" data-name="${vo.nutrient}" value="${vo.no}">${vo.menu}</option>'
+			</c:forEach>
+			menu.innerHTML = tempMenu;
+			document.querySelector("#qna-close").addEventListener('click', qnaclose2);
 		}
 
 		// 셀렉트바
@@ -694,10 +718,8 @@
 			document.querySelector('#qna-model-member-profile').src = "/app/resources/meal/" + selectedOption.getAttribute("img-name");
 		}
 
-
-		// close버튼 후 반영
-		document.querySelector("#qna-close").addEventListener('click', qnaclose);
-		function qnaclose() {
+		// 수정 x 버튼
+		function qnaclose1() {
 			const selectElement = document.querySelector(".qna-model-question-text");
 			const selectedOption = selectElement.options[selectElement.selectedIndex];
 			let breakFastNo = document.querySelector('input[name=no]').value;
@@ -708,11 +730,48 @@
 				type: 'get',
 				data: { "no": breakFastNo, "dietNo" : dietNo },
 				success: function (data) {
-					alert("조식 수정이 완료되었습니다");
+					if(data == "success") {
+						alert("조식 수정이 완료되었습니다");
+					} else {
+						alert("조식 수정을 실패하였습니다");
+					}
 					location.reload();
 				},
 				error: function () {
-					alert("editMeal error");
+					alert("조식 수정 중 오류가 발생했습니다");
+				}
+			});
+
+			document.querySelector(".modal").className = "modal";
+		}
+
+		// 추가 x 버튼
+		function qnaclose2() {
+			const selectElement = document.querySelector(".qna-model-question-text");
+			const selectedOption = selectElement.options[selectElement.selectedIndex];
+			const selectDate = document.querySelector("input[name=date]");
+			let dietNo = selectedOption.value;
+			
+			if(selectDate.value == '') {
+				alert("날짜를 선택해주세요");
+				location.reload();
+				return;
+			}
+
+			$.ajax({
+				url: '/app/meal/plusMeal',
+				type: 'get',
+				data: { "breakfastDate": selectDate.value, "dietNo" : dietNo },
+				success: function (data) {
+					if(data == "success") {
+						alert("조식 추가가 완료되었습니다");
+					} else {
+						alert("조식 추가를 실패하였습니다");
+					}
+					location.reload();
+				},
+				error: function () {
+					alert("조식 추가 중 오류가 발생했습니다");
 				}
 			});
 

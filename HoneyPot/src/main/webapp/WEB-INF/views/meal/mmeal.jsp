@@ -228,20 +228,20 @@
 					</div>
 					<div id="box1" class="box bbox">
 						<div class="box2">
-							<img id="mealImg" src="/app/resources/meal/${mealListTotal[0].img}">
+							<img id="mealImg" src="/app/resources/meal/${todayMeal.img}">
 							<div id="d01">
-								<div id="e01">${mealListTotal[0].breakfastDate.substring(0, 11)}</div>
+								<div id="e01">${todayMeal.breakfastDate.substring(0, 10)}</div>
 								<div id="e011"></div>
 							</div>
 						</div>
 						<br>
 						<div id="e03">
 							<img id="starImg" src="/app/resources/main/star2.PNG">
-							영양소 : ${mealListTotal[0].nutrient}
+							영양소 : ${todayMeal.nutrient}
 						</div>
 						<div id="e04">
 							<button id="f01"
-								onclick="breakFastApply('${mealListTotal[0].no}', '${mealListTotal[0].breakfastDate.substring(0, 11)}');">조식
+								onclick="breakFastApply('${todayMeal.no}', '${todayMeal.breakfastDate.substring(0, 10)}');">조식
 								신청</button>
 						</div>
 					</div>
@@ -252,7 +252,7 @@
 					<table id="board-list">
 						<c:forEach items="${mealList}" var="vo">
 							<tr id="tr" onclick="selectMeal('${vo.no}')">
-								<td id="tr1">${vo.breakfastDate.substring(0, 11)}</td>
+								<td id="tr1">${vo.breakfastDate.substring(0, 10)}</td>
 								<td id="tr2">${vo.menu}</td>
 							</tr>
 						</c:forEach>
@@ -358,8 +358,8 @@
 						<c:forEach items="${mealListTotal}" var="vo">
 							{
 								title: '${vo.menu}',
-								start: '${vo.breakfastDate.substring(0, 11)}' + '00:00:00',
-								end: '${vo.breakfastDate.substring(0, 11)}' + '24:00:00',
+								start: '${vo.breakfastDate.substring(0, 10)}' + ' 00:00:00',
+								end: '${vo.breakfastDate.substring(0, 10)}' + ' 24:00:00',
 								backgroundColor: getRandomColor()
 							},
 						</c:forEach>
@@ -374,7 +374,7 @@
 		// 오늘의 식단
 		function todayMenu() {
 			let tempStr = "";
-			let arr = '${mealListTotal[0].menu}'.split(",");
+			let arr = '${todayMeal.menu}'.split(",");
 			const e011 = document.querySelector('#e011');
 			for (let x of arr) {
 				tempStr += '<div id="e02"><img id="starImg" src="/app/resources/main/star1.PNG">' + x + '</div>';
@@ -384,7 +384,12 @@
 
 		// 조식 신청
 		function breakFastApply(mealNo, mealDate) {
-			let isConfirm = confirm(mealDate + "조식을 신청하시겠습니까?");
+			let isConfirm = confirm(mealDate + " 조식을 신청하시겠습니까?");
+			if(mealDate <= '${todayMeal.breakfastDate.substring(0, 10)}') {
+				alert("현재 날짜 이후로만 신청 가능합니다");
+				return;
+			}
+
 			if (isConfirm) {
 				$.ajax({
 					url: '/app/meal/breakFastApply',
@@ -416,7 +421,7 @@
 					str += '<div class="box2">'
 						+ '<img id="mealImg" src="/app/resources/meal/' + data.img + '">'
 						+ '<div id="d01">'
-						+ '<div id="e01">' + data.breakfastDate.substring(0, 11) + '</div>'
+						+ '<div id="e01">' + data.breakfastDate.substring(0, 10) + '</div>'
 						+ '<div id="e011"></div>'
 						+ '</div></div><br>'
 						+ '<div id="e03">'
@@ -424,7 +429,7 @@
 						+ '영양소 : ' + data.nutrient
 						+ '</div>'
 						+ '<div id="e04">'
-						+ '<button id="f01" onclick="breakFastApply(' + data.no + ', \'' + data.breakfastDate.substring(0, 11) + '\');">조식 신청</button>'
+						+ '<button id="f01" onclick="breakFastApply(' + data.no + ', \'' + data.breakfastDate.substring(0, 10) + '\');">조식 신청</button>'
 						+ '</div>'
 					bbox.innerHTML = str;
 					todayMenu();
