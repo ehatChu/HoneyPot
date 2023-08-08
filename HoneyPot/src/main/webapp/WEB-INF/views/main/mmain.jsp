@@ -498,10 +498,10 @@
 						</div>
 
 						<div id="box3" class="box">
-							<img id="mealImg" src="/app/resources/meal/${mealListTotal[0].img}">
+							<img id="mealImg" src="/app/resources/meal/${todayMeal.img}">
 							<div id="d01">
 								<div id="e01">오늘의 조식</div>
-								<div id="e02">${mealListTotal[0].menu}</div>
+								<div id="e02">${todayMeal.menu}</div>
 								<div id="e03">
 									<button id="f01" onclick="location.href='/app/meal/mmeal'">조식
 										신청</button>
@@ -602,7 +602,6 @@
 
 	<script>
 		// 변수 선언
-		const today = new Date();
 		const pub1 = document.querySelector("#pub1");
 		const pub2 = document.querySelector("#pub2");
 		const loveBox = document.querySelector(".love");
@@ -673,7 +672,7 @@
 					boxff2.innerHTML = str;
 				},
 				error: function () {
-					location.reload();
+					alert("게시판 조회 오류");
 				}
 			});
 		}
@@ -701,7 +700,7 @@
 					boxff2.innerHTML = str;
 				},
 				error: function () {
-					location.reload();
+					alert("게시판 조회 오류");
 				}
 			});
 		}
@@ -732,7 +731,7 @@
 					hate.innerHTML = (hateCnt / total * 100).toFixed(0) + "%";
 				},
 				error: function () {
-					location.reload();
+					alert("동대표 조회 실패");
 				}
 			});
 		}
@@ -748,7 +747,7 @@
 					getCaptainLove();
 				},
 				error: function () {
-					location.reload();
+					alert("동대표 투표 오류");
 				}
 			});
 		}
@@ -801,6 +800,8 @@
 
 		// 미세먼지 정보 메인페이지 반영
 		function applyNanoDustInfo() {
+			let dustStatus1 = "낮음";
+			let dustStatus2 = "낮음";
 			const pm10 = document.querySelector('#pm10');
 			const pm25 = document.querySelector('#pm25');
 			const weatherTxt1 = document.querySelector('#weatherTxt1');
@@ -814,20 +815,24 @@
 				weatherTxt1.innerHTML = '<div class="green" id="bar"></div><div class="gray" id="bar"></div><div class="gray" id="bar"></div>';
 			} else if (nanoDust[0].pm10Value < 50) {
 				weatherTxt1.innerHTML = '<div class="yellow" id="bar"></div><div class="yellow" id="bar"></div><div class="gray" id="bar"></div>';
+				dustStatus1 = '보통';
 			} else {
 				weatherTxt1.innerHTML = '<div class="redd" id="bar"></div><div class="redd" id="bar"></div><div class="redd" id="bar"></div>';
+				dustStatus1 = '위험';
 			}
 
 			if (nanoDust[0].pm25Value < 15) {
 				weatherTxt2.innerHTML = '<div class="green" id="bar"></div><div class="gray" id="bar"></div><div class="gray" id="bar"></div>';
 			} else if (nanoDust[0].pm10Value < 50) {
 				weatherTxt2.innerHTML = '<div class="yellow" id="bar"></div><div class="yellow" id="bar"></div><div class="gray" id="bar"></div>';
+				dustStatus2 = '보통';
 			} else {
 				weatherTxt2.innerHTML = '<div class="redd" id="bar"></div><div class="redd" id="bar"></div><div class="redd" id="bar"></div>';
+				dustStatus2 = '위험';
 			}
 
-			pm10.innerHTML = "미세먼지 " + nanoDust[0].pm10Value + "㎍/㎥"
-			pm25.innerHTML = "초미세먼지 " + nanoDust[0].pm25Value + "㎍/㎥"
+			pm10.innerHTML = "미세먼지 " + nanoDust[0].pm10Value + "㎍/㎥" + " (" + dustStatus1 + ")";
+			pm25.innerHTML = "초미세먼지 " + nanoDust[0].pm25Value + "㎍/㎥" + " (" + dustStatus2 + ")";
 		}
 
 
