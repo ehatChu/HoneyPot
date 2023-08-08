@@ -66,6 +66,7 @@
     font-weight: bold;
     font-family: 'Noto Sans KR';
     font-size: 20px;
+    cursor: pointer;
 }
 
 .member-area{

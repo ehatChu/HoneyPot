@@ -196,6 +196,9 @@
             area.innerHTML = "";
             let str = "";
             for (let member of data) {
+                if(member.no == "${loginMember.no}"){
+                    continue;
+                }
                 str += `<div class="model-content-plist" onclick="checkMember(this);">`
                             		+ `<div hidden>\${member.no}</div>`
 	                                +`<div class="plist-profile">`
@@ -236,6 +239,9 @@
                 area.innerHTML = "";
                 let str = "";
                 for (let member of data) {
+                    if(member.no == "${loginMember.no}"){
+                        continue;
+                    }
                     str += `<div class="model-content-plist" onclick="checkMember(this);">`
                                         + `<div hidden>\${member.no}</div>`
                                         +`<div class="plist-profile">`

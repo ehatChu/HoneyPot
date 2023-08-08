@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.csc.service.CSCService;
 import com.hp.app.csc.vo.FAQCategoryVo;
 import com.hp.app.csc.vo.FAQVo;
@@ -34,7 +37,7 @@ public class CSCController {
 	
 	// FAQ 조회(화면)
 	@GetMapping("csc/faq")
-	public String getFAQList(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchVo) {
+	public String getFAQList(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchVo, HttpSession session) {
 
 //		@RequestParam defaultValue로 수정		
 //		if(page == null) {
@@ -48,6 +51,14 @@ public class CSCController {
 //		searchVo.put("searchValue", searchValue);
 		
 		try {
+			
+			MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+			
+			if(loginMember == null) {
+				session.setAttribute("alertMsg", "로그인 후 사용할 수 있는 서비스입니다.");
+				return "redirect:/member/mlogin";
+			}
+			
 			int listCount = service.getFAQCnt(searchVo);
 			int currentPage = Integer.parseInt(page);
 			int pageLimit = 5;
@@ -75,6 +86,7 @@ public class CSCController {
 	@GetMapping("csc/faq/detail")
 	@ResponseBody
 	public FAQVo getFAQDetail(String fno) throws Exception {
+		
 		FAQVo vo = service.getFAQByNo(fno);
 		
 		if(vo == null) {
@@ -86,7 +98,14 @@ public class CSCController {
 	
 	// 문의하기(화면)
 	@GetMapping("csc/inquiry")
-	public String inquiry(Model model) throws Exception {
+	public String inquiry(Model model, HttpSession session) throws Exception {
+		
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		
+		if(loginMember == null) {
+			session.setAttribute("alertMsg", "로그인 후 사용할 수 있는 서비스입니다.");
+			return "redirect:/member/mlogin";
+		}
 		
 		List<QNACategoryVo> cList = service.getQNACatList();
 		
@@ -101,13 +120,20 @@ public class CSCController {
 	
 	// 문의등룍
 	@PostMapping("csc/inquiry")
-	public String inquiry(QNAVo vo) throws Exception {
+	public String inquiry(QNAVo vo, HttpSession session) throws Exception {
+		
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		
+		if(loginMember == null) {
+			session.setAttribute("alertMsg", "로그인 후 사용할 수 있는 서비스입니다.");
+			return "redirect:/member/mlogin";
+		}
 		
 		if(vo.getTitle() == null || vo.getContent() == null) {
 			throw new Exception("게시판 작성 에러");
 		}
 		
-		vo.setMemberNo("1");
+		vo.setMemberNo(loginMember.getNo());
 		int result = service.insertInquiry(vo);
 		
 		if(result != 1) {
@@ -120,8 +146,16 @@ public class CSCController {
 	
 	// 문의목록 (화면)
 	@GetMapping("csc/inquiry-list")
-	public String inquiryList(Model model) {
-		String no = "1";
+	public String inquiryList(Model model, HttpSession session) {
+		
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		
+		if(loginMember == null) {
+			session.setAttribute("alertMsg", "로그인 후 사용할 수 있는 서비스입니다.");
+			return "redirect:/member/mlogin";
+		}
+		
+		String no = loginMember.getNo();
 		List<QNAVo> qList = service.getMyQNAList(no);
 		
 		model.addAttribute("qList", qList);
@@ -132,9 +166,12 @@ public class CSCController {
 	// 문의상세조회 (화면)
 	@GetMapping("csc/qna/detail")
 	@ResponseBody
-	public QNAVo getQNADetail(String qno) throws Exception {
+	public QNAVo getQNADetail(String qno, HttpSession session) throws Exception {
 		
-		String no = "1";
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		
+		String no = loginMember.getNo();
+		
 		
 		if("".equals(qno) || qno == null) {
 			throw new Exception("QNA 상세조회 실패");
@@ -155,11 +192,13 @@ public class CSCController {
 	
 	// 문의 내역 삭제
 	@GetMapping("/csc/inquiry/delete")
-	public String deleteMyInquiry(String bno) throws Exception {
+	public String deleteMyInquiry(String bno, HttpSession session) throws Exception {
+		
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		
 		QNAVo vo = new QNAVo();
 		vo.setNo(bno);
-		vo.setMemberNo("1");
+		vo.setMemberNo(loginMember.getNo());
 		
 		int result = service.deleteMyInquiry(vo);
 		
@@ -173,7 +212,14 @@ public class CSCController {
 	
 	// 신고하기(화면)
 	@GetMapping("csc/report")
-	public String report(Model model) {
+	public String report(Model model, HttpSession session) {
+		
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		
+		if(loginMember == null) {
+			session.setAttribute("alertMsg", "로그인 후 사용할 수 있는 서비스입니다.");
+			return "redirect:/member/mlogin";
+		}
 		
 		List<ReportCategoryVo> cList = service.getReportCatList();
 		
@@ -184,10 +230,16 @@ public class CSCController {
 	
 	// 신고하기
 	@PostMapping("csc/report")
-	public String report(ReportVo vo) throws Exception {
+	public String report(ReportVo vo, HttpSession session) throws Exception {
 		
-		vo.setReporter("1");
-		System.out.println(vo);
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		
+		if(loginMember == null) {
+			session.setAttribute("alertMsg", "로그인 후 사용할 수 있는 서비스입니다.");
+			return "redirect:/member/mlogin";
+		}
+		
+		vo.setReporter(loginMember.getNo());
 		
 		int result = service.insertReport(vo);
 		
@@ -215,8 +267,6 @@ public class CSCController {
 	@ResponseBody
 	public MemberVo getMemberByNo(String mno) {
 		
-		System.out.println(mno);
-		
 		MemberVo vo = service.getMemberByNo(mno);
 		
 		return vo;
@@ -225,9 +275,16 @@ public class CSCController {
 	
 	// 신고목록 (화면)
 	@GetMapping("csc/report-list")
-	public String getReportList(Model model) {
+	public String getReportList(Model model, HttpSession session) {
 		
-		String no = "1";
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		
+		if(loginMember == null) {
+			session.setAttribute("alertMsg", "로그인 후 사용할 수 있는 서비스입니다.");
+			return "redirect:/member/mlogin";
+		}
+		
+		String no = loginMember.getNo();
 		
 		List<ReportVo> rList = service.getMyReportList(no);
 		
@@ -239,9 +296,11 @@ public class CSCController {
 	// 신고 상세 조회
 	@GetMapping("csc/report/detail")
 	@ResponseBody
-	public ReportVo getMyReportByNo(String rno) throws Exception {
+	public ReportVo getMyReportByNo(String rno, HttpSession session) throws Exception {
 		
-		String no = "1";
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		
+		String no = loginMember.getNo();
 		
 		if("".equals(rno) || rno == null) {
 			throw new Exception("QNA 상세조회 실패");
@@ -263,14 +322,14 @@ public class CSCController {
 	
 	// 신고 내역 삭제
 	@GetMapping("csc/report/delete")
-	public String deleteMyReport(String rno) throws Exception {
+	public String deleteMyReport(String rno, HttpSession session) throws Exception {
 		
-		String memberNo = "1";
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		
 		ReportVo rvo = new ReportVo();
 		
 		rvo.setNo(rno);
-		rvo.setReporter(memberNo);
+		rvo.setReporter(loginMember.getNo());
 		
 		int result = service.deleteMyReport(rvo);
 		
@@ -287,10 +346,16 @@ public class CSCController {
 	
 	// 1대1 상담내역(화면)
 	@GetMapping("admin/csc/inquiry-list")
-	public String adminInquiryList(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchMap) throws Exception {
+	public String adminInquiryList(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchMap, HttpSession session) throws Exception {
 		
 		try {
-//			System.out.println(searchMap);
+			
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+			
+			if(loginAdmin == null) {
+				session.setAttribute("alertMsg", "로그인 후 사용할 수 있는 서비스입니다.");
+				return "redirect:/member/alogin";
+			}
 			
 			// 페이징 처리
 			int listCount = service.getQNACnt(searchMap);
