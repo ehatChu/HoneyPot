@@ -241,5 +241,44 @@
 			,TO_TIMESTAMP(#{endDate}, 'YYYY-MM-DD')
 			)
 	</insert>
+	
+	<!-- 투표항목 삽입 -->
+<!-- 	<insert id="insertVoteArticle">
+		INSERT INTO VOTE_CANDIDATE (
+			NO
+			,NOTICE_NO
+			,NAME
+		) 
+		VALUES 
+		<foreach collection="list" item="item" separator="UNION ALL">
+			(
+				#{item.no}
+				,SEQ_NOTICE_NO.CURRVAL
+				,#{item.name}
+			)
+		</foreach>
+		FROM DUAL
+	</insert> -->
+	
+	
+		<insert id="insertVoteArticle">
+		INSERT ALL
+		
+		<foreach collection="list" item="item">
+		INTO VOTE_CANDIDATE (
+			NO
+			,NOTICE_NO
+			,NAME
+		) 
+		VALUES 
+			(
+				#{item.no}
+				,SEQ_NOTICE_NO.CURRVAL
+				,#{item.name}
+			)
+		</foreach>
+		SELECT * FROM DUAL
+	</insert>
+	
 
 </mapper>

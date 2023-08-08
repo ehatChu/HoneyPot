@@ -22,6 +22,7 @@ import com.hp.app.notice.service.NoticeService;
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeImgVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.VoteCandidateVo;
 import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
 import com.hp.app.util.file.FileUploader;
@@ -81,7 +82,7 @@ public class NoticeController {
 	
 	// 공지사항 작성
 	@PostMapping("notice/write")
-	public String write(HttpSession session, NoticeVo vo, VoteVo vvo) {
+	public String write(HttpSession session, NoticeVo vo, VoteVo vvo, String voteCandidateNo, String voteCandidateName) {
 		
 		try {
 			
@@ -100,10 +101,44 @@ public class NoticeController {
 				return "redirect:/notice/list";
 			}
 			
-			System.out.println(vvo);
+			
 			//투표 정보 DB 삽입
-			int makeVoteResult = service.makeVote(vvo);
-			System.out.println("투표 생성 결과 : " + makeVoteResult);
+			System.out.println(vvo);
+			int makeVoteResult = 0;
+			if (vvo.getVoteTitle() != null && !"".equals(vvo.getVoteTitle()) && vvo.getEndDate() != null && !"".equals(vvo.getEndDate())) {
+				makeVoteResult = service.makeVote(vvo);
+				System.out.println("투표 생성 결과 : " + makeVoteResult);
+			}
+			
+			
+			//투표항목 삽입
+			System.out.println("nos : " + voteCandidateNo);
+			System.out.println("names : " +voteCandidateName);
+			
+			List<VoteCandidateVo> vcvoList = new ArrayList<>();
+			if(makeVoteResult == 1) {
+				String[] noArr = voteCandidateNo.split(",");
+				String[] nameArr = voteCandidateName.split(",");
+				
+				System.out.println(noArr.toString());
+				System.out.println(nameArr.toString());
+				
+				for (int i=0 ; i<noArr.length ; i++) {
+					VoteCandidateVo vcvo = new VoteCandidateVo();
+					vcvo.setNo(noArr[i]);
+					vcvo.setName(nameArr[i]);
+					System.out.println("vcvo" + i + "회차 : " + vcvo);
+					vcvoList.add(vcvo);
+					System.out.println(vcvoList.toString());
+				}
+				
+				service.insertVoteArticle(vcvoList);
+			}
+			
+
+//			int insertVoteArticleResult = service.insertVoteArticle(vcvo);
+//			System.out.println("투표 삽입 결과 : " + makeVoteResult);
+			
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -137,7 +172,6 @@ public class NoticeController {
 		}
 		
 		return imgList;
-
     }
 
 	// 공지사항 상세조회

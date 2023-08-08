@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hp.app.notice.dao.NoticeDao;
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.VoteCandidateVo;
 import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
 
@@ -70,6 +71,12 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public int makeVote(VoteVo vvo) {
 		return dao.makeVote(sst, vvo);
+	}
+
+	//투표항목 삽입
+	@Override
+	public int insertVoteArticle(List<VoteCandidateVo> vcvoList) {
+		return dao.insertVoteArticle(sst, vcvoList);
 	}
 
 }

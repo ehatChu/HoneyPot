@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.VoteCandidateVo;
 import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
 
@@ -38,5 +39,8 @@ public interface NoticeDao {
 
 	//투표 생성
 	public abstract int makeVote(SqlSessionTemplate sst, VoteVo vvo);
+
+	//투표항목 삽입
+	public int insertVoteArticle(SqlSessionTemplate sst, List<VoteCandidateVo> vcvoList);
 
 }

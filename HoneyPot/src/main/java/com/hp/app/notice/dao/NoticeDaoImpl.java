@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.VoteCandidateVo;
 import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
 
@@ -68,6 +69,12 @@ public class NoticeDaoImpl implements NoticeDao {
 	@Override
 	public int makeVote(SqlSessionTemplate sst, VoteVo vvo) {
 		return sst.insert("notice.makeVote", vvo);
+	}
+
+	//투표항목 삽입
+	@Override
+	public int insertVoteArticle(SqlSessionTemplate sst, List<VoteCandidateVo> vcvoList) {
+		return sst.insert("notice.insertVoteArticle", vcvoList);
 	}
 
 }

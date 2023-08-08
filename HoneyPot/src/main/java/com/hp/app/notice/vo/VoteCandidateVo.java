@@ -6,8 +6,8 @@ import lombok.Data;
 public class VoteCandidateVo {
 	
 	private String noticeNo;
-	private String voteCandidateNo;
-	private String voteCandidateName;
+	private String no;
+	private String name;
 	private String voteCnt;
 
 }
