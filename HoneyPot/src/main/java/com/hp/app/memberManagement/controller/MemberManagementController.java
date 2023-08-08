@@ -210,8 +210,16 @@ public class MemberManagementController {
 			throw new Exception("정규 관리자 등록 에러");
 		}
 		
-		return "redirect:/admin/member/member-list";
+		return "redirect:/admin/member/admin-list";
 		
+	}
+	
+	// 관리자 회원 정지
+	@PostMapping("admin/member/admin-list/stop")
+	public String stopAdmin(String ano) {
+		
+		
+		return "";
 	}
 	
 }
