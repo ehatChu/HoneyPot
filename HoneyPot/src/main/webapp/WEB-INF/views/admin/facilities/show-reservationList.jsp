@@ -349,18 +349,19 @@
             <c:if test="${not empty pv}">
 	            <div id="page-area">
 	                <c:if test="${pv.currentPage > 1}">
-	                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage-1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${originStatus}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
+	                    <span class="page-box"><a href="/app/admin/innerFac/reservation?p=${pv.currentPage-1}&name=${searchName}&startDate=${searchStartDate}&endDate=${searchEndDate}&startTime=${searchStartTime}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
 	                </c:if>
 	                <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
 	                    <c:if test="${pv.currentPage != i}">
-	                        <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}">${i}</a></span>
+                            <!-- "/app/admin/innerFac/reservation?p=${pv.currentPage-1}&name=${searchName}&startDate={searchStartDate}&endDate={searchEndDate}&startTime=${searchStartTime}" -->
+	                        <span class="page-box num"><a href="/app/admin/innerFac/reservation?p=${i}&name=${searchName}&startDate=${searchStartDate}&endDate=${searchEndDate}&startTime=${searchStartTime}">${i}</a></span>
 	                    </c:if>
 	                    <c:if test="${pv.currentPage == i}">
 	                        <span class="page-box num">${i}</span>
 	                    </c:if>
 	                </c:forEach>
 	                <c:if test="${pv.currentPage < pv.maxPage}">
-	                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage+1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${originStatus}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
+	                    <span class="page-box"><a href="/app/admin/innerFac/reservation?p=${pv.currentPage+1}&name=${searchName}&startDate=${searchStartDate}&endDate=${searchEndDate}&startTime=${searchStartTime}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
 	                    
 	                </c:if>
 	            </div>

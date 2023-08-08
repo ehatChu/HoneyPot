@@ -370,7 +370,7 @@
                 </c:if>
                 <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
                     <c:if test="${pv.currentPage != i}">
-                        <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}">${i}</a></span>
+                        <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${originStatus}">${i}</a></span>
                     </c:if>
                     <c:if test="${pv.currentPage == i}">
                         <span class="page-box num">${i}</span>
