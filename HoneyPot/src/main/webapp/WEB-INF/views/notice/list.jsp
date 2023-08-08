@@ -247,7 +247,6 @@
 					<div class="board-list-area">
 						<table id="board-list">
 							<c:forEach items="${voList}" var="vo">
-
 								<c:choose>
 									<c:when test="${vo.importantYn == 'Y'}">
 										<tr class="important" id="${vo.no}">

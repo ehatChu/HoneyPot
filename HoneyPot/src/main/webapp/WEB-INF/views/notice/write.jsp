@@ -130,7 +130,7 @@
 
     .modal-content {
         max-height: 473px;
-        width: 500px;
+        width: 325px;
         border-radius: 20px;
         overflow-y: auto;
         background-color: white;
@@ -299,7 +299,6 @@
                         <span id="importantYn">
                             <input type="checkbox" name="importantYn" value="Y"> 상단고정
                         </span>
-                        <!-- <input type="hidden" name="importantYn" value="N" id="hiddenImportantYn"> -->
                         
                         <div>
                             <!-- 카테고리 -->
@@ -382,7 +381,11 @@
     
                             <div id="vote-body">
                                 <div>
-                                    <label><input class="vote-target" id="vote-target" type="radio" name="voteCandidateNo" value="1">&nbsp;<span name="voteCandidateName">1번</span></label>
+                                    <!-- <label>
+                                        <input type="hidden" name="voteCandidateNo" value="">
+                                        <input type="hidden" name="voteCandidateName" value="">
+                                        <input class="vote-target" id="vote-target" type="radio" name="voteCandidateNo">&nbsp;<span name="voteCandidateName">1번</span>
+                                    </label> -->
                                 </div>
                             </div>
                         </div>
@@ -496,10 +499,6 @@
         modal.classList.add('hidden');
     });
 
-    //투표 삽입
-    const textarea = document.querySelector('#summernote');
-    textarea.innerHTML = '';
-
 
     //상단고정 여부 값 전달
     const form = document.querySelector("form");
@@ -523,8 +522,7 @@
         const endDate = document.querySelector("#end-date");
         //투표항목 입력창
         const voteArticleArr = document.querySelectorAll("#vote-article");
-        //중복체크창
-        const dup = document.querySelector("#dup");
+
         
         //입력된 제목
         const voteTitle = document.querySelector("#vote-title");
@@ -539,7 +537,7 @@
         //투표항목 구역
         const voteBody = document.querySelector("#vote-body");
         //투표항목
-        const voteTarget = document.querySelector("#vote-target");
+        // const voteTarget = document.querySelector("#vote-target");
         
 
         voteTitle.innerHTML = modalTitleInput.value;
@@ -550,15 +548,16 @@
         
         voteBody.innerHTML = '';
         for (let i=1 ; i <= voteArticleArr.length ; i++){
-            voteBody.innerHTML += '<div><label><input class="vote-target" id="vote-target' + i + '" type="radio" name="voteCandidateNo" value="' + i + '">&nbsp;<span name="voteCandidateName" value="' + voteArticleArr[i-1].value + '">' + voteArticleArr[i-1].value + '</span></label></div>';
+            voteBody.innerHTML 
+                += '<input type="hidden" name="voteCandidateNo" value="' + i + '"><input type="hidden" name="voteCandidateName" value="' + voteArticleArr[i-1].value + '">'
+                + '<div><label><input class="vote-target" id="vote-target' + i + '" type="radio" name="voteCandidateNo">&nbsp;<span name="voteCandidateName">' + voteArticleArr[i-1].value + '</span></label></div>';
         }
-
-        console.log(dup.value);
+        
+        // const voteCandidateName = document.querySelector('input[name=voteCandidateName]');
+        // console.log(voteCandidateName.value);
 
         // const voteTargetArr = document.querySelectorAll("#vote-target");
         // console.log(voteTargetArr[1].value);
-        // const voteCandidateNameArr = document.querySelectorAll('span[name=voteCandidateName]');
-        // console.log(voteCandidateNameArr[1].value);
 
 
         //제출시, 모달 숨기고 투표 미리보기
@@ -566,6 +565,8 @@
         const voteWrap = document.querySelector(".vote-wrap");
         const voteDelBtn = document.querySelector("#vote-del-btn");
         voteWrap.classList.remove('hidden');
+
+        console.log("메이크보트 실행됨~~");
 
     }
 
