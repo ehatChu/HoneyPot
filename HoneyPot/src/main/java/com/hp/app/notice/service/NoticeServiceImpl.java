@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hp.app.notice.dao.NoticeDao;
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.PersonalVoteVo;
 import com.hp.app.notice.vo.VoteCandidateVo;
 import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
@@ -89,6 +90,37 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public List<VoteCandidateVo> getVoteCandidate(String no) {
 		return dao.getVoteCandidate(sst, no);
+	}
+
+	//총 투표 수
+	@Override
+	public int countVoteTotal(String no) {
+		return dao.countVoteTotal(sst, no);
+	}
+
+	//항목별 득표 수
+	@Override
+	public List<Integer> countEachCandidate(PersonalVoteVo pvvo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	//투표 여부
+	@Override
+	public int checkVoteYn(PersonalVoteVo pvvo) {
+		return dao.checkVoteYn(sst, pvvo);
+	}
+
+	//투표 제출
+	@Override
+	public int insertPersonalVote(PersonalVoteVo pvvo) {
+		return dao.insertPersonalVote(sst, pvvo);
+	}
+
+	//투표 취소
+	@Override
+	public int deletePersonalVote(PersonalVoteVo pvvo) {
+		return dao.deletePersonalVote(sst, pvvo);
 	}
 
 }

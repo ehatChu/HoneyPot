@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.PersonalVoteVo;
 import com.hp.app.notice.vo.VoteCandidateVo;
 import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
@@ -87,6 +88,37 @@ public class NoticeDaoImpl implements NoticeDao {
 	@Override
 	public List<VoteCandidateVo> getVoteCandidate(SqlSessionTemplate sst, String no) {
 		return sst.selectList("notice.getVoteCandidate",no);
+	}
+
+	//총 투표 수
+	@Override
+	public int countVoteTotal(SqlSessionTemplate sst, String no) {
+		return sst.selectOne("notice.countVoteTotal", no);
+	}
+
+	//항목별 득표 수
+	@Override
+	public List<Integer> countEachCandidate(SqlSessionTemplate sst, PersonalVoteVo pvvo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	//투표 여부
+	@Override
+	public int checkVoteYn(SqlSessionTemplate sst, PersonalVoteVo pvvo) {
+		return sst.selectOne("notice.checkVoteYn", pvvo);
+	}
+
+	//투표 제출
+	@Override
+	public int insertPersonalVote(SqlSessionTemplate sst, PersonalVoteVo pvvo) {
+		return sst.insert("notice.insertPersonalVote", pvvo);
+	}
+
+	//투표 취소
+	@Override
+	public int deletePersonalVote(SqlSessionTemplate sst, PersonalVoteVo pvvo) {
+		return sst.delete("notice.deletePersonalVote", pvvo);
 	}
 
 }

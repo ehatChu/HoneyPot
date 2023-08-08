@@ -125,7 +125,7 @@
     }
 
     #vote-end-date {
-        margin-right: 40px;
+        /* margin-right: 40px; */
         font-size: 15px;
         color: #5F5F5F;
         color: rgb(156, 156, 156);;
@@ -139,6 +139,10 @@
         /* text-overflow: ellipsis; */
 		margin-top: 10px;
     }
+
+	.vote-article {
+		margin: 5px 0px;
+	}
 
 </style>
 </head>
@@ -175,6 +179,7 @@
 	
 							<div class="vote-area">
 								
+								<!-- 투표 전 -->
 								<div class="vote-wrap">
 									<div id="vote-header">
 										<input type="hidden" id="vote-title-hidden" name="voteTitle" value="${voteVo.voteTitle}">
@@ -185,7 +190,7 @@
 			
 									<div id="vote-body">
 										<c:forEach items="${vcvo}" var="vcvo">
-											<div>
+											<div class="vote-article">
 												<label>
 													<input type="hidden" name="voteCandidateNo" value="${vcvo.no}">
 													<input type="hidden" name="voteCandidateName" value="${vcvo.name}">
@@ -198,9 +203,37 @@
 									<div class="vote-submit-btn-area">
 										<button type="button" id="vote-submit-btn">투표하기</button>
 									</div>
-
 								</div>
+
+
+								<!-- 투표 후 -->
+								<div class="vote-wrap">
+									<div id="vote-header">
+										<input type="hidden" id="vote-title-hidden" name="voteTitle" value="${voteVo.voteTitle}">
+										<div id="vote-title">${voteVo.voteTitle}</div>
+										<input type="hidden" id="vote-end-date-hidden" name="endDate" value="${voteVo.endDate}">
+										<div id="vote-end-date">종료일 : ${voteVo.endDate}</div>
+									</div>
+			
+									<div id="vote-body">
+										<c:forEach items="${vcvo}" var="vcvo">
+											<div class="vote-article">
+												<input type="hidden" name="voteCandidateNo" value="${vcvo.no}">
+												<input type="hidden" name="voteCandidateName" value="${vcvo.name}">
+												<span name="voteCandidateName">${vcvo.name}</span>&nbsp;<input class="vote-target" id="vote-target" name="voteCandidateNo" value="">&nbsp;<span>33% (3표)</span>
+											</div>
+										</c:forEach>
+
+										<span id="vote-total">총 투표수 : 10표</span>
+									</div>
+
+									<div class="vote-submit-btn-area">
+										<button type="button" id="vote-submit-btn">재투표</button>
+									</div>
+								</div>								
+
 								
+
 							</div>
 	
 						</c:if>
@@ -235,6 +268,23 @@
 	//투표하기
 	function submitVote(){
 		const voteSubmitBtn = document.querySelector("#vote-submit-btn");
+
+		$.ajax({
+			url : '/app/notice/detail/vote',
+			type : 'post',
+			data : {
+				voteNoticeNo : '${vo.no}',
+				voteListNo : '${vcvo.no}',
+				// memberNo : '${loginMember.no}',
+				memberNo : '2',
+			},
+			success : function() {
+
+			},
+			error : function() {
+
+			},
+		})
 
 	}
 
