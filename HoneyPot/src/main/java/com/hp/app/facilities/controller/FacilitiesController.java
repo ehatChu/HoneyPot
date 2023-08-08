@@ -404,16 +404,23 @@ public class FacilitiesController {
 			String reserveTime =  rsVoList.get(i).getReserveTime();
 			rsVoList.get(i).setReserveTime(reserveTime.substring(0,10));
 			
+			
+			
+			
 			//스타트타임구하기
 			int startTime_int =Integer.parseInt(reserveTime.substring(11,13));
 			String endTime = "";
+			int endTime_int = 0;
 			if(startTime_int==24) {
 				endTime= "01:00";
 			}else {
-				int endTime_int = startTime_int+1;
-				endTime = endTime_int+":00";
+				endTime_int = startTime_int+1;
+				endTime = endTime_int<10 ? "0"+endTime_int+":00" : endTime_int+":00";
 			}
-			String startTime = startTime_int+":00";
+			String startTime = startTime_int<10 ? "0"+startTime_int+":00" : startTime_int+":00";
+			
+			log.info("startTime:{}",startTime_int);
+			log.info("endTime : {}  startTime :{}",endTime_int,startTime_int);
 			//세터로 스타트타임 앤드타임 설정해주기
 			rsVoList.get(i).setStartTime(startTime);
 			rsVoList.get(i).setEndTime(endTime);
