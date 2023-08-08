@@ -208,10 +208,10 @@
 </html>
 <script>
 	basicSetting(); // 기본 셋팅
-	headerName('예약하기'); // 현재 페이지 이름
-	firstNav(['도서관', '수영장', '헬스장'], '도서관'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	headerName('도서관 예약하기'); // 현재 페이지 이름
+	firstNav(['도서관', '수영장', '헬스장','골프장','예약조회'], '도서관'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 	secondNav(['시설소개', '예약하기'], '예약하기'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
-	firstNavLink(['/app/facilities/library/reserve','/app/facilities/pool/reserve','/app/facilities/health/reserve']);
+	firstNavLink(['/app/innerFac/info?no=1','/app/innerFac/info?no=2','/app/innerFac/info?no=3','/app/innerFac/info?no=4','/app/innerFac/personalReservation?p=1']);
 	secondNavLink(['/app/innerFac/info?no=1','/app/facilities/library/reserve'],);
 
 	//날짜를 받는 input태그의 값이 change될 때 ajax를 실행 하도록 
