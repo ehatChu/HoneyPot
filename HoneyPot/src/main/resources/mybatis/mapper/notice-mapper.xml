@@ -19,7 +19,7 @@
 				,CONTENT
 				,ENROLL_DATE
 				,MODIFY_DATE
-				,STATUS
+				,N.STATUS AS STATUS
 				,HIT
 				,IMPORTANT_YN
 			FROM
@@ -91,7 +91,7 @@
 				,CONTENT
 				,ENROLL_DATE
 				,MODIFY_DATE
-				,STATUS
+				,N.STATUS AS STATUS
 				,HIT
 				,IMPORTANT_YN
 			FROM
@@ -134,7 +134,7 @@
 			NOTICE N
 			JOIN NOTICE_CATEGORY C ON N.NOTICE_CNO = C.NO
 			JOIN ADMIN A ON N.WRITER_NO = A.NO
-		WHERE STATUS ='Y'
+		WHERE N.STATUS ='Y'
 		<if test="searchType == 'title' and searchValue != null and searchValue != ''">
 			AND ('[' || C.NAME || ']' || ' ' || N.TITLE) LIKE ('%${searchValue}%')
 		</if>
@@ -160,7 +160,7 @@
 			,CONTENT
 			,ENROLL_DATE
 			,MODIFY_DATE
-			,STATUS
+			,N.STATUS AS STATUS
 			,HIT
 			,IMPORTANT_YN
 		FROM
@@ -242,41 +242,24 @@
 			)
 	</insert>
 	
+	
 	<!-- 투표항목 삽입 -->
-<!-- 	<insert id="insertVoteArticle">
-		INSERT INTO VOTE_CANDIDATE (
-			NO
-			,NOTICE_NO
-			,NAME
-		) 
-		VALUES 
-		<foreach collection="list" item="item" separator="UNION ALL">
-			(
-				#{item.no}
-				,SEQ_NOTICE_NO.CURRVAL
-				,#{item.name}
-			)
-		</foreach>
-		FROM DUAL
-	</insert> -->
-	
-	
-		<insert id="insertVoteArticle">
+	<insert id="insertVoteArticle">
 		INSERT ALL
 		
 		<foreach collection="list" item="item">
-		INTO VOTE_CANDIDATE (
-			NO
-			,NOTICE_NO
-			,NAME
-		) 
-		VALUES 
-			(
+			INTO VOTE_CANDIDATE (
+				NO
+				,NOTICE_NO
+				,NAME
+			) 
+			VALUES (
 				#{item.no}
 				,SEQ_NOTICE_NO.CURRVAL
 				,#{item.name}
 			)
 		</foreach>
+		
 		SELECT * FROM DUAL
 	</insert>
 	
