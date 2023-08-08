@@ -187,7 +187,7 @@
 					<input style="padding-left: 30px;" type="password" class="box" name="pwd">
 					<div></div>
 					<div id="tit">비밀번호 확인</div>
-					<input style="padding-left: 30px;" type="text" class="box" name="pwdCheck">
+					<input style="padding-left: 30px;" type="password" class="box" name="pwdCheck">
 					<div></div>
 					<div id="tit">담당 동</div>
 					<input style="padding-left: 30px;" type="text" class="box" name="name">

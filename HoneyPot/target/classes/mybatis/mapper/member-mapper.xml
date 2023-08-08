@@ -12,8 +12,8 @@
 
 	<select id="alogin" resultType="com.hp.app.admin.vo.AdminVo">
 		SELECT * FROM ADMIN
-		WHERE ID =
-		#{id}
+		WHERE ID = #{id}
+		AND STATUS = 'Y'
 	</select>
 
 	<insert id="mjoin">

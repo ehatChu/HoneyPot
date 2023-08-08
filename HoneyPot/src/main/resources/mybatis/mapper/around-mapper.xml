@@ -33,4 +33,10 @@
 		JOIN
 		AROUND_EVALUATION AE ON A.NO = AE.AROUND_NO
 	</select>
+
+	<select id="getScoreList"
+		resultType="com.hp.app.around.vo.AroundEvaluationVo">
+		SELECT AVG(SCORE) SCORE, AROUND_NO FROM AROUND_EVALUATION
+		GROUP BY AROUND_NO
+	</select>
 </mapper>

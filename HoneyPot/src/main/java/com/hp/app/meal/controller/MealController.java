@@ -40,9 +40,11 @@ public class MealController<V> {
 		
 		List<MealVo> mealList = ms.getMealList(pv);
 		List<MealVo> mealListTotal = ms.getMealList();
+		MealVo todayMeal = ms.getTodayMeal();
 		
 		model.addAttribute("mealList", mealList);
 		model.addAttribute("mealListTotal", mealListTotal);
+		model.addAttribute("todayMeal", todayMeal);
 		model.addAttribute("pv", pv);
 		return "meal/mmeal";
 	}
@@ -51,7 +53,7 @@ public class MealController<V> {
 	public String amain(HttpSession session, Model model, @RequestParam(defaultValue = "1") int p) {
 		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
 		if (loginAdmin == null) {
-			return "redirect:/main/mmain";
+			return "redirect:/main/amain";
 		}
 		
 		int listCount = ms.getMealCnt();
@@ -59,12 +61,16 @@ public class MealController<V> {
 		int pageLimit = 5;
 		int boardLimit = 5;
 		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
 		List<MealVo> mealList = ms.getMealList(pv);
 		List<MealVo> mealListTotal = ms.getMealList();
 		List<MealVo> dietList = ms.getDietList();
+		MealVo todayMeal = ms.getTodayMeal();
+		
 		model.addAttribute("mealList", mealList);
-		model.addAttribute("dietList", dietList);
 		model.addAttribute("mealListTotal", mealListTotal);
+		model.addAttribute("dietList", dietList);
+		model.addAttribute("todayMeal", todayMeal);
 		model.addAttribute("pv", pv);
 		return "meal/ameal";
 	}
@@ -103,6 +109,17 @@ public class MealController<V> {
 	@ResponseBody
 	public String editMeal(@RequestParam Map<String, String> paramMap) {
 		int result = ms.editMeal(paramMap);
+		log.info("result : {}", result);
+		if (result == 0) {
+			return "error";
+		}
+		return "success";
+	}
+	
+	@GetMapping("plusMeal")
+	@ResponseBody
+	public String plusMeal(@RequestParam Map<String, String> paramMap) {
+		int result = ms.plusMeal(paramMap);
 		log.info("result : {}", result);
 		if (result == 0) {
 			return "error";

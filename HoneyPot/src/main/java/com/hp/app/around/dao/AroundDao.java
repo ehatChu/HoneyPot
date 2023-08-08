@@ -16,4 +16,6 @@ public interface AroundDao {
 
 	List<AroundEvaluationVo> getAroundList(SqlSessionTemplate sst);
 
+	List<AroundEvaluationVo> getScoreList(SqlSessionTemplate sst);
+
 }

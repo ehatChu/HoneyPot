@@ -14,4 +14,6 @@ public interface AroundService {
 
 	List<AroundEvaluationVo> getAroundList();
 
+	List<AroundEvaluationVo> getScoreList();
+
 }

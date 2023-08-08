@@ -30,5 +30,9 @@ public interface MealDao {
 
 	int cancelApply(SqlSessionTemplate sst, String no);
 
+	MealVo getTodayMeal(SqlSessionTemplate sst);
+
+	int plusMeal(SqlSessionTemplate sst, Map<String, String> paramMap);
+
 
 }

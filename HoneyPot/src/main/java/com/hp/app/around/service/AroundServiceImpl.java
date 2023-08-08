@@ -37,4 +37,9 @@ public class AroundServiceImpl implements AroundService {
 	public List<AroundEvaluationVo> getAroundList() {
 		return dao.getAroundList(sst);
 	}
+
+	@Override
+	public List<AroundEvaluationVo> getScoreList() {
+		return dao.getScoreList(sst);
+	}
 }

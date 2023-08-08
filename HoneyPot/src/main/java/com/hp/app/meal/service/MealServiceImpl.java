@@ -69,4 +69,14 @@ public class MealServiceImpl implements MealService{
 		return dao.cancelApply(sst, no);
 	}
 
+	@Override
+	public MealVo getTodayMeal() {
+		return dao.getTodayMeal(sst);
+	}
+
+	@Override
+	public int plusMeal(Map<String, String> paramMap) {
+		return dao.plusMeal(sst, paramMap);
+	}
+
 }

@@ -3,9 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="meal">
-	<select id="getMealList" resultType="com.hp.app.meal.vo.MealVo">
-		SELECT * FROM BREAKFAST B
+	<select id="getTodayMeal" resultType="com.hp.app.meal.vo.MealVo">
+		SELECT *
+		FROM BREAKFAST B
 		JOIN DIET D ON B.DIET_NO = D.NO
+		WHERE
+		EXTRACT(YEAR FROM CAST(BREAKFAST_DATE AS DATE)) = EXTRACT(YEAR FROM CAST(SYSDATE
+		AS DATE))
+		AND EXTRACT(MONTH FROM CAST(BREAKFAST_DATE AS DATE)) = EXTRACT(MONTH FROM
+		CAST(SYSDATE AS DATE))
+		AND EXTRACT(DAY FROM CAST(BREAKFAST_DATE AS DATE)) = EXTRACT(DAY FROM
+		CAST(SYSDATE AS DATE))
+		ORDER BY BREAKFAST_DATE
+	</select>
+
+	<select id="getMealList" resultType="com.hp.app.meal.vo.MealVo">
+		SELECT *
+		FROM BREAKFAST B
+		JOIN DIET D ON B.DIET_NO = D.NO
+		WHERE
+		EXTRACT(YEAR FROM
+		CAST(BREAKFAST_DATE AS DATE)) = EXTRACT(YEAR FROM CAST(SYSDATE
+		AS
+		DATE))
+		AND EXTRACT(MONTH FROM CAST(BREAKFAST_DATE AS DATE)) =
+		EXTRACT(MONTH FROM
+		CAST(SYSDATE AS DATE))
 		ORDER BY BREAKFAST_DATE
 	</select>
 
@@ -35,6 +58,10 @@
 		WHERE NO =
 		#{no}
 	</update>
+	
+	<insert id="plusMeal">
+		INSERT INTO BREAKFAST VALUES(SEQ_BREAKFAST_NO.NEXTVAL, #{dietNo}, #{breakfastDate})
+	</insert>
 
 	<select id="getDietList" resultType="com.hp.app.meal.vo.MealVo">
 		SELECT * FROM DIET
