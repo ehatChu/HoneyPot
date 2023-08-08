@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.PersonalVoteVo;
 import com.hp.app.notice.vo.VoteCandidateVo;
 import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
@@ -36,12 +37,27 @@ public interface NoticeService {
 	public abstract int makeVote(VoteVo vvo);
 
 	//투표항목 삽입
-	public int insertVoteArticle(List<VoteCandidateVo> vcvoList);
+	public abstract int insertVoteArticle(List<VoteCandidateVo> vcvoList);
 
 	//투표 불러오기
 	public abstract VoteVo getVote(String no);
 
 	//투표항목 불러오기
 	public abstract List<VoteCandidateVo> getVoteCandidate(String no);
+	
+	//총 투표 수
+	public abstract int countVoteTotal(String no);
+	
+	//항목별 득표 수
+	public abstract List<Integer> countEachCandidate(PersonalVoteVo pvvo);
+	
+	//투표 여부
+	public abstract int checkVoteYn(PersonalVoteVo pvvo);
+	
+	//투표 제출
+	public abstract int insertPersonalVote(PersonalVoteVo pvvo);
+	
+	//투표 취소
+	public abstract int deletePersonalVote(PersonalVoteVo pvvo);
 
 }

@@ -21,6 +21,7 @@ import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.notice.service.NoticeService;
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.PersonalVoteVo;
 import com.hp.app.notice.vo.VoteCandidateVo;
 import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
@@ -92,8 +93,11 @@ public class NoticeController {
 //			vo.setWriterNo(loginAdmin.getNo());
 						
 			System.out.println(vo);
+			System.out.println("중요 : " +vo.getImportantYn());
 			
 			vo.setWriterNo("2"); // 임시 작성자번호
+			
+			
 			int result = service.write(vo);
 			if(result != 1) {
 				session.setAttribute("alert", "게시글 작성 실패...");
@@ -170,6 +174,8 @@ public class NoticeController {
 		
 		try {
 			
+			String memberNo = "2";
+			
 			NoticeVo vo = service.viewDetail(no);
 			model.addAttribute("vo", vo);
 			
@@ -182,6 +188,36 @@ public class NoticeController {
 //			if (no == null) {
 //				return "notice/list";
 //			}
+			
+			if (voteVo != null) {
+				PersonalVoteVo pvvo = new PersonalVoteVo();
+				
+				//총 투표 수
+				int totalResult = service.countVoteTotal(no);
+				System.out.println(totalResult);
+				
+				//항목별 득표 수 배열
+//				pvvo.setNo(no);
+//				pvvo.set
+//				List<Integer> eachCountArr = service.countEachCandidate(pvvo);
+				
+				//투표여부
+				pvvo.setVoteNoticeNo(no);
+				pvvo.setMemberNo(memberNo);
+				int voteYn = service.checkVoteYn(pvvo);
+				System.out.println(voteYn);
+				
+				//투표 삽입, 삭제
+				String tempnum = "1";
+				pvvo.setVoteListNo(tempnum);
+				if (voteYn != 1) {
+					int submitResult = service.insertPersonalVote(pvvo);
+					System.out.println(submitResult);
+				}else {
+					int delResult = service.deletePersonalVote(pvvo);
+					System.out.println(delResult);
+				}
+			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();

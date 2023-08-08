@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
+import com.hp.app.notice.vo.PersonalVoteVo;
 import com.hp.app.notice.vo.VoteCandidateVo;
 import com.hp.app.notice.vo.VoteVo;
 import com.hp.app.page.vo.PageVo;
@@ -41,12 +42,27 @@ public interface NoticeDao {
 	public abstract int makeVote(SqlSessionTemplate sst, VoteVo vvo);
 
 	//투표항목 삽입
-	public int insertVoteArticle(SqlSessionTemplate sst, List<VoteCandidateVo> vcvoList);
+	public abstract int insertVoteArticle(SqlSessionTemplate sst, List<VoteCandidateVo> vcvoList);
 
 	//투표 불러오기
 	public abstract VoteVo getVote(SqlSessionTemplate sst, String no);
 
 	//투표항목 불러오기
 	public abstract List<VoteCandidateVo> getVoteCandidate(SqlSessionTemplate sst, String no);
+	
+	//총 투표 수
+	public abstract int countVoteTotal(SqlSessionTemplate sst, String no);
+	
+	//항목별 득표 수
+	public abstract List<Integer> countEachCandidate(SqlSessionTemplate sst, PersonalVoteVo pvvo);
+	
+	//투표 여부
+	public abstract int checkVoteYn(SqlSessionTemplate sst, PersonalVoteVo pvvo);
+	
+	//투표 제출
+	public abstract int insertPersonalVote(SqlSessionTemplate sst, PersonalVoteVo pvvo);
+	
+	//투표 취소
+	public abstract int deletePersonalVote(SqlSessionTemplate sst, PersonalVoteVo pvvo);
 
 }
