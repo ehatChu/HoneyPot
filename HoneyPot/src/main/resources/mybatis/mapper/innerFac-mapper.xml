@@ -96,4 +96,74 @@
 		#{arr}
 		</foreach>
 	</delete>
+	
+	<!-- 개인모든예약조회 -->
+	<select id="getAllPersonalReservation" resultType="com.hp.app.innerFac.vo.InnerFacRsVo">
+	SELECT 
+	    AR.NO
+	    ,AR.AMENITY_NO
+	    ,AR.RESERVE_TIME
+	    ,A.NAME
+	FROM AMENITY_RESERVATION AR
+	JOIN AMENITY A ON (A.NO= AR.AMENITY_NO)
+	WHERE AR.MEMBER_NO =#{memberNo}
+	ORDER BY AR.RESERVE_TIME DESC
+	</select>
+	
+	<!-- 개인조회페이징총갯수세기 -->
+	<select id="getPersonalCnt" resultType="int">
+		SELECT COUNT(*) FROM AMENITY_RESERVATION
+		WHERE MEMBER_NO=#{memberNo}
+	</select>
+	
+	<!-- 조회에서 삭제까지 -->
+	<delete id="deleteReservation">
+		DELETE AMENITY_RESERVATION 
+		WHERE NO=#{no} 
+	</delete>
+	
+	<!-- 관리자 모든 목록 개수 pv-->
+	<select id="getAllCnt" resultType="int">
+		SELECT COUNT(*) 
+		FROM AMENITY_RESERVATION AR
+		JOIN MEMBER M ON(AR.MEMBER_NO = M.NO)
+		<where>
+		<if test = "name !=null and name !=''">
+		AND M.NAME = #{name} 
+		</if>
+		<if test = "startDate !=null and startDate !=''">
+		 AND TO_DATE(SUBSTR(RESERVE_TIME,1,10),'YYYY-MM-DD') BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD')
+		</if>
+		<if test = "startTime !=null and startTime !=''">
+		AND SUBSTR(RESERVE_TIME,12,2) = #{startTime}
+		</if>
+		<if test = "no !=null and no !=''and no!=100">
+		AND AMENITY_NO = #{no} 
+		</if>
+		</where>
+	</select>
+	<!-- 관리자 모든 목록 조회 -->
+	<select id="searchAllReservation" resultType="com.hp.app.innerFac.vo.InnerFacInfoRsVo">
+		SELECT 
+		    M.NAME as MEMBER_NAME
+		    ,A.NAME AS AMENITY_NAME
+		    ,AR.RESERVE_TIME
+		FROM AMENITY_RESERVATION AR
+		JOIN MEMBER M ON(M.NO=AR.MEMBER_NO)
+		LEFT JOIN AMENITY A ON(AR.AMENITY_NO=A.NO)
+		<where>
+			<if test = "name !=null and name !=''">
+			AND M.NAME = #{name} 
+			</if>
+		    <if test="startDate !=null and startDate !=''">
+		    AND TO_DATE(SUBSTR(RESERVE_TIME,1,10),'YYYY-MM-DD') BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD')
+		    </if>
+		    <if test="startTime !=null and startTime !=''" >
+		    AND SUBSTR(RESERVE_TIME,12,2) = #{startTime}
+		    </if>
+		    <if test="no !=null and no !=''and no!=100" >
+		    AND AR.AMENITY_NO = #{no} 
+		    </if>
+		</where>
+	</select>
 </mapper>

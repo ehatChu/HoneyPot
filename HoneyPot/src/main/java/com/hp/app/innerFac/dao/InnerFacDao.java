@@ -7,8 +7,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.hp.app.innerFac.vo.InnerFacImgVo;
+import com.hp.app.innerFac.vo.InnerFacInfoRsVo;
 import com.hp.app.innerFac.vo.InnerFacRsVo;
 import com.hp.app.innerFac.vo.InnerFacVo;
+import com.hp.app.page.vo.PageVo;
 
 public interface InnerFacDao {
 	//리스트로 담을까 그냥 vo에 담기만할까? 모두다 조회해서 시간만 리턴하면 되는거 아님?
@@ -30,4 +32,14 @@ public interface InnerFacDao {
 	int addInnerFacImg(SqlSessionTemplate sst, Map<String, String> infoMap);
 	//사진삭제
 	int deleteInnerFacImg(SqlSessionTemplate sst, int[] no);
+	//개인모든일정조회
+	List<InnerFacRsVo> getAllPersonalReservation(SqlSessionTemplate sst, String memberNo, PageVo pv);
+	//개인조회갯수
+	int getPersonalCnt(SqlSessionTemplate sst, String memberNo);
+	//예약취소-버튼으로
+	int deleteReservation(SqlSessionTemplate sst, String no);
+	//관리자예약조회
+	int getAllCnt(SqlSessionTemplate sst, Map<String, String> searchValueMap);
+	//관리자예약조회
+	List<InnerFacInfoRsVo> searchAllReservation(SqlSessionTemplate sst, Map<String, String> searchValueMap, PageVo pv);
 }
