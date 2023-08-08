@@ -79,4 +79,16 @@ public class NoticeServiceImpl implements NoticeService {
 		return dao.insertVoteArticle(sst, vcvoList);
 	}
 
+	//투표 불러오기
+	@Override
+	public VoteVo getVote(String no) {
+		return dao.getVote(sst, no);
+	}
+
+	//투표항목 불러오기
+	@Override
+	public List<VoteCandidateVo> getVoteCandidate(String no) {
+		return dao.getVoteCandidate(sst, no);
+	}
+
 }

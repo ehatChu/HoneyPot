@@ -58,23 +58,6 @@
 		font-family: 'Noto Sans KR';
     }
 
-    .vote-btn-area {
-        margin-top: 10px;
-    }
-
-    #vote-btn {
-        background-color: white;
-        border-radius: 8px;
-        border: 1px solid rgb(156, 156, 156);
-        width: 125px;
-        height: 30px;
-        cursor: pointer;
-        color: #868686;
-        font-size: 15px;
-        font-weight: 600;
-        font-family: 'Noto Sans KR';
-    }
-
     .write-content {
         margin-top: 10px;
         background-color: white;
@@ -102,170 +85,6 @@
     }
 
     .write-submit:hover { cursor: pointer; }
-
-
-    /* 투표 모달 */
-
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    .bg {
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        position: absolute;
-    }
-
-    .modal-content {
-        max-height: 473px;
-        width: 500px;
-        border-radius: 20px;
-        overflow-y: auto;
-        background-color: white;
-        position: absolute;
-    }
-
-    .modal-content::-webkit-scrollbar {
-        display: none;
-    }
-
-    #modal-head {
-        display: flex;
-        justify-content: space-between;
-        background-color: #FAD355;
-        height: 45px;
-        font-size: 20px;
-    }
-
-    #modal-head > div {
-        margin-top: 8px;
-        margin-left: 20px;
-        margin-right: 20px;
-        font-weight: bold;
-        text-align: center;
-    }
-
-    #modal-head > div:last-child:hover {
-        cursor: pointer;
-    }
-
-    #modal-body {
-        height: 100%;
-        box-sizing: border-box;
-    }
-
-    #modal-body > *:not(:last-of-type) {
-        margin-left: 15px;
-    }
-
-    #modal-article, #dup-checkbox {
-        font-size: 18px;
-        font-weight: 700;
-        color: #5F5F5F;
-        margin-top: 20px;
-    }
-
-    #modal-body input {
-        margin-top: 8px;
-        width: 250px;
-        height: 30px;
-        border-radius: 8px;
-        border: 1px solid rgb(156, 156, 156);
-        padding-left: 10px;
-    }
-
-    .plus-article {
-        width: 105px;
-    }
-
-    .plus-article:hover {
-        cursor: pointer;
-    }
-
-    #modal-body input[type=date] {
-        width: 150px;
-    }
-
-    #modal-body input[type=checkbox] {
-        height: 15px;
-        width: 20px;
-        border: 1px solid rgb(156, 156, 156);
-        margin-top: 0px;
-    }
-
-    #insert-btn-area {
-        margin-top: 30px;
-        text-align: center;
-    }
-
-    #insert-btn {
-        width: 100px;
-        height: 30px;
-        background-color: #FAD355;
-        border: none;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 18px;
-        font-family: 'Noto Sans KR';
-    }
-
-    #insert-btn:hover {
-        cursor: pointer;
-    }
-
-
-    /* 투표 UI */
-    #vote-wrap {
-        border: 3px solid #4A321F;
-        border-radius: 20px;
-        margin: 10px 0px;
-        padding: 10px;
-        background: white;
-        width: 300px;
-        overflow-x: auto;
-    }
-
-    #vote-header {
-        display: flex;
-        align-items: center;
-    }
-
-    #vote-title {
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    #vote-end-date {
-        margin-left: 5px;
-        font-size: 15px;
-        color: #5F5F5F;
-        color: rgb(156, 156, 156);;
-    }
-
-    /* #vote-del-btn {
-        align-self: ;
-    } */
-
-    #vote-body {
-        display: grid;
-        grid-template-columns: 1fr;
-        overflow:auto;
-        white-space: nowrap;
-        /* text-overflow: ellipsis; */
-    }
 
     /* div { border: 1px solid red; } */
 
@@ -325,36 +144,6 @@
                     <div>
                         <span id="article">내용</span>
 
-                        <div class="vote-btn-area">
-                            <button type="button" id="vote-btn">
-                                <i class="fa-sharp fa-solid fa-check-to-slot"></i> &nbsp; 투표 생성
-                            </button>
-                        </div>
-
-                        
-                        <!-- 투표 ui -->
-                        <div id="vote-wrap">
-                            <div id="vote-header">
-                                <div id="vote-title">투표제목</div>
-                                <div id="vote-end-date">종료일 : 0000-00-00</div>
-
-                                <div id="vote-del-btn">&times;</div>
-                            </div>
-    
-                            <div id="vote-body">
-                                <div>
-                                    <label><input id="vote-target" type="radio" name="vote" value="1">&nbsp;dddddddddddddddddddddddddddddddddddddddd</label>
-                                </div>
-                                <div>
-                                    <label><input id="vote-target" type="radio" name="vote" value="1">&nbsp;dddddddddddddddddddd</label>
-                                </div>
-                                <div>
-                                    <label><input id="vote-target" type="radio" name="vote" value="1">&nbsp;ddddddddddddd</label>
-                                </div>
-                            </div>
-                        </div>
-
-
                         <!-- 본문 서머노트 -->
                         <div class="write-content"><textarea id="summernote" name="content"></textarea></div>
                     </div>
@@ -365,55 +154,6 @@
             </div>
 
         </div>
-
-
-        <!-- 모달 -->
-        <div class="modal hidden">
-
-            <div class="bg"></div>
-
-            <div class="modal-content">
-                <div id="modal-head">
-                    <div>투표 생성</div>
-                    <div id="close-btn">&times;</div>
-                </div>
-
-                <div id="modal-body">
-                    <div id="modal-article">제목</div>
-                    <input type="text" id="modal-input" placeholder="투표 제목">
-
-                    <div id="modal-article">기간</div>
-                    <input type="date" id="start-date"> ~ <input type="date" id="end-date">
-
-                    <div id="vote-article-area">
-                        <div id="modal-article">투표항목</div>
-                        <div class="vote-article">
-                            <input type="text" id="vote-article" placeholder="항목 입력"><span
-                                onclick="del();">&times;</span>
-                        </div>
-                    </div>
-
-                    <div id="modal-article" class="plus-article">
-                        <i class="fa-solid fa-plus"></i> &nbsp; 항목 추가
-                    </div>
-
-                    <div id="dup-checkbox">
-                        <label for="dup">
-                            <input type="checkbox" id="dup" value="y">
-                            중복 투표 허용
-                        </label>
-                    </div>
-
-                    <div id="insert-btn-area">
-                        <button type="button" id="insert-btn">확인</button>
-                    </div>
-                </div>
-                
-                <br>
-            </div>
-
-        </div>
-
     </main>
 
 </body>
@@ -450,50 +190,6 @@
 
     // 서머노트에 글 내용 추가
     $("#summernote").summernote('code', '${vo.content}');
-
-
-    //모달
-    const voteBtn = document.querySelector("#vote-btn");
-    const closeBtn = document.querySelector("#close-btn");
-    const modal = document.querySelector(".modal");
-    const plusArticle = document.querySelector(".plus-article");
-    const voteArticleArea = document.querySelector('#vote-article-area');
-
-    // let initHeight = 500;
-    //항목 추가/삭제 시 모달 창 높이 변경
-    // function plusModalHeight() {
-    //     initHeight += 38;
-    // }
-    // function minusModalHeight() {
-    //     initHeight -= 38;
-    // }
-
-    //투표 모달 항목 추가
-    plusArticle.addEventListener('click', function () {
-        voteArticleArea.innerHTML += '<div class="vote-article"><input type="text" id="vote-article" placeholder="항목 입력"><span onclick="del();">&times;</span></div>';
-        plusModalHeight();
-        modal.style.height = initHeight + "px";
-    })
-
-    //투표 모달 항목 삭제
-    function del() {
-        let xButton = event.target;
-        xButton.previousSibling.remove();
-        xButton.remove();
-        minusModalHeight();
-        modal.style.height = initHeight + "px";
-    };
-
-    voteBtn.addEventListener('click', function() {
-        modal.classList.remove('hidden');
-    });
-
-    closeBtn.addEventListener('click', function() {
-        modal.classList.add('hidden');
-    });
-
-
-    //투표 삽입
 
 
     //상단고정 여부 값 전달

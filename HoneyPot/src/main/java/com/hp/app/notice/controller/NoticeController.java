@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.notice.service.NoticeService;
 import com.hp.app.notice.vo.NoticeCategoryVo;
-import com.hp.app.notice.vo.NoticeImgVo;
 import com.hp.app.notice.vo.NoticeVo;
 import com.hp.app.notice.vo.VoteCandidateVo;
 import com.hp.app.notice.vo.VoteVo;
@@ -113,15 +112,12 @@ public class NoticeController {
 			
 			//투표항목 삽입
 			System.out.println("nos : " + voteCandidateNo);
-			System.out.println("names : " +voteCandidateName);
+			System.out.println("names : " + voteCandidateName);
 			
 			List<VoteCandidateVo> vcvoList = new ArrayList<>();
 			if(makeVoteResult == 1) {
 				String[] noArr = voteCandidateNo.split(",");
 				String[] nameArr = voteCandidateName.split(",");
-				
-				System.out.println(noArr.toString());
-				System.out.println(nameArr.toString());
 				
 				for (int i=0 ; i<noArr.length ; i++) {
 					VoteCandidateVo vcvo = new VoteCandidateVo();
@@ -132,13 +128,10 @@ public class NoticeController {
 					System.out.println(vcvoList.toString());
 				}
 				
-				service.insertVoteArticle(vcvoList);
+				int insertVoteArticleResult = service.insertVoteArticle(vcvoList);
+				System.out.println("투표 항목 삽입 : " + insertVoteArticleResult);
+				
 			}
-			
-
-//			int insertVoteArticleResult = service.insertVoteArticle(vcvo);
-//			System.out.println("투표 삽입 결과 : " + makeVoteResult);
-			
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -153,9 +146,6 @@ public class NoticeController {
     @PostMapping("notice/upload")
     @ResponseBody
     public List<String> handleFileUpload(@RequestParam("f") List<MultipartFile> flist, HttpServletRequest req) throws Exception {
-        
-    	NoticeImgVo imgVo = new NoticeImgVo();
-    	List<NoticeImgVo> imgVoList = new ArrayList();
     	
     	//이미지 리스트
 		String path = req.getServletContext().getRealPath("/resources/notice/");
@@ -168,12 +158,12 @@ public class NoticeController {
 			String filePath = path + imgList.get(i);
 			File destinationFile = new File(filePath);
 			flist.get(i).transferTo(destinationFile);
-			
 		}
 		
 		return imgList;
     }
 
+    
 	// 공지사항 상세조회
 	@GetMapping("notice/detail")
 	public String viewDetail(@RequestParam(defaultValue="1")String no, Model model) {
@@ -182,6 +172,12 @@ public class NoticeController {
 			
 			NoticeVo vo = service.viewDetail(no);
 			model.addAttribute("vo", vo);
+			
+			VoteVo voteVo = service.getVote(no);
+			model.addAttribute("voteVo", voteVo);
+			
+			List<VoteCandidateVo> vcvo = service.getVoteCandidate(no);
+			model.addAttribute("vcvo", vcvo);
 			
 //			if (no == null) {
 //				return "notice/list";
@@ -199,9 +195,11 @@ public class NoticeController {
 	public String edit(HttpSession session, Model model, String no) {
 		
 		List<NoticeCategoryVo> cvo = service.getCategory();
-		NoticeVo vo = service.viewDetail(no);
 		model.addAttribute("cvo", cvo);
+
+		NoticeVo vo = service.viewDetail(no);
 		model.addAttribute("vo", vo);
+		
 		if(no == null || "".equals(no) || "0".equals(no)) {
 			session.setAttribute("alert", "잘못된 접근입니다.");
 			return "redirect:/notice/list";

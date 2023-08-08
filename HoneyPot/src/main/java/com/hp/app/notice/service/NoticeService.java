@@ -38,4 +38,10 @@ public interface NoticeService {
 	//투표항목 삽입
 	public int insertVoteArticle(List<VoteCandidateVo> vcvoList);
 
+	//투표 불러오기
+	public abstract VoteVo getVote(String no);
+
+	//투표항목 불러오기
+	public abstract List<VoteCandidateVo> getVoteCandidate(String no);
+
 }

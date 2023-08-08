@@ -9,7 +9,7 @@
 
 	/* 배경 구역 */
 	.board-detail-area {
-		padding: 25px;
+		padding: 25px 25px 0px 25px;
 		/* text-align: center; */
 	}
 
@@ -49,20 +49,26 @@
 	#detail-title td:not(:first-of-type) { text-align: right;}
 
 	#detail-content {
-		margin: 100px;
+		margin: 100px 100px 0px 100px;
 		padding-bottom: 100px;
 	}
 
 
 	/* 버튼 */
-	.btn-area {
+	.vote-submit-btn-area, .btn-area {
 		display: flex;
 		justify-content: right;
 		align-items: center;
-		padding: 0px 30px 20px;
+		padding: 20px 30px;
 	}
 
-	#btn-box > button {
+	.vote-submit-btn-area {
+		justify-content: center;
+		padding: 0px;
+		margin-top: 15px;
+	}
+
+	#vote-submit-btn, #btn-box > button {
 		width: 100px;
 		height: 40px;
 		background-color: #FAD355;
@@ -74,12 +80,65 @@
 		font-weight: bold;
 	}
 
+	#vote-submit-btn {
+		width: 80px;
+		height: 30px;
+		font-size: 15px;
+	}
+
+
 	#btn-box > button { margin-right: 20px; }
 
-	#btn-box > button:hover {
+	#vote-submit-btn:hover, #btn-box > button:hover {
 		color: white;
 		cursor: pointer;
 	}
+
+
+    /* 투표 UI */
+	.vote-area {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 200px 100px 0px 100px;
+	}
+
+    .vote-wrap {
+        border: 3px solid #4A321F;
+        border-radius: 20px;
+        /* margin: 10px 0px; */
+        padding: 10px;
+        background: white;
+        width: 350px;
+        overflow-x: auto;
+    }
+
+    #vote-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #vote-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    #vote-end-date {
+        margin-right: 40px;
+        font-size: 15px;
+        color: #5F5F5F;
+        color: rgb(156, 156, 156);;
+    }
+
+    #vote-body {
+        display: grid;
+        grid-template-columns: 1fr;
+        overflow:auto;
+        white-space: nowrap;
+        /* text-overflow: ellipsis; */
+		margin-top: 10px;
+    }
 
 </style>
 </head>
@@ -108,11 +167,45 @@
 				
 				<!-- 본문 -->
 				<div class="detail-content-area">
-					<!-- <textarea name="" id="detail-content" readonly> -->
 					<div id="detail-content">
 						${vo.content}
+
+						<!-- 투표 ui -->
+						<c:if test="${voteVo != null}">
+	
+							<div class="vote-area">
+								
+								<div class="vote-wrap">
+									<div id="vote-header">
+										<input type="hidden" id="vote-title-hidden" name="voteTitle" value="${voteVo.voteTitle}">
+										<div id="vote-title">${voteVo.voteTitle}</div>
+										<input type="hidden" id="vote-end-date-hidden" name="endDate" value="${voteVo.endDate}">
+										<div id="vote-end-date">종료일 : ${voteVo.endDate}</div>
+									</div>
+			
+									<div id="vote-body">
+										<c:forEach items="${vcvo}" var="vcvo">
+											<div>
+												<label>
+													<input type="hidden" name="voteCandidateNo" value="${vcvo.no}">
+													<input type="hidden" name="voteCandidateName" value="${vcvo.name}">
+													<input class="vote-target" id="vote-target" type="radio" name="voteCandidateNo" value="${vcvo.no}">&nbsp;<span name="voteCandidateName">${vcvo.name}</span>
+												</label>
+											</div>
+										</c:forEach>
+									</div>
+
+									<div class="vote-submit-btn-area">
+										<button type="button" id="vote-submit-btn">투표하기</button>
+									</div>
+
+								</div>
+								
+							</div>
+	
+						</c:if>
+
 					</div>
-					<!-- </textarea> -->
 				</div>
 
 			</div>
@@ -137,5 +230,12 @@
 	headerName('게시판'); // 현재 페이지 이름
 	firstNav(['공지 게시판', '자유 게시판', '장터 게시판', '익명 게시판', '칭찬 게시판'], '공지 게시판'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 	firstNavLink(['/app/notice/list', '/app/board/free', '/app/board/market', '/app/board/noname', '/app/board/praise',]);
+
+
+	//투표하기
+	function submitVote(){
+		const voteSubmitBtn = document.querySelector("#vote-submit-btn");
+
+	}
 
 </script>
