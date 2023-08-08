@@ -198,8 +198,8 @@
 <script>
 	basicSetting(); // 기본 셋팅
 	headerName('편의시설 정보수정'); // 현재 페이지 이름
-	firstNav(['도서관', '수영장', '헬스장','골프장','예약자통합관리'], '도서관'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-	secondNav(['정보수정', '이용불가','시설사진'], '정보수정'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
-	// firstNavLink(['/app/facilities/library/reserve','/app/facilities/pool/reserve','/app/facilities/health/reserve']);
-	// secondNavLink(['/app/innerFac/info?no=1','/app/facilities/library/reserve'],);
+	firstNav(['도서관', '수영장', '헬스장','골프장','예약자통합조회'], '도서관'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	secondNav(['정보수정','사진변경'], '정보수정'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+	firstNavLink(['/app/admin/innerFac/editInfo?facNo=1','/app/admin/innerFac/editInfo?facNo=2','/app/admin/innerFac/editInfo?facNo=3','/app/admin/innerFac/editInfo?facNo=4','/app/admin/innerFac/reservation?p=1']);
+	secondNavLink(['/app/admin/innerFac/editInfo?facNo=1','/app/admin/innerFac/editImg?facNo=1'],);
 </script>

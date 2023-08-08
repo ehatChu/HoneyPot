@@ -22,4 +22,6 @@ public interface MineService {
 	List<MineVo> searchAllList(Map<String, String> searchValueMap, PageVo pv);
 
 	int deleteProperty(Map<String, String> map);
+	//승인
+	int acceptPropertyList(Map<String, Object> infoMap);
 }

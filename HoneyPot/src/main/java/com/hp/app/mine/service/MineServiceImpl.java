@@ -74,5 +74,10 @@ public class MineServiceImpl implements MineService{
 	public int deleteProperty(Map<String, String> map) {
 		return dao.deleteProperty(sst,map);
 	}
+	//승인
+	@Override
+	public int acceptPropertyList(Map<String, Object> infoMap) {
+		return dao.acceptPropertyList(sst,infoMap);
+	}
 
 }

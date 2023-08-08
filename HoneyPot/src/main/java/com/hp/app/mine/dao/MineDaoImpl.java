@@ -99,6 +99,17 @@ public class MineDaoImpl implements MineDao {
 	public int deleteProperty(SqlSessionTemplate sst,Map<String, String> map) {
 		return sst.delete("mine.deleteProperty",map);
 	}
+	//승인
+	@Override
+	public int acceptPropertyList(SqlSessionTemplate sst, Map<String, Object> infoMap) {
+		int result=0;
+		try {
+			result= sst.update("mine.acceptPropertyList",infoMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	 
 	
 	

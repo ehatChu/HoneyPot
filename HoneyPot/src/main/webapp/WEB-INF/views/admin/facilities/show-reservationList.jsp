@@ -124,16 +124,16 @@
     font-weight: 800;
    }
    .main-header {
-        height: 50px;
+        height: 40px;
    }
    .main-table {
     border-collapse: collapse;
     width: 1560px;
-    height: 450px;
     box-sizing: border-box;
    }
    .table-line {
     text-align:  center;
+    height: 40px;
    }
    .confirm-btn {
         width: 100px;
@@ -255,6 +255,9 @@
     #blank999 {
         width: 30px;
     }
+    #main-mine-line {
+        height: 400px;
+    }
 </style>
 </head>
 
@@ -323,25 +326,28 @@
         </form>
            
             <div id="main-mine-line">
-                <table class="main-table" border="1">
-                    <thead>
-                        <tr class="main-header">
-                            <th>예약자명</th>
-                            <th>시설명</th>
-                            <th>예약일시</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="vo" items="${facVoList}">
-                            <tr class="table-line">
-                                <td>${vo.memberName}</td>
-                                <td>${vo.amenityName}</td>
-                                <td>${vo.reserveTime}</td>
+                <div>
+                    <table class="main-table" border="1">
+                        <thead>
+                            <tr class="main-header">
+                                <th>예약자명</th>
+                                <th>시설명</th>
+                                <th>예약일시</th>
                             </tr>
-                        </c:forEach>
-                        
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="vo" items="${facVoList}">
+                                <tr class="table-line">
+                                    <td>${vo.memberName}</td>
+                                    <td>${vo.amenityName}</td>
+                                    <td>${vo.reserveTime}</td>
+                                </tr>
+                            </c:forEach>
+                            
+                        </tbody>
+                    </table>
+                </div>
+               
 
             </div>
             
@@ -349,18 +355,19 @@
             <c:if test="${not empty pv}">
 	            <div id="page-area">
 	                <c:if test="${pv.currentPage > 1}">
-	                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage-1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${originStatus}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
+	                    <span class="page-box"><a href="/app/admin/innerFac/reservation?p=${pv.currentPage-1}&name=${searchName}&startDate=${searchStartDate}&endDate=${searchEndDate}&startTime=${searchStartTime}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
 	                </c:if>
 	                <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
 	                    <c:if test="${pv.currentPage != i}">
-	                        <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}">${i}</a></span>
+                            <!-- "/app/admin/innerFac/reservation?p=${pv.currentPage-1}&name=${searchName}&startDate={searchStartDate}&endDate={searchEndDate}&startTime=${searchStartTime}" -->
+	                        <span class="page-box num"><a href="/app/admin/innerFac/reservation?p=${i}&name=${searchName}&startDate=${searchStartDate}&endDate=${searchEndDate}&startTime=${searchStartTime}">${i}</a></span>
 	                    </c:if>
 	                    <c:if test="${pv.currentPage == i}">
 	                        <span class="page-box num">${i}</span>
 	                    </c:if>
 	                </c:forEach>
 	                <c:if test="${pv.currentPage < pv.maxPage}">
-	                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage+1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${originStatus}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
+	                    <span class="page-box"><a href="/app/admin/innerFac/reservation?p=${pv.currentPage+1}&name=${searchName}&startDate=${searchStartDate}&endDate=${searchEndDate}&startTime=${searchStartTime}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
 	                    
 	                </c:if>
 	            </div>
@@ -376,9 +383,8 @@
 
 <script>
     basicSetting(); // 기본 셋팅
-    headerName('예약자 통합조회'); // 현재 페이지 이름
-    firstNav(['도서관', '수영장', '헬스장', '골프장','예약자통합조회'], '예약자통합조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    // secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
-
+    headerName('편의시설 예약자통합조회'); // 현재 페이지 이름
+	firstNav(['도서관', '수영장', '헬스장','골프장','예약자통합조회'], '예약자통합조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	firstNavLink(['/app/admin/innerFac/editInfo?facNo=1','/app/admin/innerFac/editInfo?facNo=2','/app/admin/innerFac/editInfo?facNo=3','/app/admin/innerFac/editInfo?facNo=4','/app/admin/innerFac/reservation?p=1']);
     
 </script>

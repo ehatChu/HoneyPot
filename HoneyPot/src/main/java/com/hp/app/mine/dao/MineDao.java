@@ -18,4 +18,6 @@ public interface MineDao {
 	MineVo getDetailAdmin(SqlSessionTemplate sst, Map<String, String> map);
 	List<MineVo> searchAllList(SqlSessionTemplate sst, Map<String, String> searchValueMap, PageVo pv);
 	int deleteProperty(SqlSessionTemplate sst,Map<String, String> map);
+	//승인
+	int acceptPropertyList(SqlSessionTemplate sst, Map<String, Object> infoMap);
 }
