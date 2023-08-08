@@ -1,6 +1,9 @@
 package com.hp.app.chat.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,9 +42,9 @@ public class ChatController {
 	// 채팅방 목록 화면
 	@GetMapping("chat/list")
 	public String chatList(HttpSession session, Model model, String searchValue) {
-//	   MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-//       String mno = loginMember.getNo();
-	   String mno = "1";
+	   MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+       String mno = loginMember.getNo();
+//	   String mno = "1";
        List<ChatRoomVo> voList = service.selectRoom(mno);
 	   Map<String , String> paramMap = new HashMap<String, String>();
 	   paramMap.put("memberNo", mno);
@@ -49,7 +52,7 @@ public class ChatController {
 	   List<ChatFriendVo> fvoList = service.friendList(paramMap);
        model.addAttribute("rList", voList);
        model.addAttribute("fvoList",fvoList);
-		return "/chat/list";
+       return "/chat/list";
 	}
 	
 	@GetMapping("chat/search")
@@ -61,7 +64,7 @@ public class ChatController {
 		   paramMap.put("memberNo", mno);
 		   paramMap.put("searchValue", searchValue);
 		   List<ChatFriendVo> fvoList = service.friendList(paramMap);
-			return fvoList;
+		return fvoList;
 	}
 	
 	// 채팅방 상세 조회 화면
@@ -122,7 +125,45 @@ public class ChatController {
 		return "success";
 	}
 	
-	
-	
-	
+	// 채팅 메세지 조회 (안 읽은 거)
+	// 로그인 한 회원의 채팅 방들의send_time 과 read_time 조회 
+	// send_time > read_time 인 메세지 내용과 보낸 사람, 시간 조회
+	@GetMapping("chat/unreadMsg")
+	@ResponseBody
+	public List<ChatMessageVo> getAllLastMessages(HttpSession session) throws Exception {
+		Map<String, ChatMessageVo> lastMessagesMap = null;
+		List<ChatMessageVo> cmList = null;
+		try {
+			  MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+			    String memberNo = loginMember.getNo();
+			    
+			    // 현재 로그인한 회원이 참여하고 있는 모든 채팅방 목록 조회
+			    List<ChatRoomVo> chatRooms = service.selectRoom(memberNo);
+			    log.info(chatRooms.toString());
+			    
+			    // 각 채팅방마다 마지막 메시지와 읽음 상태를 저장할 맵 만들기
+			    for (ChatRoomVo chatRoom : chatRooms) {
+			        String roomNo = chatRoom.getNo();
+			        Map<String , String> memberAndRoom = new HashMap<String, String>();
+			        memberAndRoom.put("roomNo", roomNo);
+			        memberAndRoom.put("memberNo", memberNo);
+			        
+			        // 로그인한 회원의 최근 읽은 시간 가져오기
+			        String loginMemReadTime = service.getLastReadTime(memberAndRoom);
+			        log.info(loginMemReadTime);
+			        // 채팅방의 상대방 최근 읽은 시간 가져오기
+			        String friendReadTime = service.getFLastReadTime(memberAndRoom);
+			        log.info(friendReadTime);
+			        memberAndRoom.put("friendReadTime", friendReadTime);
+			        memberAndRoom.put("loginMemReadTime", loginMemReadTime);
+			        
+			        // 저 시간들을 기간으로 잡고 그 사이에 있는 메세지 목록 다 불러오기
+			        cmList = service.getUnreadMsg(memberAndRoom);
+			        log.info(cmList.toString());
+			    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cmList;
+	}
 }

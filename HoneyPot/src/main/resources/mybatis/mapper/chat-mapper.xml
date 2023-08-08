@@ -140,12 +140,23 @@
 	
 	<select id="getLastReadTime" resultType="java.lang.String">
 		SELECT *
-		FROM (
-		SELECT
-		MAX(READ_TIME) AS READ_TIME
+		FROM(
+		SELECT READ_TIME
 		FROM CHATTING_MEMBER_LIST
-		WHERE CHATTING_ROOM_NO = #{roomNo}
-		AND MEMBER_NO = #{memberNo})
+		WHERE MEMBER_NO = #{memberNo}
+		AND CHATTING_ROOM_NO = #{roomNo}
+		ORDER BY READ_TIME DESC)
+		WHERE ROWNUM = 1
+	</select>
+	
+	<select id="getFLastReadTime" resultType="java.lang.String">
+		SELECT *
+		FROM(
+		SELECT READ_TIME
+		FROM CHATTING_MEMBER_LIST
+		WHERE MEMBER_NO != #{memberNo}
+		AND CHATTING_ROOM_NO = #{roomNo}
+		ORDER BY READ_TIME DESC)
 		WHERE ROWNUM = 1
 	</select>
 	
@@ -160,5 +171,65 @@
 			AND MEMBER_NO != #{memberNo}
 	</select>
 	
+	<select id="lastMessage" resultType="com.hp.app.chat.vo.ChatMessageVo">
+		SELECT *
+			FROM (
+			SELECT CM.CONTENT
+            , CM.SEND_TIME
+            , CM.CHATTING_ROOM_NO
+            , M.NAME AS MEMBER_NAME
+            , M.PROFILE AS MEMBER_PROFILE
+			FROM CHATTING_MESSAGE CM
+            JOIN MEMBER M 
+            ON CM.MEMBER_NO = M.NO
+			WHERE CHATTING_ROOM_NO = #{roomNo}
+            AND M.NO != #{memberNo}
+			ORDER BY SEND_TIME DESC)
+		WHERE ROWNUM = 1
+	</select>
+	
+	
+	<select id="getChatRoomMembers" resultType="com.hp.app.chat.vo.ChatMemberVo">
+		SELECT 
+		M.NO AS MEMBER_NO
+		, M.NAME AS MEMBER_NAME
+		, M.PROFILE AS MEMBER_PROFILE
+        , CML.READ_TIME 
+        , CR.NO AS CHATTING_ROOM_NO
+		FROM CHATTING_ROOM CR
+		JOIN CHATTING_MEMBER_LIST CML
+		ON CR.NO = CML.CHATTING_ROOM_NO
+		JOIN MEMBER M
+		ON CML.MEMBER_NO = M.NO
+		WHERE CR.NO = #{roomNo}
+        AND CML.MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="getMessageReadMembers" resultType="com.hp.app.chat.vo.ChatMemberVo">
+		SELECT 
+		M.NO AS MEMBER_NO
+		, M.NAME AS MEMBER_NAME
+		, M.PROFILE AS MEMBER_PROFILE
+		FROM CHATTING_MESSAGE CM
+		JOIN MEMBER M
+		ON CM.MEMBER_NO = M.NO
+		WHERE CM.NO = #{no}
+	</select>
+	
+	<select id="getUnreadMsg" resultType="com.hp.app.chat.vo.ChatMessageVo">
+		SELECT 
+		CM.MEMBER_NO,
+		CM.SEND_TIME,
+		CM.CONTENT,
+		M.NAME
+		FROM CHATTING_MESSAGE CM
+		JOIN CHATTING_MEMBER_LIST CML
+		ON CM.MEMBER_NO = CML.MEMBER_NO
+		JOIN MEMBER M
+		ON CM.MEMBER_NO = M.NO
+		WHERE CML.CHATTING_ROOM_NO = #{roomNo}
+		AND CML.MEMBER_NO != #{memberNo}
+		AND CM.SEND_TIME BETWEEN #{friendReadTime} AND #{loginMemReadTime}
+	</select>
 
 </mapper>

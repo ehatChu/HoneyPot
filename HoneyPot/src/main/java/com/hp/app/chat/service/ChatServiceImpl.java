@@ -7,19 +7,22 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hp.app.chat.dao.ChatDao;
 import com.hp.app.chat.vo.ChatFriendVo;
 import com.hp.app.chat.vo.ChatMemberVo;
 import com.hp.app.chat.vo.ChatMessageVo;
 import com.hp.app.chat.vo.ChatRoomVo;
+import com.hp.app.member.vo.MemberVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
+@Service
 public class ChatServiceImpl implements ChatService{
 	
 	private final ChatDao dao;
@@ -51,7 +54,6 @@ public class ChatServiceImpl implements ChatService{
 
 	@Override
 	public int insertChatMember(Map<String, String> roomMap) {
-	    // 이 메서드는 두 회원을 채팅방에 추가합니다.
 	    int result = 0;
 
 	    // masterNo를 채팅방에 추가
@@ -94,13 +96,38 @@ public class ChatServiceImpl implements ChatService{
 	}
 
 	@Override
-	public String getLastReadTime(Map<String, String> msgVo) {
-		return dao.getLastReadTime(sst,msgVo);
+	public String getLastReadTime(Map<String , String> memberAndRoom) {
+		return dao.getLastReadTime(sst,memberAndRoom);
 	}
 
 	@Override
 	public List<ChatMessageVo> getAllSendTimesInRoom(Map<String, String> msgVo) {
 		return dao.getAllsendTime(sst, msgVo);
+	}
+
+	@Override
+	public ChatMessageVo getLastMessage( Map<String , String> memberAndRoom) {
+		return dao.getLastMessage(sst, memberAndRoom);
+	}
+
+	@Override
+	public ChatMemberVo getChatRoomMembers(Map<String, String> memberAndRoom) {
+		return dao.getChatRoomMembers(sst, memberAndRoom);
+	}
+
+	@Override
+	public List<MemberVo> getMessageReadMembers(String no) {
+		return dao.getMessageReadMembers(sst, no);
+	}
+
+	@Override
+	public String getFLastReadTime(Map<String, String> memberAndRoom) {
+		return dao.getFLastReadTime(sst, memberAndRoom);
+	}
+
+	@Override
+	public List<ChatMessageVo> getUnreadMsg(Map<String, String> memberAndRoom) {
+		return dao.getUnreadMsg(sst, memberAndRoom);
 	}
 
 	

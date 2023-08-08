@@ -144,7 +144,7 @@
 										<span>가계부 등록</span>
 										<button class="closeBtn"><i class="fa-solid fa-xmark fa-2x"></i></button>
 									</div>
-									<form action="/app/account/add" method="post">
+									<form id="addAccountForm" action="/app/account/add" method="post">
 									<div class="content-modal">
 											<div class="first-area">
 												<div>
@@ -181,6 +181,33 @@
 										</div>
 									</form>
 								</div>
+								<script>
+									// 폼 제출 전 유효성 검사
+									function validateForm() {
+										const accountDate = document.querySelector('input[name="accountDate"]');
+										const price = document.querySelector('input[name="price"]');
+										
+										if (!accountDate.value) {
+											alert("일자를 선택해주세요.");
+											return false;
+										}
+										
+										if (!price.value) {
+											alert("금액을 입력해주세요.");
+											return false;
+										}
+
+										return true;
+									}
+
+									document.getElementById('addAccountForm').addEventListener('submit', function(e) {
+										if (!validateForm()) {
+											e.preventDefault();
+											e.stopPropagation();
+										}
+									});
+
+								</script>
 						</div>
 					</div>
 				</div>
@@ -423,98 +450,58 @@
 				});
 				});
 
-	/////// 검색 카테고리 선택 시 input 영역 변경
-	$(document).ready(function() {
-    function inputVisibility() {
-      var selectedOption = $("#searchType").val();
-      if (selectedOption === "content") {
-        $("#search_category").hide();
-        $("#accountDate").hide();
-        $("input[name='contentValue']").show();
-      } else if (selectedOption === "accountCno") {
-        $("input[name='contentValue']").hide();
-        $("#accountDate").hide();
-        $("#search_category").show();
-      } else if (selectedOption === "accountDate") {
-        $("input[name='contentValue']").hide();
-        $("#search_category").hide();
-        $("#accountDate").show();
-      }
-    }
+				$(document).ready(function() {
+					function inputVisibility() {
+						var selectedOption = $("#searchType").val();
+						if (selectedOption === "content") {
+							$("#search_category").hide();
+							$("#accountDate").hide();
+							$("input[name='contentValue']").show();
+						} else if (selectedOption === "accountCno") {
+							$("input[name='contentValue']").hide();
+							$("#accountDate").hide();
+							$("#search_category").show();
+						} else if (selectedOption === "accountDate") {
+							$("input[name='contentValue']").hide();
+							$("#search_category").hide();
+							$("#accountDate").show();
+						}
+					}
 
-    inputVisibility();
+					const initialSearchType = '${paramMap.searchType}';
+					const initialSearchValue = '${paramMap.searchValue}';
 
-    $("#searchType").on("change", function() {
-		inputVisibility();
-    });
+					$('#searchType').val(initialSearchType);
+					inputVisibility();
 
-	$("#accountForm").submit(function(e) {
-        e.preventDefault(); 
+					if (initialSearchType === "content") {
+						$("input[name='contentValue']").val(initialSearchValue);
+					} else if (initialSearchType === "accountCno") {
+						$("#search_category").val(initialSearchValue);
+					} else if (initialSearchType === "accountDate") {
+						$("#accountDate").val(initialSearchValue);
+					}
 
-        var selectedOption = $("#searchType").val();
-        if (selectedOption === "accountCno") {
-            var selectedCategory = $("#search_category").val();
-            window.location.href = "/app/account/list?searchType=" + selectedOption + "&searchValue=" + selectedCategory;
-        } else if (selectedOption === "accountDate") {
-            var selectedDate = $("#accountDate").val();
-            window.location.href = "/app/account/list?searchType=" + selectedOption + "&searchValue=" + selectedDate;
-        }else if (selectedOption === "content"){
-			var contentValue =  $("input[name='contentValue']").val();
-			window.location.href = "/app/account/list?searchType=" + selectedOption + "&searchValue=" + contentValue;
-		}
-    });
-  });
+					$("#searchType").on("change", function() {
+						inputVisibility();
+					});
 
- 
+					$("#accountForm").submit(function(e) {
+						e.preventDefault(); 
 
-	//검색 후 검색타입과 검색value 유지되도록
-	const searchTypeTagArr = document.querySelectorAll("#searchType > option");
-	const contentValue = document.querySelector("input[name=contentValue]");
-	const categorySelect = document.querySelectorAll("#search_category > option");
-	const dateSelect = document.querySelectorAll("#accountDate > option");
-  	const searchValue = '${paramMap.searchValue}';
-	
-	if(searchValue === '1'){
-		categorySelect[4].selected = true;
-	}else if(searchValue === '2'){
-		categorySelect[0].selected = true;
-	}else if(searchValue === '3'){
-		categorySelect[1].selected = true;
-	}else if(searchValue === '4'){
-		categorySelect[2].selected = true;
-	}else if(searchValue === '5'){
-		categorySelect[3].selected = true;
-	}else if(searchValue === '6'){
-		categorySelect[5].selected = true;
-	}else if(searchValue === '7'){
-		categorySelect[7].selected = true;
-	}else if(searchValue === '8'){
-		categorySelect[8].selected = true;
-	}
-
-	contentValue.value = '${paramMap.searchValue}';
-
-	const x = "${paramMap.searchType}"; 
-
-	if(x === 'content'){
-		searchTypeTagArr[0].selected = true;
-	}else if(x === 'accountCno'){
-		searchTypeTagArr[1].selected = true;
-	}else if(x === 'accountDate'){
-		searchTypeTagArr[2].selected = true;
-	}
-
-	if(searchValue === '2023-08'){
-		dateSelect[0].selected = true;
-	}else if(searchValue === '2023-07'){
-		dateSelect[1].selected = true;
-	}else if(searchValue === '2023-06'){
-		dateSelect[2].selected = true;
-	}else if(searchValue === '2023-05'){
-		dateSelect[3].selected = true;
-	}else if(searchValue === '2023-04'){
-		dateSelect[4].selected = true;
-	}
+						var selectedOption = $("#searchType").val();
+						if (selectedOption === "accountCno") {
+							var selectedCategory = $("#search_category").val();
+							window.location.href = "/app/account/list?searchType=" + selectedOption + "&searchValue=" + selectedCategory;
+						} else if (selectedOption === "accountDate") {
+							var selectedDate = $("#accountDate").val();
+							window.location.href = "/app/account/list?searchType=" + selectedOption + "&searchValue=" + selectedDate;
+						} else if (selectedOption === "content") {
+							var contentValue =  $("input[name='contentValue']").val();
+							window.location.href = "/app/account/list?searchType=" + selectedOption + "&searchValue=" + contentValue;
+						}
+					});
+				});
 
 
 	// 이번 달부터 5개의 달 생성

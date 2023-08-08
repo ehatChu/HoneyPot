@@ -9,6 +9,7 @@ import com.hp.app.chat.vo.ChatFriendVo;
 import com.hp.app.chat.vo.ChatMemberVo;
 import com.hp.app.chat.vo.ChatMessageVo;
 import com.hp.app.chat.vo.ChatRoomVo;
+import com.hp.app.member.vo.MemberVo;
 
 public interface ChatService {
 	
@@ -49,9 +50,25 @@ public interface ChatService {
 	int updateReadTime(ChatMemberVo mvo);
 
 	// 채팅방의 최신 읽은 시간
-	String getLastReadTime(Map<String, String> msgVo);
+	String getLastReadTime(Map<String , String> memberAndRoom);
 
 	// 채팅방의 보낸 시간들 조회
 	List<ChatMessageVo> getAllSendTimesInRoom(Map<String, String> msgVo);
+
+	// 채팅방의 마지막 메세지 조회
+	ChatMessageVo getLastMessage(Map<String, String> memberAndRoom);
+
+	// 채탕방 멤버 조회
+	ChatMemberVo getChatRoomMembers(Map<String, String> memberAndRoom);
+
+	// 채팅방 읽은 멤버 조회 
+	List<MemberVo> getMessageReadMembers(String no);
+	
+	// 채팅방 친구 최근 읽은 시간
+	String getFLastReadTime(Map<String, String> memberAndRoom);
+
+	// 채팅방 안읽은 메세지 
+	List<ChatMessageVo> getUnreadMsg(Map<String, String> memberAndRoom);
+
 
 }
