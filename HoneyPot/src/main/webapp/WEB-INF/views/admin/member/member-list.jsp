@@ -59,7 +59,7 @@
 		                    <div class="member-list" onclick="showMemberDetail(this);">
 	                            <div hidden>${vo.no}</div>
 		                        <div class="member-list-img">
-		                            <img src="${vo.profile}" alt="프로필사진">
+		                            <img src="/app/resources/member/profile/${vo.profile}" alt="프로필사진">
 		                        </div>
 		                        <div class="member-list-text">
 		                            <span>${vo.name}</span>
@@ -71,7 +71,7 @@
 		                    <div class="member-list new-member" onclick="showMemberDetail(this);">
 	                            <div hidden>${vo.no}</div>
 		                        <div class="member-list-img">
-		                            <img src="${vo.profile}" alt="프로필사진">
+		                            <img src="/app/resources/member/profile/${vo.profile}" alt="프로필사진">
 		                        </div>
 		                        <div class="member-list-text">
 		                            <span>${vo.name}</span>
@@ -83,7 +83,7 @@
 		                    <div class="member-list stop-member" onclick="showMemberDetail(this);">
 	                            <div hidden>${vo.no}</div>
 		                        <div class="member-list-img">
-		                            <img src="${vo.profile}" alt="프로필사진">
+		                            <img src="/app/resources/member/profile/${vo.profile}" alt="프로필사진">
 		                        </div>
 		                        <div class="member-list-text">
 		                            <span>${vo.name}</span>
@@ -206,8 +206,8 @@
 <script>
     basicSetting(); // 기본 셋팅
     headerName('회원관리'); // 현재 페이지 이름
-    firstNav(['회원조회','관리자조회', '제재내역', '상벌점내역', '사유물내역'], '회원조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    // secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+    firstNav(['회원조회', '관리자조회', '제재내역', '상벌점내역', '사유물내역'], '회원조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+    firstNavLink(['/app/admin/member/member-list', '/app/admin/member/admin-list', '/app/admin/member/sanction-list', '/app/admin/member/point-list', '/app/csc/report-list',]);
     let clickNo = null;
 
     // 회원 상태 카테고리 동적 css
@@ -261,7 +261,7 @@
                 if(data.status == 'Y'){
                     str =  `<div class="member-detail-header">
                             <div class="member-detail-img">
-                                <img src="\${data.profile}" alt="">
+                                <img src="/app/resources/member/profile/\${data.profile}" alt="">
                             </div>
                             <div class="member-detail-btn-area">
                                 <button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>
@@ -296,7 +296,7 @@
                 }else if(data.status == 'N'){
                     str =  `<div class="member-detail-header">
                             <div class="member-detail-img">
-                                <img src="\${data.profile}" alt="">
+                                <img src="/app/resources/member/profile/\${data.profile}" alt="">
                             </div>
                             <div class="member-detail-btn-area">
                                 <button class="member-detail-member-btn" onclick="regularMember();">회원등록</button>
@@ -330,7 +330,7 @@
                 }else if(data.status == 'S'){
                     str =  `<div class="member-detail-header">
                             <div class="member-detail-img">
-                                <img src="\${data.profile}" alt="">
+                                <img src="/app/resources/member/profile/\${data.profile}" alt="">
                             </div>
                             <div class="member-detail-btn-area">
                                 <button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>

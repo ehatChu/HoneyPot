@@ -24,7 +24,7 @@
 		FROM FAQ F
 		JOIN FAQ_CATEGORY C ON F.FAQ_CNO = C.NO
 		JOIN ADMIN A ON A.NO = F.WRITER_NO
-		WHERE STATUS = 'N'
+		WHERE F.STATUS = 'N'
 		<if test="searchType != '' and searchType != null">
 			AND C.NO = #{searchType}
 		</if>
@@ -463,7 +463,7 @@
 		FROM FAQ F
 		JOIN FAQ_CATEGORY C ON F.FAQ_CNO = C.NO
 		JOIN ADMIN A ON A.NO = F.WRITER_NO
-		WHERE STATUS = 'N'
+		WHERE F.STATUS = 'N'
 		<if test="faqCno != '' and faqCno != null">
 			AND F.FAQ_CNO = ${faqCno}
 		</if>

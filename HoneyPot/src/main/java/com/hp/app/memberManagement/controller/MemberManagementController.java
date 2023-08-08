@@ -201,6 +201,33 @@ public class MemberManagementController {
 		return vo;
 	}
 	
+	// 관리자 회원 정지
+	@PostMapping("admin/member/admin-list/delete")
+	public String deleteAdmin(String ano) throws Exception {
+		int result = service.deleteAdmin(ano);
+		
+		if(result != 1) {
+			throw new Exception("관리자 삭제 에러");
+		}
+		
+		return "redirect:/admin/member/admin-list";
+		
+	}
+	
+	// 관리자 회원 정지
+	@PostMapping("admin/member/admin-list/stop")
+	public String stopAdmin(String ano) throws Exception {
+		System.out.println("gd");
+		int result = service.stopAdmin(ano);
+		
+		if(result != 1) {
+			throw new Exception("관리자 정지 에러");
+		}
+		
+		return "redirect:/admin/member/admin-list";
+		
+	}
+	
 	// 관리자 정규 등록
 	@PostMapping("admin/member/admin-list/regular")
 	public String regularAdmin(String ano) throws Exception {
@@ -214,12 +241,5 @@ public class MemberManagementController {
 		
 	}
 	
-	// 관리자 회원 정지
-	@PostMapping("admin/member/admin-list/stop")
-	public String stopAdmin(String ano) {
-		
-		
-		return "";
-	}
 	
 }

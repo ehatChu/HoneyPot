@@ -126,6 +126,7 @@
 			, GRADE
 		FROM ADMIN
 		WHERE GRADE IN ('S','D')
+		AND STATUS IN ('Y','N','S')
 			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
 				AND NAME LIKE '%${searchValue}%'
 			</if>
@@ -170,7 +171,16 @@
 	
 	<!-- 관리자 삭제 -->
 	<update id="deleteAdmin">
+		UPDATE ADMIN
+		SET STATUS = 'D'
+		WHERE NO = #{ano}
+	</update>
 	
+	<!-- 관리자 정지 -->
+	<update id="stopAdmin">
+		UPDATE ADMIN
+		SET STATUS = 'S'
+		WHERE NO = #{ano}
 	</update>
 	
 	<!-- 관리자 정규 회원 등록 -->

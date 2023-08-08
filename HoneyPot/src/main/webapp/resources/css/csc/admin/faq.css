@@ -165,14 +165,14 @@
     margin-top: 15px;
     width: 100%;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 5fr 1fr;
     justify-items: end;
 }
 
 .page-area {
     width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: center;
 }
     
 .page-area > a {
