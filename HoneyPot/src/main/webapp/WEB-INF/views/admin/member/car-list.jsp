@@ -321,7 +321,8 @@
             </div>
         </form>
            
-            <form action="${root}/admin/confirm/property">
+            <form action="/app/admin/accept/property-list" method="get">
+                <input type="hidden" name="kinda" value="CAR">
                 <div id="main-mine-line">
                     <table class="main-table" border="1">
                        <thead>
@@ -338,7 +339,7 @@
                        <tbody>
                            <c:forEach var="mineVo" items="${mineVoList}">
                                <tr class="table-line">
-                                   <td><input type="checkbox"><input type="hidden" value="${mineVo.no}"></td>
+                                   <td><input type="checkbox" name="no" value="${mineVo.no}"><input type="hidden" value="${mineVo.no}"></td>
                                    <td>${mineVo.name}</td>
                                    <td>${mineVo.memberName}</td>
                                    <td>${mineVo.phone}</td>
@@ -366,18 +367,18 @@
            
             <div id="page-area">
                 <c:if test="${pv.currentPage > 1}">
-                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage-1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${originStatus}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
+                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage-1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
                 </c:if>
                 <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
                     <c:if test="${pv.currentPage != i}">
-                        <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${originStatus}">${i}</a></span>
+                        <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}">${i}</a></span>
                     </c:if>
                     <c:if test="${pv.currentPage == i}">
                         <span class="page-box num">${i}</span>
                     </c:if>
                 </c:forEach>
                 <c:if test="${pv.currentPage < pv.maxPage}">
-                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage+1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${originStatus}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
+                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage+1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
                     
                 </c:if>
             </div>

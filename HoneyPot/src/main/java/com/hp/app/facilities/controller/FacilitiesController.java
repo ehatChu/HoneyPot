@@ -420,7 +420,7 @@ public class FacilitiesController {
 		}
 		
 		
-		
+		model.addAttribute("pv",pv);
 		model.addAttribute("rsVoList",rsVoList);
 		return "innerFacilities/personalReservation";
 		

@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.exception.YerinException;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.mine.service.MineService;
@@ -99,7 +100,7 @@ public class MineController {
 		//도대체 이게 왜안되는지 모르겠다.
 		searchValueMap.put("kinda", "CAR");
 		
-		String originStatus = searchValueMap.get("status");
+		String searchStatus = searchValueMap.get("status");
 		
 		int listCount = service.getCarCnt(searchValueMap); 		
 		int currentPage = p;
@@ -137,12 +138,12 @@ public class MineController {
 		model.addAttribute("cntOk",cntOk);
 		model.addAttribute("cntNone",cntNone);
 		//스테이터스 반환하기
-		model.addAttribute("status",originStatus);
 		log.info("mvoList : {}",mvoList);
 		//검색값 유지하게
 		model.addAttribute("searchUniqueNum",searchValueMap.get("uniqueNum"));
 		model.addAttribute("searchMineOwner",searchValueMap.get("mineOwner"));
-		
+		model.addAttribute("searchStatus",searchStatus);
+		log.info("searhStatus : {}",searchStatus);
 		return "admin/member/car-list";
 	}
 	
@@ -177,5 +178,28 @@ public class MineController {
 		//int result = service.refuse(detailNo);
 		
 		return "redirect:/property-list?p=1";
+	}
+	
+	//승인
+	@GetMapping("admin/accept/property-list")
+	public String acceptCarList(String kinda,String[] no, HttpSession session) {
+		//세션에서 admin꺼내기
+		AdminVo loginAdmin = (AdminVo)session.getAttribute("loginAdmin");
+		String adminNo = loginAdmin.getNo();
+	
+		//infoMap에 담기
+		Map<String,Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("kinda", kinda);
+		infoMap.put("adminNo", adminNo);
+		infoMap.put("no", no);
+		log.info("infoMap : {}",infoMap);
+		int result = service.acceptPropertyList(infoMap);
+		
+		switch (kinda) {
+		case "CAR": return "redirect:/admin/property-list/car?p=1";
+		case "BICYCLE" : return "redirect:/admim/property-list/bicycle?p=1";
+		default: return "redirect:/admin/property-list/car?p=1";
+		}
+		
 	}
 }

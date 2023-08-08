@@ -33,6 +33,63 @@
 	#innerFac-info-detail {
 		font-size: 18px;
 	}
+	.main-table {
+		border-collapse: collapse;
+		width: 1400px;
+		box-sizing: border-box;
+	}
+	.main-header {
+		height: 50px;
+		text-align: center;
+	}
+	.table-line {
+		text-align: center;
+		height: 50px;
+	}
+	#wrap {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 700px;
+	}
+	thead {
+		background-color: #FFCE31;
+	}
+	.page-box {
+        padding: 3px 10px;
+    }
+    a {
+        text-decoration: none;
+        color: black;
+    }
+    .paging-btn {
+       border: none;
+       width: 20px;
+       height: 20px;
+       
+    }
+	#page-area {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 20px;
+    }
+	.num:hover {
+        background-color: #FFCE31;
+        border-radius: 5px;
+    }
+	.cancel-btn {
+		background-color: #4A321F;
+		color: white;
+		padding: 5px;
+		border-radius: 6px;
+	}
+	/* #table-wrapper > div:nth-child(2) {
+		height: 100%;
+	} */
+	#table-wrapper {
+		height: 500px;
+	}
 </style>
 </head>
 <body>
@@ -44,28 +101,59 @@
 
 	<main>
 		<!-- <div>${rsVoList}</div> -->
-		<table class="A_detail">
-			<thead>
-				<tr class="line">
-					<th>예약날짜</th>
-					<th>예약시간</th>
-					<th>시설이름</th>
-					<th>예약취소</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${rsVoList}" var="vo">
-					<tr class="line">
-						<td>${vo.reserveTime}</td>
-						<td>${vo.startTime}~${vo.endTime}</td>
-						<td>${vo.name}</td>
-						<td><button onclick="location.href='/app/innerFac/cancel-personal?no=${vo.no}'">예약취소</button></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+		<div id="wrap">
+			<h1>편의시설 본인예약조회</h1>
+			<div id="table-wrapper">
+				<div>
+					<table class="main-table">
+						<thead>
+							<tr class="main-header">
+								<th>예약날짜</th>
+								<th>예약시간</th>
+								<th>시설이름</th>
+								<th>예약취소</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${rsVoList}" var="vo">
+								<tr class="table-line">
+									<td>${vo.reserveTime}</td>
+									<td>${vo.startTime}~${vo.endTime}</td>
+									<td>${vo.name}</td>
+									<td><button class="cancel-btn" onclick="location.href='/app/innerFac/cancel-personal?no=${vo.no}'">예약취소</button></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+					
+				
+			</div>
+			
+			<c:if test="${not empty pv}">
+				<div id="page-area">
+					<c:if test="${pv.currentPage > 1}">
+						<span class="page-box"><a href="/app/innerFac/personalReservation?p=${pv.currentPage-1}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
+					</c:if>
+					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
+						<c:if test="${pv.currentPage != i}">
+								<!-- "/app/admin/innerFac/reservation?p=${pv.currentPage-1}&name=${searchName}&startDate={searchStartDate}&endDate={searchEndDate}&startTime=${searchStartTime}" -->
+							<span class="page-box num"><a href="/app/innerFac/personalReservation?p=${i}">${i}</a></span>
+						</c:if>
+						<c:if test="${pv.currentPage == i}">
+							<span class="page-box num">${i}</span>
+						</c:if>
+					</c:forEach>
+					<c:if test="${pv.currentPage < pv.maxPage}">
+						<span class="page-box"><a href="/app/innerFac/personalReservation?p=${pv.currentPage+1}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
+						
+					</c:if>
+				 </div>
+			</c:if>
+		</div>
+		
 	</main>
-
+	
 </body>
 </html>
 <script>

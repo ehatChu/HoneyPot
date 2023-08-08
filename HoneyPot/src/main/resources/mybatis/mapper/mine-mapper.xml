@@ -110,5 +110,13 @@
 		DELETE FROM ${detailKinda}
 		WHERE NO = #{detailNo}
 	</delete>
-	
+	<!-- 자동차and자전거 승인 -->
+	<update id="acceptPropertyList">
+		UPDATE ${kinda}
+		SET CONFIRM_DATE=SYSDATE , STATUS = 'O' , ADMIN_NO = #{adminNo}
+		WHERE NO IN 
+		<foreach collection="no" item="arr" open="(" close=")" separator=",">
+			#{arr}
+		</foreach>
+	</update>
 </mapper>

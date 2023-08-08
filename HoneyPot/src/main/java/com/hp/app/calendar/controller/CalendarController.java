@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CalendarController {
 	private final CalendarService service;
 	private final YerinFunctions y;
-	//캘린더화면조회
+	//캘린더화면조회(화면)-주민
 	@GetMapping("calendar/schedule-list")
 	public String viewCalendar() throws Exception {
 		//일반회원은 본인이 속한 동대표가 작성한 일정과 관리소장의 일정을 아파트일정으로 볼 수 있다.
@@ -45,7 +45,6 @@ public class CalendarController {
 		return "mypage/myInfo/calendar/view";
 	}
 	//주민 캘린더 등록
-	
 	@PostMapping("calendar/regi-schedule")
 	public String regiSchedule(@RequestParam Map<String,String> regiInfoMap,HttpSession session) {
 		//받은 값 특히 날짜 어떻게 오는지 확인하기
@@ -167,7 +166,7 @@ public class CalendarController {
 	
 	//이하 어드민================================
 	
-	//어드민 캘린더조회
+	//어드민 캘린더조회(화면)
 	@GetMapping("admin/calendar/schedule-list")
 	public String viewAdminCalendar() {
 		//관리소장은 모든 동의 일정을 볼 수 있다.
