@@ -47,22 +47,26 @@ public class CSCController {
 //		searchVo.put("searchType", searchType);
 //		searchVo.put("searchValue", searchValue);
 		
-		int listCount = service.getFAQCnt(searchVo);
-		int currentPage = Integer.parseInt(page);
-		int pageLimit = 5;
-		int boardLimit = 8;
-		
-		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
-		
+		try {
+			int listCount = service.getFAQCnt(searchVo);
+			int currentPage = Integer.parseInt(page);
+			int pageLimit = 5;
+			int boardLimit = 8;
+			
+			PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+			
 
-		
-		List<FAQVo> fList = service.getFAQList(pvo,searchVo);
-		List<FAQCategoryVo> cList = service.getFAQCatList();
-		
-		model.addAttribute("fList", fList);
-		model.addAttribute("cList", cList);
-		model.addAttribute("pvo", pvo);
-		model.addAttribute("searchVo", searchVo);
+			
+			List<FAQVo> fList = service.getFAQList(pvo,searchVo);
+			List<FAQCategoryVo> cList = service.getFAQCatList();
+			
+			model.addAttribute("fList", fList);
+			model.addAttribute("cList", cList);
+			model.addAttribute("pvo", pvo);
+			model.addAttribute("searchVo", searchVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return "csc/member/faq";
 	}

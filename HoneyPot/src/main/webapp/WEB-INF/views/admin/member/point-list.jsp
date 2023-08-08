@@ -41,7 +41,7 @@
                                 <div hidden>${vo.no}</div>
 	                            <div class="point-list-profile">
 	                                <div class="point-member-profile">
-	                                    <img src="" alt="${vo.memberProfile}">
+	                                    <img src="/app/resources/member/profile/${vo.memberProfile}" alt="프로필사진">
 	                                </div>
 	                                <div class="point-member-text">
 	                                	<div hidden>${vo.memberNo}</div>
@@ -170,7 +170,8 @@
 <script>
     basicSetting(); // 기본 셋팅
     headerName('회원관리'); // 현재 페이지 이름
-    firstNav(['회원조회', '제재내역', '상벌점내역', '사유물내역'], '상벌점내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+    firstNav(['회원조회', '관리자조회', '제재내역', '상벌점내역', '사유물내역'], '상벌점내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+    firstNavLink(['/app/admin/member/member-list', '/app/admin/member/admin-list', '/app/admin/member/sanction-list', '/app/admin/member/point-list', '/app/csc/report-list',]);
     // secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 
     let clickNo = null;
@@ -211,7 +212,7 @@
             pointBox.innerHTML = data.score;
             contentBox.innerHTML = data.content;
             nameBox.innerHTML = data.memberName;
-            profileBox.src = data.memberProfile;
+            profileBox.src = "/app/resources/member/profile/" + data.memberProfile;
             clickNo = data.no;
             
             showPoint();

@@ -117,8 +117,8 @@
 <script>
     basicSetting(); // 기본 셋팅
     headerName('회원관리'); // 현재 페이지 이름
-    firstNav(['회원조회','관리자조회', '제재내역', '상벌점내역', '사유물내역'], '회원조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    // secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+    firstNav(['회원조회', '관리자조회', '제재내역', '상벌점내역', '사유물내역'], '관리자조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+    firstNavLink(['/app/admin/member/member-list', '/app/admin/member/admin-list', '/app/admin/member/sanction-list', '/app/admin/member/point-list', '/app/csc/report-list',]);
     let clickNo = null;
 
     // 회원 상태 카테고리 동적 css
@@ -183,8 +183,8 @@
                                 <img src="/app/resources/member/profile/\${data.profile}" alt="">
                             </div>
                             <div class="admin-detail-btn-area">
-                                <button class="admin-detail-stop-btn" onclick="showStopModel();">정지</button>
-                                <button class="admin-detail-delete-btn" onclick="deleteadmin();">삭제</button>
+                                <button class="admin-detail-stop-btn" onclick="stopAdmin();">정지</button>
+                                <button class="admin-detail-delete-btn" onclick="deleteAdmin();">삭제</button>
                             </div>
                         </div>
                         <div class="admin-detail-body-area">
@@ -212,7 +212,7 @@
                             </div>
                             <div class="admin-detail-btn-area">
                                 <button class="admin-detail-admin-btn" onclick="regularAdmin();">승인</button>
-                                <button class="admin-detail-delete-btn" onclick="deleteadmin();">삭제</button>
+                                <button class="admin-detail-delete-btn" onclick="deleteAdmin();">삭제</button>
                             </div>
                         </div>
                         <div class="admin-detail-body-area">
@@ -240,7 +240,7 @@
                             </div>
                             <div class="admin-detail-btn-area">
                                 <button class="admin-detail-point-btn" onclick="regularAdmin();">정지해제</button>
-                                <button class="admin-detail-delete-btn" onclick="deleteadmin();">삭제</button>
+                                <button class="admin-detail-delete-btn" onclick="deleteAdmin();">삭제</button>
                             </div>
                         </div>
                         <div class="admin-detail-body-area">
@@ -274,8 +274,44 @@
 
     }
 
-    // 회원 삭제
-    function deleteadmin(){
+    // 관리자 정지
+    function stopAdmin(){
+        Swal.fire({
+            title: '정말로 정지하시겠습니까?',
+            icon: 'question',
+            
+            showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+            confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+            cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+            
+            // reverseButtons: true, // 버튼 순서 거꾸로
+            
+            }).then(result => {
+            // 만약 Promise리턴을 받으면,
+            if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+                const ano = clickNo;
+                $.ajax({
+                url : "/app/admin/member/admin-list/stop",
+                method : "POST",
+                data : {
+                    "ano" : ano,
+                },
+                success : function() {
+                    alert("관리자 정지 성공");
+                    location.href="/app/admin/member/admin-list";
+                },
+                error : function() {
+                        alert("실패");
+                    },
+                })
+            }
+        });
+    }
+
+    // 관리자 삭제
+    function deleteAdmin(){
         Swal.fire({
             title: '정말로 삭제 하시겠습니까?',
             text: '다시 되돌릴 수 없습니다. 신중하세요.',
@@ -294,14 +330,14 @@
             if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
                 const ano = clickNo;
                 $.ajax({
-                url : "/app/admin/admin/admin-list/delete",
+                url : "/app/admin/member/admin-list/delete",
                 method : "POST",
                 data : {
                     "ano" : ano,
                 },
                 success : function() {
-                    alert("회원 삭제 성공");
-                    location.href="/app/admin/admin/admin-list";
+                    alert("관리자 삭제 성공");
+                    location.href="/app/admin/member/admin-list";
                 },
                 error : function() {
                         alert("실패");

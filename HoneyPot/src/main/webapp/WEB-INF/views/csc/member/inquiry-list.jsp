@@ -92,19 +92,10 @@
 </html>
 
 <script>
-    // 헤더 카테고리 메뉴바
-	const nav = document.querySelector("nav");
-	const main = document.querySelector("main");
-	const mainArea = document.querySelector("#main-area");
-	const navArea = document.querySelector("#nav-area");
-
-	mainArea.innerHTML = main.innerHTML;
-	navArea.innerHTML = nav.innerHTML;
-	main.innerHTML = "";
-	nav.innerHTML = "";
-
+    basicSetting(); // 기본 셋팅
     headerName('고객센터'); // 현재 페이지 이름
 	firstNav(['자주묻는질문', '문의하기', '문의목록', '신고하기', '신고목록'], '문의목록');
+    firstNavLink(['/app/csc/faq', '/app/csc/inquiry', '/app/csc/inquiry-list', '/app/csc/report', '/app/csc/report-list',]);
 
     // QNA 상세보기 버튼
     let deleteBno = null;

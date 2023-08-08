@@ -145,21 +145,10 @@
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script>
-
-    
-    // 헤더 카테고리 메뉴바
-	const nav = document.querySelector("nav");
-	const main = document.querySelector("main");
-	const mainArea = document.querySelector("#main-area");
-	const navArea = document.querySelector("#nav-area");
-
-	mainArea.innerHTML = main.innerHTML;
-	navArea.innerHTML = nav.innerHTML;
-	main.innerHTML = "";
-	nav.innerHTML = "";
-
+    basicSetting(); // 기본 셋팅
     headerName('고객센터'); // 현재 페이지 이름
 	firstNav(['자주묻는질문', '문의하기', '문의목록', '신고하기', '신고목록'], '자주묻는질문'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+    firstNavLink(['/app/csc/faq', '/app/csc/inquiry', '/app/csc/inquiry-list', '/app/csc/report', '/app/csc/report-list',]);
 	// secondNav(['전체', '카테고리1', '카테고리2', '카테고리3'], '전체'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 
     // FAQ 상세보기 버튼
