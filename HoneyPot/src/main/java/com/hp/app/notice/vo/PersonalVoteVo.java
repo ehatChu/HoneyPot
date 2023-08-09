@@ -9,5 +9,6 @@ public class PersonalVoteVo {
 	private String memberNo;
 	private String voteListNo;
 	private String voteNoticeNo;
+	private String eachCnt;
 
 }

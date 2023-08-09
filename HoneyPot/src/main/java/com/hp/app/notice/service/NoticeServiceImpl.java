@@ -100,9 +100,8 @@ public class NoticeServiceImpl implements NoticeService {
 
 	//항목별 득표 수
 	@Override
-	public List<Integer> countEachCandidate(PersonalVoteVo pvvo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PersonalVoteVo> countEachCandidate(String no) {
+		return dao.countEachCandidate(sst, no);
 	}
 
 	//투표 여부

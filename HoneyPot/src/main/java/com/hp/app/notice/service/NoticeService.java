@@ -49,7 +49,7 @@ public interface NoticeService {
 	public abstract int countVoteTotal(String no);
 	
 	//항목별 득표 수
-	public abstract List<Integer> countEachCandidate(PersonalVoteVo pvvo);
+	public abstract List<PersonalVoteVo> countEachCandidate(String no);
 	
 	//투표 여부
 	public abstract int checkVoteYn(PersonalVoteVo pvvo);
