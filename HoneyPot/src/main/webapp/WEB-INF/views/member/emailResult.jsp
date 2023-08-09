@@ -80,7 +80,7 @@
 					<c:if test="${not empty id}">
 						<div id="tit">아이디</div>
 						<input style="padding-left: 30px; background-color: #4A321F; color: white;" type="text"
-							class="box" name="result" value="${id}" readonly>
+							class="box" name="result" value="${id.substring(0, 4)}" readonly>
 					</c:if>
 					<c:if test="${not empty pwd}">
 						<div id="tit">비밀번호</div>
@@ -99,6 +99,11 @@
 	</html>
 
 	<script>
+		if ('${id}' != null) {
+			const result = document.querySelector('input[name=result]');
+			result.value += '*'.repeat('${id}'.length - 4);
+		}
+
 		if ('${pwd}' != null) {
 			const result = document.querySelector('input[name=result]');
 			result.value += '*'.repeat('${pwd}'.length - 3);

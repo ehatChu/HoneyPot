@@ -98,7 +98,7 @@
 	<script>
 		// 인증 종료 시간
 		let timerInterval;
-		let remainingTime = 10;
+		let remainingTime = 300;
 		startTimer();
 
 		function startTimer() {
@@ -138,6 +138,7 @@
 				alert("인증번호가 틀렸습니다");
 				return false;
 			}
+			alert("인증이 완료되었습니다");
 			return true;
 		}
 	</script>

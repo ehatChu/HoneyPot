@@ -131,6 +131,27 @@
 					align-items: center;
 					width: 100%;
 				}
+
+				#ll {
+					display: flex;
+					justify-content: space-evenly;
+					align-items: center;
+				}
+
+				#la {
+					display: flex;
+					justify-content: space-evenly;
+					align-items: center;
+					width: 30%;
+					height: 70px;
+					font-size: 32px;
+				}
+
+				#la input {
+					width: 24px;
+					height: 24px;
+					border-radius: 90%;
+				}
 			</style>
 
 	</head>
@@ -154,6 +175,16 @@
 							<img id="profileThumbnail">
 							<i class="fa-sharp fa-solid fa-user fa-7x person" style="color: #ffffff;"></i>
 						</div>
+					</div>
+					<div></div>
+					<div></div>
+					<div id="ll">
+						<label id="la">
+							<input type="radio" id="radio1" name="grade" value="M"> 일반
+						</label>
+						<label id="la">
+							<input type="radio" id="radio2" name="grade" value="Y"> 세대주
+						</label>
 					</div>
 					<div></div>
 					<div id="tit">아이디</div>

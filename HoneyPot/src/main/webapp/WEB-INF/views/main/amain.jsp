@@ -549,13 +549,7 @@
                             <c:forEach items="${noticeCalendarList}" var="vo">
                                 <div id="scsc${vo.no}">
                                     <div id="schedule">
-                                        <c:if test="${vo.love == 'Y'}">
-                                            <img id="starImg" src="/app/resources/main/star1.PNG">
-                                        </c:if>
-                                        <c:if test="${vo.love == 'N'}">
-                                            <img id="starImg" src="/app/resources/main/star2.PNG">
-                                        </c:if>
-
+                                        <img id="starImg" src="/app/resources/main/star1.PNG">
                                         <div id="scheTxt">${vo.startDate.substring(0, 10)}~${vo.endDate.substring(0,10)}
                                         </div>
                                     </div>
@@ -600,7 +594,7 @@
                         <div id="boxf2" class="box">
                             <div id="tit2" class="fl">
                                 <div>통합게시판</div>
-                                <div id="grayCircle2"> ▶ </div>
+                                <div></div>
                             </div>
                             <div class='pub'>
                                 <div id="pub1" onclick="getNoticeList();">공지사항</div>
@@ -698,7 +692,7 @@
                         plugins: {
                             centerLabel: {
                                 display: true,
-                                text: '${totalFee} 원',
+                                text: parseInt("${totalFee}").toLocaleString(),
                                 color: 'black',
                                 fontStyle: 'Arial',
                                 minFontSize: 18,

@@ -460,7 +460,7 @@
 
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 			<nav>
-
+				<%@ include file="/WEB-INF/views/common/first-nav.jsp" %>
 			</nav>
 
 			<main>
@@ -473,19 +473,19 @@
 					</div>
 					<div id="box1" class="box bbox">
 						<div class="box2">
-							<img id="mealImg" src="/app/resources/meal/${mealListTotal[0].img}">
+							<img id="mealImg" src="/app/resources/meal/${todayMeal.img}">
 							<div id="d01">
-								<div id="e01">${mealListTotal[0].breakfastDate.substring(0, 10)}</div>
+								<div id="e01">${todayMeal.breakfastDate.substring(0, 10)}</div>
 								<div id="e011"></div>
 							</div>
 						</div>
 						<br>
 						<div id="e03">
 							<img id="starImg" src="/app/resources/main/star2.PNG">
-							영양소 : ${mealListTotal[0].nutrient}
+							영양소 : ${todayMeal.nutrient}
 						</div>
 						<div id="e04">
-							<button id="f01" onclick="breakFastApply('${mealListTotal[0].no}');">조식
+							<button id="f01" onclick="breakFastApply('${todayMeal.no}');">조식
 								수정</button>
 							<button id="f01" onclick="breakFastPlus();">조식
 								추가</button>
@@ -532,7 +532,10 @@
 	<script>
 		basicSetting(); // 기본 셋팅
 		headerName('조식 관리'); // 현재 페이지 이름
-		todayMenu('${mealListTotal[0].menu}');
+		todayMenu('${todayMeal.menu}');
+		firstNav(['관리비', '편의시설 관리', '조식 관리'], '조식 관리');
+		firstNavLink(['/app/fee/admin','/app/admin/innerFac/editInfo?facNo=1','/app/meal/mypage','/app/meal/ameal']);
+
 
 		const tr1Arr = document.querySelectorAll("#tr1");
 		for (let tr1 of tr1Arr) {
@@ -757,6 +760,18 @@
 				location.reload();
 				return;
 			}
+			if(selectDate.value <= '${todayMeal.breakfastDate.substring(0, 10)}') {
+				alert("현재 날짜 이후로만 추가 가능합니다");
+				location.reload();
+				return;
+			}
+			for (let date of dateArr) {
+				if(selectDate.value == date) {
+					alert("이미 추가된 날짜입니다");
+					location.reload();
+					return;
+				}
+			}
 
 			$.ajax({
 				url: '/app/meal/plusMeal',
@@ -777,4 +792,9 @@
 
 			document.querySelector(".modal").className = "modal";
 		}
+
+		var dateArr = [];
+		<c:forEach items="${mealListTotal}" var="vo">
+			dateArr.push('${vo.breakfastDate.substring(0, 10)}');
+		</c:forEach>
 	</script>
