@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.hp.app.fee.vo.AdminFeeVo;
 import com.hp.app.fee.vo.MemberFeeVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 public interface FeeDao {
@@ -64,6 +65,13 @@ public interface FeeDao {
 
 	// 회원 관리비 고지
 	int insertMemberFee(SqlSessionTemplate sst, MemberFeeVo feeVo);
+
+	// 회원 동 조회
+	List<MemberVo> getAllDong(SqlSessionTemplate sst);
+
+	// 회원 호 조회
+	List<MemberVo> getAllHo(SqlSessionTemplate sst);
+
 
 	
 }

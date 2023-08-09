@@ -218,18 +218,16 @@
                                             <br>
                                             <form action="/app/fee/admin/toMember" method="POST">
                                                 <select id="dong-num" name="dong">
-                                                    <option value="101">101</option>
-                                                    <option value="102">102</option>
-                                                    <option value="103">103</option>
-                                                    <option value="201">201</option>
-                                                    <option value="202">202</option>
-                                                    <option value="203">203</option>
-                                                    <option value="301">301</option>
-                                                    <option value="302">302</option>
-                                                    <option value="303">303</option>
+                                                <c:forEach items="${dvoList}" var="dvo">
+                                                	<option value="${dvo.dongNum}">${dvo.dongNum}</option>
+                                                </c:forEach>
                                                 </select>
                                                 동
-                                                 <input type="text" name="ho" id="ho-num" dir="rtl">
+                                                <select id="ho-num" name="ho">
+                                                    <c:forEach items="${hvoList}" var="hvo">
+                                                        <option value="${hvo.hoNum}">${hvo.hoNum}</option>
+                                                    </c:forEach>
+                                                    </select>
                                                 호
                                             </div>
                                         </div>
@@ -238,32 +236,32 @@
                                             <br>
                                             <div id="price-content">
                                                 <div class="left">
-                                                    <div><input type="text" value="시설 유지보수" name="categoryName" id="categoryName" readonly> <input type="text" id="price" name="price" value="15000"></div>
+                                                    <div><input type="text" value="시설 유지보수" name="categoryName" id="categoryName" readonly onfocus="this.blur()"> <input type="text" id="price" name="price" value="15000"></div>
                                                     <br/>
-                                                    <div><input type="text" value="소독 및 청소"name="categoryName" id="categoryName" readonly>  <input type="text" id="price" name="price" value="20000"></div>
+                                                    <div><input type="text" value="소독 및 청소"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price" name="price" value="20000"></div>
                                                     <br/>
-                                                    <div><input type="text" value="경비용역비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="250000"></div>
+                                                    <div><input type="text" value="경비용역비"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price"name="price" value="250000"></div>
                                                     <br/>
-                                                    <div><input type="text" value="승강기유지비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="30000"></div>
+                                                    <div><input type="text" value="승강기유지비"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price"name="price" value="30000"></div>
                                                     <br/>
-                                                    <div><input type="text" value="기타"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="1000"></div>
+                                                    <div><input type="text" value="기타"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price"name="price" value="1000"></div>
                                                     <br/>
-                                                    <div><input type="text" value="전기료"name="categoryName" id="categoryName" readonly>  <input type="text" id="price" name="price"></div>
+                                                    <div><input type="text" value="전기료"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price" name="price"></div>
                                                     <br/>
-                                                    <div><input type="text" value="난방비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price" name="price"></div>
+                                                    <div><input type="text" value="난방비"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price" name="price"></div>
                                                 </div>
                                                 <div class="right">
-                                                    <div><input type="text" value="보험료"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="25020"></div>
+                                                    <div><input type="text" value="보험료"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price"name="price" value="25020"></div>
                                                     <br/>
-                                                    <div><input type="text" value="일반 관리비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="147000"></div>
+                                                    <div><input type="text" value="일반 관리비"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price"name="price" value="147000"></div>
                                                     <br/>
-                                                    <div><input type="text" value="입주자대표운영비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="3000"></div>
+                                                    <div><input type="text" value="입주자대표운영비"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price"name="price" value="3000"></div>
                                                     <br/>
-                                                    <div><input type="text" value="위탁관리수수료"name="categoryName" id="categoryName" readonly>  <input type="text" id="price" name="price"value="2010"></div>
+                                                    <div><input type="text" value="위탁관리수수료"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price" name="price"value="2010"></div>
                                                     <br/>
-                                                    <div><input type="text" value="장기수선충당금"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" value="14200"></div>
+                                                    <div><input type="text" value="장기수선충당금"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price"name="price" value="14200"></div>
                                                     <br/>
-                                                    <div><input type="text" value="수도 및 온수비"name="categoryName" id="categoryName" readonly>  <input type="text" id="price"name="price" ></div>
+                                                    <div><input type="text" value="수도 및 온수비"name="categoryName" id="categoryName" readonly onfocus="this.blur()">  <input type="text" id="price"name="price" ></div>
                                                 </div>
                                             </div>
                                             

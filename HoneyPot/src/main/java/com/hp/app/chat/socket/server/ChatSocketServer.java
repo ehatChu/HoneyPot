@@ -134,17 +134,16 @@ public class ChatSocketServer extends TextWebSocketHandler{
 		    }else if (action.equals("user_quit")) {
 		        // 클라이언트에서 채팅방에서 나간 이벤트를 받았을 때 처리
 		        String userName = jsonNode.get("userName").asText();
+		        log.info(userName);
 		        String quitMsg = String.format(userName + "님이 채팅방을 나갔습니다.");
+		        log.info(quitMsg);
 		        String roomNo = jsonNode.get("roomNo").asText();
-		        System.out.println("User quit event: " + jsonNode);
-
+		        log.info(roomNo);
+		        
 		        JsonObject quitMessage = new JsonObject();
 		        quitMessage.addProperty("action", "user_quit");
 		        quitMessage.addProperty("userName", userName);
 		        quitMessage.addProperty("message", quitMsg);
-
-		        System.out.println("Users:" + users); 
-		        System.out.println("RoomNo from message: " + roomNo); 
 
 		        // 나간 사용자가 속한 채팅방에 있는 모든 사용자에게 메시지 전송
 		        for (WebSocketSession s : users.values()) {

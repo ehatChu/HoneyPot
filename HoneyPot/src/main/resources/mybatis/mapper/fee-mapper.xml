@@ -252,5 +252,19 @@
 		)
 	</insert>
 	
+	<select id="getAllDong" resultType="com.hp.app.member.vo.MemberVo">
+		SELECT 
+		DONG_NUM
+		FROM MEMBER
+		GROUP BY DONG_NUM
+	</select>
+	
+	
+	<select id="getAllHo" resultType="com.hp.app.member.vo.MemberVo">
+		SELECT 
+		HO_NUM
+		FROM MEMBER
+		GROUP BY HO_NUM
+	</select>
 
 </mapper>

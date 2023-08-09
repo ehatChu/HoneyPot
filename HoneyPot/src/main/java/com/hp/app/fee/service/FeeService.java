@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.hp.app.fee.vo.AdminFeeVo;
 import com.hp.app.fee.vo.MemberFeeVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 public interface FeeService {
@@ -62,6 +63,13 @@ public interface FeeService {
 
 	// 동호로 멤버 데려오기
 	String getMemberNo(Map<String, String> dongHo);
+
+	// 회원 동 조회
+	List<MemberVo> getAllDong();
+
+	// 회원 호 조회
+	List<MemberVo> getAllHo();
+
 
 	
 	

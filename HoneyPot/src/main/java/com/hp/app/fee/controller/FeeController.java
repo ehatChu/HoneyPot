@@ -221,10 +221,14 @@ public class FeeController {
 		
 		// 관리비 조회
 		List<AdminFeeVo> avoList = service.adminList(pv, paramMap);
+		List<MemberVo> dvoList = service.getAllDong();
+		List<MemberVo> hvoList = service.getAllHo();
 		
 		model.addAttribute("pv", pv);
 		model.addAttribute("avoList", avoList);
 		model.addAttribute("paramMap", paramMap);
+		model.addAttribute("dvoList", dvoList);
+		model.addAttribute("hvoList", hvoList);
 		
 		return "/admin/fee/list";
 	}
@@ -278,7 +282,7 @@ public class FeeController {
 	
 	// 엑셀 다운도르
 	@RequestMapping("/fee/excelDown")
-	public void excelDownload(HttpServletResponse response, String paymentDate) throws Exception{
+	public void excelDownload(HttpServletResponse response, String paymentDate) throws Exception {
 		XSSFWorkbook wb=null;
 		Sheet sheet=null;
 		Row row=null;
