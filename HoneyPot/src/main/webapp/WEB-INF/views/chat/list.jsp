@@ -303,17 +303,6 @@
 						});
 						wsocket.send(loadMessagesRequest);
 
-						var chatAlertMsg = JSON.stringify({
-							action: "unReadMsg",
-							
-						});
-						$.ajax({
-							type: "GET",
-							url: "/app/chat/unreadMsg",
-							success: function (response) {
-								console.log(response);
-							}
-						});
 					}
 					
 					function funcClose() {
@@ -330,9 +319,9 @@
 						
 						// 메시지 유형에 따라 처리
 						if (data.action === "user_quit") {
-							var quitMsg = data.userName + "님이 채팅방을 나갔습니다.";
+							var quitMsg = data.message;
 							// 채팅 화면에 메시지 출력
-							appendMessage(quitMsg);
+							appendQuitMessage(quitMsg);
 						} else if(data.action === "loadMessages" && data.messages){
 							data.messages.forEach(function (message) {
 							appendMessage(message);
@@ -342,6 +331,12 @@
 						}
 						console.log(data);
 					}
+
+				function appendQuitMessage(data) {
+					
+
+
+				} 
 				
 				// 채팅 방 번호 눌렀을 때
 				$(document).ready(function() {
@@ -382,7 +377,7 @@
 									const quitBtn = document.querySelector(".quitBtn");
 									quitBtn.addEventListener("click", function () {
 									Swal.fire({
-										title: '삭제하시겠습니까?',
+										title: '대화방을 나가시겠습니까?',
 										text: "이전 대화 내용이 삭제됩니다.",
 										icon: 'warning',
 										showCancelButton: true,
@@ -393,6 +388,13 @@
 									}).then((result) => {
 										if (result.isConfirmed) {
 											var loginMember = document.querySelector("#loginMemberName").value;
+											var quitEvent = {
+												action: "user_quit",
+												userName: loginMember, 
+												roomNo :rno
+											};
+											console.log("Sending quitEvent", JSON.stringify(quitEvent));
+											wsocket.send(JSON.stringify(quitEvent));
 											$.ajax({
 												type: "POST",
 												url: "/app/chat/delete",
@@ -401,7 +403,6 @@
 													console.log(response);
 													if (response === 'success') {
 														location.href = "/app/chat/list";
-
 													} else {
 														Swal.fire({
 															title: '삭제 실패',
@@ -420,13 +421,7 @@
 													});
 												}
 											});
-											var quitEvent = {
-												action: 'user_quit',
-												userName: loginMember, 
-												roomNo :rno
-											};
-											console.log("Sending quitEvent", JSON.stringify(quitEvent));
-											wsocket.send(JSON.stringify(quitEvent));
+											
 											// 소켓 연결 끊기
 											wsocket.close();
 										}
@@ -561,6 +556,9 @@
 				$(window).resize(function() {
 					adjustChatAreaHeight();
 				});
+
+
+				
 
 				$(document).ready(function() {
 				

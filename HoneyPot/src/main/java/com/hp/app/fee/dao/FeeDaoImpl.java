@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hp.app.fee.vo.AdminFeeVo;
 import com.hp.app.fee.vo.MemberFeeVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 
@@ -104,6 +105,16 @@ public class FeeDaoImpl implements FeeDao{
 	@Override
 	public int insertMemberFee(SqlSessionTemplate sst, MemberFeeVo feeVo) {
 		return sst.insert("fee.insertMemberFee", feeVo);
+	}
+	
+	@Override
+	public List<MemberVo> getAllDong(SqlSessionTemplate sst) {
+		return sst.selectList("fee.getAllDong");
+	}
+
+	@Override
+	public List<MemberVo> getAllHo(SqlSessionTemplate sst) {
+		return sst.selectList("fee.getAllHo");
 	}
 
 

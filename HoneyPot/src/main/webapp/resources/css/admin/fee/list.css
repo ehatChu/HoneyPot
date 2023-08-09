@@ -480,11 +480,10 @@ color: white;
 }
 
 #ho-num {
-   width: 130px;
-   height: 30px;
-   border-radius: 10px;
-   border: 1px solid #464646;
-   padding: 10px;
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    padding-left: 20px;
    font-family: 'Noto Sans KR';
 }
 
@@ -495,11 +494,6 @@ color: white;
    margin-top: 20px;
 }
 
-.s_second-area > input {
-   width: 170px;
-   height: 30px;
-   padding: 10px;
-}
 
 
 #price-content {
@@ -514,6 +508,7 @@ color: white;
     border-radius: 10px;
     border: none;
     background-color: #fff6d7;
+    padding: 10px;
 }
 
 .left > div > input:first-child , .right > div > input:first-child{

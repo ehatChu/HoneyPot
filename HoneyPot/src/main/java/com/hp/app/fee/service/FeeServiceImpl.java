@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hp.app.fee.dao.FeeDao;
 import com.hp.app.fee.vo.AdminFeeVo;
 import com.hp.app.fee.vo.MemberFeeVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 
 import lombok.RequiredArgsConstructor;
@@ -110,6 +111,16 @@ public class FeeServiceImpl implements FeeService{
 	@Override
 	public String getMemberNo(Map<String, String> dongHo) {
 		return dao.getMemberNo(sst, dongHo);
+	}
+
+	@Override
+	public List<MemberVo> getAllDong() {
+		return dao.getAllDong(sst);
+	}
+
+	@Override
+	public List<MemberVo> getAllHo() {
+		return dao.getAllHo(sst);
 	}
 
 	
