@@ -20,4 +20,6 @@ public interface MineDao {
 	int deleteProperty(SqlSessionTemplate sst,Map<String, String> map);
 	//승인
 	int acceptPropertyList(SqlSessionTemplate sst, Map<String, Object> infoMap);
+	//개인삭제
+	int deletePersonalProperty(SqlSessionTemplate sst, Map<String, Object> infoMap);
 }

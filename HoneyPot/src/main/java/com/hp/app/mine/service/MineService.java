@@ -24,4 +24,6 @@ public interface MineService {
 	int deleteProperty(Map<String, String> map);
 	//승인
 	int acceptPropertyList(Map<String, Object> infoMap);
+	//개인삭제
+	int deletePersonalProperty(Map<String, Object> infoMap);
 }

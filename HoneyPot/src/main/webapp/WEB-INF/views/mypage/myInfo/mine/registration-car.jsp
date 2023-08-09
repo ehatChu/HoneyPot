@@ -198,34 +198,38 @@
 	</nav>
 
 	<main>
-		<div class="margin">
-			<div>
-				<span class="big-text">차목록</span><button class="small-btn color-gray">삭제하기</button><button class="small-btn color-main" id="regi-btn">등록하기</button>
-			</div>
-			
-			<div id="list-area">
-			<c:forEach var ="mineVo" items ="${mineVoList}">
-				<div class="mine-list">
-					<div><span><input type="checkbox" id="${mineVo.no}"><label for="${mineVo.no}"  class="middle-text">${mineVo.name}</label></span></div>
-					
-					<!-- 막 등록한 승인받지 않았을 때 CSS -->
-					<c:if test="${empty mineVo.adminNo}">
-						<div class="car-img">
-							<img src="/app/resources/member/mine/${mineVo.img}" alt="${mineVo.img}">
-							<div class="background-color-area">승인받는중...</div>
-						</div>
-					</c:if>
-					<c:if test="${not empty mineVo.adminNo}">
-						<div class="car-img">
-							<img src="/app/resources/member/mine/${mineVo.img}" alt="${mineVo.img}">
-						</div>
-					</c:if>
-
+		<form action="/app/property/delete" method="post">
+			<input type="hidden" value="CAR" name="kinda">
+			<div class="margin">
+				<div>
+					<span class="big-text">차목록</span><button class="small-btn color-gray">삭제하기</button><button class="small-btn color-main" id="regi-btn">등록하기</button>
 				</div>
-			</c:forEach>
 				
+				<div id="list-area">
+				<c:forEach var ="mineVo" items ="${mineVoList}">
+					<div class="mine-list">
+						<div><span><input type="checkbox" id="${mineVo.no}" name="no" value="${mineVo.no}"><label for="${mineVo.no}"  class="middle-text">${mineVo.name}</label></span></div>
+						
+						<!-- 막 등록한 승인받지 않았을 때 CSS -->
+						<c:if test="${empty mineVo.adminNo}">
+							<div class="car-img">
+								<img src="/app/resources/member/mine/${mineVo.img}" alt="${mineVo.img}">
+								<div class="background-color-area">승인받는중...</div>
+							</div>
+						</c:if>
+						<c:if test="${not empty mineVo.adminNo}">
+							<div class="car-img">
+								<img src="/app/resources/member/mine/${mineVo.img}" alt="${mineVo.img}">
+							</div>
+						</c:if>
+	
+					</div>
+				</c:forEach>
+					
+				</div>
 			</div>
-		</div>
+		</form>
+		
 		
 		
 		<div id="modal-box">
