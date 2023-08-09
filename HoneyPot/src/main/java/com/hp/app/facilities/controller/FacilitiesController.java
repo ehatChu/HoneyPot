@@ -71,6 +71,9 @@ public class FacilitiesController {
 		
 		rsVo.setReserveTime(date);
 		rsVo.setAmenityNo("1");
+		
+		log.info("rsVo : {}",rsVo);
+		log.info("date : {}",date);
 		//json으로 변환해야함
 		List<String> dateList = service.getReservationTimeInfo(rsVo);
 		ObjectMapper om = new ObjectMapper();
@@ -82,14 +85,14 @@ public class FacilitiesController {
 		
 		
 		
-		
+		log.info("rDate : {}",jsonDate);
 		
 		
 		model.addAttribute("openTime",opentime);
 		model.addAttribute("closeTime",closetime);
 		model.addAttribute("reservedDate",jsonDate);
 		model.addAttribute("maxNum",fvo.getMaxNum());
-		
+		model.addAttribute("date",date);
 		
 		
 		return "innerFacilities/makeLibraryReservation";

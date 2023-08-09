@@ -135,8 +135,8 @@
 								
 								let dateElem = document.querySelector("#date-choice");
 								
-								dateElem.setAttribute("value",new Date().toISOString().substring(0, 10));
-								dateElem.setAttribute("min",new Date().toISOString().substring(0, 10));
+								dateElem.setAttribute("value","${date}");
+								dateElem.setAttribute("min","${date}");
 								
 								//7일 후 날짜구하기
 								let afterWeek = new Date(Date.parse(today)+7*1000*60*60*24);
@@ -272,7 +272,6 @@
 
 			dataType : "json",
 			success : function(data){
-				alert("통신성공");
 				//date를 넘기면 숫자가 나오는 그런....... 함수를.........
 				dateStringToInt(data);
 			} ,
