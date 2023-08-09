@@ -460,10 +460,9 @@
 		
 		// 헤더 함수 실행
 		basicSetting();
-		firstNav(['회원관리', '상담센터', '게시판', '단지관리', '캘린더'],'단지관리');
-		secondNav(['관리비', '비품관리', '편의시설관리', '리뷰관리'],'관리비');
-    	headerName('관리자');
-        secondNavLink(['/app/fee/admin','', '','']);
+		firstNav(['관리비', '편의시설 관리', '조식관리'],'관리비');
+    	headerName('단지관리');
+        firstNavLink(['/app/fee/admin','/app/admin/innerFac/editInfo?facNo=1', '/app/meal/ameal']);
 
         
 

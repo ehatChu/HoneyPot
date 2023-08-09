@@ -303,10 +303,10 @@
 		// 헤더 함수 실행
 		basicSetting();
 		firstNav(['내정보', '나의활동', '신청내역', '관리비'],'내정보');
-		secondNav(['캘린더', '가계부', '사유물'],'가계부');
+		secondNav(['캘린더', '가계부', '자동차', '자전거'],'가계부');
 		headerName('마이페이지');
-		firstNavLink(['','','','/app/fee/member']);
-        secondNavLink(['','/app/account/list','']);
+		firstNavLink(['/app/calendar/schedule-list','/app/mypage/act/board','/app/meal/mypage','/app/fee/member']);
+        secondNavLink(['/app/calendar/schedule-list','/app/account/list','/app/car-list', '/app/bicycle-list']);
 
 		// 금액칸 콤마 정규식
 		function comma(str) {
