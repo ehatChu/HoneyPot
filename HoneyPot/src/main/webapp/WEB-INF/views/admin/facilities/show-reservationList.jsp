@@ -157,6 +157,11 @@
         background-color: #FFCE31;
         border-radius: 5px;
     }
+   #current-page {
+    background-color: #FFCE31;
+
+   }
+ 
     .page-box {
         padding: 3px 10px;
     }
@@ -169,7 +174,7 @@
        width: 20px;
        height: 20px;
        
-    }
+    } 
     .color-brown {
         background-color: #4A321F;
         color: white;
@@ -265,7 +270,7 @@
     <%@ include file="/WEB-INF/views/common/header.jsp" %>
         <nav>
             <%@ include file="/WEB-INF/views/common/first-nav.jsp" %>
-            <!-- <%@ include file="/WEB-INF/views/common/second-nav.jsp" %> -->
+            <%@ include file="/WEB-INF/views/common/second-nav.jsp" %> 
         </nav>
 
         <main>
@@ -367,7 +372,7 @@
 	                        <span class="page-box num"><a href="/app/admin/innerFac/reservation?p=${i}&name=${searchName}&startDate=${searchStartDate}&endDate=${searchEndDate}&startTime=${searchStartTime}">${i}</a></span>
 	                    </c:if>
 	                    <c:if test="${pv.currentPage == i}">
-	                        <span class="page-box num">${i}</span>
+	                        <span class="page-box num" id="current-page">${i}</span>
 	                    </c:if>
 	                </c:forEach>
 	                <c:if test="${pv.currentPage < pv.maxPage}">

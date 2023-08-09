@@ -118,9 +118,10 @@
         margin-right: 5px;
     }
   
-   .now-focus-red {
-    color: red;
+   .now-focus {
     font-weight: 800;
+    background-color: white;
+    border: 1px solid black;
    }
    .main-header {
         height: 40px;
@@ -247,15 +248,18 @@
     .text-size-22 {
         font-size: 22px;
     }
-    .now-focus-white {
-        background-color: white;
-        border: 1px solid black;
-    }
+   
     #blank999 {
         width: 30px;
     }
     #main-mine-line{
         height: 400px;
+    }
+    #current-page {
+        background-color: #FFCE31;
+    }
+    .color-red {
+        color: red;
     }
 </style>
 </head>
@@ -305,7 +309,7 @@
 
             <div id="fourth-line">
                 <a href="/app/admin/property-list/car?p=1&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}">
-                    <div id="all-list" class="flex-line now-focus-white">
+                    <div id="all-list" class="flex-line">
                         <div>전체</div>
                         <div id="all-value" class="now-focus-red">${cntAll}</div>
                     </div>
@@ -381,7 +385,7 @@
                         <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}">${i}</a></span>
                     </c:if>
                     <c:if test="${pv.currentPage == i}">
-                        <span class="page-box num">${i}</span>
+                        <span class="page-box num" id="current-page">${i}</span>
                     </c:if>
                 </c:forEach>
                 <c:if test="${pv.currentPage < pv.maxPage}">
@@ -436,6 +440,36 @@
     firstNavLink(['/app/admin/member/member-list','/app/admin/member/admin-list','/app/admin/member/sanction-list','/app/admin/member/point-list','/app/car-list',]);
 	secondNavLink(['/app/car-list','/app/bicycle-list']);
 
+    function allCheck(){
+    const answerCheck = '${searchStatus}'
+    const answerAll = document.querySelector("#all-list");
+    const answerY = document.querySelector("#ok-confirm");
+    const answerN = document.querySelector("#no-confirm");
+    const all = document.querySelector("#all-value");
+    const ok = document.querySelector("#ok-value");
+    const no = document.querySelector("#no-value");
+
+    if(answerCheck == '' || answerCheck == null || answerCheck == undefined){
+        answerAll.classList.add("now-focus");
+        all.classList.add("color-red");
+      
+    }else if(answerCheck == 'O'){
+        answerY.classList.add("now-focus");
+        ok.classList.add("color-red");
+
+        // answerY.lastElementChild.classList.add("yellow");
+    }else if(answerCheck == 'R'){
+        answerN.classList.add("now-focus");
+        no.classList.add("color-red");
+
+        // answerN.lastElementChild.classList.add("yellow");
+    }
+
+    }   
+
+    allCheck();
+
+
     // 해당 줄을 누르면 상세정보가 담긴 modal띄우기
     const tbody = document.querySelector('tbody');
     const modalBox = document.querySelector("#mine-modal-box");
@@ -481,26 +515,6 @@
         modalBox.style.display = "none";
     });
 
-    //승인완누르면 완료된 것만 뜨게 ajax...
-   
-    const okValue = document.querySelector("#ok-value");
-    const allList = document.querySelector("#all-list");
-    const allValue = document.querySelector("#all-value");
-    const noConfirm = document.querySelector("#no-confirm");
-    const uniqueNum = document.querySelector("input[name=uniqueNum]").value;
-    const mineOwner = document.querySelector("input[name=mineOwner]").value
-
-    //승인완료
-    const okConfirm = document.querySelector("#ok-confirm");
-    okConfirm.addEventListener("click",function(){
-        //모든요소에 클래스떼주기
-        allList.classList.remove("now-focus-white");
-        allValue.classList.remove("now-focus-red");
-        noConfirm.classList.remove("now-focus-white");
-        noConfirm.classList.remove("now-focus-red");
-
-        //클래스 붙여주기 now-focus
-        okConfirm.classList.add("now-focus-white");
-        okValue.classList.add("now-focus-red");
-    })
+  
+    
 </script>

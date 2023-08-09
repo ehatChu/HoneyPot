@@ -119,4 +119,13 @@
 			#{arr}
 		</foreach>
 	</update>
+	
+	<!-- 본인 자동차 자전거 삭제 -->
+	<delete id="deletePersonalProperty">
+	DELETE FROM ${kinda}
+	WHERE NO IN
+	<foreach collection="no" item="arr" open="(" close=")" separator=",">
+		#{arr}	
+	</foreach>
+	</delete>
 </mapper>

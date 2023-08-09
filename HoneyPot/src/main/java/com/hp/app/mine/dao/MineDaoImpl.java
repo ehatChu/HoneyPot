@@ -110,6 +110,17 @@ public class MineDaoImpl implements MineDao {
 		}
 		return result;
 	}
+	//개인삭제
+	@Override
+	public int deletePersonalProperty(SqlSessionTemplate sst, Map<String, Object> infoMap) {
+		int result=0;
+		try {
+			result= sst.update("mine.deletePersonalProperty",infoMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	 
 	
 	

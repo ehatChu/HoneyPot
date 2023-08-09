@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -201,5 +202,25 @@ public class MineController {
 		default: return "redirect:/admin/property-list/car?p=1";
 		}
 		
+	}
+	
+	@PostMapping("property/delete")
+	public String deleteProperty(int no[],String kinda) {
+		
+		log.info("kinda : {} , no : {}",kinda,Arrays.toString(no));
+		Map<String,Object> infoMap = new  HashMap<String, Object>();
+		infoMap.put("kinda",kinda);
+		infoMap.put("no",no);
+		
+		log.info("infoMap : {}",infoMap);
+		
+		int result = service.deletePersonalProperty(infoMap);
+		
+		
+		switch (kinda) {
+		case "CAR": return "redirect:/car-list";
+		case "BICYCLE" : return "redirect:/bicycle-list";
+		default: return "redirect:/car-list";
+		}
 	}
 }
