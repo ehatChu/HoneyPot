@@ -257,6 +257,9 @@
     #main-mine-line{
         height: 400px;
     }
+    #current-page {
+        background-color: #FFCE31;
+    }
 </style>
 </head>
 
@@ -381,7 +384,7 @@
                         <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}">${i}</a></span>
                     </c:if>
                     <c:if test="${pv.currentPage == i}">
-                        <span class="page-box num">${i}</span>
+                        <span class="page-box num" id="current-page">${i}</span>
                     </c:if>
                 </c:forEach>
                 <c:if test="${pv.currentPage < pv.maxPage}">

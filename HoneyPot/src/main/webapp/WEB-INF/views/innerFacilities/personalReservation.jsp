@@ -59,6 +59,10 @@
 	.page-box {
         padding: 3px 10px;
     }
+	#current-page {
+		background-color: #FFCE31;
+
+	}
     a {
         text-decoration: none;
         color: black;
@@ -141,7 +145,7 @@
 							<span class="page-box num"><a href="/app/innerFac/personalReservation?p=${i}">${i}</a></span>
 						</c:if>
 						<c:if test="${pv.currentPage == i}">
-							<span class="page-box num">${i}</span>
+							<span class="page-box num" id="current-page">${i}</span>
 						</c:if>
 					</c:forEach>
 					<c:if test="${pv.currentPage < pv.maxPage}">
