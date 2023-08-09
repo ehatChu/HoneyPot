@@ -178,60 +178,63 @@
 						<c:if test="${voteVo != null}">
 	
 							<div class="vote-area">
-								
-								<!-- 투표 전 -->
-								<div class="vote-wrap">
-									<div id="vote-header">
-										<input type="hidden" id="vote-title-hidden" name="voteTitle" value="${voteVo.voteTitle}">
-										<div id="vote-title">${voteVo.voteTitle}</div>
-										<input type="hidden" id="vote-end-date-hidden" name="endDate" value="${voteVo.endDate}">
-										<div id="vote-end-date">종료일 : ${voteVo.endDate}</div>
-									</div>
-			
-									<div id="vote-body">
-										<c:forEach items="${vcvo}" var="vcvo">
-											<div class="vote-article">
-												<label>
-													<input type="hidden" name="voteCandidateNo" value="${vcvo.no}">
-													<input type="hidden" name="voteCandidateName" value="${vcvo.name}">
-													<input class="vote-target" id="vote-target" type="radio" name="voteCandidateNo" value="${vcvo.no}">&nbsp;<span name="voteCandidateName">${vcvo.name}</span>
-												</label>
-											</div>
-										</c:forEach>
-									</div>
 
-									<div class="vote-submit-btn-area">
-										<button type="button" id="vote-submit-btn">투표하기</button>
+								<!-- 투표 전 -->
+								<c:if test="${voteYn != 1}">
+									<div class="vote-wrap">
+										<div id="vote-header">
+											<input type="hidden" id="vote-title-hidden" name="voteTitle" value="${voteVo.voteTitle}">
+											<div id="vote-title">${voteVo.voteTitle}</div>
+											<input type="hidden" id="vote-end-date-hidden" name="endDate" value="${voteVo.endDate}">
+											<div id="vote-end-date">종료일 : ${voteVo.endDate}</div>
+										</div>
+				
+										<div id="vote-body">
+											<c:forEach items="${vcvoList}" var="vcvo">
+												<div class="vote-article">
+													<label>
+														<!-- <input type="hidden" name="voteCandidateNo" value="${vcvo.no}"> -->
+														<input type="hidden" name="voteCandidateName" value="${vcvo.name}">
+														<input class="vote-target" id="vote-target" type="radio" name="voteCandidateNo" value="${vcvo.no}">&nbsp;<span name="voteCandidateName">${vcvo.name}</span>
+													</label>
+												</div>
+											</c:forEach>
+										</div>
+
+										<div class="vote-submit-btn-area">
+											<button type="button" id="vote-submit-btn" onclick="submitVote();">투표하기</button>
+										</div>
 									</div>
-								</div>
+								</c:if>
 
 
 								<!-- 투표 후 -->
-								<div class="vote-wrap">
-									<div id="vote-header">
-										<input type="hidden" id="vote-title-hidden" name="voteTitle" value="${voteVo.voteTitle}">
-										<div id="vote-title">${voteVo.voteTitle}</div>
-										<input type="hidden" id="vote-end-date-hidden" name="endDate" value="${voteVo.endDate}">
-										<div id="vote-end-date">종료일 : ${voteVo.endDate}</div>
-									</div>
-			
-									<div id="vote-body">
-										<c:forEach items="${vcvo}" var="vcvo">
-											<div class="vote-article">
-												<input type="hidden" name="voteCandidateNo" value="${vcvo.no}">
-												<input type="hidden" name="voteCandidateName" value="${vcvo.name}">
-												<span name="voteCandidateName">${vcvo.name}</span>&nbsp;<input class="vote-target" id="vote-target" name="voteCandidateNo" value="">&nbsp;<span>33% (3표)</span>
-											</div>
-										</c:forEach>
-
-										<span id="vote-total">총 투표수 : 10표</span>
-									</div>
-
-									<div class="vote-submit-btn-area">
-										<button type="button" id="vote-submit-btn">재투표</button>
-									</div>
-								</div>								
-								
+								<c:if test="${voteYn == 1}">
+									<div class="vote-wrap">
+										<div id="vote-header">
+											<input type="hidden" id="vote-title-hidden" name="voteTitle" value="${voteVo.voteTitle}">
+											<div id="vote-title">${voteVo.voteTitle}</div>
+											<input type="hidden" id="vote-end-date-hidden" name="endDate" value="${voteVo.endDate}">
+											<div id="vote-end-date">종료일 : ${voteVo.endDate}</div>
+										</div>
+				
+										<div id="vote-body">
+											<c:forEach items="${vcvoList}" var="vcvo">
+												<div class="vote-article">
+													<input type="hidden" name="voteCandidateNo" value="${vcvo.no}">
+													<input type="hidden" name="voteCandidateName" value="${vcvo.name}">
+													<span name="voteCandidateName">${vcvo.name}</span>&nbsp;<input class="vote-target" id="vote-target" name="voteCandidateNo" value="">&nbsp;<span>(${vcvo.voteCnt}표)</span>
+												</div>
+											</c:forEach>
+	
+											<span id="vote-total">총 투표수 : ${totalCnt}표</span>
+										</div>
+	
+										<div class="vote-submit-btn-area">
+											<button type="button" id="vote-submit-btn" onclick="cancelVote();">재투표</button>
+										</div>
+									</div>							
+								</c:if>
 
 							</div>
 	
@@ -266,15 +269,16 @@
 
 	//투표하기
 	function submitVote(){
-		const voteSubmitBtn = document.querySelector("#vote-submit-btn");
-		const voteArea = document.querySelector(".vote-area");
+		const selectNo = document.querySelector('input[type=radio]:checked');
+		const voteArea = document.querySelector('.vote-area');
+		console.log(selectNo.value);
 
 		$.ajax({
 			url : '/app/notice/detail/vote',
 			type : 'post',
 			data : {
-				// voteNoticeNo : '${vo.no}',
-				// voteListNo : '${vcvo.no}',
+				voteNoticeNo : '${vo.no}',
+				voteListNo : selectNo.value,
 				// memberNo : '${loginMember.no}',
 				memberNo : '2',
 			},
@@ -284,16 +288,92 @@
 				if (result == 'success') {
 					voteArea.innerHTML = '';
 					let str = '';
-					
+					str += `<div class="vote-wrap">
+								<div id="vote-header">
+									<input type="hidden" id="vote-title-hidden" name="voteTitle" value="${voteVo.voteTitle}">
+									<div id="vote-title">${voteVo.voteTitle}</div>
+									<input type="hidden" id="vote-end-date-hidden" name="endDate" value="${voteVo.endDate}">
+									<div id="vote-end-date">종료일 : ${voteVo.endDate}</div>
+								</div>
+		
+								<div id="vote-body">
+									<c:forEach items="${vcvoList}" var="vcvo">
+										<div class="vote-article">
+											<input type="hidden" name="voteCandidateNo" value="${vcvo.no}">
+											<input type="hidden" name="voteCandidateName" value="${vcvo.name}">
+											<span name="voteCandidateName">${vcvo.name}</span>&nbsp;<input class="vote-target" id="vote-target" name="voteCandidateNo" value="">&nbsp;<span>(${vcvo.voteCnt}표)</span>
+										</div>
+									</c:forEach>
 
+									<span id="vote-total">총 투표수 : ${totalCnt}표</span>
+								</div>
+
+								<div class="vote-submit-btn-area">
+									<button type="button" id="vote-submit-btn" onclick="cancelVote();">재투표</button>
+								</div>
+							</div>`
+					voteArea.innerHTML = str;
+					location.reload();
 				}
 
 			},
-			error : function() {
-
+			error : function(e) {
+				console.log(e);
 			},
 		})
+	}
 
+
+	//투표 취소
+	function cancelVote(){
+		const voteArea = document.querySelector('.vote-area');
+
+		$.ajax({
+			url : '/app/notice/detail/cancel',
+			type : 'post',
+			data : {
+				voteNoticeNo : '${vo.no}',
+				// memberNo : '${loginMember.no}',
+				memberNo : '2',
+			},
+			success : function(result) {
+				console.log(result);
+
+				if (result == 'success') {
+					voteArea.innerHTML = '';
+					let str = '';
+					str += `<div class="vote-wrap">
+								<div id="vote-header">
+									<input type="hidden" id="vote-title-hidden" name="voteTitle" value="${voteVo.voteTitle}">
+									<div id="vote-title">${voteVo.voteTitle}</div>
+									<input type="hidden" id="vote-end-date-hidden" name="endDate" value="${voteVo.endDate}">
+									<div id="vote-end-date">종료일 : ${voteVo.endDate}</div>
+								</div>
+		
+								<div id="vote-body">
+									<c:forEach items="${vcvoList}" var="vcvo">
+										<div class="vote-article">
+											<label>
+												<!-- <input type="hidden" name="voteCandidateNo" value="${vcvo.no}"> -->
+												<input type="hidden" name="voteCandidateName" value="${vcvo.name}">
+												<input class="vote-target" id="vote-target" type="radio" name="voteCandidateNo" value="${vcvo.no}">&nbsp;<span name="voteCandidateName">${vcvo.name}</span>
+											</label>
+										</div>
+									</c:forEach>
+								</div>
+
+								<div class="vote-submit-btn-area">
+									<button type="button" id="vote-submit-btn" onclick="submitVote();">투표하기</button>
+								</div>
+							</div>`
+					voteArea.innerHTML = str;
+				}
+
+			},
+			error : function(e) {
+				console.log(e);
+			},
+		})
 	}
 
 </script>

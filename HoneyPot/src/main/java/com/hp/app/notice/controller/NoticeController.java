@@ -1,6 +1,7 @@
 package com.hp.app.notice.controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -181,39 +182,55 @@ public class NoticeController {
 			System.out.println(vo);
 			
 			VoteVo voteVo = service.getVote(no);
+			
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//			String endDate = sdf.format(voteVo.getEndDate());
+//			voteVo.setEndDate(endDate);
 			model.addAttribute("voteVo", voteVo);
 			System.out.println(voteVo);
-			
-			List<VoteCandidateVo> vcvo = service.getVoteCandidate(no);
-			model.addAttribute("vcvo", vcvo);
-			System.out.println(vcvo);
+
 			
 //			if (no == null) {
 //				return "notice/list";
 //			}
 			
+			//투표가 있다면
 			if (voteVo != null) {
+				
+				//투표여부
 				PersonalVoteVo pvvo = new PersonalVoteVo();
+				pvvo.setVoteNoticeNo(no);
+				pvvo.setMemberNo(memberNo);
+				int voteYn = service.checkVoteYn(pvvo);
+				System.out.println("투표? :" +voteYn);
+				model.addAttribute("voteYn", voteYn);
+				
+				//투표 항목 + 득표수
+				List<VoteCandidateVo> vcvoList = service.getVoteCandidate(no);
+				model.addAttribute("vcvoList", vcvoList);
+				System.out.println(vcvoList);
 				
 				//총 투표 수
 				int totalResult = service.countVoteTotal(no);
 				System.out.println(totalResult);
+				model.addAttribute("totalCnt", totalResult);
 				
-				//항목별 득표 수 배열
-				List<PersonalVoteVo> eachCountArr = service.countEachCandidate(no);
-				
-//				for (int i=0 ; i<eachCountArr.size() ; i++) {
-//					
+//				//항목별 득표 수 배열
+//				List<Integer> eachCntArr = service.countEachCandidate(no);
+//				
+//				//퍼센트 담은 배열 생성
+//				List<Integer> percentArr = new ArrayList<>();
+//				
+//				VoteCandidateVo vcvo = new VoteCandidateVo();
+//				
+//				for (int i=0 ; i<eachCntArr.size() ; i++) {
+//					int percent = eachCntArr.get(i)/eachCntArr.size() *100;
+//					percentArr.add(percent);
 //				}
+//				model.addAttribute("percentArr", percentArr);
+//				
+//				vcvoList.set(0, null);
 				
-				Map<String, Integer> cntVo = new HashMap<String, Integer>();
-				cntVo.put("totalCnt", totalResult);
-				
-				//투표여부
-				pvvo.setVoteNoticeNo(no);
-				pvvo.setMemberNo(memberNo);
-				int voteYn = service.checkVoteYn(pvvo);
-				System.out.println(voteYn);
 			}
 			
 		}catch(Exception e) {
@@ -298,6 +315,7 @@ public class NoticeController {
 	
 	//투표 제출
 	@PostMapping("notice/detail/vote")
+	@ResponseBody
 	public String submitVote(PersonalVoteVo pvvo) {
 		
 		int voteYn = service.checkVoteYn(pvvo);
@@ -305,9 +323,26 @@ public class NoticeController {
 		if (voteYn != 1) {
 			int submitResult = service.insertPersonalVote(pvvo);
 			System.out.println(submitResult);
+			System.out.println("투표성공");
+			
+			//투표 항목 + 득표수
+			List<VoteCandidateVo> vcvoList = service.getVoteCandidate(pvvo.getVoteNoticeNo());
+//			model.addAttribute("vcvoList", vcvoList);
+			System.out.println(vcvoList);
+			
+			//총 투표 수
+			int totalResult = service.countVoteTotal(pvvo.getVoteNoticeNo());
+			System.out.println(totalResult);
+//			model.addAttribute("totalCnt", totalResult);
+			
 		}else {
+			System.out.println("실패");
 			return "error";
 		}
+		
+		//자바객체 -> JSON 형태
+//		ObjectMapper mapper = new ObjectMapper();
+//		String replyList = mapper.writeValueAsString(rvoList);
 		
 		return "success";
 	}
@@ -315,6 +350,7 @@ public class NoticeController {
 	
 	//투표 취소
 	@PostMapping("notice/detail/cancel")
+	@ResponseBody
 	public String cancelVote(PersonalVoteVo pvvo) {
 		
 		int voteYn = service.checkVoteYn(pvvo);
@@ -322,7 +358,9 @@ public class NoticeController {
 		if (voteYn == 1) {
 			int delResult = service.deletePersonalVote(pvvo);
 			System.out.println(delResult);
+			System.out.println("투표취소성공");
 		}else {
+			System.out.println("실패");
 			return "error";
 		}
 		

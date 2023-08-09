@@ -100,7 +100,7 @@ public class NoticeServiceImpl implements NoticeService {
 
 	//항목별 득표 수
 	@Override
-	public List<PersonalVoteVo> countEachCandidate(String no) {
+	public List<Integer> countEachCandidate(String no) {
 		return dao.countEachCandidate(sst, no);
 	}
 
