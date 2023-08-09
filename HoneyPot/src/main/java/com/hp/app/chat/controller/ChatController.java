@@ -131,7 +131,6 @@ public class ChatController {
 	@GetMapping("chat/unreadMsg")
 	@ResponseBody
 	public List<ChatMessageVo> getAllLastMessages(HttpSession session) throws Exception {
-		Map<String, ChatMessageVo> lastMessagesMap = null;
 		List<ChatMessageVo> cmList = null;
 		try {
 			  MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");

@@ -43,14 +43,12 @@ public class AccountController {
 	public String list(@RequestParam(defaultValue="1") String p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
 		
 		try {
-			/*
-			 * MemberVo loginMember = (MemberVo)session.getAttribute("loginMember"); String
-			 * mno = loginMember.getNo();
-			 */
-			String mno = "5";
+			
+			 MemberVo loginMember = (MemberVo)session.getAttribute("loginMember"); String
+			 mno = loginMember.getNo();
+			 
 			//searchVo.put("yearMonth", yearMonth);
 			paramMap.put("no", mno);
-			log.info(paramMap.toString());
 			int listCount = service.listCnt(paramMap);
 			System.out.println(listCount);
 			int currentPage = Integer.parseInt(p);
@@ -60,9 +58,7 @@ public class AccountController {
 			
 			// 로그인한 회원 번호로 가계부 목록 조회
 			List<AccountVo> avoList = service.list(pv, paramMap);
-			log.info(avoList.toString());
-//			if(!avoList.isEmpty()) {
-//			}
+
 			model.addAttribute("pv", pv);
 			model.addAttribute("avoList", avoList);
 			model.addAttribute("paramMap", paramMap);
@@ -76,10 +72,10 @@ public class AccountController {
 	//가계부 등록
 	@PostMapping("account/add")
 	public String addAccount(AccountVo vo, HttpSession session) {
-		//MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
-		//String writerNo = loginMember.getNo();
-		String mno = "5";
-		vo.setWriterNo(mno);
+		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		String writerNo = loginMember.getNo();
+//		String mno = "5";
+		vo.setWriterNo(writerNo);
 		int result = service.add(vo);
 		
 		if(result != 1) {
@@ -92,7 +88,6 @@ public class AccountController {
 	@PostMapping(path="account/edit")
 	@ResponseBody
 	public String edit(AccountVo vo) {
-		log.info(vo.toString());
 		int result = service.edit(vo);
 		log.info("result : {}", result);
 		if(result != 1) {
@@ -116,8 +111,9 @@ public class AccountController {
 	// 가계부 캘린더 조회
 	@GetMapping(path = "account/calendar", produces= "application/json")
 	@ResponseBody
-	public List<Map<String,Object>> getCalendar() throws Exception {
-		String mno = "5";
+	public List<Map<String,Object>> getCalendar(HttpSession session) throws Exception {
+		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		String mno = loginMember.getNo();
 	    List<AccountVo> cvoList = service.calendarList(mno);
 
 	    List<Map<String, Object>> events = new ArrayList<>();
@@ -149,8 +145,9 @@ public class AccountController {
 	// 회원번호 가지고 카테고리 별 금액 통계 
 	@GetMapping(path = "account/chart", produces= "application/json")
 	@ResponseBody
-	public ResponseEntity<Map<String,Object>> getChart() {
-		String mno = "5";
+	public ResponseEntity<Map<String,Object>> getChart(HttpSession session) {
+		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		String mno = loginMember.getNo();
 		List<AccountVo> tvoList = service.getChart(mno);
 		
 		List<String> labels = new ArrayList<>();

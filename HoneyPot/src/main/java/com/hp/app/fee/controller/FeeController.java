@@ -50,17 +50,16 @@ public class FeeController {
 	private final FeeService service;
 	
 	@GetMapping("fee/member")
-    public String memberList(RedirectAttributes redirectAttributes,Model model,HttpSession session,@RequestParam Map<String, String> paramMap) throws Exception {
+    public String memberList(Model model,HttpSession session,@RequestParam Map<String, String> paramMap) throws Exception {
        
             MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
             String memberGrade = loginMember.getGrade();
             if (memberGrade == null || !memberGrade.equals("Y")) {
-            	redirectAttributes.addFlashAttribute("alertMsg", "세대주만 조회가 가능합니다.");
+            	session.setAttribute("alertMsg", "세대주만 조회가 가능합니다.");
                 return "redirect:/main/mmain";
             }
-            log.info(memberGrade);
 			String no = loginMember.getNo();
-		
+			
 			paramMap.put("no", "1");
 		    List<MemberFeeVo> mfvoList = service.memberFeeList(paramMap);
 		    int mTotalFee = service.totalMemberFee(paramMap);
@@ -157,8 +156,10 @@ public class FeeController {
 	//회원 납부 조회
 	// 회원 번호랑 월 데이터로 셀렉트(카테고리 이름, 가격)
 	@GetMapping("fee/member/pay")
-	public String payFee(Model model) throws Exception {
-		String mno = "1";
+	public String payFee(Model model, HttpSession session) throws Exception {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		String mno = loginMember.getNo();
+		
 		// 현재 날짜
 	    LocalDate currentDate = LocalDate.now();
 
@@ -175,7 +176,6 @@ public class FeeController {
 		
 		// 서비스
 		List<MemberFeeVo> mvoList = service.thisMonth(dateVo);
-		log.info(mvoList.toString());
 		
 		// 총 금액
 		int totalPrice = service.currentFee(dateVo);
@@ -204,10 +204,11 @@ public class FeeController {
 	// 관리자 관리비 조회
 	@GetMapping("fee/admin")
 	public String AdminList(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
-		
-		AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
-        String adminGrade = loginMember.getGrade();
-        if (adminGrade == null || !adminGrade.equals("M")) {
+
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+        String adminGrade = loginAdmin.getGrade();
+        log.info(adminGrade);
+        if ( loginAdmin == null  ||!adminGrade.equals("M")) {
         	session.setAttribute("alertMsg", "관리소장만 접근이 가능합니다."); 
             return "redirect:/main/amain";
         }
@@ -231,9 +232,9 @@ public class FeeController {
 	// 관리자 관리비 등록
 	@PostMapping("fee/admin/add")
 	public String addFee(AdminFeeVo vo, HttpSession session) {
-//		AdminVo loginMember = (AdminVo)session.getAttribute("loginMember");
-//		vo.setAdminNo(loginMember.getNo());
-		vo.setAdminNo("1");
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		vo.setAdminNo(loginAdmin.getNo());
+		
 		int result = service.add(vo);
 		if(result != 1) {
 			throw new RuntimeException();
@@ -303,7 +304,8 @@ public class FeeController {
 		
 	
 		for(int i=0; i < totalFeeList.size() ; i++  ) {
-			row=sheet.createRow(i+1);  // '열 이름 표기'로 0번째 행 만들었으니까 1번째행부터
+			 // '열 이름 표기'로 0번째 행 만들었으니까 1번째행부터
+			row=sheet.createRow(i+1); 
 			cellCount=0; //열 번호 초기화
 			cell=row.createCell(cellCount++);
 			cell.setCellValue(totalFeeList.get(i).getCategoryName());
