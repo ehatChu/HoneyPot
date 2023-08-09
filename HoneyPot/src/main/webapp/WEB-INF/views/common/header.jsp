@@ -832,6 +832,10 @@
 					font-weight: bold;
 				}
 				
+				#text-area > div{
+					cursor: pointer;
+				}
+				
 			</style>
 		</head>
 
@@ -879,21 +883,19 @@
 								</div>
 							</div>
 							<div id="text-area">
-								<div onclick="location.href='/app/info/calendar/mypage'">마이페이지</div>
+								<div onclick="location.href='/app/calendar/schedule-list'">마이페이지</div>
 								<div onclick="location.href='/app/member/friends'">이웃목록</div>
 								<div onclick="location.href='/app/notice/list'">게시판</div>
-								<div onclick="location.href='/app/facilities/library/reserve?no=1'">편의시설</div>
-								<div onclick="location.href='/app/facilities/outerFacilities/map'">주변시설</div>
+								<div onclick="location.href='/app/innerFac/info?no=1'">편의시설</div>
+								<div onclick="location.href='/app/around/showMap'">주변시설</div>
 							</div>
 						</div>
 						<div id="info-qna-area">
-							<div onclick="location.href=''">고객센터</div>
+							<div onclick="location.href='/app/csc/faq'">고객센터</div>
 							<div id="small-text">
-								<span onclick="location.href=''">문의하기</span>
+								<span onclick="location.href='/app/csc/inquiry'">문의하기</span>
 								<span>|</span>
 								<span onclick="location.href='/app/csc/faq'">FAQ</span>
-								<span>|</span>
-								<span onclick="location.href=''">경비원호출</span>
 							</div>
 						</div>
 					</div>
@@ -940,19 +942,17 @@
 								</div>
 							</div>
 							<div id="text-area">
-								<div onclick="location.href=''">회원관리</div>
-								<div onclick="location.href=''">상담센터</div>
+								<div onclick="location.href='/app/admin/member/member-list'">회원관리</div>
+								<div onclick="location.href='/app/admin/csc/inquiry-list'">상담센터</div>
 								<div onclick="location.href='/app/notice/list'">게시판</div>
-								<div onclick="location.href=''">단지관리</div>
-								<div onclick="location.href=''">캘린더</div>
+								<div onclick="location.href='/app/fee/admin'">단지관리</div>
+								<div onclick="location.href='/app/admin/calendar/schedule-list'">캘린더</div>
 							</div>
 						</div>
 						<div id="info-qna-area">
-							<div onclick="location.href=''">고객센터</div>
+							<div>꿀단지</div>
 							<div id="small-text">
-								<span onclick="location.href=''">관리하기</span>
-								<span>|</span>
-								<span onclick="location.href='/app/csc/faq'">FAQ</span>
+								<span>02-1544-9970</span>
 							</div>
 						</div>
 					</div>
