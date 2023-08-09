@@ -259,15 +259,22 @@
                 let str = "";
 
                 if(data.status == 'Y'){
-                    str =  `<div class="member-detail-header">
+                    str +=  `<div class="member-detail-header">
                             <div class="member-detail-img">
                                 <img src="/app/resources/member/profile/\${data.profile}" alt="">
                             </div>
                             <div class="member-detail-btn-area">
-                                <button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>
-                                <button class="member-detail-stop-btn" onclick="showStopModel();">정지</button>
-                                <button class="member-detail-delete-btn" onclick="deleteMember();">삭제</button>
-                            </div>
+                                `;
+                                if("${loginAdmin.grade}" == 'M' || "${loginAdmin.grade}" == 'S'){
+                                    str += `<button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>
+                                    <button class="member-detail-stop-btn" onclick="showStopModel();">정지</button>
+                                    <button class="member-detail-delete-btn" onclick="deleteMember();">삭제</button>`;
+
+                                }else{
+                                    str += `<button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>`;
+                                }
+                                
+                           str += `</div>
                         </div>
                         <div class="member-detail-body-area">
                             <div class="member-detail-body">
@@ -294,14 +301,19 @@
                             </div>
                         </div>`
                 }else if(data.status == 'N'){
-                    str =  `<div class="member-detail-header">
+                    str +=  `<div class="member-detail-header">
                             <div class="member-detail-img">
                                 <img src="/app/resources/member/profile/\${data.profile}" alt="">
                             </div>
                             <div class="member-detail-btn-area">
-                                <button class="member-detail-member-btn" onclick="regularMember();">회원등록</button>
-                                <button class="member-detail-delete-btn" onclick="deleteMember();">삭제</button>
-                            </div>
+                                `;
+                                if("${loginAdmin.grade}" == 'M' || "${loginAdmin.grade}" == 'S'){
+                                    str += `<button class="member-detail-member-btn" onclick="regularMember();">회원등록</button>
+                                    <button class="member-detail-delete-btn" onclick="deleteMember();">삭제</button>`;
+
+                                }
+
+                            str += `</div>
                         </div>
                         <div class="member-detail-body-area">
                             <div class="member-detail-body">
@@ -328,13 +340,18 @@
                             </div>
                         </div>`
                 }else if(data.status == 'S'){
-                    str =  `<div class="member-detail-header">
+                    str +=  `<div class="member-detail-header">
                             <div class="member-detail-img">
                                 <img src="/app/resources/member/profile/\${data.profile}" alt="">
                             </div>
-                            <div class="member-detail-btn-area">
-                                <button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>
-                                <button class="member-detail-delete-btn" onclick="deleteMember();">삭제</button>
+                            <div class="member-detail-btn-area">`;
+                                if("${loginAdmin.grade}" == 'M' || "${loginAdmin.grade}" == 'S'){
+                                    str += `<button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>
+                                    <button class="member-detail-delete-btn" onclick="deleteMember();">삭제</button>`;
+                                }else{
+                                    str += `<button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>`;
+                                }
+                           str += `
                             </div>
                         </div>
                         <div class="member-detail-body-area">

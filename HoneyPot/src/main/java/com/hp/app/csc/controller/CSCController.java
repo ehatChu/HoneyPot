@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -353,7 +354,7 @@ public class CSCController {
 			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
 			
 			if(loginAdmin == null) {
-				session.setAttribute("alertMsg", "로그인 후 사용할 수 있는 서비스입니다.");
+				session.setAttribute("alertMsg", "관리자 로그인 후 사용할 수 있는 서비스입니다.");
 				return "redirect:/member/alogin";
 			}
 			
@@ -422,9 +423,17 @@ public class CSCController {
 	
 	// 문의내역 삭제
 	@GetMapping("admin/csc/inquiry/delete")
-	public String deleteInquiry(String qno) throws Exception {
+	public String deleteInquiry(String qno, HttpSession session) throws Exception {
 		
 		try {
+			
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+			
+			if(loginAdmin == null) {
+				session.setAttribute("alertMsg", "관리자 로그인 후 사용할 수 있는 서비스입니다.");
+				return "redirect:/member/alogin";
+			}
+			
 			int result = service.deleteInquiry(qno);
 			
 			if(result != 1) {
@@ -454,9 +463,16 @@ public class CSCController {
 	
 	// 신고내역(화면)
 	@GetMapping("admin/csc/report-list")
-	public String adminReportList(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchMap) throws Exception {
+	public String adminReportList(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchMap, HttpSession session) throws Exception {
 		
 		try {
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+			
+			if(loginAdmin == null) {
+				session.setAttribute("alertMsg", "관리자 로그인 후 사용할 수 있는 서비스입니다.");
+				return "redirect:/member/alogin";
+			}
+			
 			List<ReportCategoryVo> cList = service.getReportCatList();
 			
 			if(cList == null) {
@@ -522,9 +538,18 @@ public class CSCController {
 	
 	// 신고내역 삭제
 	@GetMapping("admin/csc/report/delete")
-	public String deleteReport(String rno) throws Exception {
+	public String deleteReport(String rno, HttpSession session) throws Exception {
 		
 		try {
+			
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+			
+			if(loginAdmin == null) {
+				session.setAttribute("alertMsg", "관리자 로그인 후 사용할 수 있는 서비스입니다.");
+				return "redirect:/member/alogin";
+			}
+			
+			
 			int result = service.deleteReport(rno);
 			
 			if(result != 1) {
@@ -552,9 +577,16 @@ public class CSCController {
 	
 	// FAQ 조회(화면)
 	@GetMapping("admin/csc/faq")
-	public String adminFAQ(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchVo) {
+	public String adminFAQ(Model model,@RequestParam(defaultValue = "1") String page,@RequestParam Map<String, String> searchVo, HttpSession session) {
 		
 		try {
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+			
+			if(loginAdmin == null) {
+				session.setAttribute("alertMsg", "관리자 로그인 후 사용할 수 있는 서비스입니다.");
+				return "redirect:/member/alogin";
+			}
+			
 			int listCount = service.getFAQCntAdmin(searchVo);
 			int currentPage = Integer.parseInt(page);
 			int pageLimit = 5;
@@ -584,6 +616,7 @@ public class CSCController {
 	public String deleteFAQ(String fno) throws Exception {
 		
 		try {
+			
 			int result = service.deleteFAQ(fno);
 			
 			if(result != 1) {
@@ -608,10 +641,17 @@ public class CSCController {
 	
 	// FAQ 작성
 	@PostMapping("admin/csc/faq/write")
-	public String writeFAQ(FAQVo vo) throws Exception {
+	public String writeFAQ(FAQVo vo, HttpSession session) throws Exception {
+		
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		
+		if(loginAdmin == null) {
+			session.setAttribute("alertMsg", "관리자 로그인 후 사용할 수 있는 서비스입니다.");
+			return "redirect:/member/alogin";
+		}
 		
 		// 나중에 수정
-		vo.setWriterNo("1");
+		vo.setWriterNo(loginAdmin.getNo());
 		
 		int result = service.writeFAQ(vo);
 		

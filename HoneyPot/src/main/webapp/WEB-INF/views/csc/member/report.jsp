@@ -245,7 +245,7 @@
                     str += `<div class="model-content-plist" onclick="checkMember(this);">`
                                         + `<div hidden>\${member.no}</div>`
                                         +`<div class="plist-profile">`
-                                        +    `<img src="" alt="\${member.profile}">`
+                                        +    `<img src="/app/resources/member/profile/\${member.profile}" alt="\${member.profile}">`
                                         +`</div>`
                                         +`<div class="plist-name">\${member.name}</div>`
                                         +`<div class="plist-address">\${member.dongNum}동 \${member.hoNum}</div>`
@@ -275,7 +275,7 @@
                                   +  `<input name="respondent" hidden value="\${data.no}">`
                                   +  `<div class="report-people-name">\${data.name}</div>`
                                   +  `<div class="report-people-profile">`
-                                  +      `<img src="" alt="\${data.profile}">`
+                                  +      `<img src="/app/resources/member/profile/\${data.profile}" alt="\${data.profile}">`
                                   +  `</div>`
                                 + `</div>`;
         }

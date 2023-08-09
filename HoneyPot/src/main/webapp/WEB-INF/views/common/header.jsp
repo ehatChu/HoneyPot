@@ -835,6 +835,10 @@
 				#text-area > div{
 					cursor: pointer;
 				}
+
+				#info-qna-area > div{
+					cursor: pointer;
+				}
 				
 			</style>
 		</head>
@@ -981,29 +985,31 @@
 							</c:if>
 
 							<!-- 관리자 배달 아이콘 -->
-							<c:if test="${not empty loginAdmin}">
+							<c:if test="${loginAdmin.grade eq 'S' || loginAdmin.grade eq 'M'}">
 								<span class="material-symbols-outlined" id="admin-delivery-icon" onclick="getMemberList()">
 									local_post_office
 									</span>
 							</c:if>
 
 
-							<div class="header-chatting-icon">
-								<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
-									<!-- <div style="font-size: 7px; font-weight: 800;"></div> -->
-								</i>
-								<!-- 채팅 알림 모달 -->
-								<div class="chat_modal_wrap hidden">
-									<div class="chat_modalBox">
-										
-									</div>
-									<div>
-										<button class="chat-detail-Btn">
-											상세보기
-										</button>
+							<c:if test="${not empty loginMember}">
+								<div class="header-chatting-icon">
+									<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
+										<!-- <div style="font-size: 7px; font-weight: 800;"></div> -->
+									</i>
+									<!-- 채팅 알림 모달 -->
+									<div class="chat_modal_wrap hidden">
+										<div class="chat_modalBox">
+											
+										</div>
+										<div>
+											<button class="chat-detail-Btn">
+												상세보기
+											</button>
+										</div>
 									</div>
 								</div>
-							</div>
+							</c:if>
 						</div>
 					</div>
 					<div id="nav-area"></div>
