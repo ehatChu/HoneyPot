@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hp.app.admin.vo.AdminVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.page.vo.PageVo;
 import com.hp.app.point.service.PointService;
 import com.hp.app.point.vo.PointVo;
@@ -26,9 +30,16 @@ public class PointController {
 	// 회원
 	// 상벌점내역 (화면)
 	@GetMapping("mypage/act/point-list")
-	public String myPoint(Model model, @RequestParam Map<String,String> searchMap) {
+	public String myPoint(Model model, @RequestParam Map<String,String> searchMap, HttpSession session) {
 		
-		String no = "1";
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		
+		if(loginMember == null) {
+			session.setAttribute("alertMsg", "로그인 후 사용할 수 있는 서비스입니다.");
+			return "redirect:/member/mlogin";
+		}
+		
+		String no = loginMember.getNo();
 		
 		searchMap.put("no", no);
 		List<PointVo> sList = service.getMyPointListScore(no);
@@ -64,7 +75,14 @@ public class PointController {
 	// 관리자
 	// 상벌점내역 (화면)
 	@GetMapping("admin/member/point-list")
-	public String pointList(Model model,@RequestParam(defaultValue = "1") String page, @RequestParam Map<String,String> searchMap) {
+	public String pointList(Model model,@RequestParam(defaultValue = "1") String page, @RequestParam Map<String,String> searchMap, HttpSession session) {
+		
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		
+		if(loginAdmin == null) {
+			session.setAttribute("alertMsg", "관리자 로그인 후 사용할 수 있는 서비스입니다.");
+			return "redirect:/member/alogin";
+		}
 		
 		int listCount = service.getPointCntAdmin(searchMap);
 		int currentPage = Integer.parseInt(page);
@@ -112,9 +130,11 @@ public class PointController {
 	// 상벌점 내역 수정
 	@PostMapping("admin/member/point-list/edit")
 	@ResponseBody
-	public PointVo editPoint(PointVo vo) throws Exception {
+	public PointVo editPoint(PointVo vo, HttpSession session) throws Exception {
 		
-		vo.setAdminNo("1");
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		
+		vo.setAdminNo(loginAdmin.getNo());
 		
 		PointVo changeVo = service.editPoint(vo);
 		

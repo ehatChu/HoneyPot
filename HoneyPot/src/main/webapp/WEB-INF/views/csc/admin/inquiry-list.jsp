@@ -317,7 +317,7 @@
     basicSetting(); // 기본 셋팅
     headerName('고객센터'); // 현재 페이지 이름
     firstNav(['문의 내역', '신고 내역', 'FAQ 관리'], '문의 내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    firstNavLink(['/app/admin/csc/inquiry-list', '/app/admin/csc/report-list', '/app/csc/admin/faq',]);
+    firstNavLink(['/app/admin/csc/inquiry-list', '/app/admin/csc/report-list', '/app/admin/csc/faq',]);
     // secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 
     

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +29,17 @@ public class MemberManagementController {
 	
 	// 회원조회 (화면)
 	@GetMapping("admin/member/member-list")
-	public String memberList(Model model,@RequestParam Map<String,String> searchMap) {
+	public String memberList(Model model,@RequestParam Map<String,String> searchMap, HttpSession session) {
 		
 		try {
+			
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+			
+			if(loginAdmin == null) {
+				session.setAttribute("alertMsg", "관리자 로그인 후 사용할 수 있는 서비스입니다.");
+				return "redirect:/member/alogin";
+			}
+			
 			List<MemberVo> nList = service.getMemberListCnt(searchMap);
 			List<MemberVo> mList = service.getMemberList(searchMap);
 			
@@ -79,10 +89,12 @@ public class MemberManagementController {
 	// 회원 상벌점 부여
 	@PostMapping("admin/member/member-list/point")
 	@ResponseBody
-	public String insertPointMember(PointVo vo) throws Exception {
+	public String insertPointMember(PointVo vo, HttpSession session) throws Exception {
+		
 		
 		try {
-			vo.setAdminNo("1");
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+			vo.setAdminNo(loginAdmin.getNo());
 
 			int result = service.insertPointMember(vo);
 			
@@ -100,9 +112,11 @@ public class MemberManagementController {
 	// 회원 정지
 	@PostMapping("admin/member/member-list/stop")
 	@ResponseBody
-	public String stopMember(RestrictionVo vo) throws Exception {
+	public String stopMember(RestrictionVo vo, HttpSession session) throws Exception {
+
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
 		
-		vo.setAdminNo("1");
+		vo.setAdminNo(loginAdmin.getNo());
 		
 		int result = service.stopMember(vo);
 	
@@ -143,9 +157,21 @@ public class MemberManagementController {
 	
 	// 회원조회 (화면)
 	@GetMapping("admin/member/admin-list")
-	public String getadminList(Model model,@RequestParam Map<String,String> searchMap) {
+	public String getadminList(Model model,@RequestParam Map<String,String> searchMap, HttpSession session) {
 		
 		try {
+			
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+			
+			if(loginAdmin == null) {
+				session.setAttribute("alertMsg", "관리자 로그인 후 사용할 수 있는 서비스입니다.");
+				return "redirect:/member/alogin";
+			}
+			
+			if(!"M".equals(loginAdmin.getGrade())) {
+				session.setAttribute("alertMsg", "관리소장만 사용할 수 있는 서비스입니다.");
+				return "redirect:/main/amain";
+			}
 			List<AdminVo> nList = service.getAdminListCnt(searchMap);
 			List<AdminVo> aList = service.getAdminList(searchMap);
 			
@@ -217,7 +243,6 @@ public class MemberManagementController {
 	// 관리자 회원 정지
 	@PostMapping("admin/member/admin-list/stop")
 	public String stopAdmin(String ano) throws Exception {
-		System.out.println("gd");
 		int result = service.stopAdmin(ano);
 		
 		if(result != 1) {

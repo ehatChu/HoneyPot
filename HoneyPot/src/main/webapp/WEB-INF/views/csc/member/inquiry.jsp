@@ -62,8 +62,6 @@
 
 	</main>
 
-    <button type="button" onclick="checkInput();">확인</button>
-
 </body>
 </html>
 

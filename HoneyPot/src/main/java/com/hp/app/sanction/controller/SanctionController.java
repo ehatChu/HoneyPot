@@ -3,6 +3,8 @@ package com.hp.app.sanction.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hp.app.admin.vo.AdminVo;
 import com.hp.app.page.vo.PageVo;
 import com.hp.app.sanction.service.SanctionService;
 import com.hp.app.sanction.vo.SanctionVo;
@@ -24,9 +27,17 @@ public class SanctionController {
 	
 	// 제제내역 (화면)
 	@GetMapping("admin/member/sanction-list")
-	public String sanctionList(Model model, @RequestParam(defaultValue = "1") String page, @RequestParam Map<String,String> searchMap) {
+	public String sanctionList(Model model, @RequestParam(defaultValue = "1") String page, @RequestParam Map<String,String> searchMap, HttpSession session) {
 		
 		try {
+			
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+			
+			if(loginAdmin == null) {
+				session.setAttribute("alertMsg", "관리자 로그인 후 사용할 수 있는 서비스입니다.");
+				return "redirect:/member/alogin";
+			}
+			
 			int listCount = service.getSanctionListCnt(searchMap);
 			int currentPage = Integer.parseInt(page);
 			int pageLimit = 5;
@@ -62,7 +73,14 @@ public class SanctionController {
 	
 	// 제재내역 삭제
 	@GetMapping("admin/member/sanction-list/delete")
-	public String deleteSanction(String sno) throws Exception {
+	public String deleteSanction(String sno, HttpSession session) throws Exception {
+		
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		
+		if(loginAdmin == null) {
+			session.setAttribute("alertMsg", "관리자 로그인 후 사용할 수 있는 서비스입니다.");
+			return "redirect:/member/alogin";
+		}
 		
 		int result = service.deleteSanction(sno);
 		
