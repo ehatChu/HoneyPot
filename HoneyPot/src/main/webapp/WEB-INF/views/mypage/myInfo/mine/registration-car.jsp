@@ -198,17 +198,17 @@
 	</nav>
 
 	<main>
-		<form action="/app/property/delete" method="post">
+		<div class="margin">
+			<form action="/app/property/delete" method="post">
 			<input type="hidden" value="CAR" name="kinda">
-			<div class="margin">
 				<div>
-					<span class="big-text">차목록</span><button class="small-btn color-gray">삭제하기</button><button class="small-btn color-main" id="regi-btn">등록하기</button>
+					<span class="big-text">차목록</span><input type="submit" class="small-btn color-gray" value="삭제하기"><button type="button" class="small-btn color-main" id="regi-btn">등록하기</button>
 				</div>
 				
 				<div id="list-area">
 				<c:forEach var ="mineVo" items ="${mineVoList}">
 					<div class="mine-list">
-						<div><span><input type="checkbox" id="${mineVo.no}" name="no" value="${mineVo.no}"><label for="${mineVo.no}"  class="middle-text">${mineVo.name}</label></span></div>
+						<div><span><input type="checkbox" id="${mineVo.no}" value="${mineVo.no}" name="no" ><label for="${mineVo.no}"  class="middle-text">${mineVo.name}</label></span></div>
 						
 						<!-- 막 등록한 승인받지 않았을 때 CSS -->
 						<c:if test="${empty mineVo.adminNo}">
@@ -227,9 +227,10 @@
 				</c:forEach>
 					
 				</div>
-			</div>
-		</form>
-		
+
+			</form>
+			
+		</div>
 		
 		
 		<div id="modal-box">
