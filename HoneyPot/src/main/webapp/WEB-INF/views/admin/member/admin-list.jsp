@@ -118,7 +118,7 @@
     basicSetting(); // 기본 셋팅
     headerName('회원관리'); // 현재 페이지 이름
     firstNav(['회원조회', '관리자조회', '제재내역', '상벌점내역', '사유물내역'], '관리자조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    firstNavLink(['/app/admin/member/member-list', '/app/admin/member/admin-list', '/app/admin/member/sanction-list', '/app/admin/member/point-list', '/app/csc/report-list',]);
+    firstNavLink(['/app/admin/member/member-list', '/app/admin/member/admin-list', '/app/admin/member/sanction-list', '/app/admin/member/point-list', '/app/car-list',]);
     let clickNo = null;
 
     // 회원 상태 카테고리 동적 css
