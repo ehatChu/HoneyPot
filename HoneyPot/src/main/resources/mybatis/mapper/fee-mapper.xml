@@ -230,7 +230,8 @@
 			JOIN MEMBER_FEE MF
 			ON MF.MEMBER_NO = M.NO
 			WHERE M.DONG_NUM = #{dongNum}
-            AND M.HO_NUM = #{hoNum})
+            AND M.HO_NUM = #{hoNum}
+            AND M.GRADE = 'Y')
         WHERE ROWNUM = 1
 	</select>
 	

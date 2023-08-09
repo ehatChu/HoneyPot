@@ -52,14 +52,14 @@ public class FeeController {
 	@GetMapping("fee/member")
     public String memberList(RedirectAttributes redirectAttributes,Model model,HttpSession session,@RequestParam Map<String, String> paramMap) throws Exception {
        
-//            MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-//            String memberGrade = loginMember.getGrade();
-//            if (memberGrade == null || !memberGrade.equals("Y")) {
-//            	redirectAttributes.addFlashAttribute("alertMsg", "세대주만 조회가 가능합니다.");
-//                return "redirect:/main/mmain";
-//            }
-            //log.info(memberGrade);
-//			String no = loginMember.getNo();
+            MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+            String memberGrade = loginMember.getGrade();
+            if (memberGrade == null || !memberGrade.equals("Y")) {
+            	redirectAttributes.addFlashAttribute("alertMsg", "세대주만 조회가 가능합니다.");
+                return "redirect:/main/mmain";
+            }
+            log.info(memberGrade);
+			String no = loginMember.getNo();
 		
 			paramMap.put("no", "1");
 		    List<MemberFeeVo> mfvoList = service.memberFeeList(paramMap);
@@ -203,14 +203,14 @@ public class FeeController {
 		
 	// 관리자 관리비 조회
 	@GetMapping("fee/admin")
-	public String AdminList(RedirectAttributes redirectAttributes,@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
+	public String AdminList(@RequestParam(name = "p", defaultValue = "1")  int p,Model model, HttpSession session,@RequestParam Map<String, String> paramMap) {
 		
-//		AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
-//        String adminGrade = loginMember.getGrade();
-//        if (adminGrade == null || !adminGrade.equals("M")) {
-//        	redirectAttributes.addFlashAttribute("alertMsg", "관리소장만 접근이 가능합니다.");
-//            return "redirect:/main/amain";
-//        }
+		AdminVo loginMember = (AdminVo) session.getAttribute("loginMember");
+        String adminGrade = loginMember.getGrade();
+        if (adminGrade == null || !adminGrade.equals("M")) {
+        	session.setAttribute("alertMsg", "관리소장만 접근이 가능합니다."); 
+            return "redirect:/main/amain";
+        }
         
 		int listCount = service.adminListCnt(paramMap);
 		int CurrentPage = p;

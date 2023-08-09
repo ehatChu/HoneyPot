@@ -990,7 +990,7 @@
 
 							<div class="header-chatting-icon">
 								<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
-									<div style="font-size: 7px; font-weight: 800;">4</div>
+									<!-- <div style="font-size: 7px; font-weight: 800;"></div> -->
 								</i>
 								<!-- 채팅 알림 모달 -->
 								<div class="chat_modal_wrap hidden">
@@ -1177,36 +1177,7 @@
 				mainChoice.innerHTML = name;
 			}
 
-			// 채팅 알림 모달 열기
-			const openChatAlertModal = () => {
-				document.querySelector(".chat_modal_wrap").classList.remove("hidden");
-			};
-
-			// 채팅 알림 닫기
-			const closeChatAlertModal = () => {
-				document.querySelector(".chat_modal_wrap").classList.add("hidden");
-			};
-
-			
-
-			// 채팅 아이콘 클릭 이벤트 추가
-			const chatCon = document.querySelector('.header-chatting-icon');
-			chatCon.addEventListener("click", function () {
-
-				// 모달이 이미 열려있는 경우 닫기
-				if (!document.querySelector(".chat_modal_wrap").classList.contains("hidden")) {
-					closeChatAlertModal();
-				} else {
-					openChatAlertModal();
-				}
-			});
-
-			// 채팅 알림 상세보기 버튼 이벤트 추가
-			const chatDetail = document.querySelector(".chat-detail-Btn");
-			chatDetail.addEventListener('click', function () {
-				location.href = "/app/chat/list";
-			})
-
+		
 			// 로그인 정보 출력
 			console.log("loginMember : ${loginMember}");
 			console.log("loginAdmin : ${loginAdmin}");
@@ -1592,63 +1563,24 @@
 
 		////////////* 채팅 *///////////
 
-		// 웹소켓 만들기
-		let wsocket = new WebSocket("ws://127.0.0.1:8888/app/chat");
-			wsocket.onopen = funcOpen; 
-			wsocket.onclose = funcClose;
-			wsocket.onerror = funcError;
-			wsocket.onmessage = funcMessage;
-			var roomNo; // 전역 변수로 선언
-			
-			function funcOpen(roomNo) {
-				console.log("채팅소켓 연결 성공");
-				$("#chatMessageArea").empty();
-				var memberNo = $("#loginMember").val();
-				var loadMessagesRequest = JSON.stringify({
-					action: "loadMessages",
-					roomNo: roomNo
-				});
-				wsocket.send(loadMessagesRequest);
+		// 채팅 알림 모달 열기
+		const openChatAlertModal = () => {
+			document.querySelector(".chat_modal_wrap").classList.remove("hidden");
+		};
 
-				var chatAlertMsg = JSON.stringify({
-					action: "unReadMsg",
-					
-				});
-				$.ajax({
-					type: "GET",
-					url: "/app/chat/unreadMsg",
-					success: function (response) {
-						console.log(response);
-					}
-				});
-			}
-			
-			function funcClose() {
-				console.log("채팅 소켓 닫힘");
-			}
+		// 채팅 알림 닫기
+		const closeChatAlertModal = () => {
+			document.querySelector(".chat_modal_wrap").classList.add("hidden");
+		};
 
-			function funcError() {
-				console.log("채팅 소켓 에러");
-			}
+		// 채팅 아이콘 클릭 이벤트 추가
+		const chatCon = document.querySelector('.header-chatting-icon');
+		chatCon.addEventListener("click", function () {
+			location.href = "/app/chat/list";
+		});
 
-			function funcMessage(event) {
-				var data = JSON.parse(event.data);
-				console.log("메세지 받음");
-				
-				// 메시지 유형에 따라 처리
-				if (data.action === "user_quit") {
-					var quitMsg = data.userName + "님이 채팅방을 나갔습니다.";
-					// 채팅 화면에 메시지 출력
-					appendMessage(quitMsg);
-				} else if(data.action === "loadMessages" && data.messages){
-					data.messages.forEach(function (message) {
-					appendMessage(message);
-				});
-				} else {
-					appendMessage(data);
-				}
-				console.log(data);
-			}
+
+		
 
 
 
