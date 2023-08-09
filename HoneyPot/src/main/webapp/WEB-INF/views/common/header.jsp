@@ -949,7 +949,7 @@
 								<div onclick="location.href='/app/admin/member/member-list'">회원관리</div>
 								<div onclick="location.href='/app/admin/csc/inquiry-list'">상담센터</div>
 								<div onclick="location.href='/app/notice/list'">게시판</div>
-								<div onclick="location.href='/app/fee/admin'">단지관리</div>
+								<div onclick="location.href='/app/admin/innerFac/reservation?p=1'">단지관리</div>
 								<div onclick="location.href='/app/admin/calendar/schedule-list'">캘린더</div>
 							</div>
 						</div>
