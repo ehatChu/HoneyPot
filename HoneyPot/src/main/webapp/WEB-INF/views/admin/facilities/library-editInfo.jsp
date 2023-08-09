@@ -108,10 +108,15 @@
 
 	}
 	/* second-area */
-	#second-area {
-		display: grid;
-		grid-template-rows:11fr 1fr;
-		height: 750px;
+	button {
+		height: 50px;
+		padding: 10px 30px;
+		background-color: #D9D9D9;
+		margin-left: 10px;
+		border: 0;
+		font-size: 20px;
+		font-weight: 800;
+		background-color: #FAD355;
 	}
 </style>
 </head>
@@ -157,7 +162,10 @@
 					</div>
 					<input type="submit" value="변경">
 				</div>
-				
+				<div id="second-area">
+					<h1>편의시설사진정보변경으로 이동하기</h1>
+					<button type="button" onclick="location.href='/app/admin/innerFac/editImg?facNo=1'">이동</button>
+				</div>
 			</div>
 			
 		</form>

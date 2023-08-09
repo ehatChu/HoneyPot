@@ -515,14 +515,6 @@
         modalBox.style.display = "none";
     });
 
-    //승인완누르면 완료된 것만 뜨게 ajax...
-   
-    const okValue = document.querySelector("#ok-value");
-    const allList = document.querySelector("#all-list");
-    const allValue = document.querySelector("#all-value");
-    const noConfirm = document.querySelector("#no-confirm");
-    const uniqueNum = document.querySelector("input[name=uniqueNum]").value;
-    const mineOwner = document.querySelector("input[name=mineOwner]").value
-
+  
     
 </script>
