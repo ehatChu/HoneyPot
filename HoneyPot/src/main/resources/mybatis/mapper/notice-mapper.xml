@@ -202,14 +202,19 @@
 	<!-- 투표항목 불러오기  -->
 	<select id="getVoteCandidate" resultType="com.hp.app.notice.vo.VoteCandidateVo">
 		SELECT
-			NO
-			,NOTICE_NO
-			,NAME
-		FROM VOTE_CANDIDATE
-		WHERE NOTICE_NO = #{no}
-		ORDER BY NO
+		    C.NO
+		    ,C.NOTICE_NO
+		    ,C.NAME
+		    ,COUNT(P.MEMBER_NO) AS VOTE_CNT
+		FROM 
+		    VOTE_CANDIDATE C
+		    LEFT JOIN PERSONAL_VOTE P 
+		    	ON C.NOTICE_NO = P.VOTE_NOTICE_NO 
+		    	AND C.NO = P.VOTE_LIST_NO
+		WHERE C.NOTICE_NO = #{no}
+		GROUP BY C.NO, C.NOTICE_NO, C.NAME
+		ORDER BY C.NO
 	</select>
-	
 	
 	<!-- 총 투표 수 세기 -->
 	<select id="countVoteTotal" resultType="int">
@@ -219,20 +224,13 @@
 	</select>
 	
 	<!-- 항목별 득표수 배열 -->
-	<select id="countEachCandidate" resultType="com.hp.app.notice.vo.PersonalVoteVo">
-	    SELECT VOTE_LIST_NO, COUNT(MEMBER_NO) AS EACH_CNT
+	<select id="countEachCandidate" resultType="java.util.List">
+	    SELECT COUNT(MEMBER_NO)
 		FROM PERSONAL_VOTE
 		WHERE VOTE_NOTICE_NO = #{no}
 	    GROUP BY VOTE_LIST_NO
 	    ORDER BY VOTE_LIST_NO
 	</select>
-	
-	
-<!--  	SELECT C.NOTICE_NO, COUNT (P.MEMBER_NO)
-	FROM VOTE_CANDIDATE C
-	JOIN PERSONAL_VOTE P ON C.NO = P.VOTE_LIST_NO
-	WHERE C.NO = 1 AND C.NOTICE_NO = 10 -->
-	
 	
 	<!-- 투표 여부 -->
 	<select id="checkVoteYn" resultType="int">

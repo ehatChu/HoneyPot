@@ -54,7 +54,7 @@ public interface NoticeDao {
 	public abstract int countVoteTotal(SqlSessionTemplate sst, String no);
 	
 	//항목별 득표 수
-	public abstract List<PersonalVoteVo> countEachCandidate(SqlSessionTemplate sst, String no);
+	public abstract List<Integer> countEachCandidate(SqlSessionTemplate sst, String no);
 	
 	//투표 여부
 	public abstract int checkVoteYn(SqlSessionTemplate sst, PersonalVoteVo pvvo);
