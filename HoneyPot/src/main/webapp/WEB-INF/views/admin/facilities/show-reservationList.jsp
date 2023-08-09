@@ -269,7 +269,7 @@
         </nav>
 
         <main>
-            <form action="/app/admin/innerFac/reservation" method="get" >
+            <form action="/app/admin/innerFac/reservation?p=1" method="get" >
                 <div class="inquiry-search-area">
                     <div class="model-search-area">
                         <div class="model-search-box-area">

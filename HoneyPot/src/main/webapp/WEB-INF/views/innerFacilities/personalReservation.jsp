@@ -158,11 +158,11 @@
 </html>
 <script>
 	basicSetting(); // 기본 셋팅
-   	headerName('편의시설 예약조회'); // 현재 페이지 이름
-	firstNav(['도서관', '수영장', '헬스장','골프장','예약조회'], '예약조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-	//secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
-	firstNavLink(['/app/innerFac/info?no=1','/app/innerFac/info?no=2','/app/innerFac/info?no=3','/app/innerFac/info?no=4','/app/innerFac/personalReservation?p=1']);
-	// secondNavLink(['/app/innerFac/info?no=1','/app/facilities/library/reserve'],); 
+   	headerName('마이페이지'); // 현재 페이지 이름
+	firstNav(['내정보', '나의활동', '신청내역','관리비'], '신청내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	secondNav(['조식신청내역', '편의시설예약내역'], '편의시설예약내역'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+	firstNavLink(['/app/calendar/schedule-list','/app/mypage/act/board',' /app/meal/mypage','/app/fee/member']);
+	secondNavLink(['/app/meal/mypage','/app/innerFac/personalReservation?p=1'],); 
 	
 
 </script>
