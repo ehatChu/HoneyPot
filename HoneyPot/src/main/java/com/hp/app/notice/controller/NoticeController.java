@@ -178,12 +178,15 @@ public class NoticeController {
 			
 			NoticeVo vo = service.viewDetail(no);
 			model.addAttribute("vo", vo);
+			System.out.println(vo);
 			
 			VoteVo voteVo = service.getVote(no);
 			model.addAttribute("voteVo", voteVo);
+			System.out.println(voteVo);
 			
 			List<VoteCandidateVo> vcvo = service.getVoteCandidate(no);
 			model.addAttribute("vcvo", vcvo);
+			System.out.println(vcvo);
 			
 //			if (no == null) {
 //				return "notice/list";
@@ -197,26 +200,20 @@ public class NoticeController {
 				System.out.println(totalResult);
 				
 				//항목별 득표 수 배열
-//				pvvo.setNo(no);
-//				pvvo.set
-//				List<Integer> eachCountArr = service.countEachCandidate(pvvo);
+				List<PersonalVoteVo> eachCountArr = service.countEachCandidate(no);
+				
+//				for (int i=0 ; i<eachCountArr.size() ; i++) {
+//					
+//				}
+				
+				Map<String, Integer> cntVo = new HashMap<String, Integer>();
+				cntVo.put("totalCnt", totalResult);
 				
 				//투표여부
 				pvvo.setVoteNoticeNo(no);
 				pvvo.setMemberNo(memberNo);
 				int voteYn = service.checkVoteYn(pvvo);
 				System.out.println(voteYn);
-				
-				//투표 삽입, 삭제
-				String tempnum = "1";
-				pvvo.setVoteListNo(tempnum);
-				if (voteYn != 1) {
-					int submitResult = service.insertPersonalVote(pvvo);
-					System.out.println(submitResult);
-				}else {
-					int delResult = service.deletePersonalVote(pvvo);
-					System.out.println(delResult);
-				}
 			}
 			
 		}catch(Exception e) {
@@ -297,5 +294,43 @@ public class NoticeController {
 		return "redirect:/notice/list";
 		
 	}
+	
+	
+	//투표 제출
+	@PostMapping("notice/detail/vote")
+	public String submitVote(PersonalVoteVo pvvo) {
+		
+		int voteYn = service.checkVoteYn(pvvo);
+		
+		if (voteYn != 1) {
+			int submitResult = service.insertPersonalVote(pvvo);
+			System.out.println(submitResult);
+		}else {
+			return "error";
+		}
+		
+		return "success";
+	}
+	
+	
+	//투표 취소
+	@PostMapping("notice/detail/cancel")
+	public String cancelVote(PersonalVoteVo pvvo) {
+		
+		int voteYn = service.checkVoteYn(pvvo);
+		
+		if (voteYn == 1) {
+			int delResult = service.deletePersonalVote(pvvo);
+			System.out.println(delResult);
+		}else {
+			return "error";
+		}
+		
+		return "success";
+	}
+	
+	
+	
+	
 
 }

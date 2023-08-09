@@ -396,8 +396,7 @@
 
 				if (result == 'success') {
 					alert("댓글이 등록되었습니다.");
-					location.reload();
-					replyWriteContent = '';
+					replyWriteTag.value = '';
 					loadReply();
 				}else{
 					alert("댓글 작성 실패...");
@@ -508,7 +507,6 @@
 
 				if (result == 'success') {
 					alert("댓글이 수정되었습니다.");
-					location.reload();
 					loadReply();
 				}else{
 					alert("댓글 수정 실패...");
@@ -540,7 +538,6 @@
 
 				if (result == 'success') {
 					alert("댓글이 삭제되었습니다.");
-					location.reload();
 					loadReply();
 				}else{
 					alert("댓글 삭제 실패...");

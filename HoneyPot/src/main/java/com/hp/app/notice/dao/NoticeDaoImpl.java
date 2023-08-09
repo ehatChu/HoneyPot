@@ -98,9 +98,8 @@ public class NoticeDaoImpl implements NoticeDao {
 
 	//항목별 득표 수
 	@Override
-	public List<Integer> countEachCandidate(SqlSessionTemplate sst, PersonalVoteVo pvvo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PersonalVoteVo> countEachCandidate(SqlSessionTemplate sst, String no) {
+		return sst.selectList("notice.countEachCandidate", no);
 	}
 
 	//투표 여부

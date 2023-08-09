@@ -219,7 +219,16 @@
 	</select>
 	
 	<!-- 항목별 득표수 배열 -->
-<!-- 	SELECT COUNT (P.MEMBER_NO)
+	<select id="countEachCandidate" resultType="com.hp.app.notice.vo.PersonalVoteVo">
+	    SELECT VOTE_LIST_NO, COUNT(MEMBER_NO) AS EACH_CNT
+		FROM PERSONAL_VOTE
+		WHERE VOTE_NOTICE_NO = #{no}
+	    GROUP BY VOTE_LIST_NO
+	    ORDER BY VOTE_LIST_NO
+	</select>
+	
+	
+<!--  	SELECT C.NOTICE_NO, COUNT (P.MEMBER_NO)
 	FROM VOTE_CANDIDATE C
 	JOIN PERSONAL_VOTE P ON C.NO = P.VOTE_LIST_NO
 	WHERE C.NO = 1 AND C.NOTICE_NO = 10 -->

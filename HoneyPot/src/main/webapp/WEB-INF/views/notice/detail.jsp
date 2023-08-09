@@ -231,7 +231,6 @@
 										<button type="button" id="vote-submit-btn">재투표</button>
 									</div>
 								</div>								
-
 								
 
 							</div>
@@ -268,17 +267,26 @@
 	//투표하기
 	function submitVote(){
 		const voteSubmitBtn = document.querySelector("#vote-submit-btn");
+		const voteArea = document.querySelector(".vote-area");
 
 		$.ajax({
 			url : '/app/notice/detail/vote',
 			type : 'post',
 			data : {
-				voteNoticeNo : '${vo.no}',
-				voteListNo : '${vcvo.no}',
+				// voteNoticeNo : '${vo.no}',
+				// voteListNo : '${vcvo.no}',
 				// memberNo : '${loginMember.no}',
 				memberNo : '2',
 			},
-			success : function() {
+			success : function(result) {
+				console.log(result);
+
+				if (result == 'success') {
+					voteArea.innerHTML = '';
+					let str = '';
+					
+
+				}
 
 			},
 			error : function() {
