@@ -12,9 +12,10 @@
 		grid-template-columns: 6fr 4fr;
 	}
 	#main-wrapper > div {
-		height: 812px;
+		height: 750px;
 	
-		padding: 30px;
+		padding-top: 30px;
+		padding-left: 30px;
 		background-clip: content-box;
 		border-radius: 30px;
 	}
@@ -23,7 +24,7 @@
 		margin-top: 10px;
 		margin-left: 10px;
 		border-radius: 10px;
-		font-size: 16px;
+		font-size: 18px;
 	}
 	input[type="time"] {
 		margin:10px;
@@ -70,7 +71,7 @@
 	/* first-area */
 	#first-area {
 		display: grid;
-		grid-template-rows: 2fr 1fr 1fr 1fr;
+		grid-template-rows: 2fr 1fr 1fr 0.5fr;
 	}
 
 	/* 파일부분 커스터마이징 */
@@ -110,7 +111,7 @@
 	#second-area {
 		display: grid;
 		grid-template-rows:11fr 1fr;
-		height: 812px;
+		height: 750px;
 	}
 </style>
 </head>
@@ -126,7 +127,7 @@
 				<div id="first-area">
 					<div>
 						<h1>안내문구 변경</h1>
-						<textarea name="content" id="" rows="10" style="width: 800px; resize: none;">${facVo.content}</textarea>
+						<textarea name="infoTextarea" id="" rows="10" style="width: 800px; resize: none;">${facVo.content}</textarea>
 					</div>
 					
 					<div>
