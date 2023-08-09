@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberServiceImpl implements MemberService{
 	private final SqlSessionTemplate sst;
 	private final MemberDao dao;
-	private final BCryptPasswordEncoder pwdEncoder;
+//	private final BCryptPasswordEncoder pwdEncoder;
 
 	@Override
 	public MemberVo mlogin(MemberVo vo) {
@@ -28,9 +28,9 @@ public class MemberServiceImpl implements MemberService{
 				return null;
 			}
 			
-			boolean isMatch1 = pwdEncoder.matches(vo.getPwd(), loginMember.getPwd());
+//			boolean isMatch1 = pwdEncoder.matches(vo.getPwd(), loginMember.getPwd());
 			boolean isMatch2 = (loginMember.getPwd().equals(vo.getPwd()));
-			if (!(isMatch1 || isMatch2)) {
+			if (!(isMatch2)) {
 				throw new Exception();
 			}
 		} catch (Exception e) {
@@ -49,9 +49,9 @@ public class MemberServiceImpl implements MemberService{
 				return null;
 			}
 			
-			boolean isMatch1 = pwdEncoder.matches(vo.getPwd(), loginAdmin.getPwd());
+//			boolean isMatch1 = pwdEncoder.matches(vo.getPwd(), loginAdmin.getPwd());
 			boolean isMatch2 = (loginAdmin.getPwd().equals(vo.getPwd()));
-			if (!(isMatch1 || isMatch2)) {
+			if (!(isMatch2)) {
 				throw new Exception();
 			}
 		} catch (Exception e) {
@@ -64,14 +64,14 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int mjoin(MemberVo vo) {
 		String pwd = vo.getPwd();
-		vo.setPwd(pwdEncoder.encode(pwd));
+//		vo.setPwd(pwdEncoder.encode(pwd));
 		return dao.mjoin(sst, vo);
 	}
 
 	@Override
 	public int ajoin(AdminVo vo) {
 		String pwd = vo.getPwd();
-		vo.setPwd(pwdEncoder.encode(pwd));
+//		vo.setPwd(pwdEncoder.encode(pwd));
 		return dao.ajoin(sst, vo);
 	}
 
@@ -113,7 +113,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int emailChangePwd(MemberVo vo) {
 		String pwd = vo.getPwd();
-		vo.setPwd(pwdEncoder.encode(pwd));
+//		vo.setPwd(pwdEncoder.encode(pwd));
 		return dao.emailChangePwd(sst, vo);
 	}
 }

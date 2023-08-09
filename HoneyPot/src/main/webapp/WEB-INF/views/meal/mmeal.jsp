@@ -287,7 +287,7 @@
 	<script>
 		basicSetting(); // 기본 셋팅
 		headerName('조식'); // 현재 페이지 이름
-		todayMenu();
+		todayMenu('${todayMeal.menu}');
 
 		const tr1Arr = document.querySelectorAll("#tr1");
 		for (let tr1 of tr1Arr) {
@@ -372,9 +372,9 @@
 		})();
 
 		// 오늘의 식단
-		function todayMenu() {
+		function todayMenu(menu) {
 			let tempStr = "";
-			let arr = '${todayMeal.menu}'.split(",");
+			let arr = menu.split(",");
 			const e011 = document.querySelector('#e011');
 			for (let x of arr) {
 				tempStr += '<div id="e02"><img id="starImg" src="/app/resources/main/star1.PNG">' + x + '</div>';
@@ -432,7 +432,7 @@
 						+ '<button id="f01" onclick="breakFastApply(' + data.no + ', \'' + data.breakfastDate.substring(0, 10) + '\');">조식 신청</button>'
 						+ '</div>'
 					bbox.innerHTML = str;
-					todayMenu();
+					todayMenu(data.menu);
 				},
 				error: function () {
 					alert("selectMeal error");

@@ -19,12 +19,12 @@
 	<insert id="mjoin">
 		INSERT INTO MEMBER
 		(NO, NAME, ID, PWD, DONG_NUM,
-		HO_NUM, BIRTH, PHONE, EMAIL, PROFILE)
+		HO_NUM, BIRTH, PHONE, EMAIL, PROFILE, GRADE)
 		VALUES
 		(SEQ_MEMBER_NO.NEXTVAL,
 		#{name}, #{id}, #{pwd}, #{dongNum}, #{hoNum},
 		#{birth}, #{phone},
-		#{email}, #{profile})
+		#{email}, #{profile}, #{grade})
 	</insert>
 
 	<insert id="ajoin">
