@@ -447,34 +447,57 @@ public class FacilitiesController {
 	//어드민 전체예약조회(화면)
 	@GetMapping("admin/innerFac/reservation")
 	public String showAllReservation(@RequestParam(defaultValue = "1") int p ,@RequestParam(required = false) Map<String,String> searchValueMap,Model model) {
-		int listCount = service.getAllCnt(searchValueMap); 		
-		int currentPage = p;
-		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
-		int boardLimit =9; //한페이지에 list는 7개만 들어가게
-		PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
-		log.info("cnt : {}",listCount);
-		
-		String originTime = searchValueMap.get("startTime");
-		
-		if(searchValueMap.get("startTime")!=null) {
-			String startTime = searchValueMap.get("startTime").substring(0,2);
-			searchValueMap.put("startTime", startTime);
-			log.info("startTime : {}",startTime); //08:00 인데 앞에 두글자만 자르기
+		try {
+			//페이징
+			int listCount = service.getAllCnt(searchValueMap); 		
+			int currentPage = p;
+			int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
+			int boardLimit =9; //한페이지에 list는 7개만 들어가게
+			PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
+			log.info("cnt : {}",listCount);
+			
+			//
+			String originTime = searchValueMap.get("startTime");
+			log.info("isEmpty :{}",!searchValueMap.containsKey("startTime")); //가지고있다... 
+			log.info("searchValueMap : {}",searchValueMap);
+//			
+			
+//			if(searchValueMap.containsKey("startTime")) {
+//				if(!(searchValueMap.get("startTime").equals(""))) {
+//					
+//				}
+//			}log.info("이프문통과trueAndFalse: {}",searchValueMap.get("startTime").equals(""));
+			//하나라도 트루면 실행된다.둘다 트루면 실행되게
+			String startTime = searchValueMap.get("startTime");
+			
+			if(startTime !=null) {
+				if(!startTime.equals("")) {
+					startTime = searchValueMap.get("startTime").substring(0,2);
+					searchValueMap.put("startTime", startTime);
+				}
+			}
+			
+//			if(!(zzz.equals("")))&&zzz.equals(null)) {
+//				log.info("if문통과 =>startTime : {}", searchValueMap.get("startTime"));
+//				
+//				log.info("startTime : {}",startTime); //08:00 인데 앞에 두글자만 자르기
+//			}
+			
+			List<InnerFacInfoRsVo> facVoList = service.searchAllReservation(searchValueMap,pv);
+			log.info("facVoList:{}",facVoList);
+			
+			model.addAttribute("pv",pv);
+			
+			model.addAttribute("facVoList",facVoList);
+			model.addAttribute("searchStartDate",searchValueMap.get("startDate"));
+			model.addAttribute("searchEndDate",searchValueMap.get("endDate"));
+			
+			log.info("startTime : {}",searchValueMap.get("startTime"));
+			model.addAttribute("searchStartTime",originTime);
+			model.addAttribute("searchName",searchValueMap.get("name"));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		log.info("아브라카다브라다이루어져라 {}",searchValueMap);
-		
-		List<InnerFacInfoRsVo> facVoList = service.searchAllReservation(searchValueMap,pv);
-		log.info("facVoList:{}",facVoList);
-		
-		model.addAttribute("pv",pv);
-		
-		model.addAttribute("facVoList",facVoList);
-		model.addAttribute("searchStartDate",searchValueMap.get("startDate"));
-		model.addAttribute("searchEndDate",searchValueMap.get("endDate"));
-		
-		log.info("startTime : {}",searchValueMap.get("startTime"));
-		model.addAttribute("searchStartTime",originTime);
-		model.addAttribute("searchName",searchValueMap.get("name"));
 		return  "/admin/facilities/show-reservationList";
 	}
 	
