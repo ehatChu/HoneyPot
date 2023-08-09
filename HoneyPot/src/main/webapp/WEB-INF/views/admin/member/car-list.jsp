@@ -264,6 +264,7 @@
     <%@ include file="/WEB-INF/views/common/header.jsp" %>
         <nav>
             <%@ include file="/WEB-INF/views/common/first-nav.jsp" %>
+            <%@ include file="/WEB-INF/views/common/second-nav.jsp" %>
             <!-- <%@ include file="/WEB-INF/views/common/second-nav.jsp" %> -->
         </nav>
 
@@ -429,11 +430,11 @@
 
 <script>
     basicSetting(); // 기본 셋팅
-    headerName('마이페이지'); // 현재 페이지 이름
-    firstNav(['내정보', '나의활동', '신청내역', '관리비'], '내정보'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    secondNav(['캘린더', '가계부','자동차','자전거'], '자동차'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
-    firstNavLink(['/app/calendar/schedule-list','/app/mypage/act/board','/app/meal/mypage','/app/fee/member']);
-	secondNavLink(['/app/calendar/schedule-list','/app/account/list','/app/car-list','/app/bicycle-list'],);
+    headerName('회원관리'); // 현재 페이지 이름
+    firstNav(['회원조회', '관리자조회', '제제내역', '상벌점내역','사유물내역'], '사유물내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+    secondNav(['자동차', '자전거'], '자동차'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+    firstNavLink(['/app/admin/member/member-list','/app/admin/member/admin-list','/app/admin/member/sanction-list','/app/admin/member/point-list','/app/car-list',]);
+	secondNavLink(['/app/car-list','/app/bicycle-list']);
 
     // 해당 줄을 누르면 상세정보가 담긴 modal띄우기
     const tbody = document.querySelector('tbody');
