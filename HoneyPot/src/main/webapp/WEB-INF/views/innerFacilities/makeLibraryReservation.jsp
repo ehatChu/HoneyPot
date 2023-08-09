@@ -135,8 +135,8 @@
 								
 								let dateElem = document.querySelector("#date-choice");
 								
-								dateElem.setAttribute("value",dateFormat(new Date()));
-								dateElem.setAttribute("min",dateFormat(new Date()));
+								dateElem.setAttribute("value",new Date().toISOString().substring(0, 10));
+								dateElem.setAttribute("min",new Date().toISOString().substring(0, 10));
 								
 								//7일 후 날짜구하기
 								let afterWeek = new Date(Date.parse(today)+7*1000*60*60*24);
