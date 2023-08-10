@@ -14,10 +14,11 @@
 ## 🧱 프로젝트 설계
 
 ### ERD
-  
-  
-### UI &nbsp; 🔗 [Figma Link]([https://www.figma.com/file/5006u4lJp0nL28A0VL6Eag/Untitled?type=design&node-id=0-1&t=gQ49OtnUhk3p19Ne-0])
+![erd](https://github.com/KBkim8/HoneyPot/assets/122279738/02983693-6283-4aac-8527-4538f9000eff)
 
+### UI &nbsp; 🔗 [Figma Link](https://www.figma.com/file/5fu4FGPpDKRjWF6Z8roStu/Untitled?type=design&node-id=0-1&mode=design&t=xad1bLumDyy7hS6g-0)
+<br>
+<br>
 
 ## ⚙ 주요기능
 
@@ -53,6 +54,11 @@
   <br>
 
 ## 🚀👩‍🚀👨‍🚀 팀원
+|   | 견지환  | 김강분  | 김민성  | 윤예린  | 윤지웅  | 
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| 역할 | 조장  | 형상관리자  | DB관리자  | 이슈관리자  | 일정관리자  |
+| 기능 | FAQ <br> 1:1문의 <br> 회원관리 <br> 배달, 택배 알람 <br> 이웃 목록 조회 |가계부 <br> 회원 관리비 <br> 관리자 관리비<br> 채팅(1:1) <br> 팔로우  | 메인페이지 <br> 조식 신청 <br> 계정 정보 <br> 주변시설평가 | 사유물등록 <br> 일정(회원, 관리자) <br> 편의시설 예약  |게시판 <br> 검색, 정렬, 댓글 <br> 투표 <br> 내 활동(글,댓글,좋아요)  | 
+
 
 ## commit Message
  사용방법 ❓ 타입과 함께 구성 (예를 들어 로그인 구현 -> feat : Add login function)
