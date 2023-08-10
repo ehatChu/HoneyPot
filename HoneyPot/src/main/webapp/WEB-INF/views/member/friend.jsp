@@ -154,7 +154,7 @@
 
         const offsetX = event.clientX;
         const offsetY = event.clientY;
-        followArea.style.position = 'fixed';
+        followArea.style.position = 'sticky';
         followArea.style.left = offsetX + 'px';
         followArea.style.top = offsetY + 'px';
 
