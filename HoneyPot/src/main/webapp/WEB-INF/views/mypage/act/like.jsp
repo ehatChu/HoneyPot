@@ -150,9 +150,9 @@
     basicSetting(); // 기본 셋팅
     headerName('마이페이지'); // 현재 페이지 이름
     firstNav(['내정보', '나의활동', '신청내역','관리비'], '나의활동'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-	firstNavLink(['', '/app/mypage/act/board', '', '/app/fee/member']);
+	firstNavLink(['/app/calendar/schedule-list', '/app/mypage/act/board', '/app/meal/mypage', '/app/fee/member']);
     secondNav(['내게시글', '내댓글', '좋아요', '상벌점내역'], '좋아요'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
-	secondNavLink(['/app/mypage/act/board', '/app/mypage/act/reply', '/app/mypage/act/like', '']);
+	secondNavLink(['/app/mypage/act/board', '/app/mypage/act/reply', '/app/mypage/act/like', '/app/mypage/act/point-list']);
 
 
 	// 목록 클릭하여 글번호 얻기
