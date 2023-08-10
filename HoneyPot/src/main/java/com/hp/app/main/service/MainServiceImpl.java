@@ -41,7 +41,11 @@ public class MainServiceImpl implements MainService {
 
 	@Override
 	public int voteCaptainLove(String[] arr) {
-		return dao.voteCaptainLove(sst, arr);
+		int result = dao.voteCaptainLove(sst, arr);
+		if(result == 0) {
+			result = dao.voteCaptainLoveInsert(sst, arr);
+		}
+		return result;
 	}
 
 	@Override

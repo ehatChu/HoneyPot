@@ -51,4 +51,6 @@ public interface MainDao {
 	List<AdminFeeVo> getAdminFeeList(SqlSessionTemplate sst);
 
 	int getTotalFee(SqlSessionTemplate sst);
+
+	int voteCaptainLoveInsert(SqlSessionTemplate sst, String[] arr);
 }
