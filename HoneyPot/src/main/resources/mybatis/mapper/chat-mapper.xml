@@ -5,14 +5,22 @@
 <mapper namespace="chat">
 	
 	<select id="selectRoomListByMno" resultType="com.hp.app.chat.vo.ChatRoomVo">
-		   SELECT
-        CR.NO,
-        CR.NAME
-        ,M.PROFILE AS IMG
-    FROM CHATTING_ROOM CR
-    INNER JOIN CHATTING_MEMBER_LIST CML ON (cr.NO = cml.chatting_ROOM_NO)
-    INNER JOIN MEMBER m ON (cml.MEMBER_NO = m.NO)
-    WHERE cml.member_no = #{mno}
+		SELECT
+	    CR.NO,
+	    CML.MEMBER_NO,
+	    M.NAME AS MEMBER_NAME,
+	    M.PROFILE AS MEMBER_PROFILE
+		FROM
+		    CHATTING_ROOM CR
+		JOIN
+		    CHATTING_MEMBER_LIST CML ON CR.NO = CML.CHATTING_ROOM_NO
+		JOIN
+		    MEMBER M ON CML.MEMBER_NO = M.NO
+		WHERE
+		    CR.NO IN (
+		        SELECT CHATTING_ROOM_NO
+		        FROM CHATTING_MEMBER_LIST
+		        WHERE MEMBER_NO = #{mno})
 	</select>
 	
 	

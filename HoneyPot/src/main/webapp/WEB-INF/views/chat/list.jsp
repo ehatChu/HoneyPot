@@ -33,12 +33,14 @@
 							</div>
 							<div class="room-list-area">
 								<div id="roomArea">
-									<c:forEach items="${rList}" var="rList">
-										<div class="room-name" id="detailBtn">
-											<div id="roomNo" hidden>${rList.no}</div>
-											<img src="${root}/resources/member/profile/${rList.img}" alt="채팅방사진">
-											<span id="roomName">${rList.name}</span>
-										</div>
+									<c:forEach items="${rList}" var="room">
+										<c:if test="${room.memberName ne loginMember.name}">
+											<div class="room-name" id="detailBtn">
+												<div id="roomNo" hidden>${room.no}</div>
+												<img src="${root}/resources/member/profile/${room.memberProfile}" alt="채팅방사진">
+												<span id="roomName">${room.memberName}</span>
+											</div>
+										</c:if>
 									</c:forEach>
 								</div>
 								<!-- 채팅 만들기 버튼 함수 추가~~ -->
@@ -316,34 +318,47 @@
 					function funcMessage(event) {
 						var data = JSON.parse(event.data);
 						console.log("메세지 받음");
-						
+
 						// 메시지 유형에 따라 처리
 						if (data.action === "user_quit") {
 							var quitMsg = data.message;
+							var roomNo = data.roomNo;
+
 							// 채팅 화면에 메시지 출력
-							appendQuitMessage(quitMsg);
-						} else if(data.action === "loadMessages" && data.messages){
+							appendQuitMessage(data);
+						} else if (data.action === "loadMessages" && data.messages) {
 							data.messages.forEach(function (message) {
 							appendMessage(message);
-						});
+							});
 						} else {
 							appendMessage(data);
 						}
+
 						console.log(data);
 					}
 
-				function appendQuitMessage(data) {
-					
+					function appendQuitMessage(data) {
+						var msg2 = data.message;
+						var wrapElement = $('<div id="wrapE"></div>');
+						var messageElement = $('<div class="message"></div>');
+						messageElement.text(msg2);
 
+						wrapElement.append(messageElement);
+						$("#chatMessageArea").append(wrapElement);
+						var chatArea = $("#chatArea");
+							chatArea.scrollTop(chatArea.prop("scrollHeight"));
+							
+							// chatArea의 높이 조정
+							adjustChatAreaHeight();
+					}
 
-				} 
-				
 				// 채팅 방 번호 눌렀을 때
 				$(document).ready(function() {
 					const detailBtns = document.querySelectorAll("#detailBtn");
 					detailBtns.forEach((btn) => {
 						btn.addEventListener("click", function() {
 							roomNo = $(this).closest("div").find("#roomNo").text().trim();
+							const roomName = $(this).closest(".room-name").find("#roomName").text().trim();
 							console.log(roomNo);
 
 							$.ajax({
@@ -352,9 +367,9 @@
 								data: { no: roomNo },
 								success: function(response) {
 									console.log(response);
-									var cvo = response[0];
+									var cvo = response[1];
 									var roomNameArea = $(".room-name-area");
-									var html = "<div><span>" + cvo.name + "</span><span  id='rno' hidden>" + cvo.no +"</span><button class='openBtn'><i class='fa-solid fa-pen fa-sm' style='color: #000000;'></i></button></div> \
+									var html = "<div><span>" + roomName + "</span><span  id='rno' hidden>" + cvo.no +"</span><button class='openBtn'><i class='fa-solid fa-pen fa-sm' style='color: #000000;'></i></button></div> \
 												<div><button class='quitBtn'><span>나가기</span><i class='fa-solid fa-arrow-right-from-bracket fa-lg' style='color: #000000;'></i></button></div>";
 									roomNameArea.html(html);
 
@@ -387,14 +402,7 @@
 										cancelButtonText: '취소'
 									}).then((result) => {
 										if (result.isConfirmed) {
-											var loginMember = document.querySelector("#loginMemberName").value;
-											var quitEvent = {
-												action: "user_quit",
-												userName: loginMember, 
-												roomNo :rno
-											};
-											console.log("Sending quitEvent", JSON.stringify(quitEvent));
-											wsocket.send(JSON.stringify(quitEvent));
+											
 											$.ajax({
 												type: "POST",
 												url: "/app/chat/delete",
@@ -421,7 +429,14 @@
 													});
 												}
 											});
-											
+											var loginMember = document.querySelector("#loginMemberName").value;
+											var quitEvent = {
+												action: "user_quit",
+												userName: loginMember, 
+												roomNo :rno
+											};
+											console.log("Sending quitEvent", JSON.stringify(quitEvent));
+											wsocket.send(JSON.stringify(quitEvent));
 											// 소켓 연결 끊기
 											wsocket.close();
 										}
@@ -486,6 +501,7 @@
 					var time = data.time;
 					var profile = data.profile;
 					var date = new Date(time);
+					
 
 					var hours = date.getHours();
 					var minutes = date.getMinutes();
@@ -544,7 +560,6 @@
 						$("#chatMessageArea").append(wrapElement);
 					}
 				
-
 					var chatArea = $("#chatArea");
 					chatArea.scrollTop(chatArea.prop("scrollHeight"));
 					

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.hp.app.chat.service.ChatService;
 import com.hp.app.chat.vo.ChatFriendVo;
@@ -51,6 +52,7 @@ public class ChatController {
 	   paramMap.put("searchValue", searchValue);
 	   List<ChatFriendVo> fvoList = service.friendList(paramMap);
        model.addAttribute("rList", voList);
+       log.info(voList.toString());
        model.addAttribute("fvoList",fvoList);
        return "/chat/list";
 	}
@@ -76,40 +78,46 @@ public class ChatController {
 		return cvoList;
 	}
 	
-	
 	// 1:1 채팅방 생성
 	@PostMapping("chat/add")
-    @ResponseBody
-    public String createChatRoom(@RequestBody String friendNo,HttpSession session) throws Exception {
-        MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
-		String mno = loginMember.getNo();
-        String fno = friendNo.substring(friendNo.lastIndexOf("=")+1);
-        // 친구 번호로 이름 가져오기
-        String memberName = service.getFriendName(fno);
-        System.out.println(memberName);
-		Map<String , String> roomMap = new HashMap<String, String>(); 
-		roomMap.put("masterNo", mno);
-		roomMap.put("friendNo", fno);
-		roomMap.put("roomName", memberName);
-		
-		// 1. 채팅방 정보 insert
-		int result = service.addChatRoom(roomMap);
-		System.out.println(result);
-		// 채팅방 번호 select 하기
-	    ChatRoomVo vo = service.selectRoomNo(roomMap);
-	    String roomNo = vo.getNo();
-	    log.info(roomNo);
-	    roomMap.put("no", roomNo);
+	@ResponseBody
+	public String createChatRoom(@RequestBody String friendNo, HttpSession session) throws Exception {
+	    MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+	    String mno = loginMember.getNo();
+	    String fno = friendNo.substring(friendNo.lastIndexOf("=") + 1);
 	    
-        // 2. 채팅방 멤버 정보 insert
-	    int result2 = service.insertChatMember(roomMap);
-	    System.out.println(result2);
-       
-	    if(result == 1 &&  result2 == 2 ) {
-	    	return "success";
+	    // 친구 번호로 이름 가져오기
+	    String memberName = service.getFriendName(fno);
+	    System.out.println(memberName);
+	    
+	    Map<String, String> roomMap = new HashMap<String, String>();
+	    roomMap.put("masterNo", mno);
+	    roomMap.put("friendNo", fno);
+	    roomMap.put("roomName", memberName);
+	    
+	    // 1. 채팅방 정보 insert
+	    int result = service.addChatRoom(roomMap);
+	    System.out.println(result);
+	    
+	    if (result == 1) {
+	        // 채팅방 번호 select 하기
+	        ChatRoomVo vo = service.selectRoomNo(roomMap);
+	        String roomNo = vo.getNo();
+	        
+	        // 2. 채팅방 멤버 정보 insert
+	        roomMap.put("no", roomNo);
+	        int result2 = service.insertChatMember(roomMap);
+	        System.out.println(result2);
+	        
+	        
+	        if (result2 == 2) {
+	            return "success";
+	        }
+	        log.info(roomNo);
 	    }
+	    
 	    throw new Exception("실패..");
-    }
+	}
 	
 	// 채팅방 나가기
 	@PostMapping("chat/delete")
