@@ -12,8 +12,7 @@
 			display: flex;
 			justify-content: space-between;
 			font-size: 20px;
-			margin-top: 5px;
-			margin-bottom: 5px;
+			height: 40px;
 		}
 
 		#floor1 {
@@ -656,12 +655,17 @@
 				success: function (noticeList) {
 					let str = "";
 					for (let vo of noticeList) {
-						str += '<div id="boardTxt">'
-							+ '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
+						if(vo.importantYn == 'Y') {
+							str += '<div id="boardTxt" style="background-color: #ffecc6; font-weight: bold;">';
+						} else {
+							str += '<div id="boardTxt">';
+						}
+
+						str += '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
 							+ '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.writerName + '</div>'
 							+ '<div style="width: 200px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.enrollDate + '</div>'
 							+ '<div style="width: 50px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.hit + '</div>'
-							+ '</div> <hr>'
+							+ '</div> <hr>';
 					}
 					boxff2.innerHTML = str;
 				},

@@ -102,6 +102,8 @@
 
 				#logout-info {
 					line-height: 50px;
+					cursor: pointer;
+					text-decoration: underline;
 				}
 
 				#menu-area {
@@ -772,7 +774,6 @@
 				.delivery-member-list-img > img {
 					width: 100%;
 					height: 100%;
-					background-color: black;
 					object-fit: cover;
 				}
 
