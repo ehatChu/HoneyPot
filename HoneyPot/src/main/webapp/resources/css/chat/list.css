@@ -116,6 +116,7 @@
 	font-size:22px;
 	border:none;
 	cursor:pointer;
+    width: 300px;
 }
 
 /* 채팅 상단 영역 */
@@ -285,6 +286,15 @@
 
 .my-message > .time {
     font-size: 12px;
+}
+
+#wrapE {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 23px;
+    font-weight: 600;
+    font-family: 'Noto Sans KR';
 }
   
 /* 친구 초대 모달 */

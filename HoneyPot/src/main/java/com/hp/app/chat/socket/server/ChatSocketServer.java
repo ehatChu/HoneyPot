@@ -41,6 +41,11 @@ public class ChatSocketServer extends TextWebSocketHandler{
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		// session에서 id를 가져와서 로그에 남긴다(없어도 되는 과정)
         users.put(session.getId(), session);
+        // 여기서 방 번호를 가져옴
+        String roomNo = (String) session.getAttributes().get("roomNo");
+        if (roomNo != null) {
+            session.getAttributes().put("roomNo", roomNo);
+        }
 	}
 
 	// 커넥션 클로즈 이후 동작
@@ -144,14 +149,12 @@ public class ChatSocketServer extends TextWebSocketHandler{
 		        quitMessage.addProperty("action", "user_quit");
 		        quitMessage.addProperty("userName", userName);
 		        quitMessage.addProperty("message", quitMsg);
+		        quitMessage.addProperty("roomNo",roomNo);
 
 		        // 나간 사용자가 속한 채팅방에 있는 모든 사용자에게 메시지 전송
 		        for (WebSocketSession s : users.values()) {
-		          System.out.println("Checking session: " + s + ", roomNo: " + s.getAttributes().get("roomNo")); 
-		          if (s.getAttributes().get("roomNo").equals(roomNo)) {
 		            System.out.println("Sending message to session: " + s); 
 		            s.sendMessage(new TextMessage(quitMessage.toString()));
-		          }
 		        }
 		      }
 	       
