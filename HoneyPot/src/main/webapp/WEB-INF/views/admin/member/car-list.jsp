@@ -176,16 +176,37 @@
     }
     /* 모달관련 */
     #mine-modal-box {
-        width: 800px;
+        /* width: 800px;
         height: 400px;
         background-color: white;
         position: fixed;
         top: 200px;
         left: 600px;
         display: none;
-        border-radius: 30px 30px 0px 0px;
+        border-radius: 30px 30px 0px 0px; */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-
+    #bg {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+    #inner-modal {
+        position: absolute;
+        top : 200px;
+        left: 600px;
+        background-color: #fff;
+        width: 800px;
+        height: 400px;
+		border-radius: 30px;
+    }
     #modal-top-area {
         width: 800px;
         height: 50px;
@@ -336,7 +357,7 @@
                         <table class="main-table" border="1">
                             <thead>
                                 <tr class="main-header">
-                                    <th><input type="checkbox"></th>
+                                    <th><input type="checkbox" name="allCheck"></th>
                                     <th>사유물명</th>
                                     <th>소지인</th>
                                     <th>연락처</th>
@@ -349,7 +370,7 @@
                                 <c:forEach var="mineVo" items="${mineVoList}">
                                     <tr class="table-line">
                                         <td><input type="checkbox" name="no" value="${mineVo.no}"><input type="hidden" value="${mineVo.no}"></td>
-                                        <td>${mineVo.name}</td>
+                                        <td class="create-modal">${mineVo.name}</td>
                                         <td>${mineVo.memberName}</td>
                                         <td>${mineVo.phone}</td>
                                         <td>${mineVo.enrollDate}</td>
@@ -394,37 +415,41 @@
                 </c:if>
             </div>
 
-            <div id="mine-modal-box">
-                <div id="modal-top-area">
-					<span class="margin-left-20 text-bold text-size-18">사유물상세정보</span><span><i class="fa-solid fa-xmark fa-2xl margin-right-20 quit-btn" style="color: #000000;"></i></span>
-				</div>
-                <form action="/app/admin/property-delete" method="get">
-                    <div id="modal-main-area">
-                        
-                            <div id="modal-img-area">
-                                <!-- ajax로 json형식의 vo를 받아오면 img src 채워넣기... -->
-                                <img id="modal-mine-img">
-                            </div>
-                            <div id="blank01"></div>
-                            <div id="modal-info-area">
-                                <div id="modal-info-text-area">
-                                    <!-- 사유물 이름 -->
-                                    <input type="hidden" name="detailNo">
-                                    <input type="hidden" name="detailKinda">
-                                    <div class="text-size-18">사유물이름</div>
-                                    <div id="modal-mine-name"></div>
-                                    <div class="text-size-18">번호판</div>
-                                    <div id="modal-mine-number"></div>
-                                </div>
-                                <div id="modal-btn-area">
-                                
-                                    <!-- c:if 승인취소 추가해야함 -->
-                                    <input type="submit" class="design-btn color-brown" value="승인반려 및 쉬소">
-                                </div>
-                            </div>
+            <div id="mine-modal-box" style="display: none;">
+                <div id="bg"></div>
+                <div id="inner-modal">
+                    <div id="modal-top-area">
+                        <span class="margin-left-20 text-bold text-size-18">사유물상세정보</span><span><i class="fa-solid fa-xmark fa-2xl margin-right-20 quit-btn" style="color: #000000;"></i></span>
                     </div>
-                </form>
-            </div>
+                    <form action="/app/admin/property-delete" method="get">
+                        <div id="modal-main-area">
+                            
+                                <div id="modal-img-area">
+                                    <!-- ajax로 json형식의 vo를 받아오면 img src 채워넣기... -->
+                                    <img id="modal-mine-img">
+                                </div>
+                                <div id="blank01"></div>
+                                <div id="modal-info-area">
+                                    <div id="modal-info-text-area">
+                                        <!-- 사유물 이름 -->
+                                        <input type="hidden" name="detailNo">
+                                        <input type="hidden" name="detailKinda">
+                                        <div class="text-size-18">사유물이름</div>
+                                        <div id="modal-mine-name"></div>
+                                        <div class="text-size-18">번호판</div>
+                                        <div id="modal-mine-number"></div>
+                                    </div>
+                                    <div id="modal-btn-area">
+                                    
+                                        <!-- c:if 승인취소 추가해야함 -->
+                                        <input type="submit" class="design-btn color-brown" value="승인반려 및 쉬소">
+                                    </div>
+                                </div>
+                        </div>
+                    </form>
+                </div>
+                </div>
+                
             
         </main>
 
@@ -469,11 +494,28 @@
 
     allCheck();
 
+    
+  
+    //체크박스 누르면 모든 체크박스 클릭되
+    const allCheckBox = document.querySelector("input[name=allCheck]");
+    allCheckBox.addEventListener("click",function(){
+        //모든 체크박스 가져오기
+        const checkBox = document.querySelectorAll("input[name=no]");
+        for(let cb of checkBox){
+            cb.checked = allCheckBox.checked;
+        }
 
+        
+    })
+
+    
     // 해당 줄을 누르면 상세정보가 담긴 modal띄우기
+    const createModal = document.querySelectorAll(".create-modal");
     const tbody = document.querySelector('tbody');
     const modalBox = document.querySelector("#mine-modal-box");
-    tbody.addEventListener("click",(event)=>{
+
+    for(let cm of createModal){
+        cm.addEventListener("click",(event)=>{
         const bno = event.target.parentNode.children[0].querySelector("input[type=hidden]").value;
        
         const name = document.querySelector("#modal-mine-name");
@@ -508,6 +550,8 @@
         });
 
      });   
+    }
+   
 
     //quit-btn누르면 모달창 다운시키기
     const quitBtn = document.querySelector(".quit-btn");
@@ -515,6 +559,10 @@
         modalBox.style.display = "none";
     });
 
-  
+    // // 모달 배경 클릭 시 모달 닫기
+    // document.querySelector("#bg").addEventListener("click", function(){
+    //     document.querySelector("input[name=no]").
+    // });
+
     
 </script>
