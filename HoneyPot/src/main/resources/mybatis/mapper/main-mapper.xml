@@ -6,7 +6,7 @@
 	<select id="getCaptain" resultType="com.hp.app.admin.vo.AdminVo">
 		SELECT * FROM ADMIN
 		WHERE
-		GRADE = 'D' AND NAME = #{name}
+		GRADE = 'D' AND NAME = #{name} AND STATUS = 'Y'
 	</select>
 
 	<select id="getCaptainLoveCnt" resultType="int">
