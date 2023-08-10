@@ -104,7 +104,14 @@
 						<c:forEach items="${voList}" var="vo">
 							<tr id="${vo.no}">
 								<td id="title">${vo.title}</td>
-								<td id="writer">${vo.writerName}</td>
+								<c:choose>
+									<c:when test="${vo.boardCno == 3}">
+										<td id="writer">익명</td>
+									</c:when>
+									<c:otherwise>
+										<td id="writer">${vo.writerName}</td>
+									</c:otherwise>
+								</c:choose>								
 								<td>${vo.enrollDate}</td>
 								<td><i class="fa-solid fa-heart"></i> &nbsp; ${vo.loveCnt}</td>
 								<td><i class="fa-solid fa-eye"></i> &nbsp; ${vo.hit}</td>
