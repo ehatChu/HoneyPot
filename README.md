@@ -3,6 +3,7 @@
 </div>
 
 ## 프로젝트 소개
+![image](https://github.com/KBkim8/HoneyPot/assets/122279738/fcaa777f-2f31-4487-b115-a5fe9b100c5e)
 
 
 ## 📅 프로젝트 기간
