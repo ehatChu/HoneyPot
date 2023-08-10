@@ -224,27 +224,54 @@
 
 	//json타입받으면 문자열 받으면 int로 변환시켜주는 그인트를 가지고 lb의를 변경시켜주는
 	function dateStringToInt(dateValue){
+		console.log(dateValue);
 		var no = [];
+		const nowAmenity = document.querySelector("#now-amenity");
 		for(let i=0;i<dateValue.length;i++){
 			//12번째부터 13번째까지
-			no[i]= parseInt(dateValue[i].substring(11,13),10);
+			no[i]= parseInt(dateValue[i].reserveTime.substring(11,13),10);
+			console.log("no : "+no[i]);	
 		}
+		
 		//라벨에 값넣어주기 innerText
-		for(let lb of label){
-		//7라벨의 for값을 가져와서 
-		const forValue = lb.getAttribute("for");
+		for(let i=0;i<label.length;i++){
+			//let lb of label
+			let lb = label[i];
+			//7라벨의 for값을 가져와서 
+			const forValue = lb.getAttribute("for");
 
-		//forValue가 10보다 작다면 
-		let resultValue = forValue < 10 ? '0'+forValue : forValue;
-		lb.innerText =resultValue+':00';	
-
-			for(let i=0;i<no.length;i++){
-				if(no[i]==forValue){
+			//forValue가 10보다 작다면 
+			let resultValue = forValue < 10 ? '0'+forValue : forValue;
+			lb.innerText =resultValue+':00';	
+			//let amenityNo = dateValue[i].amenityNo;
+			// nowAmenity.innerHTML='dateValue[i].amenityNo';
+			const reserveYn = document.querySelectorAll(".reserve-yn");
+			for(let j=0;j<no.length;j++){
+				
+				if(no[j]==forValue){  //i는 5.8 j는 1,2
+					console.log(i);
+					
+					let str =null;
+					if(dateValue[j].amenityNo=='1'){
+						str = "도서관";
+					}else if(dateValue[j].amenityNo=='2'){
+						str = '수영장';
+					}else if(dateValue[j].amenityNo=='3'){
+						str = '헬스장';
+					}else if(dateValue[j].amenityNo=='4'){
+						str = '골프장';
+					}
+					//i번째의 amenityNo
+					label[i].innerHTML= str;
 					lb.classList.add('reserved-color');
+					
 				}
 			}
-
 		}
+
+
+
+
 	}
 
 
