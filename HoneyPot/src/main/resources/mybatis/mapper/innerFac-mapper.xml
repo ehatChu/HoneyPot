@@ -31,8 +31,8 @@
 	</insert>
 	
 	<!-- 개인의 예약현황을 불러오기 -->
-	<select id="getReservationTimeInfo" resultType="String">
-		SELECT RESERVE_TIME 
+	<select id="getReservationTimeInfo" resultType="com.hp.app.innerFac.vo.InnerFacRsVo">
+		SELECT RESERVE_TIME, AMENITY_NO 
 		FROM AMENITY_RESERVATION 
 		WHERE MEMBER_NO=#{memberNo} 
 		AND RESERVE_TIME LIKE '${reserveTime}%' 

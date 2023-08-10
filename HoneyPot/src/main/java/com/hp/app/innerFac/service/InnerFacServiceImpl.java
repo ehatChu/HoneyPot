@@ -67,7 +67,7 @@ public class InnerFacServiceImpl implements InnerFacService {
 	
 	//한사람의 한날짜의 예약내역 다가져오기
 	@Override
-	public List<String> getReservationTimeInfo(InnerFacRsVo rsVo) {
+	public List<InnerFacRsVo> getReservationTimeInfo(InnerFacRsVo rsVo) {
 		return dao.getReservationTimeInfo(sst,rsVo);
 	}
 

@@ -75,7 +75,7 @@ public class FacilitiesController {
 		log.info("rsVo : {}",rsVo);
 		log.info("date : {}",date);
 		//json으로 변환해야함
-		List<String> dateList = service.getReservationTimeInfo(rsVo);
+		List<InnerFacRsVo> dateList = service.getReservationTimeInfo(rsVo);
 		ObjectMapper om = new ObjectMapper();
 		String jsonDate = om.writeValueAsString(dateList);
 		
@@ -98,6 +98,144 @@ public class FacilitiesController {
 		return "innerFacilities/makeLibraryReservation";
 	}
 	
+	//예약(화면) (수영장)
+	@GetMapping("facilities/pool/reserve")
+	public String reservePool(Model model,HttpSession session) throws Exception {
+		int no=2;
+		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		String MemberNo = loginMember.getNo();
+		
+		//편의시설마다 시간이 다르므로 조회해와야함. 
+		//이때 최대인원도 같이 조회하면되잖아?
+		InnerFacVo fvo = service.getOpenCloseTime(no);
+		
+		InnerFacRsVo rsVo = new InnerFacRsVo();
+		rsVo.setMemberNo(MemberNo);
+		
+		//현재날짜정보만 String type으로 넘기기
+		//날짜를 주면 String으로 format에 맞게 변환해주는 함수 호출
+		String date = y.getStringDate(new Date());
+		
+		rsVo.setReserveTime(date);
+		rsVo.setAmenityNo("2");
+		
+		log.info("rsVo : {}",rsVo);
+		log.info("date : {}",date);
+		//json으로 변환해야함
+		List<InnerFacRsVo> dateList = service.getReservationTimeInfo(rsVo);
+		ObjectMapper om = new ObjectMapper();
+		String jsonDate = om.writeValueAsString(dateList);
+		
+		//예린함수를 거쳐서 openTime, closeTime전달...
+		int opentime = y.changeInt(fvo.getOpenTime());
+		int closetime = y.changeInt(fvo.getCloseTime());
+		
+		
+		
+		log.info("rDate : {}",jsonDate);
+		
+		
+		model.addAttribute("openTime",opentime);
+		model.addAttribute("closeTime",closetime);
+		model.addAttribute("reservedDate",jsonDate);
+		model.addAttribute("maxNum",fvo.getMaxNum());
+		model.addAttribute("date",date);
+		
+		
+		return "innerFacilities/makePoolReservation";
+	}
+	//예약(화면) (헬스장)
+	@GetMapping("facilities/gym/reserve")
+	public String reserveGym(Model model,HttpSession session) throws Exception {
+		int no=3;
+		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+		String MemberNo = loginMember.getNo();
+		
+		//편의시설마다 시간이 다르므로 조회해와야함. 
+		//이때 최대인원도 같이 조회하면되잖아?
+		InnerFacVo fvo = service.getOpenCloseTime(no);
+		
+		InnerFacRsVo rsVo = new InnerFacRsVo();
+		rsVo.setMemberNo(MemberNo);
+		
+		//현재날짜정보만 String type으로 넘기기
+		//날짜를 주면 String으로 format에 맞게 변환해주는 함수 호출
+		String date = y.getStringDate(new Date());
+		
+		rsVo.setReserveTime(date);
+		rsVo.setAmenityNo("3");
+		
+		log.info("rsVo : {}",rsVo);
+		log.info("date : {}",date);
+		//json으로 변환해야함
+		List<InnerFacRsVo> dateList = service.getReservationTimeInfo(rsVo);
+		ObjectMapper om = new ObjectMapper();
+		String jsonDate = om.writeValueAsString(dateList);
+		
+		//예린함수를 거쳐서 openTime, closeTime전달...
+		int opentime = y.changeInt(fvo.getOpenTime());
+		int closetime = y.changeInt(fvo.getCloseTime());
+		
+		
+		
+		log.info("rDate : {}",jsonDate);
+		
+		
+		model.addAttribute("openTime",opentime);
+		model.addAttribute("closeTime",closetime);
+		model.addAttribute("reservedDate",jsonDate);
+		model.addAttribute("maxNum",fvo.getMaxNum());
+		model.addAttribute("date",date);
+		
+		
+		return "innerFacilities/makeGymReservation";
+	}
+		//예약(화면) (골프장)
+		@GetMapping("facilities/golf/reserve")
+		public String reserveGolf(Model model,HttpSession session) throws Exception {
+			int no=4;
+			MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+			String MemberNo = loginMember.getNo();
+			
+			//편의시설마다 시간이 다르므로 조회해와야함. 
+			//이때 최대인원도 같이 조회하면되잖아?
+			InnerFacVo fvo = service.getOpenCloseTime(no);
+			
+			InnerFacRsVo rsVo = new InnerFacRsVo();
+			rsVo.setMemberNo(MemberNo);
+			
+			//현재날짜정보만 String type으로 넘기기
+			//날짜를 주면 String으로 format에 맞게 변환해주는 함수 호출
+			String date = y.getStringDate(new Date());
+				
+			rsVo.setReserveTime(date);
+			rsVo.setAmenityNo("4");
+			
+			log.info("rsVo : {}",rsVo);
+			log.info("date : {}",date);
+			//json으로 변환해야함
+			List<InnerFacRsVo> dateList = service.getReservationTimeInfo(rsVo);
+			ObjectMapper om = new ObjectMapper();
+			String jsonDate = om.writeValueAsString(dateList);
+			
+			//예린함수를 거쳐서 openTime, closeTime전달...
+			int opentime = y.changeInt(fvo.getOpenTime());
+			int closetime = y.changeInt(fvo.getCloseTime());
+			
+			
+			
+			log.info("rDate : {}",jsonDate);
+			
+			
+			model.addAttribute("openTime",opentime);
+			model.addAttribute("closeTime",closetime);
+			model.addAttribute("reservedDate",jsonDate);
+			model.addAttribute("maxNum",fvo.getMaxNum());
+			model.addAttribute("date",date);
+			
+			
+			return "innerFacilities/makeGolfReservation";
+	}
 	//도서관 예약시 DB에 insert하기
 	@RequestMapping("facilities/reserve")
 	public String reserve(String amenityNo, String date, String startTime,HttpSession session,Model model) {
@@ -111,6 +249,7 @@ public class FacilitiesController {
 		
 		//RsVo에 값들 집어넣기
 		InnerFacRsVo rsVo =  new InnerFacRsVo();
+		
 		rsVo.setAmenityNo(amenityNo);
 		rsVo.setMemberNo(loginMember.getNo());
 		rsVo.setReserveTime(combinedDate);
@@ -125,10 +264,17 @@ public class FacilitiesController {
 		//예약이 완료되었다는 표시를 해줘야하기 때문에 Model에 값을 넣어 전달 모델에 해당 시작시간을 넣자
 		model.addAttribute("selectedTime",startTime);
 		
-		
-		
-		return "redirect:/facilities/library/reserve?no=1";
-		
+		String returnStr = "";
+		log.info("amenityNo: {}",amenityNo);
+		switch(amenityNo) {
+		case "1" : returnStr = "redirect:/facilities/library/reserve"; break;
+		case "2" : returnStr =  "redirect:/facilities/pool/reserve"; break;
+		case "3" : returnStr =  "redirect:/facilities/gym/reserve"; break;
+		case "4" : returnStr =  "redirect:/facilities/golf/reserve"; break;
+		default : returnStr = "111111111111"; break;
+		}
+	
+		return returnStr;
 	}
 	
 	//ajax로 날짜가 바뀔 때마다 요청받았을 때 
@@ -153,7 +299,7 @@ public class FacilitiesController {
 		rsVo.setMemberNo(memberNo);
 		
 		//서비스 호출하면서 rsVo넘기고 return은 list로 받아오기
-		List<String> dateList =  service.getReservationTimeInfo(rsVo);
+		List<InnerFacRsVo> dateList =  service.getReservationTimeInfo(rsVo);
 		
 		//jackson으로 list를 json형식으로 바꿔서 내보내기
 		ObjectMapper om = new ObjectMapper();
@@ -307,10 +453,12 @@ public class FacilitiesController {
 			case 1 : return "innerFacilities/showLibraryInfo";
 			case 2 : return "innerFacilities/showPoolInfo";
 			case 3 : return "innerFacilities/showGymInfo";
+			case 4 : return "innerFacilities/showGolfInfo";
 			default : return "error-Page";
 		}
 	}
 	
+
 	//이미지 등록 (모든시설이 공통적으로 사용)
 	@PostMapping("/admin/innerFac/regiImg")
 	public String InnerFacRegiImg(@RequestParam String facNo,List<MultipartFile> fList,HttpServletRequest req ) throws Exception {

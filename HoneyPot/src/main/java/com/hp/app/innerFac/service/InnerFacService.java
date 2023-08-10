@@ -12,7 +12,7 @@ import com.hp.app.page.vo.PageVo;
 public interface InnerFacService {
 	InnerFacVo getOpenCloseTime(int no);
 	int makeReservation(InnerFacRsVo rsVo);
-	List<String> getReservationTimeInfo(InnerFacRsVo rsVo);
+	List<InnerFacRsVo> getReservationTimeInfo(InnerFacRsVo rsVo);
 	int getReservedPeopleCntByTime(Map<String, String> map);
 //	int updateCancelStatus(InnerFacRsVo rsVo);
 	//예약취소-예약페이지에서

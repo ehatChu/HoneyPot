@@ -17,7 +17,7 @@ public interface InnerFacDao {
 	List<InnerFacVo> getAllInnerFacInfo(SqlSessionTemplate sst);
 	InnerFacVo getOpenCloseTime(SqlSessionTemplate sst,int no);
 	int makeReservation(SqlSessionTemplate sst, InnerFacRsVo rsVo);
-	List<String> getReservationTimeInfo(SqlSessionTemplate sst, InnerFacRsVo rsVo);
+	List<InnerFacRsVo> getReservationTimeInfo(SqlSessionTemplate sst, InnerFacRsVo rsVo);
 	int getReservedPeopleCntByTime(SqlSessionTemplate sst, Map<String, String> map);
 	int getMaxPeopleCnt(SqlSessionTemplate sst ,String amenityNo);
 //	int updateCancelStatus(SqlSessionTemplate sst, InnerFacRsVo rsVo);

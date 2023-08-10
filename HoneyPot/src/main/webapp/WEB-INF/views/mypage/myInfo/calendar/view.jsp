@@ -399,7 +399,8 @@
                                     title : data.name,
                                     start : data.startDate,
                                     end : data.endDate,
-                                    color : '#B70404'
+                                    color : '#B70404',
+                                    
                                 });
                             }else if(data.writerName =="동대표"){
                                 events.push({
@@ -413,7 +414,9 @@
                                     title : data.name,
                                     start : data.startDate,
                                     end : data.endDate,
-                                    color : '#FFCE31'
+                                    color : '#FFCE31',
+                                    textColor : 'black'
+
                                 });
                             }
                         })

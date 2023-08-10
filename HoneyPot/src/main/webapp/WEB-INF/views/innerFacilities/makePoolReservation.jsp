@@ -118,7 +118,7 @@
 	<main>
 		
 		<form>
-			<input type="hidden" value="1" name="amenityNo">
+			<input type="hidden" value="2" name="amenityNo">
 			<div id="temp-main-wrapper">
 			
 				<div id="reservation-area">
@@ -163,10 +163,14 @@
 								
 								<!-- small-box이용하면 label을 박스형태로 바꿀 수 있음. -->
 							
-							
-								<input type="radio" name="startTime" value="${i}" id="${i}"><label for="${i}" class="small-box orange-color"></label>							
-								<span class="reserve-yn"></span>
+	
+								<input type="radio" name="startTime" value="${i}" id="${i}"><label for="${i}" class="small-box orange-color"></label>
+										
 							</c:forEach>
+							<script>
+								
+
+							</script>
 							
 						</div>
 						<div id="count-people">
@@ -198,10 +202,10 @@
 <script>
 	basicSetting(); // 기본 셋팅
 	headerName('편의시설'); // 현재 페이지 이름
-	firstNav(['도서관', '수영장', '헬스장','골프장'], '도서관'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	firstNav(['도서관', '수영장', '헬스장','골프장'], '수영장'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 	secondNav(['시설소개', '예약하기'], '예약하기'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 	firstNavLink(['/app/innerFac/info?no=1','/app/innerFac/info?no=2','/app/innerFac/info?no=3','/app/innerFac/info?no=4']);
-	secondNavLink(['/app/innerFac/info?no=1','/app/facilities/library/reserve'],);
+	secondNavLink(['/app/innerFac/info?no=2','/app/facilities/pool/reserve'],);
 
 	//날짜를 받는 input태그의 값이 change될 때 ajax를 실행 하도록 
 	let date = document.querySelector("#date-choice");
@@ -220,13 +224,10 @@
 
 	//json타입받으면 문자열 받으면 int로 변환시켜주는 그인트를 가지고 lb의를 변경시켜주는
 	function dateStringToInt(dateValue){
-		console.log(dateValue);
 		var no = [];
-		const nowAmenity = document.querySelector("#now-amenity");
 		for(let i=0;i<dateValue.length;i++){
 			//12번째부터 13번째까지
-			no[i]= parseInt(dateValue[i].reserveTime.substring(11,13),10);
-			
+			no[i]= parseInt(dateValue[i].substring(11,13),10);
 		}
 		//라벨에 값넣어주기 innerText
 		for(let lb of label){
@@ -236,22 +237,14 @@
 		//forValue가 10보다 작다면 
 		let resultValue = forValue < 10 ? '0'+forValue : forValue;
 		lb.innerText =resultValue+':00';	
-		//let amenityNo = dateValue[i].amenityNo;
-		// nowAmenity.innerHTML='dateValue[i].amenityNo';
-		const reserveYn = document.querySelectorAll(".reserve-yn");
+
 			for(let i=0;i<no.length;i++){
-				
 				if(no[i]==forValue){
-					console.log(reserveYn[i]);
-					reserveYn[i].innerHTML ="1"
 					lb.classList.add('reserved-color');
 				}
 			}
+
 		}
-
-
-
-
 	}
 
 
@@ -296,7 +289,7 @@
 				data : {
 					date : date,
 					time : time,
-					amenityNo : 1, 
+					amenityNo : 2, 
 				},
 				dataType : "json",
 				success : function(result){
