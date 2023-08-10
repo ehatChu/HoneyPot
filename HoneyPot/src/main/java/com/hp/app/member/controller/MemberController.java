@@ -32,8 +32,12 @@ public class MemberController {
 	// 겟 매핑
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		session.invalidate();
-		return "redirect:/member/mlogin";
+		if (loginMember != null) {
+			return "redirect:/member/mlogin";
+		}
+		return "redirect:/member/alogin";
 	}
 
 	@GetMapping("mlogin")

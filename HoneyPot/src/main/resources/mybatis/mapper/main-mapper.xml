@@ -36,6 +36,10 @@
 		AND CAPTAIN_NO =
 		#{list[2]}
 	</update>
+	
+	<insert id="voteCaptainLoveInsert" parameterType="java.util.List">
+		INSERT INTO CAPTAIN_LOVE VALUES(#{list[1]}, #{list[2]}, #{list[0]})
+	</insert>
 
 	<select id="getNoticeCnt" resultType="int">
 		SELECT COUNT(*)

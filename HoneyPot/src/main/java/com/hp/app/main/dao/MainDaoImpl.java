@@ -116,4 +116,10 @@ public class MainDaoImpl implements MainDao {
 	public int getTotalFee(SqlSessionTemplate sst) {
 		return sst.selectOne("main.getTotalFee");
 	}
+
+	@Override
+	public int voteCaptainLoveInsert(SqlSessionTemplate sst, String[] arr) {
+		List<String> list = Arrays.asList(arr);
+		return sst.insert("main.voteCaptainLoveInsert", list);
+	}
 }

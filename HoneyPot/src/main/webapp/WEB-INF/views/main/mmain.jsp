@@ -713,6 +713,9 @@
 					let hateCnt = arr[1];
 					let myLove = arr[2];
 					let total = parseInt(loveCnt) + parseInt(hateCnt);
+					if(total == 0) {
+						total = 1;
+					}
 
 					if (myLove == 'L') {
 						loveBox.classList.add("yellow");
@@ -721,11 +724,12 @@
 						hateBox.classList.add("yellow");
 						loveBox.classList.remove("yellow");
 					}
+					
 					love.innerHTML = (loveCnt / total * 100).toFixed(0) + "%";
 					hate.innerHTML = (hateCnt / total * 100).toFixed(0) + "%";
 				},
 				error: function () {
-					alert("동대표 조회 실패");
+					alert("동대표 선호도 조회 실패");
 				}
 			});
 		}
