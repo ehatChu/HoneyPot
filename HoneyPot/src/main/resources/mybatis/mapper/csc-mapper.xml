@@ -146,7 +146,7 @@
 		     , HO_NUM
 		     , PROFILE
 		FROM MEMBER
-		WHERE STATUS = 'Y'
+		WHERE STATUS IN ('Y', 'S')
 		<if test="searchType == 'NAME' and searchValue != null and searchValue != ''">
 		AND NAME LIKE '%${searchValue}%'
 		</if>
@@ -162,7 +162,7 @@
 			, NAME
 			, PROFILE
 		FROM MEMBER
-		WHERE STATUS = 'Y'
+		WHERE STATUS IN ('Y', 'S')
 		AND NO = #{mno}
 	</select>
 	
@@ -232,7 +232,7 @@
 		FROM QNA Q
 		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
 		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
-		<where>
+		WHERE M.STATUS IN ('Y','S')
 			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
 				AND Q.TITLE LIKE '%${searchValue}%'
 			</if>
@@ -248,7 +248,6 @@
 			<if test="qnaCno != null and qnaCno != ''">
 				AND Q.QNA_CNO = #{qnaCno}
 			</if>
-		</where>
 	</select>
 	
 	<!-- 문의 List 검색 조회 -->
@@ -258,7 +257,7 @@
 		FROM QNA Q
 		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
 		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
-		<where>
+		WHERE M.STATUS IN ('Y','S')
 			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
 				AND Q.TITLE LIKE '%${searchValue}%'
 			</if>
@@ -271,7 +270,6 @@
 			<if test="qnaCno != null and qnaCno != ''">
 				AND Q.QNA_CNO = #{qnaCno}
 			</if>
-		</where>
 	</select>
 	
 	<!-- 문의 List 검색 조회(페이징) -->
@@ -287,7 +285,7 @@
 		FROM QNA Q
 		JOIN QNA_CATEGORY C ON Q.QNA_CNO = C.NO
 		JOIN MEMBER M ON Q.MEMBER_NO = M.NO
-		<where>
+		WHERE M.STATUS IN ('Y','S')
 			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
 				AND Q.TITLE LIKE '%${searchValue}%'
 			</if>
@@ -303,8 +301,7 @@
 			<if test="qnaCno != null and qnaCno != ''">
 				AND Q.QNA_CNO = #{qnaCno}
 			</if>
-		</where>
-		ORDER BY Q.ENROLL_DATE DESC
+		ORDER BY Q.ANSWER_YN ASC
 	</select>
 	
 	<!-- 문의내역 상세조회 -->
@@ -346,7 +343,7 @@
 		FROM REPORT R
 		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
 		JOIN MEMBER M ON R.REPORTER = M.NO
-		<where>
+		WHERE M.STATUS IN ('Y','S')
 			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
 				AND R.TITLE LIKE '%${searchValue}%'
 			</if>
@@ -362,7 +359,6 @@
 			<if test="reportCno != null and reportCno != ''">
 				AND R.REPORT_CNO = #{reportCno}
 			</if>
-		</where>
 	</select>
 	
 	<!--신고 List 검색 조회 -->
@@ -372,7 +368,7 @@
 		FROM REPORT R
 		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
 		JOIN MEMBER M ON R.REPORTER = M.NO
-		<where>
+		WHERE M.STATUS IN ('Y','S')
 			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
 				AND R.TITLE LIKE '%${searchValue}%'
 			</if>
@@ -385,7 +381,6 @@
 			<if test="reportCno != null and reportCno != ''">
 				AND R.REPORT_CNO = #{reportCno}
 			</if>
-		</where>
 	</select>
 	
 	<!-- 신고 List 검색 조회(페이징) -->
@@ -401,7 +396,7 @@
 		FROM REPORT R
 		JOIN REPORT_CATEGORY C ON R.REPORT_CNO = C.NO
 		JOIN MEMBER M ON R.REPORTER = M.NO
-		<where>
+		WHERE M.STATUS IN ('Y','S')
 			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
 				AND R.TITLE LIKE '%${searchValue}%'
 			</if>
@@ -417,8 +412,7 @@
 			<if test="reportCno != null and reportCno != ''">
 				AND R.REPORT_CNO = #{reportCno}
 			</if>
-		</where>
-		ORDER BY R.ENROLL_DATE DESC
+		ORDER BY R.ANSWER_YN ASC
 	</select>
 	
 	<!-- 신고내역 상세조회 -->

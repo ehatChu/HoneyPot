@@ -34,14 +34,13 @@
 		SELECT COUNT(P.NO)
 		FROM POINT P
 		JOIN MEMBER M ON P.MEMBER_NO = M.NO
-		<where>
+		WHERE M.STATUS IN ('Y', 'S')
 			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
 				AND M.NAME LIKE '%${searchValue}%'			
 			</if>
 			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
 				AND P.CONTENT LIKE '%${searchValue}%'			
 			</if>
-		</where>
 	</select>
 	
 	<!-- 상벌점 List 조회 -->
@@ -59,14 +58,13 @@
 		FROM POINT P
 		JOIN MEMBER M ON P.MEMBER_NO = M.NO
 		JOIN ADMIN A ON P.ADMIN_NO = A.NO
-		<where>
+		WHERE M.STATUS IN ('Y', 'S')
 			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
 				AND M.NAME LIKE '%${searchValue}%'			
 			</if>
 			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
 				AND P.CONTENT LIKE '%${searchValue}%'			
 			</if>
-		</where>
 		ORDER BY POINT_DATE DESC
 	</select>
 	

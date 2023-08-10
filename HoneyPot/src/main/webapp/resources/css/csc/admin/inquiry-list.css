@@ -227,6 +227,10 @@ table tr:not(:first-of-type){
     cursor: pointer;
 }
 
+.inquiry-answerY > td{
+    background-color: rgb(211, 211, 211);
+}
+
 .page-area {
     margin-top: 20px;
     width: 1560px;

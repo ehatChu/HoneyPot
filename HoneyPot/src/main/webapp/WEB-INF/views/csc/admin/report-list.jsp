@@ -92,20 +92,28 @@
                     </tr>
 
 					<c:forEach items="${rList}" var="vo">
-						<tr onclick="detailReport(this);">
-							<td hidden>${vo.no}</td>
-	                        <td>${vo.reportCname}</td>
-	                        <td>${vo.title}</td>
-	                        <td>${vo.reporter}</td>
-	                        <td>${vo.enrollDate}</td>
-	                        <c:if test="${vo.answerYn eq 'Y'}">
-	                        	<td>${vo.answerDate}</td>
-	                        </c:if>
-	                        <c:if test="${vo.answerYn eq 'N'}">
-	                        	<td>-</td>
-	                        </c:if>
-	
-	                    </tr>
+                        <c:if test="${vo.answerYn eq 'Y'}">
+                            <tr class="report-answerY" onclick="detailReport(this);">
+                                <td hidden>${vo.no}</td>
+                                <td>${vo.reportCname}</td>
+                                <td>${vo.title}</td>
+                                <td>${vo.reporter}</td>
+                                <td>${vo.enrollDate}</td>
+                                <td>${vo.answerDate}</td>
+                            </tr>
+
+                        </c:if>
+                        <c:if test="${vo.answerYn eq 'N'}">
+                            <tr onclick="detailReport(this);">
+                                <td hidden>${vo.no}</td>
+                                <td>${vo.reportCname}</td>
+                                <td>${vo.title}</td>
+                                <td>${vo.reporter}</td>
+                                <td>${vo.enrollDate}</td>
+                                <td>-</td>
+                            </tr>
+
+                        </c:if>
 					</c:forEach>
                     
                 </table>
