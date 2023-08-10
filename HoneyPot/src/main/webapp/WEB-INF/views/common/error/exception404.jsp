@@ -6,9 +6,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style>
+	img{
+		width: 1920px;
+		height: 937px;
+	}	
+</style>
 <body>
 
-	<h1>404 에러 페이지 꾸</h1>
+	<img alt="404에러" src="/app/resources/img/errorPage/404.png">
+	
 
 </body>
 </html>

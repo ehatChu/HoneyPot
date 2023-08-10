@@ -95,11 +95,12 @@
 		font-size: 15px;
 	}
 
+	
+
 	/* 상세내역 */
 	#detail-area {
 		display: grid;
 		grid-template-rows: 100px 500px 80px;
-		margin-top: 40px;
 		margin-right: 10px;
 	}
 

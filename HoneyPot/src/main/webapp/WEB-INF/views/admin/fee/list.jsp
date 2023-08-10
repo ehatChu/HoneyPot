@@ -27,6 +27,7 @@
                             <form id="adminFeeForm"action="/app/fee/admin" method="GET">
                                 <div class="searchDiv">
                                     <select name="searchType" id="searchType">
+                                        <option value="">카테고리</option>
                                         <option value="content">내용</option>
                                         <option value="paymentDate">월 별</option>
                                     </select>
@@ -536,7 +537,7 @@
                     $("#paymentDate").show();
                 }
             }
-
+            
             // 검색타입 바뀔 때 value 영역 변경
             $("#searchType").on("change", function () {
                 inputVisibility();
