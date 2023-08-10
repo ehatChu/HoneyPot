@@ -41,7 +41,7 @@ public class InnerFacDaoImpl implements InnerFacDao {
 	
 	//한사람의 해당날짜의 예약현황가져오기
 	@Override
-	public List<String> getReservationTimeInfo(SqlSessionTemplate sst, InnerFacRsVo rsVo) {
+	public List<InnerFacRsVo> getReservationTimeInfo(SqlSessionTemplate sst, InnerFacRsVo rsVo) {
 		return sst.selectList("innerFac.getReservationTimeInfo",rsVo);
 	}
 
