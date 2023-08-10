@@ -68,8 +68,7 @@
 		JOIN ADMIN A ON
 		N.WRITER_NO = A.NO
 		WHERE N.STATUS = 'Y'
-		ORDER BY
-		N.ENROLL_DATE DESC
+		ORDER BY IMPORTANT_YN DESC, ENROLL_DATE DESC
 	</select>
 
 	<select id="getPopularCnt" resultType="int">

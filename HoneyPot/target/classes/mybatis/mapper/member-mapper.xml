@@ -71,7 +71,7 @@
 	</select>
 
 	<update id="quit">
-		UPDATE MEMBER SET STATUS = 'N'
+		UPDATE MEMBER SET STATUS = 'D'
 		WHERE NO = #{no}
 	</update>
 

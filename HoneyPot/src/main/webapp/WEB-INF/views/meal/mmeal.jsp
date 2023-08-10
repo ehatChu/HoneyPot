@@ -209,6 +209,18 @@
 				color: white;
 				cursor: default;
 			}
+
+			*::-webkit-scrollbar {
+				width: 12px;
+			}
+
+			*::-webkit-scrollbar-thumb {
+				background: #4A321F;
+			}
+
+			*::-webkit-scrollbar-track {
+				background: #4a321f23;
+			}
 		</style>
 	</head>
 
