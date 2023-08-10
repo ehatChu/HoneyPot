@@ -144,7 +144,52 @@ public class FacilitiesController {
 		
 		return "innerFacilities/makePoolReservation";
 	}
-	
+	//예약(화면) (헬스장)
+		@GetMapping("facilities/gym/reserve")
+		public String reserveGym(Model model,HttpSession session) throws Exception {
+			int no=3;
+			MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
+			String MemberNo = loginMember.getNo();
+			
+			//편의시설마다 시간이 다르므로 조회해와야함. 
+			//이때 최대인원도 같이 조회하면되잖아?
+			InnerFacVo fvo = service.getOpenCloseTime(no);
+			
+			InnerFacRsVo rsVo = new InnerFacRsVo();
+			rsVo.setMemberNo(MemberNo);
+			
+			//현재날짜정보만 String type으로 넘기기
+			//날짜를 주면 String으로 format에 맞게 변환해주는 함수 호출
+			String date = y.getStringDate(new Date());
+			
+		rsVo.setReserveTime(date);
+		rsVo.setAmenityNo("3");
+		
+		log.info("rsVo : {}",rsVo);
+		log.info("date : {}",date);
+		//json으로 변환해야함
+		List<String> dateList = service.getReservationTimeInfo(rsVo);
+		ObjectMapper om = new ObjectMapper();
+		String jsonDate = om.writeValueAsString(dateList);
+		
+		//예린함수를 거쳐서 openTime, closeTime전달...
+		int opentime = y.changeInt(fvo.getOpenTime());
+		int closetime = y.changeInt(fvo.getCloseTime());
+		
+		
+		
+		log.info("rDate : {}",jsonDate);
+		
+		
+		model.addAttribute("openTime",opentime);
+		model.addAttribute("closeTime",closetime);
+		model.addAttribute("reservedDate",jsonDate);
+		model.addAttribute("maxNum",fvo.getMaxNum());
+		model.addAttribute("date",date);
+		
+		
+		return "innerFacilities/makeGymReservation";
+	}
 	//도서관 예약시 DB에 insert하기
 	@RequestMapping("facilities/reserve")
 	public String reserve(String amenityNo, String date, String startTime,HttpSession session,Model model) {
