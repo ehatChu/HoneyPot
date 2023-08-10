@@ -10,14 +10,13 @@
 		SELECT COUNT(R.NO)
 		FROM RESTRICTION R
 		JOIN MEMBER M ON M.NO = R.MEMBER_NO
-		<where>
+		WHERE M.STATUS IN ('Y','S')
 			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
 				AND M.NAME LIKE '%${searchValue}%'			
 			</if>
 			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
 				AND R.CONTENT LIKE '%${searchValue}%'			
 			</if>
-		</where> 
 	</select>
 	
 	<!-- 제재내역 List 조회 -->
@@ -33,14 +32,13 @@
 		FROM RESTRICTION R
 		JOIN MEMBER M ON M.NO = R.MEMBER_NO
 		JOIN ADMIN A ON A.NO = R.ADMIN_NO
-		<where>
+		WHERE M.STATUS IN ('Y','S')
 			<if test="searchType == 'NAME' and searchValue != '' and searchValue != null">
 				AND M.NAME LIKE '%${searchValue}%'			
 			</if>
 			<if test="searchType == 'TITLE' and searchValue != '' and searchValue != null">
 				AND R.CONTENT LIKE '%${searchValue}%'			
 			</if>
-		</where>
 		ORDER BY R.ENROLL_DATE DESC
 	</select>
 	

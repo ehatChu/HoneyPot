@@ -549,3 +549,7 @@ table tr:not(:first-of-type){
     margin-left: 20px;
 }
 
+.report-answerY > td{
+    background-color: rgb(211, 211, 211);
+}
+

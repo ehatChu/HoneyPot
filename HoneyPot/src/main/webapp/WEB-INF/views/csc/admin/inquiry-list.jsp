@@ -92,20 +92,26 @@
                     </tr>
 
 					<c:forEach items="${qList}" var="vo">
-						<tr onclick="detailQna(this);">
-							<td hidden>${vo.no}</td>
-	                        <td>${vo.qnaCname}</td>
-	                        <td>${vo.title}</td>
-	                        <td>${vo.memberName}</td>
-	                        <td>${vo.enrollDate}</td>
-	                        <c:if test="${vo.answerYn eq 'Y'}">
-	                        	<td>${vo.answerDate}</td>
-	                        </c:if>
-	                        <c:if test="${vo.answerYn eq 'N'}">
-	                        	<td>-</td>
-	                        </c:if>
-	
-	                    </tr>
+                        <c:if test="${vo.answerYn eq 'Y'}">
+                            <tr class="inquiry-answerY" onclick="detailQna(this);">
+                                <td hidden>${vo.no}</td>
+                                <td>${vo.qnaCname}</td>
+                                <td>${vo.title}</td>
+                                <td>${vo.memberName}</td>
+                                <td>${vo.enrollDate}</td>
+                                <td>${vo.answerDate}</td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${vo.answerYn eq 'N'}">
+                            <tr onclick="detailQna(this);">
+                                <td hidden>${vo.no}</td>
+                                <td>${vo.qnaCname}</td>
+                                <td>${vo.title}</td>
+                                <td>${vo.memberName}</td>
+                                <td>${vo.enrollDate}</td>
+                                <td>-</td>
+                            </tr>
+                        </c:if>
 					</c:forEach>
                     
                 </table>

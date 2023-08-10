@@ -55,8 +55,6 @@ public class DeliverySocket extends TextWebSocketHandler{
 	    JsonNode jsonNode = objectMapper.readTree(payload);
 	    
 		String sendType = jsonNode.get("sendType").asText();
-		System.out.println(sendType);
-		System.out.println(loginAdmin.getNo());
 		
 		List<DeliveryVo> receiveVo = new ArrayList<DeliveryVo>(); 
 		for(int i = 0; i < jsonNode.get("noArr").size(); i++) {

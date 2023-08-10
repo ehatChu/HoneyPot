@@ -503,7 +503,14 @@
     width: 60px;
     background-color: gray;
     border-radius: 70%;
+    overflow: hidden;
 
+}
+
+.point-model-member-profile > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .point-model-btn-area{
@@ -673,7 +680,13 @@
     width: 60px;
     background-color: gray;
     border-radius: 70%;
+    overflow: hidden;
+}
 
+.stop-model-member-profile > img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .stop-model-btn-area{

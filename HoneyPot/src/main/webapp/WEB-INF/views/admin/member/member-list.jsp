@@ -425,7 +425,7 @@
                 profileArea.innerHTML = "";
 
                 nameArea.innerHTML = data.name;
-                profileArea.src = data.profile;
+                profileArea.src = "/app/resources/member/profile/" + data.profile;
 
                 clickNo = mno;
 
@@ -500,7 +500,7 @@
                 profileArea.innerHTML = "";
 
                 nameArea.innerHTML = data.name;
-                profileArea.src = data.profile;
+                profileArea.src = "/app/resources/member/profile/" + data.profile;
 
                 clickNo = mno;
 
