@@ -207,7 +207,7 @@
     basicSetting(); // 기본 셋팅
     headerName('회원관리'); // 현재 페이지 이름
     firstNav(['회원조회', '관리자조회', '제재내역', '상벌점내역', '사유물내역'], '회원조회'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    firstNavLink(['/app/admin/member/member-list', '/app/admin/member/admin-list', '/app/admin/member/sanction-list', '/app/admin/member/point-list', '/app/car-list',]);
+    firstNavLink(['/app/admin/member/member-list', '/app/admin/member/admin-list', '/app/admin/member/sanction-list', '/app/admin/member/point-list', '/app/admin/property-list/car?p=1',]);
     let clickNo = null;
 
     // 회원 상태 카테고리 동적 css
@@ -347,6 +347,7 @@
                             <div class="member-detail-btn-area">`;
                                 if("${loginAdmin.grade}" == 'M' || "${loginAdmin.grade}" == 'S'){
                                     str += `<button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>
+                                    <button class="member-detail-stop-btn" onclick="releaseStopModel();">정지해제</button>
                                     <button class="member-detail-delete-btn" onclick="deleteMember();">삭제</button>`;
                                 }else{
                                     str += `<button class="member-detail-point-btn" onclick="showPointModel();">상벌점</button>`;
@@ -615,6 +616,42 @@
             }
         });
     }
+
+    // 정지 해제
+    function releaseStopModel() {
+        Swal.fire({
+            title: '정지를 해제하시겠습니까?',
+            icon: 'question',
+            
+            showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+            confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+            cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+            
+            // reverseButtons: true, // 버튼 순서 거꾸로
+            
+            }).then(result => {
+            // 만약 Promise리턴을 받으면,
+            if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+                const mno = clickNo;
+                $.ajax({
+                url : "/app/admin/member/member-list/regular",
+                method : "POST",
+                data : {
+                    "mno" : mno,
+                },
+                success : function() {
+                    alert("회원 정지 해제 성공");
+                    location.href="/app/admin/member/member-list";
+                },
+                error : function() {
+                        alert("실패");
+                    },
+                })
+            }
+        });
+    }   
 
    
 

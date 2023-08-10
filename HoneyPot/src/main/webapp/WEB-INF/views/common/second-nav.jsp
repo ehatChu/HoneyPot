@@ -23,6 +23,7 @@
 .menu-box {
 	width: 150px;
 	text-align: center;
+	cursor: pointer;
 }
 
 #main-area {
