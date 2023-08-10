@@ -212,6 +212,8 @@
                 categoryMenu[2].className = "menu-box text-bold"
             }else if(result == 3){
                 categoryMenu[3].className = "menu-box text-bold"
+            }else if(result == 4){
+                categoryMenu[4].className = "menu-box text-bold"
             }
         }else{
             categoryMenu[0].className = "menu-box text-bold"

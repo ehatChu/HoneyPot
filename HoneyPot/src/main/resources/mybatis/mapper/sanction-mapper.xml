@@ -41,6 +41,7 @@
 				AND R.CONTENT LIKE '%${searchValue}%'			
 			</if>
 		</where>
+		ORDER BY R.ENROLL_DATE DESC
 	</select>
 	
 	<!-- 제재내역 상세조회 -->

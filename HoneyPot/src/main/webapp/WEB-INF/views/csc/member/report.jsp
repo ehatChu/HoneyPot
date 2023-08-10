@@ -86,10 +86,9 @@
                                     <option value="NAME">이름</option>
                                     <option value="PHONE">연락처</option>
                                 </select>
-                                <input type="text" name="searchValue" class="model-serach-input">
+                                <input type="text" name="searchValue" class="model-serach-input" id="model-member-serach-input">
                             </div>
                             
-                            <button type="button" class="model-search-btn" onclick="searchMemberList();">검색</button>
                         </div>
                         <div class="model-content-area" id="member-list-area">
                             	<div class="model-content-plist">
@@ -205,7 +204,7 @@
                                     +    `<img src="/app/resources/member/profile/\${member.profile}" alt="프로필사진">`
                                     +`</div>`
 	                                +`<div class="plist-name">\${member.name}</div>`
-	                                +`<div class="plist-address">\${member.dongNum}동 \${member.hoNum}</div>`
+	                                +`<div class="plist-address">(\${member.dongNum}동 \${member.hoNum}호)</div>`
 	                            +`</div>`;
 			}
 
@@ -219,6 +218,9 @@
 
 
     }
+
+    const searchInput = document.querySelector("#model-member-serach-input");
+    searchInput.addEventListener("keyup", searchMemberList)
 
     // 검색한 회원 찾기
     function searchMemberList() {
@@ -248,7 +250,7 @@
                                         +    `<img src="/app/resources/member/profile/\${member.profile}" alt="\${member.profile}">`
                                         +`</div>`
                                         +`<div class="plist-name">\${member.name}</div>`
-                                        +`<div class="plist-address">\${member.dongNum}동 \${member.hoNum}</div>`
+                                        +`<div class="plist-address">(\${member.dongNum}동 \${member.hoNum}호)</div>`
                                     +`</div>`;
                 }
 

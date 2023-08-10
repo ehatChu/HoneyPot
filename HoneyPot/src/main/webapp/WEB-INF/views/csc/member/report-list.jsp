@@ -28,10 +28,10 @@
                             <div class="report-list-detail" onclick="detailReport(this);">
                                 <div hidden>${vo.no}</div>
                                 <c:if test="${not empty vo.answerDate}">
-                                    <div class="report-respond-true">답변</div>    
+                                    <div class="report-respond-true">처리</div>    
                                 </c:if>
                                 <c:if test="${empty vo.answerDate}">
-                                    <div class="report-respond-false">미답변</div>    
+                                    <div class="report-respond-false">미처리</div>    
                                 </c:if>
                                 <div><span class="text-yellow">[${vo.reportCname}]</span> ${vo.title}</div>
                                 <div>${vo.enrollDate}</div>

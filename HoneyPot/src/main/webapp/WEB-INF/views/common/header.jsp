@@ -270,7 +270,8 @@
 					top: 13px;
 					left: -265px;
 					width: 280px;
-					height: 150px;
+					max-height: 150px;
+					padding: 5px;
 					background: rgba(255, 255, 255, 0.70);
 					border-radius: 6px;
 					box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.25);
@@ -288,6 +289,17 @@
 
 				.alarm-area::-webkit-scrollbar {
  					 display: none;
+				}
+
+				.alarm-list-none{
+					width: 90px;
+					height: 60px;
+					color: rgb(88, 88, 88);
+					display: flex;
+					justify-content: space-evenly;
+					align-items: center;
+					font-size: 12px;
+					font-weight: 800
 				}
 
 				.alarm-list{
@@ -977,7 +989,7 @@
 									<i class="fa-regular fa-bell fa-xl" style="color: #ffffff;" id="alarm-btn">
 										<div id="alarm-count-area" style="font-size: 7px; font-weight: 800;"></div>
 										<div class="alarm-area ahidden" id="alarm-area">
-	
+											
 										</div>
 									</i>
 								</div>
@@ -992,6 +1004,7 @@
 							</c:if>
 
 
+							<!-- 채팅 이동 아이콘 -->
 							<c:if test="${not empty loginMember}">
 								<div class="header-chatting-icon">
 									<i class="fa-regular fa-comments fa-xl" style="color: #ffffff;">
@@ -1070,7 +1083,6 @@
                                     <div class="delivery-model-title-text">회원목록</div>
                                     <div class="delivery-model-search-box">
                                         <input type="text" id="delivery-model-input">
-                                        <button onclick="searchMemberList();">검색</button>
                                     </div>
                                 </div>
                             </div>
@@ -1282,8 +1294,20 @@
 						let num = 0;
 						alarmArea.innerHTML = "";
 						alarmCount.innerHTML = "0";
+
+						if(data == null || data == '' || data == undefined){
+							str += `<div class = "alarm-list-none">
+								<span class="material-symbols-outlined">
+									mail
+								</span>
+								<div>알람없음</div>
+								</div>`;
+								
+						}
 						
 						for(let vo of data){
+
+							
 							num++;
 							
 							str += `<div class="alarm-list">
@@ -1334,6 +1358,16 @@
 						alarmArea.innerHTML = "";
 						alarmCount.innerHTML = "0";
 						
+						if(data == null || data == '' || data == undefined){
+							str += `<div class = "alarm-list-none">
+								<span class="material-symbols-outlined">
+									mail
+								</span>
+								<div>알람없음</div>
+								</div>`;
+								
+						}
+
 						for(let vo of data){
 							num++;
 							
@@ -1481,6 +1515,9 @@
 			}
 
 			// 검색한 회원 찾기
+			const deliveryInput = document.querySelector("#delivery-model-input");
+			deliveryInput.addEventListener("keyup", searchMemberList)
+
 			function searchMemberList() {
 				const searchValue = document.querySelector("#delivery-model-input").value;
 				$.ajax({

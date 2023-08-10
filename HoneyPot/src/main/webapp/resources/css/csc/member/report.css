@@ -177,7 +177,7 @@
     border-radius: 10px;
     
     /* 임시 지정 */
-    width: 700px;
+    width: 600px;
     height: 700px;
     
     /* 초기에 약간 아래에 배치 */
@@ -190,7 +190,7 @@
 }
 
 .model-header-area{
-    width: 700px;
+    width: 600px;
     height: 50px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -199,7 +199,7 @@
 
 .model-header{
     margin-left: 20px;
-    width: 660px;
+    width: 560px;
     height: 50px;
     display: flex;
     justify-content: space-between;
@@ -220,7 +220,7 @@
 
 .model-main-area{
     margin-top: 10px;
-    width: 700px;
+    width: 600px;
     height: 630px;
     display: flex;
     flex-direction: column;
@@ -236,7 +236,7 @@
     font-size: 20px;
     font-family: 'Noto Sans KR';
     font-weight: 900;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .check-btn:hover{
@@ -270,6 +270,8 @@
     width: 300px;
     height: 40px;
     border: none;
+    font-family: 'Noto Sans KR';
+    font-weight: 800;
 }
 
 .model-serach-input:focus{
@@ -282,6 +284,9 @@
     width: 100px;
     height: 40px;
     border: none;
+    font-family: 'Noto Sans KR';
+    font-weight: 800;
+    
 }
 
 
@@ -340,10 +345,15 @@
 
 .plist-name{
     margin-left: 10px;
+    font-weight: 800;
 }
 
 .plist-address{
     margin-left: 10px;
+    margin-top: 4px;
+    font-weight: 800;
+    font-size: 10px;
+    color: #5F5F5F;
 }
 
 .check{

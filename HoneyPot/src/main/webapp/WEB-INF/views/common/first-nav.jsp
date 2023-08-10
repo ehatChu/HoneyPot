@@ -30,6 +30,7 @@
 	padding: 20px;
 	margin-right: 20px;
 	min-width: 180px;
+	cursor: pointer;
 }
 
 .title-elem {
