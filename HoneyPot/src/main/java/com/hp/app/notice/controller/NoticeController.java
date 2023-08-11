@@ -98,6 +98,12 @@ public class NoticeController {
 			
 			vo.setWriterNo("2"); // 임시 작성자번호
 			
+			//상단공지 null -> N
+			if(vo.getImportantYn() == null) {
+				vo.setImportantYn("N");
+			}
+			
+			System.out.println(vo);
 			
 			int result = service.write(vo);
 			if(result != 1) {
@@ -265,6 +271,12 @@ public class NoticeController {
 		try {
 			
 			vo.setWriterNo("2");
+			
+			//상단공지 null -> N
+			if(vo.getImportantYn() == null) {
+				vo.setImportantYn("N");
+			}
+			
 			int result = service.edit(vo);
 			if(result != 1) {
 				session.setAttribute("alertMsg", "게시글 수정 실패...");

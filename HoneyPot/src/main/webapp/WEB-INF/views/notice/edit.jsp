@@ -192,20 +192,6 @@
     $("#summernote").summernote('code', '${vo.content}');
 
 
-    //상단고정 여부 값 전달
-    const form = document.querySelector("form");
-    form.addEventListener("submit",function(){
-        const importantYn = document.querySelector("input[name=importantYn]");
-        if (importantYn.checked) {
-            importantYn.value = 'Y';
-            console.log(importantYn.value);
-        }else {
-            importantYn.value = 'N';
-            console.log(importantYn.value);
-        }
-    })
-
-
     //제약 조건
     function validate() {
         const category = document.querySelector("#category");
