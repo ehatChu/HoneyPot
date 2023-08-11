@@ -133,7 +133,7 @@
 				<div id="first-area">
 					<div>
 						<h1>안내문구 변경</h1>
-						<textarea name="infoTextarea" id="" rows="10" style="width: 800px; resize: none;">${facVo.content}</textarea>
+						<textarea name="content" id="" rows="10" style="width: 800px; resize: none;">${facVo.content}</textarea>
 					</div>
 					
 					<div>
