@@ -129,7 +129,6 @@ public class MineController {
 		int currentPage = p;
 		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
 		int boardLimit =9; //한페이지에 list는 7개만 들어가게
-		log.info("listCount: {},",listCount);
 		PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
 		
 		
@@ -161,12 +160,13 @@ public class MineController {
 		model.addAttribute("cntOk",cntOk);
 		model.addAttribute("cntNone",cntNone);
 		//스테이터스 반환하기
-		log.info("mvoList : {}",mvoList);
 		//검색값 유지하게
 		model.addAttribute("searchUniqueNum",searchValueMap.get("uniqueNum"));
+		
+		
+		
 		model.addAttribute("searchMineOwner",searchValueMap.get("mineOwner"));
 		model.addAttribute("searchStatus",searchStatus);
-		log.info("searhStatus : {}",searchStatus);
 		return "admin/member/car-list";
 	}
 	
