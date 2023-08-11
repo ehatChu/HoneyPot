@@ -89,9 +89,15 @@
 	basicSetting(); // 기본 셋팅
    	headerName('편의시설'); // 현재 페이지 이름
 	firstNav(['도서관', '수영장', '헬스장' ,'골프장'], '헬스장'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-	secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 	firstNavLink(['/app/innerFac/info?no=1','/app/innerFac/info?no=2','/app/innerFac/info?no=3','/app/innerFac/info?no=4']);
-	secondNavLink(['/app/innerFac/info?no=3','/app/facilities/gym/reserve'],);
+	
+	if('${loginAdmin}' != '' && '${loginMember}' == '') {
+		secondNav(['시설소개'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+		secondNavLink(['/app/innerFac/info?no=3']);
+	} else {
+		secondNav(['시설소개', '예약하기'], '시설소개'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+		secondNavLink(['/app/innerFac/info?no=3','/app/facilities/gym/reserve']);
+	}
 
 	resize();
 	//textarea길이를 알맞게 조절
