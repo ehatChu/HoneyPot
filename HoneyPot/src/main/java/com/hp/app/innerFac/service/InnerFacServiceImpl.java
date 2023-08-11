@@ -44,7 +44,7 @@ public class InnerFacServiceImpl implements InnerFacService {
 	}
 	//예약 insert
 	@Override
-	public int makeReservation(InnerFacRsVo rsVo) {
+	public int makeReservation(InnerFacRsVo rsVo) throws Exception {
 		//현재인원조회
 		Map<String,String> map = new HashMap();
 		map.put("amenityNo", rsVo.getAmenityNo());
@@ -58,7 +58,7 @@ public class InnerFacServiceImpl implements InnerFacService {
 		log.info("nowNum :{} maxNum: {}",nowNo,maxNo);
 		//인원에 따라 예약막기
 		if(nowNo==maxNo) {
-			throw new RuntimeException();
+			throw new Exception();
 		}else {
 			return dao.makeReservation(sst,rsVo);			
 		}

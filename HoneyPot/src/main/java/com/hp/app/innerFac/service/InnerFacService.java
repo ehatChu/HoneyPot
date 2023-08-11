@@ -11,7 +11,7 @@ import com.hp.app.page.vo.PageVo;
 
 public interface InnerFacService {
 	InnerFacVo getOpenCloseTime(int no);
-	int makeReservation(InnerFacRsVo rsVo);
+	int makeReservation(InnerFacRsVo rsVo) throws Exception;
 	List<InnerFacRsVo> getReservationTimeInfo(InnerFacRsVo rsVo);
 	int getReservedPeopleCntByTime(Map<String, String> map);
 //	int updateCancelStatus(InnerFacRsVo rsVo);

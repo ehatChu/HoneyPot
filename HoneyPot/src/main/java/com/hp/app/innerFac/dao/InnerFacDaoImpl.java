@@ -29,14 +29,9 @@ public class InnerFacDaoImpl implements InnerFacDao {
 
 	//예약하기 sql실행
 	@Override
-	public int makeReservation(SqlSessionTemplate sst, InnerFacRsVo rsVo) {
-		int result=0;
-		try {
-			result = sst.insert("innerFac.makeReservation",rsVo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+	public int makeReservation(SqlSessionTemplate sst, InnerFacRsVo rsVo) throws Exception {
+		
+		return sst.insert("innerFac.makeReservation",rsVo);
 	}
 	
 	//한사람의 해당날짜의 예약현황가져오기
