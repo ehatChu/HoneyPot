@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hp.app.admin.vo.AdminVo;
-import com.hp.app.exception.YerinException;
 import com.hp.app.member.vo.MemberVo;
 import com.hp.app.mine.service.MineService;
 import com.hp.app.mine.vo.MineVo;
@@ -54,6 +53,20 @@ public class MineController {
 		return "mypage/myInfo/mine/registration-car";
 	}
 	
+	//사유물 목록보기(화면)-자전거
+	@GetMapping("bicycle-list")
+	public String regiMineBicycle(HttpSession session,Model model) {
+		MemberVo loginMember =(MemberVo)session.getAttribute("loginMember");
+		//리스트 DB에서 조회하기
+		List<MineVo> bicycleList = service.getBicycleListMember(loginMember);
+		
+		
+		model.addAttribute("mineVoList",bicycleList);
+
+		
+		return "mypage/myInfo/mine/registration-bicycle";
+	}
+
 	//사유물 등록
 	//mineCno는 mine의 종류
 	@PostMapping("regi-mine")
@@ -89,7 +102,16 @@ public class MineController {
 		if(result!=1) {    
 			throw new RuntimeException("서비스인서트실행중에러");
 		}
-		return "redirect:/car-list";
+		
+		switch (mineCno) {
+		case 10 :
+			return "redirect:/car-list";
+		case 20 : 
+			return "redirect:/bicycle-list";
+		default:
+			return "111111111";
+		}
+		
 	
 	}
 	
@@ -147,6 +169,63 @@ public class MineController {
 		log.info("searhStatus : {}",searchStatus);
 		return "admin/member/car-list";
 	}
+	
+	// 사유물내역 (화면)-자전거
+	@GetMapping("admin/property-list/bicycle")
+	public String propertyListBicycle(@RequestParam(defaultValue = "1") int p,Model model,@RequestParam(required = false) Map<String,String> searchValueMap){
+		//getCnt로 가져오기
+		//car와 자전거까지 다 세기
+		//도대체 이게 왜안되는지 모르겠다.
+		searchValueMap.put("kinda", "BICYCLE");
+		
+		String searchStatus = searchValueMap.get("status");
+		
+		int listCount = service.getCarCnt(searchValueMap); 		
+		int currentPage = p;
+		int pageLimit = 5; //페이지는 1,2,3,4,5 까지만
+		int boardLimit =9; //한페이지에 list는 7개만 들어가게
+		log.info("listCount: {},",listCount);
+		PageVo pv = new PageVo(listCount,currentPage,pageLimit,boardLimit);
+		
+		
+		
+		log.info("propertyListBicycle:{}",searchValueMap);
+		
+				
+		List<MineVo> mvoList = service.searchAllList(searchValueMap,pv);
+		
+		//R일때 개수
+		searchValueMap.put("status", "R");
+		int cntNone = service.getCarCnt(searchValueMap);
+		
+		//O일때 갯수
+		searchValueMap.put("status", "O");
+		int cntOk = service.getCarCnt(searchValueMap);
+		
+		//전체일때 개수
+		searchValueMap.put("status", "");
+		int cntAll = service.getCarCnt(searchValueMap);
+		
+		//리스트를 가져올때 페이지vo를 넘기면서 가져오기		
+		//전체조회시 pv만 들어가게 조회
+		
+		
+		model.addAttribute("pv",pv);
+		model.addAttribute("mineVoList",mvoList);
+		//수세기
+		model.addAttribute("cntAll",cntAll);
+		model.addAttribute("cntOk",cntOk);
+		model.addAttribute("cntNone",cntNone);
+		//스테이터스 반환하기
+		log.info("mvoList : {}",mvoList);
+		//검색값 유지하게
+		model.addAttribute("searchUniqueNum",searchValueMap.get("uniqueNum"));
+		model.addAttribute("searchMineOwner",searchValueMap.get("mineOwner"));
+		model.addAttribute("searchStatus",searchStatus);
+		log.info("searhStatus : {}",searchStatus);
+		return "admin/member/bicycle-list";
+	}
+		
 	
 	//모달창에서 관리자 사유물 승인반려 누르면
 	//넘버와 사유물의 종류

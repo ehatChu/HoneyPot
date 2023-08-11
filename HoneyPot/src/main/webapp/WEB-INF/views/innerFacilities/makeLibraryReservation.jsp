@@ -229,22 +229,37 @@
 			
 		}
 		//라벨에 값넣어주기 innerText
-		for(let lb of label){
-		//7라벨의 for값을 가져와서 
-		const forValue = lb.getAttribute("for");
+		for(let i=0;i<label.length;i++){
+			//let lb of label
+			let lb = label[i];
+			//7라벨의 for값을 가져와서 
+			const forValue = lb.getAttribute("for");
 
-		//forValue가 10보다 작다면 
-		let resultValue = forValue < 10 ? '0'+forValue : forValue;
-		lb.innerText =resultValue+':00';	
-		//let amenityNo = dateValue[i].amenityNo;
-		// nowAmenity.innerHTML='dateValue[i].amenityNo';
-		const reserveYn = document.querySelectorAll(".reserve-yn");
-			for(let i=0;i<no.length;i++){
+			//forValue가 10보다 작다면 
+			let resultValue = forValue < 10 ? '0'+forValue : forValue;
+			lb.innerText =resultValue+':00';	
+			//let amenityNo = dateValue[i].amenityNo;
+			// nowAmenity.innerHTML='dateValue[i].amenityNo';
+			const reserveYn = document.querySelectorAll(".reserve-yn");
+			for(let j=0;j<no.length;j++){
 				
-				if(no[i]==forValue){
-					console.log(reserveYn[i]);
-					reserveYn[i].innerHTML ="1"
+				if(no[j]==forValue){  //i는 5.8 j는 1,2
+					console.log(i);
+					
+					let str =null;
+					if(dateValue[j].amenityNo=='1'){
+						str = "도서관";
+					}else if(dateValue[j].amenityNo=='2'){
+						str = '수영장';
+					}else if(dateValue[j].amenityNo=='3'){
+						str = '헬스장';
+					}else if(dateValue[j].amenityNo=='4'){
+						str = '골프장';
+					}
+					//i번째의 amenityNo
+					label[i].innerHTML= str;
 					lb.classList.add('reserved-color');
+					
 				}
 			}
 		}

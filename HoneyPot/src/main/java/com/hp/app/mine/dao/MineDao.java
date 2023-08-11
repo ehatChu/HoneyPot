@@ -22,4 +22,6 @@ public interface MineDao {
 	int acceptPropertyList(SqlSessionTemplate sst, Map<String, Object> infoMap);
 	//개인삭제
 	int deletePersonalProperty(SqlSessionTemplate sst, Map<String, Object> infoMap);
+	//개인자전거목록
+	List<MineVo> getBicycleListMember(SqlSessionTemplate sst, MemberVo loginMember);
 }

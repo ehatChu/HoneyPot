@@ -84,5 +84,10 @@ public class MineServiceImpl implements MineService{
 	public int deletePersonalProperty(Map<String, Object> infoMap) {	
 		return dao.deletePersonalProperty(sst,infoMap);
 	}
+	//자전거목록-개인
+	@Override
+	public List<MineVo> getBicycleListMember(MemberVo loginMember) {
+		return dao.getBicycleListMember(sst, loginMember);
+	}
 
 }
