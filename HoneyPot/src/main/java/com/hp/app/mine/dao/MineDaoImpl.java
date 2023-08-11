@@ -121,6 +121,17 @@ public class MineDaoImpl implements MineDao {
 		}
 		return result;
 	}
+	//개인 자전거 목록
+	@Override
+	public List<MineVo> getBicycleListMember(SqlSessionTemplate sst, MemberVo loginMember) {
+		List<MineVo> bicycleList= null;
+		try {
+			bicycleList = sst.selectList("mine.getBicycleListMember",loginMember);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bicycleList;
+	}
 	 
 	
 	

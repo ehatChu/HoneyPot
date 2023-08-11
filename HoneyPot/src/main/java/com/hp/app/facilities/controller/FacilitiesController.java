@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -365,12 +366,13 @@ public class FacilitiesController {
 	
 	//관리자 편의시설 정보변경(화면) //관리소장만 접근가능함
 	@GetMapping("/admin/innerFac/editInfo")
-	public String showEditInfoPage(int facNo,Model model,HttpSession session) {
+	public String showEditInfoPage(int facNo,Model model,HttpSession session) throws NotFoundException {
 		AdminVo loginAdmin = (AdminVo)session.getAttribute("loginAdmin");
 		String adminName = loginAdmin.getName();
 		
 		if(!adminName.equals("관리소장")) {
-			throw new RuntimeException();
+			session.setAttribute("alertMsg", "관리소장만 접근가능합니다.");
+			return "redirect:/main/amain";
 		}
 		//조회니까 값을 받아와야함.
 		//이미있음
@@ -382,9 +384,9 @@ public class FacilitiesController {
 		//facNo에 따라 다른곳으로 포워딩
 		switch (facNo) {
 		case 1 : return "admin/facilities/library-editInfo"; //1번은 도서관
-		case 2 : return "";//수영장;
-		case 3 : return "";//헬스장;
-		case 4 : return "";//골프장;
+		case 2 : return  "admin/facilities/pool-editInfo";//수영장;
+		case 3 : return  "admin/facilities/gym-editInfo";//헬스장;
+		case 4 : return  "admin/facilities/golf-editInfo";//골프장;
 		default: return "admin/facilities/library-editInfo";
 		}
 	}
@@ -400,9 +402,9 @@ public class FacilitiesController {
 		//facNo에 따라 다른곳으로 포워딩
 		switch (facNo) {
 		case "1" : return "redirect:/innerFac/info?no=1"; //1번은 도서관
-		case "2" : return "";//수영장;
-		case "3" : return "";//헬스장;
-		case "4" : return "";//골프장;
+		case "2" : return "redirect:/innerFac/info?no=2";//수영장;
+		case "3" : return "redirect:/innerFac/info?no=3";//헬스장;
+		case "4" : return "redirect:/innerFac/info?no=4";//골프장;
 		default: return "redirect:/innerFac/info?no=1"; 
 		}
 		
@@ -418,9 +420,9 @@ public class FacilitiesController {
 		//facNo에 따라 다른곳으로 포워딩
 		switch (facNo) {
 		case "1" : return "admin/facilities/library-editIMG"; //1번은 도서관
-		case "2" : return "";//수영장;
-		case "3" : return "";//헬스장;
-		case "4" : return "";//골프장;
+		case "2" : return "admin/facilities/pool-editIMG";//수영장;
+		case "3" : return "admin/facilities/gym-editIMG";//헬스장;
+		case "4" : return "admin/facilities/golf-editIMG";//골프장;
 		default: return "facilities/library-editIMG"; 
 		}
 	}
@@ -507,9 +509,10 @@ public class FacilitiesController {
 		
 		switch(facNo) {
 		case "1" : return "redirect:/admin/innerFac/editImg?facNo=1";
-		case "2" : return "";
-		case "3" : return "";
-		default : return "";
+		case "2" : return "redirect:/admin/innerFac/editImg?facNo=2";
+		case "3" : return "redirect:/admin/innerFac/editImg?facNo=3";
+		case "4" : return "redirect:/admin/innerFac/editImg?facNo=4";
+		default : return "redirect:/admin/innerFac/editImg?facNo=1";
 		}
 	}
 	
@@ -522,9 +525,10 @@ public class FacilitiesController {
 		
 		switch(facNo) {
 			case "1" : return "redirect:/admin/innerFac/editImg?facNo=1";
-			case "2" : return "";
-			case "3" : return "";
-			default : return "";
+			case "2" : return "redirect:/admin/innerFac/editImg?facNo=2";
+			case "3" : return "redirect:/admin/innerFac/editImg?facNo=3";
+			case "4" : return "redirect:/admin/innerFac/editImg?facNo=4";
+			default : return "redirect:/admin/innerFac/editImg?facNo=1";
 		}
 	}
 	

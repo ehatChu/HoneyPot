@@ -128,7 +128,7 @@
 	</nav>
 	<main>
 		
-		<form action="/app/admin/innerFac/modifyInfo?facNo=1" method="post">
+		<form action="/app/admin/innerFac/modifyInfo?facNo=2" method="post">
 			<div id="main-wrapper">
 				<div id="first-area">
 					<div>
@@ -165,7 +165,7 @@
 				</div>
 				<div id="second-area">
 					<h1>편의시설사진정보변경으로 이동하기</h1>
-					<button type="button" onclick="location.href='/app/admin/innerFac/editImg?facNo=1'">이동</button>
+					<button type="button" onclick="location.href='/app/admin/innerFac/editImg?facNo=2'">이동</button>
 				</div>
 			</div>
 			
@@ -206,7 +206,7 @@
 	basicSetting(); // 기본 셋팅
 	headerName('단지관리'); // 현재 페이지 이름
 	firstNav(['관리비', '편의시설관리', '조식관리'],'편의시설관리'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-	secondNav(['도서관','수영장','헬스장','골프장','예약자통합조회'], '도서관'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+	secondNav(['도서관','수영장','헬스장','골프장','예약자통합조회'], '수영장'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 	firstNavLink(['/app/fee/admin','/app/admin/innerFac/editInfo?facNo=1','/app/meal/ameal']);
 	secondNavLink(['/app/admin/innerFac/editInfo?facNo=1','/app/admin/innerFac/editInfo?facNo=2','/app/admin/innerFac/editInfo?facNo=3','/app/admin/innerFac/editInfo?facNo=4','/app/admin/innerFac/reservation?p=1'],);
 

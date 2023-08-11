@@ -101,7 +101,7 @@
 				<div>
 					<h1>시설사진삭제</h1>
 					<div>등록된 사진 목록</div>
-					<input type="hidden" value="1" name="facNo">
+					<input type="hidden" value="4" name="facNo">
 					<c:forEach items="${imgVoList}" var="img">
 						<div id="choice-picture">
 							<label id="${img.no}" class="label"><input type="hidden" class="change-name" value="${img.changeName}"><input type="checkbox" name="no" value="${img.no}">${img.originName}</label><br>
@@ -115,7 +115,7 @@
 			<form action="/app/admin/innerFac/regiImg" method="post" enctype="multipart/form-data">
 				<div class="filebox">
 					<h1>시설사진등록</h1>
-					<input type="hidden" value="1" name="facNo">
+					<input type="hidden" value="4" name="facNo">
 					<input type="file" id="imgFiles" name="fList" multiple>
 				
 					<input type="submit" value="등록하기">

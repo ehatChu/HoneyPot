@@ -14,7 +14,7 @@
 		VALUES (SEQ_MINE_NO.NEXTVAL,#{memberNo},#{uniqueNum},#{name},#{img})
 	</insert>
 	
-	<!-- 개인의 목록을 조회는 유니온이 맞을듯 -->
+	<!-- 개인차목록조회 -->
 	<select id="getCarListMember" resultType="com.hp.app.mine.vo.MineVo">
 		SELECT 
 		    C.NO
@@ -28,6 +28,22 @@
 		FROM CAR C
 		WHERE MEMBER_NO = #{no}
 	</select>
+	
+	<!-- 개인자전거목록조회 -->
+	<select id="getBicycleListMember" resultType="com.hp.app.mine.vo.MineVo">
+		SELECT 
+		    C.NO
+		    ,C.ADMIN_NO
+		    ,C.MEMBER_NO
+		    ,C.ENROLL_DATE
+		    ,C.CONFIRM_DATE
+		    ,C.UNIQUE_NUM
+		    ,C.IMG
+		    ,C.NAME
+		FROM BICYCLE C
+		WHERE MEMBER_NO = #{no}
+	</select>
+	
 	<!-- 관리자 자동차전체목록조회 -->
 	<select id="getCarListAdmin" resultType="com.hp.app.mine.vo.MineVo" >
 		SELECT 
@@ -45,9 +61,28 @@
 		FROM CAR C
 		JOIN MEMBER M ON(M.NO = C.MEMBER_NO)
 		LEFT JOIN ADMIN A ON(A.NO = C.ADMIN_NO)
+	</select>
+	
+	<!-- 관리자 자전거전체목록조회 -->
+	<select id="getBicycleListAdmin" resultType="com.hp.app.mine.vo.MineVo" >
+		SELECT 
+		    C.NO
+		    ,C.ADMIN_NO
+		    ,C.MEMBER_NO
+		    ,C.ENROLL_DATE
+		    ,C.CONFIRM_DATE
+		    ,C.UNIQUE_NUM
+		    ,C.IMG
+		    ,C.NAME
+		    ,M.NAME AS MEMBER_NAME
+		    ,M.PHONE AS PHONE
+		    ,A.NAME AS ADMIN_NAME
+		FROM BICYCLE C
+		JOIN MEMBER M ON(M.NO = C.MEMBER_NO)
+		LEFT JOIN ADMIN A ON(A.NO = C.ADMIN_NO)
 	</select>	
 	
-	<!-- 차조회시 개수 -->
+	<!-- 차조회시 개수 :자전거도 써도됨 -->
 	<select id="getCarCnt" resultType="int">
 		SELECT COUNT(*) FROM ${kinda} C
 		JOIN MEMBER M ON(M.NO = C.MEMBER_NO)

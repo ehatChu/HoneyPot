@@ -128,7 +128,7 @@
 	</nav>
 	<main>
 		
-		<form action="/app/admin/innerFac/modifyInfo?facNo=1" method="post">
+		<form action="/app/admin/innerFac/modifyInfo?facNo=3" method="post">
 			<div id="main-wrapper">
 				<div id="first-area">
 					<div>
@@ -165,7 +165,7 @@
 				</div>
 				<div id="second-area">
 					<h1>편의시설사진정보변경으로 이동하기</h1>
-					<button type="button" onclick="location.href='/app/admin/innerFac/editImg?facNo=1'">이동</button>
+					<button type="button" onclick="location.href='/app/admin/innerFac/editImg?facNo=3'">이동</button>
 				</div>
 			</div>
 			

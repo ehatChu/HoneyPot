@@ -294,12 +294,12 @@
         </nav>
 
         <main>
-            <form action="/app/admin/property-list/car" method="get" >
+            <form action="/app/admin/property-list/bicycle" method="get" >
                 <div class="inquiry-search-area">
                     <div class="model-search-area">
                         <div class="model-search-box-area">
                             <select class="model-search-category">
-                                <option value="">사유물번호</option>
+                                <option value="">사유물고유번호</option>
                             </select>
                             <c:if test="${empty searchUniqueNum}">
                                 <input type="text" name="uniqueNum" class="model-serach-input">
@@ -329,19 +329,19 @@
             
 
             <div id="fourth-line">
-                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}">
+                <a href="/app/admin/property-list/bicycle?p=1&kinda=BICYCLE&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}">
                     <div id="all-list" class="flex-line">
                         <div>전체</div>
                         <div id="all-value" class="now-focus-red">${cntAll}</div>
                     </div>
                 </a>
-                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=O">
+                <a href="/app/admin/property-list/bicycle?p=1&kinda=BICYCLE&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=O">
                     <div id="ok-confirm" class="flex-line">
                         <div>승인완료</div>
                         <div id="ok-value">${cntOk}</div>
                     </div>
                 </a>
-                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=R">
+                <a href="/app/admin/property-list/bicycle?p=1&kinda=BICYCLE&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=R">
                     <div id="no-confirm" class="flex-line">
                         <div>미처리</div>
                         <div id="no-value">${cntNone}</div>
@@ -351,7 +351,7 @@
         </form>
            
             <form action="/app/admin/accept/property-list" method="get">
-                <input type="hidden" name="kinda" value="CAR">
+                <input type="hidden" name="kinda" value="BICYCLE">
                 <div id="main-mine-line">
                     <div>
                         <table class="main-table" border="1">
@@ -399,18 +399,18 @@
            
             <div id="page-area">
                 <c:if test="${pv.currentPage > 1}">
-                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage-1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
+                    <span class="page-box"><a href="/app/admin/property-list/bicycle?p=${pv.currentPage-1}&kinda=BICYCLE&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
                 </c:if>
                 <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
                     <c:if test="${pv.currentPage != i}">
-                        <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}">${i}</a></span>
+                        <span class="page-box num"><a href="/app/admin/property-list/bicycle?p=${i}&kinda=BICYCLE&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}">${i}</a></span>
                     </c:if>
                     <c:if test="${pv.currentPage == i}">
                         <span class="page-box num" id="current-page">${i}</span>
                     </c:if>
                 </c:forEach>
                 <c:if test="${pv.currentPage < pv.maxPage}">
-                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage+1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
+                    <span class="page-box"><a href="/app/admin/property-list/bicycle?p=${pv.currentPage+1}&kinda=BICYCLE&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
                     
                 </c:if>
             </div>
@@ -461,7 +461,7 @@
     basicSetting(); // 기본 셋팅
     headerName('회원관리'); // 현재 페이지 이름
     firstNav(['회원조회', '관리자조회', '제제내역', '상벌점내역','사유물내역'], '사유물내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    secondNav(['자동차', '자전거'], '자동차'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+    secondNav(['자동차', '자전거'], '자전거'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
     firstNavLink(['/app/admin/member/member-list','/app/admin/member/admin-list','/app/admin/member/sanction-list','/app/admin/member/point-list','/app/car-list',]);
 	secondNavLink(['/app/admin/property-list/car','/app/admin/property-list/bicycle']);
 
@@ -530,7 +530,7 @@
                 type : "get",
                 data : {
                     no : bno,
-                    kinda : "CAR",
+                    kinda : "BICYCLE",
                 },
                 dataType : "json",
                 success : function(dataJson){
@@ -542,7 +542,7 @@
                     img.src = "/app/resources/member/mine/"+dataJson.img;
                     detailNo.value = bno;
                     //종류도 받아와서 ajax로 받아서 input의 value로 넣기
-                    detailKinda.value = "CAR";
+                    detailKinda.value = "BICYCLE";
                 } ,
                 error : function(e){
                     console.log(e);
