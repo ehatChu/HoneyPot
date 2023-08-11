@@ -282,7 +282,7 @@
 	</html>
 	<script>
 		basicSetting(); // 기본 셋팅
-		headerName('주변시설평가'); // 현재 페이지 이름
+		headerName('주변시설'); // 현재 페이지 이름
 	</script>
 
 	<script type="text/javascript"
