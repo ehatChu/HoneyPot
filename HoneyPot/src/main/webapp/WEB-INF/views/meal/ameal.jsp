@@ -546,7 +546,7 @@
 		headerName('조식 관리'); // 현재 페이지 이름
 		todayMenu('${todayMeal.menu}');
 		firstNav(['관리비', '편의시설 관리', '조식 관리'], '조식 관리');
-		firstNavLink(['/app/fee/admin','/app/admin/innerFac/editInfo?facNo=1','/app/meal/mypage','/app/meal/ameal']);
+		firstNavLink(['/app/fee/admin','/app/admin/innerFac/reservation?p=1','/app/meal/ameal']);
 
 
 		const tr1Arr = document.querySelectorAll("#tr1");
