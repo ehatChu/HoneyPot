@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hp.app.admin.vo.AdminVo;
+import com.hp.app.member.vo.MemberVo;
 import com.hp.app.notice.service.NoticeService;
 import com.hp.app.notice.vo.NoticeCategoryVo;
 import com.hp.app.notice.vo.NoticeVo;
@@ -38,7 +39,15 @@ public class NoticeController {
 
 	// 공지사항 목록 조회
 	@GetMapping("notice/list")
-	public String getList(@RequestParam(defaultValue = "1") String p, Model model, @RequestParam Map<String, String> searchVo) {
+	public String getList(@RequestParam(defaultValue = "1") String p, @RequestParam Map<String, String> searchVo, HttpSession session, Model model) {
+		
+		//관리자도, 회원도 아니면 리턴
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if(loginAdmin == null && loginMember == null) {
+			session.setAttribute("alertMsg", "로그인 후 이용해주세요.");
+			return "redirect:/main/mmain";
+		}
 		
 		try {
 			
@@ -75,7 +84,15 @@ public class NoticeController {
 	
 	// 공지사항 작성 (화면)
 	@GetMapping("notice/write")
-	public String write(Model model) {
+	public String write(HttpSession session, Model model) {
+		
+		//관리자 아니면 리턴
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		if(loginAdmin == null) {
+			session.setAttribute("alertMsg", "관리자로 로그인 해주세요.");
+			return "redirect:/main/mmain";
+		}
+		
 		List<NoticeCategoryVo> cvo = service.getCategory();
 		model.addAttribute("cvo", cvo);
 		return "notice/write";
@@ -87,17 +104,15 @@ public class NoticeController {
 		
 		try {
 			
-//			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
-//			if(loginAdmin == null) {
-//				return "redirect:/"
-//			}
-//			vo.setWriterNo(loginAdmin.getNo());
+			//관리자 아니면 리턴
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+			if(loginAdmin == null) {
+				session.setAttribute("alertMsg", "관리자로 로그인 해주세요.");
+				return "redirect:/main/mmain";
+			}
+			
+			vo.setWriterNo(loginAdmin.getNo());
 						
-			System.out.println(vo);
-			System.out.println("중요 : " +vo.getImportantYn());
-			
-			vo.setWriterNo("2"); // 임시 작성자번호
-			
 			//상단공지 null -> N
 			if(vo.getImportantYn() == null) {
 				vo.setImportantYn("N");
@@ -107,7 +122,7 @@ public class NoticeController {
 			
 			int result = service.write(vo);
 			if(result != 1) {
-				session.setAttribute("alert", "게시글 작성 실패...");
+				session.setAttribute("alertMsg", "게시글 작성 실패...");
 				return "redirect:/notice/list";
 			}
 			
@@ -148,7 +163,7 @@ public class NoticeController {
 			e.printStackTrace();
 		}
 		
-		session.setAttribute("alert", "게시글 작성 성공!");
+		session.setAttribute("alertMsg", "게시글 작성 성공!");
 		return "redirect:/notice/list";
 	}
 	
@@ -177,11 +192,17 @@ public class NoticeController {
     
 	// 공지사항 상세조회
 	@GetMapping("notice/detail")
-	public String viewDetail(@RequestParam(defaultValue="1")String no, Model model) {
+	public String viewDetail(@RequestParam(defaultValue="1")String no, HttpSession session, Model model) {
+		
+		//관리자도, 회원도 아니면 리턴
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if(loginAdmin == null && loginMember == null) {
+			session.setAttribute("alertMsg", "로그인 후 이용해주세요.");
+			return "redirect:/main/mmain";
+		}
 		
 		try {
-			
-			String memberNo = "2";
 			
 			NoticeVo vo = service.viewDetail(no);
 			model.addAttribute("vo", vo);
@@ -206,7 +227,13 @@ public class NoticeController {
 				//투표여부
 				PersonalVoteVo pvvo = new PersonalVoteVo();
 				pvvo.setVoteNoticeNo(no);
-				pvvo.setMemberNo(memberNo);
+				
+				if (loginMember != null && loginAdmin == null) {
+					pvvo.setMemberNo(loginMember.getNo());
+				}else if(loginMember == null && loginAdmin != null) {
+					pvvo.setMemberNo("0");
+				}
+				
 				int voteYn = service.checkVoteYn(pvvo);
 				System.out.println("투표? :" +voteYn);
 				model.addAttribute("voteYn", voteYn);
@@ -220,23 +247,6 @@ public class NoticeController {
 				int totalResult = service.countVoteTotal(no);
 				System.out.println(totalResult);
 				model.addAttribute("totalCnt", totalResult);
-				
-//				//항목별 득표 수 배열
-//				List<Integer> eachCntArr = service.countEachCandidate(no);
-//				
-//				//퍼센트 담은 배열 생성
-//				List<Integer> percentArr = new ArrayList<>();
-//				
-//				VoteCandidateVo vcvo = new VoteCandidateVo();
-//				
-//				for (int i=0 ; i<eachCntArr.size() ; i++) {
-//					int percent = eachCntArr.get(i)/eachCntArr.size() *100;
-//					percentArr.add(percent);
-//				}
-//				model.addAttribute("percentArr", percentArr);
-//				
-//				vcvoList.set(0, null);
-				
 			}
 			
 		}catch(Exception e) {
@@ -250,6 +260,12 @@ public class NoticeController {
 	@GetMapping("notice/edit")
 	public String edit(HttpSession session, Model model, String no) {
 		
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		if(loginAdmin == null) {
+			session.setAttribute("alertMsg", "관리자로 로그인 해주세요.");
+			return "redirect:/main/mmain";
+		}
+		
 		List<NoticeCategoryVo> cvo = service.getCategory();
 		model.addAttribute("cvo", cvo);
 
@@ -257,7 +273,7 @@ public class NoticeController {
 		model.addAttribute("vo", vo);
 		
 		if(no == null || "".equals(no) || "0".equals(no)) {
-			session.setAttribute("alert", "잘못된 접근입니다.");
+			session.setAttribute("alertMsg", "잘못된 접근입니다.");
 			return "redirect:/notice/list";
 		}
 		return "notice/edit";
@@ -270,7 +286,12 @@ public class NoticeController {
 		
 		try {
 			
-			vo.setWriterNo("2");
+			//관리자가 아니거나, 작성자가 다를 때
+			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+			if(loginAdmin == null || vo.getWriterNo() != loginAdmin.getNo() ) {
+				session.setAttribute("alertMsg", "잘못된 접근입니다.");
+				return "redirect:/main/mmain";
+			}
 			
 			//상단공지 null -> N
 			if(vo.getImportantYn() == null) {
@@ -296,14 +317,15 @@ public class NoticeController {
 		
 		try {
 			
+			NoticeVo vo = service.viewDetail(no); 
+			//관리자가 아니거나, 작성자가 다를 때
 			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
-//			if (loginAdmin == null) {
-//				session.setAttribute("alertMsg", "게시글 삭제 실패...");
-//				return "redirect:/main/amain";
-//			}
+			if(loginAdmin == null || vo.getWriterNo() != loginAdmin.getNo() ) {
+				session.setAttribute("alertMsg", "잘못된 접근입니다.");
+				return "redirect:/main/amain";
+			}
 			
-			//String writerNo = loginAdmin.getNo();
-			String writerNo = "2";
+			String writerNo = loginAdmin.getNo();
 			
 			Map<String, String> noMap = new HashMap<>();
 			noMap.put("writerNo", writerNo);
@@ -378,9 +400,6 @@ public class NoticeController {
 		
 		return "success";
 	}
-	
-	
-	
 	
 
 }
