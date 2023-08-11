@@ -85,7 +85,7 @@
 		secondNav(['조회', '납부'],'조회');
 		headerName('마이페이지');
 		firstNavLink(['/app/calendar/schedule-list','/app/mypage/act/board','/app/meal/mypage','/app/fee/member']);
-        secondNavLink(['/app/fee/member','/app/fee/member//pay']);
+        secondNavLink(['/app/fee/member','/app/fee/member/pay']);
 
 		// 숫자를 3자리마다 쉼표가 있는 문자열로 변환하는 함수
 		function addCommasToNumberInElement(element) {
