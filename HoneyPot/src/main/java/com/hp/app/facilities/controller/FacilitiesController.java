@@ -256,11 +256,22 @@ public class FacilitiesController {
 		rsVo.setReserveTime(combinedDate);
 		
 		//rsVo를 전달하면서 service호출
-		int result = service.makeReservation(rsVo);
+		try {
+			int result = service.makeReservation(rsVo);
+		} catch (Exception e) {
+			switch(amenityNo) {
+			case "1" : session.setAttribute("alertMsg", "예약인원과 다른곳에 예약한적이 없는지 확인하세요."); return "redirect:/facilities/library/reserve"; 
+			case "2" : session.setAttribute("alertMsg", "예약인원과 다른곳에 예약한적이 없는지 확인하세요."); return "redirect:/facilities/pool/reserve";
+			case "3" : session.setAttribute("alertMsg", "예약인원과 다른곳에 예약한적이 없는지 확인하세요."); return "redirect:/facilities/gym/reserve"; 
+			case "4" : session.setAttribute("alertMsg", "예약인원과 다른곳에 예약한적이 없는지 확인하세요."); return "redirect:/facilities/golf/reserve"; 
+			default : return "111111111111";
+			}
 		
-		if(result!=1) {
-			throw new RuntimeException("rsVo를 DB에 전달하는 과정에서 에러발생");
 		}
+		
+		
+		
+		
 		
 		//예약이 완료되었다는 표시를 해줘야하기 때문에 Model에 값을 넣어 전달 모델에 해당 시작시간을 넣자
 		model.addAttribute("selectedTime",startTime);
