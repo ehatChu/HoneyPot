@@ -7,9 +7,14 @@
 <title>Insert title here</title>
 </head>
 <style>
+	* {
+		padding: 0px;
+		margin: 0px;
+	}
+
 	img{
 		width: 1920px;
-		height: 937px;
+		height: 930px;
 	}	
 </style>
 <body>
