@@ -689,9 +689,15 @@
 					let str = "";
 					for (let vo of popularList) {
 						str += '<div id="boardTxt">'
-							+ '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>'
-							+ '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.writerName + '</div>'
-							+ '<div style="width: 200px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.enrollDate + '</div>'
+							+ '<div style="width: 150px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.title + '</div>';
+
+						if(vo.boardCno == "3") {
+							str += '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">익명</div>';
+						} else {
+							str += '<div style="width: 100px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.writerName + '</div>';
+						}
+
+						str += '<div style="width: 200px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.enrollDate + '</div>'
 							+ '<div style="width: 50px; height: 30px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">' + vo.hit + '</div>'
 							+ '</div> <hr>'
 					}
