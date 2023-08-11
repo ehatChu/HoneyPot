@@ -399,18 +399,18 @@
            
             <div id="page-area">
                 <c:if test="${pv.currentPage > 1}">
-                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage-1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
+                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage-1}&kinda=CAR&uniqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}"><i class="fa-solid fa-chevron-down fa-rotate-90" style="color: #FFCE31;"></i></a></span>
                 </c:if>
                 <c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
                     <c:if test="${pv.currentPage != i}">
-                        <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}">${i}</a></span>
+                        <span class="page-box num"><a href="/app/admin/property-list/car?p=${i}&kinda=CAR&uniqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}">${i}</a></span>
                     </c:if>
                     <c:if test="${pv.currentPage == i}">
                         <span class="page-box num" id="current-page">${i}</span>
                     </c:if>
                 </c:forEach>
                 <c:if test="${pv.currentPage < pv.maxPage}">
-                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage+1}&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
+                    <span class="page-box"><a href="/app/admin/property-list/car?p=${pv.currentPage+1}&kinda=CAR&uniqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=${searchStatus}"><i class="fa-solid fa-chevron-down fa-rotate-270" style="color: #FFCE31;"></i></a></span>
                     
                 </c:if>
             </div>
