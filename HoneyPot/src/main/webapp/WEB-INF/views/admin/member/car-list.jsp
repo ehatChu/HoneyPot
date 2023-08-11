@@ -329,19 +329,19 @@
             
 
             <div id="fourth-line">
-                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}">
+                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uniqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}">
                     <div id="all-list" class="flex-line">
                         <div>전체</div>
                         <div id="all-value" class="now-focus-red">${cntAll}</div>
                     </div>
                 </a>
-                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=O">
+                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uniqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=O">
                     <div id="ok-confirm" class="flex-line">
                         <div>승인완료</div>
                         <div id="ok-value">${cntOk}</div>
                     </div>
                 </a>
-                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uiqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=R">
+                <a href="/app/admin/property-list/car?p=1&kinda=CAR&uniqueNum=${searchUniqueNum}&mineOwner=${searchMineOwner}&status=R">
                     <div id="no-confirm" class="flex-line">
                         <div>미처리</div>
                         <div id="no-value">${cntNone}</div>
