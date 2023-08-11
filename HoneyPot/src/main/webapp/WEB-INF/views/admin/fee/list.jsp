@@ -15,7 +15,6 @@
 		<%@ include file="/WEB-INF/views/common/header.jsp" %>
 			<nav>
 				<%@ include file="/WEB-INF/views/common/first-nav.jsp" %>
-				<%@ include file="/WEB-INF/views/common/second-nav.jsp" %>
 			</nav>
 
 			<main>
