@@ -180,7 +180,7 @@
 							<div class="vote-area">
 
 								<!-- 투표 전 -->
-								<c:if test="${voteYn != 1}">
+								<c:if test="${voteYn != 1 && loginMember ne null}">
 									<div class="vote-wrap">
 										<div id="vote-header">
 											<input type="hidden" id="vote-title-hidden" name="voteTitle" value="${voteVo.voteTitle}">
@@ -209,7 +209,7 @@
 
 
 								<!-- 투표 후 -->
-								<c:if test="${voteYn == 1}">
+								<c:if test="${voteYn == 1 || loginMember == null}">
 									<div class="vote-wrap">
 										<div id="vote-header">
 											<input type="hidden" id="vote-title-hidden" name="voteTitle" value="${voteVo.voteTitle}">
@@ -279,8 +279,7 @@
 			data : {
 				voteNoticeNo : '${vo.no}',
 				voteListNo : selectNo.value,
-				// memberNo : '${loginMember.no}',
-				memberNo : '2',
+				memberNo : '${loginMember.no}',
 			},
 			success : function(result) {
 				console.log(result);
@@ -333,8 +332,7 @@
 			type : 'post',
 			data : {
 				voteNoticeNo : '${vo.no}',
-				// memberNo : '${loginMember.no}',
-				memberNo : '2',
+				memberNo : '${loginMember.no}',
 			},
 			success : function(result) {
 				console.log(result);
@@ -375,5 +373,11 @@
 			},
 		})
 	}
+
+	// //관리자 계정 투표 불가
+	// if (${loginAdmin != null}) {
+
+
+	// }
 
 </script>

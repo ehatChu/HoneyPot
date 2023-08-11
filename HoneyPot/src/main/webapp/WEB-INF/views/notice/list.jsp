@@ -111,7 +111,7 @@
 	}
 
 	.important {
-		background-color: #ffae00;
+		background-color: #ffecc6;
 		font-weight: bold;
 	}
 
