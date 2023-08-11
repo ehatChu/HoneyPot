@@ -164,7 +164,7 @@
 	basicSetting(); // 기본 셋팅
    	headerName('마이페이지'); // 현재 페이지 이름
 	firstNav(['내정보', '나의활동', '신청내역','관리비'], '신청내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-	secondNav(['조식', '편의시설'], '편의시설예약내역'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+	secondNav(['조식', '편의시설'], '편의시설'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
 	firstNavLink(['/app/calendar/schedule-list','/app/mypage/act/board',' /app/meal/mypage','/app/fee/member']);
 	secondNavLink(['/app/meal/mypage','/app/innerFac/personalReservation?p=1'],); 
 	
