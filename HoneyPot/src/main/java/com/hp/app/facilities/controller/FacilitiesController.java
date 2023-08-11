@@ -390,6 +390,7 @@ public class FacilitiesController {
 		//List<InnerFacVo> facVoList = service.getAllFacInfo(facNo);
 		InnerFacVo fvo = service.getInnerFacInfo(facNo);
 
+
 		
 		model.addAttribute("facVo",fvo);
 		//facNo에 따라 다른곳으로 포워딩

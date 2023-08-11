@@ -45,7 +45,7 @@
 	<main>
 		<div id="innerFacWrap">
 			<div id="innerFac-text-area">
-				<div id="big-title">푸리미엄 헬스장</div>
+				<div id="big-title">푸리미엄 골프장</div>
 				<textarea id="info-content" readonly>${fvo.content}</textarea>
 				<div id="innerFac-info-detail">
 					수용가능인원 : <span>${fvo.maxNum}</span>명 <br>
