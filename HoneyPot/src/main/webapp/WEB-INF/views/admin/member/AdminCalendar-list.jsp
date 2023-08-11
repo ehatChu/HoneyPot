@@ -181,7 +181,7 @@
 <body>
     <%@ include file="/WEB-INF/views/common/header.jsp" %>
    
-    
+    <nav></nav>
     
     <main>
         
@@ -346,7 +346,7 @@
                                     title : data.name,
                                     start : data.startDate,
                                     end : data.endDate,
-                                    color : '#B70404'
+                                    color : '#FE7162'
                                 });
                             }else if(data.writerName =="101동대표"){
                                 events.push({
