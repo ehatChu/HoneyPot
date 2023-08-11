@@ -9,7 +9,7 @@
 <style>
     #main-wrapper {
         display: grid;
-        grid-template-columns: 1.2fr 1fr;
+        grid-template-columns: 1.8fr 1fr;
         height: 700px;
     }
 
@@ -53,7 +53,7 @@
     #schedule-area1 {
         margin: 10px 30px 0px 10px;
     
-        height : 650px;
+        height : 760px;
       
         padding: 10px;
         background-color: white;
@@ -180,10 +180,7 @@
 </head>
 <body>
     <%@ include file="/WEB-INF/views/common/header.jsp" %>
-    <nav>
-        <%@ include file="/WEB-INF/views/common/first-nav.jsp" %>
-        <%@ include file="/WEB-INF/views/common/second-nav.jsp" %>
-    </nav>
+   
     
     
     <main>
@@ -235,9 +232,7 @@
 </html>
 <script>
     basicSetting(); // 기본 셋팅
-    headerName('마이페이지'); // 현재 페이지 이름
-    firstNav(['내정보', '나의활동', '신청내역','관리비'], '내정보'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
-    secondNav(['캘린더', '가계부','사유물'], '캘린더'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
+    headerName('캘린더'); // 현재 페이지 이름
 </script>
 <script> 
     //input의 벨류를 가져와서...checked상태이면 바뀌게

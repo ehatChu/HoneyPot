@@ -393,7 +393,7 @@
 <script>
     basicSetting(); // 기본 셋팅
     headerName('단지관리'); // 현재 페이지 이름
-	firstNav(['관리비', '편의시설', '조식관리'], '편의시설'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
+	firstNav(['관리비', '편의시설 관리', '조식관리'], '편의시설 관리'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
 	secondNav(['도서관','수영장','헬스장','골프장','예약자통합조회'], '예약자통합조회');
     firstNavLink(['/app/fee/admin','/app/admin/innerFac/editInfo?facNo=1','/app/meal/ameal']);
     secondNavLink(['/app/admin/innerFac/editInfo?facNo=1','/app/admin/innerFac/editInfo?facNo=2','/app/admin/innerFac/editInfo?facNo=3','/app/admin/innerFac/editInfo?facNo=4','/app/admin/innerFac/reservation?p=1'],);
