@@ -105,7 +105,7 @@
             <br>
 
             <div class="form-area">
-                <form action="/app/notice/edit?no=${vo.no}" method="post">
+                <form action="/app/notice/edit?no=${vo.no}" method="post" onsubmit="return validate();">
 
                     <div class="title-area">
                         <span id="article">제목</span>
@@ -204,5 +204,28 @@
             console.log(importantYn.value);
         }
     })
+
+
+    //제약 조건
+    function validate() {
+        const category = document.querySelector("#category");
+        const title = document.querySelector("#title");
+
+        //카테고리 선택여부
+        if (category.value == 'null' || category.value == '') {
+            alert('카테고리를 선택해주세요.');
+            category.focus();
+            return false;
+        }
+
+        //제목 빈칸 여부
+        if (title.value == null || title.value == '' || title.value.trim() == null || title.value.trim() == '') {
+            alert('제목을 입력해주세요.');
+            title.focus();
+            return false;
+        }
+
+        return true;
+    }
 
 </script>
