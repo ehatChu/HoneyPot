@@ -285,7 +285,7 @@
             <br>
 
             <div class="form-area">
-                <form action="/app/notice/write" method="post" enctype="multipart/form-data">
+                <form action="/app/notice/write" method="post" enctype="multipart/form-data" onsubmit="return validate();">
                     <input type="text" style="display: none;" name="imgList">
                     <div class="title-area">
                         <span id="article">제목</span>
@@ -522,15 +522,32 @@
     })
 
 
+    //제목 입력창
+    const modalTitleInput = document.querySelector("#modal-title-input");
+    //종료일 입력창
+    const endDate = document.querySelector("#end-date");
+    //투표항목 입력창
+    const voteArticleArr = document.querySelectorAll("#vote-article");
+    //투표 생성 버튼
+    const insertBtn = document.querySelector('#insert-btn');
+
+    function validateMakeVote() {
+        if (modalTitleInput.value.trim() == null || odalTitleInput.value.trim() == '' || endDate.value == null){
+            insertBtn.disabled == true;
+        } else {
+            insertBtn.disabled == false;
+        }
+    }
+
+    validateMakeVote();
+    
+
     //투표 생성
     function makeVote() {
 
-        //제목 입력창
-        const modalTitleInput = document.querySelector("#modal-title-input");
-        //종료일 입력창
-        const endDate = document.querySelector("#end-date");
-        //투표항목 입력창
-        const voteArticleArr = document.querySelectorAll("#vote-article");
+        
+
+
 
         
         //입력된 제목
@@ -586,7 +603,29 @@
     voteDelBtn.addEventListener('click', function() {
         voteWrap.classList.add('hidden');
     });
-    
+
+
+    //제약 조건
+    function validate() {
+        const category = document.querySelector("#category");
+        const title = document.querySelector("#title");
+
+        //카테고리 선택여부
+        if (category.value == 'null' || category.value == '') {
+            alert('카테고리를 선택해주세요.');
+            category.focus();
+            return false;
+        }
+
+        //제목 빈칸 여부
+        if (title.value == null || title.value == '' || title.value.trim() == null || title.value.trim() == '') {
+            alert('제목을 입력해주세요.');
+            title.focus();
+            return false;
+        }
+
+        return true;
+    }
 
 
 </script>
