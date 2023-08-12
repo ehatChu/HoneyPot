@@ -141,8 +141,7 @@
 						<input type="time" name="openTime" value="${facVo.openTime}"> ~ <input type="time" name="closeTime" value="${facVo.closeTime}">
 						<span id="info-span">
 							<span class="material-symbols-outlined">info</span>
-							시간변경시 이미 예약자가 존재할 수 있습니다. 에러페이지로 이동될 수 있습니다. 반드시 해당시간의 예약자 강제취소바람.
-						</span>					
+							시간변경시 이미 예약자가 존재할 수 있습니다. 변경시 반드시 공지를 올려주세요.						</span>					
 					</div>
 					<!-- <div>
 						<h1>이용불가 일시설정</h1>
@@ -158,8 +157,7 @@
 						<input type="number" name="maxNum" value="${facVo.maxNum}">명<br>
 						<span id="info-span">
 							<span class="material-symbols-outlined">info</span>
-							감소시에는 이미 예약자가 보다 많을 수 있습니다. 에러페이지로 이동될 수 있습니다. 반드시 강제취소하여 수를 맞춰주세요.
-						</span>
+							시간변경시 이미 예약자가 존재할 수 있습니다. 변경시 반드시 공지를 올려주세요.						</span>
 					</div>
 					<input type="submit" value="변경">
 				</div>
