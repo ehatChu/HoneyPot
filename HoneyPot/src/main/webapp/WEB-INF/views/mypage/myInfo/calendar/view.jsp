@@ -268,8 +268,79 @@
         });
     }
     
-    
-  
+   //ajax실핼해서 바로 조회당시 바로 값넘기기 
+   $.ajax({
+        url : "/app/calendar/apart-schedule",
+        type : "post",
+        data : {
+            selectedDate : dateFormat(new Date()),
+            isAdmin : false,
+        },
+        dataType : 'json',
+        success : function(data){
+
+            
+            console.log(data);
+            const AdminArea = document.querySelector("#schedule-area1");
+            let str ="";
+            for(let i=0;i<data.length;i++){
+                str+="<div>";
+                str+="<span class='middle-text-size cal-margin-right'>"+data[i].name+"</span>";
+                str+="<span class='small-text-size cal-margin-right'>";
+                //시작날짜와 끝날짜가 같으면 
+                if(data[i].startDate==data[i].endDate){
+                    str+=data[i].startDate;
+                }else {
+                    str+=data[i].startDate+"~"+data[i].endDate;
+                }
+                str+="</span>"
+                str+="<span class='small-text-size cal-margin-right'>"+data[i].writerName+"</span>";
+                str+="</div>"
+            }
+            AdminArea.innerHTML=str;
+            //여기서버튼을 가져오면 될듯
+            //딜리트버튼 누르면 DB에서 삭제하기
+            const deleteBtn = document.querySelectorAll(".delete-btn");
+            console.log(deleteBtn);
+
+        },
+        error : function(e){
+            console.log("이잉에러");
+        },
+    });
+    $.ajax({
+        url : "/app/calendar/personal-schedule",
+        type : "post",
+        data : {
+            selectedDate : dateFormat(new Date()),
+        },
+        dataType : 'json',
+        success : function(data){
+            // console.log("같은걸 클릭했는데 2개의 ajax가 발동한다구? 이게가능해?");
+            console.log(data);
+            const AdminArea2= document.querySelector("#schedule-area2");
+            let str ="";
+            for(let i=0;i<data.length;i++){
+                str+="<div>";
+                str+="<span class='middle-text-size cal-margin-right'>"+data[i].name+"</span>";
+                str+="<span class='small-text-size cal-margin-right'>";
+                //시작날짜와 끝날짜가 같으면 
+                if(data[i].startDate==data[i].endDate){
+                    str+=data[i].startDate;
+                }else {
+                    str+=data[i].startDate+"~"+data[i].endDate;
+                }
+                str+="</span>"
+                str+="<span class='cal-margin-right'><a href='/app/calendar/delete-personal?sNum="+data[i].no+"'>"
+                str+="<i class='fa-solid fa-xmark fa-xl margin-right delete-btn' style='color: #000000;''></i></a></span>";
+                str+="</div>"
+            }
+            AdminArea2.innerHTML=str;
+        },
+        error : function(e){
+            console.log("같은 클릭에 ajax가 2개이상 됨.");
+        },
+    });
  
     //기본값으로 오늘 날짜가 들어가게
     let today = new Date();
@@ -280,7 +351,7 @@
     //날짜포메팅 (2017-03-20(월))
     function dateFormat(date) {
         let dateFormat2 = date.getFullYear() +
-            '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+            '-' + ( (date.getMonth()+1) <= 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
             '-' + ( (date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()) )
             +'('+getDayOfWeek(date)+')';
         return dateFormat2;
