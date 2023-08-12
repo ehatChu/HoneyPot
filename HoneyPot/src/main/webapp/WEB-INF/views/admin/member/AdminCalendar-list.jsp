@@ -176,6 +176,10 @@
     .cal-margin-right {
         margin-right: 10px;
     }
+    .middle-text-size  {
+        font-size: 19px;
+        font-weight: 600;
+    }
 </style>
 </head>
 <body>
@@ -269,7 +273,7 @@
     //날짜포메팅 (2017-03-20(월))
     function dateFormat(date) {
         let dateFormat2 = date.getFullYear() +
-            '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+            '-' + ( (date.getMonth()+1) <= 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
             '-' + ( (date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()) )
             +'('+getDayOfWeek(date)+')';
         return dateFormat2;
@@ -281,6 +285,48 @@
         const dayOFWeek = week[new Date(date).getDay()];
         return dayOFWeek;
     }
+
+   //ajax실핼해서 바로 조회당시 바로 값넘기기 
+   $.ajax({
+        url : "/app/calendar/apart-schedule",
+        type : "post",
+        data : {
+            selectedDate : dateFormat(new Date()),
+            isAdmin : true,
+        },
+        dataType : 'json',
+        success : function(data){
+
+            
+            console.log(data);
+            const AdminArea = document.querySelector("#schedule-area1");
+            let str ="";
+            for(let i=0;i<data.length;i++){
+                str+="<div>";
+                str+="<span class='middle-text-size cal-margin-right'>"+data[i].name+"</span>";
+                str+="<span class='small-text-size cal-margin-right'>";
+                //시작날짜와 끝날짜가 같으면 
+                if(data[i].startDate==data[i].endDate){
+                    str+=data[i].startDate;
+                }else {
+                    str+=data[i].startDate+"~"+data[i].endDate;
+                }
+                str+="</span>"
+                str+="<span class='small-text-size cal-margin-right'>"+data[i].writerName+"</span>";
+                str+="</div>"
+            }
+            AdminArea.innerHTML=str;
+            //여기서버튼을 가져오면 될듯
+            //딜리트버튼 누르면 DB에서 삭제하기
+            const deleteBtn = document.querySelectorAll(".delete-btn");
+            console.log(deleteBtn);
+
+        },
+        error : function(e){
+            console.log("이잉에러");
+        },
+    });
+    
 
     //FULL CALENDAR
     document.addEventListener('DOMContentLoaded', function() {
