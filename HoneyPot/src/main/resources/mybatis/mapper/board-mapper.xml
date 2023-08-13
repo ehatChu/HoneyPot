@@ -141,9 +141,6 @@
 			,BOARD_NO
 			,WRITER_NO
 			,CONTENT
-<!-- 			<if test="replyNo != null">
-				,REPLY_NO
-			</if> -->
 		)
 		VALUES (
 			SEQ_REPLY_NO.NEXTVAL
@@ -171,7 +168,7 @@
 	WHERE 
 	    NO = #{no} 
 	    AND BOARD_NO = #{boardNo}
-	    AND WRITER_NO = #{writerNo}
+	    <!-- AND WRITER_NO = #{writerNo} -->
 	</update>
 	
 	
@@ -187,6 +184,7 @@
 		    ,R.ENROLL_DATE AS ENROLL_DATE
 		    ,R.MODIFY_DATE AS MODIFY_DATE
 		    ,R.STATUS AS STATUS
+		    ,M.PROFILE AS PROFILE
 		FROM REPLY R JOIN MEMBER M ON R.WRITER_NO = M.NO
 		WHERE R.STATUS = 'Y'
 		AND BOARD_NO = #{boardNo}
@@ -277,7 +275,6 @@
 		UPDATE BOARD 
 			SET BOARD_STATUS_NO = 5
 		WHERE NO = #{no} 
-		AND WRITER_NO = #{writerNo} 
 		AND BOARD_STATUS_NO != 5
 	</delete>
 	

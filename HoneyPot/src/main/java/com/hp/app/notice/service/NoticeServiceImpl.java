@@ -51,8 +51,8 @@ public class NoticeServiceImpl implements NoticeService {
 
 	//공지사항 삭제
 	@Override
-	public int delete(Map<String, String> noMap) {
-		return dao.delete(sst, noMap);
+	public int delete(String no) {
+		return dao.delete(sst, no);
 	}
 
 	//공지사항 상세조회 (+ 조회수 증가)

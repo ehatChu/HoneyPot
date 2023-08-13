@@ -240,16 +240,17 @@
     #vote-header {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
     }
 
     #vote-title {
         font-size: 18px;
         font-weight: bold;
+        margin-left: 10px;
     }
 
     #vote-end-date {
-        margin-right: 40px;
+        margin-right: 10px;
         font-size: 15px;
         color: #5F5F5F;
         color: rgb(156, 156, 156);;
@@ -397,9 +398,6 @@
 
         </div>
 
-
-
-
     </main>
 
 </body>
@@ -495,33 +493,16 @@
     });
 
 
-    //제목 입력창
-    const modalTitleInput = document.querySelector("#modal-title-input");
-    //종료일 입력창
-    const endDate = document.querySelector("#end-date");
-    //투표항목 입력창
-    const voteArticleArr = document.querySelectorAll("#vote-article");
-    //투표 생성 버튼
-    const insertBtn = document.querySelector('#insert-btn');
-
-    function validateMakeVote() {
-        if (modalTitleInput.value.trim() == null || odalTitleInput.value.trim() == '' || endDate.value == null){
-            insertBtn.disabled == true;
-        } else {
-            insertBtn.disabled == false;
-        }
-    }
-
-    validateMakeVote();
     
-
     //투표 생성
     function makeVote() {
-
         
-
-
-
+        //제목 입력창
+        const modalTitleInput = document.querySelector("#modal-title-input");
+        //종료일 입력창
+        const endDate = document.querySelector("#end-date");
+        //투표항목 입력창
+        const voteArticleArr = document.querySelectorAll("#vote-article");
         
         //입력된 제목
         const voteTitle = document.querySelector("#vote-title");
@@ -552,12 +533,6 @@
                 + '<input class="vote-target" id="vote-target' + i + '" type="radio" name="voteCandidateNo" disabled>&nbsp;<span name="voteCandidateName">' + voteArticleArr[i-1].value + '</span></label></div>';
         }
         
-        // const voteCandidateName = document.querySelector('input[name=voteCandidateName]');
-        // console.log(voteCandidateName.value);
-
-        // const voteTargetArr = document.querySelectorAll("#vote-target");
-        // console.log(voteTargetArr[1].value);
-
 
         //제출시, 모달 숨기고 투표 미리보기
         modal.classList.add('hidden');

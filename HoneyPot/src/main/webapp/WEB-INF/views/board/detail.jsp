@@ -70,7 +70,7 @@
 		text-align: center;
 	}
 
-	#like-btn {
+	#like-btn, #disabled-like-btn {
 		width: 75px;
 		height: 75px;
 		background-color: #FAD355;
@@ -233,7 +233,14 @@
 
 				<!-- 좋아요 버튼 -->
 				<div class="like-btn-area">
-					<button type="button" id="like-btn" onclick="clickLove();"><i class="fa-solid fa-heart"></i>&nbsp; ${vo.loveCnt}</button>
+					<c:choose>
+						<c:when test="${loginMember != null}">
+							<button type="button" id="like-btn" onclick="clickLove();"><i class="fa-solid fa-heart"></i>&nbsp; ${vo.loveCnt}</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" id="disabled-like-btn" disabled><i class="fa-solid fa-heart"></i>&nbsp; ${vo.loveCnt}</button>
+						</c:otherwise>
+					</c:choose>
 				</div>
 
 			</div>
@@ -242,9 +249,28 @@
 		<!-- 버튼 -->
 		<div class="btn-area">
 			<div id="btn-box">
-				<!-- <button type="button" id="post-report-btn" onclick="window.history.back()">목록으로</button> -->
-				<button type="button" id="post-edit-btn" onclick="location.href='/app/board/edit?no=${vo.no}'">수정</button>
-				<button type="button" id="post-del-btn" onclick="location.href='/app/board/delete?no=${vo.no}'">삭제</button>
+
+				<c:choose>
+					<c:when test="${vo.boardCno == '2'}">
+						<button type="button" id="post-report-btn" onclick="location.href='/app/board/market'">목록으로</button>
+					</c:when>
+					<c:when test="${vo.boardCno == '3'}">
+						<button type="button" id="post-report-btn" onclick="location.href='/app/board/noname'">목록으로</button>
+					</c:when>
+					<c:when test="${vo.boardCno == '4'}">
+						<button type="button" id="post-report-btn" onclick="location.href='/app/board/praise'">목록으로</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" id="post-report-btn" onclick="location.href='/app/board/free'">목록으로</button>
+					</c:otherwise>
+				</c:choose>
+
+				<c:if test="${loginMember.no == vo.writerNo}">
+					<button type="button" id="post-edit-btn" onclick="location.href='/app/board/edit?no=${vo.no}'">수정</button>
+				</c:if>
+				<c:if test="${loginAdmin.grade == 'M' || loginMember.no == vo.writerNo}">
+					<button type="button" id="post-del-btn" onclick="location.href='/app/board/delete?no=${vo.no}'">삭제</button>
+				</c:if>
 			</div>
 		</div>
 		
@@ -281,8 +307,8 @@
 									2023.08.10 15:49
 								</div>
 								<div id="re-reply-btn" onclick="">답글쓰기</div>
-								<div id="reply-edit-btn" onclick="showEditInput();">수정</div>
-								<div id="reply-del-btn" onclick="">삭제</div>
+									<div id="reply-edit-btn" onclick="showEditInput();">수정</div>
+									<div id="reply-del-btn" onclick="">삭제</div>
 								<div id="reply-report-btn" onclick="">신고</div>
 							</div>
 						</div>
@@ -290,45 +316,20 @@
 
 				</div>
 
-				<!-- 대댓글 -->
-				<!-- <div class="user-re-reply">
-					<div id="profile">
-						<img src="/app/resources/profile/profile04cheese.jpg" alt="프로필사진">
-					</div>
-
-					<div id="reply-body">
-						<div id="reply-writer">
-							댓쓴이
-						</div>
-
-						<div id="reply-content">
-							댓글내용ㅇㅇㅇㅇㅇㅇㅇ
-						</div>
-
-						<div id="reply-footer">
-							<div id="reply-date">
-								2023.08.10 15:49
-							</div>
-							<div id="re-reply-btn">답글쓰기</div>
-							<div id="reply-edit-btn">수정</div>
-							<div id="reply-del-btn">삭제</div>
-							<div id="reply-report-btn">신고</div>
-						</div>
-					</div>
-				</div> -->
-
 				<!-- 댓글 작성란 -->
-				<div class="reply-submit-area">
-					<div class="reply-write-area">
-						<textarea name="" id="reply-write" placeholder="내용을 입력하세요."></textarea>
+				<c:if test="${loginMember != null}">
+					<div class="reply-submit-area">
+						<div class="reply-write-area">
+							<textarea name="" id="reply-write" placeholder="내용을 입력하세요."></textarea>
+						</div>
+	
+						<div><button type="button" id="reply-insert-btn" onclick="writeReply();">댓글쓰기</button></div>
+						
+						<!-- <div id="secret-check">
+							<label><input type="checkbox" id="secret" value="y">&nbsp;비밀댓글</label>
+						</div> -->
 					</div>
-
-					<div><button type="button" id="reply-insert-btn" onclick="writeReply();">댓글쓰기</button></div>
-					
-					<!-- <div id="secret-check">
-                        <label><input type="checkbox" id="secret" value="y">&nbsp;비밀댓글</label>
-					</div> -->
-				</div>
+				</c:if>
 				
 			</div>
 		</div>
@@ -351,11 +352,10 @@
 
 		$.ajax({
 			url : '/app/love',
-			type : 'get',
+			type : 'post',
 			data : {
 				boardNo : '${vo.no}',
-				// memberNo : '${loginMember.no}',
-				memberNo : '2',
+				memberNo : '${loginMember.no}',
 			},
 			success : function (loveCnt) {
 				console.log(loveCnt);
@@ -386,8 +386,7 @@
 			type : 'post' ,
 			data : {
 				boardNo : '${vo.no}' ,
-				writerNo : 2 ,
-				// writerNo : '${loginMember.no}' ,
+				writerNo : '${loginMember.no}' ,
 				content : replyWriteContent ,
 			} ,
 			success :function(result) {
@@ -427,11 +426,14 @@
 				for (let i=0 ; i < replyList.length ; i++) {
 					str += '<div class="user-reply" id="user-reply' + replyList[i].no + '">';
 					str += '<input type="hidden" name="replyNo" value="' + replyList[i].no + '">';
+					str += '<c:if test="${vo.boardCno != 3}">';
 					str += '<div id="profile">';
-					str += '<img src="/app/resources/profile/${loginMember.profile}" alt="프사">';
+					str += '<img src="/app/resources/member/profile/' + replyList[i].profile +'" alt="프사">';
 					str += '</div>';
+					str += '</c:if>';
 					str += '<div id="reply-body">';
 					str += '<div id="reply-writer">';
+					str += '<input type="hidden" name="replyWriterNo' + replyList[i].no + '" value="' + replyList[i].writerNo + '">';
 					str += '<c:choose><c:when test="${vo.boardCno == 3}">익명</c:when><c:otherwise>' + replyList[i].writerName + '</c:otherwise></c:choose>';
 					str += '</div>';
 					str += '<div class="reply-content" id="reply-content' + replyList[i].no + '">';
@@ -451,10 +453,14 @@
 					str += replyList[i].enrollDate;
 					str += '</div>';
 					// str += '<div id="re-reply-btn" onclick="">답글쓰기</div>';
-					str += '<div id="reply-edit-btn" onclick="showEditInput(';
-					str += replyList[i].no;
-					str += ');">수정</div>';
-					str += '<div id="reply-del-btn" onclick="deleteReply(' + replyList[i].no + ');">삭제</div>';
+					
+					if ('${loginMember.no}' == replyList[i].writerNo) {
+						str += '<div id="reply-edit-btn" onclick="showEditInput(' + replyList[i].no + ');">수정</div>';
+					}
+					if ('${loginMember.no}' == replyList[i].writerNo || '${loginAdmin.grade}' == "M") {
+						str += '<div id="reply-del-btn" onclick="deleteReply(' + replyList[i].no + ');">삭제</div>';
+					}
+					
 					// str += '<div id="reply-report-btn" onclick="">신고</div>';
 					str += '</div>';
 					str += '</div>';
@@ -480,6 +486,9 @@
 
 	//댓글 수정
 	function editReply(no){
+		const replyWriterNo = document.querySelector('input[name=replyWriterNo' + no + ']');
+		console.log(replyWriterNo);
+
 		const replyEditTag = document.querySelector('#reply-edit' + no);
 		const replyEditContent = replyEditTag.value;
 		const replyEditContentTrim = replyEditContent.trim();
@@ -497,8 +506,7 @@
 			data : {
 				no : no,
 				boardNo : '${vo.no}' ,
-				writerNo : 2 ,
-				// writerNo : '${loginMember.no}' ,
+				writerNo : replyWriterNo.value ,
 				content : replyEditContent ,
 			} ,
 			success :function(result) {
@@ -521,7 +529,8 @@
 
 	//댓글 삭제
 	function deleteReply(no){
-		const userRelpy = document.querySelector('#user-reply' + no);
+		const replyWriterNo = document.querySelector('input[name=replyWriterNo' + no + ']');
+		console.log(replyWriterNo);
 
 		$.ajax({
 			url : '/app/reply/delete' ,
@@ -529,8 +538,8 @@
 			data : {
 				no : no,
 				boardNo : '${vo.no}' ,
-				writerNo : 2 ,
-				// writerNo : '${loginMember.no}' ,
+				writerNo : replyWriterNo.value ,
+				adminGrade : '${loginAdmin.grade}',
 			} ,
 			success :function(result) {
 

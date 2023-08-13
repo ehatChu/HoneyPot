@@ -51,8 +51,8 @@ public class BoardServiceImpl implements BoardService {
 
 	//게시글 삭제
 	@Override
-	public int delete(Map<String, String> noMap) {
-		return dao.delete(sst, noMap);
+	public int delete(String no) {
+		return dao.delete(sst, no);
 	}
 
 	//게시글 상세조회

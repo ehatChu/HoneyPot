@@ -44,8 +44,8 @@ public class BoardDaoImpl implements BoardDao {
 
 	//게시글 삭제
 	@Override
-	public int delete(SqlSessionTemplate sst, Map<String, String> noMap) {
-		return sst.delete("board.delete", noMap);
+	public int delete(SqlSessionTemplate sst, String no) {
+		return sst.delete("board.delete", no);
 	}
 
 	//게시글 상세조회 (+ 조회수 증가)

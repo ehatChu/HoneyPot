@@ -1,7 +1,6 @@
 package com.hp.app.myboard.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,31 +27,26 @@ public class MyBoardController {
 	@GetMapping("mypage/act/board")
 	public String getMyPost(@RequestParam(defaultValue="1") String p, Model model, HttpSession session) {
 		
-		try {
-			
-			
-//			MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-//			if(loginAdmin == null) {
-//				return "redirect:/"
-//			}
-//			String writerNo = loginMember.getNo();
-			String writerNo = "2"; //임시
-			
-			int listCount = service.countMyPost(writerNo);
-			int currentPage = Integer.parseInt(p);
-			int pageLimit = 5;
-			int boardLimit = 8;
-			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
-		
-			List<BoardVo> voList = service.getMyPost(pv, writerNo);
-			
-			model.addAttribute("voList", voList);
-			model.addAttribute("pv", pv);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
+		//회원 아니면 리턴
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if(loginMember == null) {
+			session.setAttribute("alertMsg", "회원으로 로그인 해주세요.");
+			return "redirect:/board/free";
 		}
+
+		String writerNo = loginMember.getNo();
 		
+		int listCount = service.countMyPost(writerNo);
+		int currentPage = Integer.parseInt(p);
+		int pageLimit = 5;
+		int boardLimit = 8;
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+	
+		List<BoardVo> voList = service.getMyPost(pv, writerNo);
+		
+		model.addAttribute("voList", voList);
+		model.addAttribute("pv", pv);
+			
 		return "mypage/act/board";
 	}
 	
@@ -60,29 +54,26 @@ public class MyBoardController {
 	@GetMapping("mypage/act/reply")
 	public String getMyReply(@RequestParam(defaultValue="1") String p, Model model, HttpSession session) {
 		
-		try {
-			
-//			MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-//			if(loginAdmin == null) {
-//				return "redirect:/"
-//			}
-//			String writerNo = loginMember.getNo();
-			String writerNo = "2"; //임시
-			
-			int listCount = service.countMyReply(writerNo);
-			int currentPage = Integer.parseInt(p);
-			int pageLimit = 5;
-			int boardLimit = 8;
-			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
-		
-			List<ReplyVo> voList = service.getMyReply(pv, writerNo);
-			
-			model.addAttribute("voList", voList);
-			model.addAttribute("pv", pv);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
+		//회원 아니면 리턴
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if(loginMember == null) {
+			session.setAttribute("alertMsg", "회원으로 로그인 해주세요.");
+			return "redirect:/board/free";
 		}
+
+		String writerNo = loginMember.getNo();
+		
+		int listCount = service.countMyReply(writerNo);
+		int currentPage = Integer.parseInt(p);
+		int pageLimit = 5;
+		int boardLimit = 8;
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+	
+		List<ReplyVo> voList = service.getMyReply(pv, writerNo);
+		
+		model.addAttribute("voList", voList);
+		model.addAttribute("pv", pv);
+
 		return "mypage/act/reply";
 	}
 	
@@ -90,31 +81,27 @@ public class MyBoardController {
 	@GetMapping("mypage/act/like")
 	public String getMyLove(@RequestParam(defaultValue="1") String p, Model model, HttpSession session) {
 		
-		try {
-			
-			
-//			MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-//			if(loginAdmin == null) {
-//				return "redirect:/"
-//			}
-//			String writerNo = loginMember.getNo();
-			String memberNo = "2"; //임시
-			
-			int listCount = service.countMyLove(memberNo);
-			int currentPage = Integer.parseInt(p);
-			int pageLimit = 5;
-			int boardLimit = 8;
-			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
 		
-			List<BoardVo> voList = service.getMyLove(pv, memberNo);
-			
-			model.addAttribute("voList", voList);
-			model.addAttribute("pv", pv);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
+		//회원 아니면 리턴
+		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
+		if(loginMember == null) {
+			session.setAttribute("alertMsg", "회원으로 로그인 해주세요.");
+			return "redirect:/board/free";
 		}
+
+		String memberNo = loginMember.getNo();
+			
+		int listCount = service.countMyLove(memberNo);
+		int currentPage = Integer.parseInt(p);
+		int pageLimit = 5;
+		int boardLimit = 8;
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+	
+		List<BoardVo> voList = service.getMyLove(pv, memberNo);
 		
+		model.addAttribute("voList", voList);
+		model.addAttribute("pv", pv);
+
 		return "mypage/act/like";
 	}
 	

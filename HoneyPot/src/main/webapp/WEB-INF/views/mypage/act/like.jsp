@@ -130,18 +130,18 @@
 					<button>></button> -->
 
 					<c:if test="${pv.currentPage > 1}">
-						<button type="button" onclick="location.href='/app/board/free?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> < </button>
+						<button type="button" onclick="location.href='/app/mypage/act/like?p=${pv.currentPage - 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> < </button>
 					</c:if>
 					<c:forEach begin="${pv.startPage}" end="${pv.endPage}" step="1" var="i">
 						<c:if test="${pv.currentPage != i}">
-							<button type="button" onclick="location.href='/app/board/free?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'">${i}</button>
+							<button type="button" onclick="location.href='/app/mypage/act/like?p=${i}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'">${i}</button>
 						</c:if>
 						<c:if test="${pv.currentPage == i}">
 							<button type="button" id="current-page-btn">${i}</button>
 						</c:if>
 					</c:forEach>
 					<c:if test="${pv.currentPage < pv.maxPage}">
-						<button type="button" onclick="location.href='/app/board/free?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> > </button>
+						<button type="button" onclick="location.href='/app/mypage/act/like?p=${pv.currentPage + 1}&searchType=${searchVo.searchType}&searchValue=${searchVo.searchValue}&sortType=${searchVo.sortType}'"> > </button>
 					</c:if>
 				</div>
 	
