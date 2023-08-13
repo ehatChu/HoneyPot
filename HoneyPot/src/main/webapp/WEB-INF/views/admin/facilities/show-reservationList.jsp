@@ -288,7 +288,7 @@
                                 <input type="text" name="name" class="model-serach-input" value="${searchName}">
                             </c:if>
                         </div>
-                        
+                       
                     </div>
                 </div>
                 <!-- <div id="second-line">
@@ -319,8 +319,18 @@
                             <option value="3">헬스장</option>
                             <option value="4">골프장</option>
                         </select>
+
+                  
                     </div>
-                    
+                    <script>
+                        const no = "${searchNo}";
+                        const optionNo = document.querySelectorAll("select option");
+                        for(let option of optionNo){
+                            if(no==option.value){
+                                option.selected = true;
+                            }
+                        }
+                    </script>
                 </div>
                 <div id="third-line">
                     <input type="submit" value="검색" class="design-btn color-main"> <input type="reset" value="초기화" class="design-btn btn-reset">
