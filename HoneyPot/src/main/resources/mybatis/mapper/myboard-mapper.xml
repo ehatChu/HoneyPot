@@ -32,7 +32,7 @@
 	        			GROUP BY BOARD_NO
 	        		) A ON A.BOARD_NO = B.NO
 		WHERE S.NO != 5 AND B.WRITER_NO = #{writerNo}
-		ORDER BY NO DESC
+		ORDER BY B.ENROLL_DATE DESC, B.NO DESC
 	</select>	
 
 
@@ -59,7 +59,7 @@
 			,STATUS
 		FROM REPLY
    		WHERE STATUS = 'Y' AND WRITER_NO = #{writerNo}
-   		ORDER BY NO DESC
+   		ORDER BY ENROLL_DATE DESC, NO DESC
 	</select>
 	
 	
@@ -100,7 +100,7 @@
 	        			GROUP BY BOARD_NO
 	        		) A ON A.BOARD_NO = B.NO
 		WHERE S.NO != 5 AND L.MEMBER_NO = #{writerNo}
-		ORDER BY NO DESC
+		ORDER BY B.ENROLL_DATE DESC, B.NO DESC
 	</select>
 
 
