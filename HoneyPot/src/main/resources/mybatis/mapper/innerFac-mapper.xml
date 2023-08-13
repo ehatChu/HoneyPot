@@ -167,5 +167,6 @@
 		    AND AR.AMENITY_NO = #{no} 
 		    </if>
 		</where>
+		ORDER BY RESERVE_TIME DESC
 	</select>
 </mapper>

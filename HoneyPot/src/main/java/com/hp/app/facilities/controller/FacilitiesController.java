@@ -659,9 +659,13 @@ public class FacilitiesController {
 			model.addAttribute("searchStartDate",searchValueMap.get("startDate"));
 			model.addAttribute("searchEndDate",searchValueMap.get("endDate"));
 			
+			
 			log.info("startTime : {}",searchValueMap.get("startTime"));
 			model.addAttribute("searchStartTime",originTime);
 			model.addAttribute("searchName",searchValueMap.get("name"));
+			model.addAttribute("searchNo",searchValueMap.get("no"));
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
