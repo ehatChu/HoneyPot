@@ -86,8 +86,6 @@
 
     .write-submit:hover { cursor: pointer; }
 
-    /* div { border: 1px solid red; } */
-
 </style>
 </head>
 <body>

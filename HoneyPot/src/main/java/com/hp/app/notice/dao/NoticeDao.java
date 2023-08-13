@@ -27,7 +27,7 @@ public interface NoticeDao {
 	public abstract int edit(SqlSessionTemplate sst, NoticeVo vo);
 	
 	//공지사항 삭제
-	public abstract int delete(SqlSessionTemplate sst, Map<String, String> noMap);
+	public abstract int delete(SqlSessionTemplate sst, String no);
 	
 	//공지사항 상세조회 (+ 조회수 증가)
 	public abstract NoticeVo viewDetail(SqlSessionTemplate sst, String no);

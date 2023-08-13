@@ -44,8 +44,8 @@ public class NoticeDaoImpl implements NoticeDao {
 
 	//공지사항 삭제
 	@Override
-	public int delete(SqlSessionTemplate sst, Map<String, String> noMap) {
-		return sst.delete("notice.delete", noMap);
+	public int delete(SqlSessionTemplate sst, String no) {
+		return sst.delete("notice.delete", no);
 	}
 
 	//공지사항 상세조회

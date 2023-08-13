@@ -25,7 +25,7 @@ public interface BoardService {
 	public abstract int edit(BoardVo vo);
 	
 	//게시글 삭제
-	public abstract int delete(Map<String, String> noMap);
+	public abstract int delete(String no);
 	
 	//게시글 상세조회
 	public abstract BoardVo viewDetail(String no);

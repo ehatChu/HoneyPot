@@ -3,7 +3,6 @@ package com.hp.app.notice.controller;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,38 +45,33 @@ public class NoticeController {
 		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		if(loginAdmin == null && loginMember == null) {
 			session.setAttribute("alertMsg", "로그인 후 이용해주세요.");
-			return "redirect:/main/mmain";
+			return "redirect:/member/mlogin";
 		}
 		
-		try {
-			
-			//검색값 저장
-//			Map<String, String> searchVo = new HashMap<>();
-//			searchVo.put("searchType", searchType);
-//			searchVo.put("searchValue", searchValue);
-//			searchVo.put("sortType", sortType);
-
-			//페이징
-//			int intP = 1;
-//			if (p != null) {
-//				intP = Integer.parseInt(p);
-//			}
-			int listCount = service.countNotice(searchVo);
-			int currentPage = Integer.parseInt(p);
-			int pageLimit = 5;
-			int boardLimit = 8;
-			PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+//		//검색값 저장
+//		Map<String, String> searchVo = new HashMap<>();
+//		searchVo.put("searchType", searchType);
+//		searchVo.put("searchValue", searchValue);
+//		searchVo.put("sortType", sortType);
+//
+//		//페이징
+//		int intP = 1;
+//		if (p != null) {
+//			intP = Integer.parseInt(p);
+//		}
 		
-			List<NoticeVo> voList = service.getNoticeList(pv, searchVo);
+		int listCount = service.countNotice(searchVo);
+		int currentPage = Integer.parseInt(p);
+		int pageLimit = 5;
+		int boardLimit = 8;
+		PageVo pv = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+	
+		List<NoticeVo> voList = service.getNoticeList(pv, searchVo);
+		
+		model.addAttribute("voList", voList);
+		model.addAttribute("pv", pv);
+		model.addAttribute("searchVo", searchVo);
 			
-			model.addAttribute("voList", voList);
-			model.addAttribute("pv", pv);
-			model.addAttribute("searchVo", searchVo);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		return "notice/list";
 	}
 
@@ -90,7 +84,7 @@ public class NoticeController {
 		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
 		if(loginAdmin == null) {
 			session.setAttribute("alertMsg", "관리자로 로그인 해주세요.");
-			return "redirect:/main/mmain";
+			return "redirect:/notice/list";
 		}
 		
 		List<NoticeCategoryVo> cvo = service.getCategory();
@@ -98,69 +92,51 @@ public class NoticeController {
 		return "notice/write";
 	}
 	
+	
 	// 공지사항 작성
 	@PostMapping("notice/write")
 	public String write(HttpSession session, NoticeVo vo, VoteVo vvo, String voteCandidateNo, String voteCandidateName) {
 		
-		try {
+		//관리자 아니면 리턴
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		if(loginAdmin == null) {
+			session.setAttribute("alertMsg", "관리자로 로그인 해주세요.");
+			return "redirect:/notice/list";
+		}
+		
+		vo.setWriterNo(loginAdmin.getNo());
+
+		//상단공지 null -> N
+		if(vo.getImportantYn() == null) {
+			vo.setImportantYn("N");
+		}
+		
+		int result = service.write(vo);
+		if(result != 1) {
+			session.setAttribute("alertMsg", "게시글 작성 실패...");
+			return "redirect:/notice/list";
+		}
+		
+		//투표 정보 DB 삽입
+		int makeVoteResult = 0;
+		if (vvo.getVoteTitle() != null && !"".equals(vvo.getVoteTitle()) && vvo.getEndDate() != null && !"".equals(vvo.getEndDate())) {
+			makeVoteResult = service.makeVote(vvo);
+		}
+		
+		//투표항목 삽입
+		List<VoteCandidateVo> vcvoList = new ArrayList<>();
+		if(makeVoteResult == 1) {
+			String[] noArr = voteCandidateNo.split(",");
+			String[] nameArr = voteCandidateName.split(",");
 			
-			//관리자 아니면 리턴
-			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
-			if(loginAdmin == null) {
-				session.setAttribute("alertMsg", "관리자로 로그인 해주세요.");
-				return "redirect:/main/mmain";
+			for (int i=0 ; i<noArr.length ; i++) {
+				VoteCandidateVo vcvo = new VoteCandidateVo();
+				vcvo.setNo(noArr[i]);
+				vcvo.setName(nameArr[i]);
+				vcvoList.add(vcvo);
 			}
 			
-			vo.setWriterNo(loginAdmin.getNo());
-						
-			//상단공지 null -> N
-			if(vo.getImportantYn() == null) {
-				vo.setImportantYn("N");
-			}
-			
-			System.out.println(vo);
-			
-			int result = service.write(vo);
-			if(result != 1) {
-				session.setAttribute("alertMsg", "게시글 작성 실패...");
-				return "redirect:/notice/list";
-			}
-			
-			
-			//투표 정보 DB 삽입
-			System.out.println(vvo);
-			int makeVoteResult = 0;
-			if (vvo.getVoteTitle() != null && !"".equals(vvo.getVoteTitle()) && vvo.getEndDate() != null && !"".equals(vvo.getEndDate())) {
-				makeVoteResult = service.makeVote(vvo);
-				System.out.println("투표 생성 결과 : " + makeVoteResult);
-			}
-			
-			
-			//투표항목 삽입
-			System.out.println("nos : " + voteCandidateNo);
-			System.out.println("names : " + voteCandidateName);
-			
-			List<VoteCandidateVo> vcvoList = new ArrayList<>();
-			if(makeVoteResult == 1) {
-				String[] noArr = voteCandidateNo.split(",");
-				String[] nameArr = voteCandidateName.split(",");
-				
-				for (int i=0 ; i<noArr.length ; i++) {
-					VoteCandidateVo vcvo = new VoteCandidateVo();
-					vcvo.setNo(noArr[i]);
-					vcvo.setName(nameArr[i]);
-					System.out.println("vcvo" + i + "회차 : " + vcvo);
-					vcvoList.add(vcvo);
-					System.out.println(vcvoList.toString());
-				}
-				
-				int insertVoteArticleResult = service.insertVoteArticle(vcvoList);
-				System.out.println("투표 항목 삽입 : " + insertVoteArticleResult);
-				
-			}
-			
-		}catch (Exception e) {
-			e.printStackTrace();
+			service.insertVoteArticle(vcvoList);
 		}
 		
 		session.setAttribute("alertMsg", "게시글 작성 성공!");
@@ -194,88 +170,102 @@ public class NoticeController {
 	@GetMapping("notice/detail")
 	public String viewDetail(@RequestParam(defaultValue="1")String no, HttpSession session, Model model) {
 		
+		//no에 부적절한 값 입력시 리턴
+	    try {
+	        int intNo = Integer.parseInt(no);
+	        if (intNo <= 0) {
+	            session.setAttribute("alertMsg", "잘못된 글번호입니다.");
+	            return "redirect:/notice/list";
+	        }
+	    } catch (NumberFormatException e) {
+	        session.setAttribute("alertMsg", "잘못된 글번호입니다.");
+	        return "redirect:/notice/list";
+	    }
+		
 		//관리자도, 회원도 아니면 리턴
 		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
 		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		if(loginAdmin == null && loginMember == null) {
 			session.setAttribute("alertMsg", "로그인 후 이용해주세요.");
-			return "redirect:/main/mmain";
+			return "redirect:/member/mlogin";
 		}
 		
-		try {
-			
-			NoticeVo vo = service.viewDetail(no);
-			model.addAttribute("vo", vo);
-			System.out.println(vo);
-			
-			VoteVo voteVo = service.getVote(no);
-			
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//			String endDate = sdf.format(voteVo.getEndDate());
-//			voteVo.setEndDate(endDate);
-			model.addAttribute("voteVo", voteVo);
-			System.out.println(voteVo);
+		NoticeVo vo = service.viewDetail(no);
+		if (vo == null) {
+			session.setAttribute("alertMsg", "없는 게시글입니다.");
+			return "redirect:/notice/list";
+		}
+		model.addAttribute("vo", vo);
+		
+		VoteVo voteVo = service.getVote(no);
 
+		
+
+		//투표가 있다면, 날짜자르기, 투표여부, 투표결과 전달
+		if (voteVo != null) {
 			
-//			if (no == null) {
-//				return "notice/list";
-//			}
+			//날짜 자르고 모델에 담기
+			String endDate = voteVo.getEndDate();
+			String formattedEndDate = endDate.split(" ")[0];
+			voteVo.setEndDate(formattedEndDate);
+			model.addAttribute("voteVo", voteVo);
 			
-			//투표가 있다면
-			if (voteVo != null) {
-				
-				//투표여부
-				PersonalVoteVo pvvo = new PersonalVoteVo();
-				pvvo.setVoteNoticeNo(no);
-				
-				if (loginMember != null && loginAdmin == null) {
-					pvvo.setMemberNo(loginMember.getNo());
-				}else if(loginMember == null && loginAdmin != null) {
-					pvvo.setMemberNo("0");
-				}
-				
-				int voteYn = service.checkVoteYn(pvvo);
-				System.out.println("투표? :" +voteYn);
-				model.addAttribute("voteYn", voteYn);
-				
-				//투표 항목 + 득표수
-				List<VoteCandidateVo> vcvoList = service.getVoteCandidate(no);
-				model.addAttribute("vcvoList", vcvoList);
-				System.out.println(vcvoList);
-				
-				//총 투표 수
-				int totalResult = service.countVoteTotal(no);
-				System.out.println(totalResult);
-				model.addAttribute("totalCnt", totalResult);
+			//투표여부
+			PersonalVoteVo pvvo = new PersonalVoteVo();
+			pvvo.setVoteNoticeNo(no);
+			
+			if (loginMember != null && loginAdmin == null) {
+				pvvo.setMemberNo(loginMember.getNo());
+			}else if(loginMember == null && loginAdmin != null) {
+				pvvo.setMemberNo("0");
 			}
 			
-		}catch(Exception e) {
-			e.printStackTrace();
+			int voteYn = service.checkVoteYn(pvvo);
+			model.addAttribute("voteYn", voteYn);
+			
+			//투표 항목 + 득표수
+			List<VoteCandidateVo> vcvoList = service.getVoteCandidate(no);
+			model.addAttribute("vcvoList", vcvoList);
+			
+			//총 투표 수
+			int totalResult = service.countVoteTotal(no);
+			model.addAttribute("totalCnt", totalResult);
 		}
 
 		return "notice/detail";
 	}
 	
+	
 	//공지사항 수정 (화면)
 	@GetMapping("notice/edit")
 	public String edit(HttpSession session, Model model, String no) {
 		
+		//no에 부적절한 값 입력시 리턴
+	    try {
+	        int intNo = Integer.parseInt(no);
+	        if (intNo <= 0) {
+	            session.setAttribute("alertMsg", "잘못된 글번호입니다.");
+	            return "redirect:/notice/list";
+	        }
+	    } catch (NumberFormatException e) {
+	        session.setAttribute("alertMsg", "잘못된 글번호입니다.");
+	        return "redirect:/notice/list";
+	    }
+	    
+		
+		NoticeVo vo = service.viewDetail(no);
+		model.addAttribute("vo", vo);
+		
+		//관리자가 아니거나, 작성자가 다를 때
 		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
-		if(loginAdmin == null) {
-			session.setAttribute("alertMsg", "관리자로 로그인 해주세요.");
-			return "redirect:/main/mmain";
+		if( loginAdmin == null || ! vo.getWriterNo().equals( loginAdmin.getNo() ) ) {
+			session.setAttribute("alertMsg", "작성한 계정으로 로그인 해주세요.");
+			return "redirect:/notice/list";
 		}
 		
 		List<NoticeCategoryVo> cvo = service.getCategory();
 		model.addAttribute("cvo", cvo);
 
-		NoticeVo vo = service.viewDetail(no);
-		model.addAttribute("vo", vo);
-		
-		if(no == null || "".equals(no) || "0".equals(no)) {
-			session.setAttribute("alertMsg", "잘못된 접근입니다.");
-			return "redirect:/notice/list";
-		}
 		return "notice/edit";
 	}
 	
@@ -283,66 +273,66 @@ public class NoticeController {
 	//공지사항 수정
 	@PostMapping("notice/edit")
 	public String edit(HttpSession session, NoticeVo vo) {
+
+		//관리자가 아니거나, 작성자가 다를 때
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		vo.setWriterNo(loginAdmin.getNo());
+		if( loginAdmin == null || ! vo.getWriterNo().equals( loginAdmin.getNo() ) ) {
+			session.setAttribute("alertMsg", "작성한 계정으로 로그인 해주세요.");
+			return "redirect:/notice/list";
+		}
 		
-		try {
-			
-			//관리자가 아니거나, 작성자가 다를 때
-			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
-			if(loginAdmin == null || vo.getWriterNo() != loginAdmin.getNo() ) {
-				session.setAttribute("alertMsg", "잘못된 접근입니다.");
-				return "redirect:/main/mmain";
-			}
-			
-			//상단공지 null -> N
-			if(vo.getImportantYn() == null) {
-				vo.setImportantYn("N");
-			}
-			
-			int result = service.edit(vo);
-			if(result != 1) {
-				session.setAttribute("alertMsg", "게시글 수정 실패...");
-				return "redirect:/notice/list?no=" + vo.getNo();
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
+		//상단공지 null -> N
+		if(vo.getImportantYn() == null) {
+			vo.setImportantYn("N");
+		}
+		
+		int result = service.edit(vo);
+		
+		if(result != 1) {
+			session.setAttribute("alertMsg", "게시글 수정 실패...");
+			return "redirect:/notice/list?no=" + vo.getNo();
 		}
 		
 		session.setAttribute("alertMsg", "게시글 수정 성공!");
 		return "redirect:/notice/detail?no=" + vo.getNo();
 	}
 	
+	
 	//공지사항 삭제
 	@GetMapping("notice/delete")
 	public String delete(HttpSession session, String no) {
 		
-		try {
+		//no에 부적절한 값 입력시 리턴
+	    try {
+	        int intNo = Integer.parseInt(no);
+	        if (intNo <= 0) {
+	            session.setAttribute("alertMsg", "잘못된 글번호입니다.");
+	            return "redirect:/notice/list";
+	        }
+	    } catch (NumberFormatException e) {
+	        session.setAttribute("alertMsg", "잘못된 글번호입니다.");
+	        return "redirect:/notice/list";
+	    }
 			
-			NoticeVo vo = service.viewDetail(no); 
-			//관리자가 아니거나, 작성자가 다를 때
-			AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
-			if(loginAdmin == null || vo.getWriterNo() != loginAdmin.getNo() ) {
-				session.setAttribute("alertMsg", "잘못된 접근입니다.");
-				return "redirect:/main/amain";
-			}
+		NoticeVo vo = service.viewDetail(no); 
+		//작성자이거나, 관리소장이면 삭제
+		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
+		if( vo.getWriterNo().equals(loginAdmin.getNo()) || "M".equals(loginAdmin.getGrade()) && loginAdmin != null ) {
 			
-			String writerNo = loginAdmin.getNo();
-			
-			Map<String, String> noMap = new HashMap<>();
-			noMap.put("writerNo", writerNo);
-			noMap.put("no", no);
-			
-			int result = service.delete(noMap);
+			int result = service.delete(no);
 			if(result != 1) {
 				session.setAttribute("alertMsg", "게시글 삭제 실패...");
 				return "redirect:/notice/detail?no=" + no;
 			}
 			
-		}catch (Exception e) {
-			e.printStackTrace();
+			session.setAttribute("alertMsg", "게시글 삭제 성공 !");
+			return "redirect:/notice/list";
+			
+		}else {
+			session.setAttribute("alertMsg", "작성한 계정으로 로그인 해주세요.");
+			return "redirect:/notice/list";
 		}
-		
-		session.setAttribute("alertMsg", "게시글 삭제 성공 !");
-		return "redirect:/notice/list";
 		
 	}
 	
@@ -355,19 +345,13 @@ public class NoticeController {
 		int voteYn = service.checkVoteYn(pvvo);
 		
 		if (voteYn != 1) {
-			int submitResult = service.insertPersonalVote(pvvo);
-			System.out.println(submitResult);
-			System.out.println("투표성공");
+			service.insertPersonalVote(pvvo);
 			
 			//투표 항목 + 득표수
 			List<VoteCandidateVo> vcvoList = service.getVoteCandidate(pvvo.getVoteNoticeNo());
-//			model.addAttribute("vcvoList", vcvoList);
-			System.out.println(vcvoList);
 			
 			//총 투표 수
 			int totalResult = service.countVoteTotal(pvvo.getVoteNoticeNo());
-			System.out.println(totalResult);
-//			model.addAttribute("totalCnt", totalResult);
 			
 		}else {
 			System.out.println("실패");
@@ -390,9 +374,7 @@ public class NoticeController {
 		int voteYn = service.checkVoteYn(pvvo);
 		
 		if (voteYn == 1) {
-			int delResult = service.deletePersonalVote(pvvo);
-			System.out.println(delResult);
-			System.out.println("투표취소성공");
+			service.deletePersonalVote(pvvo);
 		}else {
 			System.out.println("실패");
 			return "error";
@@ -400,6 +382,5 @@ public class NoticeController {
 		
 		return "success";
 	}
-	
 
 }

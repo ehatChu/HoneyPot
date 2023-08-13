@@ -241,11 +241,13 @@
 						</table>
 					</div>
 			
-					<div class="btn-area">
-						<div id="btn-box">
-							<button type="button" id="write-btn" onclick="location.href='/app/board/write'">글쓰기</button>
+					<c:if test="${loginMember != null}">
+						<div class="btn-area">
+							<div id="btn-box">
+								<button type="button" id="write-btn" onclick="location.href='/app/board/write'">글쓰기</button>
+							</div>
 						</div>
-					</div>
+					</c:if>
 			
 					<div class="page-area">
 						<!-- <button><</button>

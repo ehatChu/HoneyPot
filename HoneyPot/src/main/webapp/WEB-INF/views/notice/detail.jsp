@@ -132,8 +132,10 @@
     }
 
     #vote-body {
-        display: grid;
-        grid-template-columns: 1fr;
+		display: grid;
+        /* grid-template-columns: 1fr; */
+		align-items: center;
+		justify-content: center;
         overflow:auto;
         white-space: nowrap;
         /* text-overflow: ellipsis; */
@@ -141,8 +143,12 @@
     }
 
 	.vote-article {
+		display: flex;
+		justify-content: space-evenly;
 		margin: 5px 0px;
 	}
+
+	#vote-total { margin-top: 15px;}
 
 </style>
 </head>
@@ -223,16 +229,18 @@
 												<div class="vote-article">
 													<input type="hidden" name="voteCandidateNo" value="${vcvo.no}">
 													<input type="hidden" name="voteCandidateName" value="${vcvo.name}">
-													<span name="voteCandidateName">${vcvo.name}</span>&nbsp;<input class="vote-target" id="vote-target" name="voteCandidateNo" value="">&nbsp;<span>(${vcvo.voteCnt}표)</span>
+													<span name="voteCandidateName">${vcvo.name}</span>&nbsp;<span>(${vcvo.voteCnt}표)</span>
 												</div>
 											</c:forEach>
 	
 											<span id="vote-total">총 투표수 : ${totalCnt}표</span>
 										</div>
 	
-										<div class="vote-submit-btn-area">
-											<button type="button" id="vote-submit-btn" onclick="cancelVote();">재투표</button>
-										</div>
+										<c:if test="${loginMember != null}">
+											<div class="vote-submit-btn-area">
+												<button type="button" id="vote-submit-btn" onclick="cancelVote();">재투표</button>
+											</div>
+										</c:if>
 									</div>							
 								</c:if>
 
@@ -249,9 +257,13 @@
 		<!-- 버튼 -->
 		<div class="btn-area">
 			<div id="btn-box">
-				<!-- <button type="button" id="post-report-btn" onclick="window.history.back()">목록으로</button> -->
-				<button type="button" id="post-edit-btn" onclick="location.href='/app/notice/edit?no=${vo.no}'">수정</button>
-				<button type="button" id="post-del-btn" onclick="location.href='/app/notice/delete?no=${vo.no}'">삭제</button>
+				<button type="button" id="post-report-btn" onclick="location.href='/app/notice/list'">목록으로</button>
+				<c:if test="${loginAdmin.no == vo.writerNo}">
+					<button type="button" id="post-edit-btn" onclick="location.href='/app/notice/edit?no=${vo.no}'">수정</button>
+				</c:if>
+				<c:if test="${loginAdmin.grade == 'M' || loginAdmin.no == vo.writerNo}">
+					<button type="button" id="post-del-btn" onclick="location.href='/app/notice/delete?no=${vo.no}'">삭제</button>
+				</c:if>
 			</div>
 		</div>
 
@@ -300,7 +312,7 @@
 										<div class="vote-article">
 											<input type="hidden" name="voteCandidateNo" value="${vcvo.no}">
 											<input type="hidden" name="voteCandidateName" value="${vcvo.name}">
-											<span name="voteCandidateName">${vcvo.name}</span>&nbsp;<input class="vote-target" id="vote-target" name="voteCandidateNo" value="">&nbsp;<span>(${vcvo.voteCnt}표)</span>
+											<span name="voteCandidateName">${vcvo.name}</span>&nbsp;<span>(${vcvo.voteCnt}표)</span>
 										</div>
 									</c:forEach>
 
@@ -373,11 +385,5 @@
 			},
 		})
 	}
-
-	// //관리자 계정 투표 불가
-	// if (${loginAdmin != null}) {
-
-
-	// }
 
 </script>

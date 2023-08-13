@@ -14,5 +14,6 @@ public class ReplyVo {
 	private String enrollDate;
 	private String modifyDate;
 	private String status;
+	private String profile;
 
 }

@@ -27,7 +27,7 @@ public interface BoardDao {
 	public abstract int edit(SqlSessionTemplate sst, BoardVo vo);
 	
 	//게시글 삭제
-	public abstract int delete(SqlSessionTemplate sst, Map<String, String> noMap);
+	public abstract int delete(SqlSessionTemplate sst, String no);
 	
 	//게시글 상세조회 (+ 조회수 증가)
 	public abstract BoardVo viewDetail(SqlSessionTemplate sst, String no);

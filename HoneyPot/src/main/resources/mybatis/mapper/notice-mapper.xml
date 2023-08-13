@@ -147,7 +147,7 @@
 	<delete id="delete">
 		UPDATE NOTICE 
 			SET STATUS = 'N'
-		WHERE NO = #{no} AND WRITER_NO = #{writerNo} AND STATUS = 'Y'
+		WHERE NO = #{no} AND STATUS = 'Y'
 	</delete>
 	
 	
