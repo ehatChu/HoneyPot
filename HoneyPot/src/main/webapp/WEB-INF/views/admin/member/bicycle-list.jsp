@@ -442,7 +442,7 @@
                                     <div id="modal-btn-area">
                                     
                                         <!-- c:if 승인취소 추가해야함 -->
-                                        <input type="submit" class="design-btn color-brown" value="승인반려 및 쉬소">
+                                        <input type="submit" class="design-btn color-brown" value="승인반려 및 취소">
                                     </div>
                                 </div>
                         </div>

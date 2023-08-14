@@ -45,7 +45,7 @@
 	                                </div>
 	                                <div class="sanction-member-text">
 	                                    <div>${vo.memberName}</div>
-	                                    <div class="red">정지 : ${vo.stopDate}점</div>
+	                                    <div class="red">정지 : ${vo.stopDate}</div>
 	                                </div>
 	                            </div>
 	                            <div class="sanction-list-content">
