@@ -392,28 +392,32 @@
                                     title : data.name,
                                     start : data.startDate,
                                     end : data.endDate,
-                                    color : '#FE7162'
+                                    color : '#FE7162',
+                                    textColor : 'black'
                                 });
                             }else if(data.writerName =="101동대표"){
                                 events.push({
                                     title : data.name,
                                     start : data.startDate,
                                     end : data.endDate,
-                                    color : '#4A321F'
+                                    color : '#C0DEFF',
+                                    textColor : 'black'
                                 });
                             }else if(data.writerName == "102동대표"){
                                 events.push({
                                     title : data.name,
                                     start : data.startDate,
                                     end : data.endDate,
-                                    color : '#FFCE31'
+                                    color : '#CECE5A',
+                                    textColor : 'black'
                                 });
                             }else if(data.writerName == "103동대표"){
                                 events.push({
                                     title : data.name,
                                     start : data.startDate,
                                     end : data.endDate,
-                                    color : '#FFCE31'
+                                    color : '#FFE17B',
+                                    textColor : 'black'
                                 });
                             }else if(data.writerName == "104동대표"){
                                 events.push({
