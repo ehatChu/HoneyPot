@@ -96,7 +96,7 @@
             <br>
 
             <div class="form-area">
-                <form action="/app/board/write" method="post" enctype="multipart/form-data">
+                <form action="/app/board/write" method="post" enctype="multipart/form-data" onsubmit="return validate();">
                     
                     <input type="text" style="display: none;" name="imgList" value="">
                     
@@ -198,6 +198,29 @@
                 console.log(error);
             } ,
         });
+    }
+
+
+    //제약 조건
+    function validate() {
+        const category = document.querySelector("#category");
+        const title = document.querySelector("#title");
+
+        //카테고리 선택여부
+        if (category.value == 'null' || category.value == '') {
+            alert('카테고리를 선택해주세요.');
+            category.focus();
+            return false;
+        }
+
+        //제목 빈칸 여부
+        if (title.value == null || title.value == '' || title.value.trim() == null || title.value.trim() == '') {
+            alert('제목을 입력해주세요.');
+            title.focus();
+            return false;
+        }
+
+        return true;
     }
 
 
