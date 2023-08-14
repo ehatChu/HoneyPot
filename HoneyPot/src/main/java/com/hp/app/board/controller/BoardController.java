@@ -316,7 +316,7 @@ public class BoardController {
 		//작성자이거나, 관리소장이면 삭제
 		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
 		AdminVo loginAdmin = (AdminVo) session.getAttribute("loginAdmin");
-		if( vo.getWriterNo().equals(loginMember.getNo()) || "M".equals(loginAdmin.getGrade()) ) {
+		if( ( loginMember!=null && vo.getWriterNo().equals(loginMember.getNo()) ) || (loginMember == null && "M".equals(loginAdmin.getGrade())) ) {
 
 			int result = service.delete(no);
 			if(result != 1) {
