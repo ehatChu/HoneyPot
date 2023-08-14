@@ -113,21 +113,21 @@ INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,OPEN_TIME,CLOSE_TIME) VALUE
 INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,OPEN_TIME,CLOSE_TIME) VALUES (SEQ_AMENITY_NO.NEXTVAL, '수영장', '안녕하세요 꿀단지 수영장입니다. 
 -수영장 관리인 연락처 : 02-4321-9321
 -위치 : 2단지 앞 커뮤니티 건물 지하1층
-*취소는 반드시 하루 전 날에 가능합니다. 
+ 
 이용하시는데 착오 없으시길 바랍니다.', '10', '101동 앞 커뮤니티 건물 지하1층','08:00','24:00');
 
 -- 헬스장
 INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,OPEN_TIME, CLOSE_TIME) VALUES (SEQ_AMENITY_NO.NEXTVAL, '헬스장', '안녕하세요 꿀단지 헬스장입니다. 
 -헬스장 관리인 연락처 : 02-4321-9322
 -위치 : 101동 앞 커뮤니티 건물 3층
-*취소는 반드시 하루 전 날에 가능합니다. 
+
 이용하시는데 착오 없으시길 바랍니다.', '5', '101동 앞 커뮤니티 건물 3층','08:00','24:00');
 
 -- 골프장
 INSERT INTO AMENITY(NO,NAME,CONTENT,MAX_NUM,LOCATION,OPEN_TIME,CLOSE_TIME) VALUES (SEQ_AMENITY_NO.NEXTVAL, '골프장', '안녕하세요 꿀단지 골프장입니다. 
 -골프장 관리인 연락처 : 02-4321-9323
 -위치 :  커뮤니티 건물 앞, 1층 스크린골프장
-*취소는 반드시 하루 전 날에 가능합니다. 
+ 
 이용하시는데 착오 없으시길 바랍니다.', '10', '커뮤니티 건물 앞, 1층 스크린골프장', '08:00','24:00');
 
 -- 편의시설 이미지
