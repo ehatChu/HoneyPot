@@ -543,7 +543,7 @@
 
 	<script>
 		basicSetting(); // 기본 셋팅
-		headerName('조식관리'); // 현재 페이지 이름
+		headerName('단지관리'); // 현재 페이지 이름
 		todayMenu('${todayMeal.menu}');
 		firstNav(['관리비', '편의시설 관리', '조식관리'], '조식관리');
 		firstNavLink(['/app/fee/admin','/app/admin/innerFac/reservation?p=1','/app/meal/ameal']);
