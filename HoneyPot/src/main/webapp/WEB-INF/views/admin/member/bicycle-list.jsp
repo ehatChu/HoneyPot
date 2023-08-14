@@ -462,7 +462,7 @@
     headerName('회원관리'); // 현재 페이지 이름
     firstNav(['회원조회', '관리자조회', '제제내역', '상벌점내역','사유물내역'], '사유물내역'); // 1st param : 메인 메뉴 목록, 2st param : 현재 메인 메뉴
     secondNav(['자동차', '자전거'], '자전거'); // 1st param : 서브 메뉴 목록, 2st param : 현재 서브 메뉴
-    firstNavLink(['/app/admin/member/member-list','/app/admin/member/admin-list','/app/admin/member/sanction-list','/app/admin/member/point-list','/app/car-list',]);
+    firstNavLink(['/app/admin/member/member-list','/app/admin/member/admin-list','/app/admin/member/sanction-list','/app/admin/member/point-list','/app/admin/property-list/car?p=1',]);
 	secondNavLink(['/app/admin/property-list/car','/app/admin/property-list/bicycle']);
 
     function allCheck(){
