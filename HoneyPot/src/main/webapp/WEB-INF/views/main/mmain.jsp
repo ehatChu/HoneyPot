@@ -576,11 +576,11 @@
 								</div>
 								<div class="dong1">
 									<img id="bee2" class="bee" src="/app/resources/main/image_13.png">
-									<div id="dongTxt">103동</div>
+									<div id="dongTxt">${dongPointList[1].dongNum}동</div>
 								</div>
 								<div class="dong1">
 									<img id="bee3" class="bee" src="/app/resources/main/image_14.png">
-									<div id="dongTxt">101동</div>
+									<div id="dongTxt">${dongPointList[2].dongNum}동</div>
 								</div>
 							</div>
 						</div>
