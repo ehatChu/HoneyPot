@@ -73,3 +73,26 @@
 |  chore  | 패키지 매니저 수정, 그 외 기타 수정 ex) .gitignore  |
 | docs | 문서 수정 | 
 
+# 🥰제가 맡은 기능 위주 설명(윤예린)
+제가 맡은 기능들로 코드리뷰 시작하겠습니다.
+
+## 맡은 기능 상세 소개 
+- 회원 : 편의시설 예약(예약, 예약취소, 내역조회), 본인 일정관리(일정등록, 일정삭제), 사유물등록(등록, 삭제)
+- 관리자 : 편의시설 정보 변경(사진추가, 내용변경), 아파트 일정 관리(등록, 삭제), 편의시설 예약자 관리(검색) 사유물 관리(검색, 승인, 반려, 취소)
+
+## 기능 이미지 설명
+아래 이미지들과 같습니다. 
+![01_편의시설소개](https://github.com/ehatChu/HoneyPot/assets/125732210/9afcbf6c-3d0b-4dbb-91b0-4b790d72c017)
+![02_회원예약하기](https://github.com/ehatChu/HoneyPot/assets/125732210/23e9f5f6-ee63-40fe-b395-8533cc48471a)
+![03_회원캘린더](https://github.com/ehatChu/HoneyPot/assets/125732210/f381f39b-861c-4116-83f7-e4d2f4f6d748)
+![04_회원캘린더_모달설명](https://github.com/ehatChu/HoneyPot/assets/125732210/947f70a7-4921-4fc5-8456-661045fcaf41)
+![05_사유물등록모달](https://github.com/ehatChu/HoneyPot/assets/125732210/e0e472f3-40ab-4b21-8443-23ea30cf3b3b)
+![06_개인사유물등록및조회및삭제](https://github.com/ehatChu/HoneyPot/assets/125732210/7946ff62-8453-48ab-9be8-b1372afb7cf1)
+![07_관리자사유물검색](https://github.com/ehatChu/HoneyPot/assets/125732210/36f3ffb3-2a0b-408a-99b7-4ffecbf21af6)
+![08_관리자사유물-모달](https://github.com/ehatChu/HoneyPot/assets/125732210/b91ee7bc-f266-4462-b717-a85577dfd6e1)
+![09_본인예약조회](https://github.com/ehatChu/HoneyPot/assets/125732210/c5e564d8-15d3-4dd3-b73e-b469e129a64f)
+![10_편의시설변경_정보](https://github.com/ehatChu/HoneyPot/assets/125732210/c3aaaee3-877f-430e-a993-0ed0c732cacf)
+![11_편의시설변경_사진](https://github.com/ehatChu/HoneyPot/assets/125732210/b1c6a60f-2805-4d00-9915-0d588df0ff7d)
+![12_예약자통합조회](https://github.com/ehatChu/HoneyPot/assets/125732210/d099b38a-2bf0-4b74-a090-9843a4d45bea)
+![13_관리자일정짜기](https://github.com/ehatChu/HoneyPot/assets/125732210/f544fe7c-9aa1-4f5d-8863-382532e6dc5a)
+
